@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Brix Scaffolding</title>
+		<link href="../libs/debug/bootstrap/css/bootstrap.css" rel="stylesheet">
+		<link href="../libs/debug/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+		<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<script src="../libs/debug/jquery-1.7.2.min.js"></script>
+		<script src="../libs/debug/bootstrap/js/bootstrap.js"></script>
+		<script src="../libs/debug/kissy/kissy.js"></script>
+		<script src="../libs/debug/mustache.js"></script>
+		<script src="js/brix.js"></script>
+	</head>
+	<body style="margin:0px">
+		<div id="container">
+			<div class="span4">
+			</div>
+			<div class="span8">
+<script type="template" id="tmpl_1">
+	<div type="tabList">
+		<!--tmpl-subArea1-->
+		<ul>
+			{{#tabs}}
+			<li {{#cur}}class="cur"{{/cur}}>{{text}}</li>
+			{{/tabs}}
+		</ul>
+		<!--tmpl-subArea1-->
+		<span>hello world</span>
+		<!--tmpl-custom-->
+		<div type="configer">
+			<input type="button" value="{{xyz}}"/>
+		</div>
+		<!--tmpl-custom-->
+	</div>
+</script>
+<script>
+	var data = {
+		cc : 1234
+	};
+	output("tmpl_1", data);
+
+</script>
+			</div>
+		</div>
+	</body>
+</html>
