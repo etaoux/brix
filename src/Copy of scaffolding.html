@@ -12,32 +12,39 @@
 		<script src="../libs/debug/jquery-1.7.2.min.js"></script>
 		<script src="../libs/debug/bootstrap/js/bootstrap.js"></script>
 		<script src="../libs/debug/kissy/kissy.js"></script>
-		<script>
-			KISSY.config({
-				packages : [{
-					name : "brix", 
-					tag : "20120419", 
-					path : "js", 
-					charset : "utf-8"
-				}]
-			});
-			KISSY.ready(function(){
-				KISSY.use("brix/",function(){
-					
-				})
-			});
-		</script>
 		<script src="../libs/debug/mustache.js"></script>
+		<script src="js/brix.js"></script>
 	</head>
 	<body style="margin:0px">
-		<div class="container">
-			<div class="row">
-				<div class="span4">
-					left
-				</div>
-				<div class="span8">
-					right
-				</div>
+		<div id="container">
+			<div class="span4">
+				left
+			</div>
+			<div class="span8">
+				<script type="template" id="tmpl_1">
+					<div type="tabList">
+					<!--tmpl-subArea1-->
+					<ul>
+					{{#tabs}}
+					<li {{#cur}}class="cur"{{/cur}}>{{text}}</li>
+					{{/tabs}}
+					</ul>
+					<!--tmpl-subArea1-->
+					<span>hello world</span>
+					<!--tmpl-custom-->
+					<div type="configer">
+					<input type="button" value="{{xyz}}"/>
+					</div>
+					<!--tmpl-custom-->
+					</div>
+				</script>
+				<script>
+					var data = {
+						cc : 1234
+					};
+					output("tmpl_1", data);
+
+				</script>
 			</div>
 		</div>
 	</body>
