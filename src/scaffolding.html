@@ -23,8 +23,9 @@
 				}]
 			});
 			KISSY.ready(function() {
-				KISSY.use("brix/", function() {
-
+				KISSY.use("brix/", function(S,Brix) {
+					debugger;
+					Brix.addBehavior();
 				})
 			});
 
@@ -36,38 +37,39 @@
 			<div class="row">
 				<div class="span12">
 					<!--brix begin-->
-					<script id="data_1">
-						var options = [{
-							id : "planList",
-							text : "计划列表",
-							__chk : true
-						}, {
-							id : "itemList",
-							text : "宝贝列表",
-							__chk : true
-						}, {
-							id : "creativeList",
-							text : "创意列表",
-							__chk : true
-						}, {
-							id : "keywordList",
-							text : "关键词列表"
-						}];
-						var tabList = [{
-							id : "planList",
-							text : "计划列表",
-							__cur : true
-						}, {
-							id : "itemList",
-							text : "宝贝列表"
-						}, {
-							id : "creativeList",
-							text : "创意列表"
-						}];
-
+					<script>
+						var data_brix1 = {
+							options : [{
+								id : "planList",
+								text : "计划列表",
+								__chk : true
+							}, {
+								id : "itemList",
+								text : "宝贝列表",
+								__chk : true
+							}, {
+								id : "creativeList",
+								text : "创意列表",
+								__chk : true
+							}, {
+								id : "keywordList",
+								text : "关键词列表"
+							}],
+							tabList : [{
+								id : "planList",
+								text : "计划列表",
+								__cur : true
+							}, {
+								id : "itemList",
+								text : "宝贝列表"
+							}, {
+								id : "creativeList",
+								text : "创意列表"
+							}]
+						}
 					</script>
-					<script type="text/template" id="tmpl_1">
-						<div brix-type="tab">
+					<script type="text/template" id="tmpl_brix1">
+						<div brix-type="tab" id="container_brix1" bx_pagelet="">
 						<ul class="nav nav-tabs" brix-subtmpl="tabList">
 						{{#tabList}}
 						<li{{#__cur}} class="active"{{/__cur}}>
@@ -84,10 +86,7 @@
 					</script>
 					<script>
 						var tmpl = $("#tmpl_1").text();
-						var s = Mustache.to_html(tmpl, {
-							tabList : tabList,
-							options : options
-						});
+						var s = Mustache.to_html(tmpl,data_brix1);
 						//debugger;
 						document.write(s);
 					</script>
