@@ -22,11 +22,13 @@
 					charset : "utf-8"
 				}]
 			});
+			KISSY.use("sizzle", function(S, $) {
+				window.$ = $;
+			});
 			KISSY.ready(function() {
-				KISSY.use("brix/", function(S,Brix) {
-					debugger;
+				KISSY.use("brix/", function(S, Brix) {
 					Brix.addBehavior();
-				})
+				});
 			});
 
 		</script>
@@ -69,15 +71,15 @@
 						}
 					</script>
 					<script type="text/template" id="tmpl_brix1">
-						<div brix-type="tab" id="container_brix1" bx_pagelet="">
-						<ul class="nav nav-tabs" brix-subtmpl="tabList">
+						<div bx-brick="tab" bx-pagelet>
+						<ul class="nav nav-tabs" bx-subtmpl="tabList">
 						{{#tabList}}
 						<li{{#__cur}} class="active"{{/__cur}}>
 						<a href="#" data="{{id}}">{{text}}</a>
 						</li>
 						{{/tabList}}
 						</ul>
-						<div brix-type="multiSelect">
+						<div bx-brick="multiSelect" bx-parent>
 						{{#options}}
 						<input type="checkbox" value="{{id}}"{{#__chk}} checked{{/__chk}}/>{{text}}
 						{{/options}}
@@ -85,10 +87,10 @@
 						</div>
 					</script>
 					<script>
-						var tmpl = $("#tmpl_1").text();
-						var s = Mustache.to_html(tmpl,data_brix1);
-						//debugger;
+						var tmpl = $("#tmpl_brix1").text();
+						var s = Mustache.to_html(tmpl, data_brix1);
 						document.write(s);
+
 					</script>
 					<!--brix end-->
 				</div>
