@@ -71,7 +71,7 @@
 						}
 					</script>
 					<script type="text/template" id="tmpl_brix1">
-						<div bx-brick="tab" bx-pagelet>
+						<div bx-brick="tab" bx-pagelet id="tab1">
 						<ul class="nav nav-tabs" bx-subtmpl="tabList">
 						{{#tabList}}
 						<li{{#__cur}} class="active"{{/__cur}}>
@@ -79,7 +79,7 @@
 						</li>
 						{{/tabList}}
 						</ul>
-						<div bx-brick="multiSelect" bx-parent>
+						<div bx-brick="multiSelect" bx-parent id="ms1">
 						{{#options}}
 						<input type="checkbox" value="{{id}}"{{#__chk}} checked{{/__chk}}/>{{text}}
 						{{/options}}
@@ -90,7 +90,6 @@
 						var tmpl = $("#tmpl_brix1").text();
 						var s = Mustache.to_html(tmpl, data_brix1);
 						document.write(s);
-
 					</script>
 					<!--brix end-->
 				</div>

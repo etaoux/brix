@@ -18,14 +18,18 @@ KISSY.add("brix/index", function(S) {
 		var bricks = getBricks(pagelet);
 		console.watch("brickss", console.watching.brickss ? console.watching.brickss.push(bricks) : (console.watching.brickss = [bricks]));
 		S.each(bricks, function(brick) {
-			var type = S.one(brick).attr("bx-brick");
-			S.use("brix/" + type, function(S, Brick) {
-				var brick = new Brick({
-					pagelet : pagelet,
-					brick : brick
-				});
-				console.watch("brick_" + type, brick);
+			addBehavior2Brick(brick, pagelet);
+		});
+	}
+
+	function addBehavior2Brick(brick, pagelet) {
+		var type = S.one(b).attr("bx-brick");
+		S.use("brix/" + type, function(S, Brick) {
+			var myBrick = new Brick({
+				pagelet : pagelet,
+				brick : brick
 			});
+			console.watch("brick_" + type, myBrick);
 		});
 	}
 

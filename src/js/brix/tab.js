@@ -5,7 +5,7 @@ KISSY.add("brix/tab", function(S, BxBase) {
 
 
 	S.extend(Tab, BxBase, {
-		init : function() {
+		init : function(config) {
 			console.log("tab init~");
 		}
 	});
@@ -14,32 +14,33 @@ KISSY.add("brix/tab", function(S, BxBase) {
 	requires : ["brix/bxbase"]
 });
 /*
- data>>
+ data>>>
  
- tabList : 
- 	[
- 		{
- 			id : String,
- 			text : String,
- 			__cur : Boolean
- 		}
- 	]
+	 tabList : 
+	 	[
+	 		{
+	 			id : String,
+	 			text : String,
+	 			__cur : Boolean
+	 		}
+	 	]
  
- subtmpl>>
+ attr>>>
  
- [
- 	'tabList'
- ]	
+ 	theme
  
- attr>>
- 
- 
- 
- method>>
+ method>>>
  
  	setCurrent
  
- event>>
+ event>>>
  
  	change
+ 	
+ subtmpl>>>
+ 
+ [
+ 	'tabList'
+ ]
+ 	
  */
