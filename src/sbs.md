@@ -14,11 +14,11 @@ chunk:一个可以html区块,由一份数据(dataset)+一个模板(tmpl)经过�
 
 dataunit:一个业务数据单元,从业务意义上看,不可以再细分.
 dataset:一个key/value对,value是一个dataunit,key为这个dataunit的名字.
-datahelper:协助获取解析数据的helper
+datahelper:协助获取解析数据的helper?
 
 tmpl:模板(渲染时对应于dataset)
 subtmpl:子模板(渲染时对应于dataset的一个特定子集)
-tmplhelper:协助获取解析目标的helper
+tmplhelper:协助获取解析目标的helper?
 
 datatype:数据类型?
 dataschema:复杂数据的结构描述信息?提取某种数据类型的方法描述?

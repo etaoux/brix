@@ -3,22 +3,23 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Brix Scaffolding</title>
-		<link href="../libs/debug/bootstrap/css/bootstrap.css" rel="stylesheet">
-		<link href="../libs/debug/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+		<link href="../../../../libs/debug/bootstrap/css/bootstrap.css" rel="stylesheet">
+		<link href="../../../../libs/debug/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 		<!--[if lt IE 9]>
 		<script src="../../../../libs/debug/html5.js"></script>
 		<![endif]-->
-		<script src="../libs/debug/jquery-1.7.2.min.js"></script>
-		<script src="../libs/debug/mustache.js"></script>
-		<script src="../libs/debug/bootstrap/js/bootstrap.js"></script>
-		<script src="../libs/debug/kissy/kissy.js"></script>
-		<script src="js/brix/util.js"></script>
-		<script src="js/brix/dataunit.js"></script>
-		<script src="js/brix/dataset.js"></script>
-		<script src="js/brix/tmpler.js"></script>
-		<script src="js/brix/chunk.js"></script>
-		<script src="js/brix/pagelet.js"></script>
+		<script src="../../../../libs/debug/jquery-1.7.2.min.js"></script>
+		<script src="../../../../libs/debug/mustache.js"></script>
+		<script src="../../../../libs/debug/bootstrap/js/bootstrap.js"></script>
+		<script src="../../../../libs/debug/kissy/kissy.js"></script>
+		<script src="../../../../libs/debug/mustache.js"></script>
+		<script src="../util.js"></script>
+		<script src="../dataunit.js"></script>
+		<script src="../dataset.js"></script>
+		<script src="../tmpler.js"></script>
+		<script src="../chunk.js"></script>
+		<script src="../pagelet.js"></script>
 		<script>
 			KISSY.config({
 				packages : [{
@@ -44,7 +45,7 @@
 				<div class="span12">
 					<!--brix begin-->
 					<script>
-						var data_brix1 = {
+						var data_pagelet1 = {
 							options : [{
 								id : "planList",
 								text : "计划列表",
@@ -74,7 +75,7 @@
 							}]
 						}
 					</script>
-					<script type="text/template" id="tmpl_brix1">
+					<script type="text/template" bx-tmpl id="tmpl_pagelet1">
 						<div bx-brick="tab" bx-pagelet id="tab1">
 						<ul class="nav nav-tabs" bx-subtmpl="tabList">
 						{{#tabList}}
@@ -93,17 +94,15 @@
 					<script>
 						KISSY.use("brix/pagelet", function(S, Pagelet) {
 							var config = {
-								tmplId : "tmpl_brix1",
+								id : "tab1",
+								tmplId : "tmpl_pagelet1",
 								dataKeys : ["tabList", "options"],
-								data : data_brix1
+								data : data_pagelet1
 							};
 							var pagelet = new Pagelet(config);
 							pagelet.writeHTML();
 							console.watch("pagelet", pagelet);
 						});
-						//var tmpl = $("#tmpl_brix1").text();
-						//var s = Mustache.to_html(tmpl, data_brix1);
-						//document.write(s);
 					</script>
 					<!--brix end-->
 				</div>

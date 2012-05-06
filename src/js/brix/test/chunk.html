@@ -69,18 +69,14 @@
 					text : "创意列表"
 				}]
 			};
-			KISSY.use("brix/chunk,brix/dataunit,brix/dataset,brix/tmpler", function(S, Chunk, DataUnit, DataSet, Templer) {
+			KISSY.use("brix/chunk", function(S, Chunk) {
 				var config = {
 					tmplId : "tmpl_brix1",
 					dataKeys : ["tabList", "options"],
 					data : data_brix1
 				};
 				var chunk = new Chunk(config);
-				var html = chunk.getHTML(function(s) {
-					chunk.writeHTML(s, {
-						type : "dw"
-					});
-				})
+				chunk.writeHTML()
 				console.watch("chunk", chunk);
 			});
 

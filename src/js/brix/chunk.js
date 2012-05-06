@@ -4,6 +4,8 @@ KISSY.add("brix/chunk", function(S, Tmpler, DataSet, DataUnit) {
 		this.tmpler = null;
 		this.dataSet = null;
 		this.dataKeys = null;
+		this.rendered = false;
+		this.bound = false;
 	}
 
 
@@ -28,7 +30,7 @@ KISSY.add("brix/chunk", function(S, Tmpler, DataSet, DataUnit) {
 		buildHTML : function() {
 			var tmpl = this.tmpler.getTmpl();
 			var data = this.dataSet.get();
-			var sHTML = Mustache.to_html(tmpl,data);
+			var sHTML = Mustache.to_html(tmpl, data);
 			return sHTML;
 		},
 		buildTmpler : function() {
@@ -53,7 +55,12 @@ KISSY.add("brix/chunk", function(S, Tmpler, DataSet, DataUnit) {
 
 		},
 		writeHTML : function(s, cfg) {
-			document.write(s);
+			var that = this;
+			this.getHTML(function(s) {
+				that.rendered = true;
+				that.fire("rendered");
+				document.write(s);
+			});
 		}
 	});
 	S.augment(Chunk, S.EventTarget);

@@ -8,7 +8,7 @@ KISSY.add("brix/dataunit", function(S) {
 		this._config = config;
 		this._data = null;
 		if(config.data) {
-			this.set(config.data)
+			this.set(config.data);
 		}
 	}
 
