@@ -4,6 +4,12 @@
 		<meta charset="utf-8" />
 		<title>Brix/Chunk</title>
 		<script src="../../../../libs/debug/kissy/kissy.js"></script>
+		<script src="../../../../libs/debug/mustache.js"></script>
+		<script src="../util.js"></script>
+		<script src="../dataunit.js"></script>
+		<script src="../dataset.js"></script>
+		<script src="../tmpler.js"></script>
+		<script src="../chunk.js"></script>
 		<script>
 			KISSY.config({
 				packages : [{
@@ -13,6 +19,7 @@
 					charset : "utf-8"
 				}]
 			});
+
 		</script>
 	</head>
 	<body>
@@ -62,18 +69,21 @@
 					text : "创意列表"
 				}]
 			};
-			KISSY.use("brix/chunk,brix/dataunit,brix/dataset,brix/templer", function(S, Chunk, DataUnit, DataSet, Templer) {
+			KISSY.use("brix/chunk,brix/dataunit,brix/dataset,brix/tmpler", function(S, Chunk, DataUnit, DataSet, Templer) {
 				var config = {
-
+					tmplId : "tmpl_brix1",
+					dataKeys : ["tabList", "options"],
+					data : data_brix1
 				};
-				var chunk = new Chunk();
-				var html = chunk.getHtml(function(s) {
+				var chunk = new Chunk(config);
+				var html = chunk.getHTML(function(s) {
 					chunk.writeHTML(s, {
 						type : "dw"
 					});
 				})
 				console.watch("chunk", chunk);
 			});
+
 		</script>
 	</body>
 </html>
