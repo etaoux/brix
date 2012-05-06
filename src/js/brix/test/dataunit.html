@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Brix/DataUnit</title>
+		<script src="../../../../libs/debug/kissy/kissy.js"></script>
+		<script>
+			KISSY.config({
+				packages : [{
+					name : "brix",
+					tag : "20120419",
+					path : "../../../js",
+					charset : "utf-8"
+				}]
+			});
+		</script>
+	</head>
+	<body>
+		<script>
+			var data_brix1 = {
+				options : [{
+					id : "planList",
+					text : "计划列表",
+					__chk : true
+				}, {
+					id : "itemList",
+					text : "宝贝列表",
+					__chk : true
+				}, {
+					id : "creativeList",
+					text : "创意列表",
+					__chk : true
+				}, {
+					id : "keywordList",
+					text : "关键词列表"
+				}],
+				tabList : [{
+					id : "planList",
+					text : "计划列表",
+					__cur : true
+				}, {
+					id : "itemList",
+					text : "宝贝列表"
+				}, {
+					id : "creativeList",
+					text : "创意列表"
+				}]
+			};
+			KISSY.use("brix/dataunit", function(S, DataUnit) {
+				var du = new DataUnit({
+					data : data_brix1.tabList
+				});
+				console.watch("du", du);
+			});
+		</script>
+	</body>
+</html>

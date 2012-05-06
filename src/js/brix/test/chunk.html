@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Brix/Chunk</title>
+		<script src="../../../../libs/debug/kissy/kissy.js"></script>
+		<script>
+			KISSY.config({
+				packages : [{
+					name : "brix",
+					tag : "20120419",
+					path : "../../../js",
+					charset : "utf-8"
+				}]
+			});
+		</script>
+	</head>
+	<body>
+		<script type="text/template" id="tmpl_brix1">
+			<div bx-brick="tab" bx-pagelet id="tab1">
+			<ul class="nav nav-tabs" bx-subtmpl="tabList">
+			{{#tabList}}
+			<li{{#__cur}} class="active"{{/__cur}}>
+			<a href="#" data="{{id}}">{{text}}</a>
+			</li>
+			{{/tabList}}
+			</ul>
+			<div bx-brick="multiSelect" bx-parent id="ms1">
+			{{#options}}
+			<input type="checkbox" value="{{id}}"{{#__chk}} checked{{/__chk}}/>{{text}}
+			{{/options}}
+			</div>
+			</div>
+		</script>
+		<script>
+			var data_brix1 = {
+				options : [{
+					id : "planList",
+					text : "计划列表",
+					__chk : true
+				}, {
+					id : "itemList",
+					text : "宝贝列表",
+					__chk : true
+				}, {
+					id : "creativeList",
+					text : "创意列表",
+					__chk : true
+				}, {
+					id : "keywordList",
+					text : "关键词列表"
+				}],
+				tabList : [{
+					id : "planList",
+					text : "计划列表",
+					__cur : true
+				}, {
+					id : "itemList",
+					text : "宝贝列表"
+				}, {
+					id : "creativeList",
+					text : "创意列表"
+				}]
+			};
+			KISSY.use("brix/chunk,brix/dataunit,brix/dataset,brix/templer", function(S, Chunk, DataUnit, DataSet, Templer) {
+				var config = {
+
+				};
+				var chunk = new Chunk();
+				var html = chunk.getHtml(function(s) {
+					chunk.writeHTML(s, {
+						type : "dw"
+					});
+				})
+				console.watch("chunk", chunk);
+			});
+		</script>
+	</body>
+</html>

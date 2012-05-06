@@ -1,9 +1,4 @@
 KISSY.add("brix/index", function(S) {
-	console = window.console || {};
-	console.watch = function(key, value) {
-		console.watching = console.watching || {};
-		console.watching[key] = value;
-	};
 	var $ = S.all;
 	var Brix = {};
 	function addBehavior() {
@@ -23,11 +18,11 @@ KISSY.add("brix/index", function(S) {
 	}
 
 	function addBehavior2Brick(brick, pagelet) {
-		var type = S.one(b).attr("bx-brick");
+		var type = S.one(brick).attr("bx-brick");
 		S.use("brix/" + type, function(S, Brick) {
 			var myBrick = new Brick({
-				pagelet : pagelet,
-				brick : brick
+				pageletId : pagelet.id,
+				id : brick.id
 			});
 			console.watch("brick_" + type, myBrick);
 		});
@@ -54,7 +49,24 @@ KISSY.add("brix/index", function(S) {
 		return res.getDOMNodes();
 	}
 
+	var COM = {
+		_idMap : {},
+		init : function() {
+			console.watch("COM", COM);
+			return this;
+		},
+		push : function(brick) {
+			this._idMap[brick.id] = brick;
+		},
+		pop : function(brick) {
+			delete this._idMap[brick.id];
+		},
+		getElementById : function(id) {
+			return this._idMap[id] || null;
+		}
+	};
 
+	Brix.COM = COM.init();
 	Brix.addBehavior = addBehavior;
 	return Brix;
 }, {
