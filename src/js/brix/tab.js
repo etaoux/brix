@@ -1,17 +1,16 @@
-KISSY.add("brix/tab", function(S, BxBase) {
+KISSY.add("brix/tab", function(S, Brick) {
 	function Tab(config) {
 		Tab.superclass.constructor.call(this, config);
 	}
 
-
-	S.extend(Tab, BxBase, {
+	S.extend(Tab, Brick, {
 		init : function(config) {
 			console.log("tab init~");
 		}
 	});
 	return Tab;
 }, {
-	requires : ["brix/bxbase"]
+	requires : ["brix/brick"]
 });
 /*
  data>>>

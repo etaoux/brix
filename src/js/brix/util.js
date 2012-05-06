@@ -9,6 +9,6 @@ KISSY.add("brix/util", function(S) {
 			};
 			return this;
 		}
-	}
+	};
 	return Util.init();
 });

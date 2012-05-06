@@ -1,5 +1,6 @@
 KISSY.add("brix/chunk", function(S, Tmpler, DataSet, DataUnit) {
 	function Chunk(config) {
+		Chunk.superclass.constructor.call(this, config);
 		this.config = config || {};
 		this.tmpler = null;
 		this.dataSet = null;
@@ -9,7 +10,7 @@ KISSY.add("brix/chunk", function(S, Tmpler, DataSet, DataUnit) {
 	}
 
 
-	S.extend(Chunk, Object, {
+	S.extend(Chunk, S.Base, {
 		getHTML : function(fn) {
 			var that = this;
 			this.buildTmpler();
@@ -63,7 +64,6 @@ KISSY.add("brix/chunk", function(S, Tmpler, DataSet, DataUnit) {
 			});
 		}
 	});
-	S.augment(Chunk, S.EventTarget);
 	return Chunk;
 }, {
 	requires : ["brix/tmpler", "brix/dataset", "brix/dataunit", "brix/util"]
