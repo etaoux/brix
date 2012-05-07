@@ -72,7 +72,7 @@ KISSY.add("brix/brick", function(S, Chunk) {
 									eventArr.pop();
 								}
 								if(that.events && that.events[type] && that.events[type][eventKey]) {
-									that.events[type][eventKey](that, that.idIt(target), eventArr);
+									that.events[type][eventKey](that, target, eventArr);
 								}
 							}
 						}
