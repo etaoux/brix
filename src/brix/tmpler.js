@@ -96,12 +96,12 @@ KISSY.add("brix/tmpler", function(S, Node) {
             });
         },
         /**
-        *给brick添加模板
-        * @method addSubTmpl
+        * 给brick添加模板
+        * @method addTmpl
         * @param id brick的id
         * @param arr 子模板对象数组
         * @return {blooen}
-        * @private
+        * @public
         */
         addTmpl:function(id,arr){
             var self = this;
@@ -121,9 +121,21 @@ KISSY.add("brix/tmpler", function(S, Node) {
             });
             return ret;
         },
+        /**
+        * 获取模板字符串
+        * @method getTmpl
+        * @return {string}
+        * @public
+        */
         getTmpl: function() {
             return this.tmpl;
         },
+        /**
+        * 模板和数据渲染成字符串
+        * @method to_html
+        * @return {string}
+        * @public
+        */
         to_html: function(data) {
             return Mustache.to_html(this.getTmpl(), data);
         }

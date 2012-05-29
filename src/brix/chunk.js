@@ -50,16 +50,36 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 self._render(e.subAttrName, e.newVal);
             });
         },
+        /**
+        * 给brick添加模板
+        * @method addTmpl
+        * @param id brick的id
+        * @param arr 子模板对象数组
+        * @return {blooen}
+        * @public
+        */
         addTmpl:function(id,arr){
             var self = this.pagelet?this.pagelet:this;
-            self.tmpler.addTmpl(id,arr);
+            return self.tmpler.addTmpl(id,arr);
         },
+        /**
+        * 更新数据，同时渲染模板
+        * @method setChunkData
+        * @param datakey 需要更新的数据对象key
+        * @param data 数据
+        * @public
+        */
         setChunkData: function(datakey, data) {
             var self = this.pagelet?this.pagelet:this;
             //可能要提供多个datakey的更新
             data = S.clone(data);
             self.dataset.set('data.' + datakey, data);
         },
+        /**
+         * 将模板渲染到页面
+         * @method render
+         * @public
+         */
         render: function() {
             var self = this;
             if(!self.get("rendered")){
@@ -115,6 +135,11 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 this._renderTmpl(b.bricks, key, newData);
             }, this);
         },
+        /**
+        * 销毁组件或者pagelet
+        * @method destroy
+        * @public
+        */
         destroy: function() {
             var self = this;
             //todo 如果是调用的brick的destroy，需要查找移除引用

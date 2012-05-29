@@ -12,7 +12,13 @@ KISSY.add("brix/pagelet", function(S, Chunk) {
             this.readyList = [];
             this.isAddBehavior = false;
         },
-        //获取brick的实例
+        /**
+        * 获取brick的实例
+        * @method getBrick
+        * @param id brick的id
+        * @return {object} 组件实例
+        * @public
+        */
         getBrick: function(id) {
             return this._getBrick(id, this.tmpler.bricks);
         },
@@ -29,6 +35,11 @@ KISSY.add("brix/pagelet", function(S, Chunk) {
             });
             return brick || null;
         },
+        /**
+        * 给组件添加行为
+        * @method addBehavior
+        * @public
+        */
         addBehavior: function() {
             if(!this.isAddBehavior){
                 this._addBehavior(this.tmpler.bricks);
@@ -59,6 +70,12 @@ KISSY.add("brix/pagelet", function(S, Chunk) {
                 self._fireReady();
             }
         },
+        /**
+        * pagelet 渲染完成后需要执行的函数
+        * @method ready
+        * @param fn 执行的函数
+        * @public
+        */
         ready: function(fn) {
             if (this.isReady) {
                 fn.call(window, this);

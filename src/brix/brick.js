@@ -31,7 +31,16 @@ KISSY.add("brix/brick", function(S, Chunk) {
         }
 
     }
+    Brick.ATTACH = {
+        //组件内部的事件代理，
+        /*"selector":{
+            enventtype:function(e){
+                //e：事件对象
+                //this:指向当前实例
+            }
+        }*/
 
+    };
     Brick.ATTRS = {
         events: {
             //此事件代理是KISSY选择器的事件的代理
@@ -40,7 +49,7 @@ KISSY.add("brix/brick", function(S, Chunk) {
 
     S.extend(Brick, Chunk, {
         events: {
-            //此事件代理是原生的页面bx-click等事件的代理
+            //此事件代理是原生的页面bxclick等事件的代理
         },
         _afterEventsChange: function(e) {
             var prevVal = e.prevVal;
@@ -79,7 +88,6 @@ KISSY.add("brix/brick", function(S, Chunk) {
                     node["on" + type] = function() {
                         var event = arguments[0] || window.event;
                         var target = event.target || event.srcElement;
-                        var root = this;
                         if (target.nodeType != 1) {
                             target = target.parentNode;
                         }
@@ -111,7 +119,6 @@ KISSY.add("brix/brick", function(S, Chunk) {
                             }
                         }
                         target = null;
-                        root = null;
                     };
                 })();
             }
