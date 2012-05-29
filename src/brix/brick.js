@@ -20,7 +20,7 @@ KISSY.add("brix/brick", function(S, Chunk) {
             });
         }
         //方式二
-        self.delegateEvents();
+        self._delegateEvents();
 
         //用户使用组件中的自定义事件代理
         var events = self.get("events");
@@ -51,6 +51,10 @@ KISSY.add("brix/brick", function(S, Chunk) {
         events: {
             //此事件代理是原生的页面bxclick等事件的代理
         },
+        /**
+         * 事件对象改变
+         * @param  {object} e 事件对象，参见ATTACH属性
+         */
         _afterEventsChange: function(e) {
             var prevVal = e.prevVal;
             if (prevVal) {
@@ -58,6 +62,10 @@ KISSY.add("brix/brick", function(S, Chunk) {
             }
             this._addEvents(e.newVal);
         },
+        /**
+         * 移除事件代理
+         * @param  {object} events 事件对象，参见ATTACH属性
+         */
         _removeEvents: function(events) {
             var el = this.get("el");
             for (var selector in events) {
@@ -68,6 +76,10 @@ KISSY.add("brix/brick", function(S, Chunk) {
                 }
             }
         },
+        /**
+         * 添加事件代理绑定
+         * @param  {object} events 事件对象，参见ATTACH属性
+         */
         _addEvents: function(events) {
             var el = this.get("el");
             for (var selector in events) {
@@ -78,7 +90,10 @@ KISSY.add("brix/brick", function(S, Chunk) {
                 }
             }
         },
-        delegateEvents: function() {
+        /**
+         * 原生事件代理
+         */
+        _delegateEvents: function() {
             var events = this.events;
             var node = this.get("el")[0];
             var that = this;

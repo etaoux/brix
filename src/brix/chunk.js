@@ -1,6 +1,8 @@
 KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
     var $ = Node.all;
-
+    /**
+     * brick和pagelet类的基类
+     */
     function Chunk() {
         Chunk.superclass.constructor.apply(this, arguments);
         var self = this;
@@ -10,6 +12,7 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
             self._buildTmpler(tmpl,data);
         }
     }
+
     Chunk.ATTRS = {
         //容器节点
         el: {
@@ -30,7 +33,13 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
             value :false
         }
     };
+
     S.extend(Chunk, Base, {
+        /**
+         * 构建模板解析器
+         * @param  {string} tmpl 模板字符串
+         * @param  {object} data 数据对象
+         */
         _buildTmpler: function(tmpl,data) {
             var self = this;
             self.tmpler = new Tmpler(tmpl);
@@ -40,6 +49,10 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 self.__set("rendered", true);
             }
         },
+        /**
+         * 构建数据管理器
+         * @param  {object} data 数据对象
+         */
         _buildDataset: function(data) {
             var self = this;
             data = S.clone(data); //数据深度克隆
@@ -52,23 +65,19 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
         },
         /**
         * 给brick添加模板
-        * @method addTmpl
-        * @param id brick的id
-        * @param arr 子模板对象数组
-        * @return {blooen}
-        * @public
+        * @param {string} id  brick的id
+        * @param {array} arr 模板数组
         */
         addTmpl:function(id,arr){
             var self = this.pagelet?this.pagelet:this;
             return self.tmpler.addTmpl(id,arr);
         },
+
         /**
-        * 更新数据，同时渲染模板
-        * @method setChunkData
-        * @param datakey 需要更新的数据对象key
-        * @param data 数据
-        * @public
-        */
+         * 设置数据，并刷新模板数据
+         * @param {string} datakey 需要更新的数据对象key
+         * @param {object} data    数据对象
+         */
         setChunkData: function(datakey, data) {
             var self = this.pagelet?this.pagelet:this;
             //可能要提供多个datakey的更新
@@ -77,8 +86,6 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
         },
         /**
          * 将模板渲染到页面
-         * @method render
-         * @public
          */
         render: function() {
             var self = this;
@@ -87,6 +94,11 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 self.__set("rendered", true);
             }
         },
+        /**
+         * 将模板渲染到页面
+         * @param  {string} key     更新的数据对象key
+         * @param  {object} newData 数据
+         */
         _render: function(key, newData) {
             var self = this.pagelet?this.pagelet:this;
             if (key.split('.').length > 1) {
@@ -111,6 +123,12 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 containerNode = null;
             }
         },
+        /**
+         * 渲染模板
+         * @param  {object} bricks  brick对象集合
+         * @param  {string} key     更新的数据对象key
+         * @param  {object} newData 数据
+         */
         _renderTmpl: function(bricks, key, newData) {
             S.each(bricks, function(b) {
                 S.each(b.tmpls, function(o, id) {
@@ -136,10 +154,8 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
             }, this);
         },
         /**
-        * 销毁组件或者pagelet
-        * @method destroy
-        * @public
-        */
+         * 销毁组件或者pagelet
+         */
         destroy: function() {
             var self = this;
             //todo 如果是调用的brick的destroy，需要查找移除引用
@@ -162,27 +178,20 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
             this.get("el").remove();
         },
 
-
-        //齐活了，对各种引用都断开了链接
+        /**
+         * 销毁brick引用
+         * @param  {object} bricks 需要销毁的对象集合
+         */
         _destroyBricks: function(bricks) {
             var self = this;
             S.each(bricks, function(o) {
                 self._destroyBrick(o);
-                /*if (o.brick) {
-                    var events = o.brick.events;
-                    var node = o.brick.get('el');
-                    for (var type in events) {
-                        node[0]["on" + type] = null; //移除事件监听函数
-                    }
-                    node.detach();
-                    //node.remove();
-                    //移除实例的引用，减少内存泄漏的可能
-                    node = null;
-                    o.brick = null;
-                    self._destroyBricks(o.bricks);
-                }*/
             });
         },
+        /**
+         * 销毁brick引用
+         * @param  {object} o 需要销毁的对象
+         */
         _destroyBrick:function(o){
             var self = this;
             if(o.brick) {
@@ -196,7 +205,9 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 //移除实例的引用，减少内存泄漏的可能
                 node = null;
                 o.brick = null;
+                //递归调用
                 self._destroyBricks(o.bricks);
+                //齐活了，对各种引用都断开了链接
             }
         }
     });

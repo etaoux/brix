@@ -6,6 +6,9 @@ KISSY.add("brix/pagelet", function(S, Chunk) {
     }
 
     S.extend(Pagelet, Chunk, {
+        /**
+         * 初始化方法
+         */
         initialize: function() {
             this.isReady = false;
             this.brickCount = 0;
@@ -14,14 +17,19 @@ KISSY.add("brix/pagelet", function(S, Chunk) {
         },
         /**
         * 获取brick的实例
-        * @method getBrick
         * @param id brick的id
         * @return {object} 组件实例
-        * @public
         */
         getBrick: function(id) {
             return this._getBrick(id, this.tmpler.bricks);
         },
+
+       /**
+        * 获取brick的实例
+        * @param  {string} id     brick的id
+        * @param  {object} bricks 需要渲染的brick集合
+        * @return {object}        组件实例
+        */
         _getBrick: function(id, bricks) {
             var self = this,
                 brick;
@@ -36,17 +44,18 @@ KISSY.add("brix/pagelet", function(S, Chunk) {
             return brick || null;
         },
         /**
-        * 给组件添加行为
-        * @method addBehavior
-        * @public
-        */
+         * 给组件添加行为
+         */
         addBehavior: function() {
             if(!this.isAddBehavior){
                 this._addBehavior(this.tmpler.bricks);
                 this.isAddBehavior = true;
             }
         },
-        //分层次的渲染brick
+        /**
+         * 分层次的渲染brick
+         * @param {object} bricks 需要渲染的brick集合
+         */
         _addBehavior: function(bricks) {
             var self = this;
             S.each(bricks, function(o, k) {
@@ -84,6 +93,9 @@ KISSY.add("brix/pagelet", function(S, Chunk) {
             }
             return this;
         },
+        /**
+         * 触发ready添加的方法
+         */
         _fireReady: function() {
             var self = this;
             if (self.isReady) {
