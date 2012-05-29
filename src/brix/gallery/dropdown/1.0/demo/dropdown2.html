@@ -94,7 +94,7 @@
                     pagelet.ready(function(){
                         dropdownBrick = pagelet.getBrick('brick_14');
                         S.one('#tmpladd').on('click',function(){
-                            dropdownBrick.addSubTmpl('brick_14',[{id:'brick_14',datakey:'dropdown_list',tmpl:S.one("#tmpl_dropdown").html()}]);
+                            dropdownBrick.addTmpl('brick_14',[{id:'brick_14',datakey:'dropdown_list',tmpl:S.one("#tmpl_dropdown").html()}]);
                             //删除节点，有用吗？
                             S.one("#tmpl_dropdown").remove();
                             //数据更新刷新子模板

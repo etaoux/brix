@@ -50,9 +50,9 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 self._render(e.subAttrName, e.newVal);
             });
         },
-        addSubTmpl:function(id,arr){
+        addTmpl:function(id,arr){
             var self = this.pagelet?this.pagelet:this;
-            self.tmpler.addSubTmpl(id,arr);
+            self.tmpler.addTmpl(id,arr);
         },
         setChunkData: function(datakey, data) {
             var self = this.pagelet?this.pagelet:this;
@@ -93,7 +93,7 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
         },
         _renderTmpl: function(bricks, key, newData) {
             S.each(bricks, function(b) {
-                S.each(b.subTmpls, function(o, id) {
+                S.each(b.tmpls, function(o, id) {
                     if (S.inArray(key, o.datakey)) {
                         var data = {};
                         S.each(o.datakey, function(item) {

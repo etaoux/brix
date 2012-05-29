@@ -54,7 +54,7 @@
             }
         </script>
         <script type="text/template" id="tmpl_dropdown">
-            <div bx-brick="dropdown" bx-path="brix/gallery/dropdown/1.0/dropdown" bx-datakey="dropdown_list" bx-subtmpl="dropdown" class="dropdown">
+            <div bx-brick="dropdown" bx-path="brix/gallery/dropdown/1.0/dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown">
                 <a class="dropdown-a">
                     {{#dropdown_list}}
                     {{#selected}}
@@ -98,6 +98,7 @@
 
                     //数据更新刷新子模板
                     S.later(function(){
+                        debugger
                         dropdown_data.dropdown_list.push({
                             value: "5",
                             text: "计划列表5"

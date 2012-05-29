@@ -11,7 +11,7 @@ KISSY.add("brix/tmpler", function(S, Node) {
     function _stamp(el, prefix) {
         prefix = prefix || 'brick_';
         if (!el.attr('id')) {
-            el.attr('id', S.guid(prefix));
+            el.attr('id', S.guid('brix_'+prefix));
         }
         return el.attr('id');
     }
@@ -68,48 +68,48 @@ KISSY.add("brix/tmpler", function(S, Node) {
                 id = _stamp(el),
                 name = el.attr('bx-brick'),
                 path = el.attr('bx-path'),
-                subtmplNodes = el.all('[bx-subtmpl=' + name + ']');
-            if (el.hasAttr('bx-subtmpl')) {
-                subtmplNodes = subtmplNodes.add(el[0]);
+                tmplNodes = el.all('[bx-tmpl=' + name + ']');
+            if (el.hasAttr('bx-tmpl')) {
+                tmplNodes = tmplNodes.add(el[0]);
             }
             bricks[id] = {
                 path: path,
-                subTmpls: [],
+                tmpls: [],
                 bricks: {}
             };
-            var subTmpls = bricks[id].subTmpls;
-            subtmplNodes.each(function(subtmplNode) {
-                var tmplId = _stamp(subtmplNode, 'subtmpl_'),
-                    datakey = subtmplNode.attr('bx-datakey'),
+            var tmpls = bricks[id].tmpls;
+            tmplNodes.each(function(tmplNode) {
+                var tmplId = _stamp(tmplNode, 'tmpl_'),
+                    datakey = tmplNode.attr('bx-datakey'),
                     //去掉="",将~符号替换回/，完美了。
-                    tmpl = subtmplNode.html().replace(/((\{\{\#(.+)?\}\})([\s\S]*)?\s*(\{\{~\3\}\}))\=\"\"/g, '$1').replace(/\{\{~/g, '{{/');
-                subTmpls.push({
+                    tmpl = tmplNode.html().replace(/((\{\{\#(.+)?\}\})([\s\S]*)?\s*(\{\{~\3\}\}))\=\"\"/g, '$1').replace(/\{\{~/g, '{{/');
+                tmpls.push({
                     id: tmplId,
                     datakey: datakey ? datakey.split(',') : [],
                     tmpler: new Tmpler(tmpl, false)
                 });
             });
-            subtmplNodes = null;
+            tmplNodes = null;
             //递归调用
             container.all('[bx-parent=' + name + ']').each(function(subBrick) {
                 self._buildBrick(subBrick, container, bricks[id].bricks);
             });
         },
         /**
-        *给brick添加子模板
+        *给brick添加模板
         * @method addSubTmpl
         * @param id brick的id
         * @param arr 子模板对象数组
         * @return {blooen}
         * @private
         */
-        addSubTmpl:function(id,arr){
+        addTmpl:function(id,arr){
             var self = this;
             ret = false;
             S.each(self.bricks, function(b,k) {
                 if(k==id){
                     S.each(arr,function(m){
-                        b.subTmpls.push({
+                        b.tmpls.push({
                             id:m.id,
                             datakey:m.datakey.split(','),
                             tmpler:new Tmpler(m.tmpl, false)
