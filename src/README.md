@@ -1,6 +1,9 @@
 ## 问题在这里
 这里会记录一些当前组件框架待碰到的问题，已经解决方案。
 
+ * <https://github.com/etaoux/brix/blob/master/src/ESTRAP.md>
+
+
  TODO
  ----------
  1.解决嵌套组件数据更新时候，父组件模板刷新，子组件失效的问题
