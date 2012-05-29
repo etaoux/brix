@@ -65,7 +65,7 @@
                 </a>
                 <ul class="dropdown-list">
                     {{#dropdown_list}}
-                    <li bxclick="xxClick" {{#color}} style="color:{{color}}" {{/color}} class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}</li>
+                    <li bxclick="xxClick" {{#color}}style="color:{{color}}"{{/color}} class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}</li>
                     {{/dropdown_list}}
                 </ul>
                 {{#dropdown_list}}
@@ -98,7 +98,6 @@
 
                     //数据更新刷新子模板
                     S.later(function(){
-                        debugger
                         dropdown_data.dropdown_list.push({
                             value: "5",
                             text: "计划列表5"

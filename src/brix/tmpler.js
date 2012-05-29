@@ -35,6 +35,7 @@ KISSY.add("brix/tmpler", function(S, Node) {
             var tmplNode =null;
             var inDom = node.parent()?true:false;//判断是否已经添加到dom中
             if(!inDom){
+                node.remove();
                 //牛逼的正则啊
                 var reg = /(\{\{\#(.+)?\}\})\s*([\s\S]*)?\s*(\{\{\/\2\}\})/g;
                 while (reg.test(tmpl)) {
@@ -43,7 +44,7 @@ KISSY.add("brix/tmpler", function(S, Node) {
                     //不重置位置，我了个去，ie7，8有问题
                     reg.lastIndex = 0;
                 }
-                tmplNode = $('<div></div>').append(node);
+                tmplNode = $('<div></div>').append(tmpl);
             }
             else{
                 tmplNode =node;
