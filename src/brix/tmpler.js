@@ -15,7 +15,20 @@ KISSY.add("brix/tmpler", function(S, Node) {
         }
         return el.attr('id');
     }
-    //isParse 是否需要对模板进行解析
+    /**
+     * 判断节点是否已经在dom中
+     * @param  {HTMLElement} el 检测节点
+     * @return {Boolen}      是否包含 el 节点
+     */
+    function _inDom(el){
+        return S.one(document.body).contains(el);
+    }
+
+    /**
+     * 模板解析器
+     * @param {String}  tmpl    模板字符串
+     * @param {Boolean} isParse 是否需要对模板进行解析
+     */
     function Tmpler(tmpl, isParse) {
         if (tmpl && (isParse !== false)) {
             this.bricks = {};
@@ -29,12 +42,17 @@ KISSY.add("brix/tmpler", function(S, Node) {
         _praseTmpl: function(tmpl) {
             this._buildBricks(tmpl);
         },
+        /**
+         * 对模板中的brick的解析
+         * @param  {String} tmpl 模板字符串
+         */
         _buildBricks: function(tmpl) {
             var self = this;
             var node = $(tmpl);
             var tmplNode =null;
-            var inDom = node.parent()?true:false;//判断是否已经添加到dom中
+            var inDom = _inDom(node[0]);//判断是否已经添加到dom中
             if(!inDom){
+                node.remove();
                 //牛逼的正则啊
                 var reg = /(\{\{\#(.+)?\}\})\s*([\s\S]*)?\s*(\{\{\/\2\}\})/g;
                 while (reg.test(tmpl)) {
@@ -43,7 +61,7 @@ KISSY.add("brix/tmpler", function(S, Node) {
                     //不重置位置，我了个去，ie7，8有问题
                     reg.lastIndex = 0;
                 }
-                tmplNode = $('<div></div>').append(node);
+                tmplNode = $('<div></div>').append(tmpl);
             }
             else{
                 tmplNode =node;
@@ -90,7 +108,7 @@ KISSY.add("brix/tmpler", function(S, Node) {
                 });
             });
             tmplNodes = null;
-            //递归调用
+            //递归调用获取子brick
             container.all('[bx-parent=' + name + ']').each(function(subBrick) {
                 self._buildBrick(subBrick, container, bricks[id].bricks);
             });
