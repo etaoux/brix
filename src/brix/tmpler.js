@@ -43,7 +43,7 @@ KISSY.add("brix/tmpler", function(S, Node) {
                     //不重置位置，我了个去，ie7，8有问题
                     reg.lastIndex = 0;
                 }
-                tmplNode = $('<div></div>').append(tmpl);
+                tmplNode = $('<div></div>').append(node);
             }
             else{
                 tmplNode =node;
@@ -57,9 +57,9 @@ KISSY.add("brix/tmpler", function(S, Node) {
                 //模板一定要在解析完成后赋值，因为在解析过程中会给模板加id
                 self.tmpl = tmplNode.html().replace(/((\{\{\#(.+)?\}\})([\s\S]*)?\s*(\{\{~\3\}\}))\=\"\"/g, '$1').replace(/\{\{~/g, '{{/');
                 tmplNode.remove();
-                tmplNode = null;
             }
-
+            tmplNode = null;
+            node = null;
             this.inDom = inDom;
         },
 
