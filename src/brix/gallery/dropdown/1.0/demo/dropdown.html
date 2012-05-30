@@ -79,10 +79,10 @@
             KISSY.ready(function(S) {
                 KISSY.use("brix/gallery/dropdown/1.0/dropdown,brix/gallery/dropdown/1.0/dropdown.css", function(S, DropdownBrick) {
                     var config = {
-                        el:'#test_container',
+                        render:'#test_container',//容器节点
                         tmpl: S.one("#tmpl_dropdown").html(),//需要的模板
                         data: dropdown_data,  //这个数据会被重新clone一份，所以更新原始数据不会对内部产生影响
-                        events:{
+                        events:{ //自定义事件代理
                             ".dropdown-a": {
                                 mousedown: function(e) {
                                     /*alert(this);
@@ -94,7 +94,7 @@
                     //删除节点，有用吗？
                     S.one("#tmpl_dropdown").remove();
                     var dropdownBrick = new DropdownBrick(config);
-                    dropdownBrick.render();
+                    //dropdownBrick.render();
 
                     //数据更新刷新子模板
                     S.later(function(){
@@ -114,7 +114,7 @@
 
 
                     S.later(function(){
-                        //dropdownBrick.destroy();
+                        dropdownBrick.destroy();
                     },8000);
 
                     //方法调用

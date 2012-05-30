@@ -11,12 +11,23 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
             var data = arguments[0].data;
             self._buildTmpler(tmpl,data);
         }
+        if(self.tmpler){
+            if(!self.tmpler.inDom){
+                self.render();
+            }
+            else{
+                self.__set('el',tmpl);//如果已经在dom中，则把当前节点设置为模板容器节点
+            }
+
+        }
+        else{
+            self.__set("rendered", true);
+        }
     }
 
     Chunk.ATTRS = {
-        //容器节点
+        //组件节点
         el: {
-            value: 'body',
             getter: function(s) {
                 if (S.isString(s)) {
                     s = $(s);
@@ -26,7 +37,17 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 return s;
             }
         },
-        tmpl: {
+        //容器节点
+        render:{
+            value:'body',
+            getter:function(s) {
+                if (S.isString(s)) {
+                    s = $(s);
+                }
+                return s;
+            }
+        },
+        tmpl: {//模板代码，如果是已经渲染的html元素，则提供渲染html容器节点选择器
             value: null
         },
         rendered:{
@@ -45,9 +66,6 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
             self.tmpler = new Tmpler(tmpl);
             data = data ||{};
             self._buildDataset(data);
-            if(self.tmpler.inDom){
-                self.__set("rendered", true);
-            }
         },
         /**
          * 构建数据管理器
@@ -107,16 +125,19 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 self._renderTmpl(self.tmpler.bricks, key, newData);
             } else {
                 var node = new Node(self.tmpler.to_html(newData));
-                var el = self.get('el');
+                var render = self.get('render');
                 var containerNode;
                 if(node.length>1){//如果是多个节点，则创建容器节点
-                    containerNode = new Node('<div id="brick_container'+S.guid()+'"></div>');
+                    containerNode = new Node('<div id="'+S.guid("brick_container")+'"></div>');
                     containerNode.append(node);
                 }
                 else{
+                    if (!node.attr('id')) {
+                        node.attr('id', S.guid('brick_container'));
+                    }
                     containerNode = node;
                 }
-                el.append(containerNode);
+                render.append(containerNode);
                 //将节点的引用设置为容器节点，为后期的destroy等方法提供引用
                 self.__set('el','#'+containerNode.attr('id'));
                 node = null;
@@ -159,10 +180,10 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
         destroy: function() {
             var self = this;
             //todo 如果是调用的brick的destroy，需要查找移除引用
-            if(this.pagelet){
-                var el = this.get("el");
-                id = this.get("el").attr('id');
-                S.each(this.pagelet.tmpler.bricks,function(o,k) {
+            var el = self.get('el');
+            if(self.pagelet){//如果是pagelet实例化出来的brick调用
+                var id = el.attr('id');
+                S.each(self.pagelet.tmpler.bricks,function(o,k) {
                     if(k==id){
                         self._destroyBrick(o);
                         return false;
@@ -170,12 +191,12 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 });
             }
             else{
-                if (this.tmpler && this.tmpler.bricks) {
-                    this._destroyBricks(this.tmpler.bricks);
-                    this.tmpler.bricks = null;
-                }3
+                if (self.tmpler && self.tmpler.bricks) {
+                    self._destroyBricks(self.tmpler.bricks);
+                    self.tmpler.bricks = null;
+                }
             }
-            this.get("el").remove();
+            el.remove();
         },
 
         /**
@@ -204,6 +225,7 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 //node.remove();
                 //移除实例的引用，减少内存泄漏的可能
                 node = null;
+                o.brick.pagelet = null;
                 o.brick = null;
                 //递归调用
                 self._destroyBricks(o.bricks);
