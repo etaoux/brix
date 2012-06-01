@@ -1,0 +1,31 @@
+<ul class="breadcrumbs">
+    {{#breadcrumbs_list}}
+    <li class="breadcrumbs-item {{#last}}breadcrumbs-itemlast{{/last}}">
+        {{#text}}
+            <a href="{{value}}">{{text}}</a>
+        {{/text}}
+        {{^text}}
+        <div bx-brick="dropdown" bx-path="brix/gallery/dropdown/1.0/dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown">
+            <a class="dropdown-a">
+                {{#dropdown_list}}
+                {{#selected}}
+                <span class="dropdown-span" value="{{value}}">{{text}}</span>
+                <i class="dropdown-icon"></i>
+                {{/selected}}
+                {{/dropdown_list}}
+            </a>
+            <ul class="dropdown-list">
+                {{#dropdown_list}}
+                <li bxclick="xxClick" {{#color}}style="color:{{color}}"{{/color}} class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}</li>
+                {{/dropdown_list}}
+            </ul>
+            {{#dropdown_list}}
+            {{#selected}}
+            <input name="dd"  value="{{value}}" type="hidden" />
+            {{/selected}}
+            {{/dropdown_list}}
+        </div>
+        {{/text}}
+    </li>
+    {{/breadcrumbs_list}}
+</ul>
