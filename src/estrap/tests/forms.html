@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>表单 - 设计模式库</title>
+    <link rel="stylesheet/less" href="../estrap.less"/>    
+    <script src="less.js"></script>
+    <style>
+        body{padding:10px;}
+    </style>
+    <script>
+        // html5
+        if (!+[1,]) {
+            (function() {
+                var tags = [
+                    'article', 'aside', 'details', 'figcaption',
+                    'figure', 'footer', 'header', 'hgroup',
+                    'menu', 'nav', 'section', 'summary',
+                    'time', 'mark', 'audio', 'video'],
+                        i = 0, len = tags.length;
+                for (; i < len; i++) document.createElement(tags[i]);
+            })();
+        }
+    </script>
+</head>
+<body>
+    <div class="s-section">
+        <h2>表单</h2>
+        <div class="control-group">
+            <label class="control-label" for="input01">表单项名称:</label>
+            <div class="controls">
+                <input id="input01" placeholder="placeholder占位" />
+                <p class="help-block">说明解释类提示</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
