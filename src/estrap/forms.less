@@ -1,6 +1,39 @@
 // Forms.less
 // Base styles for various input types, form layouts, and states
 // -------------------------------------------------------------
+// vars {{{
+@inputBorderRadius:             3px;
+
+@inputBorder:                   #eee;
+@inputBorderTop:                #d8d8d8;
+@inputBorderHover:              #d9d9d9;
+@inputBorderTopHover:           #bfbfbf;
+@inputBorderFocus:              #488fcd;
+@inputBorderError:              #f40;
+@placeholderText:               @grayLight;
+@inputTextColor:                @grayDark;
+
+@inputDisabledBackground:       @grayLighter;
+@formActionsBackground:         #f5f5f5;
+
+// Form states and alerts
+// -------------------------
+@warningText:             #c09853;
+@warningBackground:       #fcf8e3;
+@warningBorder:           darken(spin(@warningBackground, -10), 3%);
+
+@errorText:               #b94a48;
+@errorBackground:         #f2dede;
+@errorBorder:             darken(spin(@errorBackground, -10), 3%);
+
+@successText:             #468847;
+@successBackground:       #dff0d8;
+@successBorder:           darken(spin(@successBackground, -10), 5%);
+
+@infoText:                #3a87ad;
+@infoBackground:          #d9edf7;
+@infoBorder:              darken(spin(@infoBackground, -10), 7%);
+//}}}
 
 
 // GENERAL STYLES
@@ -36,21 +69,6 @@ legend {
   }
 }
 
-// Set font for forms
-label,
-input,
-button,
-select,
-textarea {
-  #font > .shorthand(@baseFontSize,normal,@baseLineHeight); // Set size, weight, line-height here
-}
-input,
-button,
-select,
-textarea {
-  font-family: @baseFontFamily; // And only set font-family here for those that need it (note the missing label element)
-}
-
 // Identify controls by their labels
 label {
   display: block;
@@ -66,14 +84,12 @@ select,
   display: inline-block;
   width: 210px;
   height: @baseLineHeight;
-  padding: 4px;
+  padding: 3px;
   margin-bottom: 9px;
-  font-size: @baseFontSize;
   line-height: @baseLineHeight;
-  color: @gray;
-  background-color: @inputBackground;
+  color: @inputTextColor;
   border: 1px solid @inputBorder;
-  .border-radius(@inputBorderRadius);
+  border-top-color: @inputBorderTop;
 }
 .uneditable-textarea {
   width: auto;
@@ -205,20 +221,26 @@ input[type="hidden"] {
 
 
 // FOCUS STATE
+// HOVER STATE
 // -----------
 
 input,
 textarea {
-  .box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
   @transition: border linear .2s, box-shadow linear .2s;
   .transition(@transition);
 }
+input:hover,
+textarea:hover {
+  border-color: @inputBorderHover;
+  border-top-color: @inputBorderTopHover;
+  .box-shadow(~"inset 0 1px #f5f5f5");
+}
 input:focus,
 textarea:focus {
-  border-color: rgba(82,168,236,.8);
+  border-color: @inputBorderFocus;
   outline: 0;
   outline: thin dotted \9; /* IE6-9 */
-  .box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6)");
+  .box-shadow(~"0 0 8px rgba(72,143,205,.14)");
 }
 input[type="file"]:focus,
 input[type="radio"]:focus,
@@ -384,7 +406,7 @@ select:focus:required:invalid {
     margin-bottom: 0; // prevent bottom margin from screwing up alignment in stacked forms
     *margin-left: 0;
     vertical-align: middle;
-    .border-radius(0 @inputBorderRadius @inputBorderRadius 0);
+    /*.border-radius(0 @inputBorderRadius @inputBorderRadius 0);*/
     // Make input on top when focused so blue border and shadow always show
     &:focus {
       z-index: 2;
@@ -424,14 +446,14 @@ select:focus:required:invalid {
   }
   .add-on:first-child,
   .btn:first-child {
-    .border-radius(@inputBorderRadius 0 0 @inputBorderRadius);
+    /*.border-radius(@inputBorderRadius 0 0 @inputBorderRadius);*/
   }
 }
 .input-append {
   input,
   select,
   .uneditable-input {
-    .border-radius(@inputBorderRadius 0 0 @inputBorderRadius);
+    /*.border-radius(@inputBorderRadius 0 0 @inputBorderRadius);*/
   }
   .uneditable-input {
     border-right-color: #ccc;
@@ -439,7 +461,7 @@ select:focus:required:invalid {
   }
   .add-on:last-child,
   .btn:last-child {
-    .border-radius(0 @inputBorderRadius @inputBorderRadius 0);
+    /*.border-radius(0 @inputBorderRadius @inputBorderRadius 0);*/
   }
 }
 // Remove all border-radius for inputs with both prepend and append
@@ -452,12 +474,12 @@ select:focus:required:invalid {
   .add-on:first-child,
   .btn:first-child {
     margin-right: -1px;
-    .border-radius(@inputBorderRadius 0 0 @inputBorderRadius);
+    /*.border-radius(@inputBorderRadius 0 0 @inputBorderRadius);*/
   }
   .add-on:last-child,
   .btn:last-child {
     margin-left: -1px;
-    .border-radius(0 @inputBorderRadius @inputBorderRadius 0);
+    /*.border-radius(0 @inputBorderRadius @inputBorderRadius 0);*/
   }
 }
 

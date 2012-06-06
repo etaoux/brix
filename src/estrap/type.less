@@ -1,14 +1,31 @@
-/** 设置默认字体 **/
+// type.less - vars
+// ----------------
+@titleColor:            @grayDark;
+@textColor:             @gray;
+
+@linkColor:             @blue;
+@linkColorHover:        @orange;
+@linkColorVisited:      @purple;
+
+@strongColor:           @red;
+@approvedColor:         @green;
+@moderatedColor:        @yellowDark;
+
+@baseFontSize:          12px;
+@baseLineHeight:        18px;
+
+// 设置默认字体
+// ----------------
 body,
 button, input, select, textarea /* for ie */ {
     font: 12px/1.5 tahoma, arial, "\5fae\8f6f\96c5\9ed1", "\5b8b\4f53", sans-serif;
-    color: #666;
+    color: @textColor;
 }
 
 h1, h2, h3, h4, h5, h6 {
     margin: .75em 0;
     font-weight: normal;
-    color: #333;
+    color: @titleColor;
 }
 h1 { font-size: 32px; }
 h2 { font-size: 28px; }
@@ -20,10 +37,6 @@ h6 { font-size: 12px; }
 a { color: @linkColor; }
 a:hover { color: @linkColorHover; }
 a:visited { color: @linkColorVisited; }
-
-strong { color: #ff1919; }
-.approved { color: #290; }
-.moderated { color: #c88c0a; }
 
 .rmb {
     font-size: .75em;
