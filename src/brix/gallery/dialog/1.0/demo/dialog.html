@@ -77,8 +77,25 @@
         </script>
         <script>
             KISSY.ready(function(S) {
+
                 KISSY.use("brix/gallery/dialog/1.0/dialog", function(S, Dialog) {
-                    var dialog = new Dialog({width:300,data:dropdown_data,tmpl:S.one("#tmpl_dropdown").html()});
+                    var config = {
+                        width:300,
+                        data:dropdown_data,
+                        tmpl:S.one("#tmpl_dropdown").html(),
+                        start:{
+                            left:1000,
+                            top:100,
+                            opacity:0
+                        },
+                        end:{
+                            left:100,
+                            top:100,
+                            opacity:1
+                        },
+                        duration:0.3
+                    }
+                    var dialog = new Dialog(config);
                     dialog.on('hide',function(){console.log(S.guid())});
                     dialog.show();
                 });
