@@ -1,6 +1,8 @@
 .dropdown {
     position: relative;
+    *zoom: 1;
 }
+.dropdown:after { content: '\20'; display: block; height: 0; clear: both; }
 
 .dropdown * {-moz-user-select:none;-webkit-user-select:none;}
 
@@ -79,6 +81,7 @@
     position: absolute;
     border:1px solid #aaa;
     background:#fff;
+    z-index: 999999;
 }
 
 

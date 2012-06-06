@@ -1,6 +1,5 @@
 KISSY.add("brix/pagelet", function(S, Chunk) {
     function Pagelet() {
-
         Pagelet.superclass.constructor.apply(this, arguments);
         this.initialize();
     }

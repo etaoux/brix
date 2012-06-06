@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Brix Dialog Demo</title>
+        <link type="text/css" rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.2.0/css/base-min.css" charset="utf-8">
+        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+        <script src="../../../../../../libs/mustache.js"></script>
+        <script>
+            KISSY.config({
+                packages: [{
+                    name: "brix",
+                    tag: "20120419",
+                    path: "../../../../../",//这里可以配置cdn的路径
+                    charset: "utf-8"
+                }]
+            });
+
+            KISSY.config({
+                map: [
+                    [/(.+brix\/.+)-min.js(\?[^?]+)?$/, "$1.js$2"],
+                    [/(.+brix\/.+)-min.css(\?[^?]+)?$/, "$1.css$2"]
+                ]
+            });
+        </script>
+    </head>
+    <body style="margin:0px;padding-top:40px">
+        <div class="container">
+            <div class="row">
+                <div class="span12" style="padding-left:50px"  id="test_container">
+                </div>
+            </div>
+        </div>
+		<!--brix begin-->
+        <script>
+			var dropdown_data = {
+                dropdown_list:[{
+                        value: "1",
+                        text: "计划列表",
+                        selected:true
+                    },
+                    {
+                        value: "2",
+                        text: "计划列表2"
+                    },
+                    {
+                        value: "3",
+                        text: "计划列表3"
+                    },
+                    {
+                        value: "4",
+                        text: "计划列表4"
+                    }]
+            }
+        </script>
+        <script type="text/template" id="tmpl_dropdown">
+            <div bx-brick="dropdown" bx-path="brix/gallery/dropdown/1.0/dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown">
+                <a class="dropdown-a">
+                    {{#dropdown_list}}
+                    {{#selected}}
+                    <span class="dropdown-span" value="{{value}}">{{text}}</span>
+                    <i class="dropdown-icon"></i>
+                    {{/selected}}
+                    {{/dropdown_list}}
+                </a>
+                <ul class="dropdown-list">
+                    {{#dropdown_list}}
+                    <li bxclick="xxClick" {{#color}}style="color:{{color}}"{{/color}} class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}</li>
+                    {{/dropdown_list}}
+                </ul>
+                {{#dropdown_list}}
+                {{#selected}}
+                <input name="dd"  value="{{value}}" type="hidden" />
+                {{/selected}}
+                {{/dropdown_list}}
+            </div>
+        </script>
+        <script>
+            KISSY.ready(function(S) {
+                KISSY.use("brix/gallery/dialog/1.0/dialog", function(S, Dialog) {
+                    var dialog = new Dialog({width:300,data:dropdown_data,tmpl:S.one("#tmpl_dropdown").html()});
+                    dialog.on('hide',function(){console.log(S.guid())});
+                    dialog.show();
+                });
+            });
+        </script>
+        <!--brix end-->
+    </body>
+</html>
