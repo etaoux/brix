@@ -127,8 +127,6 @@ input[type="file"] {
   width: auto;
   padding: initial;
   line-height: initial;
-  background-color: @inputBackground;
-  background-color: initial;
   border: initial;
   .box-shadow(none);
 }
@@ -157,7 +155,6 @@ input[type="file"] {
 // Chrome on Linux and Mobile Safari need background-color
 select {
   width: 220px; // default input width + 10px of padding that doesn't get applied
-  background-color: @inputBackground;
 }
 
 // Make multiple select elements height not fixed
@@ -360,7 +357,6 @@ select:focus:required:invalid {
   overflow: hidden; // prevent text from wrapping, but still cut it off like an input does
   white-space: nowrap;
   cursor: not-allowed;
-  background-color: @inputBackground;
   border-color: #eee;
   .box-shadow(inset 0 1px 2px rgba(0,0,0,.025));
 }
