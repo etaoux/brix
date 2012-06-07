@@ -49,5 +49,5 @@ KISSY.add("brix/gallery/inplaceeditor/1.0/inplaceeditor", function(S, Brick) {
     });
     return InplaceEditor;
 }, {
-    requires: ["brix/brick", "./inplaceeditor.css"]
+    requires: ["brix/brick"]
 });
