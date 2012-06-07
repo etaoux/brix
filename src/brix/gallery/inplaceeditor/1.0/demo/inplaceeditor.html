@@ -1,0 +1,337 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Brix InplaceEditor Demo</title>
+        <link rel="stylesheet/less" href="../../../../../estrap/estrap.less"/>
+        <script src="../../../../../estrap/tests/less.js"></script>
+        <script>
+            // html5
+            if (!+[1,]) {
+                (function() {
+                    var tags = [
+                        'article', 'aside', 'details', 'figcaption',
+                        'figure', 'footer', 'header', 'hgroup',
+                        'menu', 'nav', 'section', 'summary',
+                        'time', 'mark', 'audio', 'video'],
+                            i = 0, len = tags.length;
+                    for (; i < len; i++) document.createElement(tags[i]);
+                })();
+            }
+        </script>
+        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+        <script src="../../../../../../libs/mustache.js"></script>
+        <script>
+            KISSY.config({
+                packages: [{
+                    name: "brix",
+                    tag: "20120419",
+                    path: "../../../../../",//这里可以配置cdn的路径
+                    charset: "utf-8"
+                }]
+            });
+
+            KISSY.config({
+                map: [
+                    [/(.+brix\/.+)-min.js(\?[^?]+)?$/, "$1.js$2"],
+                    [/(.+brix\/.+)-min.css(\?[^?]+)?$/, "$1.css$2"]
+                ]
+            });
+        </script>
+        <style type="text/css">
+            .search_input .s_l,.search_input .s_r,.search_input .s_input,.module .hd h4,.mod_line s,.mod_edit i,.url_list .item .s_edit,.url_list .item .s_del,.url_list .item_add .s_name .add_icon{
+    background:url("http://img02.taobaocdn.com/tps/i2/T1Uya9XgRXXXXXXXXX-62-280.png") no-repeat;
+}
+            .url_list_con{
+                zoom:1;
+                padding-top：5px;
+            }
+
+            .url_list{
+                zoom:1;
+            }
+
+            .url_list .item,.url_list .item_add{
+                float: left;
+                height: 24px;
+                margin: 5px 5px 5px 0;
+                position: relative;
+                vertical-align: middle;
+                width: 131px;
+                border: 1px dotted transparent;
+                *border-color:#fff;
+            }
+
+            .url_list .item .s_name,.url_list .item_add .s_name{
+                float: left;
+                padding: 3px 0 3px 5px;
+                height: 18px;
+                outline: medium none;
+                text-decoration: none;
+            }
+            .url_list .item img,.url_list .item_add img{
+                float: left;
+                margin-top: 1px;
+                vertical-align: middle;
+                padding-bottom: 1px;
+            }
+
+            .url_list .item .s_name em,.url_list .item_add em{
+                display: inline-block;
+                font-size: 14px;
+                height: 18px;
+                line-height: 18px;
+                text-align: left;
+                padding-left: 1px;
+                float: left;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                -o-text-overflow: ellipsis;
+                width:91px;
+                cursor: pointer;
+                padding-left: 3px;
+                color: #2b7bad;
+            }
+
+            .url_list .item .s_edit,.url_list .item .s_del{
+                float: left;
+                text-indent: -9999px;
+                font-size: 0;
+                width:13px;
+                height:13px;
+                margin-top: 6px;
+                margin-right: 5px;
+                display: none;
+            }
+            .url_list .item .s_edit{
+                background-position:0px -32px;
+            }
+            .url_list .item .s_del{
+                background-position:0px -16px;
+            }
+            .url_list .item .s_edit:hover{
+                background-position:-16px -32px;
+            }
+            .url_list .item .s_del:hover{
+                background-position:-16px -16px;
+            }
+
+            .url_list_edit{
+
+            }
+
+            .url_list .ks-dd-dragging{
+                border: 1px dotted #BBB;
+            }
+
+            /*添加按钮样式*/
+            .url_list .item_add{
+                float: left;
+                border: 1px dotted #BBB;
+            }
+
+            .url_list .item_add em{
+                color: #bdbdbd;
+            }
+
+            .url_list .item_add .s_name .add_icon{
+                float: left;
+                width:16px;
+                height:16px;
+                display: block;
+                font-size: 0;
+                overflow: hidden;
+                background-position:-16px -48px;
+                cursor: pointer;
+                margin-top: 1px;
+            }
+            .url_list .item_add .s_name:hover{
+                zoom:1;
+            }
+            .url_list .item_add .s_name:hover .add_icon{
+                background-position:-40px -48px;
+            }
+
+            .url_list_edit .item_add{
+                display: none;
+            }
+
+
+
+            .url_list .item_edit .s_edit,.url_list .item_edit .s_del{
+                display: block;
+            }
+            .url_list .ks-dd-proxy .s_name{
+                cursor:move;
+            }
+            .url_list .ks-dd-proxy .s_name img{
+                cursor: move;
+            }
+            .url_list .ks-dd-proxy .s_name em{
+                    cursor: move;
+            }
+            .url_list .ks-dd-proxy .s_name em,.url_list .item_edit .s_name em{
+                width:71px;
+            }
+
+            .editPoup{
+                position: absolute;
+                display: block;
+                z-index: 99;
+                visibility: hidden;
+                top: -9999px;
+                left: -9999px;
+            }
+
+            .editPoup input{
+                width:130px;
+                border: 1px solid #CCC;
+                padding: 5px 7px 5px 4px;
+                font: 14px arial;
+            }
+        </style>
+    </head>
+    <body style="margin:0px;padding-top:40px">
+        <div class="container">
+            <div class="url_list_con">
+                    <ul class="url_list ks-clear url_list_edit">
+
+                    </ul>
+                </div>
+        </div>
+		<!--brix begin-->
+        <script type="text/template" id="tmpl_brick">
+            <div class="editPoup">
+                <input style="" maxlength="128" type="text" value="">
+            </div>
+        </script>
+        <script>
+            KISSY.ready(function(S) {
+                KISSY.use("brix/gallery/inplaceeditor/1.0/inplaceeditor,cookie,json", function(S, InplaceEditor, COOKIE, JSON) {
+                    var config = {
+                        tmpl: S.one("#tmpl_brick").html()
+                    };
+                    //删除节点，有用吗？
+                    S.one("#tmpl_brick").remove();
+                    var url_listNode = S.one('.url_list'),url_add_conNode = S.one('.url_add_con'),inplaceeditor = new InplaceEditor(config),editPoup;
+                    inplaceeditor.on('valueChange',function(e){
+                        var inputNode = inplaceeditor.get('el').one('input');
+                        S.one('#item_' + inputNode.attr('data-sid')).one('em').html(e.value);
+                        saveData();
+                    });
+                    var navData = JSON.parse(COOKIE.get('userNavigationData')) || [{
+                        name: '淘网址',
+                        url: 'http://www.tao123.com'
+                    }, {
+                        name: '淘宝网',
+                        url: 'http://www.taobao.com'
+                    },{
+                        name: '新浪',
+                        url: 'http://www.sina.com.cn/'
+                    },  {
+                        name: '优酷网',
+                        url: 'http://www.youku.com'
+                    }, {
+                        name: '4399',
+                        url: 'http://www.4399.com'
+                    }];
+
+                    url_listNode.empty();
+
+                    for (var i = 0; i < navData.length; i++) {
+                        var data = navData[i];
+                        var id = S.guid();
+                        url_listNode.append(['<li class="item" id="item_' + id + '" data-sid="' + id + '">', '<a class="s_name" target="_blank" href="' + data.url + '">', '<img width="16" height="16" src="http://api.tao123.com/collectsite/ico.php?domain_url=' + data.url + '" >', '<em>' + data.name + '</em>', '</a>', '<a class="s_edit" href="#"></a>', '<a class="s_del" href="#"></a>', '</li>'].join(''));
+                    }
+                    url_listNode.append(['<li class="item_add">', '<a class="s_name" href="#" target="_blank">', '<i class="add_icon"></i>', '<em>添加</em>', '</a>', '</li>'].join(''));
+
+                    var fnHalt = function(e) {
+                            e.preventDefault();
+                        };
+                    var fnEditNav = function(e) {
+                            e.preventDefault();
+                            if (!url_listNode.hasClass('url_list_edit')) {
+                                url_add_conNode.stop();
+                                url_add_conNode.animate({
+                                    'height': '121px'
+                                }, 0.3, "easeOut",function(){
+                                    url_listNode.addClass('url_list_edit');
+                                });
+                            } else {
+                                url_add_conNode.stop();
+                                url_add_conNode.animate({
+                                    'height': '0px'
+                                }, 0.3, "easeOut",function(){
+                                    url_listNode.removeClass('url_list_edit');
+                                    saveData();
+                                });
+                            }
+
+                        };
+                    var saveData = function(){
+                        //将数据保存到cookie
+                        var datas = [];
+                        url_listNode.all('.item').each(function(el) {
+                            datas.push({
+                                name: el.one('em').html(),
+                                url: el.one('.s_name').attr('href')
+                            });
+                        });
+                        if (datas.length > 0) {
+                            COOKIE.remove('userNavigationData');
+                            COOKIE.set('userNavigationData', JSON.stringify(datas), 1000);
+                        } else {
+                            COOKIE.remove('userNavigationData');
+                        }
+                    };
+
+                    S.one('.url_list_con').one('.item_add').one('.s_name').on('click', fnEditNav);
+
+
+                    url_listNode.delegate('mouseenter','.item',function(e){
+                        S.one(e.currentTarget).addClass('item_edit');
+                    });
+                    url_listNode.delegate('mouseleave','.item',function(e){
+                        S.one(e.currentTarget).removeClass('item_edit');
+                    });
+
+
+                    /*删除*/
+                    url_listNode.delegate('mousedown', '.s_del', fnHalt);
+                    url_listNode.delegate('click', '.s_del', function(e) {
+                        e.preventDefault();
+                        var url = S.one(e.currentTarget).parent('.item').one('.s_name').attr('href');
+                        S.one(e.currentTarget).parent('.item').remove();
+                        for (var i = 0; i < navData.length; i++) {
+                            var data = navData[i];
+                            if (data.url == url) { //是否需要做复杂的验证
+                                navData.splice(i);
+                                break;
+                            }
+                        };
+                        saveData();
+                    });
+
+                    /*编辑*/
+                    url_listNode.delegate('mousedown', '.s_edit', fnHalt);
+                    url_listNode.delegate('click', '.s_edit', function(e) {
+                        e.preventDefault();
+                        var currentNode = S.one(e.currentTarget);
+                        if(!inplaceeditor.get('rendered')){
+                            inplaceeditor.render();
+                            editPoup = inplaceeditor.get('el');
+                        }
+
+                        var itemNode = currentNode.parent('.item');
+                        var offset = itemNode.offset();
+                        var inputNode = editPoup.one('input');
+                        inputNode.attr('data-sid', itemNode.attr('data-sid'));
+                        inplaceeditor.show(offset.left,offset.top - 1,currentNode.prev().one('em').html());
+                    });
+                });
+            });
+        </script>
+        <!--brix end-->
+    </body>
+</html>
