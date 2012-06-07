@@ -114,6 +114,7 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
             if (!self.get("rendered")) {
                 self._render('data', self.dataset.get('data'));
                 self.__set("rendered", true);
+                self.fire('rendered');
             }
         },
         /**
