@@ -84,7 +84,7 @@ select,
   display: inline-block;
   width: 210px;
   height: @baseLineHeight;
-  padding: 3px;
+  padding: 3px 7px;
   margin-bottom: 9px;
   line-height: @baseLineHeight;
   color: @inputTextColor;
@@ -236,7 +236,6 @@ input:focus,
 textarea:focus {
   border-color: @inputBorderFocus;
   outline: 0;
-  outline: thin dotted \9; /* IE6-9 */
   .box-shadow(~"0 0 8px rgba(72,143,205,.14)");
 }
 input[type="file"]:focus,
@@ -371,7 +370,7 @@ select:focus:required:invalid {
 
 .help-block,
 .help-inline {
-  color: @gray; // lighten the text some for contrast
+  color: @grayLight; // lighten the text some for contrast
 }
 
 .help-block {
@@ -568,13 +567,13 @@ legend + .control-group {
 .form-horizontal {
   // Increase spacing between groups
   .control-group {
-    margin-bottom: @baseLineHeight;
+    margin-bottom: 26px;
     .clearfix();
   }
   // Float the labels left
   .control-label {
     float: left;
-    width: 140px;
+    width: 150px;
     padding-top: 5px;
     text-align: right;
   }
@@ -592,7 +591,7 @@ legend + .control-group {
   }
   // Remove bottom margin on block level help text since that's accounted for on .control-group
   .help-block {
-    margin-top: @baseLineHeight / 2;
+    margin-top: 5px;
     margin-bottom: 0;
   }
   // Move over buttons in .form-actions to align with .controls
