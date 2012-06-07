@@ -8,28 +8,17 @@ KISSY.add("brix/brick", function(S, Chunk) {
 
     function Brick() {
         var self = this;
+        self.pagelet = arguments[0].pagelet;//pagelet的引用
+        if(!self.pagelet){
+            self.on('rendered',function(){
+               self._bindEvent();
+            });
+        }
         Brick.superclass.constructor.apply(this, arguments);
 
-        self.pagelet = arguments[0].pagelet;//pagelet的引用
-        //组件默认事件代理
-        //方式一
-        var defaultEvents = self.constructor.ATTACH;
-        if (defaultEvents) {
-            self._afterEventsChange({
-                newVal: defaultEvents
-            });
+        if(self.pagelet){
+            self._bindEvent();
         }
-        //方式二
-        self._delegateEvents();
-
-        //用户使用组件中的自定义事件代理
-        var events = self.get("events");
-        if (events) {
-            self._afterEventsChange({
-                newVal: events
-            });
-        }
-
     }
     Brick.ATTACH = {
         //组件内部的事件代理，
@@ -39,7 +28,6 @@ KISSY.add("brix/brick", function(S, Chunk) {
                 //this:指向当前实例
             }
         }*/
-
     };
     Brick.ATTRS = {
         events: {
@@ -48,6 +36,27 @@ KISSY.add("brix/brick", function(S, Chunk) {
     };
 
     S.extend(Brick, Chunk, {
+        _bindEvent:function(){
+            var self = this;
+             //组件默认事件代理
+            //方式一
+            var defaultEvents = self.constructor.ATTACH;
+            if (defaultEvents) {
+                self._afterEventsChange({
+                    newVal: defaultEvents
+                });
+            }
+            //方式二
+            self._delegateEvents();
+
+            //用户使用组件中的自定义事件代理
+            var events = self.get("events");
+            if (events) {
+                self._afterEventsChange({
+                    newVal: events
+                });
+            }
+        },
         events: {
             //此事件代理是原生的页面bxclick等事件的代理
         },
