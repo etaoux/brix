@@ -80,19 +80,20 @@
 
                 KISSY.use("brix/gallery/dialog/1.0/dialog", function(S, Dialog) {
                     var config = {
-                        width:300,
+
                         data:dropdown_data,
                         tmpl:S.one("#tmpl_dropdown").html(),
                         start:{
-                            left:1000,
+                            left:100,
                             top:100,
                             opacity:0
                         },
                         end:{
                             left:100,
-                            top:100,
+                            top:400,
                             opacity:1
                         },
+                        width:300,
                         duration:0.3
                     }
                     var dialog = new Dialog(config);

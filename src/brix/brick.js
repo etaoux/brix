@@ -9,16 +9,12 @@ KISSY.add("brix/brick", function(S, Chunk) {
     function Brick() {
         var self = this;
         self.pagelet = arguments[0].pagelet;//pagelet的引用
-        if(!self.pagelet){
-            self.on('rendered',function(){
-               self._bindEvent();
-            });
-        }
-        Brick.superclass.constructor.apply(this, arguments);
 
-        if(self.pagelet){
-            self._bindEvent();
-        }
+        self.on('rendered',function(){
+           self._bindEvent();
+        });
+
+        Brick.superclass.constructor.apply(this, arguments);
     }
     Brick.ATTACH = {
         //组件内部的事件代理，

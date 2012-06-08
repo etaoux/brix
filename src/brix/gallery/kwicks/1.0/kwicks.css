@@ -1,0 +1,180 @@
+/* defaults for all examples */
+.kwicks {
+    list-style: none;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+.kwicks li{
+    display: block;
+    overflow: hidden;
+    padding: 0;
+    cursor: pointer;
+}
+
+/* example 1 */
+#example1 .kwicks li{
+    float: left;
+    width: 125px;
+    height: 100px;
+    margin-right: 5px;
+}
+#example1 .kwick1 {
+    background-color: #53b388;
+    background-image: url('http://jmar777.googlecode.com/svn/trunk/images/kwicks/meet.gif');
+}
+#example1 .kwick2 {
+    background-color: #5a69a9;
+    background-image: url('http://jmar777.googlecode.com/svn/trunk/images/kwicks/kwicks.gif');
+}
+#example1 .kwick3 {
+    background-color: #c26468;
+    background-image: url('http://jmar777.googlecode.com/svn/trunk/images/kwicks/for.gif');
+}
+#example1 .kwick4 {
+    background-color: #bf7cc7;
+    background-image: url('http://jmar777.googlecode.com/svn/trunk/images/kwicks/jquery.gif');
+    margin-right: none;
+}
+
+/* example 2 */
+#example2 li {
+    float: left;
+    width: 125px;
+    height: 100px;
+    margin-right: 5px;
+}
+#example2 .kwick1 {
+    background-color: #53b388;
+}
+#example2 .kwick1.active {
+    background-color: #86e6bb;
+}
+#example2 .kwick2 {
+    background-color: #5a69a9;
+}
+#example2 .kwick2.active {
+    background-color: #8d9cdc;
+}
+#example2 .kwick3 {
+    background-color: #c26468;
+}
+#example2 .kwick3.active {
+    background-color: #f5979b;
+}
+#example2 .kwick4 {
+    background-color: #bf7cc7;
+    margin-right: none;
+}
+#example2 .kwick4.active {
+    background-color: #efaffa;
+}
+
+/* example3 */
+#example3 .kwicks li{
+    width: 125px;
+    height: 100px;
+    margin-bottom: 3px;
+}
+#example3 .kwick1 {
+    background-color: #FF5100;
+}
+#example3 .kwick2 {
+    background-color: #B33900;
+}
+#example3 .kwick3 {
+    background-color: #FFD000;
+}
+#example3 .kwick4 {
+    background-color: #B39200;
+    margin-bottom: none;
+}
+
+/* example4 */
+#example4 .kwicks li{
+    width: 125px;
+    height: 100px;
+    margin-bottom: 3px;
+}
+#example4 .kwick1 {
+    background-color: #008DA3;
+}
+#example4 .kwick2 {
+    background-color: #F07000;
+}
+#example4 .kwick3 {
+    background-color: #A33100;
+}
+#example4 .kwick4 {
+    background-color: #8CAB2B;
+    margin-bottom: none;
+}
+
+/* example5 */
+#example5 .kwicks li{
+    width: 125px;
+    height: 100px;
+    margin-bottom: 3px;
+}
+#example5 .kwick1 {
+    background-color: #4D9AA8;
+}
+#example5 .kwick2 {
+    background-color: #82A616;
+}
+#example5 .kwick3 {
+    background-color: #F29A1F;
+}
+#example5 .kwick4 {
+    background-color: #A66A16;
+    margin-bottom: none;
+}
+
+/* example6 */
+#example6 li {
+    float: left;
+    width: 125px;
+    height: 100px;
+    margin-right: 5px;
+}
+#example6 .kwick1 {
+    background-color: #53b388;
+}
+#example6 .kwick2 {
+    background-color: #5a69a9;
+}
+#example6 .kwick3 {
+    background-color: #c26468;
+}
+#example6 .kwick4 {
+    background-color: #bf7cc7;
+    margin-right: 0px;
+}
+
+/* example7 */
+#example7 li {
+    float: left;
+    width: 90px;
+    height: 100px;
+}
+#example7 .kwicks_inner {
+    width: 200px;
+}
+#example7 .bigLetter {
+    font-size: 60px;
+    height: 100px;
+    color: red;
+    float: left;
+}
+#example7 .smallLetters {
+    display: none;
+    text-align: center;
+    width: 140px;
+    color: #ccc;
+    font-size: 16px;
+    margin-top: 13px;
+    float: right;
+}
+#example7 li.active .smallLetters {
+    display: block;
+}

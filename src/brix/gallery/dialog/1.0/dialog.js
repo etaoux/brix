@@ -34,6 +34,23 @@ KISSY.add("brix/gallery/dialog/1.0/dialog", function(S,Pagelet,Overlay) {
 
                 return wrapper[ dir ].join('');
     }
+    function _setWidth(v,dir){
+        switch(dir){
+            case 'up':
+            case 'down':
+                if(v<320){
+                    return 320;
+                }
+                break;
+            case 'left':
+            case 'right':
+                if(v<145){
+                    return 145;
+                }
+                break;
+        }
+        return v;
+    }
     function Dialog(config) {
         var self = this;
         Dialog.superclass.constructor.apply(this, arguments);
@@ -80,25 +97,18 @@ KISSY.add("brix/gallery/dialog/1.0/dialog", function(S,Pagelet,Overlay) {
             }
         },
         width:{
-            setter:function(v){
-                v = v || 145;
+            valueFn:function(v){
+                if(!v){
+                    return v;
+                }
                 var self = this;
                 var dir = self.get('dir');
-                switch(dir){
-                    case 'up':
-                    case 'down':
-                        if(v<320){
-                            return 320;
-                        }
-                        break;
-                    case 'left':
-                    case 'right':
-                        if(v<145){
-                            return 145;
-                        }
-                        break;
-                }
-                return v;
+                return _setWidth(v,dir);
+            },
+            setter:function(v){
+                var self = this;
+                var dir = self.get('dir');
+                return _setWidth(v,dir);
             }
         },
         elCls:{

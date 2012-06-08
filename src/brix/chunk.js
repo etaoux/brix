@@ -19,9 +19,12 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 }
             } else {
                 self.__set('el', tmpl); //如果已经在dom中，则把当前节点设置为模板容器节点
+                self.__set("rendered", true);
+                self.fire('rendered');
             }
         } else {
             self.__set("rendered", true);
+            self.fire('rendered');
         }
     }
 
