@@ -6,8 +6,8 @@
     position: absolute;
 }
 .ux-ext-close {
-    background: url(images/icons.png) no-repeat;
-    _background: url(images/icons-ie6.png) no-repeat;
+    background: url(images/dialog-close.png) no-repeat;
+    _background: url(images/dialog-close-ie6.png) no-repeat;
     position: absolute;
     top: 30px;
     right: 30px;
@@ -16,11 +16,11 @@
 .ux-ext-close {
     width: 25px;
     height: 25px;
-    background-position: 0 -146px;
+    background-position: 0 0;
 }
 .icon-close:hover,
 .ux-ext-close:hover {
-    background-position: -25px -146px;
+    background-position: -25px 0px;
 }
 
 .ux-ext-close-x {
