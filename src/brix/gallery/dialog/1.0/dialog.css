@@ -1,3 +1,24 @@
+.ux-ext-close {
+    background: url('images/dialog-close.png') no-repeat;
+    _background: url('images/dialog-close-ie6.png') no-repeat;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+
+}
+
+.ux-ext-close {
+    width: 25px;
+    height: 25px;
+    background-position: 0 0;
+}
+.ux-ext-close:hover {
+    background-position: -25px 0;
+}
+
+.ux-ext-close-x {
+    display: none;
+}
 /**
  * popup 弹窗
  * 方式：阴影在下方
@@ -5,36 +26,15 @@
 .ux-overlay {
     position: absolute;
 }
-.ux-ext-close {
-    background: url(images/dialog-close.png) no-repeat;
-    _background: url(images/dialog-close-ie6.png) no-repeat;
-    position: absolute;
-    top: 30px;
-    right: 30px;
-}
-.icon-close,
-.ux-ext-close {
-    width: 25px;
-    height: 25px;
-    background-position: 0 0;
-}
-.icon-close:hover,
-.ux-ext-close:hover {
-    background-position: -25px 0px;
-}
-
-.ux-ext-close-x {
-    display: none;
-}
 .popup {
     position: relative;
-    overflow: hidden;
+    /*overflow: hidden;*/
     padding-bottom: 20px;
 }
 .dialog-down .ux-ext-close {
     position: absolute;
-    top: 30px;
-    right: 41px;
+    top: 20px;
+    right: 36px;
 }
 
 .popup-left,
@@ -68,6 +68,8 @@
     margin: 0 11px;
     zoom: 1;
     padding: 30px;
+    min-height: 320px;
+    _height: 320px;
 }
 
 .popup-bottom {
@@ -112,8 +114,8 @@
     padding-top: 20px;
 }
 .dialog-up .ux-ext-close {
-    top: 50px;
-    right: 41px;
+    top: 40px;
+    right: 36px;
 }
 .popup-up .popup-left,
 .popup-up .popup-right {
@@ -159,8 +161,8 @@
 }
 .dialog-left .ux-ext-close {
     position: absolute;
-    top: 50px;
-    right: 30px;
+    top: 40px;
+    right: 25px;
 }
 .popup-h-top,
 .popup-h-bottom {
@@ -194,37 +196,38 @@
  * 方式：阴影在右方
  */
 .popup-h-right {
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 .dialog-right .ux-ext-close {
-    right: 41px;
-    top: 50px;
+    right: 36px;
+    top: 40px;
 }
-.popup-h-right .popup-h-center,
+/*.popup-h-right .popup-h-center,*/
 .popup-h-right .popup-h-top,
 .popup-h-right .popup-h-bottom {
     background-image: url('images/dialog-right.png') ;
     _background-image: url('images/dialog-right-ie6.png') ;
+    left: auto;
+    right: 0;
 }
 
 .popup-h-right .popup-h-center {
+    background-image: url('images/dialog-right-rp.png') ;
+    _background-image: url('images/dialog-right-rp-ie6.png') ;
     background-position: 100% 0;
     padding: 0 11px 0 0;
-    margin-right: -143px;
 }
 
-.popup-h-right .popup-h-body {
+
+/*.popup-h-right .popup-h-body {
     margin-right: 143px;
-}
+}*/
 
 .popup-h-right .popup-h-top {
     background-position: -11px -20px;
-    left: auto;
-    right: 0;
+
 }
 
 .popup-h-right .popup-h-bottom {
     background-position: -11px 0;
-    left: auto;
-    right: 0;
 }

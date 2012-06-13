@@ -16,7 +16,7 @@ KISSY.add("brix/gallery/inplaceeditor/1.0/inplaceeditor", function(S, Brick) {
     };
 
     S.extend(InplaceEditor, Brick, {
-        v: null,//记录编辑原始值
+        _v: null,//记录编辑原始值
         show: function(x, y, v) {
             var el = this.get('el');
             el.css({
@@ -24,7 +24,7 @@ KISSY.add("brix/gallery/inplaceeditor/1.0/inplaceeditor", function(S, Brick) {
                 left: x,
                 top: y
             });
-            this.v = v;
+            this._v = v;
             el.one('input')[0].focus();
             el.one('input').val(v);
         },
@@ -36,7 +36,7 @@ KISSY.add("brix/gallery/inplaceeditor/1.0/inplaceeditor", function(S, Brick) {
                 top: '-9999px'
             });
             var v = this.getValue();
-            if (this.v != v) {//值不相等时候出发valueChange事件
+            if (this._v != v) {//值不相等时候出发valueChange事件
                 this.fire('valueChange', {
                     value: v
                 });

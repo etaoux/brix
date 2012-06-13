@@ -11,6 +11,7 @@ KISSY.add("brix/brick", function(S, Chunk) {
         self.pagelet = arguments[0].pagelet;//pagelet的引用
 
         self.on('rendered',function(){
+           self.initialize();
            self._bindEvent();
         });
 
@@ -32,6 +33,10 @@ KISSY.add("brix/brick", function(S, Chunk) {
     };
 
     S.extend(Brick, Chunk, {
+        //初始化方法，提供子类覆盖
+        initialize:function(){
+
+        },
         _bindEvent:function(){
             var self = this;
              //组件默认事件代理
@@ -42,6 +47,16 @@ KISSY.add("brix/brick", function(S, Chunk) {
                     newVal: defaultEvents
                 });
             }
+            //代理在全局的页面上
+            var defaultDocEvents = self.constructor.DOCATTACH;
+            if (defaultDocEvents) {
+                self._afterEventsChange({
+                    newVal: defaultDocEvents,
+                    el:S.one(document)
+                });
+            }
+
+
             //方式二
             self._delegateEvents();
 
@@ -63,16 +78,16 @@ KISSY.add("brix/brick", function(S, Chunk) {
         _afterEventsChange: function(e) {
             var prevVal = e.prevVal;
             if (prevVal) {
-                this._removeEvents(prevVal);
+                this._removeEvents(prevVal,e.el);
             }
-            this._addEvents(e.newVal);
+            this._addEvents(e.newVal,e.el);
         },
         /**
          * 移除事件代理
          * @param  {object} events 事件对象，参见ATTACH属性
          */
-        _removeEvents: function(events) {
-            var el = this.get("el");
+        _removeEvents: function(events,el) {
+            el = el || this.get("el");
             for (var selector in events) {
                 var event = events[selector];
                 for (var type in event) {
@@ -85,8 +100,8 @@ KISSY.add("brix/brick", function(S, Chunk) {
          * 添加事件代理绑定
          * @param  {object} events 事件对象，参见ATTACH属性
          */
-        _addEvents: function(events) {
-            var el = this.get("el");
+        _addEvents: function(events,el) {
+            el = el || this.get("el");
             for (var selector in events) {
                 var event = events[selector];
                 for (var type in event) {

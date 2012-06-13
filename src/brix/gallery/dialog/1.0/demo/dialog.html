@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Brix Dialog Demo</title>
         <link type="text/css" rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.2.0/css/base-min.css" charset="utf-8">
-        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
         <script>
             KISSY.config({
                 packages: [{
@@ -28,6 +28,8 @@
             <div class="row">
                 <div class="span12" style="padding-left:50px"  id="test_container">
                 </div>
+                <a href="#" id="aaa">aaa</a>
+                <a href="#" id="bbb">bbb</a>
             </div>
         </div>
 		<!--brix begin-->
@@ -84,20 +86,28 @@
                         tmpl:S.one("#tmpl_dropdown").html(),
                         start:{
                             left:100,
-                            top:100,
+                            top:600,
                             opacity:0
                         },
                         end:{
                             left:100,
-                            top:400,
+                            top:100,
                             opacity:1
                         },
                         width:300,
                         duration:0.3
                     }
                     var dialog = new Dialog(config);
-                    dialog.on('hide',function(){console.log(S.guid())});
+                    //dialog.on('hide',function(){alert('hide')});
+                    //dialog.on('show',function(){alert('show')});
                     dialog.show();
+
+                    S.one('#aaa').on('click',function(){
+                        dialog.show();
+                    });
+                    S.one('#bbb').on('click',function(){
+                        dialog.hide();
+                    });
                 });
             });
         </script>
