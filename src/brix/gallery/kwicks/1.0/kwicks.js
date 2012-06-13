@@ -1,9 +1,5 @@
 KISSY.add("brix/gallery/kwicks/1.0/kwicks", function(S, Brick) {
     function Kwicks(config) {
-        var self = this;
-        self.on('rendered', function() {
-            self.initialize();
-        });
         Kwicks.superclass.constructor.apply(this, arguments);
     }
     Kwicks.ATTRS = {

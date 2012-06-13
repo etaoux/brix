@@ -124,27 +124,6 @@ KISSY.add("brix/gallery/dialog/1.0/dialog", function(S, Pagelet, Overlay) {
     S.extend(Dialog, Overlay, {
         initializer: function() {
             var self = this;
-            self.on('beforeVisibleChange', function(ev) {
-                if (!ev.newVal) {
-                    var el = self.get('el');
-                    el.css(self.get('end'));
-                    el.animate(self.get('start'), self.get('duration'), self.get('easing'), function() {
-                        // 隐藏
-                        self.fire('hide');
-
-                    });
-                    return false;
-                }
-            });
-            self.on('afterVisibleChange', function(ev) {
-                if (ev.newVal) {
-                    var el = self.get('el');
-                    el.css(self.get('start'));
-                    el.animate(self.get('end'), self.get('duration'), self.get('easing'), function() {
-
-                    });
-                }
-            });
             //渲染模板内容
             self.on('afterRenderUI', function() {
                 if (self.get('tmpl')) {
@@ -156,6 +135,36 @@ KISSY.add("brix/gallery/dialog/1.0/dialog", function(S, Pagelet, Overlay) {
                     });
                     self.pagelet.addBehavior();
                 }
+            });
+        },
+        bindUI:function(){
+            var self = this;
+            self.on('afterVisibleChange', function(ev) {
+                var v = ev.newVal,
+                    el = self.get('el'),
+                    body = S.one('body'),
+                    s = 'start';
+                //移除动画队列，设置显示，为动画增加效果
+                el.stop();
+
+                if (v) {//如果显示
+                    el.css(self.get('start'));
+                    s = 'end'
+                }
+                else{
+                    el.css('visibility', 'visible');
+                    el.css(self.get('end'));
+                    s = 'start';
+                }
+                //为防止出现滚动条
+                body.css({width:body.width(),height:body.height(),overflow:'hidden'});
+                el.animate(self.get(s), self.get('duration'), self.get('easing'), function() {
+                    el.css('visibility', v?'visible':"hidden");
+                    if(!v){
+                        el.css({left:'-99999px',top:'-99999px'});
+                    }
+                    body.css({width:'',height:'',overflow:''});
+                });
             });
         }
     });

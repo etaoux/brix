@@ -1,17 +1,47 @@
 KISSY.add("brix/gallery/dropdown/1.0/dropdown", function(S, Brick) {
     function Dropdown() {
         Dropdown.superclass.constructor.apply(this, arguments);
-        var self = this;
+        /*var self = this;
         S.one(document).on('click', function() {
-            if (!self.__show) {
-                var el = self.get('el');
-                el.all('.dropdown-list').css('display', 'none');
-                el.all('.dropdown-a').removeClass('dropdown-aactive');
-            }
-            self.__show = false;
-        });
+                if (!self.__show) {
+                    var el = self.get('el');
+                    el.all('.dropdown-list').css('display', 'none');
+                    el.all('.dropdown-a').removeClass('dropdown-aactive');
+                }
+                self.__show = false;
+        });*/
     }
 
+    Dropdown.ATTRS = {
+
+    }
+
+    Dropdown.MOTHED = {
+        focus: function() {
+            var el = this.get('el');
+            el.one('.dropdown-list').css('display', 'block');
+            el.one('.dropdown-a').addClass('dropdown-aactive');
+        },
+        blur: function() {
+            var el = this.get('el');
+            el.one('.dropdown-list').css('display', 'none');
+            el.one('.dropdown-a').removeClass('dropdown-aactive');
+        }
+    }
+
+    Dropdown.DOCATTACH = {
+        "body":{
+            click:function(e){
+                var self = this;
+                if (!self.__show) {
+                    var el = self.get('el');
+                    el.all('.dropdown-list').css('display', 'none');
+                    el.all('.dropdown-a').removeClass('dropdown-aactive');
+                }
+                self.__show = false;
+            }
+        }
+    }
     Dropdown.ATTACH = {
         ".dropdown-a": {
             click: function(e) {
@@ -64,21 +94,12 @@ KISSY.add("brix/gallery/dropdown/1.0/dropdown", function(S, Brick) {
         events: {
             click: {
                 xxClick: function() {
-                    //alert('xxClick');
                 }
             }
-        },
-        focus: function() {
-            var el = this.get('el');
-            el.one('.dropdown-list').css('display', 'block');
-            el.one('.dropdown-a').addClass('dropdown-aactive');
-        },
-        blur: function() {
-            var el = this.get('el');
-            el.one('.dropdown-list').css('display', 'none');
-            el.one('.dropdown-a').removeClass('dropdown-aactive');
         }
     });
+
+    S.augment(Dropdown,Dropdown.MOTHED);
     return Dropdown;
 }, {
     requires: ["brix/brick","./dropdown.css"]
