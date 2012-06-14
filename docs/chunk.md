@@ -2,8 +2,6 @@
 
 继承自KISSY的Base，brick和pagelet类的父类
 
----
-
 ## 配置
 
 * `el` {element}
@@ -28,32 +26,32 @@
 
 ## 方法
 
-* render()
+* `render()`
 
     将模板渲染到页面
 
-* setChunkData(datakey, data)
+* `setChunkData(datakey, data)`
 
     设置数据，并刷新模板数据
 
     * @param {string} datakey 需要更新的数据对象key
     * @param {object} data    数据对象
 
-* addTmpl(id, arr)
+* `addTmpl(id, arr)`
 
     给brick添加模板
 
     * @param {string} id  brick的id
     * @param {array} arr 模板数组
 
-* destroy()
+* `destroy()`
 
     销毁组件或者pagelet
 
 
 ##事件
 
-*rendered
+* `rendered`
 
     将模板渲染到页面中触发
 
