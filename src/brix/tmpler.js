@@ -31,14 +31,17 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
      * @param  {Array} arr  保存数据的数组
      * @return {string}      替换后的html
      */
-    function _recovery(html,arr){
-        debugger
+
+    function _recovery(html, arr) {
+        //去掉attr="",谁可以优化一下这个正则？
         html = html.replace(/((\{{2,3}\#(.+)?\}{2,3})([\s\S]*)?\s*(\{{2,3}~\3\}{2,3}))\=\"\"/g, '$1');
 
         //对if语句的处理
-        html = html.replace(/(\{{2,3}[\^#~]?)ifbrick\_(\d+)(\}{2,3})/g,function(w,i,j,k){
-            return i+arr[parseInt(j)]+k;
+        html = html.replace(/(\{{2,3}[\^#~]?)iftmplbrick\_(\d+)(\}{2,3})/g, function(w, i, j, k) {
+            return i + arr[parseInt(j)] + k;
         });
+
+        //将~符号替换回/，完美了。
         html = html.replace(/(\{{2,3})~/g, '$1/');
         return html;
     }
@@ -84,17 +87,16 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
                 }
                 //对if语句的处理
                 var arr = self.arrHTML;
-                tmpl = tmpl.replace(/(\{{2,3}[\^#~])?(if\(.*?\))(\}{2,3})?/ig,function(w,i,j,k,m,n){
-                    var index = S.indexOf(j,arr);
-                    var name = 'ifbrick_';
-                    if(index<0){
+                tmpl = tmpl.replace(/(\{{2,3}[\^#~])?(if\(.*?\))(\}{2,3})?/ig, function(w, i, j, k, m, n) {
+                    var index = S.indexOf(j, arr),
+                        name = 'iftmplbrick_';
+                    if (index < 0) {
                         name += arr.length;
                         arr.push(j);
-                    }
-                    else{
+                    } else {
                         name += index;
                     }
-                    return i+name+k;
+                    return i + name + k;
                 });
                 tmplNode = $('<div></div>').append(tmpl);
             } else {
@@ -106,15 +108,7 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
             });
 
             if (!inDom) {
-                /*//模板一定要在解析完成后赋值，因为在解析过程中会给模板加id
-                self.tmpl = tmplNode.html().replace(/((\{{2,3}\#(.+)?\}{2,3})([\s\S]*)?\s*(\{{2,3}~\3\}{2,3}))\=\"\"/g, '$1');
-
-                //对if语句的处理
-                self.tmpl = self.tmpl.replace(/(\{{2,3}\[\^#~])ifbrick\_(\d+)(\}{2,3})/g,function(w,i,j,k){
-                    return i+arr[parseInt(j)]+k;
-                });
-                self.tmpl = self.tmpl.replace(/\{\{~/g, '{{/');*/
-                self.tmpl = _recovery(tmplNode.html(),self.arrHTML);
+                self.tmpl = _recovery(tmplNode.html(), self.arrHTML);
                 tmplNode.remove();
             }
             tmplNode = null;
@@ -140,11 +134,7 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
             tmplNodes.each(function(tmplNode) {
                 var tmplId = _stamp(tmplNode, 'tmpl_'),
                     datakey = tmplNode.attr('bx-datakey'),
-                    //去掉="",将~符号替换回/，完美了。
-                    //tmpl = tmplNode.html().replace(/((\{\{\#(.+)?\}\})([\s\S]*)?\s*(\{\{~\3\}\}))\=\"\"/g, '$1').replace(/\{\{~/g, '{{/');
-                    tmpl = _recovery(tmplNode.html(),self.arrHTML);
-
-
+                    tmpl = _recovery(tmplNode.html(), self.arrHTML);
                 tmpls.push({
                     id: tmplId,
                     datakey: datakey ? datakey.split(',') : [],
