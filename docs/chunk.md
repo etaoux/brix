@@ -4,7 +4,7 @@ brick和pagelet类的父类
 
 ---
 
-## 配置说明
+## 配置
 
 * `el` {element}
 
@@ -25,3 +25,11 @@ brick和pagelet类的父类
 * `autoRender` {Boolen}
 
     是否自动渲染
+
+## 方法
+
+* render
+
+    /**
+     * 将模板渲染到页面
+     */
