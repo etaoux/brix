@@ -36,6 +36,6 @@ brick和pagelet类的父类
 
     设置数据，并刷新模板数据
 
-    @param {string} datakey 需要更新的数据对象key
-    @param {object} data    数据对象
+    *@param {string} datakey 需要更新的数据对象key
+    *@param {object} data    数据对象
 
