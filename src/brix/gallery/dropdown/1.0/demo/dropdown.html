@@ -41,7 +41,8 @@
                     },
                     {
                         value: "2",
-                        text: "计划列表2"
+                        text: "计划列表2",
+                        color:'red'
                     },
                     {
                         value: "3",
@@ -65,7 +66,7 @@
                 </a>
                 <ul class="dropdown-list">
                     {{#dropdown_list}}
-                    <li bxclick="xxClick" {{#color}}style="color:{{color}}"{{/color}} class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}</li>
+                    <li bxclick="xxClick" {{#if(color==red)}}style="color:red"{{/if(color==red)}} class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}</li>
                     {{/dropdown_list}}
                 </ul>
                 {{#dropdown_list}}

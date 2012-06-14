@@ -26,6 +26,24 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
     }
 
     /**
+     * 复原替换的模板
+     * @param  {string} html 原html
+     * @param  {Array} arr  保存数据的数组
+     * @return {string}      替换后的html
+     */
+    function _recovery(html,arr){
+        debugger
+        html = html.replace(/((\{{2,3}\#(.+)?\}{2,3})([\s\S]*)?\s*(\{{2,3}~\3\}{2,3}))\=\"\"/g, '$1');
+
+        //对if语句的处理
+        html = html.replace(/(\{{2,3}[\^#~]?)ifbrick\_(\d+)(\}{2,3})/g,function(w,i,j,k){
+            return i+arr[parseInt(j)]+k;
+        });
+        html = html.replace(/(\{{2,3})~/g, '$1/');
+        return html;
+    }
+
+    /**
      * 模板解析器
      * @param {String}  tmpl    模板字符串
      * @param {Boolean} isParse 是否需要对模板进行解析
@@ -34,6 +52,7 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
     function Tmpler(tmpl, isParse) {
         if (tmpl && (isParse !== false)) {
             this.bricks = {};
+            this.arrHTML = [];
             this._praseTmpl(tmpl);
         } else {
             this.tmpl = tmpl;
@@ -56,13 +75,27 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
             if (!inDom) {
                 node.remove();
                 //牛逼的正则啊
-                var reg = /(\{\{\#(.+)?\}\})\s*([\s\S]*)?\s*(\{\{\/\2\}\})/g;
+                var reg = /(\{{2,3}\#(.+)?\}{2,3})\s*([\s\S]*)?\s*((\{{2,3})\/\2(\}{2,3}))/g;
                 while (reg.test(tmpl)) {
-                    tmpl = tmpl.replace(reg, ' $1$3\{\{~$2\}\} ');
+                    tmpl = tmpl.replace(reg, ' $1$3$5~$2$6 ');
                     //console.log(reg.lastIndex);
                     //不重置位置，我了个去，ie7，8有问题
                     reg.lastIndex = 0;
                 }
+                //对if语句的处理
+                var arr = self.arrHTML;
+                tmpl = tmpl.replace(/(\{{2,3}[\^#~])?(if\(.*?\))(\}{2,3})?/ig,function(w,i,j,k,m,n){
+                    var index = S.indexOf(j,arr);
+                    var name = 'ifbrick_';
+                    if(index<0){
+                        name += arr.length;
+                        arr.push(j);
+                    }
+                    else{
+                        name += index;
+                    }
+                    return i+name+k;
+                });
                 tmplNode = $('<div></div>').append(tmpl);
             } else {
                 tmplNode = node;
@@ -73,8 +106,15 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
             });
 
             if (!inDom) {
-                //模板一定要在解析完成后赋值，因为在解析过程中会给模板加id
-                self.tmpl = tmplNode.html().replace(/((\{\{\#(.+)?\}\})([\s\S]*)?\s*(\{\{~\3\}\}))\=\"\"/g, '$1').replace(/\{\{~/g, '{{/');
+                /*//模板一定要在解析完成后赋值，因为在解析过程中会给模板加id
+                self.tmpl = tmplNode.html().replace(/((\{{2,3}\#(.+)?\}{2,3})([\s\S]*)?\s*(\{{2,3}~\3\}{2,3}))\=\"\"/g, '$1');
+
+                //对if语句的处理
+                self.tmpl = self.tmpl.replace(/(\{{2,3}\[\^#~])ifbrick\_(\d+)(\}{2,3})/g,function(w,i,j,k){
+                    return i+arr[parseInt(j)]+k;
+                });
+                self.tmpl = self.tmpl.replace(/\{\{~/g, '{{/');*/
+                self.tmpl = _recovery(tmplNode.html(),self.arrHTML);
                 tmplNode.remove();
             }
             tmplNode = null;
@@ -101,7 +141,10 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
                 var tmplId = _stamp(tmplNode, 'tmpl_'),
                     datakey = tmplNode.attr('bx-datakey'),
                     //去掉="",将~符号替换回/，完美了。
-                    tmpl = tmplNode.html().replace(/((\{\{\#(.+)?\}\})([\s\S]*)?\s*(\{\{~\3\}\}))\=\"\"/g, '$1').replace(/\{\{~/g, '{{/');
+                    //tmpl = tmplNode.html().replace(/((\{\{\#(.+)?\}\})([\s\S]*)?\s*(\{\{~\3\}\}))\=\"\"/g, '$1').replace(/\{\{~/g, '{{/');
+                    tmpl = _recovery(tmplNode.html(),self.arrHTML);
+
+
                 tmpls.push({
                     id: tmplId,
                     datakey: datakey ? datakey.split(',') : [],
