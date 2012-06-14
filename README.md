@@ -2,13 +2,15 @@ Brix
 -----------
 基于淘宝KISSY框架和mustache模板引擎的一淘通用组件库。
 
-组件库的底层包含五个文件
+组件库的底层包含七个文件
 -----------
  - chunk.js:brick和pagelet类的父类
  - tmpler.js:模板解析类，用mustache渲染。
  - dataset.js:数据管理类，数据变化时，通知模板引擎更新
  - brick.js:组件基类，所有组件继承此类
  - pagelet.js:组件管理器，对组件实现层次化的渲染
+ - mustache.js:模板渲染引擎
+ - mu.js:对mustache模板引擎的增强
 
 组件钩子
 -----------
