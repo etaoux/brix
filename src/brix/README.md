@@ -1,6 +1,6 @@
-#文档索引
+# 文档索引
 
-##组件库的底层
+## 组件库的底层
 
  - [chunk.js](/etaoux/brix/tree/master/docs/chunk.md):brick和pagelet类的父类
  - [tmpler.js](/etaoux/brix/tree/master/docs/tmpler.md):模板解析类，用mustache渲染。
@@ -10,7 +10,6 @@
  - [mustache.js](/etaoux/brix/tree/master/docs/mustache.md):模板渲染引擎
  - [mu.js](/etaoux/brix/tree/master/docs/mu.md):对mustache模板引擎的增强
 
-
- ##组件文档索引
+ ## 组件文档索引
 
   - [dropdown](etaoux/brix/tree/master/docs/gallery/dropdown.md)
