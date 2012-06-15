@@ -11,8 +11,8 @@ KISSY.add("brix/pagelet", function(S, Chunk) {
     S.extend(Pagelet, Chunk, {
         /**
         * 获取brick的实例
-        * @param id brick的id
-        * @return {object} 组件实例
+        * @param  {String} id brick的id
+        * @return {Object} 组件实例
         */
         getBrick: function(id) {
             return this._getBrick(id, this.tmpler.bricks);
@@ -20,9 +20,9 @@ KISSY.add("brix/pagelet", function(S, Chunk) {
 
        /**
         * 获取brick的实例
-        * @param  {string} id     brick的id
-        * @param  {object} bricks 需要渲染的brick集合
-        * @return {object}        组件实例
+        * @param  {String} id     brick的id
+        * @param  {Object} bricks 需要渲染的brick集合
+        * @return {Object}        组件实例
         */
         _getBrick: function(id, bricks) {
             var self = this,
@@ -48,7 +48,7 @@ KISSY.add("brix/pagelet", function(S, Chunk) {
         },
         /**
          * 分层次的渲染brick
-         * @param {object} bricks 需要渲染的brick集合
+         * @param {Object} bricks 需要渲染的brick集合
          */
         _addBehavior: function(bricks) {
             var self = this;
@@ -75,9 +75,7 @@ KISSY.add("brix/pagelet", function(S, Chunk) {
         },
         /**
         * pagelet 渲染完成后需要执行的函数
-        * @method ready
-        * @param fn 执行的函数
-        * @public
+        * @param {Function} fn 执行的函数
         */
         ready: function(fn) {
             if (this.isReady) {
