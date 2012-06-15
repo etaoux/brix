@@ -1,6 +1,9 @@
 # Chunk
 
-继承自KISSY的Base，brick和pagelet类的父类
+继承自KISSY的Base，是brick和pagelet类的父类
+
+
+        设计思路:基类，作为组件底层，完成渲染、数据更新、销毁操作，是模板解析器（Tmpler）和数据管理器（Dataset）的调度者。
 
 ## 配置
 
@@ -49,7 +52,7 @@
     销毁组件或者pagelet
 
 
-##事件
+## 事件
 
 * `rendered`
 
