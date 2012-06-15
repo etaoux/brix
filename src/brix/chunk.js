@@ -88,10 +88,12 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 self._render(e.subAttrName, e.newVal);
             });
         },
+
         /**
          * 给brick添加模板
          * @param {string} id  brick的id
          * @param {array} arr 模板数组
+         * @return {Boolen} 是否添加成功
          */
         addTmpl: function(id, arr) {
             var self = this.pagelet ? this.pagelet : this;

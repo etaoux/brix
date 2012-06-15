@@ -11,7 +11,7 @@
 
     组件节点，只读。
 
-* `rendered` {String}
+* `rendered` {Boolen}
 
     是否已经渲染到页面，只读
 

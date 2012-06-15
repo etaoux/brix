@@ -1,19 +1,14 @@
 KISSY.add("brix/pagelet", function(S, Chunk) {
     function Pagelet() {
         Pagelet.superclass.constructor.apply(this, arguments);
-        this.initialize();
+        //初始化属性
+        this.isReady = false;
+        this.brickCount = 0;
+        this.readyList = [];
+        this.isAddBehavior = false;
     }
 
     S.extend(Pagelet, Chunk, {
-        /**
-         * 初始化方法
-         */
-        initialize: function() {
-            this.isReady = false;
-            this.brickCount = 0;
-            this.readyList = [];
-            this.isAddBehavior = false;
-        },
         /**
         * 获取brick的实例
         * @param id brick的id
