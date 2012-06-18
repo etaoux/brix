@@ -14,4 +14,4 @@
 
     在做组件前，大家应该先了解[如何写组件](/etaoux/brix/tree/master/docs/gallery.md)，[如何写组件文档](/etaoux/brix/tree/master/docs/gallery_doc.md)
 
-  - [dropdown](etaoux/brix/tree/master/docs/gallery/dropdown.md)
+  - [dropdown](/etaoux/brix/tree/master/docs/gallery/dropdown.md)
