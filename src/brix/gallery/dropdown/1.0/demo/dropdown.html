@@ -62,11 +62,12 @@
                     <span class="dropdown-span" value="{{value}}">{{text}}</span>
                     <i class="dropdown-icon"></i>
                     {{/selected}}
+
                     {{/dropdown_list}}
                 </a>
                 <ul class="dropdown-list">
                     {{#dropdown_list}}
-                    <li bxclick="xxClick" {{#if(color==red)}}style="color:red"{{/if(color==red)}} class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}</li>
+                    <li bxclick="xxClick" {{#if(color==red)}}style="color:red"{{/if(color==red)}} class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}{{xx_yy}}</li>
                     {{/dropdown_list}}
                 </ul>
                 {{#dropdown_list}}
@@ -115,7 +116,7 @@
 
 
                     S.later(function(){
-                        dropdownBrick.destroy();
+                        //dropdownBrick.destroy();
                     },8000);
 
                     //方法调用

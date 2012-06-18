@@ -81,6 +81,7 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
         _buildDataset: function(data) {
             var self = this;
             data = S.clone(data); //数据深度克隆
+            self._setRenderer(data);
             self.dataset = new Dataset({
                 data: data
             });
@@ -109,6 +110,7 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
             var self = this.pagelet ? this.pagelet : this;
             //可能要提供多个datakey的更新
             data = S.clone(data);
+            self._setRenderer(data);
             self.dataset.set('data.' + datakey, data);
         },
         /**
@@ -163,6 +165,7 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
             S.each(bricks, function(b) {
                 S.each(b.tmpls, function(o, id) {
                     if (S.inArray(key, o.datakey)) {
+                        //这里数据是否需要拼装，还是传入完整的数据，待考虑
                         var data = {};
                         S.each(o.datakey, function(item) {
                             var tempdata = newData,
@@ -182,6 +185,25 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 });
                 this._renderTmpl(b.bricks, key, newData);
             }, this);
+        },
+        /**
+         * 扩展数据，用于mastache渲染
+         * @param {Objcet} data 数据
+         */
+        _setRenderer : function(data) {
+            var self = this, rr = self.renderer, mcName, wrapperName;
+            if(rr) {
+                for(mcName in rr) {
+                    for(wrapperName in rr[mcName]) {(function() {
+                            var mn = mcName, wn = wrapperName;
+                            var fn = rr[mn][wn];
+                            data[mn + "_" + wn] = function() {
+                                return fn.call(this, self, mn);
+                            };
+                        })();
+                    }
+                }
+            }
         },
         /**
          * 销毁组件或者pagelet

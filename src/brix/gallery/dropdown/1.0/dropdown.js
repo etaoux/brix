@@ -96,6 +96,13 @@ KISSY.add("brix/gallery/dropdown/1.0/dropdown", function(S, Brick) {
                 xxClick: function() {
                 }
             }
+        },
+        renderer:{
+            xx:{
+                yy:function(self){
+                    return this.color
+                }
+            }
         }
     });
 
