@@ -28,7 +28,7 @@
 
 ## 组件行为赋予
 
-     - 代理在document上的事件行为
+ - 代理在document上的事件行为
 
 
         Dropdown.DOCATTACH = {
@@ -46,7 +46,7 @@
         }
 
 
-     - 代理在组件节点上的事件行为
+ - 代理在组件节点上的事件行为
 
 
         Dropdown.ATTACH = {
