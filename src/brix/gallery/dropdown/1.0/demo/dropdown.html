@@ -55,7 +55,7 @@
             }
         </script>
         <script type="text/template" id="tmpl_dropdown">
-            <div bx-brick="dropdown" bx-path="brix/gallery/dropdown/1.0/dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown">
+            <div id="brick13" bx-brick="dropdown" bx-path="brix/gallery/dropdown/1.0/dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown">
                 <a class="dropdown-a">
                     {{#dropdown_list}}
                     {{#selected}}
@@ -67,7 +67,7 @@
                 </a>
                 <ul class="dropdown-list">
                     {{#dropdown_list}}
-                    <li bxclick="xxClick" {{#if(color==red)}}style="color:red"{{/if(color==red)}} class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}{{xx_yy}}</li>
+                    <li bxclick="xxClick" {{#if(color==red)}}style="color:red"{{/if(color==red)}} class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}{{brick13_xx_yy}}</li>
                     {{/dropdown_list}}
                 </ul>
                 {{#dropdown_list}}

@@ -10,12 +10,34 @@ KISSY.add("brix/brick", function(S, Chunk) {
         var self = this;
         self.pagelet = arguments[0].pagelet;//pagelet的引用
 
-        self.on('rendered',function(){
+        var context = self.pagelet?self.pagelet:self;
+
+        context.on('rendered',function(){
            self.initialize();
            self._bindEvent();
         });
 
         Brick.superclass.constructor.apply(this, arguments);
+
+        if(context.get('rendered')){
+            self.initialize();
+            self._bindEvent();
+        }
+
+        var tmpler = self.get('tmpler'),id;
+        if(tmpler){
+            S.each(tmpler.bricks,function(o,k){
+                id=k;
+                return false;
+            });
+            tmpler.bricks[id].brick = this;
+        }else{
+            id = arguments[0].el.split('#')[1];
+        }
+        var renderer = self.constructor.RENDERER;
+        if(renderer){
+            context.get('dataset').setRenderer(renderer,self,id);
+        }
     }
     Brick.ATTACH = {
         //组件内部的事件代理，
@@ -37,25 +59,42 @@ KISSY.add("brix/brick", function(S, Chunk) {
         initialize:function(){
 
         },
+        /**
+         * 移除代理事件
+         */
+        _detachEvent:function(){
+            var self = this;
+            var defaultEvents = self.constructor.ATTACH;
+            if (defaultEvents) {
+                self._removeEvents(defaultEvents);
+            }
+            var defaultDocEvents = self.constructor.DOCATTACH;
+            if (defaultDocEvents) {
+                self._removeEvents(defaultDocEvents,S.one(document));
+            }
+
+            self._undelegateEvents();
+            var events = self.get("events");
+            if (events) {
+                this._removeEvents(events);
+            }
+        },
+        /**
+         * 绑定代理事件
+         */
         _bindEvent:function(){
             var self = this;
              //组件默认事件代理
             //方式一
             var defaultEvents = self.constructor.ATTACH;
             if (defaultEvents) {
-                self._afterEventsChange({
-                    newVal: defaultEvents
-                });
+                this._addEvents(defaultEvents);
             }
             //代理在全局的页面上
             var defaultDocEvents = self.constructor.DOCATTACH;
             if (defaultDocEvents) {
-                self._afterEventsChange({
-                    newVal: defaultDocEvents,
-                    el:S.one(document)
-                });
+                this._addEvents(defaultDocEvents,S.one(document));
             }
-
 
             //方式二
             self._delegateEvents();
@@ -63,24 +102,11 @@ KISSY.add("brix/brick", function(S, Chunk) {
             //用户使用组件中的自定义事件代理
             var events = self.get("events");
             if (events) {
-                self._afterEventsChange({
-                    newVal: events
-                });
+                this._addEvents(events);
             }
         },
         events: {
             //此事件代理是原生的页面bxclick等事件的代理
-        },
-        /**
-         * 事件对象改变
-         * @param  {object} e 事件对象，参见ATTACH属性
-         */
-        _afterEventsChange: function(e) {
-            var prevVal = e.prevVal;
-            if (prevVal) {
-                this._removeEvents(prevVal,e.el);
-            }
-            this._addEvents(e.newVal,e.el);
         },
         /**
          * 移除事件代理
@@ -155,6 +181,20 @@ KISSY.add("brix/brick", function(S, Chunk) {
                         }
                         target = null;
                     };
+                })();
+            }
+        },
+        /**
+         * 取消原生事件代理
+         */
+        _undelegateEvents:function(){
+            var events = this.events;
+            var node = this.get("el")[0];
+            var that = this;
+            for (var _type in events) {
+                (function() {
+                    var type = _type;
+                    node["on" + type] = null;
                 })();
             }
         }

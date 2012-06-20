@@ -7,24 +7,20 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
     function Chunk() {
         Chunk.superclass.constructor.apply(this, arguments);
         var self = this;
-        var tmpl = self.get('tmpl');
-        if (tmpl) {
-            var data = arguments[0].data;
-            self._buildTmpler(tmpl, data);
-        }
-        if (self.tmpler) {
-            if (!self.tmpler.inDom) {
+
+        //现在是串行执行
+        self._buildTmpler();
+        var tmpler = self.get('tmpler');
+        if (tmpler) {
+            if (!tmpler.inDom) {
                 if (self.get('autoRender')) {
                     self.render();
                 }
             } else {
-                self.__set('el', tmpl); //如果已经在dom中，则把当前节点设置为模板容器节点
+                self.__set('el', self.get('tmpl')); //如果已经在dom中，则把当前节点设置为模板容器节点
                 self.__set("rendered", true);
                 self.fire('rendered');
             }
-        } else {
-            self.__set("rendered", true);
-            self.fire('rendered');
         }
     }
 
@@ -51,7 +47,10 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
             }
         },
         tmpl: { //模板代码，如果是已经渲染的html元素，则提供渲染html容器节点选择器
-            value: null
+            value: false
+        },
+        tmpler:{
+            value:false
         },
         rendered: {
             value: false
@@ -59,35 +58,51 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
         //是否自动渲染
         autoRender: {
             value: false
+        },
+        data:{
+            value:false
+        },
+        //如果提供dataset，则忽略data
+        dataset:{
+            value:false
         }
     };
 
     S.extend(Chunk, Base, {
         /**
          * 构建模板解析器
-         * @param  {string} tmpl 模板字符串
-         * @param  {object} data 数据对象
          */
-        _buildTmpler: function(tmpl, data) {
+        _buildTmpler: function() {
             var self = this;
-            self.tmpler = new Tmpler(tmpl);
-            data = data || {};
-            self._buildDataset(data);
+            var tmpler = self.get('tmpler');
+            if(!tmpler&&!self.pagelet){
+                var tmpl = self.get('tmpl');
+                if(tmpl){
+                    tmpler = new Tmpler(tmpl);
+                    self.set('tmpler',tmpler);
+                    self._buildDataset();
+                }
+            }
         },
         /**
          * 构建数据管理器
-         * @param  {object} data 数据对象
          */
-        _buildDataset: function(data) {
+        _buildDataset: function() {
             var self = this;
-            data = S.clone(data); //数据深度克隆
-            self._setRenderer(data);
-            self.dataset = new Dataset({
-                data: data
-            });
-            self.dataset.on('afterDataChange', function(e) {
-                self._render(e.subAttrName, e.newVal);
-            });
+            var dataset = self.get('dataset');
+            if(!dataset&&!self.pagelet){
+                var data = self.get('data') || {};//原始数据
+                data = S.clone(data); //数据深度克隆
+                dataset = new Dataset({
+                    data: data
+                });
+                self.set('dataset',dataset);//设置最新的数据集合
+            }
+            if(dataset){
+                dataset.on('afterDataChange', function(e) {
+                    self._render(e.subAttrName, e.newVal);
+                });
+            }
         },
 
         /**
@@ -98,7 +113,7 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
          */
         addTmpl: function(id, arr) {
             var self = this.pagelet ? this.pagelet : this;
-            return self.tmpler.addTmpl(id, arr);
+            return self.get('tmpler').addTmpl(id, arr);
         },
 
         /**
@@ -107,11 +122,11 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
          * @param {object} data    数据对象
          */
         setChunkData: function(datakey, data) {
-            var self = this.pagelet ? this.pagelet : this;
+            var self = this.pagelet ? this.pagelet : this,
+                dataset = self.get('dataset');
             //可能要提供多个datakey的更新
             data = S.clone(data);
-            self._setRenderer(data);
-            self.dataset.set('data.' + datakey, data);
+            dataset.set('data.' + datakey, data);
         },
         /**
          * 将模板渲染到页面
@@ -119,7 +134,7 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
         render: function() {
             var self = this;
             if (!self.get("rendered")) {
-                self._render('data', self.dataset.get('data'));
+                self._render('data', self.get('dataset').get('data'));
                 self.__set("rendered", true);
                 self.fire('rendered');
             }
@@ -130,13 +145,13 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
          * @param  {object} newData 数据
          */
         _render: function(key, newData) {
-            var self = this.pagelet ? this.pagelet : this;
+            var self = this.pagelet ? this.pagelet : this,tmpler = self.get('tmpler');
             if (key.split('.').length > 1) {
                 //部分数据更新
                 key = key.replace(/^data\./, '');
-                self._renderTmpl(self.tmpler.bricks, key, newData);
+                self._renderTmpl(tmpler.bricks, key, newData);
             } else {
-                var node = new Node(self.tmpler.to_html(newData));
+                var node = new Node(tmpler.to_html(newData));
                 var render = self.get('render');
                 var containerNode;
                 if (node.length > 1) { //如果是多个节点，则创建容器节点
@@ -187,56 +202,44 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
             }, this);
         },
         /**
-         * 扩展数据，用于mastache渲染
-         * @param {Objcet} data 数据
-         */
-        _setRenderer : function(data) {
-            var self = this, rr = self.renderer, mcName, wrapperName;
-            if(rr) {
-                for(mcName in rr) {
-                    for(wrapperName in rr[mcName]) {(function() {
-                            var mn = mcName, wn = wrapperName;
-                            var fn = rr[mn][wn];
-                            data[mn + "_" + wn] = function() {
-                                return fn.call(this, self, mn);
-                            };
-                        })();
-                    }
-                }
-            }
-        },
-        /**
          * 销毁组件或者pagelet
          */
         destroy: function() {
             var self = this;
             //todo 如果是调用的brick的destroy，需要查找移除引用
-            var el = self.get('el');
+            var el = self.get('el'),id=null;
             if (self.pagelet) { //如果是pagelet实例化出来的brick调用
-                var id = el.attr('id');
-                S.each(self.pagelet.tmpler.bricks, function(o, k) {
-                    if (k == id) {
-                        self._destroyBrick(o);
-                        return false;
-                    }
-                });
-            } else {
-                if (self.tmpler && self.tmpler.bricks) {
-                    self._destroyBricks(self.tmpler.bricks);
-                    self.tmpler.bricks = null;
-                }
+                id = el.attr('id');
+            }
+            var tmpler = self.get('tmpler');
+            if (tmpler && tmpler.bricks) {
+                self._destroyBricks(tmpler.bricks,id);
             }
             el.remove();
+            debugger;
         },
 
         /**
          * 销毁brick引用
          * @param  {object} bricks 需要销毁的对象集合
          */
-        _destroyBricks: function(bricks) {
+        _destroyBricks: function(bricks,id) {
             var self = this;
-            S.each(bricks, function(o) {
-                self._destroyBrick(o);
+            S.each(bricks, function(o,k) {
+                if(id){
+                    if(id==k){
+                        self._destroyBrick(o);
+                        delete bricks[k];
+                        return false;
+                    }
+                    else{
+                        self._destroyBricks(o.bricks);
+                    }
+                }
+                else{
+                    self._destroyBrick(o);
+                    delete bricks[k];
+                }
             });
         },
         /**
@@ -246,19 +249,12 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
         _destroyBrick: function(o) {
             var self = this;
             if (o.brick) {
-                var events = o.brick.events;
-                var node = o.brick.get('el');
-                for (var type in events) {
-                    node[0]["on" + type] = null; //移除事件监听函数
-                }
-                node.detach();
-                //node.remove();
-                //移除实例的引用，减少内存泄漏的可能
-                node = null;
-                o.brick.pagelet = null;
-                o.brick = null;
+                o.brick._detachEvent();
                 //递归调用
                 self._destroyBricks(o.bricks);
+                o.brick.pagelet = null;
+                o.brick = null;
+                delete o;
                 //齐活了，对各种引用都断开了链接
             }
         }

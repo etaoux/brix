@@ -55,7 +55,6 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
     function Tmpler(tmpl, isParse) {
         if (tmpl && (isParse !== false)) {
             this.bricks = {};
-            this.arrHTML = [];
             this._praseTmpl(tmpl);
         } else {
             this.tmpl = tmpl;
@@ -86,7 +85,7 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
                     reg.lastIndex = 0;
                 }
                 //对if语句的处理
-                var arr = self.arrHTML;
+                var arr = [];
                 tmpl = tmpl.replace(/(\{{2,3}[\^#~])?(if\(.*?\))(\}{2,3})?/ig, function(w, i, j, k, m, n) {
                     var index = S.indexOf(j, arr),
                         name = 'iftmplbrick_';
@@ -104,11 +103,11 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
             }
             var bks = tmplNode.all('[bx-brick]:not([bx-parent])');
             bks.each(function(el) {
-                self._buildBrick(el, tmplNode, self.bricks);
+                self._buildBrick(el, tmplNode, self.bricks,arr);
             });
 
             if (!inDom) {
-                self.tmpl = _recovery(tmplNode.html(), self.arrHTML);
+                self.tmpl = _recovery(tmplNode.html(), arr);
                 tmplNode.remove();
             }
             tmplNode = null;
@@ -116,7 +115,7 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
             this.inDom = inDom;
         },
 
-        _buildBrick: function(el, container, bricks) {
+        _buildBrick: function(el, container, bricks,arr) {
             var self = this,
                 id = _stamp(el),
                 name = el.attr('bx-brick'),
@@ -134,7 +133,7 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
             tmplNodes.each(function(tmplNode) {
                 var tmplId = _stamp(tmplNode, 'tmpl_'),
                     datakey = tmplNode.attr('bx-datakey'),
-                    tmpl = _recovery(tmplNode.html(), self.arrHTML);
+                    tmpl = _recovery(tmplNode.html(), arr);
                 tmpls.push({
                     id: tmplId,
                     datakey: datakey ? datakey.split(',') : [],

@@ -11,7 +11,13 @@ KISSY.add("brix/gallery/dropdown/1.0/dropdown", function(S, Brick) {
                 self.__show = false;
         });*/
     }
-
+    Dropdown.RENDERER = {
+        xx:{
+            yy:function(self){
+                return this.color
+            }
+        }
+    }
     Dropdown.ATTRS = {
 
     }
@@ -94,13 +100,6 @@ KISSY.add("brix/gallery/dropdown/1.0/dropdown", function(S, Brick) {
         events: {
             click: {
                 xxClick: function() {
-                }
-            }
-        },
-        renderer:{
-            xx:{
-                yy:function(self){
-                    return this.color
                 }
             }
         }

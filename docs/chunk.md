@@ -19,13 +19,27 @@
 
     容器节点
 
+* `autoRender` {Boolen}
+
+    是否自动渲染
+
 * `tmpl` {String}
 
     模板字符串
 
-* `autoRender` {Boolen}
+* `tmpler` {Object}
 
-    是否自动渲染
+    模板字符串
+
+* `data` {Object}
+
+    数据集合
+
+* `dataset` {Boolen}
+
+    数据管理器，如果指定了数据管理器，则忽略data字段的配置
+
+
 
 ## 方法
 

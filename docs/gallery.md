@@ -68,32 +68,6 @@
                     var currentTarget = S.one(e.currentTarget);
                     currentTarget.removeClass('dropdown-ahover');
                 }
-            },
-            ".dropdown-item": {
-                click: function(e) {
-                    this.__show = true;
-                    var el = this.get('el');
-                    el.all('.dropdown-itemselected').removeClass('dropdown-itemselected');
-                    var currentTarget = S.one(e.currentTarget);
-                    currentTarget.addClass('dropdown-itemselected');
-                    var spanNode = el.one('.dropdown-span');
-                    var data = {
-                        value: currentTarget.attr('value'),
-                        text: currentTarget.text()
-                    }
-                    spanNode.attr('value', data.value);
-                    spanNode.text(data.text);
-                    this.blur();
-                    this.fire('selected', data);//对外事件
-                },
-                mouseenter: function(e) {
-                    var currentTarget = S.one(e.currentTarget);
-                    currentTarget.addClass('dropdown-itemover');
-                },
-                mouseleave: function(e) {
-                    var currentTarget = S.one(e.currentTarget);
-                    currentTarget.removeClass('dropdown-itemover');
-                }
             }
         };
 

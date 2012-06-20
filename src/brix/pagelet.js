@@ -15,7 +15,7 @@ KISSY.add("brix/pagelet", function(S, Chunk) {
         * @return {Object} 组件实例
         */
         getBrick: function(id) {
-            return this._getBrick(id, this.tmpler.bricks);
+            return this._getBrick(id, this.get('tmpler').bricks);
         },
 
        /**
@@ -42,7 +42,7 @@ KISSY.add("brix/pagelet", function(S, Chunk) {
          */
         addBehavior: function() {
             if(!this.isAddBehavior){
-                this._addBehavior(this.tmpler.bricks);
+                this._addBehavior(this.get('tmpler').bricks);
                 this.isAddBehavior = true;
             }
         },
