@@ -12,6 +12,10 @@ Brix
  - mustache.js:模板渲染引擎
  - mu.js:对mustache模板引擎的增强
 
+类关系图
+-----------
+![brix 类关系图](http://img01.taobaocdn.com/tps/i1/T1oJDnXgNeXXaFmrLb-907-733.png)
+
 组件钩子
 -----------
  - bx-brick:组件名称，在同一个pagelet中唯一
