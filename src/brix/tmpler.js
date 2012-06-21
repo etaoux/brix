@@ -120,12 +120,15 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
                 id = _stamp(el),
                 name = el.attr('bx-brick'),
                 path = el.attr('bx-path'),
+                config = el.attr('bx-config'),
                 tmplNodes = el.all('[bx-tmpl=' + name + ']');
             if (el.hasAttr('bx-tmpl')) {
                 tmplNodes = tmplNodes.add(el[0]);
             }
+            config = config?eval("config=" + config):{};
             bricks[id] = {
                 path: path,
+                config:config,
                 tmpls: [],
                 bricks: {}
             };

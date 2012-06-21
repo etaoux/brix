@@ -56,10 +56,11 @@ KISSY.add("brix/pagelet", function(S, Chunk) {
                 (function(o, k) {
                     self.brickCount++;
                     S.use(o.path, function(S, TheBrick) {
-                        var myBrick = new TheBrick({
+                        var config = S.merge({
                             el: '#' + k,
                             pagelet:self
-                        });
+                        },o.config);
+                        var myBrick = new TheBrick(config);
                         o.brick = myBrick;
                         self._addBehavior(o.bricks);
                         self.brickCount--;
