@@ -101,17 +101,6 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
             } else {
                 tmplNode = node;
             }
-
-            var tmplTargetNodes = tmplNode.all('[bx-tmpl-source]');
-                tmplTargetNodes.each(function(node){
-                    var selector = node.attr('bx-tmpl-source');
-                    var temptmplNode = tmplNode.one(selector).clone(true);
-                    temptmplNode.removeAttr('id');
-                    _stamp(temptmplNode, 'tmpl_');
-                    temptmplNode.insertBefore(node);
-                    node.remove();
-                });
-
             var bks = tmplNode.all('[bx-brick]:not([bx-parent])');
             bks.each(function(el) {
                 self._buildBrick(el, tmplNode, self.bricks,arr);
