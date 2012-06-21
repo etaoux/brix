@@ -22,8 +22,8 @@
 
     模板和数据渲染成字符串
 
-    * @param  {Object} data 数据
-    * @return {String}      html片段
+    * @param  {Object}  data 数据
+    * @return {String}  html片段
 
 * `addTmpl(id, arr)`
 

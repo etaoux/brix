@@ -29,7 +29,7 @@
 
 * `tmpler` {Object}
 
-    模板字符串
+    模板解析器
 
 * `data` {Object}
 
