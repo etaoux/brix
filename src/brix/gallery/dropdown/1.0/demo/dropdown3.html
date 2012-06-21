@@ -55,7 +55,7 @@
             }
         </script>
         <script type="text/template" id="tmpl_dropdown">
-            <div id="brick13" bx-brick="dropdown" bx-path="brix/gallery/dropdown/1.0/dropdown" bx-datakey="dropdown_list" bx-config="{xx:1}" bx-tmpl="dropdown" class="dropdown">
+            <div id="brick13" bx-brick="dropdown" bx-path="brix/gallery/dropdown/1.0/dropdown" bx-datakey="dropdown_list" bx-config="{xx:1}" bx-tmpl="dropdown" class="dropdown dropdown123">
                 <a class="dropdown-a">
                     {{#dropdown_list}}
                     {{#selected}}
@@ -76,6 +76,10 @@
                 {{/selected}}
                 {{/dropdown_list}}
             </div>
+            <div bx-tmpl-source=".dropdown123">
+
+            </div>
+
         </script>
         <script>
             KISSY.ready(function(S) {
@@ -95,7 +99,7 @@
 
                     pagelet.ready(function(){
                         var b = pagelet.getBrick('brick13');
-                        alert(b.get('xx'));
+                        //alert(b.get('xx'));
                     })
                 });
 

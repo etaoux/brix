@@ -101,9 +101,19 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
             } else {
                 tmplNode = node;
             }
+            var tmplTargetNodes = tmplNode.all('[bx-tmpl-source]');
+            tmplTargetNodes.each(function(node) {
+                var selector = node.attr('bx-tmpl-source');
+                var temptmplNode = tmplNode.one(selector).clone(true);
+                temptmplNode.removeAttr('id');
+                _stamp(temptmplNode, 'tmpl_');
+                temptmplNode.insertBefore(node);
+                node.remove();
+            });
+
             var bks = tmplNode.all('[bx-brick]:not([bx-parent])');
             bks.each(function(el) {
-                self._buildBrick(el, tmplNode, self.bricks,arr);
+                self._buildBrick(el, tmplNode, self.bricks, arr);
             });
 
             if (!inDom) {
@@ -115,7 +125,7 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
             this.inDom = inDom;
         },
 
-        _buildBrick: function(el, container, bricks,arr) {
+        _buildBrick: function(el, container, bricks, arr) {
             var self = this,
                 id = _stamp(el),
                 name = el.attr('bx-brick'),
@@ -125,10 +135,10 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
             if (el.hasAttr('bx-tmpl')) {
                 tmplNodes = tmplNodes.add(el[0]);
             }
-            config = config?eval("config=" + config):{};
+            config = config ? eval("config=" + config) : {};
             bricks[id] = {
                 path: path,
-                config:config,
+                config: config,
                 tmpls: [],
                 bricks: {}
             };
