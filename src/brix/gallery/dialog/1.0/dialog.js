@@ -128,7 +128,7 @@ KISSY.add("brix/gallery/dialog/1.0/dialog", function(S, Pagelet, Overlay) {
             self.on('afterRenderUI', function() {
                 if (self.get('tmpl')) {
                     self.pagelet = new Pagelet({
-                        render: self.get('contentEl').one('.popup-content'),
+                        container: self.get('contentEl').one('.popup-content'),
                         autoRender: true,
                         tmpl: self.get('tmpl'),
                         data: self.get('data')

@@ -86,7 +86,7 @@
 ## 扩展对外方法
 
 
-        Dropdown.MOTHED = {
+        Dropdown.METHOD = {
             focus: function() {
                 var el = this.get('el');
                 el.one('.dropdown-list').css('display', 'block');
@@ -98,7 +98,7 @@
                 el.one('.dropdown-a').removeClass('dropdown-aactive');
             }
         }
-        S.augment(Dropdown,Dropdown.MOTHED);
+        S.augment(Dropdown,Dropdown.METHOD);
 
 
 ## 对外自定义事件

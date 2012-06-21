@@ -81,7 +81,7 @@
             KISSY.ready(function(S) {
                 KISSY.use("brix/gallery/dropdown/1.0/dropdown,brix/gallery/dropdown/1.0/dropdown.css", function(S, DropdownBrick) {
                     var config = {
-                        render:'#test_container',//容器节点
+                        container:'#test_container',//容器节点
                         tmpl: S.one("#tmpl_dropdown").html(),//需要的模板
                         data: dropdown_data,  //这个数据会被重新clone一份，所以更新原始数据不会对内部产生影响
                         events:{ //自定义事件代理

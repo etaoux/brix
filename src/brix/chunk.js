@@ -37,7 +37,7 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
             }
         },
         //容器节点
-        render: {
+        container: {
             value: 'body',
             getter: function(s) {
                 if (S.isString(s)) {
@@ -152,7 +152,7 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 self._renderTmpl(tmpler.bricks, key, newData);
             } else {
                 var node = new Node(tmpler.to_html(newData));
-                var render = self.get('render');
+                var container = self.get('container');
                 var containerNode;
                 if (node.length > 1) { //如果是多个节点，则创建容器节点
                     containerNode = new Node('<div id="' + S.guid("brick_container") + '"></div>');
@@ -163,7 +163,7 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
                     }
                     containerNode = node;
                 }
-                render.append(containerNode);
+                container.append(containerNode);
                 //将节点的引用设置为容器节点，为后期的destroy等方法提供引用
                 self.__set('el', '#' + containerNode.attr('id'));
                 node = null;

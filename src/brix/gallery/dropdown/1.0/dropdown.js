@@ -22,7 +22,7 @@ KISSY.add("brix/gallery/dropdown/1.0/dropdown", function(S, Brick) {
 
     }
 
-    Dropdown.MOTHED = {
+    Dropdown.METHOD = {
         focus: function() {
             var el = this.get('el');
             el.one('.dropdown-list').css('display', 'block');
@@ -105,7 +105,7 @@ KISSY.add("brix/gallery/dropdown/1.0/dropdown", function(S, Brick) {
         }
     });
 
-    S.augment(Dropdown,Dropdown.MOTHED);
+    S.augment(Dropdown,Dropdown.METHOD);
     return Dropdown;
 }, {
     requires: ["brix/brick","./dropdown.css"]

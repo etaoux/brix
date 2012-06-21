@@ -15,7 +15,7 @@
 
     是否已经渲染到页面，只读
 
-* `render` {String|element}
+* `container` {String|element}
 
     容器节点
 
