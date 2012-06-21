@@ -1,4 +1,4 @@
-# Chunk
+# Dataset
 
 继承自KISSY的Base，提供数据管理
 
