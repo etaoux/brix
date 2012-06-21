@@ -35,6 +35,23 @@
 
 
 
+#示例
+
+    KISSY.use("brix/pagelet", function(S, Pagelet) {
+        var pagelet = new Pagelet({
+            tmpl:'#pagelet1'，
+            data:data
+        });
+        pagelet.ready(function(){//所有组件初始化完成
+            pagelet.render();//将模板渲染到页面
+        });
+        pagelet.addBehavior();//附加行为，初始化组件
+    });
+
+
+
+
+
 
 
 

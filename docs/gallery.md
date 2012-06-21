@@ -3,27 +3,38 @@
 ## 继承自Brick
 
 
-        //KISSY的模块书写规范
-        KISSY.add("brix/gallery/dropdown/1.0/dropdown", function(S, Brick) {
-            function Dropdown() {
-                Dropdown.superclass.constructor.apply(this, arguments);
-            }
-            S.extend(Dropdown, Brick, {
-                //这里写私有方法
-                });//继承
-            return Dropdown;
-        }, {
-            requires: ["brix/brick","./dropdown.css"]
-        });
+    //KISSY的模块书写规范
+    KISSY.add("brix/gallery/dropdown/1.0/dropdown", function(S, Brick) {
+        function Dropdown() {
+            Dropdown.superclass.constructor.apply(this, arguments);
+        }
+        S.extend(Dropdown, Brick, {
+            //这里写私有方法
+            });//继承
+        return Dropdown;
+    }, {
+        requires: ["brix/brick","./dropdown.css"]
+    });
 
 
 ## 配置
 
 
-        Dropdown.ATTRS = {
-            //同KISSY的Base写法
-        }
+    Dropdown.ATTRS = {
+        //同KISSY的Base写法
+    }
 
+
+## 模板渲染扩展方法
+
+
+    Dropdown.RENDERDER = {
+        xx:{
+            yy:function(){
+                return "string"
+            }
+        }
+    }
 
 
 ## 组件行为赋予
