@@ -14,7 +14,7 @@ Brix
 
 类关系图
 -----------
-![brix 类关系图](http://img01.taobaocdn.com/tps/i1/T1oJDnXgNeXXaFmrLb-907-733.png)
+![brix 类关系图](http://img01.taobaocdn.com/tps/i1/T1S._mXc0gXXaFmrLb-907-733.png)
 
 组件钩子
 -----------
