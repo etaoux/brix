@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Brix Dropdown Demo</title>
+        <link type="text/css" rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.2.0/css/base-min.css" charset="utf-8">
+        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+        <script src="../../../../../../libs/mustache.js"></script>
+        <script>
+            KISSY.config({
+                packages: [{
+                    name: "brix",
+                    tag: "20120419",
+                    path: "../../../../../",//这里可以配置cdn的路径
+                    charset: "utf-8"
+                }]
+            });
+
+            KISSY.config({
+                map: [
+                    [/(.+brix\/.+)-min.js(\?[^?]+)?$/, "$1.js$2"],
+                    [/(.+brix\/.+)-min.css(\?[^?]+)?$/, "$1.css$2"]
+                ]
+            });
+        </script>
+    </head>
+    <body style="margin:40px">
+        <div id="container"></div>
+        <!--brix begin-->
+        <script>
+            var pagelet_data = {
+                title: '页面测试',
+                modules: [
+                    {
+                        name: 'dropdown1',
+                        type: 'dropdown',
+                        datakey: 'dropdown1'
+                    }, {
+                        name: 'dropdown2',
+                        type: 'dropdown',
+                        datakey: 'dropdown2'
+                    }
+                ],
+                getTmpl: function() {
+                    return KISSY.one('#Tmpl_' + this.type).html()
+                        .replace(/@Tmpl_name/g, this.name)
+                        .replace(/@Tmpl_datakey/g, this.datakey);
+                },
+                dataset: {
+                    dropdown1: [
+                        {
+                            value: "1",
+                            text: "计划列表",
+                            selected: true
+                        }, {
+                            value: "2",
+                            text: "计划列表2",
+                        }, {
+                            value: "3",
+                            text: "计划列表3"
+                        }
+                    ],
+                    dropdown2: [
+                        {
+                            value: "4",
+                            text: "计划列表4",
+                            selected: true
+                        }, {
+                            value: "5",
+                            text: "计划列表5"
+                        }, {
+                            value: "6",
+                            text: "计划列表6"
+                        }
+                    ]
+                }
+            };
+        </script>
+        <script type="text/template" id="Tmpl_main">
+            <h1>{{title}}</h1>
+            {{#modules}}
+                {{{getTmpl}}}
+            {{/modules}}
+        </script>
+        <script type="text/template" id="Tmpl_dropdown">
+            <div bx-brick="@Tmpl_name" bx-path="brix/gallery/dropdown/1.0/dropdown" bx-datakey="@Tmpl_datakey" bx-tmpl="@Tmpl_name" class="dropdown">
+                <a class="dropdown-a">
+                    {{#@Tmpl_datakey}}
+                    {{#selected}}
+                    <span class="dropdown-span" value="{{value}}">{{text}}</span>
+                    <i class="dropdown-icon"></i>
+                    {{/selected}}
+
+                    {{/@Tmpl_datakey}}
+                </a>
+                <ul class="dropdown-list">
+                    {{#@Tmpl_datakey}}
+                    <li bxclick="xxClick" {{#if(color==red)}}style="color:red"{{/if(color==red)}} class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}{{xx_yy}}</li>
+                    {{/@Tmpl_datakey}}
+                </ul>
+                {{#@Tmpl_datakey}}
+                {{#selected}}
+                <input name="dd"  value="{{value}}" type="hidden" />
+                {{/selected}}
+                {{/@Tmpl_datakey}}
+            </div>
+        </script>
+        <script>
+            KISSY.use("brix/pagelet", function(S, Pagelet) {
+                var tmpl = Mustache.render(S.one('#Tmpl_main').html(), pagelet_data);
+
+                var pagelet = new Pagelet({
+                    container: '#container', //容器节点
+                    tmpl: tmpl, //需要的模板
+                    data: pagelet_data.dataset //这个数据会被重新clone一份，所以更新原始数据不会对内部产生影响
+                });
+
+                pagelet.addBehavior();
+                pagelet.ready(function() {
+                    pagelet.render();
+                });
+            });
+        </script>
+        <!--brix end-->
+    </body>
+</html>
