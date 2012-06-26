@@ -216,7 +216,6 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 self._destroyBricks(tmpler.bricks,id);
             }
             el.remove();
-            debugger;
         },
 
         /**
