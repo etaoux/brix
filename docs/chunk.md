@@ -9,7 +9,16 @@
 
 * `el` {element}
 
-    组件节点，只读。
+    组件节点，只读（如果是new单个组件，并且已经在dom中，则可指定el节点）。
+
+    指定el节点例子：
+
+        var kwicks1 = new Kwicks({
+            el:'#ulkwicks1',
+            max : 205,
+            spacing : 5
+        });
+
 
 * `rendered` {Boolen}
 

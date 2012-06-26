@@ -215,8 +215,11 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 id = el.attr('id');
             }
             var tmpler = self.get('tmpler');
-            if (tmpler && tmpler.bricks) {
+            if (tmpler && !S.isEmptyObject(tmpler.bricks)) {
                 self._destroyBricks(tmpler.bricks,id);
+            }
+            else{
+                self._detachEvent&&self._detachEvent();
             }
             el.remove();
         },

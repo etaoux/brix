@@ -99,6 +99,7 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
                 });
                 tmplNode = $('<div></div>').append(tmpl);
             } else {
+                _stamp(node);
                 tmplNode = node;
             }
             var tmplTargetNodes = tmplNode.all('[bx-tmpl-source]');
