@@ -3,8 +3,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Brix InplaceEditor Demo</title>
-        <link rel="stylesheet/less" href="../../../../../estrap/estrap.less"/>
-        <script src="../../../../../estrap/tests/less.js"></script>
+        <link rel="stylesheet/less" href="../../../../estrap/estrap.less"/>
+        <script src="../../../../estrap/tests/less.js"></script>
         <script>
             // html5
             if (!+[1,]) {
@@ -60,7 +60,7 @@
                 padding-bottom: 1px;
             }
 
-            .url_list .item .s_name em,.url_list .item_add em{
+            .url_list .item .s_name span,.url_list .item_add span{
                 display: inline-block;
                 font-size: 14px;
                 height: 18px;
@@ -115,7 +115,7 @@
                 border: 1px dotted #BBB;
             }
 
-            .url_list .item_add em{
+            .url_list .item_add span{
                 color: #bdbdbd;
             }
 
@@ -152,10 +152,10 @@
             .url_list .ks-dd-proxy .s_name img{
                 cursor: move;
             }
-            .url_list .ks-dd-proxy .s_name em{
+            .url_list .ks-dd-proxy .s_name span{
                     cursor: move;
             }
-            .url_list .ks-dd-proxy .s_name em,.url_list .item_edit .s_name em{
+            .url_list .ks-dd-proxy .s_name span,.url_list .item_edit .s_name span{
                 width:71px;
             }
 
@@ -169,7 +169,7 @@
             }
 
             .editPoup input{
-                width:130px;
+                width:120px;
                 border: 1px solid #CCC;
                 padding: 5px 7px 5px 4px;
                 font: 14px arial;
@@ -186,8 +186,8 @@
         </div>
 		<!--brix begin-->
         <script type="text/template" id="tmpl_brick">
-            <div class="editPoup">
-                <input style="" maxlength="128" type="text" value="">
+            <div class="editPoup" bx-brick="inplaceeditor">
+                <input maxlength="128" type="text" value="">
             </div>
         </script>
         <script>
@@ -201,7 +201,7 @@
                     var url_listNode = S.one('.url_list'),url_add_conNode = S.one('.url_add_con'),inplaceeditor = new InplaceEditor(config),editPoup;
                     inplaceeditor.on('valueChange',function(e){
                         var inputNode = inplaceeditor.get('el').one('input');
-                        S.one('#item_' + inputNode.attr('data-sid')).one('em').html(e.value);
+                        S.one('#item_' + inputNode.attr('data-sid')).one('span').html(e.value);
                         saveData();
                     });
                     var navData = JSON.parse(COOKIE.get('userNavigationData')) || [{
@@ -226,9 +226,9 @@
                     for (var i = 0; i < navData.length; i++) {
                         var data = navData[i];
                         var id = S.guid();
-                        url_listNode.append(['<li class="item" id="item_' + id + '" data-sid="' + id + '">', '<a class="s_name" target="_blank" href="' + data.url + '">', '<img width="16" height="16" src="http://api.tao123.com/collectsite/ico.php?domain_url=' + data.url + '" >', '<em>' + data.name + '</em>', '</a>', '<a class="s_edit" href="#"></a>', '<a class="s_del" href="#"></a>', '</li>'].join(''));
+                        url_listNode.append(['<li class="item" id="item_' + id + '" data-sid="' + id + '">', '<a class="s_name" target="_blank" href="' + data.url + '">', '<img width="16" height="16" src="http://api.tao123.com/collectsite/ico.php?domain_url=' + data.url + '" >', '<span>' + data.name + '</span>', '</a>', '<a class="s_edit" href="#"></a>', '<a class="s_del" href="#"></a>', '</li>'].join(''));
                     }
-                    url_listNode.append(['<li class="item_add">', '<a class="s_name" href="#" target="_blank">', '<i class="add_icon"></i>', '<em>添加</em>', '</a>', '</li>'].join(''));
+                    url_listNode.append(['<li class="item_add">', '<a class="s_name" href="#" target="_blank">', '<i class="add_icon"></i>', '<span>添加</span>', '</a>', '</li>'].join(''));
 
                     var fnHalt = function(e) {
                             e.preventDefault();
@@ -258,7 +258,7 @@
                         var datas = [];
                         url_listNode.all('.item').each(function(el) {
                             datas.push({
-                                name: el.one('em').html(),
+                                name: el.one('span').html(),
                                 url: el.one('.s_name').attr('href')
                             });
                         });
@@ -311,7 +311,7 @@
                         var offset = itemNode.offset();
                         var inputNode = editPoup.one('input');
                         inputNode.attr('data-sid', itemNode.attr('data-sid'));
-                        inplaceeditor.show(offset.left,offset.top - 1,currentNode.prev().one('em').html());
+                        inplaceeditor.show(offset.left,offset.top - 1,currentNode.prev().one('span').html());
                     });
                 });
             });

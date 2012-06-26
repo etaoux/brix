@@ -6,23 +6,7 @@
         <link type="text/css" rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.2.0/css/base-min.css" charset="utf-8">
         <link type="text/css" rel="stylesheet" href="../kwicks.css" charset="utf-8">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
-        <script>
-            KISSY.config({
-                packages: [{
-                    name: "brix",
-                    tag: "20120419",
-                    path: "../../../../../",//这里可以配置cdn的路径
-                    charset: "utf-8"
-                }]
-            });
-
-            KISSY.config({
-                map: [
-                    [/(.+brix\/.+)-min.js(\?[^?]+)?$/, "$1.js$2"],
-                    [/(.+brix\/.+)-min.css(\?[^?]+)?$/, "$1.css$2"]
-                ]
-            });
-        </script>
+        <script src="../../../config.js"></script>
         <style type="text/css">
         body {
             background-image: none;
@@ -125,7 +109,7 @@
             KISSY.ready(function(S) {
                 KISSY.use("brix/gallery/kwicks/", function(S, Kwicks) {
                     var kwicks1 = new Kwicks({
-                        el:'#ulkwicks1',
+                        el:'#ulkwicks1',//这里可以直接指定el，也可以是tmpl
                         max : 205,
                         spacing : 5
                     });
