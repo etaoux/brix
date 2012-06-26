@@ -137,34 +137,52 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
                 }
             });
         },
+        _visibilityChange:function(v,fn){
+            var self = this;
+            var el = self.get('el'),
+                body = S.one('body'),
+                s = 'start';
+            //移除动画队列，设置显示，为动画增加效果
+            el.stop();
+            el.css('visibility', 'visible');
+            if (v) {//如果显示
+                el.css(self.get('start'));
+                s = 'end'
+            }
+            else{
+                el.css(self.get('end'));
+                s = 'start';
+            }
+            //为防止出现滚动条
+            body.css({width:body.width(),height:body.height(),overflow:'hidden'});
+            el.animate(self.get(s), self.get('duration'), self.get('easing'), function() {
+                el.css('visibility', v?'visible':"hidden");
+                if(!v){
+                    el.css({left:'-99999px',top:'-99999px'});
+                }
+                body.css({width:'',height:'',overflow:''});
+                fn&&fn.call(self);
+            });
+        },
         bindUI:function(){
             var self = this;
-            self.on('afterVisibleChange', function(ev) {
-                var v = ev.newVal,
-                    el = self.get('el'),
-                    body = S.one('body'),
-                    s = 'start';
-                //移除动画队列，设置显示，为动画增加效果
-                el.stop();
+            self.on('beforeVisibleChange', function(ev) {
+                var v = ev.newVal;
+                if(!v){
+                    self._visibilityChange(v,function(){
+                        self.get('el').css('visibility', 'hidden');
+                        self.set('visible',false,{silent:true});
+                        self.fire('hide');
+                    });
+                    return false;
+                }
 
-                if (v) {//如果显示
-                    el.css(self.get('start'));
-                    s = 'end'
+            });
+            self.on('afterVisibleChange', function(ev) {
+                var v = ev.newVal;
+                if(v){
+                    self._visibilityChange(v);
                 }
-                else{
-                    el.css('visibility', 'visible');
-                    el.css(self.get('end'));
-                    s = 'start';
-                }
-                //为防止出现滚动条
-                body.css({width:body.width(),height:body.height(),overflow:'hidden'});
-                el.animate(self.get(s), self.get('duration'), self.get('easing'), function() {
-                    el.css('visibility', v?'visible':"hidden");
-                    if(!v){
-                        el.css({left:'-99999px',top:'-99999px'});
-                    }
-                    body.css({width:'',height:'',overflow:''});
-                });
             });
         }
     });
