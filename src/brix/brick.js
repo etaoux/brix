@@ -26,15 +26,18 @@ KISSY.add("brix/brick", function(S, Chunk) {
 
         var tmpler = self.get('tmpler'),id;
         if(tmpler){
-            S.each(tmpler.bricks,function(o,k){
-                id=k;
-                return false;
-            });
-            tmpler.bricks[id].brick = this;
+            if(!tmpler.inDom){
+                S.each(tmpler.bricks,function(o,k){
+                    id=k;
+                    return false;
+                });
+                tmpler.bricks[id].brick = this;
+            }
         }else{
             id = arguments[0].el.split('#')[1];
         }
         var renderer = self.constructor.RENDERER;
+        id=id||self.constructor.name;
         if(renderer){
             context.get('dataset').setRenderer(renderer,self,id);
         }

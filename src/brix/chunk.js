@@ -22,6 +22,9 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 self.fire('rendered');
             }
         }
+        else if(!self.pagelet){
+            self.__set("rendered", true);
+        }
     }
 
     Chunk.ATTRS = {
