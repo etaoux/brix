@@ -1,4 +1,4 @@
-KISSY.add("brix/gallery/dialog/1.0/dialog", function(S, Pagelet, Overlay) {
+KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
     function _getContent(v, dir) {
         var wrapper = {
             'up': ['<div class="popup popup-up">', '<div class="popup-left"></div>', '<div class="popup-center">', '<div class="popup-content">' + v + '</div>', '</div>', '<div class="popup-right"></div>', '<div class="popup-bottom">', '<div class="popup-bottom-left"></div>', '<div class="popup-bottom-center">&nbsp;</div>', '<div class="popup-bottom-right"></div>', '</div>', '</div>'],

@@ -1,4 +1,4 @@
-KISSY.add("brix/gallery/inplaceeditor/1.0/inplaceeditor", function(S, Brick) {
+KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
     function InplaceEditor() {
         InplaceEditor.superclass.constructor.apply(this, arguments);
     }

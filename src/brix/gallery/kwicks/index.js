@@ -1,4 +1,4 @@
-KISSY.add("brix/gallery/kwicks/1.0/kwicks", function(S, Brick) {
+KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
     function Kwicks(config) {
         Kwicks.superclass.constructor.apply(this, arguments);
     }

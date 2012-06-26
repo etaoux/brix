@@ -20,24 +20,7 @@
             }
         </script>
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
-        <script src="../../../../../../libs/mustache.js"></script>
-        <script>
-            KISSY.config({
-                packages: [{
-                    name: "brix",
-                    tag: "20120419",
-                    path: "../../../../../",//这里可以配置cdn的路径
-                    charset: "utf-8"
-                }]
-            });
-
-            KISSY.config({
-                map: [
-                    [/(.+brix\/.+)-min.js(\?[^?]+)?$/, "$1.js$2"],
-                    [/(.+brix\/.+)-min.css(\?[^?]+)?$/, "$1.css$2"]
-                ]
-            });
-        </script>
+        <script src="../../../config.js"></script>
         <style type="text/css">
             .search_input .s_l,.search_input .s_r,.search_input .s_input,.module .hd h4,.mod_line s,.mod_edit i,.url_list .item .s_edit,.url_list .item .s_del,.url_list .item_add .s_name .add_icon{
     background:url("http://img02.taobaocdn.com/tps/i2/T1Uya9XgRXXXXXXXXX-62-280.png") no-repeat;
@@ -209,7 +192,7 @@
         </script>
         <script>
             KISSY.ready(function(S) {
-                KISSY.use("brix/gallery/inplaceeditor/1.0/inplaceeditor,cookie,json", function(S, InplaceEditor, COOKIE, JSON) {
+                KISSY.use("brix/gallery/inplaceeditor/,cookie,json", function(S, InplaceEditor, COOKIE, JSON) {
                     var config = {
                         tmpl: S.one("#tmpl_brick").html()
                     };

@@ -1,4 +1,4 @@
-KISSY.add("brix/gallery/dropdown/1.0/dropdown", function(S, Brick) {
+KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
     function Dropdown() {
         Dropdown.superclass.constructor.apply(this, arguments);
         /*var self = this;

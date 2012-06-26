@@ -5,24 +5,7 @@
         <title>Brix Dropdown Demo</title>
         <link type="text/css" rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.2.0/css/base-min.css" charset="utf-8">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
-        <script src="../../../../../../libs/mustache.js"></script>
-        <script>
-            KISSY.config({
-                packages: [{
-                    name: "brix",
-                    tag: "20120419",
-                    path: "../../../../../",//这里可以配置cdn的路径
-                    charset: "utf-8"
-                }]
-            });
-
-            KISSY.config({
-                map: [
-                    [/(.+brix\/.+)-min.js(\?[^?]+)?$/, "$1.js$2"],
-                    [/(.+brix\/.+)-min.css(\?[^?]+)?$/, "$1.css$2"]
-                ]
-            });
-        </script>
+        <script src="../../../config.js"></script>
     </head>
     <body style="margin:0px;padding-top:40px">
         <div class="container">
@@ -55,7 +38,7 @@
             }
         </script>
         <script type="text/template" id="tmpl_dropdown">
-            <div id="brick13" bx-brick="dropdown" bx-path="brix/gallery/dropdown/1.0/dropdown" bx-datakey="dropdown_list" bx-config="{xx:1}" bx-tmpl="dropdown" class="dropdown dropdown123">
+            <div id="brick13" bx-brick="dropdown" bx-path="brix/gallery/dropdown/" bx-datakey="dropdown_list" bx-config="{xx:1}" bx-tmpl="dropdown" class="dropdown dropdown123">
                 <a class="dropdown-a">
                     {{#dropdown_list}}
                     {{#selected}}

@@ -4,7 +4,7 @@
 
 
     //KISSY的模块书写规范
-    KISSY.add("brix/gallery/dropdown/1.0/dropdown", function(S, Brick) {
+    KISSY.add("brix/gallery/dropdown/", function(S, Brick) {
         function Dropdown() {
             Dropdown.superclass.constructor.apply(this, arguments);
         }
