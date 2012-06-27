@@ -17,3 +17,4 @@
   - [dropdown](/etaoux/brix/tree/master/docs/gallery/dropdown.md)
   - [kwicks](/etaoux/brix/tree/master/docs/gallery/kwicks.md)
   - [inplaceeditor](/etaoux/brix/tree/master/docs/gallery/inplaceeditor.md)
+  - [dialog](/etaoux/brix/tree/master/docs/gallery/dialog.md)
