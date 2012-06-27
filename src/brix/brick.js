@@ -128,7 +128,12 @@ KISSY.add("brix/brick", function(S, Chunk) {
                 var event = events[selector];
                 for (var type in event) {
                     var callback = normFn(this, event[type]);
-                    el.undelegate(type, selector, callback, this);
+                    if(selector==""){
+                        el.detach(type,callback,this);
+                    }
+                    else{
+                        el.undelegate(type, selector, callback, this);
+                    }
                 }
             }
         },
@@ -142,7 +147,11 @@ KISSY.add("brix/brick", function(S, Chunk) {
                 var event = events[selector];
                 for (var type in event) {
                     var callback = normFn(this, event[type]);
-                    el.delegate(type, selector, callback, this);
+                    if(selector==""){
+                        el.on(type,callback,this);
+                    }else{
+                        el.delegate(type, selector, callback, this);
+                    }
                 }
             }
         },

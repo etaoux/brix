@@ -36,7 +36,7 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
     }
 
     Dropdown.DOCATTACH = {
-        "body":{
+        "":{//空选择器，表示将事件直接绑定在document上
             click:function(e){
                 var self = this;
                 if (!self.__show) {
