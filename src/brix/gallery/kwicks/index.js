@@ -54,6 +54,10 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
     };
 
     Kwicks.METHOD = {
+        /**
+         *  切换到某个视图
+         * @param  {Number} i 要切换的项
+         */
         switchTo:function(i){
             var self = this,
                 kwicks = self.kwicks,
@@ -94,6 +98,9 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
                 k.animate(animObj, duration, easing);
             });
         },
+        /**
+         * 开始自动切换
+         */
         start:function(){
             var self = this,
                 autoplay = self.get('autoplay'),
@@ -106,6 +113,9 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
                 },interval,true,self);
             }
         },
+        /**
+         * 停止自动切换
+         */
         stop:function(){
             var self = this;
             if(self.timer){
