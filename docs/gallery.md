@@ -41,7 +41,8 @@
 
  - 代理在document上的事件行为
 
-
+    如果选择器为空，则直接绑定事件在document上
+    
         Dropdown.DOCATTACH = {
             "body":{
                 click:function(e){
@@ -59,7 +60,8 @@
 
  - 代理在组件节点上的事件行为
 
-
+    如果选择器为空，则直接绑定事件在节点上
+    
         Dropdown.ATTACH = {
             ".dropdown-a": {
                 click: function(e) {
