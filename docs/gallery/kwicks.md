@@ -90,14 +90,14 @@
 ## 代码示例
 		
 ```javascript
-	KISSY.use("brix/gallery/kwicks/", function(S, Kwicks) {
-        var kwicks1 = new Kwicks({
-            el:'#ulkwicks1',//这里可以直接指定el，也可以是tmpl
-            max : 205,
-            spacing : 5,
-            autoplay:true
-        });
+KISSY.use("brix/gallery/kwicks/", function(S, Kwicks) {
+    var kwicks1 = new Kwicks({
+        el:'#ulkwicks1',//这里可以直接指定el，也可以是tmpl
+        max : 205,
+        spacing : 5,
+        autoplay:true
     });
+});
 ```
 
 
