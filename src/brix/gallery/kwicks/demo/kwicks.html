@@ -111,7 +111,8 @@
                     var kwicks1 = new Kwicks({
                         el:'#ulkwicks1',//这里可以直接指定el，也可以是tmpl
                         max : 205,
-                        spacing : 5
+                        spacing : 5,
+                        autoplay:true
                     });
                     var kwicks2 = new Kwicks({
                         el:'#ulkwicks2',
@@ -135,13 +136,15 @@
                         max: 320,
                         spacing: 5,
                         duration:0.5,
-                        easing: 'bounceOut'
+                        easing: 'bounceOut',
+                        autoplay:true
                     });
                     var kwicks7 = new Kwicks({
                         el:'#ulkwicks7',
                         max: 200,
                         duration: 0.4,
-                        sticky: true
+                        sticky: true,
+                        autoplay:true
                     });
                 });
             });
