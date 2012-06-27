@@ -43,7 +43,7 @@
 ```html
 <script type="text/template" id="tmpl_brick">
     <div class="editPoup" bx-brick="inplaceeditor">
-        <input maxlength="128" type="text" value="">
+        <input maxlength="128" type="text" value="" />
     </div>
 </script>
 ```
