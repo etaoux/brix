@@ -89,7 +89,7 @@
 
 ## 代码示例
 		
-		```javascript
+	```javascript
 		KISSY.use("brix/gallery/kwicks/", function(S, Kwicks) {
             var kwicks1 = new Kwicks({
                 el:'#ulkwicks1',//这里可以直接指定el，也可以是tmpl
@@ -98,7 +98,7 @@
                 autoplay:true
             });
         });
-        ```
+    ```
 
 
 
