@@ -15,8 +15,13 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
         }
     };
 
-    S.extend(InplaceEditor, Brick, {
-        _v: null,//记录编辑原始值
+    InplaceEditor.METHOD = {
+        /**
+         * 显示就地编辑
+         * @param  {Number} x 显示的X坐标
+         * @param  {Number} y 显示的Y坐标
+         * @param  {String} v 文本框的值
+         */
         show: function(x, y, v) {
             var el = this.get('el');
             el.css({
@@ -28,6 +33,9 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
             el.one('input')[0].focus();
             el.one('input').val(v);
         },
+        /**
+         *  隐藏就地编辑
+         */
         hide: function() {
             var el = this.get('el');
             el.css({
@@ -36,17 +44,28 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
                 top: '-9999px'
             });
             var v = this.getValue();
-            if (this._v != v) {//值不相等时候出发valueChange事件
+            if (this._v != v) {//值不相等时候触发valueChange事件
                 this.fire('valueChange', {
                     value: v
                 });
             }
         },
+        /**
+         * 获取当前值
+         */
         getValue: function() {
             var el = this.get('el');
             return el.one('input').val();
         }
+    };
+
+    S.extend(InplaceEditor, Brick, {
+        _v: null//记录编辑原始值
+        
     });
+
+    S.augment(InplaceEditor,InplaceEditor.METHOD);
+    
     return InplaceEditor;
 }, {
     requires: ["brix/brick"]

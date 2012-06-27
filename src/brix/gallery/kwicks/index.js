@@ -123,7 +123,7 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
                 self.timer = null;
             }
         }
-    }
+    };
 
     S.extend(Kwicks, Brick, {
         initialize: function() {
@@ -238,7 +238,7 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
             self.start();
         }
     });
-    S.augment(Dropdown,Dropdown.METHOD);
+    S.augment(Kwicks,Kwicks.METHOD);
     return Kwicks;
 }, {
     requires: ["brix/brick"]
