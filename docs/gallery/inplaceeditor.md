@@ -34,7 +34,8 @@
 
 ## 事件
 
-	* `valueChange(e)`
+
+* `valueChange(e)`
 
     {String} e.value:当前值
 
