@@ -23,7 +23,7 @@
             {
                 name: 'input',
                 type: 'input',
-                datakey: 'input'
+                datakey: 'dropdown1,dropdown2'
             }, {
                 name: 'dropdown1',
                 type: 'dropdown',
@@ -131,8 +131,8 @@
                 me.get('el').on('submit', function (e) {
                     e.halt();
 
+                    me._datakey = me.get('el').attr('bx-datakey').split(',');
                     var args = e.target.cmd.value.split(/\s/);
-
                     S.each(['select', 'add', 'edit', 'remove'], function (cmd) {
                         if (args[0] === cmd) {
                             me[cmd].apply(me, args.slice(1));
@@ -143,10 +143,8 @@
                 });
             },
             select: function (text) {
-                var datakey = ['dropdown1', 'dropdown2'];
-
-                for (var i=0; i<datakey.length; i++) {
-                    var data = S.clone(this.pagelet.get('dataset').get('data.'+datakey[i]));
+                for (var i=0; i<this._datakey.length; i++) {
+                    var data = S.clone(this.pagelet.get('dataset').get('data.'+this._datakey[i]));
 
                     var flag = false;
                     for (var j=0; j<data.length; j++) {
@@ -163,7 +161,7 @@
                         }
                     }
 
-                    this.pagelet.get('dataset').set('data.'+datakey[i], data);
+                    this.pagelet.get('dataset').set('data.'+this._datakey[i], data);
                 }
             },
             add: function (arg) {
@@ -176,10 +174,8 @@
                 this.pagelet.get('dataset').set('data.'+datakey, data);
             },
             edit: function (oldText, newText) {
-                var datakey = ['dropdown1', 'dropdown2'];
-
-                for (var i=0; i<datakey.length; i++) {
-                    var data = S.clone(this.pagelet.get('dataset').get('data.'+datakey[i]));
+                for (var i=0; i<this._datakey.length; i++) {
+                    var data = S.clone(this.pagelet.get('dataset').get('data.'+this._datakey[i]));
 
                     for (var j=0; j<data.length; j++) {
                         if (data[j].text === oldText) {
@@ -187,14 +183,12 @@
                         }
                     }
 
-                    this.pagelet.get('dataset').set('data.'+datakey[i], data);
+                    this.pagelet.get('dataset').set('data.'+this._datakey[i], data);
                 }
             },
             remove: function (text) {
-                var datakey = ['dropdown1', 'dropdown2'];
-
-                for (var i=0; i<datakey.length; i++) {
-                    var data = S.clone(this.pagelet.get('dataset').get('data.'+datakey[i]));
+                for (var i=0; i<this._datakey.length; i++) {
+                    var data = S.clone(this.pagelet.get('dataset').get('data.'+this._datakey[i]));
 
                     for (var j=0; j<data.length; j++) {
                         if (data[j].text === text) {
@@ -203,7 +197,7 @@
                         }
                     }
 
-                    this.pagelet.get('dataset').set('data.'+datakey[i], data);
+                    this.pagelet.get('dataset').set('data.'+this._datakey[i], data);
                 }
             }
         };
