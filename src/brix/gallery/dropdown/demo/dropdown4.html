@@ -79,7 +79,14 @@
 </script>
 <script type="text/template" id="Tmpl_input">
     <form bx-brick="@Tmpl_name" bx-path="brix/gallery/input/" bx-datakey="@Tmpl_datakey" bx-tmpl="@Tmpl_name">
-        <label>输入 s2 或 1:text 试试 <input type="text" name="cmd"></label>
+        <h5>可输入的命令：</h5>
+        <ol>
+            <li>select 计划列表2</li>
+            <li>add dropdown2:text7</li>
+            <li>edit 计划列表5 text5</li>
+            <li>remove 计划列表6</li>
+        </ol>
+        <input type="text" name="cmd">
     </form>
 </script>
 <script type="text/template" id="Tmpl_dropdown">
@@ -113,12 +120,8 @@
     KISSY.add("brix/gallery/input/index", function(S, Brick) {
         function Input() {
             Input.superclass.constructor.apply(this, arguments);
-
-            console.log('Input construct');
         }
 
-        Input.RENDERER = {
-        };
         Input.ATTRS = {
         };
         Input.METHOD = {
@@ -128,26 +131,81 @@
                 me.get('el').on('submit', function (e) {
                     e.halt();
 
-                    var attr = e.target.cmd.value;
+                    var args = e.target.cmd.value.split(/\s/);
 
-                    if (attr.indexOf('s') !== 0) {
-                        var m = attr.slice(0, 1);
-                        var n = attr.slice(2);
-
-                        var data = S.clone(me.pagelet.get('dataset').get('data.dropdown'+(m>3?2:1)));
-                        data[m%3-1].text = n;
-                        me.pagelet.get('dataset').set('data.dropdown'+(m>3?2:1), data);
-                    } else {
-                        var m = attr.slice(1);
-                    }
+                    S.each(['select', 'add', 'edit', 'remove'], function (cmd) {
+                        if (args[0] === cmd) {
+                            me[cmd].apply(me, args.slice(1));
+                        }
+                    });
 
                     e.target.cmd.value = '';
                 });
+            },
+            select: function (text) {
+                var datakey = ['dropdown1', 'dropdown2'];
+
+                for (var i=0; i<datakey.length; i++) {
+                    var data = S.clone(this.pagelet.get('dataset').get('data.'+datakey[i]));
+
+                    var flag = false;
+                    for (var j=0; j<data.length; j++) {
+                        if (data[j].text === text) {
+                            flag = true;
+                            break;
+                        }
+                    }
+                    for (var j=0; flag && j<data.length; j++) {
+                        if (data[j].text === text) {
+                            data[j].selected = true;
+                        } else {
+                            data[j].selected = false;
+                        }
+                    }
+
+                    this.pagelet.get('dataset').set('data.'+datakey[i], data);
+                }
+            },
+            add: function (arg) {
+                var args = arg.split(':');
+                var datakey = args[0];
+                var text = args[1];
+
+                var data = S.clone(this.pagelet.get('dataset').get('data.'+datakey));
+                data.push({text: text});
+                this.pagelet.get('dataset').set('data.'+datakey, data);
+            },
+            edit: function (oldText, newText) {
+                var datakey = ['dropdown1', 'dropdown2'];
+
+                for (var i=0; i<datakey.length; i++) {
+                    var data = S.clone(this.pagelet.get('dataset').get('data.'+datakey[i]));
+
+                    for (var j=0; j<data.length; j++) {
+                        if (data[j].text === oldText) {
+                            data[j].text = newText;
+                        }
+                    }
+
+                    this.pagelet.get('dataset').set('data.'+datakey[i], data);
+                }
+            },
+            remove: function (text) {
+                var datakey = ['dropdown1', 'dropdown2'];
+
+                for (var i=0; i<datakey.length; i++) {
+                    var data = S.clone(this.pagelet.get('dataset').get('data.'+datakey[i]));
+
+                    for (var j=0; j<data.length; j++) {
+                        if (data[j].text === text) {
+                            data.splice(j, 1);
+                            j--;
+                        }
+                    }
+
+                    this.pagelet.get('dataset').set('data.'+datakey[i], data);
+                }
             }
-        };
-        Input.DOCATTACH = {
-        };
-        Input.ATTACH = {
         };
 
         S.extend(Input, Brick);
