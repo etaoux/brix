@@ -1,109 +1,175 @@
-<!DOCTYPE HTML>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>Brix Dropdown Demo</title>
-        <link type="text/css" rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.2.0/css/base-min.css" charset="utf-8">
-        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
-        <script src="../../../config.js"></script>
-    </head>
-    <body style="margin:40px">
-        <div id="container"></div>
-        <!--brix begin-->
-        <script>
-            var pagelet_data = {
-                title: '页面测试',
-                modules: [
-                    {
-                        name: 'dropdown1',
-                        type: 'dropdown',
-                        datakey: 'dropdown1'
-                    }, {
-                        name: 'dropdown2',
-                        type: 'dropdown',
-                        datakey: 'dropdown2'
-                    }
-                ],
-                getTmpl: function() {
-                    return KISSY.one('#Tmpl_' + this.type).html()
-                        .replace(/@Tmpl_name/g, this.name)
-                        .replace(/@Tmpl_datakey/g, this.datakey);
-                },
-                dataset: {
-                    dropdown1: [
-                        {
-                            value: "1",
-                            text: "计划列表",
-                            selected: true
-                        }, {
-                            value: "2",
-                            text: "计划列表2",
-                        }, {
-                            value: "3",
-                            text: "计划列表3"
-                        }
-                    ],
-                    dropdown2: [
-                        {
-                            value: "4",
-                            text: "计划列表4",
-                            selected: true
-                        }, {
-                            value: "5",
-                            text: "计划列表5"
-                        }, {
-                            value: "6",
-                            text: "计划列表6"
-                        }
-                    ]
+<!doctype html>
+
+<meta charset="utf-8">
+<title>Brix Page Demo</title>
+<link rel="stylesheet/less" href="../../../../estrap/estrap.less"/>
+<script src="../../../../estrap/tests/less.js"></script>
+<style>
+    #container {margin: 40px}
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+</style>
+
+<div id="container"></div>
+
+<!--brix data-->
+<script>
+    var pagelet_data = {
+        title: '页面测试',
+        modules: [
+            {
+                name: 'input',
+                type: 'input',
+                datakey: 'input'
+            }, {
+                name: 'dropdown1',
+                type: 'dropdown',
+                datakey: 'dropdown1'
+            }, {
+                name: 'dropdown2',
+                type: 'dropdown',
+                datakey: 'dropdown2'
+            }
+        ],
+        getTmpl: function() {
+            return KISSY.one('#Tmpl_' + this.type).html()
+                .replace(/@Tmpl_name/g, this.name)
+                .replace(/@Tmpl_datakey/g, this.datakey);
+        },
+        dataset: {
+            dropdown1: [
+                {
+                    value: "1",
+                    text: "计划列表",
+                    selected: true
+                }, {
+                    value: "2",
+                    text: "计划列表2",
+                }, {
+                    value: "3",
+                    text: "计划列表3"
                 }
-            };
-        </script>
-        <script type="text/template" id="Tmpl_main">
-            <h1>{{title}}</h1>
-            {{#modules}}
-                {{{getTmpl}}}
-            {{/modules}}
-        </script>
-        <script type="text/template" id="Tmpl_dropdown">
-            <div bx-brick="@Tmpl_name" bx-path="brix/gallery/dropdown/" bx-datakey="@Tmpl_datakey" bx-tmpl="@Tmpl_name" class="dropdown">
-                <a class="dropdown-a">
-                    {{#@Tmpl_datakey}}
-                    {{#selected}}
-                    <span class="dropdown-span" value="{{value}}">{{text}}</span>
-                    <i class="dropdown-icon"></i>
-                    {{/selected}}
+            ],
+            dropdown2: [
+                {
+                    value: "4",
+                    text: "计划列表4",
+                    selected: true
+                }, {
+                    value: "5",
+                    text: "计划列表5"
+                }, {
+                    value: "6",
+                    text: "计划列表6"
+                }
+            ]
+        }
+    };
+</script>
 
-                    {{/@Tmpl_datakey}}
-                </a>
-                <ul class="dropdown-list">
-                    {{#@Tmpl_datakey}}
-                    <li bxclick="xxClick" {{#if(color==red)}}style="color:red"{{/if(color==red)}} class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}{{xx_yy}}</li>
-                    {{/@Tmpl_datakey}}
-                </ul>
-                {{#@Tmpl_datakey}}
-                {{#selected}}
-                <input name="dd"  value="{{value}}" type="hidden" />
-                {{/selected}}
-                {{/@Tmpl_datakey}}
-            </div>
-        </script>
-        <script>
-            KISSY.use("brix/pagelet", function(S, Pagelet) {
-                var tmpl = Mustache.render(S.one('#Tmpl_main').html(), pagelet_data);
+<!--brix template-->
+<script type="text/template" id="Tmpl_main">
+    <h1>{{title}}</h1>
+    {{#modules}}
+        {{{getTmpl}}}
+    {{/modules}}
+</script>
+<script type="text/template" id="Tmpl_input">
+    <form bx-brick="@Tmpl_name" bx-path="brix/gallery/input/" bx-datakey="@Tmpl_datakey" bx-tmpl="@Tmpl_name">
+        <label>输入 s2 或 1:text 试试 <input type="text" name="cmd"></label>
+    </form>
+</script>
+<script type="text/template" id="Tmpl_dropdown">
+    <p>@Tmpl_name</p>
+    <div bx-brick="@Tmpl_name" bx-path="brix/gallery/dropdown/" bx-datakey="@Tmpl_datakey" bx-tmpl="@Tmpl_name" class="dropdown">
+        <a class="dropdown-a">
+            {{#@Tmpl_datakey}}
+            {{#selected}}
+            <span class="dropdown-span" value="{{value}}">{{text}}</span>
+            <i class="dropdown-icon"></i>
+            {{/selected}}
+            {{/@Tmpl_datakey}}
+        </a>
+        <ul class="dropdown-list">
+            {{#@Tmpl_datakey}}
+            <li bxclick="xxClick" {{#if(color==red)}}style="color:red"{{/if(color==red)}} class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}{{xx_yy}}</li>
+            {{/@Tmpl_datakey}}
+        </ul>
+        {{#@Tmpl_datakey}}
+        {{#selected}}
+        <input name="dd" value="{{value}}" type="hidden" />
+        {{/selected}}
+        {{/@Tmpl_datakey}}
+    </div>
+</script>
 
-                var pagelet = new Pagelet({
-                    container: '#container', //容器节点
-                    tmpl: tmpl, //需要的模板
-                    data: pagelet_data.dataset //这个数据会被重新clone一份，所以更新原始数据不会对内部产生影响
+<!--brix script-->
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+<script src="../../../config.js"></script>
+<script>
+    KISSY.add("brix/gallery/input/index", function(S, Brick) {
+        function Input() {
+            Input.superclass.constructor.apply(this, arguments);
+
+            console.log('Input construct');
+        }
+
+        Input.RENDERER = {
+        };
+        Input.ATTRS = {
+        };
+        Input.METHOD = {
+            initialize: function () {
+                var me = this;
+
+                me.get('el').on('submit', function (e) {
+                    e.halt();
+
+                    var attr = e.target.cmd.value;
+
+                    if (attr.indexOf('s') !== 0) {
+                        var m = attr.slice(0, 1);
+                        var n = attr.slice(2);
+
+                        var data = S.clone(me.pagelet.get('dataset').get('data.dropdown'+(m>3?2:1)));
+                        data[m%3-1].text = n;
+                        me.pagelet.get('dataset').set('data.dropdown'+(m>3?2:1), data);
+                    } else {
+                        var m = attr.slice(1);
+                    }
+
+                    e.target.cmd.value = '';
                 });
+            }
+        };
+        Input.DOCATTACH = {
+        };
+        Input.ATTACH = {
+        };
 
-                pagelet.addBehavior();
-                pagelet.ready(function() {
-                    pagelet.render();
-                });
-            });
-        </script>
-        <!--brix end-->
-    </body>
-</html>
+        S.extend(Input, Brick);
+        S.augment(Input, Input.METHOD);
+
+        return Input;
+    }, {
+        requires: ["brix/brick"]
+    });
+</script>
+<script>
+    KISSY.use('brix/pagelet, brix/dataset, brix/mustache', function(S, Pagelet, Dataset, Mustache) {
+        var pagelet = new Pagelet({
+            container: '#container', //容器节点
+            tmpl: Mustache.render(S.one('#Tmpl_main').html(), pagelet_data), //需要的模板
+            dataset: new Dataset({data: pagelet_data.dataset})
+            //data: pagelet_data.dataset //这个数据会被重新clone一份，所以更新原始数据不会对内部产生影响
+        });
+
+        pagelet.addBehavior();
+        pagelet.ready(function() {
+            pagelet.render();
+        });
+    });
+</script>
