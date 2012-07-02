@@ -8,45 +8,33 @@ KISSY.add("brix/brick", function(S, Chunk) {
 
     function Brick() {
         var self = this;
-        self.pagelet = arguments[0].pagelet;//pagelet的引用
-
-        var context = self.pagelet?self.pagelet:self;
-
-        context.on('rendered',function(){
-           self.initialize();
-           self._bindEvent();
-        });
-
+        self.pagelet = arguments[0] ? arguments[0].pagelet : null; //pagelet的引用
         Brick.superclass.constructor.apply(this, arguments);
-
-        if(context.get('rendered')){
+        var context = self.pagelet ? self.pagelet : self;
+        if (context.get('rendered')) {
             self.initialize();
             self._bindEvent();
+        } else {
+            context.on('rendered', function() {
+                self.initialize();
+                self._bindEvent();
+            });
         }
 
-        var tmpler = self.get('tmpler'),id;
-        if(tmpler){
-
-            if(!tmpler.inDom){
-                //模板渲染，则id为本身
-                S.each(tmpler.bricks,function(o,k){
-                    id=k;
-                    return false;
-                });
-                tmpler.bricks[id].brick = this;
-            }
-            else{
-                //如果已经在dom中，则的id去el节点
-                id=self.get('el').attr('id');
-            }
-        }else{
-            //通过pagelet渲染，获取id
-            id = arguments[0].el.split('#')[1];
+        var tmpler = self.get('tmpler'),
+            id = self.get('id');
+        if (tmpler && !S.isEmptyObject(tmpler.bricks)) {
+            S.each(tmpler.bricks, function(b, k) {
+                tmpler.bricks[k].brick = self;
+            });
+        }
+        if (!tmpler && !id) {
+            id = self.get('el').attr('id') || self.constructor.name;
+            self.set('id', id);
         }
         var renderer = self.constructor.RENDERER;
-        id=id||self.constructor.name;
-        if(renderer){
-            context.get('dataset').setRenderer(renderer,self,id);
+        if (renderer) {
+            context.get('dataset').setRenderer(renderer, self, id);
         }
     }
     Brick.ATTACH = {
@@ -66,13 +54,13 @@ KISSY.add("brix/brick", function(S, Chunk) {
 
     S.extend(Brick, Chunk, {
         //初始化方法，提供子类覆盖
-        initialize:function(){
+        initialize: function() {
 
         },
         /**
          * 移除代理事件
          */
-        _detachEvent:function(){
+        _detachEvent: function() {
             var self = this;
             var defaultEvents = self.constructor.ATTACH;
             if (defaultEvents) {
@@ -80,7 +68,7 @@ KISSY.add("brix/brick", function(S, Chunk) {
             }
             var defaultDocEvents = self.constructor.DOCATTACH;
             if (defaultDocEvents) {
-                self._removeEvents(defaultDocEvents,S.one(document));
+                self._removeEvents(defaultDocEvents, S.one(document));
             }
 
             self._undelegateEvents();
@@ -92,9 +80,9 @@ KISSY.add("brix/brick", function(S, Chunk) {
         /**
          * 绑定代理事件
          */
-        _bindEvent:function(){
+        _bindEvent: function() {
             var self = this;
-             //组件默认事件代理
+            //组件默认事件代理
             //方式一
             var defaultEvents = self.constructor.ATTACH;
             if (defaultEvents) {
@@ -103,7 +91,7 @@ KISSY.add("brix/brick", function(S, Chunk) {
             //代理在全局的页面上
             var defaultDocEvents = self.constructor.DOCATTACH;
             if (defaultDocEvents) {
-                this._addEvents(defaultDocEvents,S.one(document));
+                this._addEvents(defaultDocEvents, S.one(document));
             }
 
             //方式二
@@ -122,16 +110,15 @@ KISSY.add("brix/brick", function(S, Chunk) {
          * 移除事件代理
          * @param  {object} events 事件对象，参见ATTACH属性
          */
-        _removeEvents: function(events,el) {
+        _removeEvents: function(events, el) {
             el = el || this.get("el");
             for (var selector in events) {
                 var event = events[selector];
                 for (var type in event) {
                     var callback = normFn(this, event[type]);
-                    if(selector==""){
-                        el.detach(type,callback,this);
-                    }
-                    else{
+                    if (selector == "") {
+                        el.detach(type, callback, this);
+                    } else {
                         el.undelegate(type, selector, callback, this);
                     }
                 }
@@ -141,15 +128,15 @@ KISSY.add("brix/brick", function(S, Chunk) {
          * 添加事件代理绑定
          * @param  {object} events 事件对象，参见ATTACH属性
          */
-        _addEvents: function(events,el) {
+        _addEvents: function(events, el) {
             el = el || this.get("el");
             for (var selector in events) {
                 var event = events[selector];
                 for (var type in event) {
                     var callback = normFn(this, event[type]);
-                    if(selector==""){
-                        el.on(type,callback,this);
-                    }else{
+                    if (selector == "") {
+                        el.on(type, callback, this);
+                    } else {
                         el.delegate(type, selector, callback, this);
                     }
                 }
@@ -206,7 +193,7 @@ KISSY.add("brix/brick", function(S, Chunk) {
         /**
          * 取消原生事件代理
          */
-        _undelegateEvents:function(){
+        _undelegateEvents: function() {
             var events = this.events;
             var node = this.get("el")[0];
             var that = this;

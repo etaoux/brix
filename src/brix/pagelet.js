@@ -10,20 +10,20 @@ KISSY.add("brix/pagelet", function(S, Chunk) {
 
     S.extend(Pagelet, Chunk, {
         /**
-        * 获取brick的实例
-        * @param  {String} id brick的id
-        * @return {Object} 组件实例
-        */
+         * 获取brick的实例
+         * @param  {String} id brick的id
+         * @return {Object} 组件实例
+         */
         getBrick: function(id) {
             return this._getBrick(id, this.get('tmpler').bricks);
         },
 
-       /**
-        * 获取brick的实例
-        * @param  {String} id     brick的id
-        * @param  {Object} bricks 需要渲染的brick集合
-        * @return {Object}        组件实例
-        */
+        /**
+         * 获取brick的实例
+         * @param  {String} id     brick的id
+         * @param  {Object} bricks 需要渲染的brick集合
+         * @return {Object}        组件实例
+         */
         _getBrick: function(id, bricks) {
             var self = this,
                 brick;
@@ -41,7 +41,7 @@ KISSY.add("brix/pagelet", function(S, Chunk) {
          * 给组件添加行为
          */
         addBehavior: function() {
-            if(!this.isAddBehavior){
+            if (!this.isAddBehavior) {
                 this._addBehavior(this.get('tmpler').bricks);
                 this.isAddBehavior = true;
             }
@@ -57,9 +57,10 @@ KISSY.add("brix/pagelet", function(S, Chunk) {
                     self.brickCount++;
                     S.use(o.path, function(S, TheBrick) {
                         var config = S.merge({
+                            id: k,
                             el: '#' + k,
-                            pagelet:self
-                        },o.config);
+                            pagelet: self
+                        }, o.config);
                         var myBrick = new TheBrick(config);
                         o.brick = myBrick;
                         self._addBehavior(o.bricks);
@@ -75,9 +76,9 @@ KISSY.add("brix/pagelet", function(S, Chunk) {
             }
         },
         /**
-        * pagelet 渲染完成后需要执行的函数
-        * @param {Function} fn 执行的函数
-        */
+         * pagelet 渲染完成后需要执行的函数
+         * @param {Function} fn 执行的函数
+         */
         ready: function(fn) {
             if (this.isReady) {
                 fn.call(window, this);

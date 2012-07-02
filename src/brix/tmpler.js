@@ -97,11 +97,15 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
                     }
                     return i + name + k;
                 });
-                tmplNode = $('<div></div>').append(tmpl);
+                node = $(tmpl);
+                if (node.length > 1) { //如果是多个节点，则创建容器节点
+                    node = $('<div></div>').append(node);
+                }
+                tmplNode = $('<div></div>').append(node);
             } else {
-                _stamp(node);
                 tmplNode = node;
             }
+            this.id = _stamp(node);
             var tmplTargetNodes = tmplNode.all('[bx-tmpl-source]');
             tmplTargetNodes.each(function(node) {
                 var selector = node.attr('bx-tmpl-source');
@@ -119,6 +123,7 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
 
             if (!inDom) {
                 self.tmpl = _recovery(tmplNode.html(), arr);
+                node.remove();
                 tmplNode.remove();
             }
             tmplNode = null;
