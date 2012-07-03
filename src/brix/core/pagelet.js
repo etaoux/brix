@@ -1,4 +1,4 @@
-KISSY.add("brix/pagelet", function(S, Chunk) {
+KISSY.add("brix/core/pagelet", function(S, Chunk) {
     function Pagelet() {
         Pagelet.superclass.constructor.apply(this, arguments);
         //初始化属性
@@ -107,5 +107,5 @@ KISSY.add("brix/pagelet", function(S, Chunk) {
     });
     return Pagelet;
 }, {
-    requires: ['brix/chunk']
+    requires: ['./chunk']
 });

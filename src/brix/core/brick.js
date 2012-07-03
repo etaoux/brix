@@ -1,4 +1,4 @@
-KISSY.add("brix/brick", function(S, Chunk) {
+KISSY.add("brix/core/brick", function(S, Chunk) {
     function normFn(self, f) {
         if (S.isString(f)) {
             return self[f];
@@ -207,5 +207,5 @@ KISSY.add("brix/brick", function(S, Chunk) {
     });
     return Brick;
 }, {
-    requires: ["brix/chunk"]
+    requires: ["./chunk"]
 });

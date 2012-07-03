@@ -241,5 +241,5 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
     S.augment(Kwicks,Kwicks.METHOD);
     return Kwicks;
 }, {
-    requires: ["brix/brick"]
+    requires: ["brix/core/brick"]
 });

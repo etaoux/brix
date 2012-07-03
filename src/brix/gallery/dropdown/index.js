@@ -108,5 +108,5 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
     S.augment(Dropdown,Dropdown.METHOD);
     return Dropdown;
 }, {
-    requires: ["brix/brick","./dropdown.css"]
+    requires: ["brix/core/brick","./dropdown.css"]
 });

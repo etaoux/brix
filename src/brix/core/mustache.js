@@ -1,4 +1,4 @@
-KISSY.add('brix/mustache', function(S) {
+KISSY.add('brix/core/mustache', function(S) {
   /*!
    * mustache.js - Logic-less {{mustache}} templates with JavaScript
    * http://github.com/janl/mustache.js

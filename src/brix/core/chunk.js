@@ -1,4 +1,4 @@
-KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
+KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
     var $ = Node.all;
     /**
      * brick和pagelet类的基类
@@ -255,5 +255,5 @@ KISSY.add("brix/chunk", function(S, Node, Base, Dataset, Tmpler) {
     });
     return Chunk;
 }, {
-    requires: ["node", "base", "brix/dataset", "brix/tmpler"]
+    requires: ["node", "base", "./dataset", "./tmpler"]
 });

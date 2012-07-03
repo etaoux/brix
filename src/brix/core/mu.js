@@ -17,7 +17,7 @@
  * @class Mu
  * @namespace libs.magix
  * @static*/
-KISSY.add("brix/mu", function(S, Mustache) {
+KISSY.add("brix/core/mu", function(S, Mustache) {
     function addFns(template, data) {
         var ifs = getConditions(template);
         var key = "";
@@ -122,5 +122,5 @@ KISSY.add("brix/mu", function(S, Mustache) {
         clearCache: Mustache.clearCache
     };
 }, {
-    requires: ["brix/mustache"]
+    requires: ["./mustache"]
 });

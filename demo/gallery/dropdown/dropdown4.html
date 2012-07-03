@@ -115,7 +115,7 @@
 
 <!--brix script-->
 <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
-<script src="../../../config.js"></script>
+<script src="../../config.js"></script>
 <script>
     KISSY.add("brix/gallery/input/index", function(S, Brick) {
         function Input() {
@@ -207,11 +207,11 @@
 
         return Input;
     }, {
-        requires: ["brix/brick"]
+        requires: ["brix/core/brick"]
     });
 </script>
 <script>
-    KISSY.use('brix/pagelet, brix/dataset, brix/mustache', function(S, Pagelet, Dataset, Mustache) {
+    KISSY.use('brix/core/pagelet, brix/core/dataset, brix/core/mustache', function(S, Pagelet, Dataset, Mustache) {
         var pagelet = new Pagelet({
             container: '#container', //容器节点
             tmpl: Mustache.render(S.one('#Tmpl_main').html(), pagelet_data), //需要的模板

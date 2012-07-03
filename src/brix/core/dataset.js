@@ -1,5 +1,5 @@
 //暂时
-KISSY.add("brix/dataset", function(S, Base) {
+KISSY.add("brix/core/dataset", function(S, Base) {
     function Dataset() {
         Dataset.superclass.constructor.apply(this, arguments);
     }

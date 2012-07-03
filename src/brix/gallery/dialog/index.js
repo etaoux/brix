@@ -188,5 +188,5 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
     });
     return Dialog;
 }, {
-    requires: ["brix/pagelet", "overlay", "./dialog.css"]
+    requires: ["brix/core/pagelet", "overlay", "./dialog.css"]
 });

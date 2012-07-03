@@ -1,4 +1,4 @@
-KISSY.add("brix/tmpler", function(S, Mustache, Node) {
+KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
     var $ = Node.all;
     /**
      * 用以给brick打上id的标记,brick有id则返回
@@ -211,5 +211,5 @@ KISSY.add("brix/tmpler", function(S, Mustache, Node) {
     });
     return Tmpler;
 }, {
-    requires: ['brix/mu', 'node', 'sizzle']
+    requires: ['./mu', 'node', 'sizzle']
 });
