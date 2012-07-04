@@ -4,21 +4,12 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: '<json:package.json>',
     meta: {
-      name: 'JavaScript Hooker',
-      banner: '/*! <%= meta.name %> - v<%= pkg.version %> - <%= grunt.template.today("m/d/yyyy") %>\n' +
-              '* <%= pkg.homepage %>\n' +
-              '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-              ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
+      name: 'Brix',
+      banner: '/*! <%= meta.name %> - v<%= pkg.version %> - <%= grunt.template.today("m/d/yyyy") %>\n' + '* <%= pkg.homepage %>\n' + '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' + ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
     },
     concat: {
       dist: {
-        src: ['<banner:meta.banner>', "src/core/mustache.js",
-        "src/core/mu.js",
-        "src/core/tmpler.js",
-        "src/core/dataset.js",
-        "src/core/chunk.js",
-        "src/core/brick.js",
-        "src/core/pagelet.js"],
+        src: ['<banner:meta.banner>', "src/core/mustache.js", "src/core/mu.js", "src/core/tmpler.js", "src/core/dataset.js", "src/core/chunk.js", "src/core/brick.js", "src/core/pagelet.js"],
         dest: 'dist/<%= pkg.name %>.js'
       }
     },
@@ -40,7 +31,7 @@ module.exports = function(grunt) {
     },
     jshint: {
       options: {
-        browser:true,
+        browser: true,
         curly: true,
         eqeqeq: false,
         immed: true,
@@ -55,17 +46,17 @@ module.exports = function(grunt) {
       globals: {
         exports: true,
         module: false,
-        KISSY:true,
-        console:true,
-        print:true,
-        document:true,
-        window:true
+        KISSY: true,
+        console: true,
+        print: true,
+        document: true,
+        window: true
       }
     },
     uglify: {
-        codegen: {
-          ascii_only: true
-        }
+      codegen: {
+        ascii_only: true
+      }
     }
   });
 

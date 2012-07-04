@@ -1,4 +1,4 @@
-/*! JavaScript Hooker - v0.1.0 - 7/4/2012
+/*! Brix - v0.1.0 - 7/4/2012
 * https://github.com/etaoux/brix
 * Copyright (c) 2012 etaoux; Licensed MIT */
 
