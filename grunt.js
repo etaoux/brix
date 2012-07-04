@@ -40,8 +40,9 @@ module.exports = function(grunt) {
     },
     jshint: {
       options: {
+        browser:true,
         curly: true,
-        eqeqeq: true,
+        eqeqeq: false,
         immed: true,
         latedef: true,
         newcap: true,
@@ -53,7 +54,12 @@ module.exports = function(grunt) {
       },
       globals: {
         exports: true,
-        module: false
+        module: false,
+        KISSY:true,
+        console:true,
+        print:true,
+        document:true,
+        window:true
       }
     },
     uglify: {

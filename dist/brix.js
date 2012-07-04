@@ -604,7 +604,7 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
             v = o[k];
             if (v instanceof Array) {
                 addArrayIndex(v);
-            } else if (typeof(v) == "object" && depth < 5) {
+            } else if (typeof(v) === "object" && depth < 5) {
                 findArray(v, depth + 1);
             }
         }
@@ -612,11 +612,11 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
 
     function addArrayIndex(v) {
         for (var i = 0; i < v.length; i++) {
-            o = v[i];
-            if (typeof(o) == "object") {
+            var o = v[i];
+            if (typeof(o) === "object") {
                 if (i === 0) {
                     o.__first__ = true;
-                } else if (i == (v.length - 1)) {
+                } else if (i === (v.length - 1)) {
                     o.__last__ = true;
                 } else {
                     o.__mid__ = true;
@@ -634,7 +634,7 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
          * @return {String}
          */
         to_html: function(template, data) {
-            if (typeof(data) == "object") {
+            if (typeof(data) === "object") {
                 findArray(data, 0);
             }
             addFns(template, data);
@@ -826,16 +826,16 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
          * @return {Boolen} 是否添加成功
          */
         addTmpl: function(id, arr) {
-            var self = this;
-            ret = false;
+            var self = this,
+                ret = false;
             S.each(self.bricks, function(b, k) {
-                if (k == id) {
+                if (k === id) {
                     S.each(arr, function(m) {
                         b.tmpls.push({
                             id: m.id,
                             datakey: m.datakey.split(','),
                             tmpler: new Tmpler(m.tmpl, false)
-                        })
+                        });
                     });
                     ret = true;
                     return false;
@@ -866,14 +866,13 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
 }, {
     requires: ['./mu', 'node', 'sizzle']
 });
-//暂时
 KISSY.add("brix/core/dataset", function(S, Base) {
     function Dataset() {
         Dataset.superclass.constructor.apply(this, arguments);
     }
     Dataset.ATTRS = {
         data: {}
-    }
+    };
     S.extend(Dataset, Base, {
         /**
          * 扩展数据，用于mastache渲染
@@ -884,18 +883,20 @@ KISSY.add("brix/core/dataset", function(S, Base) {
         setRenderer : function(renderer,context,prefix) {
             var self = this, rr = renderer, mcName, wrapperName,data = self.get('data');
             if(rr) {
+                var foo = function(mcName,wrapperName){
+                    var mn = mcName, wn = wrapperName;
+                    var fn = rr[mn][wn];
+                    data[(prefix?prefix+"_":"")+mn + "_" + wn] = function() {
+                        return fn.call(this, context, mn);
+                    };
+                };
                 for(mcName in rr) {
-                    for(wrapperName in rr[mcName]) {(function() {
-                            var mn = mcName, wn = wrapperName;
-                            var fn = rr[mn][wn];
-                            data[(prefix?prefix+"_":"")+mn + "_" + wn] = function() {
-                                return fn.call(this, context, mn);
-                            };
-                        })();
+                    for(wrapperName in rr[mcName]) {
+                        foo(mcName,wrapperName);
                     }
                 }
             }
-        },
+        }
     });
     return Dataset;
 }, {
@@ -1083,7 +1084,7 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
                                 temparr = item.split('.'),
                                 length = temparr.length,
                                 i = 0;
-                            while (i != length) {
+                            while (i !== length) {
                                 tempdata = tempdata[temparr[i]];
                                 i++;
                             }
@@ -1125,7 +1126,7 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
             var self = this;
             S.each(bricks, function(o,k) {
                 if(id){
-                    if(id==k){
+                    if(id===k){
                         self._destroyBrick(o);
                         delete bricks[k];
                         return false;
@@ -1280,7 +1281,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
                 var event = events[selector];
                 for (var type in event) {
                     var callback = normFn(this, event[type]);
-                    if (selector == "") {
+                    if (selector === "") {
                         el.detach(type, callback, this);
                     } else {
                         el.undelegate(type, selector, callback, this);
@@ -1298,7 +1299,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
                 var event = events[selector];
                 for (var type in event) {
                     var callback = normFn(this, event[type]);
-                    if (selector == "") {
+                    if (selector === "") {
                         el.on(type, callback, this);
                     } else {
                         el.delegate(type, selector, callback, this);
@@ -1319,7 +1320,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
                     node["on" + type] = function() {
                         var event = arguments[0] || window.event;
                         var target = event.target || event.srcElement;
-                        if (target.nodeType != 1) {
+                        if (target.nodeType !== 1) {
                             target = target.parentNode;
                         }
                         var eventinfo = target.getAttribute("bx" + type);
@@ -1333,11 +1334,11 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
                                 // 事件代理,通过最后一个参数,决定是否阻止事件冒泡和取消默认动作
                                 var evtBehavior = eventArr[eventArr.length - 1],
                                     evtArg = false;
-                                if (evtBehavior == '_halt_' || evtBehavior == '_preventDefault_') {
+                                if (evtBehavior === '_halt_' || evtBehavior === '_preventDefault_') {
                                     event.preventDefault ? event.preventDefault() : (event.returnValue = false);
                                     evtArg = true;
                                 }
-                                if (evtBehavior == '_halt_' || evtBehavior == '_stop_') {
+                                if (evtBehavior === '_halt_' || evtBehavior === '_stop_') {
                                     event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true);
                                     evtArg = true;
                                 }
@@ -1403,7 +1404,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
             var self = this,
                 brick;
             S.each(bricks, function(b, k) {
-                if (k == id) {
+                if (k === id) {
                     brick = b.brick;
                     return false;
                 } else {
@@ -1427,26 +1428,27 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          */
         _addBehavior: function(bricks) {
             var self = this;
-            S.each(bricks, function(o, k) {
-                (function(o, k) {
-                    self.brickCount++;
-                    S.use(o.path, function(S, TheBrick) {
-                        var config = S.merge({
-                            id: k,
-                            el: '#' + k,
-                            pagelet: self
-                        }, o.config);
-                        var myBrick = new TheBrick(config);
-                        o.brick = myBrick;
-                        self._addBehavior(o.bricks);
-                        self.brickCount--;
-                        if (self.brickCount == 0) {
-                            self._fireReady();
-                        }
-                    });
-                })(o, k);
+            var foo = function(o,k){
+                self.brickCount++;
+                S.use(o.path, function(S, TheBrick) {
+                    var config = S.merge({
+                        id: k,
+                        el: '#' + k,
+                        pagelet: self
+                    }, o.config);
+                    var myBrick = new TheBrick(config);
+                    o.brick = myBrick;
+                    self._addBehavior(o.bricks);
+                    self.brickCount--;
+                    if (self.brickCount === 0) {
+                        self._fireReady();
+                    }
+                });
+            };
+            S.each(bricks, function(brick, key) {
+                foo(brick, key);
             });
-            if (self.brickCount == 0) {
+            if (self.brickCount === 0) {
                 self._fireReady();
             }
         },

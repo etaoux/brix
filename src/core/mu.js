@@ -77,7 +77,7 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
             v = o[k];
             if (v instanceof Array) {
                 addArrayIndex(v);
-            } else if (typeof(v) == "object" && depth < 5) {
+            } else if (typeof(v) === "object" && depth < 5) {
                 findArray(v, depth + 1);
             }
         }
@@ -85,11 +85,11 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
 
     function addArrayIndex(v) {
         for (var i = 0; i < v.length; i++) {
-            o = v[i];
-            if (typeof(o) == "object") {
+            var o = v[i];
+            if (typeof(o) === "object") {
                 if (i === 0) {
                     o.__first__ = true;
-                } else if (i == (v.length - 1)) {
+                } else if (i === (v.length - 1)) {
                     o.__last__ = true;
                 } else {
                     o.__mid__ = true;
@@ -107,7 +107,7 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
          * @return {String}
          */
         to_html: function(template, data) {
-            if (typeof(data) == "object") {
+            if (typeof(data) === "object") {
                 findArray(data, 0);
             }
             addFns(template, data);

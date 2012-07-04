@@ -28,7 +28,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
             var self = this,
                 brick;
             S.each(bricks, function(b, k) {
-                if (k == id) {
+                if (k === id) {
                     brick = b.brick;
                     return false;
                 } else {
@@ -52,26 +52,27 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          */
         _addBehavior: function(bricks) {
             var self = this;
-            S.each(bricks, function(o, k) {
-                (function(o, k) {
-                    self.brickCount++;
-                    S.use(o.path, function(S, TheBrick) {
-                        var config = S.merge({
-                            id: k,
-                            el: '#' + k,
-                            pagelet: self
-                        }, o.config);
-                        var myBrick = new TheBrick(config);
-                        o.brick = myBrick;
-                        self._addBehavior(o.bricks);
-                        self.brickCount--;
-                        if (self.brickCount == 0) {
-                            self._fireReady();
-                        }
-                    });
-                })(o, k);
+            var foo = function(o,k){
+                self.brickCount++;
+                S.use(o.path, function(S, TheBrick) {
+                    var config = S.merge({
+                        id: k,
+                        el: '#' + k,
+                        pagelet: self
+                    }, o.config);
+                    var myBrick = new TheBrick(config);
+                    o.brick = myBrick;
+                    self._addBehavior(o.bricks);
+                    self.brickCount--;
+                    if (self.brickCount === 0) {
+                        self._fireReady();
+                    }
+                });
+            };
+            S.each(bricks, function(brick, key) {
+                foo(brick, key);
             });
-            if (self.brickCount == 0) {
+            if (self.brickCount === 0) {
                 self._fireReady();
             }
         },

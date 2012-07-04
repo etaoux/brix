@@ -179,7 +179,7 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
                                 temparr = item.split('.'),
                                 length = temparr.length,
                                 i = 0;
-                            while (i != length) {
+                            while (i !== length) {
                                 tempdata = tempdata[temparr[i]];
                                 i++;
                             }
@@ -221,7 +221,7 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
             var self = this;
             S.each(bricks, function(o,k) {
                 if(id){
-                    if(id==k){
+                    if(id===k){
                         self._destroyBrick(o);
                         delete bricks[k];
                         return false;

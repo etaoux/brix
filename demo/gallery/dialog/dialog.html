@@ -82,8 +82,8 @@
                         duration:0.3
                     }
                     var dialog = new Dialog(config);
-                    dialog.on('hide',function(){alert('hide')});
-                    dialog.on('show',function(){alert('show')});
+                    dialog.on('hide',function(){console.log('hide')});
+                    dialog.on('show',function(){console.log('show')});
                     dialog.show();
 
                     S.one('#aaa').on('click',function(){

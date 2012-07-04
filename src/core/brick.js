@@ -116,7 +116,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
                 var event = events[selector];
                 for (var type in event) {
                     var callback = normFn(this, event[type]);
-                    if (selector == "") {
+                    if (selector === "") {
                         el.detach(type, callback, this);
                     } else {
                         el.undelegate(type, selector, callback, this);
@@ -134,7 +134,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
                 var event = events[selector];
                 for (var type in event) {
                     var callback = normFn(this, event[type]);
-                    if (selector == "") {
+                    if (selector === "") {
                         el.on(type, callback, this);
                     } else {
                         el.delegate(type, selector, callback, this);
@@ -155,7 +155,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
                     node["on" + type] = function() {
                         var event = arguments[0] || window.event;
                         var target = event.target || event.srcElement;
-                        if (target.nodeType != 1) {
+                        if (target.nodeType !== 1) {
                             target = target.parentNode;
                         }
                         var eventinfo = target.getAttribute("bx" + type);
@@ -169,11 +169,11 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
                                 // 事件代理,通过最后一个参数,决定是否阻止事件冒泡和取消默认动作
                                 var evtBehavior = eventArr[eventArr.length - 1],
                                     evtArg = false;
-                                if (evtBehavior == '_halt_' || evtBehavior == '_preventDefault_') {
+                                if (evtBehavior === '_halt_' || evtBehavior === '_preventDefault_') {
                                     event.preventDefault ? event.preventDefault() : (event.returnValue = false);
                                     evtArg = true;
                                 }
-                                if (evtBehavior == '_halt_' || evtBehavior == '_stop_') {
+                                if (evtBehavior === '_halt_' || evtBehavior === '_stop_') {
                                     event.stopPropagation ? event.stopPropagation() : (event.cancelBubble = true);
                                     evtArg = true;
                                 }

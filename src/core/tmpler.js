@@ -173,16 +173,16 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
          * @return {Boolen} 是否添加成功
          */
         addTmpl: function(id, arr) {
-            var self = this;
-            ret = false;
+            var self = this,
+                ret = false;
             S.each(self.bricks, function(b, k) {
-                if (k == id) {
+                if (k === id) {
                     S.each(arr, function(m) {
                         b.tmpls.push({
                             id: m.id,
                             datakey: m.datakey.split(','),
                             tmpler: new Tmpler(m.tmpl, false)
-                        })
+                        });
                     });
                     ret = true;
                     return false;
