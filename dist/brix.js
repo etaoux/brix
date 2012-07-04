@@ -1,6 +1,6 @@
-/*! JavaScript Hooker - v0.2.3 - 7/4/2012
+/*! JavaScript Hooker - v0.1.0 - 7/4/2012
 * https://github.com/etaoux/brix
-* Copyright (c) 2012 KeyApril; Licensed MIT */
+* Copyright (c) 2012 etaoux; Licensed MIT */
 
 KISSY.add('brix/core/mustache', function(S) {
   /*!
@@ -71,7 +71,7 @@ KISSY.add('brix/core/mustache', function(S) {
     } else {
       var trimLeft, trimRight;
 
-      if (isWhitespace( "\xA0" )) {
+      if (isWhitespace("\xA0")) {
         trimLeft = /^\s+/;
         trimRight = /\s+$/;
       } else {

@@ -1,11 +1,11 @@
 {
   "name": "brix",
   "description": "Brix",
-  "version": "0.2.3",
+  "version": "0.1.0",
   "homepage": "https://github.com/etaoux/brix",
   "author": {
-    "name": "KeyApril",
-    "url": "http://zuomo.taobao.ali.com/"
+    "name": "etaoux",
+    "url": "http://ux.etao.com"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/cowboy/javascript-hooker/blob/master/LICENSE-MIT"
+      "url": "https://github.com/etaoux/brix/blob/master/LICENSE.md"
     }
   ],
   "dependencies": {},
@@ -34,8 +34,5 @@
   "engines": {
     "node": "*"
   },
-  "main": "src/core",
-  "scripts": {
-    "test": "grunt test"
-  }
+  "main": "src/core"
 }

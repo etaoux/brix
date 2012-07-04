@@ -10,11 +10,6 @@ module.exports = function(grunt) {
               '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
               ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
     },
-    build: {
-      "dist/brix.js": [
-        
-      ]
-    },
     concat: {
       dist: {
         src: ['<banner:meta.banner>', "src/core/mustache.js",
