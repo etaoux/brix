@@ -91,8 +91,10 @@ module.exports = function(grunt) {
             }
         }
     });
-
+    
+    //npm install grunt-less
     grunt.loadNpmTasks('grunt-less');
+    //npm install grunt-css
     grunt.loadNpmTasks('grunt-css');
     // Default task.
     grunt.registerTask('default', 'lint less concat min cssmin');
