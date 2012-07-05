@@ -7,6 +7,9 @@ module.exports = function(grunt) {
             name: 'Brix',
             banner: '/*! <%= meta.name %> - v<%= pkg.version %> - <%= grunt.template.today("m/d/yyyy") %>\n' + '* <%= pkg.homepage %>\n' + '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' + ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
         },
+        lint: {
+            files: ['grunt.js']
+        },
         concat: {
             brix: {
                 src: ['<banner:meta.banner>', "src/core/mustache.js", "src/core/mu.js", "src/core/tmpler.js", "src/core/dataset.js", "src/core/chunk.js", "src/core/brick.js", "src/core/pagelet.js"],
@@ -53,9 +56,6 @@ module.exports = function(grunt) {
                 src: ['src/gallery/dropdown/dropdown.css'],
                 dest: 'dist/gallery/dropdown/dropdown-min.css'
             }
-        },
-        lint: {
-            files: ['grunt.js']
         },
         watch: {
             files: '<config:lint.files>',
