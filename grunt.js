@@ -11,9 +11,13 @@ module.exports = function(grunt) {
             files: ['grunt.js']
         },
         concat: {
-            brix: {
+            brixjs: {
                 src: ['<banner:meta.banner>', "src/core/mustache.js", "src/core/mu.js", "src/core/tmpler.js", "src/core/dataset.js", "src/core/chunk.js", "src/core/brick.js", "src/core/pagelet.js"],
                 dest: 'dist/<%= pkg.name %>.js'
+            },
+            brixcss:{
+                src:['<banner:meta.banner>','dist/brix.css'],
+                dest: 'dist/brix.css'
             }
         },
         min: {
@@ -39,20 +43,21 @@ module.exports = function(grunt) {
             }
         },
         less: {
-            base: {
-                src: 'src/style/brix.less',
-                dest: 'dist/brix-min.css',
-                options: {
-                    yuicompress: true
-                }
+            brix: {
+                src: ['src/style/brix.less'],
+                dest: 'dist/brix.css'
             }
         },
         cssmin: {
-            dialogcss: {
+            brix: {
+                src: ['dist/brix.css'],
+                dest: 'dist/brix-min.css'
+            },
+            dialog: {
                 src: ['src/gallery/dialog/dialog.css'],
                 dest: 'dist/gallery/dialog/dialog-min.css'
             },
-            dropdowncss: {
+            dropdown: {
                 src: ['src/gallery/dropdown/dropdown.css'],
                 dest: 'dist/gallery/dropdown/dropdown-min.css'
             }
