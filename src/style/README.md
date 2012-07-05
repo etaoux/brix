@@ -1,5 +1,5 @@
-## brix基础样式
-+ estrap.less 是主入口文件
+## Brix Style -- 基础样式
++ brix.less 是主入口文件
     - normalize.less   reset文件，使用normailize.css
     - variables.less   全局的颜色配置，栅格变量
         - gray colors

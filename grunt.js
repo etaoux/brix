@@ -40,8 +40,8 @@ module.exports = function(grunt) {
         },
         less: {
             base: {
-                src: 'src/style/estrap.less',
-                dest: 'dist/style/base-min.css',
+                src: 'src/style/brix.less',
+                dest: 'dist/brix-min.css',
                 options: {
                     yuicompress: true
                 }
