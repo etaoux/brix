@@ -20,7 +20,10 @@
       "url": "https://github.com/etaoux/brix/blob/master/LICENSE.md"
     }
   ],
-  "dependencies": {},
+  "dependencies": {
+    "grunt-less":  ">0.1.5",
+    "grunt-css":   ">0.2.1"
+  },
   "devDependencies": {
     "grunt": "~0.3.11"
   },
@@ -28,8 +31,7 @@
     "brix",
     "brick",
     "tmpler",
-    "pagelet",
-    "chunk"
+    "pagelet",    "chunk"
   ],
   "engines": {
     "node": "*"
