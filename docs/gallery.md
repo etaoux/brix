@@ -13,7 +13,7 @@
             });//继承
         return Dropdown;
     }, {
-        requires: ["brix/brick","./dropdown.css"]
+        requires: ["brix/core/brick","./dropdown.css"]
     });
 
 

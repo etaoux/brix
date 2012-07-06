@@ -57,6 +57,10 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         initialize: function() {
 
         },
+        //析构函数，用来销毁时候的操作,提供子类覆盖
+        destructor:function(){
+
+        },
         /**
          * 移除代理事件
          */
@@ -76,6 +80,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
             if (events) {
                 this._removeEvents(events);
             }
+            self.destructor();
         },
         /**
          * 绑定代理事件

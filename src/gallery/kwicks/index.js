@@ -1,5 +1,5 @@
 KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
-    function Kwicks(config) {
+    function Kwicks() {
         Kwicks.superclass.constructor.apply(this, arguments);
     }
     Kwicks.ATTRS = {
@@ -44,12 +44,50 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
 
         },
         //自动播放
-        autoplay:{
-            value:false
+        autoplay: {
+            value: false
         },
         //自动播放间隔
-        interval:{
-            value:3000
+        interval: {
+            value: 3000
+        }
+    };
+    Kwicks.ATTACH = {
+        '': {
+            'mouseenter': function() {
+                var self = this,
+                    autoplay = self.get('autoplay');
+                if (autoplay) {
+                    self.stop();
+                }
+            },
+            'mouseleave': function() {
+                var self = this,
+                    autoplay = self.get('autoplay'),
+                    sticky = self.get('sticky');
+                if (autoplay) {
+                    self.start();
+                } else if (!sticky) {
+                    var kwicks = self.kwicks,
+                        length = kwicks.length,
+                        activeCls = self.get('activeCls'),
+                        spacing = self.get('spacing'),
+                        duration = self.get('duration'),
+                        easing = self.get('easing'),
+                        LoT = self.LoT,
+                        WoH = self.WoH,
+                        normWoH = self.normWoH;
+                    kwicks.stop().removeClass(activeCls);
+                    kwicks.each(function(k, j) {
+                        var animObj = {};
+                        animObj[WoH] = normWoH;
+                        if (j < length - 1) {
+                            animObj[LoT] = (j * normWoH) + (j * spacing);
+                        }
+                        k.animate(animObj, duration, easing);
+                    });
+                }
+            }
         }
     };
 
@@ -58,7 +96,7 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
          *  切换到某个视图
          * @param  {Number} i 要切换的项
          */
-        switchTo:function(i){
+        switchTo: function(i) {
             var self = this,
                 kwicks = self.kwicks,
                 length = kwicks.length,
@@ -71,12 +109,11 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
                 max = self.max,
                 min = self.min;
 
-            if(i>=length||i<0){
+            if (i >= length || i < 0) {
                 i = 0;
-                self.set('activeIndex',0);
-            }
-            else{
-                self.set('activeIndex',i);
+                self.set('activeIndex', 0);
+            } else {
+                self.set('activeIndex', i);
             }
             var kwick = kwicks.item(i);
             kwicks.stop().removeClass(activeCls);
@@ -101,24 +138,24 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
         /**
          * 开始自动切换
          */
-        start:function(){
+        start: function() {
             var self = this,
                 autoplay = self.get('autoplay'),
                 interval = self.get('interval');
-            if(autoplay){
+            if (autoplay) {
                 self.stop();
-                self.timer = S.later(function(){
+                self.timer = S.later(function() {
                     var i = self.get('activeIndex');
-                    self.switchTo(i+1);
-                },interval,true,self);
+                    self.switchTo(i + 1);
+                }, interval, true, self);
             }
         },
         /**
          * 停止自动切换
          */
-        stop:function(){
+        stop: function() {
             var self = this;
-            if(self.timer){
+            if (self.timer) {
                 self.timer.cancel();
                 self.timer = null;
             }
@@ -145,7 +182,7 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
             var container = self.get('el');
             var kwicks = self.kwicks = container.all('li');
             var length = kwicks.length;
-            var normWoH = kwicks.item(0).css(WoH).replace(/px/, ''); // normWoH = Normal Width or Height
+            var normWoH = self.normWoH = kwicks.item(0).css(WoH).replace(/px/, ''); // normWoH = Normal Width or Height
             if (!max) {
                 max = self.max = (normWoH * length) - (min * (length - 1));
             } else {
@@ -166,7 +203,7 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
 
             // pre calculate left or top values for all kwicks but the first and last
             // i = index of currently hovered kwick, j = index of kwick we're calculating
-            var preCalcLoTs = self.preCalcLoTs =[]; // preCalcLoTs = pre-calculated Left or Top's
+            var preCalcLoTs = self.preCalcLoTs = []; // preCalcLoTs = pre-calculated Left or Top's
             for (i = 0; i < length; i++) {
                 preCalcLoTs[i] = [];
                 // don't need to calculate values for first or last kwick
@@ -216,29 +253,17 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
                     self.switchTo(i);
                 });
             });
-            if (!sticky&&!autoplay) {
-                container.on("mouseleave", function() {
-                    kwicks.stop().removeClass(activeCls);
-                    kwicks.each(function(k, j) {
-                        var animObj = {};
-                        animObj[WoH] = normWoH;
-                        if (j < length - 1) {
-                            animObj[LoT] = (j * normWoH) + (j * spacing);
-                        }
-                        k.animate(animObj, duration, easing);
-                    });
-                });
-            }
-            container.on('mouseenter',function(){
-                self.stop();
-            });
-            container.on('mouseleave',function(){
-                self.start();
-            });
             self.start();
+        },
+        destructor:function(){
+            if(self.timer){
+                self.timer.cancel();
+                self.timer = null;
+                self.kwicks = null;
+            }
         }
     });
-    S.augment(Kwicks,Kwicks.METHOD);
+    S.augment(Kwicks, Kwicks.METHOD);
     return Kwicks;
 }, {
     requires: ["brix/core/brick"]

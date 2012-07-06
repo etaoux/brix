@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>Brix Dialog Demo</title>
+        <title>Brix Kwicks Demo</title>
         <link type="text/css" rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.2.0/css/base-min.css" charset="utf-8">
         <link type="text/css" rel="stylesheet" href="kwicks.css" charset="utf-8">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
@@ -27,32 +27,7 @@
     </head>
     <body style="margin:0px;padding-top:40px">
         <div id="example7">
-            <ul id="ulkwicks7" class="kwicks">
-                <li>
-                    <div class="kwicks_inner_inner">
-                        <div class="bigLetter">L</div>
-                        <div class="smallLetters">is for the way you look at me</div>
-                    </div>
-                </li>
-                <li>
-                    <div class="kwicks_inner">
-                        <div class="bigLetter">O</div>
-                        <div class="smallLetters">is for the only one I see</div>
-                    </div>
-                </li>
-                <li>
-                    <div class="kwicks_inner">
-                        <div class="bigLetter">V</div>
-                        <div class="smallLetters">is very, very extraordinary</div>
-                    </div>
-                </li>
-                <li>
-                    <div class="kwicks_inner">
-                        <div class="bigLetter">E</div>
-                        <div class="smallLetters">is even more... I refuse to finish this...</div>
-                    </div>
-                </li>
-            </ul>
+            
         </div>
         <h1>A la Mootools</h1>
         <div id="example1">
@@ -104,12 +79,40 @@
         <br>
         <br>
         <br>
+        <script id="tmpl_kwick" type="text/template">
+            <ul id="ulkwicks7" class="kwicks">
+                <li>
+                    <div class="kwicks_inner_inner">
+                        <div class="bigLetter">L</div>
+                        <div class="smallLetters">is for the way you look at me</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="kwicks_inner">
+                        <div class="bigLetter">O</div>
+                        <div class="smallLetters">is for the only one I see</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="kwicks_inner">
+                        <div class="bigLetter">V</div>
+                        <div class="smallLetters">is very, very extraordinary</div>
+                    </div>
+                </li>
+                <li>
+                    <div class="kwicks_inner">
+                        <div class="bigLetter">E</div>
+                        <div class="smallLetters">is even more... I refuse to finish this...</div>
+                    </div>
+                </li>
+            </ul>
+        </script>
 		<!--brix begin-->
         <script>
             KISSY.ready(function(S) {
                 KISSY.use("brix/gallery/kwicks/", function(S, Kwicks) {
                     var kwicks1 = new Kwicks({
-                        tmpl:'#ulkwicks1',//这里可以直接指定el，也可以是tmpl
+                        el:'#ulkwicks1',//这里可以直接指定el，也可以是tmpl
                         max : 205,
                         spacing : 5,
                         autoplay:true
@@ -140,12 +143,18 @@
                         autoplay:true
                     });
                     var kwicks7 = new Kwicks({
-                        el:'#ulkwicks7',
+                        container:'#example7',
+                        tmpl:S.one('#tmpl_kwick').html(),
                         max: 200,
                         duration: 0.4,
                         sticky: true,
                         autoplay:true
                     });
+                    kwicks7.render();
+                    /*S.later(function(){
+                        kwicks7.destroy();
+                    },5000);*/
+                    
                 });
             });
         </script>
