@@ -22,7 +22,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
      */
 
     function _inDom(el) {
-        return S.one(document.body).contains(el);
+        return S.one(document).contains(el);
     }
 
     /**
