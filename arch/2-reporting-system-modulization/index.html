@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Brix &mdash; UX</title>
+  <link rel="stylesheet" type="text/css" href="/brix/assets/css/screen.css">
+</head>
+<body>
+  <aside id="aside">
+  <div id="logo">
+    <a href="/brix/">Brix</a>
+  </div>
+  <section>
+  <h3>架构</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/arch/1-goal">BRIX 组件架构（一）</a></li>
+
+  <li><a href="/brix/arch/2-reporting-system-modulization">BRIX 组件架构（二）</a></li>
+
+  <li><a href="/brix/arch/3-tab-and-tab-configer">BRIX 组件架构（三）</a></li>
+
+  <li><a href="/brix/arch/4-sub-modules-and-data-structure">BRIX 组件架构（四）</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Meta</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/meta/estrap">组件 HTML/CSS 书写规范</a></li>
+
+  <li><a href="/brix/meta/gallery">组件开发规范</a></li>
+
+  <li><a href="/brix/meta/gallery-doc-sample">组件文档示例</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Core</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/core/brick">Brick</a></li>
+
+  <li><a href="/brix/core/chunk">Chunk</a></li>
+
+  <li><a href="/brix/core/dataset">Dataset</a></li>
+
+  <li><a href="/brix/core/pagelet">Pagelet</a></li>
+
+  <li><a href="/brix/core/tmpler">Tmpler</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Style</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/style/scaffolding">Scaffolding</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Gallery</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/gallery/dialog">Dialog</a></li>
+
+  <li><a href="/brix/gallery/dropdown">Dropdown</a></li>
+
+  <li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li>
+
+  <li><a href="/brix/gallery/kwicks">Kwicks</a></li>
+
+</ul>
+</section>
+
+</aside>
+  <div id="page">
+    <article>
+      <h1>BRIX 组件架构（二）</h1>
+      
+      
+      <section><h2>复杂报表展示系统组件化分析</h2>
+
+<blockquote><p>通过复杂报表组件化的过程，整理组件实现中的细节。</p></blockquote>
+
+<p><img src="/brix/assets/img/brix-arch/2/1.png" alt="1" /></p>
+
+<p>上图是subway报表系统的核心列表页面。
+<strong>基于具体业务进行组件拆解工作。</strong></p>
+
+<p><img src="/brix/assets/img/brix-arch/2/2.png" alt="2" /></p>
+
+<p><strong>报表系统将被分解为8个组件</strong>，如上图：</p>
+
+<ol>
+<li>Tab：Tab导航</li>
+<li>TabConfiger：Tab导航配置</li>
+<li>SchBox：搜索框</li>
+<li>ComplectDropDown：复杂过滤条件</li>
+<li>SimpleDropDown：简单过滤条件</li>
+<li>ViewConfiger：视图定义</li>
+<li>ListTable：列表
+
+<ol>
+<li>PageInfo1：分页信息区1 隶属于列表组件</li>
+<li>PageInfo2：分页信息区2 隶属于列表组件</li>
+</ol>
+</li>
+<li>ViewSelect：视图选择区</li>
+</ol>
+
+
+<p><img src="/brix/assets/img/brix-arch/2/3.jpg" alt="2" /></p>
+
+<p><strong>组件分析的若干维度：</strong></p>
+
+<ul>
+<li>基础模板</li>
+<li>承载数据、状态数据</li>
+<li>属性、方法、事件</li>
+<li>子组件、父组件</li>
+<li>结合具体业务进行数据流分析</li>
+</ul>
+
+
+<p>数据为特殊的属性，但我们需要对数据表示特别的关注
+对于Tab组件而言，数据包含两部分：TabList 和 CurrentTabID</p>
+
+<p><img src="/brix/assets/img/brix-arch/2/4.jpg" alt="2" /></p>
+
+<p>为使组件模板中可以通过添加html节点，随意嵌入其他外部组件，引入子模板机制：</p>
+
+<ol>
+<li>将关键数据区域标识出来</li>
+<li>建立 数据 与 子模板 与 渲染方法 的一一对应，支持局部依照变化了的数据和子模板重新渲染</li>
+<li>所有子模板承载数据之和>所有数据，校验数据完整性</li>
+</ol>
+
+
+<p><em>这解决了Magix中View过大，整个View重刷带价过大的问题。</em></p>
+
+<p><em>子模板机制保障了Tab和TabConfiger两个组件，虽然DOM结构上存在父子关系，但是是两个独立的组件，可以按照组件间交互模式交互</em></p>
+
+<p><img src="/brix/assets/img/brix-arch/2/5.jpg" alt="2" /></p>
+
+<p>改变组件渲染的生命周期：</p>
+
+<ol>
+<li>获取数据</li>
+<li>获取模板</li>
+<li>输出模板渲染后的HTML</li>
+<li>将其他组件行为附加到HTML上</li>
+</ol>
+
+
+<p>结合用expando标识events信息以及在模板内的完成状态渲染逻辑，将YUI Widget 组件初始化的SyncUI，BindUI工作转移至模板中。</p>
+
+<p>其中步骤1、2、3可以在后台执行，也可以在前台执行。
+当组件凭空创建时，也需要遵照1、2、3顺序。</p>
+
+<p><em>组件生命周期的1、2、3步骤，天然可以转移至NodeJS在后台执行</em></p>
+
+<p><img src="/brix/assets/img/brix-arch/2/6.jpg" alt="2" /></p>
+
+<p>采用约定管理任务的执行顺序，管理任务是否可以并行，管理任务间的依赖。
+这样按照之前约定对任务的描述，每个任务可以以异步方式执行，同样可以以同步方式执行。可以并行的任务依然可以串行执行。</p>
+</section>
+    </article>
+  </div>
+  <footer id="footer">
+    <div id="bottom-nav">
+      
+        <a rel="prev" href="/brix/arch/1-goal">&larr; 上一篇</a>
+      
+      
+        <a rel="next" href="/brix/arch/3-tab-and-tab-configer">下一篇 &rarr;</a>
+      
+    </div>
+  </footer>
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+  <script src="/assets/js/post.js"></script>
+</body>

@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Brix &mdash; UX</title>
+  <link rel="stylesheet" type="text/css" href="/brix/assets/css/screen.css">
+</head>
+<body>
+  <aside id="aside">
+  <div id="logo">
+    <a href="/brix/">Brix</a>
+  </div>
+  <section>
+  <h3>架构</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/arch/1-goal">BRIX 组件架构（一）</a></li>
+
+  <li><a href="/brix/arch/2-reporting-system-modulization">BRIX 组件架构（二）</a></li>
+
+  <li><a href="/brix/arch/3-tab-and-tab-configer">BRIX 组件架构（三）</a></li>
+
+  <li><a href="/brix/arch/4-sub-modules-and-data-structure">BRIX 组件架构（四）</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Meta</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/meta/estrap">组件 HTML/CSS 书写规范</a></li>
+
+  <li><a href="/brix/meta/gallery">组件开发规范</a></li>
+
+  <li><a href="/brix/meta/gallery-doc-sample">组件文档示例</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Core</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/core/brick">Brick</a></li>
+
+  <li><a href="/brix/core/chunk">Chunk</a></li>
+
+  <li><a href="/brix/core/dataset">Dataset</a></li>
+
+  <li><a href="/brix/core/pagelet">Pagelet</a></li>
+
+  <li><a href="/brix/core/tmpler">Tmpler</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Style</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/style/scaffolding">Scaffolding</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Gallery</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/gallery/dialog">Dialog</a></li>
+
+  <li><a href="/brix/gallery/dropdown">Dropdown</a></li>
+
+  <li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li>
+
+  <li><a href="/brix/gallery/kwicks">Kwicks</a></li>
+
+</ul>
+</section>
+
+</aside>
+  <div id="page">
+    <article>
+      <h1>组件文档示例</h1>
+      
+      <p class="caption">如何撰写组件文档</p>
+      
+      
+      <section class="description"><p>简单描述组件设计，说明组件的配置、方法与事件</p>
+</section>
+      
+      <section><h2>配置</h2>
+
+<h3><code>el</code> {element}</h3>
+
+<p>组件节点，只读。</p>
+
+<h2>方法</h2>
+
+<h3><code>addTmpl(id, arr)</code></h3>
+
+<p>给 brick 添加模板</p>
+
+<ul>
+<li>@param {string} id  brick的id</li>
+<li>@param {array} arr 模板数组</li>
+</ul>
+
+
+<h2>事件</h2>
+
+<h3><code>rendered(ev)</code></h3>
+
+<p>ev: 说明参数</p>
+
+<p>将模板渲染到页面中触发</p>
+</section>
+    </article>
+  </div>
+  <footer id="footer">
+    <div id="bottom-nav">
+      
+        <a rel="prev" href="/brix/meta/gallery">&larr; 上一篇</a>
+      
+      
+        <a rel="next" href="/brix/gallery/inplace-editor">下一篇 &rarr;</a>
+      
+    </div>
+  </footer>
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+  <script src="/assets/js/post.js"></script>
+</body>

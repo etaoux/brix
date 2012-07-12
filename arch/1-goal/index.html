@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Brix &mdash; UX</title>
+  <link rel="stylesheet" type="text/css" href="/brix/assets/css/screen.css">
+</head>
+<body>
+  <aside id="aside">
+  <div id="logo">
+    <a href="/brix/">Brix</a>
+  </div>
+  <section>
+  <h3>架构</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/arch/1-goal">BRIX 组件架构（一）</a></li>
+
+  <li><a href="/brix/arch/2-reporting-system-modulization">BRIX 组件架构（二）</a></li>
+
+  <li><a href="/brix/arch/3-tab-and-tab-configer">BRIX 组件架构（三）</a></li>
+
+  <li><a href="/brix/arch/4-sub-modules-and-data-structure">BRIX 组件架构（四）</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Meta</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/meta/estrap">组件 HTML/CSS 书写规范</a></li>
+
+  <li><a href="/brix/meta/gallery">组件开发规范</a></li>
+
+  <li><a href="/brix/meta/gallery-doc-sample">组件文档示例</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Core</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/core/brick">Brick</a></li>
+
+  <li><a href="/brix/core/chunk">Chunk</a></li>
+
+  <li><a href="/brix/core/dataset">Dataset</a></li>
+
+  <li><a href="/brix/core/pagelet">Pagelet</a></li>
+
+  <li><a href="/brix/core/tmpler">Tmpler</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Style</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/style/scaffolding">Scaffolding</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Gallery</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/gallery/dialog">Dialog</a></li>
+
+  <li><a href="/brix/gallery/dropdown">Dropdown</a></li>
+
+  <li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li>
+
+  <li><a href="/brix/gallery/kwicks">Kwicks</a></li>
+
+</ul>
+</section>
+
+</aside>
+  <div id="page">
+    <article>
+      <h1>BRIX 组件架构（一）</h1>
+      
+      
+      <section><h2>目标</h2>
+
+<blockquote><p>开发者能够方便的使用平台内组件完成业务逻辑的书写</p></blockquote>
+
+<h2>基本架构理念</h2>
+
+<p><strong>BRIX和大多数组件平台差别并不大，只是有些面向我们的目标的特别重要的关键点必须更加彻底的坚持。</strong></p>
+
+<p><img src="/brix/assets/img/brix-arch/1/1.png" alt="1" /></p>
+
+<p><strong>平台化之后，未来的页面里除了组件再无其他。</strong>
+小到select，大到复杂HTML5数据可视化图表，都是组件。
+想做到只有组件有三个关键点：<em>抽象</em>、<em>接驳</em>与<em>集成</em>。</p>
+
+<p><img src="/brix/assets/img/brix-arch/1/2.png" alt="1" /></p>
+
+<p><strong>首先我们要从铁板一块中抠出各个组件。</strong>
+每个组件功能和表现各不相同，但是它们都有相同的几类特征暴露出来。
+正如拼图中的组件只有两种特征：凸起和凹陷。
+无论此拼图块有多少个凸起和凹陷，都只有凸起和凹陷这两种。</p>
+
+<p>而针对页面组件而言，这些特征即<em>属性</em>、<em>方法</em>、<em>事件</em>、<em>样式</em>、<em>数据结构</em>。
+以一个树组件为例:</p>
+
+<ul>
+<li>属性：是否全部展开</li>
+<li>方法：获取选中节点id</li>
+<li>事件：节点被单击</li>
+<li>样式：样式主题</li>
+<li>数据结构：一组带有父子关系的数据</li>
+</ul>
+
+
+<p><img src="/brix/assets/img/brix-arch/1/3.png" alt="1" /></p>
+
+<p><strong>接下来重要的事情，通过有限的方式完成组件接驳。</strong>
+每个组件都承载了一些数据，通过组件间的接驳实现数据的流通，进而体现了业务的变化。
+我们要把组件间交互的方式限定在几个固定的模式中。
+比如：</p>
+
+<ul>
+<li>响应树组件节点点击事件，触发列表组件的刷新。</li>
+<li>响应树组件节点点击事件，触发也Hash值变化，驱动OPOA页面的局部刷新。</li>
+<li>将一个组件拖动到另一个组件处放下，触发组件间信息传递。</li>
+</ul>
+
+
+<p><img src="/brix/assets/img/brix-arch/1/4.png" alt="1" /></p>
+
+<p><strong>最后我们需要保证若干子组件可以组合成大组件。</strong>
+通过前面的接驳方式，把多个子组件组合在一起，再封装成大组件。
+而对于与大组件接驳的其他组件，当然可以与大组件顺畅的沟通，
+但也应该具备按照规矩访问大组件内各子组件的能力。</p>
+
+<p><img src="/brix/assets/img/brix-arch/1/5.png" alt="1" /></p>
+
+<p><strong>这样未来组件使用者的工作就是，选择合适的组件展现业务数据,再通过接驳组件描述数据变化，完成业务的书写。</strong>
+无论是前台页面，后台页面，还算移动端页面皆是如此。</p>
+
+<ul>
+<li>前台页面视觉复杂，交互简单，我们打算通过模板系统，把组件行为和html结构一定程度上解耦，所以这是我们讨论mustache的原因。</li>
+<li>后台页面交互复杂，视觉统一，我们会更多的通过规范来把组件做少，做精。</li>
+<li>移动页面对性能要求很高，我们可能不再使用kissy、jquery这样的pc类库做底层，但是我们希望保持接口一致、接驳方式一致、子组件组装方式一致。</li>
+</ul>
+
+</section>
+    </article>
+  </div>
+  <footer id="footer">
+    <div id="bottom-nav">
+      
+        <a rel="prev" href="/brix/core/tmpler">&larr; 上一篇</a>
+      
+      
+        <a rel="next" href="/brix/arch/2-reporting-system-modulization">下一篇 &rarr;</a>
+      
+    </div>
+  </footer>
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+  <script src="/assets/js/post.js"></script>
+</body>

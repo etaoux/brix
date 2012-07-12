@@ -1,0 +1,55 @@
+// type.less - vars
+// ----------------
+@titleColor:            @grayDark;
+@textColor:             @gray;
+
+@linkColor:             @blue;
+@linkColorHover:        @orange;
+@linkColorVisited:      @purple;
+
+@strongColor:           @red;
+@approvedColor:         @green;
+@moderatedColor:        @yellowDark;
+
+@baseFontSize:          12px;
+@baseLineHeight:        18px;
+
+// 设置默认字体
+// ----------------
+body,
+button, input, select, textarea /* for ie */ {
+    font: 12px/1.5 tahoma, "\5fae\8f6f\96c5\9ed1";
+    color: @textColor;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: .75em 0;
+    font-weight: normal;
+    color: @titleColor;
+}
+h1 { font-size: 32px; }
+h2 { font-size: 28px; }
+h3 { font-size: 24px; }
+h4 { font-size: 18px; }
+h5 { font-size: 14px; }
+h6 { font-size: 12px; }
+
+a { color: @linkColor; }
+a:hover { color: @linkColorHover; }
+a:visited { color: @linkColorVisited; }
+
+.rmb {
+    font-size: .75em;
+    font-family: arial;
+    font-style: normal;
+    padding-right: 4px;
+}
+.dec {
+    font-size: .67em;
+    font-style: normal;
+}
+.yuan {
+    font-size: .6em;
+    font-style: normal;
+    padding-left: 4px;
+}

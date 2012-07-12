@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Brix Dropdown2 Demo</title>
+        <link type="text/css" rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.2.0/css/base-min.css" charset="utf-8">
+        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+        <script src="../../config.js"></script>
+    </head>
+    <body style="margin:0px;padding-top:40px">
+        <div id="pagelet1">
+            <div bx-brick="dropdown" bx-path="brix/gallery/dropdown/" class="dropdown" id="brick_14">
+            <a class="dropdown-a dropdown-aactive dropdown-ahover">
+                     <span class="dropdown-span" value="3">计划列表3</span>
+                <i class="dropdown-icon"></i>
+              </a>
+            <ul class="dropdown-list" style="display: block; ">
+                <li class="dropdown-item" value="1">计划列表</li>
+                <li class="dropdown-item" value="2">计划列表2</li>
+                <li class="dropdown-item dropdown-itemselected " value="3">计划列表3</li>
+                <li class="dropdown-item" value="4">计划列表4</li>
+            </ul>
+        </div>
+        <div>
+            <a id="tmpladd">添加模板</a>
+        <br>
+        <a id="brickdestroy">销毁</a>
+        </div>
+
+        </div>
+
+
+		<!--brix begin-->
+        <script>
+            var dropdown_data = {
+                dropdown_list:[{
+                        value: "1",
+                        text: "计划列表",
+                        selected:true
+                    },
+                    {
+                        value: "2",
+                        text: "计划列表2"
+                    },
+                    {
+                        value: "3",
+                        text: "计划列表3"
+                    },
+                    {
+                        value: "4",
+                        text: "计划列表4"
+                    }]
+            }
+        </script>
+        <script type="text/template" id="tmpl_dropdown">
+            <a class="dropdown-a">
+                {{#dropdown_list}}
+                {{#selected}}
+                <span class="dropdown-span" value="{{value}}">{{text}}</span>
+                <i class="dropdown-icon"></i>
+                {{/selected}}
+                {{/dropdown_list}}
+            </a>
+            <ul class="dropdown-list">
+                {{#dropdown_list}}
+                <li class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}</li>
+                {{/dropdown_list}}
+            </ul>
+        </script>
+        <script>
+            KISSY.ready(function(S) {
+
+                KISSY.use("brix/core/pagelet", function(S, Pagelet) {
+                    var pagelet = new Pagelet({
+                        //el:'#pagelet1',//容器节点，在销毁时候使用，不提供则默认为body
+                        tmpl:'#pagelet1' //模板，如果是已经在后端生成html代码，请直接给容器选择器
+                    });
+                    //pagelet.render();
+                    pagelet.addBehavior();
+                    pagelet.ready(function(){
+                        dropdownBrick = pagelet.getBrick('brick_14');
+                        S.one('#tmpladd').on('click',function(){
+                            dropdownBrick.addTmpl('brick_14',[{id:'brick_14',datakey:'dropdown_list',tmpl:S.one("#tmpl_dropdown").html()}]);
+                            //删除节点，有用吗？
+                            S.one("#tmpl_dropdown").remove();
+                            //数据更新刷新子模板
+                            S.later(function(){
+                                dropdown_data.dropdown_list.push({
+                                    value: "5",
+                                    text: "计划列表5"
+                                });
+                                dropdownBrick.setChunkData('dropdown_list',dropdown_data.dropdown_list);
+                            },3000);
+                            S.later(function(){
+                                delete dropdown_data.dropdown_list[0]["selected"];
+                                dropdown_data.dropdown_list[2]["selected"] = true;
+                                dropdownBrick.setChunkData('dropdown_list',dropdown_data.dropdown_list);
+                                dropdownBrick.focus();
+                            },5000);
+                        });
+                        S.one('#brickdestroy').on('click',function(){
+                            pagelet.destroy();
+                        });
+                        //方法调用
+                        dropdownBrick.focus();
+                        //事件注册
+                        dropdownBrick.on('selected',function(e){
+                            alert('selected:value='+e.value+';text='+e.text);
+                        });
+                    });
+
+                });
+            });
+        </script>
+        <!--brix end-->
+    </body>
+</html>

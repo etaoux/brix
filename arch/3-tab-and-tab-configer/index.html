@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Brix &mdash; UX</title>
+  <link rel="stylesheet" type="text/css" href="/brix/assets/css/screen.css">
+</head>
+<body>
+  <aside id="aside">
+  <div id="logo">
+    <a href="/brix/">Brix</a>
+  </div>
+  <section>
+  <h3>架构</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/arch/1-goal">BRIX 组件架构（一）</a></li>
+
+  <li><a href="/brix/arch/2-reporting-system-modulization">BRIX 组件架构（二）</a></li>
+
+  <li><a href="/brix/arch/3-tab-and-tab-configer">BRIX 组件架构（三）</a></li>
+
+  <li><a href="/brix/arch/4-sub-modules-and-data-structure">BRIX 组件架构（四）</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Meta</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/meta/estrap">组件 HTML/CSS 书写规范</a></li>
+
+  <li><a href="/brix/meta/gallery">组件开发规范</a></li>
+
+  <li><a href="/brix/meta/gallery-doc-sample">组件文档示例</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Core</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/core/brick">Brick</a></li>
+
+  <li><a href="/brix/core/chunk">Chunk</a></li>
+
+  <li><a href="/brix/core/dataset">Dataset</a></li>
+
+  <li><a href="/brix/core/pagelet">Pagelet</a></li>
+
+  <li><a href="/brix/core/tmpler">Tmpler</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Style</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/style/scaffolding">Scaffolding</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Gallery</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/gallery/dialog">Dialog</a></li>
+
+  <li><a href="/brix/gallery/dropdown">Dropdown</a></li>
+
+  <li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li>
+
+  <li><a href="/brix/gallery/kwicks">Kwicks</a></li>
+
+</ul>
+</section>
+
+</aside>
+  <div id="page">
+    <article>
+      <h1>BRIX 组件架构（三）</h1>
+      
+      
+      <section><h2>基于 Tab 和 TabConfiger 组件深入分析</h2>
+
+<p><img src="/brix/assets/img/brix-arch/3/1.jpg" alt="1" />
+<img src="/brix/assets/img/brix-arch/3/2.png" alt="1" /></p>
+
+<p><strong>以串行方式渲染Tab和TabConfiger重点核心代码框架如下：</strong></p>
+
+<div class="highlight"><pre><code class="html"><span class="lineno"> 1</span> <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;template&quot;</span> <span class="na">id=</span><span class="s">&quot;tmpl_1&quot;</span><span class="nt">&gt;</span>
+<span class="lineno"> 2</span>   <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">brix</span><span class="o">=</span><span class="s2">&quot;tab&quot;</span><span class="o">&gt;</span>
+<span class="lineno"> 3</span>     <span class="c">&lt;!--</span><span class="err">#</span><span class="nx">keyArea</span><span class="o">--&gt;</span>
+<span class="lineno"> 4</span>     <span class="o">&lt;</span><span class="nx">ul</span> <span class="nx">subtmpl</span><span class="o">=</span><span class="s2">&quot;tablist;currentid&quot;</span><span class="o">&gt;</span>
+<span class="lineno"> 5</span>       
+<span class="lineno"> 6</span>       <span class="o">&lt;</span><span class="nx">li</span> <span class="kr">class</span><span class="o">=</span><span class="s2">&quot;current&quot;</span><span class="o">&gt;&lt;</span><span class="err">/li&gt;</span>
+<span class="lineno"> 7</span>       
+<span class="lineno"> 8</span>     <span class="o">&lt;</span><span class="err">/ul&gt;</span>
+<span class="lineno"> 9</span>     <span class="c">&lt;!--</span><span class="o">/</span><span class="nx">keyArea</span><span class="o">--&gt;</span>
+<span class="lineno">10</span>     <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">write</span> <span class="nx">anything</span><span class="o">&lt;</span><span class="err">/span&gt;</span>
+<span class="lineno">11</span>     <span class="c">&lt;!--</span><span class="err">#</span><span class="nx">tabConfiger</span><span class="o">--&gt;</span>
+<span class="lineno">12</span>     <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">brix</span><span class="o">=</span><span class="s2">&quot;tabconfiger&quot;</span><span class="o">&gt;</span>
+<span class="lineno">13</span>       <span class="o">&lt;</span><span class="nx">button</span><span class="o">&gt;</span><span class="nx">configer</span><span class="o">&lt;</span><span class="err">/button&gt;</span>
+<span class="lineno">14</span>       <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+<span class="lineno">15</span>         <span class="o">&lt;</span><span class="nx">ul</span><span class="o">&gt;</span>
+<span class="lineno">16</span>           
+<span class="lineno">17</span>             <span class="o">&lt;</span><span class="nx">input</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;checkbox&quot;</span> <span class="nx">checked</span><span class="o">/&gt;</span>
+<span class="lineno">18</span>           
+<span class="lineno">19</span>         <span class="o">&lt;</span><span class="err">/ul&gt;</span>
+<span class="lineno">20</span>       <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="lineno">21</span>     <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="lineno">22</span>     <span class="c">&lt;!--</span><span class="o">/</span><span class="nx">tabConfiger</span><span class="o">--&gt;</span>
+<span class="lineno">23</span>   <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="lineno">24</span> <span class="nt">&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+
+<p>以上是模板部分，有几个关键点</p>
+
+<ul>
+<li>通过brix属性（所有命名规范，钩子规则待后再讨论），指明组件类别，tab、tabconfiger</li>
+<li>通过subtmpl属性，将模板内的关键数据区域标识出来，通过逸才提出的很巧妙的办法，可以在初次解析模板时，将子模板从模板中提取出来。</li>
+<li>从模板内容可以分析出，模板"不等于"某个组件，模板作为一个html片段可以包含任意多的组件，这需要模板渲染之后addBehavior代码把所有组件行为分别关联上。</li>
+</ul>
+
+
+<p>仔细观察这段模板，我们采用模板系统的优势体现在如下几个方面</p>
+
+<ul>
+<li>如果开始没有tabconfiger，只有tab。后续需求需要加入tabconfiger，不需要改动tab相关的js代码，嵌入方式非常直观。</li>
+<li>如果<span>write anything</span>有业务意义，tabconfiger加入它前面还是后面，只是copy&amp;paste时就可以决定，且随时可以调整</li>
+<li>如果<span>write anything</span>有业务意义，修改span里的内容非常容易。使用模板将行为和html分离，能够更方便的保障：如果我们希望把这个span去掉，那tab的其他功能仍然正常运行不受影响。</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="javascript"><span class="lineno"> 1</span> <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+<span class="lineno"> 2</span>   <span class="c1">//tab 承载数据</span>
+<span class="lineno"> 3</span>   <span class="kd">var</span> <span class="nx">tabList</span> <span class="o">=</span> <span class="p">[</span><span class="nx">A</span><span class="p">,</span><span class="nx">B</span><span class="p">,</span><span class="nx">C</span><span class="p">];</span>
+<span class="lineno"> 4</span>   <span class="kd">var</span> <span class="nx">currentId</span> <span class="o">=</span> <span class="nx">A</span><span class="p">;</span>
+<span class="lineno"> 5</span>   <span class="c1">//tabConfiger 承载数据</span>
+<span class="lineno"> 6</span>   <span class="kd">var</span> <span class="nx">allList</span> <span class="o">=</span> <span class="p">[</span><span class="nx">A</span><span class="p">,</span><span class="nx">B</span><span class="p">,</span><span class="nx">C</span><span class="p">,</span><span class="nx">D</span><span class="p">,</span><span class="nx">E</span><span class="p">];</span>
+<span class="lineno"> 7</span>   <span class="kd">var</span> <span class="nx">checkedList</span> <span class="o">=</span> <span class="nx">tabList</span><span class="p">;</span>
+<span class="lineno"> 8</span>   <span class="c1">//渲染数据</span>
+<span class="lineno"> 9</span>   <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="lineno">10</span>     <span class="nx">tabList</span><span class="o">:</span><span class="nx">tabList</span><span class="p">,</span>
+<span class="lineno">11</span>     <span class="nx">currentId</span><span class="o">:</span><span class="nx">currentId</span><span class="p">,</span>
+<span class="lineno">12</span>     <span class="nx">allList</span><span class="o">:</span><span class="nx">allList</span><span class="p">,</span>
+<span class="lineno">13</span>     <span class="nx">checkedList</span><span class="o">:</span><span class="nx">checkedList</span>
+<span class="lineno">14</span>   <span class="p">}</span>
+<span class="lineno">15</span>   <span class="c1">//构建html</span>
+<span class="lineno">16</span>   <span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="nx">Mustache</span><span class="p">.</span><span class="nx">to_html</span><span class="p">(</span><span class="s2">&quot;tmpl_1&quot;</span><span class="p">,</span><span class="nx">data</span><span class="p">);</span>
+<span class="lineno">17</span>   <span class="nx">s</span> <span class="o">+=</span> <span class="s2">&quot;&lt;scr&quot;</span><span class="o">+</span><span class="s2">&quot;ipt&gt;addBehavior(&#39;tmpl_1&#39;)&lt;/scr&quot;</span><span class="o">+</span><span class="s2">&quot;ipt&gt;&quot;</span><span class="p">;</span>
+<span class="lineno">18</span>   <span class="c1">//输出html，后启动addBehavior动作</span>
+<span class="lineno">19</span>   <span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span>
+<span class="lineno">20</span> <span class="o">&lt;</span><span class="err">/script&gt;</span>
+</code></pre>
+</div>
+
+
+<p>以上是后续Action，拼装数据和模板之后输出到页面上，再启动addBehavior把组件行为与html关联上。</p>
+
+<p><em>代码中使用了doc.write只是为了模拟代码在后台运行时常见的同步输出，当然可以使用异步方式实现同样功能</em></p>
+
+<p><img src="/brix/assets/img/brix-arch/3/33.jpg" alt="1" /></p>
+
+<p>我们关注数据部分：</p>
+
+<ul>
+<li><strong>在渲染之前，如果组件间需要share数据，可以通过引用指向同一对象，如tab组件的“tabList”和tabConfiger组件的“checkedList”是指向一份数据</strong></li>
+<li><strong>渲染之后要避免，没有父子关系的组件share同一个引用，这样对数据的改动，会导致组件绕过组件间通信机制相互通信，甚至相互造成不可预料的影响</strong></li>
+</ul>
+
+
+<p><img src="/brix/assets/img/brix-arch/3/44.jpg" alt="1" /></p>
+
+<p><strong>接下来关注AddBehavior的动作：</strong></p>
+
+<ol>
+<li>把刚刚渲染的模板中所有组件跟节点拿到</li>
+<li>查看每一个组件是否是某个组件的子组件</li>
+<li>如果不是，组件间addBehavior没有次序，继续下边的流程逐个渲染组件</li>
+<li>对于那些子组件，子组件的addBehavior交由其父组件完成（具体流程待讨论）</li>
+<li>开始逐个addBehavior（new Brix）的流程：</li>
+<li>不能再和其他组件贡献一份数据，比如tabList,checkedList要从指向的同一份数据，clone出来，再作为组件的数据ATTR，set进去</li>
+<li>AttachEvent,注册交互事件，会参照magix的mxclick处理，但将修改magix中mxclick事件默认停止冒泡的行为，会在处理过的event对象里边留下响应的痕迹，供上层event代理节点参考。</li>
+<li>将组件内的子模板提取出来，建立子模板与组件内部分或全部数据变动之间的关联。</li>
+<li>做desc方法。</li>
+</ol>
+
+
+<p><strong>对于模板的处理技巧，来自逸才：</strong>
+模板虽然是字符串，但也是结构化的，我们可以把模板塞入一个不在dom节点内的fragment中，不输入数据就模板字符串结构化，把模板语法标记当做text节点。 这样模板也变成了结构化数据对象，Dom操作的一切方法皆可稳定的应用其上。我们可以用来提取子模板，甚至预先提取出模板内组件的层次关系等等信息。</p>
+
+<p><strong>最后重新回顾一下之前说的组件加入Dom的方式：</strong>
+一种方式是Dom方法，创建好文档片段，插入到Dom树中
+另一种是拼接文档字符串，通过innerHTML,doc.write等方法，把字符串加入Dom树中，在innerHTML内部，会自动将字符串转化为fragment
+我们是采用第二种方式，把模板和数据渲染结果字符串，通过innerHTML或doc.write加入到Dom树中，后续的addBehavior，相当于扩展了innerHTML,doc.write，在字符串转化为dom节点后，再把标识为组件的dom节点的组件行为附加上。</p>
+</section>
+    </article>
+  </div>
+  <footer id="footer">
+    <div id="bottom-nav">
+      
+        <a rel="prev" href="/brix/arch/2-reporting-system-modulization">&larr; 上一篇</a>
+      
+      
+        <a rel="next" href="/brix/arch/4-sub-modules-and-data-structure">下一篇 &rarr;</a>
+      
+    </div>
+  </footer>
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+  <script src="/assets/js/post.js"></script>
+</body>

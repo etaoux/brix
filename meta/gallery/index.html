@@ -1,0 +1,226 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Brix &mdash; UX</title>
+  <link rel="stylesheet" type="text/css" href="/brix/assets/css/screen.css">
+</head>
+<body>
+  <aside id="aside">
+  <div id="logo">
+    <a href="/brix/">Brix</a>
+  </div>
+  <section>
+  <h3>架构</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/arch/1-goal">BRIX 组件架构（一）</a></li>
+
+  <li><a href="/brix/arch/2-reporting-system-modulization">BRIX 组件架构（二）</a></li>
+
+  <li><a href="/brix/arch/3-tab-and-tab-configer">BRIX 组件架构（三）</a></li>
+
+  <li><a href="/brix/arch/4-sub-modules-and-data-structure">BRIX 组件架构（四）</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Meta</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/meta/estrap">组件 HTML/CSS 书写规范</a></li>
+
+  <li><a href="/brix/meta/gallery">组件开发规范</a></li>
+
+  <li><a href="/brix/meta/gallery-doc-sample">组件文档示例</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Core</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/core/brick">Brick</a></li>
+
+  <li><a href="/brix/core/chunk">Chunk</a></li>
+
+  <li><a href="/brix/core/dataset">Dataset</a></li>
+
+  <li><a href="/brix/core/pagelet">Pagelet</a></li>
+
+  <li><a href="/brix/core/tmpler">Tmpler</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Style</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/style/scaffolding">Scaffolding</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Gallery</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/gallery/dialog">Dialog</a></li>
+
+  <li><a href="/brix/gallery/dropdown">Dropdown</a></li>
+
+  <li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li>
+
+  <li><a href="/brix/gallery/kwicks">Kwicks</a></li>
+
+</ul>
+</section>
+
+</aside>
+  <div id="page">
+    <article>
+      <h1>组件开发规范</h1>
+      
+      <p class="caption">如何开发一个 Brix 组件</p>
+      
+      
+      <section><h2>继承自 Brick</h2>
+
+<div class="highlight"><pre><code class="js"><span class="c1">//KISSY的模块书写规范</span>
+<span class="nx">KISSY</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s2">&quot;brix/gallery/dropdown/&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="nx">Brick</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">function</span> <span class="nx">Dropdown</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">Dropdown</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="nx">S</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">Dropdown</span><span class="p">,</span> <span class="nx">Brick</span><span class="p">,</span> <span class="p">{</span>
+        <span class="c1">//这里写私有方法</span>
+        <span class="p">});</span><span class="c1">//继承</span>
+    <span class="k">return</span> <span class="nx">Dropdown</span><span class="p">;</span>
+<span class="p">},</span> <span class="p">{</span>
+    <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;brix/brick&quot;</span><span class="p">,</span><span class="s2">&quot;./dropdown.css&quot;</span><span class="p">]</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+
+<h2>配置</h2>
+
+<div class="highlight"><pre><code class="js"><span class="nx">Dropdown</span><span class="p">.</span><span class="nx">ATTRS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1">// 同 KISSY 的 Base 写法</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+
+<h2>模板渲染扩展方法</h2>
+
+<div class="highlight"><pre><code class="js"><span class="nx">Dropdown</span><span class="p">.</span><span class="nx">RENDERDER</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">xx</span><span class="o">:</span><span class="p">{</span>
+        <span class="nx">yy</span><span class="o">:</span><span class="kd">function</span><span class="p">(){</span>
+            <span class="k">return</span> <span class="s2">&quot;string&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+
+<h2>组件行为赋予</h2>
+
+<h3>代理在 document 上的事件行为</h3>
+
+<p>如果选择器为空，则直接绑定事件在document上</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">Dropdown</span><span class="p">.</span><span class="nx">DOCATTACH</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;body&quot;</span><span class="o">:</span><span class="p">{</span>
+        <span class="nx">click</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+            <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">self</span><span class="p">.</span><span class="nx">__show</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;el&#39;</span><span class="p">);</span>
+                <span class="nx">el</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="s1">&#39;.dropdown-list&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;display&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">);</span>
+                <span class="nx">el</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="s1">&#39;.dropdown-a&#39;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;dropdown-aactive&#39;</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="nx">self</span><span class="p">.</span><span class="nx">__show</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+
+<h3>代理在组件节点上的事件行为</h3>
+
+<p>如果选择器为空，则直接绑定事件在节点上</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">Dropdown</span><span class="p">.</span><span class="nx">ATTACH</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;.dropdown-a&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">click</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;el&#39;</span><span class="p">).</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;.dropdown-list&#39;</span><span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">__show</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;display&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;block&#39;</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">blur</span><span class="p">();</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">focus</span><span class="p">();</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="nx">mouseenter</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">currentTarget</span> <span class="o">=</span> <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">currentTarget</span><span class="p">);</span>
+            <span class="nx">currentTarget</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;dropdown-ahover&#39;</span><span class="p">);</span>
+        <span class="p">},</span>
+        <span class="nx">mouseleave</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">currentTarget</span> <span class="o">=</span> <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">currentTarget</span><span class="p">);</span>
+            <span class="nx">currentTarget</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;dropdown-ahover&#39;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+
+<h2>扩展对外方法</h2>
+
+<div class="highlight"><pre><code class="js"><span class="nx">Dropdown</span><span class="p">.</span><span class="nx">METHOD</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">focus</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;el&#39;</span><span class="p">);</span>
+        <span class="nx">el</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;.dropdown-list&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;display&#39;</span><span class="p">,</span> <span class="s1">&#39;block&#39;</span><span class="p">);</span>
+        <span class="nx">el</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;.dropdown-a&#39;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;dropdown-aactive&#39;</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="nx">blur</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;el&#39;</span><span class="p">);</span>
+        <span class="nx">el</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;.dropdown-list&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;display&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">);</span>
+        <span class="nx">el</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;.dropdown-a&#39;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;dropdown-aactive&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="nx">S</span><span class="p">.</span><span class="nx">augment</span><span class="p">(</span><span class="nx">Dropdown</span><span class="p">,</span><span class="nx">Dropdown</span><span class="p">.</span><span class="nx">METHOD</span><span class="p">);</span>
+</code></pre>
+</div>
+
+
+<h2>对外自定义事件</h2>
+
+<div class="highlight"><pre><code class="js"><span class="c1">//这个不做限制，但是写组件的同学一定要在组件文档中描述清晰</span>
+<span class="k">this</span><span class="p">.</span><span class="nx">fire</span><span class="p">(</span><span class="s1">&#39;selected&#39;</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+</code></pre>
+</div>
+
+
+
+</section>
+    </article>
+  </div>
+  <footer id="footer">
+    <div id="bottom-nav">
+      
+        <a rel="prev" href="/brix/meta/estrap">&larr; 上一篇</a>
+      
+      
+        <a rel="next" href="/brix/meta/gallery-doc-sample">下一篇 &rarr;</a>
+      
+    </div>
+  </footer>
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+  <script src="/assets/js/post.js"></script>
+</body>

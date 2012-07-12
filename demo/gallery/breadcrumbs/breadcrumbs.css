@@ -1,0 +1,13 @@
+.breadcrumbs{
+}
+.breadcrumbs .breadcrumbs-item{
+    background: url('http://img01.taobaocdn.com/tps/i1/T1f.5TXjXjXXXXXXXX-12-44.png') right 0 no-repeat;
+    float:left;
+    padding-right:15px;
+    padding-left:5px;
+    height:24px;
+    line-height:23px;
+}
+.breadcrumbs .breadcrumbs-itemlast{
+    background:none;
+}
