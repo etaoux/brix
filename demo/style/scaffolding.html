@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>基础工具 - Brix Style</title>
+    <script>
+        // html5
+        if (!+[1,]) {
+            (function() {
+                var tags = [
+                    'article', 'aside', 'details', 'figcaption',
+                    'figure', 'footer', 'header', 'hgroup',
+                    'menu', 'nav', 'section', 'summary',
+                    'time', 'mark', 'audio', 'video'],
+                        i = 0, len = tags.length;
+                for (; i < len; i++) document.createElement(tags[i]);
+            })();
+        }
+    </script>
+    <link rel="stylesheet" href="../../dist/brix-min.css"/>
+    <style>
+        body {
+            background: #f5f5f5;
+        }
+        header {
+            line-height: 3;
+            background: #488fcd;
+        }
+        header h1 {
+            color: #fff;
+            font-weight: bold;
+        }
+        header h1,
+        section {
+            margin: 0 0 0 30px;
+            width: 950px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header id="overview" class="subhead">
+        <h1>基础工具</h1>
+    </header>
+    <section id="index">
+        <div class="page-header">
+            <h2>目录</h2>
+        </div>
+        <ol clas="nav">
+            <li class="active"><a href="#global">Reset样式</a></li>
+            <li><a href="#mixins">mixins</a></li>
+            <li><a href="#grid">栅格系统</a></li>
+        </ol>
+    </section>
+    <section id="global">
+        <div class="page-header">
+            <h2>Reset使用Normalize</h2>
+        </div>
+        <div class="row">
+            <p>Brix Style的Reset样式直接使用了<a href="http://necolas.github.com/normalize.css/" target="_blank">Normalize.css</a>，省心省力</p>
+            <p>Reset样式文件为<strong>normalize.less</strong></p>
+        </div>
+    </section>
+    <section id="mixins">
+        <div class="page-header">
+            <h2>混入函数</h2>
+        </div>
+        <div class="row">
+            <p>Brix Style提供了许多Mixins来加速Brix组件的开发</p>
+        </div>
+    </section>
+    <section id="grid">
+        <div class="page-header">
+            <h2>栅格系统</h2>
+        </div>
+        <div class="row">
+            <p>栅格模型已有，不过目前的栅格宽度不够给力</p>
+        </div>
+    </section>
+</div>
+</body>
+</html>

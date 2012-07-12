@@ -1,0 +1,226 @@
+<!doctype html>
+
+<meta charset="utf-8">
+<title>Brix Page Demo</title>
+<link rel="stylesheet" href="../../../dist/brix-min.css"/>
+<style>
+    #container {margin: 40px}
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+</style>
+
+<div id="container"></div>
+
+<!--brix data-->
+<script>
+    var pagelet_data = {
+        title: '页面测试',
+        modules: [
+            {
+                name: 'input',
+                type: 'input',
+                datakey: 'dropdown1,dropdown2'
+            }, {
+                name: 'dropdown1',
+                type: 'dropdown',
+                datakey: 'dropdown1'
+            }, {
+                name: 'dropdown2',
+                type: 'dropdown',
+                datakey: 'dropdown2'
+            }
+        ],
+        getTmpl: function() {
+            return KISSY.one('#Tmpl_' + this.type).html()
+                .replace(/@Tmpl_name/g, this.name)
+                .replace(/@Tmpl_datakey/g, this.datakey);
+        },
+        dataset: {
+            dropdown1: [
+                {
+                    value: "1",
+                    text: "计划列表",
+                    selected: true
+                }, {
+                    value: "2",
+                    text: "计划列表2",
+                }, {
+                    value: "3",
+                    text: "计划列表3"
+                }
+            ],
+            dropdown2: [
+                {
+                    value: "4",
+                    text: "计划列表4",
+                    selected: true
+                }, {
+                    value: "5",
+                    text: "计划列表5"
+                }, {
+                    value: "6",
+                    text: "计划列表6"
+                }
+            ]
+        }
+    };
+</script>
+
+<!--brix template-->
+<script type="text/template" id="Tmpl_main">
+    <h1>{{title}}</h1>
+    {{#modules}}
+        {{{getTmpl}}}
+    {{/modules}}
+</script>
+<script type="text/template" id="Tmpl_input">
+    <form bx-brick="@Tmpl_name" bx-path="brix/gallery/input/" bx-datakey="@Tmpl_datakey" bx-tmpl="@Tmpl_name">
+        <h5>可输入的命令：</h5>
+        <ol>
+            <li>select 计划列表2</li>
+            <li>add dropdown2:text7</li>
+            <li>edit 计划列表5 text5</li>
+            <li>remove 计划列表6</li>
+        </ol>
+        <input type="text" name="cmd">
+    </form>
+</script>
+<script type="text/template" id="Tmpl_dropdown">
+    <p>@Tmpl_name</p>
+    <div bx-brick="@Tmpl_name" bx-path="brix/gallery/dropdown/" bx-datakey="@Tmpl_datakey" bx-tmpl="@Tmpl_name" class="dropdown">
+        <a class="dropdown-a">
+            {{#@Tmpl_datakey}}
+            {{#selected}}
+            <span class="dropdown-span" value="{{value}}">{{text}}</span>
+            <i class="dropdown-icon"></i>
+            {{/selected}}
+            {{/@Tmpl_datakey}}
+        </a>
+        <ul class="dropdown-list">
+            {{#@Tmpl_datakey}}
+            <li bxclick="xxClick" {{#if(color==red)}}style="color:red"{{/if(color==red)}} class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}{{xx_yy}}</li>
+            {{/@Tmpl_datakey}}
+        </ul>
+        {{#@Tmpl_datakey}}
+        {{#selected}}
+        <input name="dd" value="{{value}}" type="hidden" />
+        {{/selected}}
+        {{/@Tmpl_datakey}}
+    </div>
+</script>
+
+<!--brix script-->
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+<script src="../../config.js"></script>
+<script>
+    KISSY.add("brix/gallery/input/index", function(S, Brick) {
+        function Input() {
+            Input.superclass.constructor.apply(this, arguments);
+        }
+
+        Input.ATTRS = {
+        };
+        Input.METHOD = {
+            initialize: function () {
+                var me = this;
+
+                me.get('el').on('submit', function (e) {
+                    e.halt();
+
+                    me._datakey = me.get('el').attr('bx-datakey').split(',');
+                    var args = e.target.cmd.value.split(/\s/);
+                    S.each(['select', 'add', 'edit', 'remove'], function (cmd) {
+                        if (args[0] === cmd) {
+                            me[cmd].apply(me, args.slice(1));
+                        }
+                    });
+
+                    e.target.cmd.value = '';
+                });
+            },
+            select: function (text) {
+                for (var i=0; i<this._datakey.length; i++) {
+                    var data = S.clone(this.pagelet.get('dataset').get('data.'+this._datakey[i]));
+
+                    var flag = false;
+                    for (var j=0; j<data.length; j++) {
+                        if (data[j].text === text) {
+                            flag = true;
+                            break;
+                        }
+                    }
+                    for (var j=0; flag && j<data.length; j++) {
+                        if (data[j].text === text) {
+                            data[j].selected = true;
+                        } else {
+                            data[j].selected = false;
+                        }
+                    }
+
+                    this.pagelet.get('dataset').set('data.'+this._datakey[i], data);
+                }
+            },
+            add: function (arg) {
+                var args = arg.split(':');
+                var datakey = args[0];
+                var text = args[1];
+
+                var data = S.clone(this.pagelet.get('dataset').get('data.'+datakey));
+                data.push({text: text});
+                this.pagelet.get('dataset').set('data.'+datakey, data);
+            },
+            edit: function (oldText, newText) {
+                for (var i=0; i<this._datakey.length; i++) {
+                    var data = S.clone(this.pagelet.get('dataset').get('data.'+this._datakey[i]));
+
+                    for (var j=0; j<data.length; j++) {
+                        if (data[j].text === oldText) {
+                            data[j].text = newText;
+                        }
+                    }
+
+                    this.pagelet.get('dataset').set('data.'+this._datakey[i], data);
+                }
+            },
+            remove: function (text) {
+                for (var i=0; i<this._datakey.length; i++) {
+                    var data = S.clone(this.pagelet.get('dataset').get('data.'+this._datakey[i]));
+
+                    for (var j=0; j<data.length; j++) {
+                        if (data[j].text === text) {
+                            data.splice(j, 1);
+                            j--;
+                        }
+                    }
+
+                    this.pagelet.get('dataset').set('data.'+this._datakey[i], data);
+                }
+            }
+        };
+
+        S.extend(Input, Brick);
+        S.augment(Input, Input.METHOD);
+
+        return Input;
+    }, {
+        requires: ["brix/core/brick"]
+    });
+</script>
+<script>
+    KISSY.use('brix/core/pagelet, brix/core/dataset, brix/core/mustache', function(S, Pagelet, Dataset, Mustache) {
+        var pagelet = new Pagelet({
+            container: '#container', //容器节点
+            tmpl: Mustache.render(S.one('#Tmpl_main').html(), pagelet_data), //需要的模板
+            dataset: new Dataset({data: pagelet_data.dataset})
+            //data: pagelet_data.dataset //这个数据会被重新clone一份，所以更新原始数据不会对内部产生影响
+        });
+
+        pagelet.addBehavior();
+        pagelet.ready(function() {
+            pagelet.render();
+        });
+    });
+</script>

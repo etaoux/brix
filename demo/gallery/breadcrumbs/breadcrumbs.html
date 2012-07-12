@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Brix Breadcrumbs Demo</title>
+        <link type="text/css" rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.2.0/css/base-min.css" charset="utf-8">
+        <link rel="stylesheet" href="breadcrumbs.css">
+        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+        <script src="../../config.js"></script>
+    </head>
+    <body style="margin:0px;padding-top:40px">
+        <div class="container">
+            <div class="row">
+                <div class="span12" style="padding-left:50px"  id="test_container">
+                </div>
+            </div>
+        </div>
+		<!--brix begin-->
+        <script>
+			var breadcrumbs_data ={
+                breadcrumbs_list:[{
+                    text:'首页',
+                    value:'#1234'
+                },{
+                    dropdown_list:[{
+                            value: "1",
+                            text: "计划列表",
+                            selected:true
+                        },
+                        {
+                            value: "2",
+                            text: "计划列表2"
+                        },
+                        {
+                            value: "3",
+                            text: "计划列表3"
+                        },
+                        {
+                            value: "4",
+                            text: "计划列表4"
+                        }]
+                },{
+                    text:'创意管理',
+                    value:'#123',
+                    last:true
+
+                }]
+            };
+        </script>
+
+        <script type="text/template" id="tmpl_script">
+            <ul class="breadcrumbs">
+                {{#breadcrumbs_list}}
+                <li class="breadcrumbs-item {{#last}}breadcrumbs-itemlast{{/last}}">
+                    {{#text}}
+                        <a href="{{value}}">{{text}}</a>
+                    {{/text}}
+                    {{^text}}
+                    <div bx-brick="dropdown" bx-path="brix/gallery/dropdown/" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown">
+                        <a class="dropdown-a">
+                            {{#dropdown_list}}
+                            {{#selected}}
+                            <span class="dropdown-span" value="{{value}}">{{text}}</span>
+                            <i class="dropdown-icon"></i>
+                            {{/selected}}
+                            {{/dropdown_list}}
+                        </a>
+                        <ul class="dropdown-list">
+                            {{#dropdown_list}}
+                            <li bxclick="xxClick" {{#color}}style="color:{{color}}"{{/color}} class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}</li>
+                            {{/dropdown_list}}
+                        </ul>
+                        {{#dropdown_list}}
+                        {{#selected}}
+                        <input name="dd"  value="{{value}}" type="hidden" />
+                        {{/selected}}
+                        {{/dropdown_list}}
+                    </div>
+                    {{/text}}
+                </li>
+            {{/breadcrumbs_list}}
+            </ul>
+        </script>
+        <script>
+            KISSY.ready(function(S) {
+                KISSY.use("brix/core/pagelet", function(S, Pagelet) {
+                    var config = {
+                        container:'#test_container',//容器节点
+                        tmpl: S.one("#tmpl_script").html(),//需要的模板
+                        data: breadcrumbs_data
+                    };
+                    //删除节点，有用吗？
+                    S.one("#tmpl_script").remove();
+                    var pagelet = new Pagelet(config);
+                    pagelet.render();
+                    pagelet.addBehavior();
+                });
+            });
+        </script>
+        <!--brix end-->
+    </body>
+</html>

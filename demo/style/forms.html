@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>表单 - 设计模式库</title>
+    <script>
+        // html5
+        if (!+[1,]) {
+            (function() {
+                var tags = [
+                    'article', 'aside', 'details', 'figcaption',
+                    'figure', 'footer', 'header', 'hgroup',
+                    'menu', 'nav', 'section', 'summary',
+                    'time', 'mark', 'audio', 'video'],
+                        i = 0, len = tags.length;
+                for (; i < len; i++) document.createElement(tags[i]);
+            })();
+        }
+    </script>
+    <link rel="stylesheet" href="../../dist/brix-min.css"/>    
+    <style>
+        body{padding:10px;}
+    </style>
+</head>
+<body>
+    <h2>表单</h2>
+    <form class="well">
+        <fieldset>
+            <label class="control-label" for="input01">表单项名称:</label>
+            <input id="input01" placeholder="placeholder占位" />
+            <label class="control-label" for="input02">表单项名称:</label>
+            <input id="input02" placeholder="placeholder占位" />
+        </fieldset>
+    </form>
+    <form class="form-horizontal">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label" for="input03">表单项名称:</label>
+                <div class="controls">
+                    <input id="input03" placeholder="placeholder占位" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input03">表单项名称:</label>
+                <div class="controls">
+                    <input id="input03" placeholder="placeholder占位" />
+                    <p class="help-block">说明解释类提示</p>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input03">表单项名称:</label>
+                <div class="controls">
+                    <input id="input03" placeholder="placeholder占位" />
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</body>
+</html>
