@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>样式重置(Reset) - 设计模式库</title>
+    <title>基础工具 - Brix Style</title>
     <script>
         // html5
         if (!+[1,]) {
@@ -19,14 +19,21 @@
     </script>
     <link rel="stylesheet" href="../../dist/brix-min.css"/>
     <style>
-        .container{margin:0 auto; width: 950px}
-        .subhead {
-          padding-bottom: 0;
-          margin-bottom: 9px;
+        body {
+            background: #f5f5f5;
         }
-        .subhead h1 {
-          font-size: 54px;
-          font-weight: bold;
+        header {
+            line-height: 3;
+            background: #488fcd;
+        }
+        header h1 {
+            color: #fff;
+            font-weight: bold;
+        }
+        header h1,
+        section {
+            margin: 0 0 0 30px;
+            width: 950px;
         }
     </style>
 </head>
@@ -34,34 +41,69 @@
 <div class="container">
     <header id="overview" class="subhead">
         <h1>基础工具</h1>
-        <div class="subnav">
-            <ul clas="nav">
-                <li class="active"><a href="#global">Reset样式</a></li>
-                <li><a href="#mixins">mixins</a></li>
-                <li><a href="#grid">栅格系统</a></li>
-            </ul>
-        </div>
     </header>
+    <section id="index">
+        <div class="page-header">
+            <h2>目录</h2>
+        </div>
+        <ol clas="nav">
+            <li class="active"><a href="#global">Reset样式</a></li>
+            <li><a href="#utilities">工具类</a></li>
+            <li><a href="#mixins">混入函数</a></li>
+            <li><a href="#grid">栅格系统</a></li>
+        </ol>
+    </section>
     <section id="global">
         <div class="page-header">
-            <h1>Reset使用Normalize</h1>
+            <h2>Reset样式</h2>
         </div>
         <div class="row">
-            <p>Brix Style的Reset样式直接使用了<a href="http://necolas.github.com/normalize.css/" target="_blank">Normalize.css</a>，省心省力</p>
-            <p>Reset样式文件为<strong>normalize.less</strong></p>
+            <p>Brix Style的Reset样式直接使用了<a href="http://necolas.github.com/normalize.css/" target="_blank">Normalize.css</a>，省心省力，效果请参考<a href="../../src/style/tests/reset.html" target="_blank">Reset测试</a>。</p>
+        </div>
+    </section>
+    <section id="utilities">
+        <div class="page-header">
+            <h2>工具类</h2>
+        </div>
+        <div class="row">
+            <p>工具类可以直接在页面中使用。</p>
+            <dl>
+                <dt>.clearfix</dt>
+                <dd>清理浮动</dd>
+            </dl>
         </div>
     </section>
     <section id="mixins">
         <div class="page-header">
-            <h1>混入函数</h1>
+            <h2>混入函数</h2>
         </div>
         <div class="row">
-            <p>Brix Style提供了许多Mixins来加速Brix组件的开发</p>
+            <p>Brix Style提供了许多Mixins来加速Brix组件的开发。</p>
+            <dl>
+                <dt>.text-overflow</dt>
+                <dd>文字溢出隐藏（单行自动加省略号）</dd>
+                <dt>.border-radius(@radius)</dt>
+                <dd>圆角</dd>
+                <dt>.box-shadow(@shadow)</dt>
+                <dd>阴影</dd>
+                <dt>.transition(@transition)</dt>
+                <dd>css缓动</dd>
+                <dt>.rotate(@degrees)</dt>
+                <dd>阴影</dd>
+                <dt>.box-sizing(@boxmodel)</dt>
+                <dd>盒模型</dd>
+                <dt>.opacity(@opacity)</dt>
+                <dd>透明度0-100</dd>
+                <dt>.size</dt>
+                <dd>设置宽高</dd>
+                <dt>.placeholder</dt>
+                <dd>设置placeholder的颜色</dd>
+            </dl>
         </div>
     </section>
     <section id="grid">
         <div class="page-header">
-            <h1>栅格系统</h1>
+            <h2>栅格系统</h2>
         </div>
         <div class="row">
             <p>栅格模型已有，不过目前的栅格宽度不够给力</p>
