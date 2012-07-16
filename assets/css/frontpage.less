@@ -18,11 +18,20 @@ body {
   h2 {
     font-weight: 300;
     font-size: 40px;
+    margin: 20px 0 10px;
   }
 }
-
-#nav {
-  padding: 40px 0 20px;
+hr.soften {
+  height: 1px;
+  margin: 54px 0;
+  background-image: -webkit-linear-gradient(left, transparent, rgba(0, 0, 0, .1), transparent);
+  background-image:    -moz-linear-gradient(left, transparent, rgba(0, 0, 0, .1), transparent);
+  background-image:     -ms-linear-gradient(left, transparent, rgba(0, 0, 0, .1), transparent);
+  background-image:      -o-linear-gradient(left, transparent, rgba(0, 0, 0, .1), transparent);
+  border: 0;
+}
+.nav {
+  padding: 0;
 
   a {
     display: inline-block;
@@ -42,18 +51,19 @@ body {
   li {
     list-style: none;
   }
-  h3 {
+  label {
     margin-top: 0;
     color: #333;
+    font-size: 140%;
   }
-  section {
+  .section {
     display: inline-block;
     vertical-align: top;
     text-align: left;
     margin-right: 10px;
     width: 200px;
   }
-  section:last-child {
+  .section:last-child {
     margin-right: 0;
   }
 }

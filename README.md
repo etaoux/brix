@@ -27,9 +27,32 @@ Linux 用户，使用系统所用的包管理工具安装即可：
  - Arch Linux：`sudo pacman -S ruby`
  - Ubuntu: `sudo apt-get install ruby`
 
-有了 ruby 环境之后，再安装 jekyll，`gem install jekyll`
+本站使用 bundler 管理 ruby gems，所以，安装好 ruby 之后，先安装 bundler，然后 `bundle install` 即可
+
+```bash
+$ gem install bundler
+$ bundle install # 可能需要加上 sudo
+```
 
 然后，cd 到项目目录，执行 `jekyll --server` 即可，浏览 <http://127.0.0.1:4000> 查看效果
+
+### 编辑方式
+
+jekyll 提供实时更新的功能，启动服务时，加上 auto 参数：
+
+```bash
+$ jekyll --server --auto
+```
+
+就可以在 <http://127.0.0.1:4000> 实时预览效果了
+
+同时，为方便编辑样式，我们使用了 guard 来实时编译 less 文件，在项目目录中执行：
+
+```bash
+$ guard
+```
+
+即可。less 文件将会实时编译，保证本地编辑本站样式的流畅性。
 
 ### jekyll 的目录结构
 

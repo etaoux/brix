@@ -1,13 +1,54 @@
 ---
-layout: default
-style: frontpage
+layout: none
 ---
 
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Brix &mdash; UX</title>
+  <link rel="stylesheet" type="text/css" href="/brix/assets/css/frontpage.css">
+</head>
+<body>
 <div id="page">
-  <h1>Brix, from Etao</h1>
+  <h1>Brix, from ETao</h1>
   <h2>Grab a coffee and relax, let the sites being built with bricks.</h2>
-  <nav id="nav">
-    {% include _catalog.html %}
-  </nav>
+  <p class="stats" id="j-stats">
+    <iframe class="github-btn" src="http://markdotto.github.com/github-buttons/github-btn.html?user=etaoux&repo=brix&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="112px" height="20px"></iframe>
+    <iframe class="github-btn" src="http://markdotto.github.com/github-buttons/github-btn.html?user=etaoux&repo=brix&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="98px" height="20px"></iframe>
+  </p>
+  <hr class="soften">
+  <ul class="nav">
+    <li class="section">
+      <label>Architecture</label>
+      {% assign posts = site.categories.arch %}
+      {% include _entries.html %}
+    </li>
+    <li class="section">
+      <label>Conventions</label>
+      {% assign posts = site.categories.meta %}
+      {% include _entries.html %}
+    </li>
+  </ul>
+  <hr class="soften">
+  <ul class="nav">
+    <li class="section">
+      <label>Core</label>
+      {% assign posts = site.categories.core %}
+      {% include _entries.html %}
+    </li>
+    <li class="section">
+      <label>Style</label>
+      {% assign posts = site.categories.style %}
+      {% include _entries.html %}
+    </li>
+    <li class="section">
+      <label>Gallery</label>
+      {% assign posts = site.categories.gallery %}
+      {% include _entries.html %}
+    </li>
+  </ul>
 </div>
 <a href="https://github.com/etaoux/brix"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+</body>
+</html>
