@@ -4,3 +4,4 @@
 _site
 _deploy
 *~
+node_modules
