@@ -22,7 +22,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
      */
 
     function _inDom(el) {
-        return S.one(document).contains(el);
+        return el.parentNode!=null;
     }
 
     /**
@@ -38,7 +38,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
 
         //对if语句的处理
         html = html.replace(/(\{{2,3}[\^#~]?)iftmplbrick\_(\d+)(\}{2,3})/g, function(w, i, j, k) {
-            return i + arr[parseInt(j)] + k;
+            return i + arr[parseInt(j,10)] + k;
         });
 
         //将~符号替换回/，完美了。
