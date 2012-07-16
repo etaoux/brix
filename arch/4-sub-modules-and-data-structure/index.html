@@ -91,7 +91,7 @@
 <blockquote><p>面向未来的无侵扰的可拆可装是组件架构设计的目标</p></blockquote>
 
 <p><strong>子组件拆分，组件组合是一个逐步的过程，不会在组件设计初期就一蹴而就，所以组件的设计要面向未来的拆分和组装</strong>
-<img src="/assets/img/brix-arch/4/1.jpg" alt="1" /></p>
+<img src="/brix/assets/img/brix-arch/4/1.jpg" alt="1" /></p>
 
 <p>如图原组件，伴随业务的逐步发展，可能发生如下三种变化：</p>
 
@@ -119,7 +119,7 @@
 </ol>
 
 
-<p><img src="/assets/img/brix-arch/4/2.jpg" alt="1" /></p>
+<p><img src="/brix/assets/img/brix-arch/4/2.jpg" alt="1" /></p>
 
 <p>如何做到面向未来可拆可装，未来展现样式变化多端，要<em>从承载数据方面做文章</em>。
 组件承载数据必须进行有意义的分割，不相干的数据绝对不要放在一个key当中。即:
@@ -128,7 +128,7 @@ A B C..等是组件1承载的数据，比如A是人员列表，B是其中某个�
 》由A&amp;C构成则完全没有问题
 》由A&amp;B.today构成则无法保障1.3可以脱离1工作，也就失去了拆分的意义。</p>
 
-<p><img src="/assets/img/brix-arch/4/3.png" alt="1" />
+<p><img src="/brix/assets/img/brix-arch/4/3.png" alt="1" />
 <strong>是否父子组件的判断标准是，是否存在共享数据</strong></p>
 
 <ul>
