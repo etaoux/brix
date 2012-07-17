@@ -1,0 +1,364 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Brix &mdash; UX</title>
+  <link rel="stylesheet" type="text/css" href="/brix/assets/css/screen.css">
+</head>
+<body>
+  <aside id="aside">
+  <div id="logo">
+    <a href="/brix/">Brix</a>
+  </div>
+  <section>
+  <h3>架构</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/arch/1-goal">BRIX 组件架构（一）</a></li>
+
+  <li><a href="/brix/arch/2-reporting-system-modulization">BRIX 组件架构（二）</a></li>
+
+  <li><a href="/brix/arch/3-tab-and-tab-configer">BRIX 组件架构（三）</a></li>
+
+  <li><a href="/brix/arch/4-sub-modules-and-data-structure">BRIX 组件架构（四）</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Meta</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/meta/estrap">组件 HTML/CSS 书写规范</a></li>
+
+  <li><a href="/brix/meta/gallery">组件开发规范</a></li>
+
+  <li><a href="/brix/meta/gallery-doc-sample">组件文档示例</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Core</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/core/brick">Brick</a></li>
+
+  <li><a href="/brix/core/chunk">Chunk</a></li>
+
+  <li><a href="/brix/core/dataset">Dataset</a></li>
+
+  <li><a href="/brix/core/pagelet">Pagelet</a></li>
+
+  <li><a href="/brix/core/tmpler">Tmpler</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Style</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/style/scaffolding">Scaffolding</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Gallery</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/gallery/dialog">Dialog</a></li>
+
+  <li><a href="/brix/gallery/dropdown">Dropdown</a></li>
+
+  <li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li>
+
+  <li><a href="/brix/gallery/kwicks">Kwicks</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Tutorials</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/tutorials/1-helloworld">HelloWorld</a></li>
+
+  <li><a href="/brix/tutorials/2-attrs">ATTRS</a></li>
+
+  <li><a href="/brix/tutorials/3-attach">ATTACH&DOCATTACH</a></li>
+
+</ul>
+</section>
+
+</aside>
+  <div id="page">
+    <article>
+      <h1>HelloWorld</h1>
+      
+      <p class="caption">还记得当年学一门语言的时候的helloworld吗，今天，让我们看看brix框架的helloworld吧。</p>
+      
+      
+      <section><h2>步骤一</h2>
+
+<p>我们先写个helloworld组件，怎么写？<a href="/brix/meta/gallery">看这里</a></p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="nx">Brick</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">function</span> <span class="nx">HelloWorld</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">ATTRS</span> <span class="o">=</span> <span class="p">{</span>
+
+    <span class="p">};</span>
+    <span class="nx">S</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">HelloWorld</span><span class="p">,</span> <span class="nx">Brick</span><span class="p">,</span> <span class="p">{</span>
+
+    <span class="p">});</span>
+
+    <span class="k">return</span> <span class="nx">HelloWorld</span><span class="p">;</span>
+<span class="p">},</span> <span class="p">{</span>
+    <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;brix/core/brick&quot;</span><span class="p">]</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+
+<p>他其实什么都没有，一个空组件。没错，他已经能用了，brix框架已经给他某些能力了。</p>
+
+<h2>步骤二</h2>
+
+<p>有了组件，如何用，让我们进入birx之旅</p>
+
+<h3>方式一</h3>
+
+<p>直接在已有的dom结构上new helloworld</p>
+
+<h4>html代码:</h4>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;helloworld1&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;span&gt;</span>Hello <span class="nt">&lt;span&gt;</span>World<span class="nt">&lt;/span&gt;&lt;/span&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre>
+</div>
+
+
+<h4>js代码:</h4>
+
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HelloWorld</span><span class="p">({</span><span class="nx">tmpl</span><span class="o">:</span><span class="s1">&#39;#helloworld1&#39;</span><span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+
+<h4>demo：</h4>
+
+<iframe src='/brix/demo/tutorials/helloworld/helloworld1.html' frameborder='0' scrolling='0' class='j-demo'></iframe>
+
+
+<h3>方式二</h3>
+
+<pre><code>直接在已有的dom结构上new pagelet
+</code></pre>
+
+<h4>html代码:</h4>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container2&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;helloworld2&quot;</span> <span class="na">bx-brick=</span><span class="s">&quot;helloworld&quot;</span> <span class="na">path=</span><span class="s">&quot;helloworld&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;span&gt;</span>Hello <span class="nt">&lt;span&gt;</span>World<span class="nt">&lt;/span&gt;&lt;/span&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre>
+</div>
+
+
+<h4>js代码:</h4>
+
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;brix/core/pagelet&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">Pagelet</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">pagelet</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Pagelet</span><span class="p">({</span><span class="nx">tmpl</span><span class="o">:</span><span class="s1">&#39;#container2&#39;</span><span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+
+<h4>demo：</h4>
+
+<iframe src='/brix/demo/tutorials/helloworld/helloworld2.html' frameborder='0' scrolling='0' class='j-demo'></iframe>
+
+
+<h3>方式三</h3>
+
+<pre><code>用模板和容器的方式new helloworld
+</code></pre>
+
+<h4>html代码:</h4>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container3&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;tmpl_helloword1&quot;</span><span class="nt">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span> <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">World</span><span class="o">&lt;</span><span class="err">/span&gt;&lt;/span&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+
+<h4>js代码:</h4>
+
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HelloWorld</span><span class="p">({</span><span class="nx">container</span><span class="o">:</span><span class="s1">&#39;#container3&#39;</span><span class="p">,</span><span class="nx">tmpl</span><span class="o">:</span><span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#tmpl_helloword1&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">()});</span>
+    <span class="nx">helloworld</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+
+<h4>demo：</h4>
+
+<iframe src='/brix/demo/tutorials/helloworld/helloworld3.html' frameborder='0' scrolling='0' class='j-demo'></iframe>
+
+
+<h3>方式四</h3>
+
+<pre><code>用模板和容器的方式new pagelet
+</code></pre>
+
+<h4>html代码:</h4>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container4&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;tmpl_helloword1&quot;</span><span class="nt">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">brick</span><span class="o">=</span><span class="s2">&quot;helloworld&quot;</span> <span class="nx">path</span><span class="o">=</span><span class="s2">&quot;helloworld&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span> <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">World</span><span class="o">&lt;</span><span class="err">/span&gt;&lt;/span&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+
+<h4>js代码:</h4>
+
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;brix/core/pagelet&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">Pagelet</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">pagelet</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Pagelet</span><span class="p">({</span><span class="nx">container</span><span class="o">:</span><span class="s1">&#39;#container4&#39;</span><span class="p">,</span><span class="nx">tmpl</span><span class="o">:</span><span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#tmpl_helloword1&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">()});</span>
+    <span class="nx">pagelet</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+
+<h4>demo：</h4>
+
+<iframe src='/brix/demo/tutorials/helloworld/helloworld4.html' frameborder='0' scrolling='0' class='j-demo'></iframe>
+
+
+<h3>方式五</h3>
+
+<pre><code>用模板、容器、数据的方式new helloworld，实现局部刷新
+</code></pre>
+
+<h4>html代码:</h4>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container5&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">&quot;btn5&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-taobao btn-size30&quot;</span><span class="nt">&gt;</span>
+        rename to LiMu
+    <span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;tmpl_helloword2&quot;</span><span class="nt">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">brick</span><span class="o">=</span><span class="s2">&quot;helloworld&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span> 
+            <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">tmpl</span><span class="o">=</span><span class="s2">&quot;helloworld&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">datakey</span><span class="o">=</span><span class="s2">&quot;name&quot;</span><span class="o">&gt;&lt;</span><span class="err">/span&gt;</span>
+        <span class="o">&lt;</span><span class="err">/span&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+
+<h4>js代码:</h4>
+
+<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">name</span><span class="o">:</span><span class="s1">&#39;ZuoMo&#39;</span>
+<span class="p">};</span>
+<span class="c1">//5</span>
+<span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HelloWorld</span><span class="p">({</span><span class="nx">container</span><span class="o">:</span><span class="s1">&#39;#container5&#39;</span><span class="p">,</span><span class="nx">tmpl</span><span class="o">:</span><span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#tmpl_helloword2&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(),</span><span class="nx">data</span><span class="o">:</span><span class="nx">data</span><span class="p">});</span>
+    <span class="nx">helloworld</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+
+    <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#btn5&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
+        <span class="c1">//模板局部刷新</span>
+        <span class="nx">helloworld</span><span class="p">.</span><span class="nx">setChunkData</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;LiMu&#39;</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+
+<h4>demo：</h4>
+
+<iframe src='/brix/demo/tutorials/helloworld/helloworld5.html' frameborder='0' scrolling='0' class='j-demo'></iframe>
+
+
+<h3>方式六</h3>
+
+<pre><code>用模板、容器、数据的方式new pagelet，实现局部刷新
+</code></pre>
+
+<h4>html代码:</h4>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container6&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">&quot;btn6&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-taobao btn-size30&quot;</span><span class="nt">&gt;</span>
+        rename to YiCai
+    <span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;tmpl_helloword2&quot;</span><span class="nt">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">brick</span><span class="o">=</span><span class="s2">&quot;helloworld&quot;</span> <span class="nx">path</span><span class="o">=</span><span class="s2">&quot;helloworld&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span> 
+            <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">tmpl</span><span class="o">=</span><span class="s2">&quot;helloworld&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">datakey</span><span class="o">=</span><span class="s2">&quot;name&quot;</span><span class="o">&gt;&lt;</span><span class="err">/span&gt;</span>
+        <span class="o">&lt;</span><span class="err">/span&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+
+<h4>js代码:</h4>
+
+<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">name</span><span class="o">:</span><span class="s1">&#39;ZuoMo&#39;</span>
+<span class="p">};</span>
+<span class="c1">//6</span>
+<span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;brix/core/pagelet&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">Pagelet</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">pagelet</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Pagelet</span><span class="p">({</span><span class="nx">container</span><span class="o">:</span><span class="s1">&#39;#container6&#39;</span><span class="p">,</span><span class="nx">tmpl</span><span class="o">:</span><span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#tmpl_helloword2&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(),</span><span class="nx">data</span><span class="o">:</span><span class="nx">data</span><span class="p">});</span>
+    <span class="nx">pagelet</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+
+    <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#btn6&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
+        <span class="c1">//模板局部刷新</span>
+        <span class="nx">pagelet</span><span class="p">.</span><span class="nx">setChunkData</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;YiCai&#39;</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+
+<h4>demo：</h4>
+
+<iframe src='/brix/demo/tutorials/helloworld/helloworld6.html' frameborder='0' scrolling='0' class='j-demo'></iframe>
+
+
+<p>helloworld之旅到此结束，你应该对brix有了一个初步的认识了,接下来，我们会逐步的完善helloworld，同时了解看看brix还有什么其他的特性。</p>
+</section>
+    </article>
+  </div>
+  <footer id="footer">
+    <div id="bottom-nav">
+      
+      
+        <a rel="next" href="/brix/tutorials/2-attrs">下一篇 &rarr;</a>
+      
+    </div>
+  </footer>
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+  <script src="/brix/assets/js/post.js"></script>
+</body>

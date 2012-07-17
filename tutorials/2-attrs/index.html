@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Brix &mdash; UX</title>
+  <link rel="stylesheet" type="text/css" href="/brix/assets/css/screen.css">
+</head>
+<body>
+  <aside id="aside">
+  <div id="logo">
+    <a href="/brix/">Brix</a>
+  </div>
+  <section>
+  <h3>架构</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/arch/1-goal">BRIX 组件架构（一）</a></li>
+
+  <li><a href="/brix/arch/2-reporting-system-modulization">BRIX 组件架构（二）</a></li>
+
+  <li><a href="/brix/arch/3-tab-and-tab-configer">BRIX 组件架构（三）</a></li>
+
+  <li><a href="/brix/arch/4-sub-modules-and-data-structure">BRIX 组件架构（四）</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Meta</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/meta/estrap">组件 HTML/CSS 书写规范</a></li>
+
+  <li><a href="/brix/meta/gallery">组件开发规范</a></li>
+
+  <li><a href="/brix/meta/gallery-doc-sample">组件文档示例</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Core</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/core/brick">Brick</a></li>
+
+  <li><a href="/brix/core/chunk">Chunk</a></li>
+
+  <li><a href="/brix/core/dataset">Dataset</a></li>
+
+  <li><a href="/brix/core/pagelet">Pagelet</a></li>
+
+  <li><a href="/brix/core/tmpler">Tmpler</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Style</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/style/scaffolding">Scaffolding</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Gallery</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/gallery/dialog">Dialog</a></li>
+
+  <li><a href="/brix/gallery/dropdown">Dropdown</a></li>
+
+  <li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li>
+
+  <li><a href="/brix/gallery/kwicks">Kwicks</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Tutorials</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/tutorials/1-helloworld">HelloWorld</a></li>
+
+  <li><a href="/brix/tutorials/2-attrs">ATTRS</a></li>
+
+  <li><a href="/brix/tutorials/3-attach">ATTACH&DOCATTACH</a></li>
+
+</ul>
+</section>
+
+</aside>
+  <div id="page">
+    <article>
+      <h1>ATTRS</h1>
+      
+      <p class="caption">这里为大家介绍ATTRS的使用</p>
+      
+      
+      <section><h2>ATTRS</h2>
+
+<p>给HelloWorld增加一个配置“name”</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">ATTRS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">name</span><span class="o">:</span><span class="p">{</span>
+        <span class="nx">value</span><span class="o">:</span><span class="s1">&#39;World&#39;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+
+<p>同样，我们来看看，它是怎么用的</p>
+
+<h3>html代码:</h3>
+
+<p>在页面上多个按钮，分别用来给组件设置和获取“name”配置</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container1&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">&quot;btnsetzuomo&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-taobao btn-size30&quot;</span><span class="nt">&gt;</span>
+        set name zuomo
+    <span class="nt">&lt;/button&gt;</span>
+    <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">&quot;btnsetworld&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-shopping-cart btn-size30&quot;</span><span class="nt">&gt;</span>
+        set name world
+    <span class="nt">&lt;/button&gt;</span>
+    <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">&quot;btnget&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-taobao btn-size30&quot;</span><span class="nt">&gt;</span>
+        get name
+    <span class="nt">&lt;/button&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;helloworld1&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;span&gt;</span>Hello <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">&quot;spanName&quot;</span><span class="nt">&gt;</span>World<span class="nt">&lt;/span&gt;&lt;/span&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre>
+</div>
+
+
+<h3>js代码:</h3>
+
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span><span class="nx">name</span><span class="o">:</span><span class="s1">&#39;World&#39;</span><span class="p">,</span><span class="nx">tmpl</span><span class="o">:</span><span class="s1">&#39;#helloworld1&#39;</span><span class="p">}</span>
+    <span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HelloWorld</span><span class="p">(</span><span class="nx">config</span><span class="p">);</span>
+    <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#btnsetzuomo&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">helloworld</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;zuomo&#39;</span><span class="p">);</span>
+    <span class="p">});</span>
+    <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#btnsetworld&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">helloworld</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;world&#39;</span><span class="p">);</span>
+    <span class="p">});</span>
+    <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#btnget&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#spanName&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">helloworld</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">));</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+
+<h3>demo：</h3>
+
+<iframe src='/brix/demo/tutorials/attrs/attrs.html' frameborder='0' scrolling='0' class='j-demo'></iframe>
+
+
+
+</section>
+    </article>
+  </div>
+  <footer id="footer">
+    <div id="bottom-nav">
+      
+        <a rel="prev" href="/brix/tutorials/1-helloworld">&larr; 上一篇</a>
+      
+      
+        <a rel="next" href="/brix/tutorials/3-attach">下一篇 &rarr;</a>
+      
+    </div>
+  </footer>
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+  <script src="/brix/assets/js/post.js"></script>
+</body>

@@ -79,6 +79,19 @@
 
 </ul>
 </section>
+<section>
+  <h3>Tutorials</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/tutorials/1-helloworld">HelloWorld</a></li>
+
+  <li><a href="/brix/tutorials/2-attrs">ATTRS</a></li>
+
+  <li><a href="/brix/tutorials/3-attach">ATTACH&DOCATTACH</a></li>
+
+</ul>
+</section>
 
 </aside>
   <div id="page">
@@ -128,9 +141,15 @@
 
 <h3><code>initialize()</code></h3>
 
-<p>初始化方法</p>
+<p>初始化函数</p>
 
-<p>所有继承Brick的组件，在render到页面后都调用到此方法。</p>
+<p>所有继承Brick的组件，在render到页面后都调用到此函数。</p>
+
+<h3><code>destructor()</code></h3>
+
+<p>析构函数</p>
+
+<p>所有继承Brick的组件，在destroy时都调用到此函数。</p>
 
 <h2>事件</h2>
 </section>
@@ -139,11 +158,13 @@
   <footer id="footer">
     <div id="bottom-nav">
       
+        <a rel="prev" href="/brix/tutorials/3-attach">&larr; 上一篇</a>
+      
       
         <a rel="next" href="/brix/tools/checker">下一篇 &rarr;</a>
       
     </div>
   </footer>
   <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
-  <script src="/assets/js/post.js"></script>
+  <script src="/brix/assets/js/post.js"></script>
 </body>

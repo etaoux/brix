@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Brix之旅 - Hello Word 的多种写法</title>
+	<link type="text/css" rel="stylesheet" href="../../../dist/brix.css" charset="utf-8">
+	<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+    <script src="../../config.js"></script>
+    <script src="helloworld.js"></script>
+    <style type="text/css">
+    body{
+    	width: 600px;
+    }
+    </style>
+</head>
+<body>
+	<h1>5.new HelloWorld with Tmpl and Data</h1>
+	<div id="container5">
+		<button id="btn5" class="btn btn-taobao btn-size30">
+			rename to LiMu
+		</button>
+	</div>
+	<script type="text/template" id="tmpl_helloword2">
+		<div bx-brick="helloworld">
+			<span>Hello 
+				<span bx-tmpl="helloworld" bx-datakey="name">{{name}}</span>
+			</span>
+		</div>
+	</script>
+	<script type="text/javascript">
+		var data = {
+			name:'ZuoMo'
+		};
+		//5
+		KISSY.use('helloworld',function(S,HelloWorld){
+			var helloworld = new HelloWorld({container:'#container5',tmpl:S.one('#tmpl_helloword2').html(),data:data});
+			helloworld.render();
+
+			S.one('#btn5').on('click',function(){
+				//模板局部刷新
+				helloworld.setChunkData('name','LiMu');
+			});
+		});
+		
+	</script>
+</body>
+
+</html>
