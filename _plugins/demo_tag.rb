@@ -9,8 +9,10 @@ module Jekyll
 
     def render(context)
       path = @text.strip
-      name = path.split('/').last
-      "<iframe src='/brix/demo/#{path}/#{name}.html' frameborder='0' scrolling='0' class='j-demo'></iframe>"
+      unless path =~ /\.html$/
+        path = "#{path}/#{path.split('/').last}.html"
+      end 
+      "<iframe src='/brix/demo/#{path}' frameborder='0' scrolling='0' class='j-demo'></iframe>"
     end
   end
 end
