@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Brix &mdash; UX</title>
-  <link rel="stylesheet" type="text/css" href="/brix/assets/css/screen.css">
+  <link rel="stylesheet" type="text/css" href="/brix/assets/css/post.css">
 </head>
 <body>
   <aside id="aside">
@@ -30,7 +30,7 @@
   
   <ul class="entries">
 
-  <li><a href="/brix/meta/estrap">组件 HTML/CSS 书写规范</a></li>
+  <li><a href="/brix/meta/estrap">HTML/CSS 书写规范</a></li>
 
   <li><a href="/brix/meta/gallery">组件开发规范</a></li>
 
@@ -214,18 +214,16 @@
 一种方式是Dom方法，创建好文档片段，插入到Dom树中
 另一种是拼接文档字符串，通过innerHTML,doc.write等方法，把字符串加入Dom树中，在innerHTML内部，会自动将字符串转化为fragment
 我们是采用第二种方式，把模板和数据渲染结果字符串，通过innerHTML或doc.write加入到Dom树中，后续的addBehavior，相当于扩展了innerHTML,doc.write，在字符串转化为dom节点后，再把标识为组件的dom节点的组件行为附加上。</p>
+
+<div class="bottom-nav">
+    <a rel="previous" href="/brix/arch/2-reporting-system-modulization">&larr; 上一篇</a>
+    <a rel="next" href="/brix/arch/4-sub-modules-and-data-structure">下一篇 &rarr;</a>
+</div>
+
 </section>
     </article>
   </div>
   <footer id="footer">
-    <div id="bottom-nav">
-      
-        <a rel="prev" href="/brix/arch/2-reporting-system-modulization">&larr; 上一篇</a>
-      
-      
-        <a rel="next" href="/brix/arch/4-sub-modules-and-data-structure">下一篇 &rarr;</a>
-      
-    </div>
   </footer>
   <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
   <script src="/brix/assets/js/post.js"></script>
