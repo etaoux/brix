@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Brix &mdash; UX</title>
+  <link rel="stylesheet" type="text/css" href="/brix/assets/css/post.css">
+</head>
+<body>
+  <aside id="aside">
+  <div id="logo">
+    <a href="/brix/">Brix</a>
+  </div>
+  <section>
+  <h3>架构</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/arch/1-goal">BRIX 组件架构（一）</a></li>
+
+  <li><a href="/brix/arch/2-reporting-system-modulization">BRIX 组件架构（二）</a></li>
+
+  <li><a href="/brix/arch/3-tab-and-tab-configer">BRIX 组件架构（三）</a></li>
+
+  <li><a href="/brix/arch/4-sub-modules-and-data-structure">BRIX 组件架构（四）</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Meta</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/meta/estrap">HTML/CSS 书写规范</a></li>
+
+  <li><a href="/brix/meta/gallery">组件开发规范</a></li>
+
+  <li><a href="/brix/meta/gallery-doc-sample">组件文档示例</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Core</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/core/brick">Brick</a></li>
+
+  <li><a href="/brix/core/chunk">Chunk</a></li>
+
+  <li><a href="/brix/core/dataset">Dataset</a></li>
+
+  <li><a href="/brix/core/pagelet">Pagelet</a></li>
+
+  <li><a href="/brix/core/tmpler">Tmpler</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Style</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/style/scaffolding">Scaffolding</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Gallery</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/gallery/dialog">Dialog</a></li>
+
+  <li><a href="/brix/gallery/dropdown">Dropdown</a></li>
+
+  <li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li>
+
+  <li><a href="/brix/gallery/kwicks">Kwicks</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Tutorials</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/tutorials/1-helloworld">HelloWorld</a></li>
+
+  <li><a href="/brix/tutorials/2-attrs">ATTRS</a></li>
+
+  <li><a href="/brix/tutorials/3-attach">ATTACH&DOCATTACH</a></li>
+
+  <li><a href="/brix/tutorials/4-method">METHOD</a></li>
+
+  <li><a href="/brix/tutorials/5-fire">fire</a></li>
+
+  <li><a href="/brix/tutorials/6-renderder">RENDERDER</a></li>
+
+</ul>
+</section>
+
+</aside>
+  <div id="page">
+    <article>
+      <h1>RENDERDER</h1>
+      
+      <p class="caption">自定义事件</p>
+      
+      
+      <section><h2>RENDERDER</h2>
+
+<p>为组件模板渲染提供增强方法</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">RENDERDER</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">xx</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">yy</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="s2">&quot;xx_&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_yy&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+
+<h3>html代码:</h3>
+
+<p>模板中对应的渲染增加方法为"{{id_xx_yy}}"</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container1&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;tmpl_helloword1&quot;</span><span class="nt">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;helloworld1&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span> 
+            <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">helloworld1_xx_yy</span><span class="p">}}</span><span class="o">&lt;</span><span class="err">/span&gt;</span>
+        <span class="o">&lt;</span><span class="err">/span&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+
+<h3>js代码:</h3>
+
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HelloWorld</span><span class="p">({</span><span class="nx">container</span><span class="o">:</span><span class="s1">&#39;#container1&#39;</span><span class="p">,</span><span class="nx">tmpl</span><span class="o">:</span><span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#tmpl_helloword1&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">()});</span>
+    <span class="nx">helloworld</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+
+<h3>demo：</h3>
+
+<iframe src='/brix/demo/tutorials/renderder/renderder.html' frameborder='0' scrolling='0' class='j-demo'></iframe>
+
+
+
+</section>
+    </article>
+  </div>
+  <div id="J_log" style="position:fixed;width:600px;height:225px;bottom:0;right:2px">
+    <a style="position:absolute;top:1px;right:1px;z-index:999;" id="J_close" href="#">隐藏</a>
+  </div>
+  <footer id="footer">
+  </footer>
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+  <script src="/brix/assets/js/post.js"></script>
+  <script src="/brix/assets/js/log4javascript.js"></script>
+</body>

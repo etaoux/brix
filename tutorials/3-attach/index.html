@@ -92,6 +92,10 @@
 
   <li><a href="/brix/tutorials/4-method">METHOD</a></li>
 
+  <li><a href="/brix/tutorials/5-fire">fire</a></li>
+
+  <li><a href="/brix/tutorials/6-renderder">RENDERDER</a></li>
+
 </ul>
 </section>
 
@@ -110,7 +114,7 @@
 <div class="highlight"><pre><code class="js"><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">ATTACH</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;&quot;</span><span class="o">:</span><span class="p">{</span><span class="c1">//空表示事件直接绑定在el上</span>
         <span class="s2">&quot;click&quot;</span><span class="o">:</span><span class="kd">function</span><span class="p">(){</span>
-            <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;节点被点击&#39;</span><span class="p">);</span>
+            <span class="nx">top</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;节点被点击&#39;</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">},</span>
     <span class="s2">&quot;#spanName&quot;</span><span class="o">:</span><span class="p">{</span>
@@ -125,7 +129,7 @@
 <span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">DOCATTACH</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;&quot;</span><span class="o">:</span><span class="p">{</span><span class="c1">//空表示事件直接绑定在document上</span>
         <span class="s2">&quot;click&quot;</span><span class="o">:</span><span class="kd">function</span><span class="p">(){</span>
-            <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;document被点击&#39;</span><span class="p">);</span>
+            <span class="nx">top</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;document被点击&#39;</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">};</span>
@@ -180,7 +184,7 @@
     <span class="kd">var</span> <span class="nx">events</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;#spanName&quot;</span><span class="o">:</span><span class="p">{</span>
             <span class="s2">&quot;click&quot;</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
-                <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;我是自定义点击&#39;</span><span class="p">);</span>
+                <span class="nx">top</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;我是自定义点击&#39;</span><span class="p">);</span>
             <span class="p">}</span>
         <span class="p">}};</span>
     <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span><span class="nx">name</span><span class="o">:</span><span class="s1">&#39;World&#39;</span><span class="p">,</span><span class="nx">tmpl</span><span class="o">:</span><span class="s1">&#39;#helloworld1&#39;</span><span class="p">};</span>
@@ -200,40 +204,12 @@
 </section>
     </article>
   </div>
-  <div id="logdiv" style="position:fixed;width:600px;height:225px;bottom:0;right:2px">
-    <a style="position:absolute;top:1px;right:1px;z-index:999;" id="closea" href="#">隐藏</a>
+  <div id="J_log" style="position:fixed;width:600px;height:225px;bottom:0;right:2px">
+    <a style="position:absolute;top:1px;right:1px;z-index:999;" id="J_close" href="#">隐藏</a>
   </div>
   <footer id="footer">
   </footer>
   <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
   <script src="/brix/assets/js/post.js"></script>
   <script src="/brix/assets/js/log4javascript.js"></script>
-  <script type="text/javascript">
-      var log = log4javascript.getLogger("main");
-      var appender = new log4javascript.InPageAppender('logdiv',true);
-      log.addAppender(appender);
-      //log.debug("This is a debugging message from the log4javascript in-page page");
-      //debugger
-      /*setTimeout(function  (argument) {
-       appender.hide();
-      },2000);*/
-      //log.log = log.trace;
-
-        KISSY.one('#closea').on('click',function (e) {
-            e.halt();
-            if(appender.isVisible()){
-                appender.hide();
-                e.currentTarget.innerHTML = '显示';
-            }
-            else{
-                appender.show();
-                e.currentTarget.innerHTML = '隐藏';
-            }
-        });
-
-
-      console = window.console || {};
-
-      console.log=function(){log.info.apply(log,arguments)};
-  </script>
 </body>

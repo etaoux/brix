@@ -102,35 +102,25 @@
 </aside>
   <div id="page">
     <article>
-      <h1>METHOD</h1>
+      <h1>fire</h1>
       
-      <p class="caption">有了前面几个介绍，METHOD的使用应该也不是什么问题，不过，写的时候还是需要注意一些</p>
+      <p class="caption">自定义事件</p>
       
       
-      <section><h2>METHOD</h2>
+      <section><h2>fire</h2>
 
-<p>给HelloWorld增加show,hide方法</p>
+<p>给HelloWorld的show,hide方法中添加自定义事件show和hide</p>
 
 <div class="highlight"><pre><code class="js"><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">METHOD</span> <span class="o">=</span> <span class="p">{</span>
     <span class="nx">show</span><span class="o">:</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;el&#39;</span><span class="p">).</span><span class="nx">fadeIn</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">fire</span><span class="p">(</span><span class="s1">&#39;show&#39;</span><span class="p">,{</span><span class="nx">data</span><span class="o">:</span><span class="s1">&#39;showdata&#39;</span><span class="p">});</span>
     <span class="p">},</span>
     <span class="nx">hide</span><span class="o">:</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;el&#39;</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">();</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">fire</span><span class="p">(</span><span class="s1">&#39;hide&#39;</span><span class="p">,{</span><span class="nx">data</span><span class="o">:</span><span class="s1">&#39;hidedata&#39;</span><span class="p">});</span>
     <span class="p">}</span>
 <span class="p">};</span>
-</code></pre>
-</div>
-
-
-
-
-<div class="tips">当前上下文（this）是当前组件的实例对象</div>
-
-
-<p>亲，还有一件事情很重要，将HelloWorld.METHOD成员复制到 HelloWorld.prototype上.</p>
-
-<div class="highlight"><pre><code class="js"><span class="nx">S</span><span class="p">.</span><span class="nx">augment</span><span class="p">(</span><span class="nx">HelloWorld</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">METHOD</span><span class="p">);</span>
 </code></pre>
 </div>
 
@@ -156,7 +146,12 @@
 
 <div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">){</span>
     <span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HelloWorld</span><span class="p">({</span><span class="nx">tmpl</span><span class="o">:</span><span class="s1">&#39;#helloworld1&#39;</span><span class="p">});</span>
-
+    <span class="nx">helloworld</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;show&#39;</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">top</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;自定义事件show触发,数据为&#39;</span><span class="o">+</span><span class="nx">ev</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+    <span class="p">});</span>
+    <span class="nx">helloworld</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;hide&#39;</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">top</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;自定义事件hide触发,数据为&#39;</span><span class="o">+</span><span class="nx">ev</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+    <span class="p">});</span>
     <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#btnshow&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">helloworld</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
     <span class="p">});</span>
@@ -170,7 +165,7 @@
 
 <h3>demo：</h3>
 
-<iframe src='/brix/demo/tutorials/method/method.html' frameborder='0' scrolling='0' class='j-demo'></iframe>
+<iframe src='/brix/demo/tutorials/fire/fire.html' frameborder='0' scrolling='0' class='j-demo'></iframe>
 
 
 
