@@ -121,6 +121,7 @@ body{font-size:.8em;}
 #page code{border:1px solid #ddd;border-radius:2px;display:inline-block;padding:0 2px;background:#f4f5f5;}
 #page .highlight{padding:6px 10px;border-radius:2px;box-shadow:0 0 7px rgba(0, 0, 0, 0.1) inset;}#page .highlight pre{margin:0;line-height:1.4;}
 #page .highlight pre,#page .highlight code{font-family:'Envy Code R',Monaco,Consolas,monospace;font-size:12px;border:none;padding:0;background:none;}
+#page .bottom-nav{padding:20px 0;text-align:center;}#page .bottom-nav a:link{text-decoration:none;}
+#page .bottom-nav a:hover{color:#f50;}
+#page .demo{border:1px solid #ddd;border-radius:2px;padding:5px 10px;box-shadow:0 0 5px rgba(198, 198, 198, 0.4);background:#f0f0f0;}
 #footer{margin:20px 0 30px;text-align:center;}
-.bottom-nav{padding:20px 0;text-align:center;}.bottom-nav a:link{text-decoration:none;}
-.bottom-nav a:hover{color:#f50;}
