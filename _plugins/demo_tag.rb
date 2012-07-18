@@ -11,8 +11,8 @@ module Jekyll
       path = @text.strip
       unless path =~ /\.html$/
         path = "#{path}/#{path.split('/').last}.html"
-      end 
-      "<iframe src='/brix/demo/#{path}' frameborder='0' scrolling='0' class='j-demo'></iframe>"
+      end
+      "<div class='demo'><iframe src='/brix/demo/#{path}' frameborder='0' scrolling='0' class='j-demo'></iframe></div>"
     end
   end
 end
