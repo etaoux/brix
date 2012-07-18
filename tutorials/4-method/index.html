@@ -98,39 +98,47 @@
 </aside>
   <div id="page">
     <article>
-      <h1>ATTRS</h1>
+      <h1>METHOD</h1>
       
-      <p class="caption">这里为大家介绍ATTRS的使用</p>
+      <p class="caption">有了前面几个介绍，METHOD的使用应该也不是什么问题，不过，写的时候还是需要注意一些</p>
       
       
-      <section><h2>ATTRS</h2>
+      <section><h2>METHOD</h2>
 
-<p>给HelloWorld增加一个配置“name”</p>
+<p>给HelloWorld增加show,hide方法</p>
 
-<div class="highlight"><pre><code class="js"><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">ATTRS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">name</span><span class="o">:</span><span class="p">{</span>
-        <span class="nx">value</span><span class="o">:</span><span class="s1">&#39;World&#39;</span>
+<div class="highlight"><pre><code class="js"><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">METHOD</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">show</span><span class="o">:</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;el&#39;</span><span class="p">).</span><span class="nx">fadeIn</span><span class="p">();</span>
+    <span class="p">},</span>
+    <span class="nx">hide</span><span class="o">:</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;el&#39;</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">();</span>
     <span class="p">}</span>
 <span class="p">};</span>
 </code></pre>
 </div>
 
 
-<p>同样，我们来看看，它是怎么用的</p>
+
+
+<div class="tips">当前上下文（this）是当前组件的实例对象</div>
+
+
+<p>亲，还有一件事情很重要，将HelloWorld.METHOD成员复制到 HelloWorld.prototype上.</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">S</span><span class="p">.</span><span class="nx">augment</span><span class="p">(</span><span class="nx">HelloWorld</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">METHOD</span><span class="p">);</span>
+</code></pre>
+</div>
+
 
 <h3>html代码:</h3>
 
-<p>在页面上多个按钮，分别用来给组件设置和获取“name”配置</p>
-
 <div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container1&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">&quot;btnsetzuomo&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-taobao btn-size30&quot;</span><span class="nt">&gt;</span>
-        set name zuomo
+    <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">&quot;btnhide&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-shopping-cart btn-size30&quot;</span><span class="nt">&gt;</span>
+        hide
     <span class="nt">&lt;/button&gt;</span>
-    <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">&quot;btnsetworld&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-shopping-cart btn-size30&quot;</span><span class="nt">&gt;</span>
-        set name world
-    <span class="nt">&lt;/button&gt;</span>
-    <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">&quot;btnget&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-taobao btn-size30&quot;</span><span class="nt">&gt;</span>
-        get name
+    <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">&quot;btnshow&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-taobao btn-size30&quot;</span><span class="nt">&gt;</span>
+        show
     <span class="nt">&lt;/button&gt;</span>
     <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;helloworld1&quot;</span><span class="nt">&gt;</span>
         <span class="nt">&lt;span&gt;</span>Hello <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">&quot;spanName&quot;</span><span class="nt">&gt;</span>World<span class="nt">&lt;/span&gt;&lt;/span&gt;</span>
@@ -142,19 +150,14 @@
 
 <h3>js代码:</h3>
 
-<p>get方法获取属性值，set方法设置属性值</p>
-
 <div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">){</span>
-    <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span><span class="nx">name</span><span class="o">:</span><span class="s1">&#39;World&#39;</span><span class="p">,</span><span class="nx">tmpl</span><span class="o">:</span><span class="s1">&#39;#helloworld1&#39;</span><span class="p">}</span>
-    <span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HelloWorld</span><span class="p">(</span><span class="nx">config</span><span class="p">);</span>
-    <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#btnsetzuomo&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
-        <span class="nx">helloworld</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;zuomo&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HelloWorld</span><span class="p">({</span><span class="nx">tmpl</span><span class="o">:</span><span class="s1">&#39;#helloworld1&#39;</span><span class="p">});</span>
+
+    <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#btnshow&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">helloworld</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
     <span class="p">});</span>
-    <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#btnsetworld&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
-        <span class="nx">helloworld</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;world&#39;</span><span class="p">);</span>
-    <span class="p">});</span>
-    <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#btnget&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
-        <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#spanName&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">helloworld</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">));</span>
+    <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#btnhide&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">helloworld</span><span class="p">.</span><span class="nx">hide</span><span class="p">();</span>
     <span class="p">});</span>
 <span class="p">});</span>
 </code></pre>
@@ -163,7 +166,7 @@
 
 <h3>demo：</h3>
 
-<iframe src='/brix/demo/tutorials/attrs/attrs.html' frameborder='0' scrolling='0' class='j-demo'></iframe>
+<iframe src='/brix/demo/tutorials/method/method.html' frameborder='0' scrolling='0' class='j-demo'></iframe>
 
 
 

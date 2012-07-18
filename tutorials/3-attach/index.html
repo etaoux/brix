@@ -90,6 +90,8 @@
 
   <li><a href="/brix/tutorials/3-attach">ATTACH&DOCATTACH</a></li>
 
+  <li><a href="/brix/tutorials/4-method">METHOD</a></li>
+
 </ul>
 </section>
 
@@ -106,7 +108,7 @@
 <p>给HelloWorld增加dom事件，el节点事件，以及子元素的代理事件</p>
 
 <div class="highlight"><pre><code class="js"><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">ATTACH</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;&quot;</span><span class="o">:</span><span class="p">{</span>
+    <span class="s2">&quot;&quot;</span><span class="o">:</span><span class="p">{</span><span class="c1">//空表示事件直接绑定在el上</span>
         <span class="s2">&quot;click&quot;</span><span class="o">:</span><span class="kd">function</span><span class="p">(){</span>
             <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;节点被点击&#39;</span><span class="p">);</span>
         <span class="p">}</span>
@@ -121,7 +123,7 @@
 <span class="p">};</span>
 
 <span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">DOCATTACH</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;&quot;</span><span class="o">:</span><span class="p">{</span>
+    <span class="s2">&quot;&quot;</span><span class="o">:</span><span class="p">{</span><span class="c1">//空表示事件直接绑定在document上</span>
         <span class="s2">&quot;click&quot;</span><span class="o">:</span><span class="kd">function</span><span class="p">(){</span>
             <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;document被点击&#39;</span><span class="p">);</span>
         <span class="p">}</span>
@@ -138,7 +140,8 @@
 
 <h3>html代码:</h3>
 
-<p>在页面上多个按钮，分别用来给组件设置和获取“name”配置</p>
+<p>点击组件外层的“点击我”会触发组件绑定在document上的事件，
+点组件内部的“点击我”会触发代理事件。</p>
 
 <div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container1&quot;</span><span class="nt">&gt;</span>
     点击我
@@ -165,12 +168,72 @@
 <iframe src='/brix/demo/tutorials/attach/attach.html' frameborder='0' scrolling='0' class='j-demo'></iframe>
 
 
+<h2>events</h2>
+
+<p>如果组件内部提供的代理事件不能满足业务需求，那么，我们提供了一个配置项events来满足特殊的需求（当然，我们建议修改组件内部，来满足业务需求）,他的写法同ATTACH的写法</p>
+
+<p>紧急情况下，看看我们能怎么做</p>
+
+<h3>js代码:</h3>
+
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">events</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;#spanName&quot;</span><span class="o">:</span><span class="p">{</span>
+            <span class="s2">&quot;click&quot;</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+                <span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;我是自定义点击&#39;</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}};</span>
+    <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span><span class="nx">name</span><span class="o">:</span><span class="s1">&#39;World&#39;</span><span class="p">,</span><span class="nx">tmpl</span><span class="o">:</span><span class="s1">&#39;#helloworld1&#39;</span><span class="p">};</span>
+    <span class="nx">congfig</span><span class="p">.</span><span class="nx">events</span> <span class="o">=</span> <span class="nx">events</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HelloWorld</span><span class="p">(</span><span class="nx">config</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+
+<h3>demo：</h3>
+
+<iframe src='/brix/demo/tutorials/attach/attachevents.html' frameborder='0' scrolling='0' class='j-demo'></iframe>
+
+
 
 </section>
     </article>
+  </div>
+  <div id="logdiv" style="position:fixed;width:600px;height:225px;bottom:0;right:2px">
+    <a style="position:absolute;top:1px;right:1px;z-index:999;" id="closea" href="#">隐藏</a>
   </div>
   <footer id="footer">
   </footer>
   <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
   <script src="/brix/assets/js/post.js"></script>
+  <script src="/brix/assets/js/log4javascript.js"></script>
+  <script type="text/javascript">
+      var log = log4javascript.getLogger("main");
+      var appender = new log4javascript.InPageAppender('logdiv',true);
+      log.addAppender(appender);
+      //log.debug("This is a debugging message from the log4javascript in-page page");
+      //debugger
+      /*setTimeout(function  (argument) {
+       appender.hide();
+      },2000);*/
+      //log.log = log.trace;
+
+        KISSY.one('#closea').on('click',function (e) {
+            e.halt();
+            if(appender.isVisible()){
+                appender.hide();
+                e.currentTarget.innerHTML = '显示';
+            }
+            else{
+                appender.show();
+                e.currentTarget.innerHTML = '隐藏';
+            }
+        });
+
+
+      console = window.console || {};
+
+      console.log=function(){log.info.apply(log,arguments)};
+  </script>
 </body>

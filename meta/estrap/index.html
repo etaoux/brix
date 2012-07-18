@@ -90,6 +90,8 @@
 
   <li><a href="/brix/tutorials/3-attach">ATTACH&DOCATTACH</a></li>
 
+  <li><a href="/brix/tutorials/4-method">METHOD</a></li>
+
 </ul>
 </section>
 
@@ -221,8 +223,40 @@
 </section>
     </article>
   </div>
+  <div id="logdiv" style="position:fixed;width:600px;height:225px;bottom:0;right:2px">
+    <a style="position:absolute;top:1px;right:1px;z-index:999;" id="closea" href="#">隐藏</a>
+  </div>
   <footer id="footer">
   </footer>
   <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
   <script src="/brix/assets/js/post.js"></script>
+  <script src="/brix/assets/js/log4javascript.js"></script>
+  <script type="text/javascript">
+      var log = log4javascript.getLogger("main");
+      var appender = new log4javascript.InPageAppender('logdiv',true);
+      log.addAppender(appender);
+      //log.debug("This is a debugging message from the log4javascript in-page page");
+      //debugger
+      /*setTimeout(function  (argument) {
+       appender.hide();
+      },2000);*/
+      //log.log = log.trace;
+
+        KISSY.one('#closea').on('click',function (e) {
+            e.halt();
+            if(appender.isVisible()){
+                appender.hide();
+                e.currentTarget.innerHTML = '显示';
+            }
+            else{
+                appender.show();
+                e.currentTarget.innerHTML = '隐藏';
+            }
+        });
+
+
+      console = window.console || {};
+
+      console.log=function(){log.info.apply(log,arguments)};
+  </script>
 </body>
