@@ -65,3 +65,7 @@ A B C..等是组件1承载的数据，比如A是人员列表，B是其中某个�
 3. 组装：通过一系列设计，达到“面向未来的无侵扰的可拆可装”
 
 最终我们基本描述清楚了，组件从最初设计，到后续发展各个过程中各种问题的应对方法。
+
+<div class="bottom-nav">
+    <a rel="previous" href="/brix{{page.previous.url}}">&larr; 上一篇</a>
+</div>

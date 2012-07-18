@@ -73,3 +73,8 @@ category: arch
 
 采用约定管理任务的执行顺序，管理任务是否可以并行，管理任务间的依赖。
 这样按照之前约定对任务的描述，每个任务可以以异步方式执行，同样可以以同步方式执行。可以并行的任务依然可以串行执行。
+
+<div class="bottom-nav">
+    <a rel="previous" href="/brix{{page.previous.url}}">&larr; 上一篇</a>
+    <a rel="next" href="/brix{{page.next.url}}">下一篇 &rarr;</a>
+</div>

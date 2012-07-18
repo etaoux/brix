@@ -105,3 +105,8 @@ category: arch
 一种方式是Dom方法，创建好文档片段，插入到Dom树中
 另一种是拼接文档字符串，通过innerHTML,doc.write等方法，把字符串加入Dom树中，在innerHTML内部，会自动将字符串转化为fragment
 我们是采用第二种方式，把模板和数据渲染结果字符串，通过innerHTML或doc.write加入到Dom树中，后续的addBehavior，相当于扩展了innerHTML,doc.write，在字符串转化为dom节点后，再把标识为组件的dom节点的组件行为附加上。
+
+<div class="bottom-nav">
+    <a rel="previous" href="/brix{{page.previous.url}}">&larr; 上一篇</a>
+    <a rel="next" href="/brix{{page.next.url}}">下一篇 &rarr;</a>
+</div>
