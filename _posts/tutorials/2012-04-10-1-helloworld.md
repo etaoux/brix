@@ -150,6 +150,7 @@ KISSY.use('brix/core/pagelet',function(S,Pagelet){
 #### html代码:
 
 {% highlight html %}
+{% raw %}
 <div id="container5">
     <button id="btn5" class="btn btn-taobao btn-size30">
         rename to LiMu
@@ -162,6 +163,7 @@ KISSY.use('brix/core/pagelet',function(S,Pagelet){
         </span>
     </div>
 </script>
+{% endraw %}
 {% endhighlight %}
 
 #### js代码:
@@ -193,6 +195,7 @@ KISSY.use('helloworld',function(S,HelloWorld){
 #### html代码:
 
 {% highlight html %}
+{% raw %}
 <div id="container6">
     <button id="btn6" class="btn btn-taobao btn-size30">
         rename to YiCai
@@ -205,6 +208,7 @@ KISSY.use('helloworld',function(S,HelloWorld){
         </span>
     </div>
 </script>
+{% endraw %}
 {% endhighlight %}
 
 #### js代码:
