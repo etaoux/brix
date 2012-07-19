@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Brix之旅 - 完整的实现</title>
+	<link type="text/css" rel="stylesheet" href="../../../dist/brix.css" charset="utf-8">
+	<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+    <script src="../../config.js"></script>
+    <script src="helloworld.js"></script>
+    <style type="text/css">
+    body{
+    	width: 600px;
+    }
+    </style>
+</head>
+<body>
+	<div id="container1">
+	</div>
+	<h3>attrs</h3>
+	<div>
+		<button id="btnsetzuomo" class="btn btn-taobao btn-size30">
+			set name zuomo
+		</button>
+
+		<button id="btnget" class="btn btn-shopping-cart btn-size30">
+			get name
+		</button>
+		<button id="btnsetworld" class="btn btn-taobao btn-size30">
+			set name world
+		</button>
+	</div>
+	<h3>method</h3>
+	<div>
+		<button id="btnhide" class="btn btn-shopping-cart btn-size30">
+			hide
+		</button>
+		
+		<button id="btnshow" class="btn btn-taobao btn-size30">
+			show
+		</button>
+	</div>
+	<h3>tmpl&data</h3>
+	<div>
+		<button id="btn6" class="btn btn-taobao btn-size30">
+			rename to YiCai
+		</button>
+	</div>
+	<script type="text/template" id="tmpl_helloword2">
+		<div id="helloworld1" bx-brick="helloworld" bx-path="helloworld">
+			<span>Hello 
+				<span id="spanName" bx-tmpl="helloworld" bx-datakey="name">{{helloworld1_xx_yy}}</span>
+			</span>
+		</div>
+	</script>
+	<script type="text/javascript">
+		KISSY.use('brix/core/pagelet',function(S,Pagelet){
+			var data = {
+				name:'ZuoMo'
+			};
+			var pagelet = new Pagelet({container:'#container1',tmpl:S.one('#tmpl_helloword2').html(),data:data});
+			pagelet.addBehavior();
+			pagelet.ready(function () {
+				//将模板和数据渲染到页面
+				pagelet.render();
+				//拿到helloworld组件的实例
+				var helloworld = pagelet.getBrick('helloworld1');
+
+				//attrs
+				S.one('#btnsetzuomo').on('click',function(){
+			        helloworld.set('name','zuomo');
+			    });
+			    S.one('#btnsetworld').on('click',function(){
+			        helloworld.set('name','world');
+			    });
+			    S.one('#btnget').on('click',function(){
+			        S.one('#spanName').html(helloworld.get('name'));
+			    });
+
+				//method&fire
+				helloworld.on('show',function (ev) {
+			    	top.console.log('自定义事件show触发,数据为'+ev.data);
+			    });
+			    helloworld.on('hide',function (ev) {
+			    	top.console.log('自定义事件hide触发,数据为'+ev.data);
+			    });
+
+				S.one('#btnshow').on('click',function (e) {
+			    	helloworld.show();
+			    });
+			    S.one('#btnhide').on('click',function (e) {
+			    	helloworld.hide();
+			    });
+
+
+			    //tmpl&data
+				S.one('#btn6').on('click',function(){
+					//模板局部刷新
+					pagelet.setChunkData('name','YiCai');
+				});
+			});
+		});
+	</script>
+</body>
+
+</html>

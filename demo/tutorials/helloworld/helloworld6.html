@@ -2,9 +2,9 @@
 <html lang="en-US">
 <head>
 	<meta charset="UTF-8">
-	<title>Brix之旅 - Hello Word 的多种写法</title>
+	<title>Brix之旅 - Hello Word 的多种写法 - new Pagelet with Tmpl and Data</title>
 	<link type="text/css" rel="stylesheet" href="../../../dist/brix.css" charset="utf-8">
-	<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+	<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
     <script src="../../config.js"></script>
     <script src="helloworld.js"></script>
     <style type="text/css">
@@ -14,14 +14,13 @@
     </style>
 </head>
 <body>
-	<h1>6.new Pagelet with Tmpl and Data</h1>
 	<div id="container6">
 		<button id="btn6" class="btn btn-taobao btn-size30">
 			rename to YiCai
 		</button>
 	</div>
 	<script type="text/template" id="tmpl_helloword2">
-		<div bx-brick="helloworld" path="helloworld">
+		<div bx-brick="helloworld" bx-path="helloworld">
 			<span>Hello 
 				<span bx-tmpl="helloworld" bx-datakey="name">{{name}}</span>
 			</span>
@@ -35,7 +34,7 @@
 		KISSY.use('brix/core/pagelet',function(S,Pagelet){
 			var pagelet = new Pagelet({container:'#container6',tmpl:S.one('#tmpl_helloword2').html(),data:data});
 			pagelet.render();
-
+			pagelet.addBehavior();
 			S.one('#btn6').on('click',function(){
 				//模板局部刷新
 				pagelet.setChunkData('name','YiCai');

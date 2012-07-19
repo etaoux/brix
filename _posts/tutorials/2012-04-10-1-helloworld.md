@@ -1,6 +1,6 @@
 ---
 layout: post
-title: HelloWorld
+title: Brix之旅开始
 category: tutorials
 caption: 还记得当年学一门语言的时候的helloworld吗，今天，让我们看看brix框架的helloworld吧。
 ---
@@ -221,7 +221,7 @@ var data = {
 KISSY.use('brix/core/pagelet',function(S,Pagelet){
     var pagelet = new Pagelet({container:'#container6',tmpl:S.one('#tmpl_helloword2').html(),data:data});
     pagelet.render();
-
+    pagelet.addBehavior();
     S.one('#btn6').on('click',function(){
         //模板局部刷新
         pagelet.setChunkData('name','YiCai');
