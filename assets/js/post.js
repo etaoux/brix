@@ -26,7 +26,7 @@ KISSY.ready(function(S) {
             closeNode.html('隐藏');
         }
     });
-    log.info('这是一个调试器');
+    log.info('调试信息将在这里显示。');
 	console = window.console || {};
 	console.log=function(){log.info.apply(log,arguments)};
 });

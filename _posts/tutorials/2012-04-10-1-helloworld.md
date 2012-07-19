@@ -6,8 +6,6 @@ caption: 还记得当年学一门语言的时候的helloworld吗，今天，让�
 ---
 
 
-## 步骤一
-
 我们先写个helloworld组件，怎么写？[看这里](/brix/meta/gallery)
 
 {% highlight js %}
@@ -30,15 +28,14 @@ KISSY.add('helloworld', function(S, Brick) {
 
 他其实什么都没有，一个空组件。没错，他已经能用了，brix框架已经给他某些能力了。
 
-## 步骤二
 
 有了组件，如何用，让我们进入birx之旅
 
-### 方式一
+## 方式一
 
 直接在已有的dom结构上new helloworld
 
-#### html代码:
+### html代码:
 
 {% highlight html %}
 <div id="helloworld1">
@@ -46,7 +43,7 @@ KISSY.add('helloworld', function(S, Brick) {
 </div>
 {% endhighlight %}
 
-#### js代码:
+### js代码:
 
 {% highlight js %}
 KISSY.use('helloworld',function(S,HelloWorld){
@@ -54,15 +51,15 @@ KISSY.use('helloworld',function(S,HelloWorld){
 });
 {% endhighlight %}
 
-#### demo：
+### demo：
 
 {% demo tutorials/helloworld/helloworld1.html %}
 
-### 方式二
+## 方式二
 
-    直接在已有的dom结构上new pagelet
+直接在已有的dom结构上new pagelet
 
-#### html代码:
+### html代码:
 
 {% highlight html %}
 <div id="container2">
@@ -72,7 +69,7 @@ KISSY.use('helloworld',function(S,HelloWorld){
 </div>
 {% endhighlight %}
 
-#### js代码:
+### js代码:
 
 {% highlight js %}
 KISSY.use('brix/core/pagelet',function(S,Pagelet){
@@ -80,15 +77,15 @@ KISSY.use('brix/core/pagelet',function(S,Pagelet){
 });
 {% endhighlight %}
 
-#### demo：
+### demo：
 
 {% demo tutorials/helloworld/helloworld2.html %}
 
-### 方式三
+## 方式三
 
-    用模板和容器的方式new helloworld
+用模板和容器的方式new helloworld
 
-#### html代码:
+### html代码:
 
 {% highlight html %}
 <div id="container3">
@@ -100,7 +97,7 @@ KISSY.use('brix/core/pagelet',function(S,Pagelet){
 </script>
 {% endhighlight %}
 
-#### js代码:
+### js代码:
 
 {% highlight js %}
 KISSY.use('helloworld',function(S,HelloWorld){
@@ -109,15 +106,15 @@ KISSY.use('helloworld',function(S,HelloWorld){
 });
 {% endhighlight %}
 
-#### demo：
+### demo：
 
 {% demo tutorials/helloworld/helloworld3.html %}
 
-### 方式四
+## 方式四
 
-    用模板和容器的方式new pagelet
+用模板和容器的方式new pagelet
 
-#### html代码:
+### html代码:
 
 {% highlight html %}
 <div id="container4">
@@ -129,7 +126,7 @@ KISSY.use('helloworld',function(S,HelloWorld){
 </script>
 {% endhighlight %}
 
-#### js代码:
+### js代码:
 
 {% highlight js %}
 KISSY.use('brix/core/pagelet',function(S,Pagelet){
@@ -138,16 +135,16 @@ KISSY.use('brix/core/pagelet',function(S,Pagelet){
 });
 {% endhighlight %}
 
-#### demo：
+### demo：
 
 {% demo tutorials/helloworld/helloworld4.html %}
 
 
-### 方式五
+## 方式五
 
-    用模板、容器、数据的方式new helloworld，实现局部刷新
+用模板、容器、数据的方式new helloworld，实现局部刷新
 
-#### html代码:
+### html代码:
 
 {% highlight html %}
 {% raw %}
@@ -166,13 +163,12 @@ KISSY.use('brix/core/pagelet',function(S,Pagelet){
 {% endraw %}
 {% endhighlight %}
 
-#### js代码:
+### js代码:
 
 {% highlight js %}
 var data = {
     name:'ZuoMo'
 };
-//5
 KISSY.use('helloworld',function(S,HelloWorld){
     var helloworld = new HelloWorld({container:'#container5',tmpl:S.one('#tmpl_helloword2').html(),data:data});
     helloworld.render();
@@ -184,15 +180,15 @@ KISSY.use('helloworld',function(S,HelloWorld){
 });
 {% endhighlight %}
 
-#### demo：
+### demo：
 
 {% demo tutorials/helloworld/helloworld5.html %}
 
-### 方式六
+## 方式六
 
-    用模板、容器、数据的方式new pagelet，实现局部刷新
+用模板、容器、数据的方式new pagelet，实现局部刷新
 
-#### html代码:
+### html代码:
 
 {% highlight html %}
 {% raw %}
@@ -211,13 +207,13 @@ KISSY.use('helloworld',function(S,HelloWorld){
 {% endraw %}
 {% endhighlight %}
 
-#### js代码:
+### js代码:
 
 {% highlight js %}
 var data = {
     name:'ZuoMo'
 };
-//6
+
 KISSY.use('brix/core/pagelet',function(S,Pagelet){
     var pagelet = new Pagelet({container:'#container6',tmpl:S.one('#tmpl_helloword2').html(),data:data});
     pagelet.render();
@@ -229,7 +225,7 @@ KISSY.use('brix/core/pagelet',function(S,Pagelet){
 });
 {% endhighlight %}
 
-#### demo：
+### demo：
 
 {% demo tutorials/helloworld/helloworld6.html %}
 
