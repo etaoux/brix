@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Brix之旅 - ATTRS</title>
+	<link type="text/css" rel="stylesheet" href="../../../dist/brix.css" charset="utf-8">
+	<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+    <script src="../../config.js"></script>
+    <script src="helloworld.js"></script>
+    <style type="text/css">
+    body{
+    	width: 400px;
+    }
+    </style>
+</head>
+<body>
+	<div id="container1">
+		<div id="helloworld1">
+			<span>Hello <span id="spanName">World</span></span>
+		</div>
+	</div>
+	<button id="btnsetzuomo" class="btn btn-taobao btn-size30">
+		set name zuomo
+	</button>
+
+	<button id="btnget" class="btn btn-shopping-cart btn-size30">
+		get name
+	</button>
+	<button id="btnsetworld" class="btn btn-taobao btn-size30">
+		set name world
+	</button>
+	<script type="text/javascript">
+		KISSY.use('helloworld',function(S,HelloWorld){
+		    var config = {name:'World',tmpl:'#helloworld1'}
+		    var helloworld = new HelloWorld(config);
+		    S.one('#btnsetzuomo').on('click',function(){
+		        helloworld.set('name','zuomo');
+		    });
+		    S.one('#btnsetworld').on('click',function(){
+		        helloworld.set('name','world');
+		    });
+		    S.one('#btnget').on('click',function(){
+		        S.one('#spanName').html(helloworld.get('name'));
+		    });
+		});
+	</script>
+</body>
+
+</html>

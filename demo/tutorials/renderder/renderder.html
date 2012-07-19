@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Brix之旅 - RENDERER</title>
+	<link type="text/css" rel="stylesheet" href="../../../dist/brix.css" charset="utf-8">
+	<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+    <script src="../../config.js"></script>
+    <script src="helloworld.js"></script>
+    <style type="text/css">
+    body{
+    	width: 500px;
+    }
+    </style>
+</head>
+<body>
+	<div id="container1">
+
+	</div>
+	<script type="text/template" id="tmpl_helloword1">
+		<div id="helloworld1">
+			<span>Hello 
+				<span>{{helloworld1_xx_yy}}</span>
+			</span>
+		</div>
+	</script>
+	<script type="text/javascript">
+		KISSY.use('helloworld',function(S,HelloWorld){
+		    var helloworld = new HelloWorld({container:'#container1',tmpl:S.one('#tmpl_helloword1').html()});
+			helloworld.render();
+		});
+	</script>
+</body>
+
+</html>

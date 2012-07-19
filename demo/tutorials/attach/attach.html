@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Brix之旅 - ATTACH&DOCATTACH</title>
+	<link type="text/css" rel="stylesheet" href="../../../dist/brix.css" charset="utf-8">
+	<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+    <script src="../../config.js"></script>
+    <script src="helloworld.js"></script>
+    <style type="text/css">
+    body{
+    	width: 500px;
+    }
+    </style>
+</head>
+<body>
+	<div id="container1">
+		<div>点击我会触发document的click</div>
+		<div id="helloworld1">
+			<span>Hello <span id="spanName">点击我</span></span>
+		</div>
+	</div>
+	<script type="text/javascript">
+		KISSY.use('helloworld',function(S,HelloWorld){
+		    var config = {name:'World',tmpl:'#helloworld1'}
+		    var helloworld = new HelloWorld(config);
+		});
+	</script>
+</body>
+
+</html>

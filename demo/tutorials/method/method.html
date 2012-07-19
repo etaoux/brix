@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Brix之旅 - METHOD</title>
+	<link type="text/css" rel="stylesheet" href="../../../dist/brix.css" charset="utf-8">
+	<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+    <script src="../../config.js"></script>
+    <script src="helloworld.js"></script>
+    <style type="text/css">
+    body{
+    	width: 500px;
+    }
+    </style>
+</head>
+<body>
+	<div id="container1">
+		<div id="helloworld1">
+			<span>Hello <span id="spanName">World</span></span>
+		</div>
+	</div>
+	<button id="btnhide" class="btn btn-shopping-cart btn-size30">
+		hide
+	</button>
+	
+	<button id="btnshow" class="btn btn-taobao btn-size30">
+		show
+	</button>
+	<script type="text/javascript">
+		KISSY.use('helloworld',function(S,HelloWorld){
+		    var helloworld = new HelloWorld({tmpl:'#helloworld1'});
+
+		    S.one('#btnshow').on('click',function (e) {
+		    	helloworld.show();
+		    });
+		    S.one('#btnhide').on('click',function (e) {
+		    	helloworld.hide();
+		    });
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Brix之旅 - fire</title>
+	<link type="text/css" rel="stylesheet" href="../../../dist/brix.css" charset="utf-8">
+	<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+    <script src="../../config.js"></script>
+    <script src="helloworld.js"></script>
+    <style type="text/css">
+    body{
+    	width: 500px;
+    }
+    </style>
+</head>
+<body>
+	<div id="container1">
+		<button id="btnhide" class="btn btn-shopping-cart btn-size30">
+			hide
+		</button>
+		
+		<button id="btnshow" class="btn btn-taobao btn-size30">
+			show
+		</button>
+		<div id="helloworld1">
+			<span>Hello <span id="spanName">World</span></span>
+		</div>
+	</div>
+	<script type="text/javascript">
+		KISSY.use('helloworld',function(S,HelloWorld){
+		    var helloworld = new HelloWorld({tmpl:'#helloworld1'});
+		    helloworld.on('show',function (ev) {
+		    	top.console.log('自定义事件show触发,数据为'+ev.data);
+		    });
+		    helloworld.on('hide',function (ev) {
+		    	top.console.log('自定义事件hide触发,数据为'+ev.data);
+		    });
+		    S.one('#btnshow').on('click',function (e) {
+		    	helloworld.show();
+		    });
+		    S.one('#btnhide').on('click',function (e) {
+		    	helloworld.hide();
+		    });
+		});
+	</script>
+</body>
+
+</html>

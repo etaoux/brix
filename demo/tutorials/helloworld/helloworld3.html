@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Brix之旅 - Hello Word 的多种写法 - new HelloWorld with Tmpl</title>
+	<link type="text/css" rel="stylesheet" href="../../../dist/brix.css" charset="utf-8">
+	<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+    <script src="../../config.js"></script>
+    <script src="helloworld.js"></script>
+    <style type="text/css">
+    body{
+    	width: 600px;
+    }
+    </style>
+</head>
+<body>
+	<div id="container3">
+		
+	</div>
+	
+	<script type="text/template" id="tmpl_helloword1">
+		<div>
+			<span>Hello <span>World</span></span>
+		</div>
+	</script>
+	<script type="text/javascript">
+		//3
+		KISSY.use('helloworld',function(S,HelloWorld){
+			var helloworld = new HelloWorld({container:'#container3',tmpl:S.one('#tmpl_helloword1').html()});
+			helloworld.render();
+		});
+	</script>
+</body>
+
+</html>
