@@ -11,12 +11,11 @@ KISSY.add('helloworld', function(S, Brick) {
 	HelloWorld.ATTACH = {
 		"":{
 			"click":function(){
-				top.console.log('节点被点击');
+				top.console.log('节点click');
 			}
 		},
 		"#spanName":{
 			"click":function(e){
-				e.halt();//阻止冒泡
 				this.set('name','I\'m Click')
 				S.one(e.currentTarget).html(this.get('name'));
 			}
@@ -26,7 +25,7 @@ KISSY.add('helloworld', function(S, Brick) {
 	HelloWorld.DOCATTACH = {
 		"":{
 			"click":function(){
-				top.console.log('document被点击');
+				top.console.log('document:click');
 			}
 		}
 	};

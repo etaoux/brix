@@ -13,7 +13,7 @@ KISSY.add('helloworld', function(S, Brick) {
                 return "xx_" + context.get('name') + "_yy"
             }
         }
-    }
+    };
 
     S.extend(HelloWorld, Brick, {
 
