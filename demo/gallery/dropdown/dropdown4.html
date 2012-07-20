@@ -77,7 +77,7 @@
     {{/modules}}
 </script>
 <script type="text/template" id="Tmpl_input">
-    <form bx-brick="@Tmpl_name" bx-path="brix/gallery/input/" bx-datakey="@Tmpl_datakey" bx-tmpl="@Tmpl_name">
+    <form bx-name="@Tmpl_name" bx-path="brix/gallery/input/" bx-datakey="@Tmpl_datakey" bx-tmpl="@Tmpl_name">
         <h5>可输入的命令：</h5>
         <ol>
             <li>select 计划列表2</li>
@@ -90,7 +90,7 @@
 </script>
 <script type="text/template" id="Tmpl_dropdown">
     <p>@Tmpl_name</p>
-    <div bx-brick="@Tmpl_name" bx-path="brix/gallery/dropdown/" bx-datakey="@Tmpl_datakey" bx-tmpl="@Tmpl_name" class="dropdown">
+    <div bx-name="@Tmpl_name" bx-path="brix/gallery/dropdown/" bx-datakey="@Tmpl_datakey" bx-tmpl="@Tmpl_name" class="dropdown">
         <a class="dropdown-a">
             {{#@Tmpl_datakey}}
             {{#selected}}

@@ -42,7 +42,7 @@
 ## 代码示例
 ```html
 <script type="text/template" id="tmpl_brick">
-    <div class="editPoup" bx-brick="inplaceeditor">
+    <div class="editPoup" bx-name="inplaceeditor">
         <input maxlength="128" type="text" value="" />
     </div>
 </script>
