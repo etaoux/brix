@@ -117,7 +117,8 @@ body{font-size:.8em;}
 #aside .entries li{list-style:none;}
 #aside .entries a{color:#888;text-decoration:none;}
 #aside .entries a:hover{color:#333;}
-#page{margin-left:220px;padding-bottom:20px;max-width:800px;color:#555;}#page .caption{padding:10px 10px 10px 40px;}
+#page{margin-left:220px;padding-bottom:20px;max-width:800px;color:#333;}#page h1,#page h2,#page h3,#page h4{color:#555;}
+#page .caption{padding:10px 10px 10px 40px;}
 #page code{border:1px solid #ddd;border-radius:2px;display:inline-block;padding:0 2px;background:#f4f5f5;}
 #page .highlight{padding:6px 10px;border-radius:2px;box-shadow:0 0 7px rgba(0, 0, 0, 0.1) inset;}#page .highlight pre{margin:0;line-height:1.4;}
 #page .highlight pre,#page .highlight code{font-family:'Envy Code R',Monaco,Consolas,monospace;font-size:12px;border:none;padding:0;background:none;}
