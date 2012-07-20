@@ -108,12 +108,35 @@
 </aside>
   <div id="page">
     <article>
-      <h1>less checker</h1>
+      <h1>Brix Style开发指南</h1>
       
-      <p class="caption">Less checker written in node.js</p>
+      <p class="caption">本指南分两部分--Brix Style核心的开发指南，以及Brix Gallery的组件样式开发指南。</p>
       
       
-      <section>
+      <section><h2>Brix Style 核心（UX控件）</h2>
+
+<p>这个最简单，每个核心模块都是由源文件跟demo两部分组成的。</p>
+
+<ul>
+<li>源文件在 src/style 目录下新建 {module}.less</li>
+<li>demo 在 demo/style 下新建同名 {module}.md</li>
+</ul>
+
+
+<h2>Brix Gallery （UX组件）</h2>
+
+<ol>
+<li>在 src/gallery/{module}/ 下新建 {module}.less, main.less</li>
+<li><p>修改 {module}.less 内容如下</p>
+
+<pre><code> #include '../../style/variables'
+ #include '../../style/mixins'
+ #include 'main'
+</code></pre></li>
+<li><p>样式开发在 main.less 中进行</p></li>
+<li>demo 放在 demo/gallery/{module}/ 目录</li>
+</ol>
+
 </section>
     </article>
   </div>

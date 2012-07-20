@@ -1,0 +1,259 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Brix &mdash; UX</title>
+  <link rel="stylesheet" type="text/css" href="/brix/assets/css/post.css">
+</head>
+<body>
+  <aside id="aside">
+  <div id="logo">
+    <a href="/brix/">Brix</a>
+  </div>
+  <section>
+  <h3>架构</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/arch/1-goal">BRIX 组件架构（一）</a></li>
+
+  <li><a href="/brix/arch/2-reporting-system-modulization">BRIX 组件架构（二）</a></li>
+
+  <li><a href="/brix/arch/3-tab-and-tab-configer">BRIX 组件架构（三）</a></li>
+
+  <li><a href="/brix/arch/4-sub-modules-and-data-structure">BRIX 组件架构（四）</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Meta</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/meta/estrap">HTML/CSS 书写规范</a></li>
+
+  <li><a href="/brix/meta/gallery">组件开发规范</a></li>
+
+  <li><a href="/brix/meta/gallery-doc-sample">组件文档示例</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Core</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/core/brick">Brick</a></li>
+
+  <li><a href="/brix/core/chunk">Chunk</a></li>
+
+  <li><a href="/brix/core/dataset">Dataset</a></li>
+
+  <li><a href="/brix/core/pagelet">Pagelet</a></li>
+
+  <li><a href="/brix/core/tmpler">Tmpler</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Style</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/style/scaffolding">Scaffolding</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Gallery</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/gallery/dialog">Dialog</a></li>
+
+  <li><a href="/brix/gallery/dropdown">Dropdown</a></li>
+
+  <li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li>
+
+  <li><a href="/brix/gallery/kwicks">Kwicks</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Tutorials</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/tutorials/1-helloworld">Brix之旅开始</a></li>
+
+  <li><a href="/brix/tutorials/2-attrs">ATTRS</a></li>
+
+  <li><a href="/brix/tutorials/3-attach">ATTACH&DOCATTACH</a></li>
+
+  <li><a href="/brix/tutorials/4-method">METHOD</a></li>
+
+  <li><a href="/brix/tutorials/5-fire">fire</a></li>
+
+  <li><a href="/brix/tutorials/6-renderder">RENDERDER</a></li>
+
+  <li><a href="/brix/tutorials/7-brixhook">Hook</a></li>
+
+  <li><a href="/brix/tutorials/7-goodbye">Brix之旅结束</a></li>
+
+  <li><a href="/brix/tutorials/style">Brix Style开发指南</a></li>
+
+</ul>
+</section>
+
+</aside>
+  <div id="page">
+    <article>
+      <h1>Hook</h1>
+      
+      <p class="caption">这一节，为大家详细的介绍一下Brix中钩子的使用</p>
+      
+      
+      <section><h2>bx-name</h2>
+
+<p>组件名称，在同一个pagelet中唯一，和bx-path组合使用</p>
+
+<p>new组件，并且模板中没有bx-tmpl，省略不写，如下模板：</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;tmpl_helloword1&quot;</span><span class="nt">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;helloworld1&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span> 
+            <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">helloworld1_xx_yy</span><span class="p">}}</span><span class="o">&lt;</span><span class="err">/span&gt;</span>
+        <span class="o">&lt;</span><span class="err">/span&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+
+<h2>bx-path</h2>
+
+<p>组件地址，一般是包名+文件路径，</p>
+
+<p>如果是系统标准组件，并且bx-name等于组件名，可省略，如下模板：</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;tmpl_helloword1&quot;</span><span class="nt">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">name</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;helloworld1&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span> 
+            <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">helloworld1_xx_yy</span><span class="p">}}</span><span class="o">&lt;</span><span class="err">/span&gt;</span>
+        <span class="o">&lt;</span><span class="err">/span&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+
+<p>new pagelet时会去直接下载'brix/gallery/dialog/'</p>
+
+<h2>bx-config</h2>
+
+<p>组件配置，动态渲染时候的参数，如：bx-config="{xx:'oo'}"
+完整代码：</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;tmpl_helloword1&quot;</span><span class="nt">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">name</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">config</span><span class="o">=</span><span class="s2">&quot;{xx:&#39;oo&#39;}&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;helloworld1&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span> 
+            <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">helloworld1_xx_yy</span><span class="p">}}</span><span class="o">&lt;</span><span class="err">/span&gt;</span>
+        <span class="o">&lt;</span><span class="err">/span&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+
+<h2>bx-tmpl &amp; bx-datakey</h2>
+
+<p>两个钩子组合使用，在数据更新时对模板重新渲染。</p>
+
+<ul>
+<li>bx-tmpl:组件模板(值等于bx-name)</li>
+<li>datakey:组件数据对象key值，可以有多个key，以“,”分割，且支持对象的子对象，如“X.Y,Z.Y.X”</li>
+</ul>
+
+
+<p>完整代码：</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;tmpl_helloword1&quot;</span><span class="nt">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">name</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">config</span><span class="o">=</span><span class="s2">&quot;{xx:&#39;oo&#39;}&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;helloworld1&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span> 
+            <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">tmpl</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">datakey</span><span class="o">=</span><span class="s2">&quot;helloworld1_xx_yy&quot;</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">helloworld1_xx_yy</span><span class="p">}}</span><span class="o">&lt;</span><span class="err">/span&gt;</span>
+        <span class="o">&lt;</span><span class="err">/span&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+
+<h2>bx-parent</h2>
+
+<p>指定当前组件的父组件(值等于bx-name)，在渲染时，实现层次化的渲染。</p>
+
+<p>下面的代码，只有dialog组件加载完成，才会去加载dropdown组件</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;tmpl_helloword1&quot;</span><span class="nt">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">name</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">config</span><span class="o">=</span><span class="s2">&quot;{xx:&#39;oo&#39;}&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;helloworld1&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span> 
+            <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">tmpl</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">datakey</span><span class="o">=</span><span class="s2">&quot;helloworld1_xx_yy&quot;</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">helloworld1_xx_yy</span><span class="p">}}</span><span class="o">&lt;</span><span class="err">/span&gt;</span>
+        <span class="o">&lt;</span><span class="err">/span&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">name</span><span class="o">=</span><span class="s2">&quot;dropdown&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">parent</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span><span class="o">&gt;&lt;</span><span class="err">/div&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+
+<h2>bx-tmpl-source</h2>
+
+<p>指定需要复用的源模板选择器</p>
+
+<p>下面两份模板等价，上面的模板中一个占位容器</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;tmpl_dialog1&quot;</span><span class="nt">&gt;</span>
+<span class="o">&lt;</span><span class="nx">div</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">name</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">config</span><span class="o">=</span><span class="s2">&quot;{xx:&#39;oo&#39;}&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;dialog1&quot;</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span> 
+        <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">tmpl</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">datakey</span><span class="o">=</span><span class="s2">&quot;helloworld1_xx_yy&quot;</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">helloworld1_xx_yy</span><span class="p">}}</span><span class="o">&lt;</span><span class="err">/span&gt;</span>
+    <span class="o">&lt;</span><span class="err">/span&gt;</span>
+<span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;dialog2&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">tmpl</span><span class="o">-</span><span class="nx">source</span><span class="o">=</span><span class="s2">&quot;#dialog1&quot;</span><span class="o">&gt;</span>
+<span class="c1">//这个只是一个占位容器</span>
+<span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+
+
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;tmpl_dialog1&quot;</span><span class="nt">&gt;</span>
+<span class="o">&lt;</span><span class="nx">div</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">name</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">config</span><span class="o">=</span><span class="s2">&quot;{xx:&#39;oo&#39;}&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;dialog1&quot;</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span> 
+        <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">tmpl</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">datakey</span><span class="o">=</span><span class="s2">&quot;helloworld1_xx_yy&quot;</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">helloworld1_xx_yy</span><span class="p">}}</span><span class="o">&lt;</span><span class="err">/span&gt;</span>
+    <span class="o">&lt;</span><span class="err">/span&gt;</span>
+<span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="o">&lt;</span><span class="nx">div</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">name</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">config</span><span class="o">=</span><span class="s2">&quot;{xx:&#39;oo&#39;}&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;dialog2&quot;</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span> 
+        <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">tmpl</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">datakey</span><span class="o">=</span><span class="s2">&quot;helloworld1_xx_yy&quot;</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">helloworld1_xx_yy</span><span class="p">}}</span><span class="o">&lt;</span><span class="err">/span&gt;</span>
+    <span class="o">&lt;</span><span class="err">/span&gt;</span>
+<span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+
+
+</section>
+    </article>
+  </div>
+  <div id="J_log" style="position:fixed;width:600px;height:225px;bottom:0;right:2px">
+    <a style="position:absolute;top:1px;right:1px;z-index:999;" id="J_close" href="#">隐藏</a>
+  </div>
+  <footer id="footer">
+  </footer>
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+  <script src="/brix/assets/js/log4javascript.js"></script>
+  <script src="/brix/assets/js/post.js"></script>
+</body>
