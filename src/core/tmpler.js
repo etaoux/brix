@@ -108,12 +108,13 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
             this.id = _stamp(node);
             var tmplTargetNodes = tmplNode.all('[bx-tmpl-source]');
             tmplTargetNodes.each(function(node) {
-                var selector = node.attr('bx-tmpl-source');
-                var temptmplNode = tmplNode.one(selector).clone(true);
+                var selector = node.attr('bx-tmpl-source'),
+                    id= _stamp(node,'tmpl_'),
+                    temptmplNode = tmplNode.one(selector).clone(true);
                 temptmplNode.removeAttr('id');
-                _stamp(temptmplNode, 'tmpl_');
                 temptmplNode.insertBefore(node);
                 node.remove();
+                temptmplNode.attr('id',id);
             });
 
             var bks = tmplNode.all('[bx-name]:not([bx-parent])');
@@ -143,6 +144,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
             }
             config = config ? eval("config=" + config) : {};
             bricks[id] = {
+                name:name,
                 path: path,
                 config: config,
                 tmpls: [],
