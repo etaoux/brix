@@ -63,7 +63,7 @@ KISSY.use('helloworld',function(S,HelloWorld){
 
 {% highlight html %}
 <div id="container2">
-    <div id="helloworld2" bx-brick="helloworld" path="helloworld">
+    <div id="helloworld2" bx-name="helloworld" path="helloworld">
         <span>Hello <span>World</span></span>
     </div>
 </div>
@@ -120,7 +120,7 @@ KISSY.use('helloworld',function(S,HelloWorld){
 <div id="container4">
 </div>
 <script type="text/template" id="tmpl_helloword1">
-    <div bx-brick="helloworld" path="helloworld">
+    <div bx-name="helloworld" path="helloworld">
         <span>Hello <span>World</span></span>
     </div>
 </script>
@@ -154,7 +154,7 @@ KISSY.use('brix/core/pagelet',function(S,Pagelet){
     </button>
 </div>
 <script type="text/template" id="tmpl_helloword2">
-    <div bx-brick="helloworld">
+    <div bx-name="helloworld">
         <span>Hello 
             <span bx-tmpl="helloworld" bx-datakey="name">{{name}}</span>
         </span>
@@ -198,7 +198,7 @@ KISSY.use('helloworld',function(S,HelloWorld){
     </button>
 </div>
 <script type="text/template" id="tmpl_helloword2">
-    <div bx-brick="helloworld" path="helloworld">
+    <div bx-name="helloworld" path="helloworld">
         <span>Hello 
             <span bx-tmpl="helloworld" bx-datakey="name">{{name}}</span>
         </span>

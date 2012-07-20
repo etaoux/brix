@@ -116,7 +116,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
                 node.remove();
             });
 
-            var bks = tmplNode.all('[bx-brick]:not([bx-parent])');
+            var bks = tmplNode.all('[bx-name]:not([bx-parent])');
             bks.each(function(el) {
                 self._buildBrick(el, tmplNode, self.bricks, arr);
             });
@@ -134,7 +134,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
         _buildBrick: function(el, container, bricks, arr) {
             var self = this,
                 id = _stamp(el),
-                name = el.attr('bx-brick'),
+                name = el.attr('bx-name'),
                 path = el.attr('bx-path'),
                 config = el.attr('bx-config'),
                 tmplNodes = el.all('[bx-tmpl=' + name + ']');
