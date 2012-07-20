@@ -54,6 +54,9 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
             var self = this;
             var foo = function(o,k){
                 self.brickCount++;
+                if(!o.path){
+                    o.path = 'brix/gallery/'+o.name+'/';
+                }
                 S.use(o.path, function(S, TheBrick) {
                     var config = S.merge({
                         id: k,
