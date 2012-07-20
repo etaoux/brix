@@ -79,26 +79,28 @@
         </div>
         <div class="row">
             <p>Brix Style提供了许多Mixins来加速Brix组件的开发。</p>
-            <dl>
-                <dt>.text-overflow</dt>
-                <dd>文字溢出隐藏（单行自动加省略号）</dd>
-                <dt>.border-radius(@radius)</dt>
-                <dd>圆角</dd>
-                <dt>.box-shadow(@shadow)</dt>
-                <dd>阴影</dd>
-                <dt>.transition(@transition)</dt>
-                <dd>css缓动</dd>
-                <dt>.rotate(@degrees)</dt>
-                <dd>阴影</dd>
-                <dt>.box-sizing(@boxmodel)</dt>
-                <dd>盒模型</dd>
-                <dt>.opacity(@opacity)</dt>
-                <dd>透明度0-100</dd>
-                <dt>.size</dt>
-                <dd>设置宽高</dd>
-                <dt>.placeholder</dt>
-                <dd>设置placeholder的颜色</dd>
-            </dl>
+            <p>暂定有以下mixin</p>
+            <ol>
+				<li>.border-radius (@radius)</li>
+				<li>.clearfix</li>
+				<li>.opacity (@opacity)</li>
+                <li>.box-shadow (@shadow)</li>
+				<li>.transition (@transition)</li>
+				<li>#gradient &gt; .vertical (@startColor: #555, @endColor: #333)</li>
+				<li>#gradient &gt; .striped (@color, @angle: -45deg)</li>
+				<li>.text-overflow</li>
+				<li>.ie7-inline-block ()</li>
+				<li>.reset-filter ()</li>
+				<li>.buttonBackground (@startColor, @endColor)</li>
+				<li>.formFieldState (@textColor: #555, @borderColor: #ccc, @backgroundColor: #f5f5f5)</li>
+				<li>#popoverArrow &gt; .bottom (@arrowWidth: 5px, @color: @black)</li>
+				<li>#popoverArrow &gt; .right (@arrowWidth: 5px, @color: @black)</li>
+				<li>#popoverArrow &gt; .top (@arrowWidth: 5px, @color: @black)</li>
+				<li>#popoverArrow &gt; .left (@arrowWidth: 5px, @color: @black)</li>
+				<li>#grid &gt; .core (@gridColumnWidth, @gridGutterWidth)</li>
+				<li>#grid &gt; .fluid (@fluidGridColumnWidth, @fluidGridGutterWidth)</li>
+				<li>#grid &gt; .input (@gridColumnWidth, @gridGutterWidth)</li>
+            </ol>
         </div>
     </section>
     <section id="grid">
@@ -106,7 +108,7 @@
             <h2>栅格系统</h2>
         </div>
         <div class="row">
-            <p>栅格模型已有，不过目前的栅格宽度不够给力</p>
+            <p>栅格模型已有，通过上面提供的#grid下面的三组mixin即可轻松生成。</p>
         </div>
     </section>
 </div>
