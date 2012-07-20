@@ -1,4 +1,4 @@
-/*! Brix - v0.1.0 - 7/5/2012
+/*! Brix - v0.1.0 - 7/20/2012
 * https://github.com/etaoux/brix
 * Copyright (c) 2012 etaoux; Licensed MIT */
 
@@ -675,7 +675,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
      */
 
     function _inDom(el) {
-        return S.one(document.body).contains(el);
+        return el.parentNode && el.parentNode.nodeType!=11;
     }
 
     /**
@@ -691,7 +691,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
 
         //对if语句的处理
         html = html.replace(/(\{{2,3}[\^#~]?)iftmplbrick\_(\d+)(\}{2,3})/g, function(w, i, j, k) {
-            return i + arr[parseInt(j)] + k;
+            return i + arr[parseInt(j,10)] + k;
         });
 
         //将~符号替换回/，完美了。
@@ -761,12 +761,13 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
             this.id = _stamp(node);
             var tmplTargetNodes = tmplNode.all('[bx-tmpl-source]');
             tmplTargetNodes.each(function(node) {
-                var selector = node.attr('bx-tmpl-source');
-                var temptmplNode = tmplNode.one(selector).clone(true);
+                var selector = node.attr('bx-tmpl-source'),
+                    id= _stamp(node,'tmpl_'),
+                    temptmplNode = tmplNode.one(selector).clone(true);
                 temptmplNode.removeAttr('id');
-                _stamp(temptmplNode, 'tmpl_');
                 temptmplNode.insertBefore(node);
                 node.remove();
+                temptmplNode.attr('id',id);
             });
 
             var bks = tmplNode.all('[bx-name]:not([bx-parent])');
@@ -796,6 +797,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
             }
             config = config ? eval("config=" + config) : {};
             bricks[id] = {
+                name:name,
                 path: path,
                 config: config,
                 tmpls: [],
@@ -866,6 +868,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
 }, {
     requires: ['./mu', 'node', 'sizzle']
 });
+
 KISSY.add("brix/core/dataset", function(S, Base) {
     function Dataset() {
         Dataset.superclass.constructor.apply(this, arguments);
@@ -1222,6 +1225,10 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         initialize: function() {
 
         },
+        //析构函数，用来销毁时候的操作,提供子类覆盖
+        destructor:function(){
+
+        },
         /**
          * 移除代理事件
          */
@@ -1241,6 +1248,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
             if (events) {
                 this._removeEvents(events);
             }
+            self.destructor();
         },
         /**
          * 绑定代理事件
@@ -1430,6 +1438,9 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
             var self = this;
             var foo = function(o,k){
                 self.brickCount++;
+                if(!o.path){
+                    o.path = 'brix/gallery/'+o.name+'/';
+                }
                 S.use(o.path, function(S, TheBrick) {
                     var config = S.merge({
                         id: k,
