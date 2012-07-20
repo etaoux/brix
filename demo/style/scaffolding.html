@@ -48,17 +48,29 @@
         </div>
         <ol clas="nav">
             <li class="active"><a href="#global">Reset样式</a></li>
-            <li><a href="#mixins">mixins</a></li>
+            <li><a href="#utilities">工具类</a></li>
+            <li><a href="#mixins">混入函数</a></li>
             <li><a href="#grid">栅格系统</a></li>
         </ol>
     </section>
     <section id="global">
         <div class="page-header">
-            <h2>Reset使用Normalize</h2>
+            <h2>Reset样式</h2>
         </div>
         <div class="row">
-            <p>Brix Style的Reset样式直接使用了<a href="http://necolas.github.com/normalize.css/" target="_blank">Normalize.css</a>，省心省力</p>
-            <p>Reset样式文件为<strong>normalize.less</strong></p>
+            <p>Brix Style的Reset样式直接使用了<a href="http://necolas.github.com/normalize.css/" target="_blank">Normalize.css</a>，省心省力，效果请参考<a href="../../src/style/tests/reset.html" target="_blank">Reset测试</a>。</p>
+        </div>
+    </section>
+    <section id="utilities">
+        <div class="page-header">
+            <h2>工具类</h2>
+        </div>
+        <div class="row">
+            <p>工具类可以直接在页面中使用。</p>
+            <dl>
+                <dt>.clearfix</dt>
+                <dd>清理浮动</dd>
+            </dl>
         </div>
     </section>
     <section id="mixins">
@@ -66,7 +78,27 @@
             <h2>混入函数</h2>
         </div>
         <div class="row">
-            <p>Brix Style提供了许多Mixins来加速Brix组件的开发</p>
+            <p>Brix Style提供了许多Mixins来加速Brix组件的开发。</p>
+            <dl>
+                <dt>.text-overflow</dt>
+                <dd>文字溢出隐藏（单行自动加省略号）</dd>
+                <dt>.border-radius(@radius)</dt>
+                <dd>圆角</dd>
+                <dt>.box-shadow(@shadow)</dt>
+                <dd>阴影</dd>
+                <dt>.transition(@transition)</dt>
+                <dd>css缓动</dd>
+                <dt>.rotate(@degrees)</dt>
+                <dd>阴影</dd>
+                <dt>.box-sizing(@boxmodel)</dt>
+                <dd>盒模型</dd>
+                <dt>.opacity(@opacity)</dt>
+                <dd>透明度0-100</dd>
+                <dt>.size</dt>
+                <dd>设置宽高</dd>
+                <dt>.placeholder</dt>
+                <dd>设置placeholder的颜色</dd>
+            </dl>
         </div>
     </section>
     <section id="grid">
