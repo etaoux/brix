@@ -129,9 +129,9 @@
 <li>在 src/gallery/{module}/ 下新建 {module}.less, main.less</li>
 <li><p>修改 {module}.less 内容如下</p>
 
-<pre><code> #include '../../style/variables'
- #include '../../style/mixins'
- #include 'main'
+<pre><code> @import '../../style/variables'
+ @import '../../style/mixins'
+ @import 'main'
 </code></pre></li>
 <li><p>样式开发在 main.less 中进行</p></li>
 <li>demo 放在 demo/gallery/{module}/ 目录</li>
