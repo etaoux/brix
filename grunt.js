@@ -40,6 +40,10 @@ module.exports = function(grunt) {
             dropdown: {
                 src: ['src/gallery/dropdown/index.js'],
                 dest: 'dist/gallery/dropdown/index-min.js'
+            },
+            breadcrumbs: {
+                src: ['src/gallery/breadcrumbs/index.js'],
+                dest: 'dist/gallery/breadcrumbs/index-min.js'
             }
         },
         less: {
@@ -60,8 +64,11 @@ module.exports = function(grunt) {
             dropdown: {
                 src: ['src/gallery/dropdown/dropdown.css'],
                 dest: 'dist/gallery/dropdown/dropdown-min.css'
-            }
-        },
+            },
+            breadcrumbs: {
+                src: ['src/gallery/breadcrumbs/breadcrumbs.css'],
+                dest: 'dist/gallery/breadcrumbs/breadcrumbs-min.css'
+            }},
         watch: {
             files: '<config:lint.files>',
             tasks: 'lint:files test:files'

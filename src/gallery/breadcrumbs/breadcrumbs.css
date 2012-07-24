@@ -51,10 +51,17 @@ url("http://ux.taobao.com/iconfont/uxiconfont.svg#svgFontName") format("svg")}
 	border:0px;
 	padding: 1px;
 }
-
 .breadcrumbs .dropdownfocus{
 	border: 1px solid #ddd;
     border-bottom: 1px solid #bbb;
     padding: 0;
+}
+.breadcrumbs .dropdown .icon-arrow-down{
+	top: 9px;
+	right: 9px;
+}
+.breadcrumbs .dropdownfocus .icon-arrow-down{
+	top: 8px;
+	right: 8px;
 }
 
