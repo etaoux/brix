@@ -675,7 +675,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
      */
 
     function _inDom(el) {
-        return el.parentNode!=null;
+        return el.parentNode && el.parentNode.nodeType!=11;
     }
 
     /**
@@ -868,6 +868,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
 }, {
     requires: ['./mu', 'node', 'sizzle']
 });
+
 KISSY.add("brix/core/dataset", function(S, Base) {
     function Dataset() {
         Dataset.superclass.constructor.apply(this, arguments);
