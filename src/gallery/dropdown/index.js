@@ -1,22 +1,6 @@
 KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
     function Dropdown() {
         Dropdown.superclass.constructor.apply(this, arguments);
-        /*var self = this;
-        S.one(document).on('click', function() {
-                if (!self.__show) {
-                    var el = self.get('el');
-                    el.all('.dropdown-list').css('display', 'none');
-                    el.all('.dropdown-a').removeClass('dropdown-aactive');
-                }
-                self.__show = false;
-        });*/
-    }
-    Dropdown.RENDERER = {
-        xx:{
-            yy:function(self){
-                return this.color
-            }
-        }
     }
     Dropdown.ATTRS = {
 
@@ -25,13 +9,12 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
     Dropdown.METHOD = {
         focus: function() {
             var el = this.get('el');
-            el.one('.dropdown-list').css('display', 'block');
-            el.one('.dropdown-a').addClass('dropdown-aactive');
+            var w = el.one('.dropdown-hd').outerWidth();
+            el.one('.dropdown-list').css({'display':'block',width:w+'px'});
         },
         blur: function() {
             var el = this.get('el');
             el.one('.dropdown-list').css('display', 'none');
-            el.one('.dropdown-a').removeClass('dropdown-aactive');
         }
     }
 
@@ -42,14 +25,13 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                 if (!self.__show) {
                     var el = self.get('el');
                     el.all('.dropdown-list').css('display', 'none');
-                    el.all('.dropdown-a').removeClass('dropdown-aactive');
                 }
                 self.__show = false;
             }
         }
     }
     Dropdown.ATTACH = {
-        ".dropdown-a": {
+        ".dropdown-hd": {
             click: function(e) {
                 var el = this.get('el').one('.dropdown-list');
                 this.__show = true;
@@ -58,14 +40,6 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                 } else {
                     this.focus();
                 }
-            },
-            mouseenter: function(e) {
-                var currentTarget = S.one(e.currentTarget);
-                currentTarget.addClass('dropdown-ahover');
-            },
-            mouseleave: function(e) {
-                var currentTarget = S.one(e.currentTarget);
-                currentTarget.removeClass('dropdown-ahover');
             }
         },
         ".dropdown-item": {
@@ -75,10 +49,10 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                 el.all('.dropdown-itemselected').removeClass('dropdown-itemselected');
                 var currentTarget = S.one(e.currentTarget);
                 currentTarget.addClass('dropdown-itemselected');
-                var spanNode = el.one('.dropdown-span');
+                var spanNode = el.one('.dropdown-text');
                 var data = {
                     value: currentTarget.attr('value'),
-                    text: currentTarget.text()
+                    text: currentTarget.one('span').text()
                 }
                 spanNode.attr('value', data.value);
                 spanNode.text(data.text);
@@ -97,12 +71,6 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
     };
 
     S.extend(Dropdown, Brick, {
-        events: {
-            click: {
-                xxClick: function() {
-                }
-            }
-        }
     });
 
     S.augment(Dropdown,Dropdown.METHOD);
