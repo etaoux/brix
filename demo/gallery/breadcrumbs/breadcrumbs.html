@@ -3,8 +3,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Brix Breadcrumbs Demo</title>
-        <link type="text/css" rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.2.0/css/base-min.css" charset="utf-8">
-        <link rel="stylesheet" href="breadcrumbs.css">
+        <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+        <link rel="stylesheet" href="../../../src/gallery/dropdown/dropdown.css">
+        <link rel="stylesheet" href="../../../src/gallery/breadcrumbs/breadcrumbs.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
         <script src="../../config.js"></script>
     </head>
@@ -20,7 +21,8 @@
 			var breadcrumbs_data ={
                 breadcrumbs_list:[{
                     text:'首页',
-                    value:'#1234'
+                    value:'#1234',
+                    first:true
                 },{
                     dropdown_list:[{
                             value: "1",
@@ -41,6 +43,9 @@
                         }]
                 },{
                     text:'创意管理',
+                    value:'#44'
+                },{
+                    text:'创意活动五',
                     value:'#123',
                     last:true
 
@@ -49,25 +54,27 @@
         </script>
 
         <script type="text/template" id="tmpl_script">
-            <ul class="breadcrumbs">
+            <ul bx-name="breadcrumbs" class="breadcrumbs">
                 {{#breadcrumbs_list}}
-                <li class="breadcrumbs-item {{#last}}breadcrumbs-itemlast{{/last}}">
+                <li class="breadcrumbs-item {{#first}}breadcrumbs-itemfirst{{/first}} {{#last}}breadcrumbs-itemlast{{/last}} {{^text}}breadcrumbs-itemdropdown{{/text}}">
                     {{#text}}
+                        {{#last}}
+                            {{text}}
+                        {{/last}}
+                        {{^last}}
                         <a href="{{value}}">{{text}}</a>
+                        {{/last}}
                     {{/text}}
                     {{^text}}
                     <div bx-name="dropdown" bx-path="brix/gallery/dropdown/" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown">
-                        <a class="dropdown-a">
-                            {{#dropdown_list}}
-                            {{#selected}}
-                            <span class="dropdown-span" value="{{value}}">{{text}}</span>
-                            <i class="dropdown-icon"></i>
-                            {{/selected}}
-                            {{/dropdown_list}}
-                        </a>
+                        {{#dropdown_list}}
+                        {{#selected}}
+                        <span class="dropdown-hd"><span>计划：</span><span value="{{value}}" class="dropdown-text">{{text}}</span><i class="icon icon-arrow-down">&#405</i></span>
+                        {{/selected}}
+                        {{/dropdown_list}}
                         <ul class="dropdown-list">
                             {{#dropdown_list}}
-                            <li bxclick="xxClick" {{#color}}style="color:{{color}}"{{/color}} class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}</li>
+                            <li class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}"><span value="{{value}}">{{text}}</span><i class="icon icon-ok">&#126</i></li>
                             {{/dropdown_list}}
                         </ul>
                         {{#dropdown_list}}
@@ -78,6 +85,11 @@
                     </div>
                     {{/text}}
                 </li>
+                {{^last}}
+                <li class="breadcrumbs-item breadcrumbs-itemsplit">
+                    <i class="icon icon-arrow-right">&#402</i>
+                </li>
+                {{/last}}
             {{/breadcrumbs_list}}
             </ul>
         </script>
