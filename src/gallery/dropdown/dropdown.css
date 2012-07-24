@@ -1,103 +1,103 @@
+@font-face{font-family:'uxiconfont';
+src:url("http://ux.taobao.com/iconfont/uxiconfont.eot");
+src:url("http://ux.taobao.com/iconfont/uxiconfont.eot?#iefix") format("embedded-opentype"),
+url("http://ux.taobao.com/iconfont/uxiconfont.woff") format("woff"),
+url("http://ux.taobao.com/iconfont/uxiconfont.ttf") format("truetype"),
+url("http://ux.taobao.com/iconfont/uxiconfont.svg#svgFontName") format("svg")}
+.icon{
+    font-family:"uxiconfont";
+    font-style:normal;
+}
+
 .dropdown {
     position: relative;
     *zoom: 1;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    border-radius: 2px;
+    border: 1px solid #ddd;
+    border-bottom: 1px solid #bbb;
+    height: 23px;
+    line-height: 23px;
 }
 .dropdown:after { content: '\20'; display: block; height: 0; clear: both; }
 
 .dropdown * {-moz-user-select:none;-webkit-user-select:none;}
 
-.dropdown .dropdown-icon{
-    background: url('http://img04.taobaocdn.com/tps/i4/T12oeGXjJkXXXXXXXX-32-80.png');
-    _background: url('http://img01.taobaocdn.com/tps/i1/T1tAWGXjJvXXXXXXXX-32-80.png');
-    display: block;
-    text-indent: -9999px;
-    font-size: 0px;
-    overflow: hidden;
-    cursor: pointer;
+.dropdown .icon-arrow-down{
+    font-size:8px;
     position: absolute;
-    background-position: 0 0;
-    width: 5px;
-    height: 3px;
-    right: 5px;
-    top: 10px;
+    right: 8px;
+    top:8px;
+    height: 8px;
+    line-height: 8px;
+    color: #999
 }
 
-.dropdown .dropdown-a,.dropdown .dropdown-span{
-    background-image: url('http://img03.taobaocdn.com/tps/i3/T1s_yEXadcXXXXXXXX-300-384.png');
-    _background-image: url('http://img01.taobaocdn.com/tps/i1/T15N1EXdtuXXXXXXXX-300-384.png');
-    background-repeat:no-repeat;
+.dropdown .dropdown-hd{
+    color: #333;
+    padding-right: 24px;
+    padding-left: 8px;
+    display: block;
 }
-
-.dropdown .dropdown-a{
-    position:relative;
-    text-decoration: none;
-    color:#333;
-    float:left;
-    background-position:0 0px;
-    margin-right: 2px;
-}
-
-.dropdown .dropdown-a .dropdown-span{
-    cursor:pointer;
-    float:left;
-    height:24px;
-    line-height:23px;
-    padding:0 15px 0 5px;
-    background-position:right -64px;
-    margin-right: -2px;
-    position:relative;
-    *zoom:1;
-    width:100px;
-}
-.dropdown .dropdown-ahover{
-    background-position:0 -96px;
-}
-.dropdown .dropdown-ahover .dropdown-span{
-    background-position:right -160px;
-}
-
-.dropdown .dropdown-aactive{
-    background-position:0 -192px;
-}
-.dropdown .dropdown-aactive .dropdown-span{
-    background-position:right -256px;
-}
-
-.dropdown .dropdown-adisabled{
-    background-position:0 -288px;
-}
-.dropdown .dropdown-adisabled .dropdown-span{
-    background-position:right -352px;
-    color:#9d9d9d;
-}
-
-
-
 
 .dropdown .dropdown-list{
     display: none;
     width:118px;
-    top:22px;left:0px;
+    top:22px;
+    left:-1px;
     position: absolute;
-    border:1px solid #aaa;
+    border:1px solid #ddd;
+    border-top: 0px;
     background:#fff;
     z-index: 999999;
+    list-style-type:none;
+    margin: 0;
+    padding: 0;
+    -webkit-border-radius: 0px 0px 2px 2px;
+    -moz-border-radius: 0px 0px 2px 2px;
+    -ms-border-radius: 0px 0px 2px 2px;
+    border-radius: 0px 0px 2px 2px;
+    -webkit-box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+    -ms-box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 3px 5px rgba(0,0,0,0.1);
 }
 
 
 .dropdown .dropdown-list .dropdown-item{
-    height:22px;
-    line-height:22px;
-    text-indent: 5px;
+    height:25px;
+    line-height:25px;
+    text-indent: 8px;
+    color: #333;
+    position: relative;
+    padding-right: 20px;
 }
-
+.dropdown .dropdown-list .dropdown-item span{
+    display: block;
+}
+.dropdown .dropdown-list .dropdown-item .icon-ok{
+    font-size:9px;
+    position: absolute;
+    right: 6px;
+    top:6px;
+    height: 9px;
+    line-height: 9px;
+    visibility: hidden;
+    color: #999;
+}
 
 .dropdown .dropdown-list .dropdown-itemselected{
     color: #000;
-    background:#fff url('http://img01.taobaocdn.com/tps/i1/T1f.5TXjXjXXXXXXXX-12-44.png') right -20px no-repeat;
 }
-
+.dropdown .dropdown-list .dropdown-itemselected .icon-ok{
+   visibility: visible; 
+}
 .dropdown .dropdown-list .dropdown-itemover{
-    background-color:#4187e7;
-    color:#FFF;
+    background-color:#488fcd;
+    color:#fff;
+}
+.dropdown .dropdown-list .dropdown-itemover .icon-ok{
+    color: #fff;
 }
