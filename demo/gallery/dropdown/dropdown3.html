@@ -3,14 +3,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Brix Dropdown Demo</title>
-        <link type="text/css" rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.2.0/css/base-min.css" charset="utf-8">
+        <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+        <link rel="stylesheet" href="../../../src/gallery/dropdown/dropdown.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
         <script src="../../config.js"></script>
     </head>
     <body style="margin:0px;padding-top:40px">
         <div class="container">
             <div class="row">
-                <div class="span12" style="padding-left:50px"  id="test_container">
+                <div class="span12" style="padding-left:50px;width:200px"  id="test_container">
                 </div>
             </div>
         </div>
@@ -38,24 +39,25 @@
             }
         </script>
         <script type="text/template" id="tmpl_dropdown">
-            <div id="brick13" bx-name="dropdown" bx-path="brix/gallery/dropdown/" bx-datakey="dropdown_list" bx-config="{xx:1}" bx-tmpl="dropdown" class="dropdown dropdown123">
+            <div id="brick13" bx-name="dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown dropdown123">
                 <a class="dropdown-a">
                     {{#dropdown_list}}
                     {{#selected}}
-                    <span class="dropdown-span" value="{{value}}">{{text}}</span>
-                    <i class="dropdown-icon"></i>
+                    <span class="dropdown-hd">
+                    <span class="dropdown-text" value="{{value}}">{{text}}</span></span>
+                    <i class="icon icon-arrow-down">&#405</i>
                     {{/selected}}
 
                     {{/dropdown_list}}
                 </a>
                 <ul class="dropdown-list">
                     {{#dropdown_list}}
-                    <li bxclick="xxClick" {{#if(color==red)}}style="color:red"{{/if(color==red)}} class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}{{xx_yy}}</li>
+                    <li class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}"><span value="{{value}}">{{text}}</span><i class="icon icon-ok">&#126</i></li>
                     {{/dropdown_list}}
                 </ul>
                 {{#dropdown_list}}
                 {{#selected}}
-                <input name="dd"  value="{{value}}" type="hidden" />
+                <input value="{{value}}" type="hidden" />
                 {{/selected}}
                 {{/dropdown_list}}
             </div>
