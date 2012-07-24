@@ -18,6 +18,10 @@ module.exports = function(grunt) {
             brixcss:{
                 src:['<banner:meta.banner>','dist/brix.css'],
                 dest: 'dist/brix.css'
+            },
+            brixcssdist: {
+                src: 'dist/brix.css',
+                dest: 'dist/brix-min.css'
             }
         },
         min: {
@@ -53,10 +57,6 @@ module.exports = function(grunt) {
             }
         },
         cssmin: {
-            brix: {
-                src: ['dist/brix.css'],
-                dest: 'dist/brix-min.css'
-            },
             dialog: {
                 src: ['src/gallery/dialog/dialog.css'],
                 dest: 'dist/gallery/dialog/dialog-min.css'

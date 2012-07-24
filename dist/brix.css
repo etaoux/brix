@@ -563,12 +563,12 @@ select,
   display: inline-block;
   width: 210px;
   height: 18px;
-  padding: 3px 7px;
+  padding: 2px 8px 3px;
   margin-bottom: 9px;
   line-height: 18px;
   color: #333333;
-  border: 1px solid #eeeeee;
-  border-top-color: #d8d8d8;
+  border: 1px solid #dddddd;
+  border-top-color: #bbbbbb;
 }
 .uneditable-textarea {
   width: auto;
@@ -683,8 +683,8 @@ textarea {
 }
 input:hover,
 textarea:hover {
-  border-color: #d9d9d9;
-  border-top-color: #bfbfbf;
+  border-color: #cccccc;
+  border-top-color: #999999;
   -webkit-box-shadow: inset 0 1px #f5f5f5;
   -moz-box-shadow: inset 0 1px #f5f5f5;
   box-shadow: inset 0 1px #f5f5f5;
@@ -693,9 +693,9 @@ input:focus,
 textarea:focus {
   border-color: #488fcd;
   outline: 0;
-  -webkit-box-shadow: 0 0 8px rgba(72,143,205,.14);
-  -moz-box-shadow: 0 0 8px rgba(72,143,205,.14);
-  box-shadow: 0 0 8px rgba(72,143,205,.14);
+  -webkit-box-shadow: 0 0 8px rgba(72,143,205,.6);
+  -moz-box-shadow: 0 0 8px rgba(72,143,205,.6);
+  box-shadow: 0 0 8px rgba(72,143,205,.6);
 }
 input[type="file"]:focus,
 input[type="radio"]:focus,
@@ -734,6 +734,7 @@ textarea[class*="span"],
   float: none;
   margin-left: 0;
 }
+input.disabled,
 input[disabled],
 select[disabled],
 textarea[disabled],
@@ -741,8 +742,9 @@ input[readonly],
 select[readonly],
 textarea[readonly] {
   cursor: not-allowed;
-  background-color: #cccccc;
-  border-color: #ddd;
+  border-color: #cccccc;
+  color: #cccccc;
+  background-color: #f5f5f5;
 }
 input[type="radio"][disabled],
 input[type="checkbox"][disabled],
@@ -778,27 +780,27 @@ input[type="checkbox"][readonly] {
 .control-group.error > label,
 .control-group.error .help-block,
 .control-group.error .help-inline {
-  color: #b94a48;
+  color: #ec0000;
 }
 .control-group.error input,
 .control-group.error select,
 .control-group.error textarea {
-  color: #b94a48;
-  border-color: #b94a48;
+  color: #ec0000;
+  border-color: #ec0000;
 }
 .control-group.error input:focus,
 .control-group.error select:focus,
 .control-group.error textarea:focus {
-  border-color: #953b39;
-  -webkit-box-shadow: 0 0 6px #d59392;
-  -moz-box-shadow: 0 0 6px #d59392;
-  box-shadow: 0 0 6px #d59392;
+  border-color: #b90000;
+  -webkit-box-shadow: 0 0 6px #ff5353;
+  -moz-box-shadow: 0 0 6px #ff5353;
+  box-shadow: 0 0 6px #ff5353;
 }
 .control-group.error .input-prepend .add-on,
 .control-group.error .input-append .add-on {
-  color: #b94a48;
+  color: #ec0000;
   background-color: #f2dede;
-  border-color: #b94a48;
+  border-color: #ec0000;
 }
 .control-group.success > label,
 .control-group.success .help-block,
