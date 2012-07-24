@@ -3,6 +3,7 @@
 <meta charset="utf-8">
 <title>Brix Page Demo</title>
 <link rel="stylesheet" href="../../../dist/brix-min.css"/>
+<link rel="stylesheet" href="../../../src/gallery/dropdown/dropdown.css">
 <style>
     #container {margin: 40px}
     ul {
@@ -90,18 +91,18 @@
 </script>
 <script type="text/template" id="Tmpl_dropdown">
     <p>@Tmpl_name</p>
-    <div bx-name="@Tmpl_name" bx-path="brix/gallery/dropdown/" bx-datakey="@Tmpl_datakey" bx-tmpl="@Tmpl_name" class="dropdown">
-        <a class="dropdown-a">
+    <div style="width:200px;" bx-name="@Tmpl_name" bx-path="brix/gallery/dropdown/" bx-datakey="@Tmpl_datakey" bx-tmpl="@Tmpl_name" class="dropdown">
+        <span class="dropdown-hd">
             {{#@Tmpl_datakey}}
             {{#selected}}
-            <span class="dropdown-span" value="{{value}}">{{text}}</span>
-            <i class="dropdown-icon"></i>
+            <span class="dropdown-text" value="{{value}}">{{text}}</span>
+            <i class="icon icon-arrow-down">&#405</i>
             {{/selected}}
             {{/@Tmpl_datakey}}
         </a>
         <ul class="dropdown-list">
             {{#@Tmpl_datakey}}
-            <li bxclick="xxClick" {{#if(color==red)}}style="color:red"{{/if(color==red)}} class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}{{xx_yy}}</li>
+            <li class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}"><span value="{{value}}">{{text}}</span><i class="icon icon-ok">&#126</i></li>
             {{/@Tmpl_datakey}}
         </ul>
         {{#@Tmpl_datakey}}

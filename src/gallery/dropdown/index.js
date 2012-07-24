@@ -49,13 +49,19 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                 el.all('.dropdown-itemselected').removeClass('dropdown-itemselected');
                 var currentTarget = S.one(e.currentTarget);
                 currentTarget.addClass('dropdown-itemselected');
-                var spanNode = el.one('.dropdown-text');
+                var dropdownTextNode = el.one('.dropdown-text');
+                var selectNode = currentTarget.one('span');
                 var data = {
-                    value: currentTarget.attr('value'),
-                    text: currentTarget.one('span').text()
+                    value: selectNode.attr('value'),
+                    text: selectNode.text()
                 }
-                spanNode.attr('value', data.value);
-                spanNode.text(data.text);
+                //隐藏提交的表单字段，如果存在，赋值
+                var inputNode = el.one('input');
+                if(inputNode){
+                    inputNode.val(data.value);
+                }
+                dropdownTextNode.attr('value', data.value);
+                dropdownTextNode.text(data.text);
                 this.blur();
                 this.fire('selected', data);
             },
