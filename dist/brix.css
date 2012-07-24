@@ -464,6 +464,11 @@ table {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 /*@import "scaffolding.less";*/
 /*@import "grid.less";*/
 /*@import "layouts.less";*/
@@ -1343,4 +1348,3 @@ legend + .control-group {
 /*@import "accordion.less";*/
 /*@import "carousel.less";*/
 /*@import "hero-unit.less";*/
-/*@import "utilities.less"; // Has to be last to override when necessary*/
