@@ -9,15 +9,6 @@
   *zoom: 1;
 }
 
-// Text overflow
-// -------------------------
-// Requires inline-block or block for proper styling
-.text-overflow {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 // Mixin for form field states
 .formFieldState(@textColor: #555, @borderColor: #ccc, @backgroundColor: #f5f5f5) {
   // Set the text color
@@ -201,7 +192,15 @@
 
     .row {
       margin-left: @gridGutterWidth * -1;
-      .clearfix();
+      *zoom: 1;
+      &:before,
+      &:after {
+        display: table;
+        content: "";
+      }
+      &:after {
+        clear: both;
+      }
     }
 
     [class*="span"] {
@@ -235,7 +234,15 @@
 
     .row-fluid {
       width: 100%;
-      .clearfix();
+      *zoom: 1;
+      &:before,
+      &:after {
+        display: table;
+        content: "";
+      }
+      &:after {
+        clear: both;
+      }
       [class*="span"] {
         .input-block-level();
         float: left;
