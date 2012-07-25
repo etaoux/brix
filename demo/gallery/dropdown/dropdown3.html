@@ -40,16 +40,14 @@
         </script>
         <script type="text/template" id="tmpl_dropdown">
             <div id="brick13" bx-name="dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown dropdown123">
-                <a class="dropdown-a">
-                    {{#dropdown_list}}
-                    {{#selected}}
-                    <span class="dropdown-hd">
-                    <span class="dropdown-text" value="{{value}}">{{text}}</span></span>
-                    <i class="icon icon-arrow-down">&#405</i>
-                    {{/selected}}
-
-                    {{/dropdown_list}}
-                </a>
+                {{#dropdown_list}}
+                {{#selected}}
+                <span class="dropdown-hd">
+                <span class="dropdown-text" value="{{value}}">{{text}}</span>
+                <i class="icon icon-arrow-down">&#405</i>
+                </span>
+                {{/selected}}
+                {{/dropdown_list}}
                 <ul class="dropdown-list">
                     {{#dropdown_list}}
                     <li class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}"><span value="{{value}}">{{text}}</span><i class="icon icon-ok">&#126</i></li>
