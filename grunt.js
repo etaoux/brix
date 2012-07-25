@@ -108,8 +108,7 @@ module.exports = function(grunt) {
     
     //npm install grunt-less
     grunt.loadNpmTasks('grunt-less');
-    //npm install grunt-css
-    grunt.loadNpmTasks('grunt-css');
+    
     //tasks
     grunt.loadTasks('tasks');
 

@@ -21,8 +21,7 @@
     }
   ],
   "dependencies": {
-    "grunt-less":  ">=0.1.5",
-    "grunt-css":   ">=0.2.1"
+    "grunt-less":  ">=0.1.5"
   },
   "devDependencies": {
     "grunt": "~0.3.11"
