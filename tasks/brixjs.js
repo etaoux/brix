@@ -1,5 +1,5 @@
 /*
- * grunt-brixless
+ * grunt-brixjs
  * https://github.com/etaoux/brix
  *
  * Copyright (c) 2012 左莫
@@ -51,7 +51,6 @@ module.exports = function(grunt) {
         var self = this;
         files = fs.readdirSync(src);
         files.forEach(function(f) {
-            console.log(f);
             var srcFile = src + '/' + f + '/'  + 'index.js';
             var destFile = dest + '/' + f + '/index'  + options.min+'.js'
             if (fs.existsSync(srcFile)) {

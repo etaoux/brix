@@ -52,7 +52,6 @@ module.exports = function(grunt) {
         var count = files.length;
         var done = this.async();
         files.forEach(function(f) {
-            console.log(f);
             var srcFile = src + '/' + f + '/' + f + '.less';
             var destFile = dest + '/' + f + '/' + f + options.min+'.css'
             if (fs.existsSync(srcFile)) {
