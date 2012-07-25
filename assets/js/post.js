@@ -4,9 +4,10 @@ KISSY.ready(function(S) {
         var iframe = e.currentTarget,
             win = iframe.contentWindow,
             doc = win.document;
-
-        iframe.height = DOM.height(doc);
-        iframe.width = DOM.width(doc);
+        var height = DOM.height(doc);
+        iframe.height = height<300?300:height;
+        var width = DOM.width(doc);
+        iframe.width = width<800?800:width;
     });
 	var log = log4javascript.getLogger("main");
 	var appender = new log4javascript.InPageAppender('J_log',true);
@@ -15,18 +16,23 @@ KISSY.ready(function(S) {
 	log.addAppender(appender);
     closeNode.on('click',function (e) {
         e.halt();
-        if(appender.isVisible()){
-        	logdivNode.animate({width:'28px',height:'18px'},0.3);
-            appender.hide();
-            closeNode.html('显示');
+        if(closeNode.html()!='显示调试窗口'){
+            log.info('隐藏调试窗口');
+        	logdivNode.animate({width:'88px',height:'18px'},0.3,'easeNone',function(){
+                appender.hide();
+                closeNode.html('显示调试窗口'); 
+            });
+            
         }
         else{
+            log.info('显示调试窗口');
             appender.show();
-            logdivNode.animate({width:'600px',height:'225px'},0.3);
-            closeNode.html('隐藏');
+            logdivNode.animate({width:'600px',height:'225px'},0.3,'easeNone',function(){
+                closeNode.html('隐藏调试窗口');
+            });
         }
     });
-    log.info('调试信息将在这里显示。');
+    
 	console = window.console || {};
 	console.log=function(){log.info.apply(log,arguments)};
 });

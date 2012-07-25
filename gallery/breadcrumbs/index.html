@@ -110,94 +110,23 @@
 </aside>
   <div id="page">
     <article>
-      <h1>Chunk</h1>
+      <h1>Breadcrumbs</h1>
       
-      <p class="caption">继承自 KISSY 的 Base，是 Brick 和 Pagelet 类的父类</p>
+      <p class="caption">面包屑组件</p>
       
       
-      <section class="description"><p>基类，作为组件底层，完成渲染、数据更新、销毁操作，是模板解析器（<code>Tmpler</code>）和数据管理器（<code>Dataset</code>）的调度者。</p>
-</section>
-      
-      <section><h2>配置</h2>
-
-<h3><code>el</code> {element}</h3>
-
-<p>组件节点，只读（如果是new单个组件，并且已经在dom中，则可指定el节点）。</p>
-
-<p>指定el节点例子：</p>
-
-<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">kwicks1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Kwicks</span><span class="p">({</span>
-    <span class="nx">el</span><span class="o">:</span><span class="s1">&#39;#ulkwicks1&#39;</span><span class="p">,</span>
-    <span class="nx">max</span> <span class="o">:</span> <span class="mi">205</span><span class="p">,</span>
-    <span class="nx">spacing</span> <span class="o">:</span> <span class="mi">5</span>
-<span class="p">});</span>
-</code></pre>
-</div>
+      <section><div class='demo'><iframe src='/brix/demo/gallery/breadcrumbs/breadcrumbs.html' frameborder='0' scrolling='0' class='j-demo'></iframe></div>
 
 
-<h3><code>rendered</code> {Boolen}</h3>
+<h2>配置;</h2>
 
-<p>是否已经渲染到页面，只读</p>
-
-<h3><code>container</code> {String|element}</h3>
-
-<p>容器节点</p>
-
-<h3><code>autoRender</code> {Boolen}</h3>
-
-<p>是否自动渲染</p>
-
-<h3><code>tmpl</code> {String}</h3>
-
-<p>模板字符串</p>
-
-<h3><code>tmpler</code> {Object}</h3>
-
-<p>模板解析器</p>
-
-<h3><code>data</code> {Object}</h3>
-
-<p>数据集合</p>
-
-<h3><code>dataset</code> {Boolen}</h3>
-
-<p>数据管理器，如果指定了数据管理器，则忽略data字段的配置</p>
+<p>包含<a href="/etaoux/brix/tree/master/docs/brick.md">Brick</a>的所有配置</p>
 
 <h2>方法</h2>
 
-<h3><code>render()</code></h3>
-
-<p>将模板渲染到页面</p>
-
-<h3><code>setChunkData(datakey, data)</code></h3>
-
-<p>设置数据，并刷新模板数据</p>
-
-<ul>
-<li>@param {string} datakey 需要更新的数据对象key</li>
-<li>@param {object} data    数据对象</li>
-</ul>
-
-
-<h3><code>addTmpl(id, arr)</code></h3>
-
-<p>给brick添加模板</p>
-
-<ul>
-<li>@param {string} id  brick的id</li>
-<li>@param {array} arr 模板数组</li>
-</ul>
-
-
-<h3><code>destroy()</code></h3>
-
-<p>销毁组件或者pagelet</p>
-
 <h2>事件</h2>
 
-<h3><code>rendered</code></h3>
-
-<p>将模板渲染到页面中触发</p>
+<h2>代码示例</h2>
 </section>
     </article>
   </div>
