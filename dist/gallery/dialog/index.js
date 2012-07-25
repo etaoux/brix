@@ -1,38 +1,35 @@
 
 
 KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
-    function _getContent(v, dir) {
-        var wrapper = {
-            'up': ['<div class="popup popup-up">', '<div class="popup-left"></div>', '<div class="popup-center">', '<div class="popup-content">' + v + '</div>', '</div>', '<div class="popup-right"></div>', '<div class="popup-bottom">', '<div class="popup-bottom-left"></div>', '<div class="popup-bottom-center">&nbsp;</div>', '<div class="popup-bottom-right"></div>', '</div>', '</div>'],
-            'right': ['<div class="popup-h popup-h-right">', '<div class="popup-h-top"></div>', '<div class="popup-h-center">', '<div class="popup-h-body">', '<div class="popup-content">' + v + '</div>', '</div>', '</div>', '<div class="popup-h-bottom"></div>', '</div>']
-        };
-        wrapper['down'] = wrapper['up'].slice(0);
-        wrapper['down'][0] = wrapper['down'][0].replace('popup-up', '');
-        wrapper['left'] = wrapper['right'].slice(0);
-        wrapper['left'][0] = wrapper['left'][0].replace('popup-h-right', '');
-        return wrapper[dir].join('');
-    }
+    // function _getContent(v, dir) {
+    //     var wrapper = {
+    //         'up': ['<div class="popup popup-up">', '<div class="popup-left"></div>', '<div class="popup-center">', '<div class="popup-content">' + v + '</div>', '</div>', '<div class="popup-right"></div>', '<div class="popup-bottom">', '<div class="popup-bottom-left"></div>', '<div class="popup-bottom-center">&nbsp;</div>', '<div class="popup-bottom-right"></div>', '</div>', '</div>'],
+    //         'right': ['<div class="popup-h popup-h-right">', '<div class="popup-h-top"></div>', '<div class="popup-h-center">', '<div class="popup-h-body">', '<div class="popup-content">' + v + '</div>', '</div>', '</div>', '<div class="popup-h-bottom"></div>', '</div>']
+    //     };
+    //     wrapper['down'] = wrapper['up'].slice(0);
+    //     wrapper['down'][0] = wrapper['down'][0].replace('popup-up', '');
+    //     wrapper['left'] = wrapper['right'].slice(0);
+    //     wrapper['left'][0] = wrapper['left'][0].replace('popup-h-right', '');
+    //     return wrapper[dir].join('');
+    // }
 
-    function _setWidth(v, dir) {
-        switch (dir) {
-        case 'up':
-        case 'down':
-            if (v < 320) {
-                return 320;
-            }
-            break;
-        case 'left':
-        case 'right':
-            if (v < 145) {
-                return 145;
-            }
-            break;
-        }
-        return v;
-    }
-
-
-
+    // function _setWidth(v, dir) {
+    //     switch (dir) {
+    //     case 'up':
+    //     case 'down':
+    //         if (v < 320) {
+    //             return 320;
+    //         }
+    //         break;
+    //     case 'left':
+    //     case 'right':
+    //         if (v < 145) {
+    //             return 145;
+    //         }
+    //         break;
+    //     }
+    //     return v;
+    // }
     function Dialog(config) {
         var self = this;
         Dialog.superclass.constructor.apply(this, arguments);
@@ -74,26 +71,26 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
                 return dir;
             }
         },
-        width: {
-            valueFn: function(v) {
-                if (!v) {
-                    return v;
-                }
-                var self = this;
-                var dir = self.get('dir');
-                return _setWidth(v, dir);
-            },
-            setter: function(v) {
-                var self = this;
-                var dir = self.get('dir');
-                return _setWidth(v, dir);
-            }
-        },
-        elCls: {
-            valueFn: function() {
-                return 'dialog-' + this.get('dir');
-            }
-        },
+        // width: {
+        //     valueFn: function(v) {
+        //         if (!v) {
+        //             return v;
+        //         }
+        //         var self = this;
+        //         var dir = self.get('dir');
+        //         return _setWidth(v, dir);
+        //     },
+        //     setter: function(v) {
+        //         var self = this;
+        //         var dir = self.get('dir');
+        //         return _setWidth(v, dir);
+        //     }
+        // },
+        // elCls: {
+        //     valueFn: function() {
+        //         return 'dialog-' + this.get('dir');
+        //     }
+        // },
         prefixCls: {
             value: 'ux-'
         },
@@ -109,14 +106,14 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
         mask: {
             value: false
         },
-        content: {
-            valueFn: function(v) {
-                return _getContent('', this.get('dir'));
-            },
-            setter: function(v) {
-                return _getContent(v, this.get('dir'));
-            }
-        },
+        // content: {
+        //     valueFn: function(v) {
+        //         return _getContent('', this.get('dir'));
+        //     },
+        //     setter: function(v) {
+        //         return _getContent(v, this.get('dir'));
+        //     }
+        // },
         tmpl: {
             value: null
         },
@@ -130,9 +127,17 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
             var self = this;
             //渲染模板内容
             self.on('afterRenderUI', function() {
+                var closeBtn = self.get('el').one('.ux-ext-close');
+                closeBtn.one('.ux-ext-close-x').html('&#223');
+                closeBtn.on('mouseenter',function(e){
+                    closeBtn.one('.ux-ext-close-x').html('&#378');
+                });
+                closeBtn.on('mouseleave',function(e){
+                    closeBtn.one('.ux-ext-close-x').html('&#223');
+                });
                 if (self.get('tmpl')) {
                     self.pagelet = new Pagelet({
-                        container: self.get('contentEl').one('.popup-content'),
+                        container: self.get('contentEl'),
                         autoRender: true,
                         tmpl: self.get('tmpl'),
                         data: self.get('data')

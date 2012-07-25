@@ -3,7 +3,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Brix Dialog Demo</title>
-        <link type="text/css" rel="stylesheet" href="http://a.tbcdn.cn/s/kissy/1.2.0/css/base-min.css" charset="utf-8">
+        <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+        <link rel="stylesheet" href="../../../src/gallery/dropdown/dropdown.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
         <script src="../../config.js"></script>
     </head>
@@ -12,8 +13,8 @@
             <div class="row">
                 <div class="span12" style="padding-left:50px"  id="test_container">
                 </div>
-                <a href="#" id="aaa">aaa</a>
-                <a href="#" id="bbb">bbb</a>
+                <a href="#" id="btnShow">显示</a>
+                <a href="#" id="btnHide">隐藏</a>
             </div>
         </div>
 		<!--brix begin-->
@@ -39,23 +40,25 @@
             }
         </script>
         <script type="text/template" id="tmpl_dropdown">
-            <div bx-name="dropdown" bx-path="brix/gallery/dropdown/" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown">
-                <a class="dropdown-a">
-                    {{#dropdown_list}}
-                    {{#selected}}
-                    <span class="dropdown-span" value="{{value}}">{{text}}</span>
-                    <i class="dropdown-icon"></i>
-                    {{/selected}}
-                    {{/dropdown_list}}
-                </a>
+            <div id="brick13" bx-name="dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown" style="width:200px">
+                {{#dropdown_list}}
+                {{#selected}}
+                <span class="dropdown-hd">
+                <span class="dropdown-text" value="{{value}}">{{text}}</span>
+                <i class="icon icon-arrow-down">&#405</i>
+                </span>
+                
+                {{/selected}}
+
+                {{/dropdown_list}}
                 <ul class="dropdown-list">
                     {{#dropdown_list}}
-                    <li bxclick="xxClick" {{#color}}style="color:{{color}}"{{/color}} class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}" value="{{value}}">{{text}}</li>
+                    <li class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}"><span value="{{value}}">{{text}}</span><i class="icon icon-ok">&#126</i></li>
                     {{/dropdown_list}}
                 </ul>
                 {{#dropdown_list}}
                 {{#selected}}
-                <input name="dd"  value="{{value}}" type="hidden" />
+                <input value="{{value}}" type="hidden" />
                 {{/selected}}
                 {{/dropdown_list}}
             </div>
@@ -85,10 +88,10 @@
                     dialog.on('show',function(){console.log('show')});
                     dialog.show();
 
-                    S.one('#aaa').on('click',function(){
+                    S.one('#btnShow').on('click',function(){
                         dialog.show();
                     });
-                    S.one('#bbb').on('click',function(){
+                    S.one('#btnHide').on('click',function(){
                         dialog.hide();
                     });
                 });
