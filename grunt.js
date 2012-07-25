@@ -25,11 +25,11 @@ module.exports = function(grunt) {
         less: {
             brix: {
                 src: ['src/style/brix.less'],
-                dest: 'dist/brix.css'
+                dest: 'dist/<%= pkg.name %>.css'
             },
             brix_min: {
                 src: ['src/style/brix.less'],
-                dest: 'dist/brix-min.css',
+                dest: 'dist/<%= pkg.name %>-min.css',
                 options: {
                   yuicompress: true
                 }

@@ -1,3 +1,7 @@
+/**
+ * CSS Reset
+ *   用normalize省心省力，我们的目标不是做reset
+ **/
 /* normalize.css 2012-03-11T12:53 UTC - http://github.com/necolas/normalize.css */
 /* =============================================================================
    HTML5 display definitions
@@ -444,6 +448,10 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+/**
+ * 小工具类
+ *   可以在页面直接输出的mixin
+ **/
 .clearfix {
   *zoom: 1;
 }
@@ -460,9 +468,18 @@ table {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/**
+ * 核心变量及mixin，会提供给gallery使用
+ *   思路：最小影响，最大适用范围
+ **/
 /*@import "scaffolding.less";*/
 /*@import "grid.less";*/
 /*@import "layouts.less";*/
+/**
+ * 基础CSS
+ *   字体 及 UX控件
+ *   TODO: 把gallery中属于 UX控件 的样式也迁移进来，方便其他gallery引用
+ **/
 body,
 button,
 input,
@@ -523,7 +540,6 @@ a:visited {
   font-style: normal;
   padding-left: 4px;
 }
-/*@import "code.less";*/
 form {
   margin: 0 0 18px;
 }
@@ -559,12 +575,12 @@ select,
   display: inline-block;
   width: 210px;
   height: 18px;
-  padding: 3px 7px;
+  padding: 2px 8px 3px;
   margin-bottom: 9px;
   line-height: 18px;
   color: #333333;
-  border: 1px solid #eeeeee;
-  border-top-color: #d8d8d8;
+  border: 1px solid #dddddd;
+  border-top-color: #bbbbbb;
 }
 .uneditable-textarea {
   width: auto;
@@ -679,8 +695,8 @@ textarea {
 }
 input:hover,
 textarea:hover {
-  border-color: #d9d9d9;
-  border-top-color: #bfbfbf;
+  border-color: #cccccc;
+  border-top-color: #999999;
   -webkit-box-shadow: inset 0 1px #f5f5f5;
   -moz-box-shadow: inset 0 1px #f5f5f5;
   box-shadow: inset 0 1px #f5f5f5;
@@ -689,9 +705,9 @@ input:focus,
 textarea:focus {
   border-color: #488fcd;
   outline: 0;
-  -webkit-box-shadow: 0 0 8px rgba(72,143,205,.14);
-  -moz-box-shadow: 0 0 8px rgba(72,143,205,.14);
-  box-shadow: 0 0 8px rgba(72,143,205,.14);
+  -webkit-box-shadow: 0 0 8px rgba(72,143,205,.6);
+  -moz-box-shadow: 0 0 8px rgba(72,143,205,.6);
+  box-shadow: 0 0 8px rgba(72,143,205,.6);
 }
 input[type="file"]:focus,
 input[type="radio"]:focus,
@@ -730,6 +746,7 @@ textarea[class*="span"],
   float: none;
   margin-left: 0;
 }
+input.disabled,
 input[disabled],
 select[disabled],
 textarea[disabled],
@@ -737,8 +754,9 @@ input[readonly],
 select[readonly],
 textarea[readonly] {
   cursor: not-allowed;
-  background-color: #cccccc;
-  border-color: #ddd;
+  border-color: #cccccc;
+  color: #cccccc;
+  background-color: #f5f5f5;
 }
 input[type="radio"][disabled],
 input[type="checkbox"][disabled],
@@ -774,27 +792,27 @@ input[type="checkbox"][readonly] {
 .control-group.error > label,
 .control-group.error .help-block,
 .control-group.error .help-inline {
-  color: #b94a48;
+  color: #ec0000;
 }
 .control-group.error input,
 .control-group.error select,
 .control-group.error textarea {
-  color: #b94a48;
-  border-color: #b94a48;
+  color: #ec0000;
+  border-color: #ec0000;
 }
 .control-group.error input:focus,
 .control-group.error select:focus,
 .control-group.error textarea:focus {
-  border-color: #953b39;
-  -webkit-box-shadow: 0 0 6px #d59392;
-  -moz-box-shadow: 0 0 6px #d59392;
-  box-shadow: 0 0 6px #d59392;
+  border-color: #b90000;
+  -webkit-box-shadow: 0 0 6px #ff5353;
+  -moz-box-shadow: 0 0 6px #ff5353;
+  box-shadow: 0 0 6px #ff5353;
 }
 .control-group.error .input-prepend .add-on,
 .control-group.error .input-append .add-on {
-  color: #b94a48;
+  color: #ec0000;
   background-color: #f2dede;
-  border-color: #b94a48;
+  border-color: #ec0000;
 }
 .control-group.success > label,
 .control-group.success .help-block,
@@ -1090,12 +1108,6 @@ legend + .control-group {
 .form-horizontal .form-actions {
   padding-left: 160px;
 }
-/*@import "tables.less";*/
-/*@import "sprites.less";*/
-/*@import "dropdowns.less";*/
-/*@import "wells.less";*/
-/*@import "component-animations.less";*/
-/*@import "close.less";*/
 .btn {
   display: inline-block;
   -webkit-appearance: none;
@@ -1321,6 +1333,12 @@ legend + .control-group {
   height: 23px;
   line-height: 23px;
 }
+/*@import "tables.less";*/
+/*@import "dropdowns.less";*/
+/*@import "code.less";*/
+/*@import "wells.less";*/
+/*@import "component-animations.less";*/
+/*@import "close.less";*/
 /*@import "button-groups.less";*/
 /*@import "alerts.less"; // Note: alerts share common CSS with buttons and thus have styles in buttons.less*/
 /*@import "navs.less";*/
@@ -1337,4 +1355,3 @@ legend + .control-group {
 /*@import "accordion.less";*/
 /*@import "carousel.less";*/
 /*@import "hero-unit.less";*/
-/*@import "utilities.less"; // Has to be last to override when necessary*/
