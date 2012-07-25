@@ -4,7 +4,7 @@ pygments: true
 paginate: 1
 lsi: false
 markdown: rdiscount
-exclude: [Gemfile, Gemfile.lock, Guardfile, README.md, Rakefile]
+exclude: [Gemfile, Gemfile.lock, Guardfile, README.md, Rakefile, node_modules]
 include: [.nojekyll]
 
 # brix data
