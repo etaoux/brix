@@ -1,0 +1,235 @@
+.ux-ext-close {
+    background: url('images/dialog-close.png') no-repeat;
+    _background: url('images/dialog-close-ie6.png') no-repeat;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+
+}
+
+.ux-ext-close {
+    width: 25px;
+    height: 25px;
+    background-position: 0 0;
+}
+.ux-ext-close:hover {
+    background-position: -25px 0;
+}
+
+.ux-ext-close-x {
+    display: none;
+}
+/**
+ * popup 弹窗
+ * 方式：阴影在下方
+ */
+.ux-overlay {
+    position: absolute;
+    left:-99999px;
+    top:-99999px;
+}
+.popup {
+    position: relative;
+    /*overflow: hidden;*/
+    padding-bottom: 20px;
+}
+.dialog-down .ux-ext-close {
+    position: absolute;
+    top: 20px;
+    right: 36px;
+}
+
+.popup-left,
+.popup-right,
+.popup-bottom-center,
+.popup-bottom-left,
+.popup-bottom-right {
+    background: url('images/dialog-up-down.png') no-repeat;
+    _background: url('images/dialog-up-down-ie6.png') no-repeat;
+}
+
+
+.popup-left,
+.popup-right {
+    position: absolute;
+    bottom: 20px;
+    width: 11px;
+    height: 387px;
+}
+.popup-left {
+    background-position: 0 0;
+    left: 0;
+}
+.popup-right {
+    background-position: -11px 0;
+    right: 0;
+}
+
+.popup-center {
+    background-color: #fafafa;
+    margin: 0 11px;
+    zoom: 1;
+    padding: 30px;
+    min-height: 320px;
+    _height: 320px;
+}
+
+.popup-bottom {
+    position: absolute;
+    height: 20px;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+}
+
+.popup-bottom-left,
+.popup-bottom-right {
+    position: absolute;
+    height: 20px;
+    width: 160px;
+    top: 0;
+}
+
+.popup-bottom-center {
+    background-position: 0 -427px;
+    background-repeat: repeat-x;
+    margin: 0 160px;
+    height: 20px;
+}
+
+.popup-bottom-left {
+    background-position: 0 -407px;
+    left: 0;
+}
+
+.popup-bottom-right {
+    background-position: 0 -387px;
+    right: 0;
+}
+
+/**
+ * popup 弹窗
+ * 方式：阴影在上方
+ */
+.popup-up {
+    padding-bottom: 0;
+    padding-top: 20px;
+}
+.dialog-up .ux-ext-close {
+    top: 40px;
+    right: 36px;
+}
+.popup-up .popup-left,
+.popup-up .popup-right {
+    bottom: auto;
+    top: 20px;
+}
+.popup-up .popup-bottom {
+    bottom: auto;
+    top: 0;
+}
+
+.popup-up .popup-left {
+    background-position: 0 -447px;
+}
+.popup-up .popup-right {
+    background-position: -11px -447px;
+}
+.popup-up .popup-bottom-center {
+    background-position: 0 -874px;
+}
+.popup-up .popup-bottom-left {
+    background-position: 0 -854px;
+}
+.popup-up .popup-bottom-right {
+    background-position: 0 -834px;
+}
+
+/**
+ * popup 弹窗
+ * 方式：阴影在左方
+ */
+.popup-h-center,
+.popup-h-top,
+.popup-h-bottom {
+    background: url('images/dialog-left.png') no-repeat;
+    _background: url('images/dialog-left-ie6.png') no-repeat;
+}
+.popup-h {
+    position: relative;
+    zoom: 1;
+    padding: 20px 0 20px 0;
+
+}
+.dialog-left .ux-ext-close {
+    position: absolute;
+    top: 40px;
+    right: 25px;
+}
+.popup-h-top,
+.popup-h-bottom {
+    height: 20px;
+    position: absolute;
+    left: 0;
+    width: 143px;
+}
+.popup-h-top {
+    top: 0;
+    background-position: 0 -20px;
+}
+.popup-h-bottom {
+    bottom: 0;
+
+}
+
+.popup-h-center {
+    background-repeat: repeat-y;
+    background-position: -143px 0;
+    padding-left: 11px;
+}
+
+.popup-h-body {
+    background-color: #FAFAFA;
+    padding: 30px;
+}
+
+/**
+ * popup 弹窗
+ * 方式：阴影在右方
+ */
+.popup-h-right {
+    /*overflow: hidden;*/
+}
+.dialog-right .ux-ext-close {
+    right: 36px;
+    top: 40px;
+}
+/*.popup-h-right .popup-h-center,*/
+.popup-h-right .popup-h-top,
+.popup-h-right .popup-h-bottom {
+    background-image: url('images/dialog-right.png') ;
+    _background-image: url('images/dialog-right-ie6.png') ;
+    left: auto;
+    right: 0;
+}
+
+.popup-h-right .popup-h-center {
+    background-image: url('images/dialog-right-rp.png') ;
+    _background-image: url('images/dialog-right-rp-ie6.png') ;
+    background-position: 100% 0;
+    padding: 0 11px 0 0;
+}
+
+
+/*.popup-h-right .popup-h-body {
+    margin-right: 143px;
+}*/
+
+.popup-h-right .popup-h-top {
+    background-position: -11px -20px;
+
+}
+
+.popup-h-right .popup-h-bottom {
+    background-position: -11px 0;
+}
