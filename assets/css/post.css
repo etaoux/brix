@@ -124,5 +124,5 @@ body{font-size:.8em;}
 #page .highlight pre,#page .highlight code{font-family:'Envy Code R',Monaco,Consolas,monospace;font-size:12px;border:none;padding:0;background:none;}
 #page .bottom-nav{padding:20px 0;text-align:center;}#page .bottom-nav a:link{text-decoration:none;}
 #page .bottom-nav a:hover{color:#f50;}
-#page .demo{border:1px solid #ddd;border-radius:2px;padding:5px 10px;box-shadow:0 0 5px rgba(198, 198, 198, 0.4);background:#f0f0f0;}
+#page .demo{border:1px solid #ddd;border-radius:2px;padding:5px 10px;box-shadow:0 0 5px rgba(198, 198, 198, 0.4);}
 #footer{margin:20px 0 30px;text-align:center;}
