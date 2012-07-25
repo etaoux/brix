@@ -1,4 +1,4 @@
-/*! Brix - v0.1.0 - 7/24/2012
+/*! Brix - v0.1.0 - 7/25/2012
 * https://github.com/etaoux/brix
 * Copyright (c) 2012 etaoux; Licensed MIT */
 
@@ -651,7 +651,7 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
 }, {
     requires: ["./mustache"]
 });
-KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
+KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
     var $ = Node.all;
     /**
      * 用以给brick打上id的标记,brick有id则返回
@@ -696,6 +696,10 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
 
         //将~符号替换回/，完美了。
         html = html.replace(/(\{{2,3})~/g, '$1/');
+        //修复火狐下对a标签href编码的bug
+        if(UA.firefox){
+            return decodeURIComponent(html);
+        }
         return html;
     }
 
@@ -866,7 +870,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node) {
     });
     return Tmpler;
 }, {
-    requires: ['./mu', 'node', 'sizzle']
+    requires: ['./mu', 'node','ua', 'sizzle']
 });
 
 KISSY.add("brix/core/dataset", function(S, Base) {

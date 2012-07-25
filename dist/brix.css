@@ -1,7 +1,7 @@
-/*! Brix - v0.1.0 - 7/24/2012
-* https://github.com/etaoux/brix
-* Copyright (c) 2012 etaoux; Licensed MIT */
-
+/**
+ * CSS Reset
+ *   用normalize省心省力，我们的目标不是做reset
+ **/
 /* normalize.css 2012-03-11T12:53 UTC - http://github.com/necolas/normalize.css */
 /* =============================================================================
    HTML5 display definitions
@@ -448,6 +448,10 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+/**
+ * 小工具类
+ *   可以在页面直接输出的mixin
+ **/
 .clearfix {
   *zoom: 1;
 }
@@ -464,9 +468,18 @@ table {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/**
+ * 核心变量及mixin，会提供给gallery使用
+ *   思路：最小影响，最大适用范围
+ **/
 /*@import "scaffolding.less";*/
 /*@import "grid.less";*/
 /*@import "layouts.less";*/
+/**
+ * 基础CSS
+ *   字体 及 UX控件
+ *   TODO: 把gallery中属于 UX控件 的样式也迁移进来，方便其他gallery引用
+ **/
 body,
 button,
 input,
@@ -527,7 +540,6 @@ a:visited {
   font-style: normal;
   padding-left: 4px;
 }
-/*@import "code.less";*/
 form {
   margin: 0 0 18px;
 }
@@ -1096,12 +1108,6 @@ legend + .control-group {
 .form-horizontal .form-actions {
   padding-left: 160px;
 }
-/*@import "tables.less";*/
-/*@import "sprites.less";*/
-/*@import "dropdowns.less";*/
-/*@import "wells.less";*/
-/*@import "component-animations.less";*/
-/*@import "close.less";*/
 .btn {
   display: inline-block;
   -webkit-appearance: none;
@@ -1327,6 +1333,12 @@ legend + .control-group {
   height: 23px;
   line-height: 23px;
 }
+/*@import "tables.less";*/
+/*@import "dropdowns.less";*/
+/*@import "code.less";*/
+/*@import "wells.less";*/
+/*@import "component-animations.less";*/
+/*@import "close.less";*/
 /*@import "button-groups.less";*/
 /*@import "alerts.less"; // Note: alerts share common CSS with buttons and thus have styles in buttons.less*/
 /*@import "navs.less";*/
@@ -1343,4 +1355,3 @@ legend + .control-group {
 /*@import "accordion.less";*/
 /*@import "carousel.less";*/
 /*@import "hero-unit.less";*/
-/*@import "utilities.less"; // Has to be last to override when necessary*/
