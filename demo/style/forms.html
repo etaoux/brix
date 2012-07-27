@@ -26,10 +26,34 @@
     <h2>表单</h2>
     <form class="well">
         <fieldset>
-            <label class="control-label" for="input01">表单项名称:</label>
-            <input id="input01" placeholder="placeholder占位" />
-            <label class="control-label" for="input02">表单项名称:</label>
-            <input id="input02" placeholder="placeholder占位" value="文字" />
+            <label class="control-label" for="input01">输入框:</label>
+            <input id="input01" placeholder="placeholder占位" value="文字" />
+            <label class="control-label">单选按钮:</label>
+            <div class="controls">
+                <label class="radio inline">
+                    <s class="icon icon-checked"></s>
+                    <input type="radio" name="optionsRadios1" id="optionsRadio01" value="option01" checked />单点我
+                </label>
+                <label class="radio inline">
+                    <s class="icon"></s>
+                    <input type="radio" name="optionsRadios1" id="optionsRadio02" value="option02" />别点我
+                </label>
+            </div>
+            <label class="control-label">单选按钮:</label>
+            <div class="controls">
+                <label class="radio inline checked-colorful">
+                    <input type="radio" name="optionsRadios2" id="optionsRadio03" value="option03" checked />高帅富
+                </label>
+            </div>
+            <label class="control-label">单选按钮:</label>
+            <div class="controls">
+                <label class="radio inline disabled">
+                    <input type="radio" name="optionsRadios3" id="optionsRadio04" value="option04" disabled />已禁用
+                </label>
+                <label class="radio inline checked-disabled">
+                    <input type="radio" name="optionsRadios3" id="optionsRadio05" value="option05" checked disabled />已禁用
+                </label>
+            </div>
         </fieldset>
     </form>
     <form class="form-horizontal">
@@ -50,14 +74,14 @@
             <div class="control-group error">
                 <label class="control-label" for="input05">表单项名称:</label>
                 <div class="controls">
-                    <input id="input05" placeholder="placeholder占位" />
+                    <input id="input05" placeholder="placeholder占位" value="妈妈说这样是不对的" />
                     <p class="help-block">说明解释类提示</p>
                 </div>
             </div>
             <div class="control-group disabled">
                 <label class="control-label" for="input06">表单项名称:</label>
                 <div class="controls">
-                    <input class="disabled" disabled id="input06" placeholder="placeholder占位" />
+                    <input id="input06" class="disabled" disabled placeholder="placeholder占位" />
                 </div>
             </div>
         </fieldset>

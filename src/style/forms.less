@@ -173,12 +173,6 @@ textarea {
   height: auto;
 }
 
-// Hidden inputs
-input[type="hidden"] {
-  display: none;
-}
-
-
 
 // CHECKBOXES & RADIOS
 // -------------------
@@ -188,31 +182,33 @@ input[type="hidden"] {
 .checkbox {
   min-height: 18px; // clear the floating input if there is no label text
   padding-left: 18px;
+  background: url(brix.png) 0 7px no-repeat;
 }
 .radio input[type="radio"],
 .checkbox input[type="checkbox"] {
-  float: left;
-  margin-left: -18px;
+  display: none;
 }
-
-// Move the options list down to align with labels
-.controls > .radio:first-child,
-.controls > .checkbox:first-child {
-  padding-top: 5px; // has to be padding because margin collaspes
+.radio-checked {
+  background-position: 0 -29px;
+}
+.radio-checked-colorful {
+  background-position: 0 -65px;
+}
+.radio-disabled {
+  background-position: 0 -101px;
+}
+.radio-checked-disabled {
+  background-position: 0 -137px;
 }
 
 // Radios and checkboxes on same line
 // TODO v3: Convert .inline to .control-inline
-.radio.inline,
-.checkbox.inline {
+.controls .inline {
   display: inline-block;
-  padding-top: 5px;
+  margin-right: 10px; // space out consecutive inline controls
   margin-bottom: 0;
+  padding-top: 5px;
   vertical-align: middle;
-}
-.radio.inline + .radio.inline,
-.checkbox.inline + .checkbox.inline {
-  margin-left: 10px; // space out consecutive inline controls
 }
 
 
@@ -272,16 +268,6 @@ textarea[class*="span"],
   float: none;
   margin-left: 0;
 }
-
-
-
-// GRID SIZING FOR INPUTS
-// ----------------------
-
-//#grid > .input (@gridColumnWidth, @gridGutterWidth);
-
-
-
 
 // DISABLED STATE
 // --------------

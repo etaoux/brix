@@ -1,6 +1,6 @@
 /**
  * CSS Reset
- *   用normalize省心省力，我们的目标不是做reset
+ *   用normalize省心省力，同时做些向前兼容
  **/
 /* normalize.css 2012-03-11T12:53 UTC - http://github.com/necolas/normalize.css */
 /* =============================================================================
@@ -448,6 +448,16 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+dl,
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+ul,
+ol {
+  list-style: none;
+}
 /**
  * 小工具类
  *   可以在页面直接输出的mixin
@@ -518,6 +528,7 @@ h6 {
 }
 a {
   color: #0066dd;
+  text-decoration: none;
 }
 a:hover {
   color: #ff8400;
@@ -671,33 +682,34 @@ input[type="image"] {
 textarea {
   height: auto;
 }
-input[type="hidden"] {
-  display: none;
-}
 .radio,
 .checkbox {
   min-height: 18px;
   padding-left: 18px;
+  background: url(brix.png) 0 7px no-repeat;
 }
 .radio input[type="radio"],
 .checkbox input[type="checkbox"] {
-  float: left;
-  margin-left: -18px;
+  display: none;
 }
-.controls > .radio:first-child,
-.controls > .checkbox:first-child {
-  padding-top: 5px;
+.radio-checked {
+  background-position: 0 -29px;
 }
-.radio.inline,
-.checkbox.inline {
+.radio-checked-colorful {
+  background-position: 0 -65px;
+}
+.radio-disabled {
+  background-position: 0 -101px;
+}
+.radio-checked-disabled {
+  background-position: 0 -137px;
+}
+.controls .inline {
   display: inline-block;
-  padding-top: 5px;
+  margin-right: 10px;
   margin-bottom: 0;
+  padding-top: 5px;
   vertical-align: middle;
-}
-.radio.inline + .radio.inline,
-.checkbox.inline + .checkbox.inline {
-  margin-left: 10px;
 }
 input,
 textarea {
@@ -1133,7 +1145,6 @@ legend + .control-group {
   line-height: 21px;
   font-size: 12px;
   font-weight: bold;
-  text-decoration: none;
 }
 .btn,
 .btn:hover,
