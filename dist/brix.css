@@ -540,6 +540,20 @@ a:visited {
   font-style: normal;
   padding-left: 4px;
 }
+@font-face {
+  font-family: "uxiconfont";
+  src: url("http://ux.taobao.com/iconfont/uxiconfont.eot");
+  src: url("http://ux.taobao.com/iconfont/uxiconfont.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+   url("http://ux.taobao.com/iconfont/uxiconfont.woff") format("woff"), /* chrome、firefox */
+   url("http://ux.taobao.com/iconfont/uxiconfont.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+   url("http://ux.taobao.com/iconfont/uxiconfont.svg#svgFontName") format("svg");/* IE9*/
+  /* iOS 4.1- */
+}
+.iconfont {
+  font-family: "uxiconfont";
+  font-size: 16px;
+  font-style: normal;
+}
 form {
   margin: 0 0 18px;
 }
@@ -1110,17 +1124,6 @@ legend + .control-group {
 }
 .btn {
   display: inline-block;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  -o-appearance: none;
-  appearance: none;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  -ms-box-sizing: content-box;
-  -o-box-sizing: content-box;
-  box-sizing: content-box;
-  overflow: visible;
   border: 1px solid #ddd;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;

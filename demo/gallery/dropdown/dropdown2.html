@@ -13,13 +13,13 @@
             <div bx-name="dropdown" class="dropdown" id="brick_14">
             <span class="dropdown-hd">
                 <span class="dropdown-text" value="3">计划列表3</span>
-                <i class="icon icon-arrow-down">&#405</i>
+                <i class="iconfont icon-arrow-down">&#405</i>
               </span>
             <ul class="dropdown-list" style="display: block; ">
-                <li class="dropdown-item"><span value="1">计划列表</span><i class="icon icon-ok">&#126</i></li>
-                <li class="dropdown-item"><span value="2">计划列表2</span><i class="icon icon-ok">&#126</i></li>
+                <li class="dropdown-item"><span value="1">计划列表</span><i class="iconfont icon-ok">&#126</i></li>
+                <li class="dropdown-item"><span value="2">计划列表2</span><i class="iconfont icon-ok">&#126</i></li>
                 <li class="dropdown-item dropdown-itemselected "><span value="3">计划列表3</span><i class="icon icon-ok">&#126</i></li>
-                <li class="dropdown-item"><span value="4">计划列表4</span><i class="icon icon-ok">&#126</i></li>
+                <li class="dropdown-item"><span value="4">计划列表4</span><i class="iconfont icon-ok">&#126</i></li>
             </ul>
         </div>
         <div>
@@ -58,13 +58,13 @@
                 {{#dropdown_list}}
                 {{#selected}}
                 <span class="dropdown-text" value="{{value}}">{{text}}</span>
-                <i class="icon icon-arrow-down">&#405</i>
+                <i class="iconfont icon-arrow-down">&#405</i>
                 {{/selected}}
                 {{/dropdown_list}}
             </span>
             <ul class="dropdown-list">
                 {{#dropdown_list}}
-                <li class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}"><span value="{{value}}">{{text}}</span><i class="icon icon-ok">&#126</i></li>
+                <li class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}"><span value="{{value}}">{{text}}</span><i class="iconfont icon-ok">&#126</i></li>
                 {{/dropdown_list}}
             </ul>
         </script>
