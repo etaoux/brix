@@ -1295,8 +1295,7 @@ label {
 }
 input,
 textarea,
-select,
-.uneditable-input {
+select {
   display: inline-block;
   width: 210px;
   height: 18px;
@@ -1307,55 +1306,7 @@ select,
   border: 1px solid #dddddd;
   border-top-color: #bbbbbb;
 }
-.uneditable-textarea {
-  width: auto;
-  height: auto;
-}
-label input,
-label textarea,
-label select {
-  display: block;
-}
-input[type="image"],
-input[type="checkbox"],
-input[type="radio"] {
-  width: auto;
-  height: auto;
-  padding: 0;
-  margin: 3px 0;
-  *margin-top: 0;
-  /* IE7 */
-
-  line-height: normal;
-  cursor: pointer;
-  background-color: transparent;
-  border: 0 \9;
-  /* IE9 and down */
-
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
-}
-input[type="image"] {
-  border: 0;
-}
-input[type="file"] {
-  width: auto;
-  padding: initial;
-  line-height: initial;
-  border: initial;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-input[type="button"],
-input[type="reset"],
-input[type="submit"] {
-  width: auto;
-  height: auto;
-}
-select,
-input[type="file"] {
+select {
   height: 28px;
   /* In IE7, the height of the select element cannot be changed by height, only font-size */
 
@@ -1363,54 +1314,27 @@ input[type="file"] {
   /* For IE7, add top margin to align select with labels */
 
   line-height: 28px;
-}
-input[type="file"] {
-  line-height: 18px \9;
-}
-select {
   width: 220px;
-}
-select[multiple],
-select[size] {
-  height: auto;
-}
-input[type="image"] {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
 }
 textarea {
   height: auto;
 }
+label input,
+label textarea,
+label select {
+  display: block;
+}
 .radio,
 .checkbox {
-  min-height: 18px;
+  margin-top: 5px;
   padding-left: 18px;
 }
-.radio input[type="radio"],
-.checkbox input[type="checkbox"] {
-  -webkit-appearance: none;
-  appearance: none;
-  background: url(brix.png) 0 7px no-repeat;
-}
-.radio-checked {
-  background-position: 0 -29px;
-}
-.radio-checked-colorful {
-  background-position: 0 -65px;
-}
-.radio-disabled {
-  background-position: 0 -101px;
-}
-.radio-checked-disabled {
-  background-position: 0 -137px;
-}
-.controls .inline {
-  display: inline-block;
-  margin-right: 10px;
-  margin-bottom: 0;
-  padding-top: 5px;
-  vertical-align: middle;
+.radio input,
+.checkbox input {
+  float: left;
+  border: none;
+  margin-left: -18px;
+  width: auto;
 }
 input,
 textarea {
@@ -1436,43 +1360,6 @@ textarea:focus {
   -moz-box-shadow: 0 0 8px rgba(72,143,205,.6);
   box-shadow: 0 0 8px rgba(72,143,205,.6);
 }
-input[type="file"]:focus,
-input[type="radio"]:focus,
-input[type="checkbox"]:focus,
-select:focus {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-.input-mini {
-  width: 60px;
-}
-.input-small {
-  width: 90px;
-}
-.input-medium {
-  width: 150px;
-}
-.input-large {
-  width: 210px;
-}
-.input-xlarge {
-  width: 270px;
-}
-.input-xxlarge {
-  width: 530px;
-}
-input[class*="span"],
-select[class*="span"],
-textarea[class*="span"],
-.uneditable-input[class*="span"],
-.row-fluid input[class*="span"],
-.row-fluid select[class*="span"],
-.row-fluid textarea[class*="span"],
-.row-fluid .uneditable-input[class*="span"] {
-  float: none;
-  margin-left: 0;
-}
 input.disabled,
 input[disabled],
 select[disabled],
@@ -1485,11 +1372,11 @@ textarea[readonly] {
   color: #cccccc;
   background-color: #f5f5f5;
 }
-input[type="radio"][disabled],
-input[type="checkbox"][disabled],
-input[type="radio"][readonly],
-input[type="checkbox"][readonly] {
-  background-color: transparent;
+.controls .inline {
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 0;
+  vertical-align: middle;
 }
 .control-group.warning > label,
 .control-group.warning .help-block,
@@ -1802,7 +1689,7 @@ legend + .control-group {
   -webkit-margin-top-collapse: separate;
 }
 .form-horizontal .control-group {
-  margin-bottom: 26px;
+  margin-bottom: 18px;
   *zoom: 1;
 }
 .form-horizontal .control-group:before,

@@ -79,8 +79,7 @@ label {
 // Inputs, Textareas, Selects
 input,
 textarea,
-select,
-.uneditable-input {
+select {
   display: inline-block;
   width: 210px;
   height: @baseLineHeight;
@@ -91,8 +90,18 @@ select,
   border: 1px solid @inputBorder;
   border-top-color: @inputBorderTop;
 }
-.uneditable-textarea {
-  width: auto;
+
+// Set the height of select and file controls to match text inputs
+select {
+  height: 28px; /* In IE7, the height of the select element cannot be changed by height, only font-size */
+  *margin-top: 4px; /* For IE7, add top margin to align select with labels */
+  line-height: 28px;
+  width: 220px; // default input width + 10px of padding that doesn't get applied
+// Chrome on Linux and Mobile Safari need background-color
+}
+
+// Make textarea height behave
+textarea {
   height: auto;
 }
 
@@ -103,122 +112,26 @@ label select {
   display: block;
 }
 
-// Mini reset for unique input types
-input[type="image"],
-input[type="checkbox"],
-input[type="radio"] {
-  width: auto;
-  height: auto;
-  padding: 0;
-  margin: 3px 0;
-  *margin-top: 0; /* IE7 */
-  line-height: normal;
-  cursor: pointer;
-  background-color: transparent;
-  border: 0 \9; /* IE9 and down */
-  .border-radius(0);
-}
-input[type="image"] {
-  border: 0;
-}
-
-// Reset the file input to browser defaults
-input[type="file"] {
-  width: auto;
-  padding: initial;
-  line-height: initial;
-  border: initial;
-  .box-shadow(none);
-}
-
-// Help out input buttons
-input[type="button"],
-input[type="reset"],
-input[type="submit"] {
-  width: auto;
-  height: auto;
-}
-
-// Set the height of select and file controls to match text inputs
-select,
-input[type="file"] {
-  height: 28px; /* In IE7, the height of the select element cannot be changed by height, only font-size */
-  *margin-top: 4px; /* For IE7, add top margin to align select with labels */
-  line-height: 28px;
-}
-
-// Reset line-height for IE
-input[type="file"] {
-  line-height: 18px \9;
-}
-
-// Chrome on Linux and Mobile Safari need background-color
-select {
-  width: 220px; // default input width + 10px of padding that doesn't get applied
-}
-
-// Make multiple select elements height not fixed
-select[multiple],
-select[size] {
-  height: auto;
-}
-
-// Remove shadow from image inputs
-input[type="image"] {
-  .box-shadow(none);
-}
-
-// Make textarea height behave
-textarea {
-  height: auto;
-}
-
-
 // CHECKBOXES & RADIOS
 // -------------------
 // 仅针对支持 css3 的浏览器优化视觉.
-
-// Indent the labels to position radios/checkboxes as hanging
 .radio,
 .checkbox {
-  min-height: 18px; // clear the floating input if there is no label text
+  margin-top: 5px;
   padding-left: 18px;
 }
-.radio input[type="radio"],
-.checkbox input[type="checkbox"] {
-  -webkit-appearance: none;
-  appearance: none;
-  background: url(brix.png) 0 7px no-repeat;
+.radio input,
+.checkbox input {
+  float: left;
+  border: none;
+  margin-left: -18px;
+  width: auto;
 }
-.radio-checked {
-  background-position: 0 -29px;
-}
-.radio-checked-colorful {
-  background-position: 0 -65px;
-}
-.radio-disabled {
-  background-position: 0 -101px;
-}
-.radio-checked-disabled {
-  background-position: 0 -137px;
-}
-
-// Radios and checkboxes on same line
-// TODO v3: Convert .inline to .control-inline
-.controls .inline {
-  display: inline-block;
-  margin-right: 10px; // space out consecutive inline controls
-  margin-bottom: 0;
-  padding-top: 5px;
-  vertical-align: middle;
-}
-
 
 
 // FOCUS STATE
 // HOVER STATE
 // -----------
-
 input,
 textarea {
   @transition: border linear .2s, box-shadow linear .2s;
@@ -236,40 +149,11 @@ textarea:focus {
   outline: 0;
   .box-shadow(~"0 0 8px rgba(72,143,205,.6)");
 }
-input[type="file"]:focus,
-input[type="radio"]:focus,
-input[type="checkbox"]:focus,
-select:focus {
-  //.tab-focus();
-  .box-shadow(none); // override for file inputs
-}
-
 
 
 // INPUT SIZES
 // -----------
-
-// General classes for quick sizes
-.input-mini       { width: 60px; }
-.input-small      { width: 90px; }
-.input-medium     { width: 150px; }
-.input-large      { width: 210px; }
-.input-xlarge     { width: 270px; }
-.input-xxlarge    { width: 530px; }
-
 // Grid style input sizes
-input[class*="span"],
-select[class*="span"],
-textarea[class*="span"],
-.uneditable-input[class*="span"],
-// Redeclare since the fluid row class is more specific
-.row-fluid input[class*="span"],
-.row-fluid select[class*="span"],
-.row-fluid textarea[class*="span"],
-.row-fluid .uneditable-input[class*="span"] {
-  float: none;
-  margin-left: 0;
-}
 
 // DISABLED STATE
 // --------------
@@ -287,16 +171,16 @@ textarea[readonly] {
   color: @grayLighter;
   background-color: @inputDisabledBackground;
 }
-// Explicitly reset the colors here
-input[type="radio"][disabled],
-input[type="checkbox"][disabled],
-input[type="radio"][readonly],
-input[type="checkbox"][readonly] {
-  background-color: transparent;
+
+
+// Radios and checkboxes on same line
+// TODO v3: Convert .inline to .control-inline
+.controls .inline {
+  display: inline-block;
+  margin-right: 10px; // space out consecutive inline controls
+  margin-bottom: 0;
+  vertical-align: middle;
 }
-
-
-
 
 // FORM FIELD FEEDBACK STATES
 // --------------------------
@@ -554,7 +438,7 @@ legend + .control-group {
 .form-horizontal {
   // Increase spacing between groups
   .control-group {
-    margin-bottom: 26px;
+    margin-bottom: 18px;
     .clearfix();
   }
   // Float the labels left
