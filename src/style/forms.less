@@ -176,17 +176,19 @@ textarea {
 
 // CHECKBOXES & RADIOS
 // -------------------
+// 仅针对支持 css3 的浏览器优化视觉.
 
 // Indent the labels to position radios/checkboxes as hanging
 .radio,
 .checkbox {
   min-height: 18px; // clear the floating input if there is no label text
   padding-left: 18px;
-  background: url(brix.png) 0 7px no-repeat;
 }
 .radio input[type="radio"],
 .checkbox input[type="checkbox"] {
-  display: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background: url(brix.png) 0 7px no-repeat;
 }
 .radio-checked {
   background-position: 0 -29px;
