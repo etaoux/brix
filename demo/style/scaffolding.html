@@ -3,45 +3,16 @@
 <head>
     <meta charset="utf-8"/>
     <title>基础工具 - Brix Style</title>
-    <script>
-        // html5
-        if (!+[1,]) {
-            (function() {
-                var tags = [
-                    'article', 'aside', 'details', 'figcaption',
-                    'figure', 'footer', 'header', 'hgroup',
-                    'menu', 'nav', 'section', 'summary',
-                    'time', 'mark', 'audio', 'video'],
-                        i = 0, len = tags.length;
-                for (; i < len; i++) document.createElement(tags[i]);
-            })();
-        }
-    </script>
-    <link rel="stylesheet" href="../../dist/brix-min.css"/>
-    <style>
-        body {
-            background: #f5f5f5;
-        }
-        header {
-            line-height: 3;
-            background: #488fcd;
-        }
-        header h1 {
-            color: #fff;
-            font-weight: bold;
-        }
-        header h1,
-        section {
-            margin: 0 0 0 30px;
-            width: 950px;
-        }
-    </style>
+    <!--[if lt IE 9]> <script src="assets/html5.js"></script> <![endif]-->
+    <link rel="stylesheet" href="../../dist/brix-min.css">
+    <link rel="stylesheet" href="assets/doc.css">
 </head>
 <body>
+<header id="overview" class="subhead">
+    <h1>基础工具</h1>
+    <h2>Brix Style</h2>
+</header>
 <div class="container">
-    <header id="overview" class="subhead">
-        <h1>基础工具</h1>
-    </header>
     <section id="index">
         <div class="page-header">
             <h2>目录</h2>
@@ -67,10 +38,10 @@
         </div>
         <div class="row">
             <p>工具类可以直接在页面中使用。</p>
-            <dl>
-                <dt>.clearfix</dt>
-                <dd>清理浮动</dd>
-            </dl>
+            <ol>
+                <li>.clearfix</li>
+				<li>.text-overflow</li>
+            </ol>
         </div>
     </section>
     <section id="mixins">
@@ -82,13 +53,11 @@
             <p>暂定有以下mixin</p>
             <ol>
 				<li>.border-radius (@radius)</li>
-				<li>.clearfix</li>
 				<li>.opacity (@opacity)</li>
                 <li>.box-shadow (@shadow)</li>
 				<li>.transition (@transition)</li>
 				<li>#gradient &gt; .vertical (@startColor: #555, @endColor: #333)</li>
 				<li>#gradient &gt; .striped (@color, @angle: -45deg)</li>
-				<li>.text-overflow</li>
 				<li>.ie7-inline-block ()</li>
 				<li>.reset-filter ()</li>
 				<li>.buttonBackground (@startColor, @endColor)</li>

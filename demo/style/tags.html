@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>标签云 - 设计模式库</title>
+    <link rel="stylesheet" href="../../dist/brix-min.css"/>    
+    <style>
+        body{padding:10px;}
+    </style>
+</head>
+<body>
+    <h2>标签云 tags</h2>
+    <dl class="tags">
+        <dt class="tags-hd">商品属性:</dt>
+        <dd class="tags-bd">
+            <ul class="tags-list clearfix">
+                <li><a href="http://www.etao.com">全部</a></li>
+                <li class="no-bg"><a href="http://www.etao.com">家居</a></li>
+                <li class="no-bg"><a href="http://www.etao.com">美食与甜点</a></li>
+                <li class="no-bg"><a href="http://www.etao.com">建筑师</a></li>
+                <li class="no-bg"><a href="http://www.etao.com">牛仔衬衫</a></li>
+                <li class="no-bg"><a href="http://www.etao.com">牛仔衬衫</a></li>
+                <li class="no-bg"><a href="http://www.etao.com">牛仔衬衫</a></li>
+                <li class="no-bg"><a href="http://www.etao.com">牛仔衬衫</a></li>
+                <li class="current"><a href="http://www.etao.com">牛仔衬衫</a></li>
+                <li><a href="http://www.etao.com">牛仔衬衫</a></li>
+                <li><a href="http://www.etao.com">牛仔衬衫</a></li>
+                <li><a href="http://www.etao.com">牛仔衬衫</a></li>
+                <li><a href="http://www.etao.com">牛仔衬衫</a></li>
+                <li class="no-bg"><a href="http://www.etao.com">牛仔衬衫</a></li>
+                <li class="no-bg"><a href="http://www.etao.com">牛仔衬衫</a></li>
+                <li class="no-bg"><a href="http://www.etao.com">牛仔衬衫</a></li>
+            </ul>
+        </dd>
+    </dl>
+    <style>
+        .tags {
+            font-size: 0;    
+            letter-spacing: -5px;
+            white-space: nowrap;
+            word-wrap: normal;
+        }
+
+        .tags-hd {
+            color: #333;
+            font-size: 12px;    
+            font-weight: bold;
+            letter-spacing: normal;
+            display: inline-block;    
+            *display: inline;    
+            *zoom: 1;    
+            vertical-align: top;
+            padding: 3px 5px 4px 0;
+        }
+
+        .tags-bd {
+            font-size: 12px;    
+            letter-spacing: normal;
+            display: inline-block;    
+            *display: inline;    
+            *zoom: 1;  
+            vertical-align: top;
+            margin: 0;
+        }
+
+        .tags-list, .tags-list li {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }    
+
+        .tags-list li {
+            float: left;    
+            padding: 3px 8px 4px 8px;
+            margin: 0 10px 5px 0;
+            background-color: #eee;
+            border-radius: 3px;
+        }
+
+        .tags-list .no-bg {
+            background-color: #fff;
+        }
+
+        .tags-list .current {
+            background-color: #488fdc;
+        }
+
+        .tags-list .current a {
+            color: #fff;
+        }
+
+        .tags-list li a {
+            color: #666;
+            text-decoration: none;
+        }
+        
+        .tags-list li a:hover {
+            color: #ff8400;
+        }
+    </style>
+</body>
+</html>

@@ -34,10 +34,15 @@ h4 { font-size: 18px; }
 h5 { font-size: 14px; }
 h6 { font-size: 12px; }
 
-a { color: @linkColor; }
+a {
+    color: @linkColor;
+    text-decoration: none;
+}
 a:hover { color: @linkColorHover; }
 a:visited { color: @linkColorVisited; }
 
+// 人民币符号
+// ----------------
 .rmb {
     font-size: .75em;
     font-family: arial;

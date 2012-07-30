@@ -1,18 +1,8 @@
-@font-face {
-  font-family: 'uxiconfont';
-  src: url("http://ux.taobao.com/iconfont/uxiconfont.eot");
-  src: url("http://ux.taobao.com/iconfont/uxiconfont.eot?#iefix") format("embedded-opentype"), url("http://ux.taobao.com/iconfont/uxiconfont.woff") format("woff"), url("http://ux.taobao.com/iconfont/uxiconfont.ttf") format("truetype"), url("http://ux.taobao.com/iconfont/uxiconfont.svg#svgFontName") format("svg");
-}
-.icon {
-  font-family: "uxiconfont";
-  font-style: normal;
-}
 .dropdown {
   position: relative;
   *zoom: 1;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
-  -ms-border-radius: 2px;
   border-radius: 2px;
   border: 1px solid #ddd;
   border-bottom: 1px solid #bbb;
@@ -60,11 +50,9 @@
   padding: 0;
   -webkit-border-radius: 0px 0px 2px 2px;
   -moz-border-radius: 0px 0px 2px 2px;
-  -ms-border-radius: 0px 0px 2px 2px;
   border-radius: 0px 0px 2px 2px;
   -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
-  -ms-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
 }
 .dropdown .dropdown-list .dropdown-item {
