@@ -1317,6 +1317,7 @@ select {
   width: 220px;
 }
 textarea {
+  padding-top: 8px;
   height: auto;
 }
 label input,
