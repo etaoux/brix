@@ -2,36 +2,49 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>表单 - 设计模式库</title>
-    <script>
-        // html5
-        if (!+[1,]) {
-            (function() {
-                var tags = [
-                    'article', 'aside', 'details', 'figcaption',
-                    'figure', 'footer', 'header', 'hgroup',
-                    'menu', 'nav', 'section', 'summary',
-                    'time', 'mark', 'audio', 'video'],
-                        i = 0, len = tags.length;
-                for (; i < len; i++) document.createElement(tags[i]);
-            })();
-        }
-    </script>
-    <link rel="stylesheet" href="../../dist/brix-min.css"/>    
-    <style>
-        body{padding:10px;}
-    </style>
+    <title>表单 - Brix Style</title>
+    <!--[if lt IE 9]> <script src="assets/html5.js"></script> <![endif]-->
+    <link rel="stylesheet" href="../../dist/brix-min.css">
+    <link rel="stylesheet" href="assets/doc.css">
 </head>
 <body>
-    <h2>表单</h2>
+<header id="overview" class="subhead">
+    <h1>表单</h1>
+    <h2>Brix Style</h2>
+</header>
+<div class="container">
+    <h2>垂直表单</h2>
     <form class="well">
         <fieldset>
-            <label class="control-label" for="input01">表单项名称:</label>
-            <input id="input01" placeholder="placeholder占位" />
-            <label class="control-label" for="input02">表单项名称:</label>
-            <input id="input02" placeholder="placeholder占位" value="文字" />
+            <label class="control-label" for="input01">输入框:</label>
+            <input id="input01" placeholder="placeholder占位" value="文字" />
+            <label class="control-label">单选按钮:</label>
+            <div class="controls">
+                <label class="radio inline">
+                    <input type="radio" name="optionsRadios1" id="optionsRadio01" value="option01" checked />单点我
+                </label>
+                <label class="radio inline">
+                    <input type="radio" name="optionsRadios1" id="optionsRadio02" value="option02" />别点我
+                </label>
+            </div>
+            <label class="control-label">单选按钮:</label>
+            <div class="controls">
+                <label class="radio inline checked-colorful">
+                    <input type="radio" name="optionsRadios2" id="optionsRadio03" value="option03" checked />高帅富
+                </label>
+            </div>
+            <label class="control-label">单选按钮:</label>
+            <div class="controls">
+                <label class="radio inline disabled">
+                    <input type="radio" name="optionsRadios3" id="optionsRadio04" value="option04" disabled />已禁用
+                </label>
+                <label class="radio inline checked-disabled">
+                    <input type="radio" name="optionsRadios3" id="optionsRadio05" value="option05" checked disabled />已禁用
+                </label>
+            </div>
         </fieldset>
     </form>
+    <h2>水平表单</h2>
     <form class="form-horizontal">
         <fieldset>
             <div class="control-group">
@@ -50,14 +63,14 @@
             <div class="control-group error">
                 <label class="control-label" for="input05">表单项名称:</label>
                 <div class="controls">
-                    <input id="input05" placeholder="placeholder占位" />
+                    <input id="input05" placeholder="placeholder占位" value="妈妈说这样是不对的" />
                     <p class="help-block">说明解释类提示</p>
                 </div>
             </div>
             <div class="control-group disabled">
                 <label class="control-label" for="input06">表单项名称:</label>
                 <div class="controls">
-                    <input class="disabled" disabled id="input06" placeholder="placeholder占位" />
+                    <input id="input06" class="disabled" disabled placeholder="placeholder占位" />
                 </div>
             </div>
         </fieldset>

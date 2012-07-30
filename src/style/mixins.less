@@ -171,7 +171,11 @@
   .core (@gridColumnWidth, @gridGutterWidth) {
 
     .spanX (@index) when (@index > 0) {
-      (~".span@{index}") { .span(@index); }
+      (~".span@{index}") {
+        float: left; _display: inline;
+        margin-left: @gridGutterWidth;
+        .span(@index);
+      }
       .spanX(@index - 1);
     }
     .spanX (0) {}
@@ -202,11 +206,12 @@
         clear: both;
       }
     }
-
+/*
     [class*="span"] {
       float: left;
       margin-left: @gridGutterWidth;
     }
+    */
 
     // Set the container width, and override it for fixed navbars in media queries
     .container,
@@ -244,7 +249,13 @@
         clear: both;
       }
       [class*="span"] {
-        .input-block-level();
+        display: block;
+        width: 100%;
+        min-height: 28px;        // Make inputs at least the height of their button counterpart
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+            -ms-box-sizing: border-box;
+                box-sizing: border-box; // Makes inputs behave like true block-level elements
         float: left;
         margin-left: @fluidGridGutterWidth;
         *margin-left: @fluidGridGutterWidth - (.5 / @gridRowWidth * 100 * 1%);
