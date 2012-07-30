@@ -3,27 +3,17 @@
 <head>
     <meta charset="utf-8"/>
     <title>表单 - Brix Style</title>
-    <script>
-        // html5
-        if (!+[1,]) {
-            (function() {
-                var tags = [
-                    'article', 'aside', 'details', 'figcaption',
-                    'figure', 'footer', 'header', 'hgroup',
-                    'menu', 'nav', 'section', 'summary',
-                    'time', 'mark', 'audio', 'video'],
-                        i = 0, len = tags.length;
-                for (; i < len; i++) document.createElement(tags[i]);
-            })();
-        }
-    </script>
-    <link rel="stylesheet" href="../../dist/brix-min.css"/>    
-    <style>
-        body{padding:10px;}
-    </style>
+    <!--[if lt IE 9]> <script src="assets/html5.js"></script> <![endif]-->
+    <link rel="stylesheet" href="../../dist/brix-min.css">
+    <link rel="stylesheet" href="assets/doc.css">
 </head>
 <body>
-    <h2>表单</h2>
+<header id="overview" class="subhead">
+    <h1>表单</h1>
+    <h2>Brix Style</h2>
+</header>
+<div class="container">
+    <h2>垂直表单</h2>
     <form class="well">
         <fieldset>
             <label class="control-label" for="input01">输入框:</label>
@@ -54,6 +44,7 @@
             </div>
         </fieldset>
     </form>
+    <h2>水平表单</h2>
     <form class="form-horizontal">
         <fieldset>
             <div class="control-group">

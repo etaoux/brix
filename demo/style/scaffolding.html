@@ -3,45 +3,16 @@
 <head>
     <meta charset="utf-8"/>
     <title>基础工具 - Brix Style</title>
-    <script>
-        // html5
-        if (!+[1,]) {
-            (function() {
-                var tags = [
-                    'article', 'aside', 'details', 'figcaption',
-                    'figure', 'footer', 'header', 'hgroup',
-                    'menu', 'nav', 'section', 'summary',
-                    'time', 'mark', 'audio', 'video'],
-                        i = 0, len = tags.length;
-                for (; i < len; i++) document.createElement(tags[i]);
-            })();
-        }
-    </script>
-    <link rel="stylesheet" href="../../dist/brix-min.css"/>
-    <style>
-        body {
-            background: #f5f5f5;
-        }
-        header {
-            line-height: 3;
-            background: #488fcd;
-        }
-        header h1 {
-            color: #fff;
-            font-weight: bold;
-        }
-        header h1,
-        section {
-            margin: 0 0 0 30px;
-            width: 950px;
-        }
-    </style>
+    <!--[if lt IE 9]> <script src="assets/html5.js"></script> <![endif]-->
+    <link rel="stylesheet" href="../../dist/brix-min.css">
+    <link rel="stylesheet" href="assets/doc.css">
 </head>
 <body>
+<header id="overview" class="subhead">
+    <h1>基础工具</h1>
+    <h2>Brix Style</h2>
+</header>
 <div class="container">
-    <header id="overview" class="subhead">
-        <h1>基础工具</h1>
-    </header>
     <section id="index">
         <div class="page-header">
             <h2>目录</h2>
