@@ -156,9 +156,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             self._destroyDropdown();
             self._resizeConfig();
             self.renderUI();
-            if (self.get('sizeChange') && self.get('statistics')) {
-                self._getDropDown();
-            }
+            self._getDropDown();
 
             self.fire('goToPage', {
                 index: page
@@ -188,9 +186,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 self._destroyDropdown();
                 self._resizeConfig();
                 self.renderUI();
-                if (self.get('sizeChange') && self.get('statistics')) {
-                    self._getDropDown();
-                }
+                self._getDropDown();
             }
         },
         /**
@@ -303,9 +299,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             if (self.get('defaultUI')) {
                 self.renderUI();
             }
-            if (self.get('sizeChange') && self.get('statistics')) {
-                self._getDropDown();
-            }
+            self._getDropDown();
         },
         destructor: function() {
             this._destroyDropdown();
@@ -411,19 +405,24 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             if (self.get('sizeChange') && self.get('statistics')) {
                 var dropdownNode = self.get('el').one('.dropdown');
                 if (dropdownNode) {
-                    id = dropdownNode ? dropdownNode.attr('id') : false;
+                    var id = dropdownNode ? dropdownNode.attr('id') : false;
                     if (id && self.pagelet) {
-                        self.dropdown = self.pagelet.getBrick(id);
+                        self.pagelet.ready(function(){
+                            self.dropdown = self.pagelet.getBrick(id);
+                            if(self.dropdown){
+                                self.dropdown.on('selected', function(ev) {
+                                    self.setConfig({
+                                        size: ev.text
+                                    });
+                                });
+                            }
+                            else{
+                                self._createDropdown();
+                            }
+                        }); 
+                    }else{
+                        self._createDropdown();
                     }
-                }
-                if (!self.dropdown) {
-                    self._createDropdown();
-                } else {
-                    self.dropdown.on('selected', function(ev) {
-                        self.setConfig({
-                            size: ev.text
-                        });
-                    });
                 }
             }
 
