@@ -7,6 +7,9 @@
   float: left;
   color: #666;
 }
+.pagination .pagination-info span {
+  float: left;
+}
 .pagination .b {
   font-weight: bold;
   margin: 0 3px;
@@ -93,8 +96,7 @@
   margin-left: 35px;
 }
 .pagination .dropdown {
-  display: inline-block;
-  width: 42px;
+  float: left;
   margin: 0 5px;
 }
 .pagination input {

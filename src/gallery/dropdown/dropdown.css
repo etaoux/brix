@@ -73,10 +73,10 @@
   position: absolute;
   right: 6px;
   top: 6px;
-  height: 9px;
-  line-height: 9px;
+  line-height: 12px;
   visibility: hidden;
   color: #999;
+  clear: both;
 }
 .dropdown .dropdown-list .dropdown-itemselected {
   color: #000;
