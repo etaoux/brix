@@ -7,7 +7,7 @@ caption: 单行编辑
 
 ## 配置
 
-包含 [Brick](/etaoux/brix/tree/master/docs/brick.md)的所有配置
+包含 [Brick](/brix/core/brick)的所有配置
 
 ## 方法
 
