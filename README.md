@@ -31,12 +31,14 @@
 * [Node.js](http://nodejs.org) 0.8+
 * [NPM](https://npmjs.org)
 * [grunt](https://github.com/cowboy/grunt)
+* [Less](http://lesscss.org)
 
 ## 开发
 
 ```bash
 # 安装 Grunt
 npm install -g grunt
+npm install -g less
 git clone git://github.com/etaoux/brix.git
 cd brix
 # 使用 Grunt 运行 Less 自动编译监视器
