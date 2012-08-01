@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Brix Pagination Demo</title>
+        <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+        <link rel="stylesheet" href="../../../src/gallery/dropdown/dropdown.css">
+        <link rel="stylesheet" href="../../../src/gallery/pagination/pagination.css">
+        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+        <script src="../../config.js"></script>
+    </head>
+    <body style="margin:0px;padding-top:40px">
+        <div class="container">
+            <h1>现有html结构</h1>
+            <div bx-name="pagination" class="pagination" bx-config="{simplify:true,defaultUI:false,sizeChange:true,jump:true,statistics:true,goTo:false}">
+                <div class="pagination-info">
+                    <span>当前</span><span class="b">1-30</span><span>条</span> 
+                    <span class="mr">共</span><span class="b">42</span><span>条</span>
+                    <span class="mr">每页展现</span>
+                    <div bx-name="dropdown" class="dropdown" id="brick_14">
+                        <span class="dropdown-hd">
+                            <span class="dropdown-text" value="3">30</span>
+                            <i class="iconfont icon-arrow-down">&#405</i>
+                          </span>
+                        <ul class="dropdown-list">
+                            <li class="dropdown-item"><span value="1">10</span><i class="iconfont icon-ok">&#126</i></li>
+                            <li class="dropdown-item"><span value="2">15</span><i class="iconfont icon-ok">&#126</i></li>
+                            <li class="dropdown-item dropdown-itemselected"><span value="3">20</span><i class="iconfont icon-ok">&#126</i></li>
+                            <li class="dropdown-item"><span value="4">30</span><i class="iconfont icon-ok">&#126</i></li>
+                        </ul>
+                </div><span>条</span>
+                </div>
+                <div class="pagination-pages">
+                    <div class="pagination-page">
+                        <a href="" class="page-prev">
+                            <i class="iconfont">&#403</i>
+                        </a>
+                        <a class="page" href="">1</a>
+                        <span class="page-cur">2</span>
+                        <a class="page" href="">3</a>
+                        <a class="page" href="">4</a>
+                        <span class="page-split">...</span>
+                        <a class="page" href="">6</a>
+                        <a href="" class="page-next">
+                            <i class="iconfont">&#402</i>
+                        </a>
+                    </div>
+                    <div class="pagination-count">
+                        <span>共</span><span class="b">36</span><span>页</span>
+                    </div>
+                    <div class="pagination-form">
+                            <span>向前</span><input class="page-num" name="page" type="text"><span>页</span><a class="btn-jump btn btn-size25">跳转</a>
+                    </div>
+                </div>
+            </div>
+            <h1>简易模式</h1>
+            <div bx-name="pagination" class="pagination" bx-config="{simplify:true}">
+
+            </div>
+
+            <h1>简易模式包含统计跳转</h1>
+            <div bx-name="pagination" class="pagination" bx-config="{simplify:true,statistics:true,sizeChange:true,jump:true,goTo:false}">
+
+            </div>
+
+            <h1>默认模式</h1>
+            <div bx-name="pagination" class="pagination">
+
+            </div>
+
+            <h1>没有记录总数</h1>
+            <div bx-name="pagination" class="pagination" bx-config="{hascount:false,jump:true}">
+
+            </div>
+            <h1>完整模式</h1>
+            <div bx-name="pagination" class="pagination clearfix" bx-config="{pageSizeName:false,statistics:true,sizeChange:true,jump:true,goTo:false}">
+            </div>
+
+            <h1>etao搜索模式</h1>
+            <div bx-name="pagination" class="pagination" bx-config="{mode:'s',pageName:'s',pageSizeName:false,jump:true,sizeChange:true}">
+            </div>
+        </div>
+		<!--brix begin-->
+        <script>
+            KISSY.ready(function(S) {
+
+                KISSY.use("brix/core/pagelet", function(S, Pagelet) {
+                    var config = {
+                        tmpl:'.container'
+                    }
+                    var p = new Pagelet(config);
+                    p.addBehavior();
+                });
+            });
+        </script>
+        <!--brix end-->
+    </body>
+</html>
