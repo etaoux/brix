@@ -45,9 +45,14 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
         ".dropdown-item": {
             click: function(e) {
                 this.__show = true;
+                this.blur();
                 var el = this.get('el');
-                el.all('.dropdown-itemselected').removeClass('dropdown-itemselected');
                 var currentTarget = S.one(e.currentTarget);
+                if(currentTarget.hasClass('dropdown-itemselected')){
+                    console.log('selected');
+                    return;
+                }
+                el.all('.dropdown-itemselected').removeClass('dropdown-itemselected');
                 currentTarget.addClass('dropdown-itemselected');
                 var dropdownTextNode = el.one('.dropdown-text');
                 var selectNode = currentTarget.one('span');
@@ -55,6 +60,8 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                     value: selectNode.attr('value'),
                     text: selectNode.text()
                 }
+                
+                
                 //隐藏提交的表单字段，如果存在，赋值
                 var inputNode = el.one('input');
                 if(inputNode){
@@ -62,7 +69,6 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                 }
                 dropdownTextNode.attr('value', data.value);
                 dropdownTextNode.text(data.text);
-                this.blur();
                 this.fire('selected', data);
             },
             mouseenter: function(e) {

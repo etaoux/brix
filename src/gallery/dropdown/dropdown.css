@@ -34,6 +34,7 @@
   padding-left: 8px;
   display: block;
   background-color: #fff;
+  cursor: default;
 }
 .dropdown .dropdown-list {
   display: none;
@@ -62,6 +63,7 @@
   color: #333;
   position: relative;
   padding-right: 20px;
+  cursor: default;
 }
 .dropdown .dropdown-list .dropdown-item span {
   display: block;

@@ -112,15 +112,16 @@ html,body{height:100%;}
 body{font-size:.8em;}
 #logo a{display:block;margin:18px 0 0 15px;background:url(../img/logo.png) no-repeat;width:118px;height:26px;text-indent:-9999px;opacity:1;-webkit-transition:opacity 0.15s ease-in;}
 #logo a:hover{opacity:0.7;}
-#aside{position:fixed;top:0;left:0;width:200px;height:100%;border-right:1px solid #ddd;background:#f4f5f5;background:-webkit-gradient(linear, left top, right top, from(transparent), color-stop(0.92, transparent), color-stop(0.9201, rgba(244, 244, 244, 0)), to(rgba(231, 231, 231, 0.3))),#f4f5f5;overflow-y:auto;overflow-x:hidden;}#aside h3{padding-left:15px;margin-bottom:5px;color:#666;}
+#aside{position:fixed;_position:absolute;top:0;left:0;width:200px;height:100%;border-right:1px solid #ddd;background:#f4f5f5;background:-webkit-gradient(linear, left top, right top, from(transparent), color-stop(0.92, transparent), color-stop(0.9201, rgba(244, 244, 244, 0)), to(rgba(231, 231, 231, 0.3))),#f4f5f5;overflow-y:auto;overflow-x:hidden;}#aside h3{padding-left:15px;margin-bottom:5px;color:#666;}
 #aside .entries{padding-left:15px;margin-top:0;}#aside .entries li:before{content:'- ';}
 #aside .entries li{list-style:none;}
 #aside .entries a{color:#888;text-decoration:none;}
 #aside .entries a:hover{color:#333;}
-#page{margin-left:220px;padding-bottom:20px;max-width:800px;color:#333;}#page h1,#page h2,#page h3,#page h4{color:#555;}
+#page{margin-left:220px;padding-bottom:20px;color:#333;}#page h1,#page h2,#page h3,#page h4{color:#555;}
+#page p{max-width:800px;}
 #page .caption{padding:10px 10px 10px 40px;}
 #page code{border:1px solid #ddd;border-radius:2px;display:inline-block;padding:0 2px;background:#f4f5f5;}
-#page .highlight{padding:6px 10px;border-radius:2px;box-shadow:0 0 7px rgba(0, 0, 0, 0.1) inset;}#page .highlight pre{margin:0;line-height:1.4;}
+#page .highlight{max-width:800px;padding:6px 10px;border-radius:2px;box-shadow:0 0 7px rgba(0, 0, 0, 0.1) inset;}#page .highlight pre{margin:0;line-height:1.4;}
 #page .highlight pre,#page .highlight code{font-family:'Envy Code R',Monaco,Consolas,monospace;font-size:12px;border:none;padding:0;background:none;}
 #page .bottom-nav{padding:20px 0;text-align:center;}#page .bottom-nav a:link{text-decoration:none;}
 #page .bottom-nav a:hover{color:#f50;}
