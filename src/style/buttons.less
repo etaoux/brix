@@ -3,10 +3,16 @@
 // -------------------------------------------------------------
 
 .btn {
+  box-sizing: content-box;  // for input, button
   display: inline-block;
   border: 1px solid #ddd;
+  *border: none; // for ie67, 高度，focus时的黑框.
   .border-radius(2px);
+  *margin-right: .3em; // for input, button in ie67
+  margin-bottom: 0; // for input
   padding: 0 10px;
+  *padding: 1px 10px; // for ie67
+  width: auto;  // for input
   height: 21px;
   line-height: 21px;
   font-size: 12px;
@@ -23,6 +29,8 @@
   #gradient > .vertical(#f8f8f8, #eee);
 }
 .btn:hover {
+  border-color: transparent;
+  .box-shadow(~"none");
   #gradient > .vertical(#f2f2f2, #e6e6e6);
 }
 .btn:active {

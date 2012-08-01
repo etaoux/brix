@@ -1723,13 +1723,20 @@ legend + .control-group {
 .form-horizontal .form-actions {
   padding-left: 160px;
 }
+/*@import "tables.less";*/
 .btn {
+  box-sizing: content-box;
   display: inline-block;
   border: 1px solid #ddd;
+  *border: none;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
+  *margin-right: .3em;
+  margin-bottom: 0;
   padding: 0 10px;
+  *padding: 1px 10px;
+  width: auto;
   height: 21px;
   line-height: 21px;
   font-size: 12px;
@@ -1753,6 +1760,10 @@ legend + .control-group {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8f8f8', endColorstr='#eeeeee', GradientType=0);
 }
 .btn:hover {
+  border-color: transparent;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
   background-color: #ededed;
   background-image: -moz-linear-gradient(top, #f2f2f2, #e6e6e6);
   background-image: -ms-linear-gradient(top, #f2f2f2, #e6e6e6);
@@ -1936,7 +1947,6 @@ legend + .control-group {
   height: 23px;
   line-height: 23px;
 }
-/*@import "tables.less";*/
 /*@import "breadcrumbs.less";*/
 /*@import "code.less";*/
 /*@import "wells.less";*/
