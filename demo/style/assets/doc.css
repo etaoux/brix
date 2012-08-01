@@ -8,7 +8,6 @@ body {
 }
 #overview h1 {
     position: absolute;
-    *left: 0;
     margin: 0 0 0 30px;
     font-weight: bold;
     color: #fff;
