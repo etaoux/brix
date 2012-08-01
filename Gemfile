@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
-gem 'jekyll'
-gem 'liquid', '2.2.2'
+gem 'jekyll', '0.11.2'
+gem 'liquid', '2.3'
 gem 'rdiscount'
 
 group :development do
