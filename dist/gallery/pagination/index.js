@@ -3,6 +3,10 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
         Pagination.superclass.constructor.apply(this, arguments);
     }
     Pagination.ATTRS = {
+        //模式，传统的第几页，还是记录条数
+        mode: {
+            value: 'p' //分为p 和s，p是传统模式，s是size总和模式
+        },
         //是否精简模式
         simplify: {
             value: false
@@ -14,14 +18,6 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
         //第几页
         index: {
             value: 1
-        },
-        //最多页数
-        max: {
-            value: false
-        },
-        //是否认为限定最多页数
-        hasmax: {
-            value: false
         },
         //每页的记录数
         size: {
@@ -39,15 +35,26 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
         hascount: {
             value: true
         },
-        //是否有跳转
-        jump: {
+        //最多页数
+        max: {
+            value: false
+        },
+        //是否认为限定最多页数
+        hasmax: {
             value: false
         },
         //统计信息
         statistics: {
             value: false
         },
-
+        //是否显示总页数
+        pageCount: {
+            value: true
+        },
+        //是否有跳转
+        jump: {
+            value: false
+        },
         //是否直接跳转
         goTo: {
             value: true
@@ -68,29 +75,21 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
         params: {
             value: false
         },
-        //url信息
-        urlInfo: {
-            value: {}
-        },
         //是否用默认UI
         defaultUI: {
             value: true
         },
         //每页记录数集合
         sizes: {
-            value: [10, 15, 20, 30]
+            value: [10, 15, 20, 25, 30]
+        },
+        //url信息
+        urlInfo: {
+            value: {}
         },
         //格式化url字符，内部参数
         formatUrl: {
             value: false
-        },
-        //模式，传统的第几页，还是记录条数
-        mode: {
-            value: 'p' //分为p 和s，p是传统模式，s是size总和模式
-        },
-        //是否显示总页数
-        pageCount: {
-            value: true
         }
     };
 
@@ -157,9 +156,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             self._destroyDropdown();
             self._resizeConfig();
             self.renderUI();
-            if (self.get('sizeChange') && self.get('statistics')) {
-                self._getDropDown();
-            }
+            self._getDropDown();
 
             self.fire('goToPage', {
                 index: page
@@ -189,9 +186,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 self._destroyDropdown();
                 self._resizeConfig();
                 self.renderUI();
-                if (self.get('sizeChange') && self.get('statistics')) {
-                    self._getDropDown();
-                }
+                self._getDropDown();
             }
         },
         /**
@@ -304,9 +299,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             if (self.get('defaultUI')) {
                 self.renderUI();
             }
-            if (self.get('sizeChange') && self.get('statistics')) {
-                self._getDropDown();
-            }
+            self._getDropDown();
         },
         destructor: function() {
             this._destroyDropdown();
@@ -412,19 +405,24 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             if (self.get('sizeChange') && self.get('statistics')) {
                 var dropdownNode = self.get('el').one('.dropdown');
                 if (dropdownNode) {
-                    id = dropdownNode ? dropdownNode.attr('id') : false;
+                    var id = dropdownNode ? dropdownNode.attr('id') : false;
                     if (id && self.pagelet) {
-                        self.dropdown = self.pagelet.getBrick(id);
+                        self.pagelet.ready(function(){
+                            self.dropdown = self.pagelet.getBrick(id);
+                            if(self.dropdown){
+                                self.dropdown.on('selected', function(ev) {
+                                    self.setConfig({
+                                        size: ev.text
+                                    });
+                                });
+                            }
+                            else{
+                                self._createDropdown();
+                            }
+                        }); 
+                    }else{
+                        self._createDropdown();
                     }
-                }
-                if (!self.dropdown) {
-                    self._createDropdown();
-                } else {
-                    self.dropdown.on('selected', function(ev) {
-                        self.setConfig({
-                            size: ev.text
-                        });
-                    });
                 }
             }
 
@@ -535,7 +533,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             self.set('formatUrl', formatUrl);
         }
     });
-    S.augment(Pagination,Pagination.METHOD);
+    S.augment(Pagination, Pagination.METHOD);
     return Pagination;
 }, {
     requires: ["brix/core/brick"]

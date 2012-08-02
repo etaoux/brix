@@ -10,14 +10,14 @@
         <script src="../../config.js"></script>
     </head>
     <body style="margin:0px;padding-top:40px">
-        <div class="container">
+        <div id="J_container" style="width:990px">
             <h1>现有html结构</h1>
             <div bx-name="pagination" class="pagination" bx-config="{simplify:true,defaultUI:false,sizeChange:true,jump:true,statistics:true,goTo:false}">
                 <div class="pagination-info">
                     <span>当前</span><span class="b">1-30</span><span>条</span> 
                     <span class="mr">共</span><span class="b">42</span><span>条</span>
                     <span class="mr">每页展现</span>
-                    <div bx-name="dropdown" class="dropdown" id="brick_14">
+                    <div bx-name="dropdown" class="dropdown">
                         <span class="dropdown-hd">
                             <span class="dropdown-text" value="3">30</span>
                             <i class="iconfont icon-arrow-down">&#405</i>
@@ -65,13 +65,12 @@
 
             <h1>默认模式</h1>
             <div bx-name="pagination" class="pagination">
-
             </div>
 
             <h1>没有记录总数</h1>
             <div bx-name="pagination" class="pagination" bx-config="{hascount:false,jump:true}">
-
             </div>
+
             <h1>完整模式</h1>
             <div bx-name="pagination" class="pagination clearfix" bx-config="{pageSizeName:false,statistics:true,sizeChange:true,jump:true,goTo:false}">
             </div>
@@ -86,7 +85,7 @@
 
                 KISSY.use("brix/core/pagelet", function(S, Pagelet) {
                     var config = {
-                        tmpl:'.container'
+                        tmpl:'#J_container'
                     }
                     var p = new Pagelet(config);
                     p.addBehavior();
