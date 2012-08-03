@@ -5,6 +5,8 @@ category: gallery
 caption: 分页组件
 ---
 
+{% demo gallery/pagination %}
+
 ## 配置
 
 包含 [Brick](/brix/core/brick) 的所有配置
@@ -126,8 +128,6 @@ caption: 分页组件
 
 * ev.size {Number} 新的记录数
 
-
-
 ## 代码示例
 
 {% highlight js %}
@@ -137,7 +137,3 @@ KISSY.use("brix/gallery/pagination/", function(S, Pagination) {
     });
 });{% endhighlight %}
 
-
-## Demo
-
-{% demo gallery/pagination %}

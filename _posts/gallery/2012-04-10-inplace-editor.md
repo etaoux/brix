@@ -5,6 +5,8 @@ category: gallery
 caption: 单行编辑
 ---
 
+{% demo gallery/inplaceeditor %}
+
 ## 配置
 
 包含 [Brick](/brix/core/brick)的所有配置
@@ -33,7 +35,7 @@ caption: 单行编辑
 
 ### `valueChange(e)`
 
-    {String} e.value:当前值
+* e.value {String} 当前值
 
 ## 代码示例
 
