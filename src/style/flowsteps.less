@@ -1,0 +1,138 @@
+@color-done-circle: #488fcd;
+@color-current-circle: #ff4400;
+@color-undo-circle: #eee;
+@color-done-line: #d1e3f2;
+@color-current-line: #d1e3f2;
+@color-undo-line: #eee;
+@color-done-num: #fff;
+@color-current-num: #fff;
+@color-undo-num: #999;
+@color-done-font: #666;
+@color-current-font: #666;
+@color-undo-font: #999;
+
+@line-lenght: 100px;
+
+@fontface-url: '';
+
+.dsp-inlineblock(){
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+
+.flowsteps-height(){
+    height: 30px;
+    line-height: 30px;
+}
+
+@font-face {
+    font-family: 'uxiconfont-flowsteps';
+    src: url('@{fontface-url}uxiconfont.eot'); /* IE9*/
+    src: url('@{fontface-url}uxiconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('@{fontface-url}uxiconfont.woff') format('woff'), /* chrome、firefox */ url('@{fontface-url}uxiconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ url('@{fontface-url}uxiconfont.svg#svgFontName') format('svg'); /* iOS 4.1- */
+}
+
+.flowsteps-icon {
+    font-family: "uxiconfont-flowsteps";
+    font-style: normal;
+}
+
+/*** normal style ***/
+.flowsteps-item {
+    float: left;
+    position: relative;
+    margin-right: 18px;
+    list-style-type: none;
+    font-size: 16px;
+    color: @color-undo-font;
+    -webkit-text-size-adjust: none;
+    .flowsteps-height;
+}
+
+.flowsteps-item i,
+.flowsteps-item b,
+.flowsteps-item span {
+    .dsp-inlineblock;
+    .flowsteps-height;
+}
+
+.flowsteps-item {
+    i {
+        position: relative;
+        top: 2px;
+        left: 0;
+        margin: 0 8px 0 0;
+        font-size: 27px;
+        color: @color-undo-circle;
+    }
+
+    b {
+        position: absolute;
+        top: 2px;
+        left: 10px;
+        font-size: 11px;
+        font-weight: bold;
+        color: @color-undo-num;
+    }
+}
+
+.flowsteps-item-done {
+    color: @color-done-font;
+    i {
+        color: @color-done-circle;
+    }
+    b {
+        color: @color-done-num;
+    }
+}
+
+.flowsteps-item-current {
+    color: @color-current-font;
+    i {
+        color: @color-current-circle;
+    }
+    b {
+        color: @color-current-num;
+    }
+}
+
+/*** small style ***/
+.flowsteps-small {
+    .flowsteps-item {
+        margin: 30px 0 0 1px;
+        font-size: 12px;
+        i {
+            margin: 0 1px 0 0;
+            font-size: 15px;
+        }
+        b {
+            .dsp-inlineblock;
+            position: relative;
+            height: 0;
+            top: 0;
+            left: 0;
+            *top: -4px;
+            border: 2px solid @color-undo-line;
+            width: @line-lenght;
+            _overflow: hidden;
+
+        }
+        span {
+            position: absolute;
+            top: -20px;
+            left: 2px;
+            white-space: nowrap;
+        }
+    }
+    .flowsteps-item-done b {
+        border-color: @color-done-line;
+    }
+    .flowsteps-item-current {
+        i {
+            font-size: 13px;
+        }
+        b {
+            border-color: @color-done-line;
+        }
+    }
+}

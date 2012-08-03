@@ -1,0 +1,47 @@
+@import "../../style/variables.less";
+@import "../../style/mixins.less";
+
+.bx-controls {
+    input {
+        display: none;
+    }
+    .input {
+        float: left;
+        margin-left: -19px;
+        margin-bottom: 9px;
+        width: 16px;
+        height: 18px;
+        background: url(../../brix.png) 0 -178px;
+    }
+
+    .checkbox {
+        padding-left: 19px;
+
+        .checked {
+            background-position: 0 -214px;
+        }
+        .disabled {
+            background-position: 0 -286px;
+        }
+        .checked-disabled {
+            background-position: 0 -322px;
+        }
+    }
+
+    .radio {
+        padding-left: 19px;
+
+        .input {
+            background-position: 0 2px;
+        }
+        .checked {
+            background-position: 0 -34px;
+        }
+        .disabled {
+            background-position: 0 -106px;
+        }
+        .checked-disabled {
+            background-position: 0 -142px;
+        }
+    }
+}
