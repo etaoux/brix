@@ -1,0 +1,102 @@
+@font-face {
+    font-family: 'uxiconfont-flowsteps';
+    src: url('iconfont/uxiconfont.eot');
+    src: url('iconfont/uxiconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('iconfont/uxiconfont.woff') format('woff'), /* chrome、firefox */ url('iconfont/uxiconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ url('iconfont/uxiconfont.svg#svgFontName') format('svg');/* IE9*/
+    /* iOS 4.1- */
+}
+.flowsteps-icon {
+    font-family: "uxiconfont-flowsteps";
+    font-style: normal;
+}
+/*** normal style ***/
+.flowsteps-item {
+    float: left;
+    position: relative;
+    margin-right: 18px;
+    list-style-type: none;
+    font-size: 16px;
+    color: #999999;
+    -webkit-text-size-adjust: none;
+    height: 30px;
+    line-height: 30px;
+}
+.flowsteps-item i,
+.flowsteps-item b,
+.flowsteps-item span {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    height: 30px;
+    line-height: 30px;
+}
+.flowsteps-item i {
+    position: relative;
+    top: 2px;
+    left: 0;
+    margin: 0 8px 0 0;
+    font-size: 27px;
+    color: #eeeeee;
+}
+.flowsteps-item b {
+    position: absolute;
+    top: 2px;
+    left: 10px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #999999;
+}
+.flowsteps-item-done {
+    color: #666666;
+}
+.flowsteps-item-done i {
+    color: #488fcd;
+}
+.flowsteps-item-done b {
+    color: #ffffff;
+}
+.flowsteps-item-current {
+    color: #666666;
+}
+.flowsteps-item-current i {
+    color: #ff4400;
+}
+.flowsteps-item-current b {
+    color: #ffffff;
+}
+/*** small style ***/
+.flowsteps-small .flowsteps-item {
+    margin: 30px 0 0 1px;
+    font-size: 12px;
+}
+.flowsteps-small .flowsteps-item i {
+    margin: 0 1px 0 0;
+    font-size: 15px;
+}
+.flowsteps-small .flowsteps-item b {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    position: relative;
+    height: 0;
+    top: 0;
+    left: 0;
+    *top: -4px;
+    border: 2px solid #eeeeee;
+    width: 100px;
+    _overflow: hidden;
+}
+.flowsteps-small .flowsteps-item span {
+    position: absolute;
+    top: -20px;
+    left: 2px;
+    white-space: nowrap;
+}
+.flowsteps-small .flowsteps-item-done b {
+    border-color: #d1e3f2;
+}
+.flowsteps-small .flowsteps-item-current i {
+    font-size: 13px;
+}
+.flowsteps-small .flowsteps-item-current b {
+    border-color: #d1e3f2;
+}

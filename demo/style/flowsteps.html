@@ -1,0 +1,56 @@
+<!DOCTYPE>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <link type="text/css" rel="stylesheet" href="../../dist/brix.css" charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="assets/flowsteps.css" charset="utf-8">
+</head>
+<body>
+<h3>步骤条中圆形和环形fonticon的使用</h3>
+<p>字体下载：http://ux.etao.com/fonts</p>
+<p>圆形示意：<img src="http://ux.etao.com/uploads/fonts/font-435.png"></p>
+<p>环形示意：<img src="http://ux.etao.com/uploads/fonts/font-470.png"></p>
+<p>注：引用字体url和css的url需要同域</p>
+<h3>步骤条一</h3>
+<div bx-name="flowsteps" class="flowsteps">
+    <ol class="clearfix">
+        <li class="flowsteps-item flowsteps-item-done"><i class="flowsteps-icon">&#435</i><b>1</b><span>选择宝贝</span></li>
+        <li class="flowsteps-item flowsteps-item-current"><i class="flowsteps-icon">&#435</i><b>2</b><span>编辑推广内容并设置</span>
+        </li>
+        <li class="flowsteps-item"><i class="flowsteps-icon">&#435</i><b>3</b><span>完成</span></li>
+    </ol>
+</div>
+
+
+<pre>
+&lt;div bx-name="flowsteps" class="flowsteps"&gt;
+    &lt;ol class="clearfix"&gt;
+        &lt;li class="flowsteps-item flowsteps-item-done"&gt;&lt;i class="flowsteps-icon"&gt;&amp;#435&lt;/i&gt;&lt;b&gt;1&lt;/b&gt;&lt;span&gt;选择宝贝&lt;/span&gt;&lt;/li&gt;
+        &lt;li class="flowsteps-item flowsteps-item-current"&gt;&lt;i class="flowsteps-icon"&gt;&amp;#435&lt;/i&gt;&lt;b&gt;2&lt;/b&gt;&lt;span&gt;编辑推广内容并设置&lt;/span&gt;
+        &lt;/li&gt;
+        &lt;li class="flowsteps-item"&gt;&lt;i class="flowsteps-icon"&gt;&amp;#435&lt;/i&gt;&lt;b&gt;3&lt;/b&gt;&lt;span&gt;完成&lt;/span&gt;&lt;/li&gt;
+    &lt;/ol&gt;
+&lt;/div&gt;
+</pre>
+<h3>步骤条二</h3>
+<div bx-name="flowsteps" class="flowsteps-small">
+    <ol class="clearfix">
+        <li class="flowsteps-item flowsteps-item-done"><i class="flowsteps-icon">&#435</i><b></b><span>提交订单</span></li>
+        <li class="flowsteps-item flowsteps-item-current"><i class="flowsteps-icon">&#470</i><b></b><span>商品出库</span></li>
+        <li class="flowsteps-item"><i class="flowsteps-icon">&#435</i><b></b><span>等待收货</span></li>
+        <li class="flowsteps-item flowsteps-item-last"><i class="flowsteps-icon">&#435</i><span>完成</span></li>
+    </ol>
+</div>
+<pre>
+&lt;div bx-name="flowsteps" class="flowsteps-small"&gt;
+    &lt;ol class="clearfix"&gt;
+        &lt;li class="flowsteps-item flowsteps-item-done"&gt;&lt;i class="flowsteps-icon"&gt;&amp;#435&lt;/i&gt;&lt;b&gt;&lt;/b&gt;&lt;span&gt;提交订单&lt;/span&gt;&lt;/li&gt;
+        &lt;li class="flowsteps-item flowsteps-item-current"&gt;&lt;i class="flowsteps-icon"&gt;&amp;#470&lt;/i&gt;&lt;b&gt;&lt;/b&gt;&lt;span&gt;商品出库&lt;/span&gt;&lt;/li&gt;
+        &lt;li class="flowsteps-item"&gt;&lt;i class="flowsteps-icon"&gt;&amp;#435&lt;/i&gt;&lt;b&gt;&lt;/b&gt;&lt;span&gt;等待收货&lt;/span&gt;&lt;/li&gt;
+        &lt;li class="flowsteps-item flowsteps-item-last"&gt;&lt;i class="flowsteps-icon"&gt;&amp;#435&lt;/i&gt;&lt;span&gt;完成&lt;/span&gt;&lt;/li&gt;
+    &lt;/ol&gt;
+&lt;/div&gt;
+</pre>
+</body>
+</html>
