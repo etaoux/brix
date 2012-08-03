@@ -1,6 +1,9 @@
-KISSY.add('brix/gallery/starrating/index', function(S, Brick, Node) {
-    var $ = Node.all;
 
+KISSY.add('brix/gallery/starrating/index', function(S, Brick, Node,UA) {
+    var $ = Node.all;
+    if(UA.ie==6){
+        try { document.execCommand("BackgroundImageCache", false, true)} catch(e) { };
+    }
     function StarRating() {
         StarRating.superclass.constructor.apply(this, arguments);
     }
@@ -254,5 +257,5 @@ KISSY.add('brix/gallery/starrating/index', function(S, Brick, Node) {
     S.augment(StarRating, StarRating.METHOD);
     return StarRating;
 }, {
-    requires: ["brix/core/brick", "node"]
+    requires: ["brix/core/brick", "node","ua"]
 });

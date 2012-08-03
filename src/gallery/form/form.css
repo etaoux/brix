@@ -1,0 +1,38 @@
+.bx-controls input {
+  display: none;
+}
+.bx-controls .input {
+  float: left;
+  margin-left: -19px;
+  margin-bottom: 9px;
+  width: 16px;
+  height: 18px;
+  background: url(../../brix.png) 0 -178px;
+}
+.bx-controls .checkbox {
+  padding-left: 19px;
+}
+.bx-controls .checkbox .checked {
+  background-position: 0 -214px;
+}
+.bx-controls .checkbox .disabled {
+  background-position: 0 -286px;
+}
+.bx-controls .checkbox .checked-disabled {
+  background-position: 0 -322px;
+}
+.bx-controls .radio {
+  padding-left: 19px;
+}
+.bx-controls .radio .input {
+  background-position: 0 2px;
+}
+.bx-controls .radio .checked {
+  background-position: 0 -34px;
+}
+.bx-controls .radio .disabled {
+  background-position: 0 -106px;
+}
+.bx-controls .radio .checked-disabled {
+  background-position: 0 -142px;
+}
