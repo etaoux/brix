@@ -41,6 +41,6 @@ cd brix
 # 安装 Grunt
 npm install -g grunt
 npm install grunt-less
-# 使用 Grunt 运行 js和less 自动编译监视器编译,windows系统grunt.cmd
+# 使用 Grunt 运行 js和less 自动监视文件变化编译,windows系统grunt.cmd
 grunt
 ```
