@@ -17,25 +17,6 @@ KISSY.add("brix/gallery/form/index", function(S, Brick) {
                     // 空格键会触发页面滚动.
                     e.preventDefault();
                 }
-            //},
-            // 思路2：不处理click事件了，改监听input状态变化.
-            //'click': function (e) {
-                //var el = S.one(e.currentTarget);
-                //var input = el.one('.input');
-                //var _input = el.one('input');
-
-                //if (input.hasClass('disabled')) return;
-
-                //if (input.hasClass('checked')) {
-                    //input.removeClass('checked');
-                    //_input.prop('checked', false);
-                //} else {
-                    //input.addClass('checked');
-                    //_input.prop('checked', true);
-                //}
-
-                //// label的click事件会触发input的click，再冒泡到label上来.
-                //e.preventDefault();
             }
         }
     };
@@ -47,10 +28,8 @@ KISSY.add("brix/gallery/form/index", function(S, Brick) {
         var isDisabled = _input.prop('disabled');
 
         // patch for radio
-        if (checkSiblings !== false && node.hasClass('radio')) {
-            node.siblings('.radio').each(function(n) {
-                handleStat(n, false);
-            });
+        if (checkSiblings && node.hasClass('radio')) {
+            node.siblings('.radio').each(handleStat);
         }
 
         var className = 'input' +
@@ -71,10 +50,23 @@ KISSY.add("brix/gallery/form/index", function(S, Brick) {
 
             el.addClass('bx-controls');
             el.all('.checkbox, .radio').each(handleStat);
-            el.all('input').on('change', function(e) {
-                handleStat(S.one(e.currentTarget.parentNode));
+            // 思路：不直接处理click事件，监听input状态变化来相应span的状态.
+            el.all('input').on('change', function (e) {
+                handleStat(S.one(e.currentTarget.parentNode), true);
             });
-        },
+            // 1. 坑爹的IE6/7/8只能在input被渲染时click可以从label传递到input
+            // 2. 坑爹的IE6/7只能在label有对应for属性时click才能传递到input，嵌套都不行
+            //    ref: http://lucassmith.name/2008/04/label-checkbox-concerns.html
+            // 这里统一隐藏掉input
+            if (S.UA.ie < 9) {
+                el.all('.checkbox, .radio').on('click', function (e) {
+                    // 避免循环触发.
+                    if (e.target.nodeName === 'INPUT') { return; }
+
+                    S.one(e.currentTarget).one('input')[0].click();
+                });
+            }
+        }
     });
     return Form;
 }, {

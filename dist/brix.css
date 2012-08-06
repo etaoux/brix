@@ -1333,6 +1333,7 @@ label select {
 .radio input,
 .checkbox input {
   float: left;
+  _display: inline;
   border: none;
   margin-left: -18px;
   width: auto;
