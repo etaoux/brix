@@ -13,14 +13,11 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
         closeable:{
             value:true
         },
-        defaultPos:{
-            value:['cc', 'cc']
-        },
         length:{
 
         },
         'tmpl-tip':{
-            value:'<div id="{{id}}" class="bx-tips-show" style="display: none;position: absolute;top:-9999px;left:-9999px;">{{tips}}</div>'
+            value:'<div id="{{id}}" class="bx-tips-show" style="display: none;position: absolute;top:-9999px;left:-9999px;"><p>{{tips}}</p><i class="bx-tips-tri bx-tips-top"></i></div>'
         },
         tips:{
             value:{}
@@ -30,6 +27,13 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
         },
         prex:{
             value:'bx-tip-'
+        },
+        trisize:{
+            value:{
+                width:16,
+                height:9,
+                distance:14
+            }
         }
 
     };
@@ -42,7 +46,7 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
             },
             mouseleave:function (e) {
                 var el = e.currentTarget;
-                this.hideTips(el);
+                //this.hideTips(el);
             }
         }
     };
@@ -108,63 +112,90 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
             };
             var _offset = self._testBR(_el, _tip, _view) || self._testTL(_el, _tip, _view) || self._testBL(_el, _tip, _view) || self._testTR(_el, _tip, _view);
             console.log(_offset);
+            var _tri = D.get('.bx-tips-tri', tip);
+            D.removeClass(_tri, 'bx-tips-left');
+            D.removeClass(_tri, 'bx-tips-right');
+            D.removeClass(_tri, 'bx-tips-top');
+            D.removeClass(_tri, 'bx-tips-bottom');
+            D.addClass(_tri, _offset.class);
+            D.css(_tri, {left:_offset.trileft + 'px', top:_offset.tritop + 'px'});
             D.css(tip, {position:'absolute', left:_offset.left + 'px', top:_offset.top + 'px'});
 
 
         },
         _testBR:function (el, tip, view) {
-            var x1 = el.x2;
-            var y1 = el.y2;
-            var x2 = x1 + tip.w;
-            var y2 = y1 + tip.h;
-            console.log(x2+":"+view.x2);
-            console.log(y2+":"+view.y2);
+            var trisize = this.get("trisize");
+            var adjust_left = trisize.width + trisize.distance * 2;
+            var adjust_top = trisize.height;
+            var x1 = el.x2 - adjust_left;
+            var y1 = el.y2 + adjust_top;
+            var x2 = x1 + tip.w - adjust_left;
+            var y2 = y1 + tip.h + adjust_top;
             if (x2 > view.x2 || y2 > view.y2) {
-                console.log(false);
                 return false;
             } else {
-                console.log(true);
                 return {
                     left:x1,
-                    top:y1
+                    top:y1,
+                    class:'bx-tips-top',
+                    trileft:trisize.distance,
+                    tritop:-trisize.height
                 };
             }
         },
         _testTL:function (el, tip, view) {
-            var x1 = el.x1 - tip.w;
-            var y1 = el.y1 - tip.h;
+            var trisize = this.get("trisize");
+            var adjust_left = trisize.width + trisize.distance * 2;
+            var adjust_top = trisize.height;
+            var x1 = el.x1 - tip.w + adjust_left;
+            var y1 = el.y1 - tip.h - adjust_top;
             if (x1 < view.x1 || y1 < view.y1) {
                 return false;
             } else
                 return {
                     left:x1,
-                    top:y1
+                    top:y1,
+                    class:'bx-tips-bottom',
+                    trileft:tip.w - trisize.width - trisize.distance,
+                    tritop:tip.h
                 };
         },
         _testBL:function (el, tip, view) {
-            var x1 = el.x1 - tip.w;
-            var y1 = el.y2;
-            var x2 = el.x2;
-            var y2 = y1 + tip.h;
+            var trisize = this.get("trisize");
+            var adjust_left = trisize.width + trisize.distance * 2;
+            var adjust_top = trisize.height;
+            var x1 = el.x1 - tip.w + adjust_left;
+            var y1 = el.y2 + adjust_top;
+            var x2 = el.x2 + adjust_left;
+            var y2 = y1 + tip.h + adjust_top;
             if (x1 < view.x1 || y2 > view.y2) {
                 return false;
             } else
                 return {
                     left:x1,
-                    top:y1
+                    top:y1,
+                    class:'bx-tips-top',
+                    trileft:tip.w - trisize.width - trisize.distance,
+                    tritop:-trisize.height
                 };
         },
         _testTR:function (el, tip, view) {
-            var x1 = el.x2;
-            var y1 = el.y1-tip.h;
-            var x2 = el.x2+tip.w;
+            var trisize = this.get("trisize");
+            var adjust_left = trisize.width + trisize.distance * 2;
+            var adjust_top = trisize.height;
+            var x1 = el.x2 - adjust_left;
+            var y1 = el.y1 - tip.h - adjust_top;
+            var x2 = el.x2 + tip.w - adjust_left;
             var y2 = y1;
             if (x2 > view.x2 || y1 < view.y1) {
                 return false;
             } else
                 return {
                     left:x1,
-                    top:y1
+                    top:y1,
+                    class:'bx-tips-bottom',
+                    trileft:trisize.distance,
+                    tritop:tip.h
                 };
         },
         _getTipId:function (el) {
