@@ -1,0 +1,1 @@
+KISSY.add("brix/gallery/switcher/index",function(a,b){function c(){c.superclass.constructor.apply(this,arguments)}return c.ATTRS={switchTo:!0},c.METHOD={},c.ATTACH={"":{click:function(a){var b=this.get("el"),c;b.toggleClass("switcher-on"),c={value:b.hasClass("switcher-on")},this.fire("switch",c)}}},a.extend(c,b,{}),a.augment(c,c.METHOD),c},{requires:["brix/core/brick"]});

@@ -1,0 +1,41 @@
+@import "../../style/variables.less";
+@import "../../style/mixins.less";
+
+@switcher-radius: 18px;
+@switcherStartColor: #525252;
+@switcherEndColor: #969696;
+@triggerBorderColor: #1c4a73;
+@switcherOnStartColor: #194f86;
+@switcherOnEndColor: #3f86c5;
+@triggerOnBorderColor: #22527a;
+
+.switcher {
+  position: relative;
+  *zoom: 1;
+  width:41px;
+  height: 18px;
+  .border-radius(@switcher-radius);
+  #gradient.vertical(@switcherStartColor, @switcherEndColor)
+  cursor: pointer;
+}
+.switcher .switcher-trigger {
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  display: block;
+  width: 16px;
+  height:16px;
+  border:1px splid @triggerBorderColor;
+  .border-radius(@switcher-radius);
+}
+.switcher-on{
+  .border-radius(@switcher-radius);
+  #gradient.vertical(@switcherOnStartColor, @switcherOnEndColor)
+}
+.switcher-on .switcher-trigger {
+  left: auto;
+  right: 1px;
+  top: 1px;
+  border:1px splid @triggerOnBorderColor;
+  .border-radius(@switcher-radius);
+}
