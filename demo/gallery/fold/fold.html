@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Brix Dialog Demo</title>
+    <link rel="stylesheet" href="../../../dist/brix-min.css"/>
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+    <script src="../../config.js"></script>
+</head>
+<body style="margin:0px;padding-top:40px">
+<div class="navigation">
+    <div id="J_ShowMore" class="show-more">
+        <div class="inner">
+            <a class="fold"><span>收起</span><b><b></b></b></a>
+        </div>
+    </div>
+</div>
+<script>
+    KISSY.ready(function(S) {
+        S.use("brix/gallery/fold/", function(S) {
+            var foldBtn = S.one("#J_ShowMore a");
+            if(!foldBtn) return;
+            foldBtn.on("click",function(){
+                var self = S.one(this),
+                    spanNode = self.one("span");
+                if(self.hasClass("fold")){
+                    self.removeClass("fold");
+                    spanNode.text("展开");
+                }else{
+                    self.addClass("fold");
+                    spanNode.text("收起");
+                }
+            })
+        })
+    });
+</script>
+<!--brix end-->
+</body>
+</html>
