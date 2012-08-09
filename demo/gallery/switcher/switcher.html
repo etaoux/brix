@@ -48,11 +48,13 @@
                     switcher1.render();
                     
                     var switcher2 = new Switcher({
-                        el:'#brick2'
+                        el:'#brick2',
+                        switchOn:  true,
+                        switchNoStatus: true
                     });
 
                     var switcher3 = new Switcher({
-                        el:'#brick3',
+                        el:'#brick3'
                     });
 
                     //事件注册
@@ -77,6 +79,9 @@
                     var pagelet = new Pagelet(config);
                     pagelet.render();
                     pagelet.addBehavior();
+                    pagelet.on('switch',function(e){
+                        console.log('switcher4 switchto ' + e.value);
+                    });
                 });
 
             });
