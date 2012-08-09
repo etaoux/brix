@@ -35,8 +35,16 @@
             right: 5px;
         }
 
+        #tip5 {
+            position: absolute;
+            left: 400px;
+            top: 200px;
+        }
+
+            /****** bx-tips ******/
         .bx-tips-show {
             max-width: 194px;
+            _width: 194px;
             border: 1px solid #e5e5e5;
             display: none;
             position: absolute;
@@ -55,38 +63,128 @@
             margin: 12px 14px;
         }
 
-        .bx-tips-tri {
-            display: block;
-            position: absolute;
-            top: 12px;
-            /*left:-9px;*/
-            font-size: 0;
-            overflow: hidden;
+        .bx-tips-tri, .bx-tips-close {
             background: url(http://img01.taobaocdn.com/tps/i1/T1UFfCXhpcXXaRnzPj-60-36.png) no-repeat -9999px -9999px transparent;
         }
 
-        .bx-tips-left {
-            background-position: 0 0;
-            width: 9px;
-            height: 16px;
+        .bx-tips-tri {
+            display: block;
+            position: absolute;
+            /*left:-9px;*/
+            font-size: 0;
+            overflow: hidden;
         }
 
-        .bx-tips-right {
-            background-position: -12px 0;
-            width: 9px;
-            height: 16px;
+            /*** BottomRight ***/
+        .bx-tips-br .bx-tips-msg {
+            margin: 12px 25px 12px 14px;
         }
 
-        .bx-tips-top {
+        .bx-tips-br .bx-tips-tri {
+            top: -9px;
+            left: 14px;
             background-position: -24px 0;
             width: 16px;
             height: 9px;
+
         }
 
-        .bx-tips-bottom {
+        .bx-tips-br .bx-tips-close {
+            right: 3px;
+            top: 3px;
+        }
+
+            /*** TopLeft ***/
+        .bx-tips-tl .bx-tips-msg {
+            margin: 12px 14px 12px 25px;
+        }
+
+        .bx-tips-tl .bx-tips-tri {
+            bottom: -9px;
+            right: 14px;
             background-position: -44px 0;
             width: 16px;
             height: 9px;
+
+        }
+
+        .bx-tips-tl .bx-tips-close {
+            left: 3px;
+            top: 3px;
+        }
+
+            /*** BottomLeft ***/
+        .bx-tips-bl .bx-tips-msg {
+            margin: 12px 14px 12px 25px;
+        }
+
+        .bx-tips-bl .bx-tips-tri {
+            top: -9px;
+            right: 14px;
+            background-position: -24px 0;
+            width: 16px;
+            height: 9px;
+
+        }
+
+        .bx-tips-bl .bx-tips-close {
+            left: 3px;
+            top: 3px;
+        }
+
+            /*** TopRight ***/
+        .bx-tips-tr .bx-tips-msg {
+            margin: 12px 25px 12px 14px;
+        }
+
+        .bx-tips-tr .bx-tips-tri {
+            bottom: -9px;
+            left: 14px;
+            background-position: -44px 0;
+            width: 16px;
+            height: 9px;
+
+        }
+
+        .bx-tips-tr .bx-tips-close {
+            right: 3px;
+            top: 3px;
+        }
+
+            /*** LeftTop ***/
+        .bx-tips-lt .bx-tips-msg {
+            margin: 12px 14px 12px 25px;
+        }
+
+        .bx-tips-lt .bx-tips-tri {
+            right: -9px;
+            bottom: 12px;
+            background-position: -12px 0;
+            width: 9px;
+            height: 16px;
+
+        }
+
+        .bx-tips-lt .bx-tips-close {
+            left: 3px;
+            top: 3px;
+        }
+
+            /************/
+
+        .bx-tips-close {
+            display: block;
+            width: 16px;
+            height: 16px;
+            position: absolute;
+            background-position: -20px -20px;
+            font-size: 0;
+            text-indent: -9999em;
+        }
+
+        .bx-tips-close:hover, .bx-tips-close.hover {
+            background-position: 0 -20px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -98,15 +196,14 @@
     <div id="tip2" class="bx-tips" data-tips="我是提示2我是提示2我提示2我是提示2我是提示2我是提示2">鼠标hover2</div>
     <div id="tip3" class="bx-tips" data-tips="我是提示3">鼠标hover3</div>
     <div id="tip4" class="bx-tips" data-tips="我是提示4">鼠标hover4</div>
+    <div id="tip5" class="bx-tips" data-tips="我是提示5我是提示5我是提示5我是提示5我是提示5我是提示5我是提示5">鼠标hover5</div>
 
 </div>
 <script>
     KISSY.ready(function (S) {
 
         KISSY.use("brix/gallery/tips/", function (S, Tips) {
-            var tips = new Tips({
-                el:'.example-tips'
-            });
+            var tips = new Tips();
         });
     });
 </script>
