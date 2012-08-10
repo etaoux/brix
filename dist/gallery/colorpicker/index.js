@@ -213,17 +213,36 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             });
             self.get('el').one('input').val(c.hex);
         },
+        /**
+         * 设置颜色
+         * @param {Object} hsv hsv对象
+         */
         setHsv: function(hsv) {
             this.setColor(hsv);
         },
+        /**
+         * 设置颜色
+         * @param {Object} rgb rgb对象
+         */
         setRgb: function(rgb) {
             this.setColor(this.rgb2hsv(rgb.r, rgb.g, rgb.b), rgb);
         },
+        /**
+         * 设置颜色
+         * @param {String} hex 颜色值
+         */
         setHex: function(hex) {
             this.setColor(this.rgb2hsv(parseInt(hex.substr(1, 2), 16), parseInt(hex.substr(3, 2), 16), parseInt(hex.substr(5, 2), 16)), undefined, hex);
         }
     };
 
+    ColorPicker.FIRES = {
+        /**
+         * selected 事件，在点击确定后触发
+         * @type {String}
+         */
+        selected:'selected'
+    };
     S.extend(ColorPicker, Brick, {
         initialize: function() {
             var self = this;
@@ -419,7 +438,7 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             var self = this,
                 c = self.hsv2rgb(self.h, self.s, self.v);
             self.overlay.hide();
-            self.fire('selected', {
+            self.fire(ColorPicker.FIRES.selected, {
                 hex: c.hex,
                 hsv: {
                     h: self.h,
@@ -434,7 +453,8 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             });
         },
         destructor: function() {
-
+            var self= this;
+            self.overlay.destroy();
         }
     });
     S.augment(ColorPicker, ColorPicker.METHOD);
