@@ -1,0 +1,115 @@
+@import "../../style/variables.less";
+@import "../../style/mixins.less";
+
+.colorpicker{
+	.border-radius(2px);
+    .box-shadow(0 3px 5px rgba(0,0,0,0.1));
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 225px;
+    position:absolute;
+    left:-9999px;
+    top:-9999px;
+    -webkit-text-size-adjust: none;
+}
+
+.colorpicker .colorpicker-hd{
+	border-top: 1px solid #000;
+	border-left: 1px solid #000;
+	height: 60px;
+}
+.colorpicker-hd li{
+	border-right: 1px solid #000;
+	border-bottom: 1px solid #000;
+	float: left;
+	width: 13px;
+	height: 14px;
+	background-color: red;
+}
+
+.colorpicker .colorpicker-md{
+	text-align: center;
+	height: 9px;
+	padding: 9px 0 8px 0;
+	font-size: 9px;
+	line-height: 9px;
+}
+
+.colorpicker-md .icon-arrow{
+    font-size:10px;
+    line-height: 11px;
+    color: #999;
+    cursor: pointer;
+    display: block;
+    *display: inline-block;
+    vertical-align: middle;
+}
+
+.colorpicker .colorpicker-bd{
+	height: 196px;
+	margin-bottom: 10px;
+	position: relative;
+}
+
+.colorpicker-bd .picker-wrapper{
+	position: relative;
+	float: left;
+}
+
+.picker-wrapper .picker{
+	width: 195px;
+	height: 196px;
+}
+
+.picker-wrapper .icon-picker-indicator{
+	position: absolute;
+	font-size: 10px;
+	line-height: 11px;
+	color: #000;
+	top:0px;
+	left: 0px;
+	cursor: pointer;
+}
+
+.colorpicker-bd .slide-wrapper{
+	position: relative;
+	margin-left: 10px;
+	float: left;
+}
+.colorpicker-bd .slide{
+	width: 20px;
+	height: 196px;
+}
+.slide-wrapper .icon-slide-indicator{
+	position: absolute;
+	font-size: 10px;
+	line-height: 11px;
+	color: #000;
+	right: -9px;
+	top:0px;
+	cursor: pointer;
+}
+
+.colorpicker .colorpicker-fd{
+	height: 25px;
+}
+
+.colorpicker-fd .bg{
+	width: 60px;
+	height: 25px;
+	line-height: 25px;
+	display: inline-block;
+	margin-right: 10px;
+	vertical-align: middle;
+}
+.colorpicker-fd input{
+	width: 60px;
+	margin-right: 5px;
+	margin-bottom: 0px;
+	vertical-align: middle;
+}
+
+.colorpicker-fd .btn-confirm{
+	vertical-align: middle;
+}
+
