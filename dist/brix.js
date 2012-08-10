@@ -1,4 +1,4 @@
-/*! Brix - v0.1.0 - 8/8/2012
+/*! Brix - v0.1.0 - 8/10/2012
 * https://github.com/etaoux/brix
 * Copyright (c) 2012 etaoux; Licensed MIT */
 
@@ -686,16 +686,16 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
      */
 
     function _recovery(html, arr) {
-        //去掉attr="",谁可以优化一下这个正则？
-        html = html.replace(/((\{{2,3}\#(.+)?\}{2,3})([\s\S]*)?\s*(\{{2,3}~\3\}{2,3}))\=\"\"/g, '$1');
+        //去掉attr=""
+        html = html.replace(/(\{{2,3}[\^#~](.+?)\}{2,3})\=\"\"/g, '$1');
 
         //对if语句的还原处理
         html = html.replace(/(\{{2,3}[\^#~]?)iftmplbrick\_(\d+)(\}{2,3})/g, function(w, i, j, k) {
             return i + arr[parseInt(j,10)] + k;
         });
         //对href和src语句的还原处理
-        html = html.replace(/(href|src)=("|')("|')/ig,"");
-        html = html.replace(/(\{{2,3}[\^#~]?)hreftmplbrick\_(\d+)(\}{2,3})/g, function(w, i, j, k) {
+        html = html.replace(/(href|src|style)=("|')("|')/ig,"");
+        html = html.replace(/(\{{2,3}[\^#~]?)href\_src\_style\_tmplbrick\_(\d+)(\}{2,3})/g, function(w, i, j, k) {
             return arr[parseInt(j,10)];
         });
         //将~符号替换回/，完美了。
@@ -734,7 +734,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
             if (!inDom) {
                 node.remove();
                 //牛逼的正则啊
-                var reg = /(\{{2,3}\#(.+)?\}{2,3})\s*([\s\S]*)?\s*((\{{2,3})\/\2(\}{2,3}))/g;
+                var reg = /(\{{2,3}\#(.+?)\}{2,3})\s*([\s\S]*)?\s*((\{{2,3})\/\2(\}{2,3}))/g;
                 while (reg.test(tmpl)) {
                     tmpl = tmpl.replace(reg, ' $1$3$5~$2$6 ');
                     //console.log(reg.lastIndex);
@@ -756,10 +756,10 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
                 });
 
 
-                //对href和src的处理
-                tmpl = tmpl.replace(/((href|src)=("|')(.*)?("|'))/ig,function(w,i){
+                //对href、src style的处理
+                tmpl = tmpl.replace(/((href|src|style)=("|')(.*?)("|'))/ig,function(w,i){
                     var index = S.indexOf(i, arr),
-                        name = 'hreftmplbrick_';
+                        name = 'href_src_style_tmplbrick_';
                     if (index < 0) {
                         name += arr.length;
                         arr.push(i);
