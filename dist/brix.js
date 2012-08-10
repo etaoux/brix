@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /*! Brix - v0.1.0 - 8/10/2012
+=======
+/*! Brix - v0.1.0 - 8/8/2012
+>>>>>>> 6c4df56864373ce258d2f9db5b5553e65377e346
 * https://github.com/etaoux/brix
 * Copyright (c) 2012 etaoux; Licensed MIT */
 
