@@ -215,21 +215,21 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
         },
         /**
          * 设置颜色
-         * @param {Object} hsv hsv对象
+         * @param {Object} hsv hsv对象 { h: <hue>, s: <saturation>, v: <value> }
          */
         setHsv: function(hsv) {
             this.setColor(hsv);
         },
         /**
          * 设置颜色
-         * @param {Object} rgb rgb对象
+         * @param {Object} rgb rgb对象 { r: <red>, g: <green>, b: <blue> }
          */
         setRgb: function(rgb) {
             this.setColor(this.rgb2hsv(rgb.r, rgb.g, rgb.b), rgb);
         },
         /**
          * 设置颜色
-         * @param {String} hex 颜色值
+         * @param {String} hex 颜色值#RRGGBB.
          */
         setHex: function(hex) {
             this.setColor(this.rgb2hsv(parseInt(hex.substr(1, 2), 16), parseInt(hex.substr(3, 2), 16), parseInt(hex.substr(5, 2), 16)), undefined, hex);

@@ -2,6 +2,11 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
     function InplaceEditor() {
         InplaceEditor.superclass.constructor.apply(this, arguments);
     }
+    InplaceEditor.ATTRS = {
+        tmpl:{
+            value:'<div class="inplaceeditor-popup"><input type="text" value=""></div>'
+        }
+    };
     InplaceEditor.ATTACH = {
         "input": {
             focusout: function(e) {
@@ -68,5 +73,5 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
     
     return InplaceEditor;
 }, {
-    requires: ["brix/core/brick"]
+    requires: ["brix/core/brick","./inplaceeditor.css"]
 });
