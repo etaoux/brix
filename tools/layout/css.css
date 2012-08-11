@@ -1,0 +1,70 @@
+html, body,
+#r-panel {
+    height: 100%;
+    background: #bbb;
+}
+#r-panel {
+    position: fixed;
+    border-right: 1px solid #666;
+    width: 90px;
+    background: #f7f7f7;
+    z-index: 100;
+}
+#r-content {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+    margin-left: 120px;
+    width: 960px;
+    min-height: 100%;
+    background: #fff;
+}
+
+/******* r-panel *******/
+.r-resolution {
+    border-top: 1px solid #666;
+}
+.r-resolution li {
+    line-height: 30px;
+    border-bottom: 1px solid #666;
+    padding: 0 20px;
+    cursor: pointer;
+    color: #333;
+}
+.r-resolution .active {
+    width: 51px;
+    background: #bbb;
+}
+#r-panel .control-label {
+    width: 70px;
+}
+#r-panel .controls {
+    margin-left: 80px;
+}
+#r-panel input {
+    width: 60px;
+}
+
+/******* r-content *******/
+.r-section {
+    position: relative;
+    margin-bottom: 15px;
+    min-height: 100px;
+    background: #eee url(bg.png);
+}
+.r-div {
+    float: left;
+    box-sizing: border-box;
+    border: 2px dashed #ccc;
+    min-height: 100px;
+}
+.r-panel {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 90px;
+}
+.r-add-section .iconfont,
+.r-clear-section .iconfont,
+.r-remove-section .iconfont,
+.r-add-div .iconfont {
+    font-size: 12px;
+}
