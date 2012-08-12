@@ -13,9 +13,11 @@ html, body,
 #r-content {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
     margin-left: 120px;
-    width: 960px;
     min-height: 100%;
     background: #fff;
+}
+.w960 {
+    width: 960px;
 }
 
 /******* r-panel *******/
@@ -33,15 +35,6 @@ html, body,
     width: 51px;
     background: #bbb;
 }
-#r-panel .control-label {
-    width: 70px;
-}
-#r-panel .controls {
-    margin-left: 80px;
-}
-#r-panel input {
-    width: 60px;
-}
 
 /******* r-content *******/
 .r-section {
@@ -50,21 +43,38 @@ html, body,
     min-height: 100px;
     background: #eee url(bg.png);
 }
-.r-div {
-    float: left;
-    box-sizing: border-box;
-    border: 2px dashed #ccc;
-    min-height: 100px;
-}
-.r-panel {
+.r-section-panel {
     position: absolute;
     top: 0;
     left: 100%;
     width: 90px;
 }
-.r-add-section .iconfont,
-.r-clear-section .iconfont,
-.r-remove-section .iconfont,
-.r-add-div .iconfont {
-    font-size: 12px;
+.r-div {
+    position: relative;
+    float: left;
+    box-sizing: border-box;
+    border: 2px dashed #999;
+    min-height: 100px;
+    -webkit-transition: all .5s;
+    transition: all .5s;
+}
+.r-div:hover {
+    border-color: #488fcd;
+    border-color: #ff8400;
+}
+.r-div-size {
+    margin: 0;
+    line-height: 96px;
+    text-align: center;
+}
+.r-div-panel {
+    display: none;
+    position: absolute;
+    top: 0;
+}
+.r-div:hover .r-div-panel {
+    display: block;
+}
+.r-resize-div {
+    width: 70px;
 }
