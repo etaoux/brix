@@ -1,1 +1,0 @@
-KISSY.add("brix/gallery/fold/index",function(a,b){},{requires:["./fold.css"]});
