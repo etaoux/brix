@@ -10,10 +10,12 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
         focus: function() {
             var el = this.get('el');
             var w = el.one('.dropdown-hd').outerWidth();
+            el.one('.dropdown-hd').addClass("dropdown-hd-active");
             el.one('.dropdown-list').css({'display':'block',width:w+'px'});
         },
         blur: function() {
             var el = this.get('el');
+            el.one('.dropdown-hd').removeClass("dropdown-hd-active");
             el.one('.dropdown-list').css('display', 'none');
         }
     }
@@ -25,6 +27,7 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                 if (!self.__show) {
                     var el = self.get('el');
                     el.all('.dropdown-list').css('display', 'none');
+                    el.all('.dropdown-hd').removeClass("dropdown-hd-active");
                 }
                 self.__show = false;
             }
@@ -60,8 +63,8 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                     value: selectNode.attr('value'),
                     text: selectNode.text()
                 }
-                
-                
+
+
                 //隐藏提交的表单字段，如果存在，赋值
                 var inputNode = el.one('input');
                 if(inputNode){
