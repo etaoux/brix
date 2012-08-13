@@ -81,7 +81,7 @@
 
             var cls = el.attr('class').split(/\s+/);
             var suf = pageWidth === BASE_WIDTH ? '' : '_' + pageWidth;
-            var reg = new RegExp('span\\d+' + suf);
+            var reg = new RegExp('^span\\d+' + suf + '$');
             for (var i=0; i<cls.length; ) {
                 if (cls[i].match(reg)) {
                     cls.splice(i, 1);
