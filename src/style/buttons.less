@@ -17,11 +17,12 @@
   line-height: 21px;
   font-size: 12px;
   font-weight: bold;
+  cursor: pointer;
 }
 .btn,
 .btn:hover,
 .btn:visited {
-  color: #333;
+  color: #333!important;
 }
 
 .btn {
@@ -35,6 +36,23 @@
 }
 .btn:active {
   #gradient > .vertical(#e6e6e6, #f2f2f2);
+}
+
+/*group btn*/
+.btn-group .btn {
+  .border-radius(0);
+  border-left-width: 0;
+  /*border-right-width: 0;*/
+}
+
+.btn-group .btn:first-child {
+  border-left-width: 1px;
+  .border-radius(2px 0 0 2px);
+}
+
+.btn-group .btn:last-child {
+  /*border-right-width: 1px;*/
+  .border-radius(0 2px 2px 0);
 }
 
 // red button
