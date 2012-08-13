@@ -1,0 +1,34 @@
+@import "../../style/variables.less";
+@import "../../style/mixins.less";
+
+
+.inplaceeditor-popup{
+	position: absolute;
+    display: block;
+    z-index: 99;
+    visibility: hidden;
+    top: -9999px;
+    left: -9999px;
+
+    input{
+        width:100px;
+        font: 12px arial;
+    }
+}
+
+.inplaceeditor{
+	.icon-edit, .icon-del{
+        float: left;
+        font-size: 12px;
+        line-height: 12px;
+        color:#ccc;
+        margin-top: 4px;
+    }
+    .icon-edit{
+    	margin-right: 5px;
+    	margin-top: 5px;
+    }
+    .icon-edit:hover, .icon-del:hover{
+    	color: #488fcd;
+    }
+}

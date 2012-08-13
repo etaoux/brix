@@ -1,0 +1,28 @@
+.inplaceeditor-popup {
+  position: absolute;
+  display: block;
+  z-index: 99;
+  visibility: hidden;
+  top: -9999px;
+  left: -9999px;
+}
+.inplaceeditor-popup input {
+  width: 100px;
+  font: 12px arial;
+}
+.inplaceeditor .icon-edit,
+.inplaceeditor .icon-del {
+  float: left;
+  font-size: 12px;
+  line-height: 12px;
+  color: #ccc;
+  margin-top: 4px;
+}
+.inplaceeditor .icon-edit {
+  margin-right: 5px;
+  margin-top: 5px;
+}
+.inplaceeditor .icon-edit:hover,
+.inplaceeditor .icon-del:hover {
+  color: #488fcd;
+}
