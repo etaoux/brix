@@ -21,6 +21,9 @@ html, body,
 }
 
 /******* r-panel *******/
+h6 {
+    padding: 0 20px;
+}
 .r-resolution {
     border-top: 1px solid #666;
 }
@@ -35,13 +38,16 @@ html, body,
     width: 51px;
     background: #bbb;
 }
+#r-save {
+    margin: 10px 20px;
+}
 
 /******* r-content *******/
 .r-section {
     position: relative;
     margin-bottom: 15px;
     min-height: 100px;
-    background: #eee url(bg.png);
+    background: #eee url(c10-g10.png);
 }
 .r-section-panel {
     position: absolute;
