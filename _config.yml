@@ -5,7 +5,6 @@ paginate: 1
 lsi: false
 markdown: rdiscount
 exclude: [Gemfile, Gemfile.lock, Guardfile, README.md, Rakefile, node_modules]
-include: [.nojekyll]
 
 # brix data
-version: 0.0.1
+version: 0.1.0
