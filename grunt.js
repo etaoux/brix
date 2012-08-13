@@ -73,6 +73,10 @@ module.exports = function(grunt) {
             watchjs:{
                 files: 'src/gallery/**/index.js',
                 tasks: 'brixjs'
+            },
+            watchcss:{
+                files: 'src/style/*.less',
+                tasks: 'less'
             }
         },
         jshint: {
@@ -105,10 +109,10 @@ module.exports = function(grunt) {
             }
         }
     });
-    
+
     //npm install grunt-less
     grunt.loadNpmTasks('grunt-less');
-    
+
     //tasks
     grunt.loadTasks('tasks');
 
