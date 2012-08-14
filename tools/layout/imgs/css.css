@@ -70,7 +70,7 @@ h6 {
 .r-div:hover {
     border-color: #ff8400;
 }
-.r-div-size {
+.r-div-name {
     position: absolute;
     top: 50%;
     margin-top: -18px;

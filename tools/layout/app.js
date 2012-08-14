@@ -23,9 +23,7 @@ KISSY.config({
     }
 });
 
-KISSY.use('base, modules/boot, modules/pagelet', function(S, Base, Boot, Pagelet) {
-    App.msg = new Base();
-
+KISSY.use('modules/boot, modules/pagelet', function(S, Boot, Pagelet) {
     Boot();
 
     Pagelet.init();

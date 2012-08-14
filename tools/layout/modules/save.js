@@ -2,25 +2,34 @@ KISSY.add('modules/save', function (S, E) {
     function save() {
         var data = {
             struct: [],
-            grid: {
-                // 列宽
-                c: 10,
-                // 槽宽
-                g: 10
-            },
+            grid: App.grid,
             resolution: {
                 base: 960,
                 others: [720, 1200, 1440, 1680]
             },
-            appVer: '0.0.1'
+            appVer: App.appVer
         };
 
         S.all('.r-section').each(function(section) {
-            var divs = [];
+            var cols = [];
             section.all('.r-div').each(function(div) {
-                divs.push(div.attr('class'));
+                var clsList = div.attr('class').split(/\s+/);
+
+                for (var i=0; i<clsList.length; ) {
+                    if (/^span[0-9_]+$/.test(clsList[i])) {
+                        clsList[i] = clsList[i].slice(4);
+                        ++i;
+                    } else {
+                        clsList.splice(i, 1);
+                    }
+                }
+
+                // div name
+                cols.push(div.one('.r-div-name').html());
+                // div cls
+                cols.push(clsList.join(' '));
             });
-            data.struct.push(divs);
+            data.struct.push(cols);
         });
 
         return data;
