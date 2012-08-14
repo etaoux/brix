@@ -2,7 +2,7 @@
 body{margin:0;padding:0;background:#f0f0f0 url(../img/bg.png);text-align:center;font:14px/1.5 normal "Hiragino Sans GB","Microsoft Yahei",Helvetica,Arial,sans-serif;}
 #logo{margin:0 0 20px;float:left;}#logo a{display:block;background:url(../img/logo.png) no-repeat;width:118px;height:26px;text-indent:-9999px;opacity:1;-webkit-transition:opacity 0.15s ease-in;}
 #logo a:hover{opacity:0.7;}
-#header{width:960px;margin:50px auto 0;text-align:left;position:relative;}#header .stats{padding:0;margin:7px 0 0 40px;float:left;}
+#header{width:960px;height:478px;margin:50px auto 0;text-align:left;position:relative;}#header .stats{padding:0;margin:7px 0 0 40px;float:left;}
 #header .slogan{position:absolute;bottom:15px;right:20px;padding:0;margin:0;font-size:30px;font-weight:bold;color:#f0f0f0;text-shadow:#000 0 0 10px;font-family:'Architects Daughter',cursive;}
 #header img{box-shadow:#000 0 0 3px;border-radius:2px;}
 #header nav{position:absolute;bottom:20px;left:20px;background:rgba(0, 0, 0, 0.4);}#header nav a{float:left;width:120px;height:32px;line-height:32px;text-align:center;text-decoration:none;padding-top:2px;border-right:1px dashed #909090;}
