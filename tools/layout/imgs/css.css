@@ -24,19 +24,22 @@ html, body,
 h6 {
     padding: 0 20px;
 }
-.r-resolution {
+#r-resolution ol {
     border-top: 1px solid #666;
 }
-.r-resolution li {
+#r-resolution li {
     line-height: 30px;
     border-bottom: 1px solid #666;
     padding: 0 20px;
     cursor: pointer;
     color: #333;
 }
-.r-resolution .active {
+#r-resolution .active {
     width: 51px;
     background: #bbb;
+}
+#r-add-resolution .iconfont {
+    font-size: 12px;
 }
 #r-save {
     margin: 10px 20px;
@@ -61,17 +64,19 @@ h6 {
     box-sizing: border-box;
     border: 2px dashed #999;
     min-height: 100px;
-    -webkit-transition: all .5s;
-    transition: all .5s;
+    -webkit-transition: background 2s;
+    transition: background 2s;
 }
 .r-div:hover {
-    border-color: #488fcd;
     border-color: #ff8400;
 }
 .r-div-size {
-    margin: 0;
-    line-height: 96px;
+    position: absolute;
+    top: 50%;
+    margin-top: -18px;
+    width: 100%;
     text-align: center;
+    font-size: 2em;
 }
 .r-div-panel {
     display: none;
@@ -83,4 +88,13 @@ h6 {
 }
 .r-resize-div {
     width: 70px;
+}
+.r-fake-div {
+    position: absolute;
+    box-sizing: border-box;
+    border: none;
+    background: #488fcd;
+    min-height: 100px;
+    -webkit-transition: all 1s;
+    transition: all 1s;
 }

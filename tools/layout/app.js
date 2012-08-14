@@ -8,27 +8,25 @@ var App = {
     },
     resolution: {
         base: 960,
-        other: [720, 1200, 1440, 1680]
+        others: [720, 1200, 1440, 1680]
     },
     struct: [[]],
 };
-App.msg = new KISSY.Base();
 
 KISSY.config({
     packages: {
-        libs: {
+        modules: {
             base: '.',
+            debug: true,
             tag: '20120813'
         }
     }
 });
 
-KISSY.use('libs/data, libs/render', function(S, Data, Render) {
-    if (location.hash) {
-        Data.load();
-    }
+KISSY.use('base, modules/boot, modules/pagelet', function(S, Base, Boot, Pagelet) {
+    App.msg = new Base();
 
-    App.msg.set('pageWidth', App.resolution.base, {slient: true});
+    Boot();
 
-    KISSY.ready(Render.init());
+    Pagelet.init();
 });
