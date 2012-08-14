@@ -1,5 +1,6 @@
 /****** bx-tips ******/
 .bx-tips-show {
+  color: #666;
   max-width: 194px;
   _width: 194px;
   border: 1px solid #e5e5e5;
@@ -17,6 +18,8 @@
   box-shadow: 0 1px 1px #eeeeee;
 }
 .bx-tips-show p {
+  font-size: 12px;
+  line-height: 15px;
   margin: 12px 14px;
 }
 .bx-tips-tri,
