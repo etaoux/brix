@@ -17,11 +17,12 @@
   line-height: 21px;
   font-size: 12px;
   font-weight: bold;
+  cursor: pointer;
 }
 .btn,
 .btn:hover,
 .btn:visited {
-  color: #333;
+  color: #333!important;
 }
 
 .btn {
@@ -29,12 +30,29 @@
   #gradient > .vertical(#f8f8f8, #eee);
 }
 .btn:hover {
-  border-color: transparent;
+  // border-color: transparent;
   .box-shadow(~"none");
   #gradient > .vertical(#f2f2f2, #e6e6e6);
 }
 .btn:active {
   #gradient > .vertical(#e6e6e6, #f2f2f2);
+}
+
+/*group btn*/
+.btn-group .btn {
+  .border-radius(0);
+  border-left-width: 0;
+  /*border-right-width: 0;*/
+}
+
+.btn-group .btn:first-child {
+  border-left-width: 1px;
+  .border-radius(2px 0 0 2px);
+}
+
+.btn-group .btn:last-child {
+  /*border-right-width: 1px;*/
+  .border-radius(0 2px 2px 0);
 }
 
 // red button
@@ -102,36 +120,37 @@
   #gradient > .vertical(#f2f2f2, #e6e6e6);
   color: #ccc;
   cursor: default;
+  border: 1px solid #e0e0e0; border-bottom-color:#ccc;
 }
 
 //size 45px buttons
-.btn-size45 {
+.btn-size45, .btn-xlarge {
   height: 43px;
   line-height: 43px;
   font-size: 18px;
   padding: 0 20px;
 }
 
-.btn-size40 {
+.btn-size40, .btn-large {
   height: 38px;
   line-height: 38px;
   font-size: 14px;
   padding: 0 20px;
 }
 
-.btn-size30 {
+.btn-size30, .btn-medium {
   height: 28px;
   line-height: 28px;
   padding: 0 20px;
 }
 
-.btn-size28 {
+.btn-size28, .btn-small {
   height: 26px;
   line-height: 26px;
   padding: 0 20px;
 }
 
-.btn-size25 {
+.btn-size25, .btn-xsmall {
   height: 23px;
   line-height: 23px;
 }

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Brix之旅开始
-category: tutorials
+category: guide
 caption: 还记得当年学一门语言的时候的helloworld吗，今天，让我们看看brix框架的helloworld吧。
 ---
 
@@ -53,7 +53,7 @@ KISSY.use('helloworld',function(S,HelloWorld){
 
 ### demo：
 
-{% demo tutorials/helloworld/helloworld1.html %}
+{% demo guide/helloworld/helloworld1.html %}
 
 ## 方式二
 
@@ -79,7 +79,7 @@ KISSY.use('brix/core/pagelet',function(S,Pagelet){
 
 ### demo：
 
-{% demo tutorials/helloworld/helloworld2.html %}
+{% demo guide/helloworld/helloworld2.html %}
 
 ## 方式三
 
@@ -108,7 +108,7 @@ KISSY.use('helloworld',function(S,HelloWorld){
 
 ### demo：
 
-{% demo tutorials/helloworld/helloworld3.html %}
+{% demo guide/helloworld/helloworld3.html %}
 
 ## 方式四
 
@@ -137,7 +137,7 @@ KISSY.use('brix/core/pagelet',function(S,Pagelet){
 
 ### demo：
 
-{% demo tutorials/helloworld/helloworld4.html %}
+{% demo guide/helloworld/helloworld4.html %}
 
 
 ## 方式五
@@ -155,7 +155,7 @@ KISSY.use('brix/core/pagelet',function(S,Pagelet){
 </div>
 <script type="text/template" id="tmpl_helloword2">
     <div bx-name="helloworld">
-        <span>Hello 
+        <span>Hello
             <span bx-tmpl="helloworld" bx-datakey="name">{{name}}</span>
         </span>
     </div>
@@ -182,7 +182,7 @@ KISSY.use('helloworld',function(S,HelloWorld){
 
 ### demo：
 
-{% demo tutorials/helloworld/helloworld5.html %}
+{% demo guide/helloworld/helloworld5.html %}
 
 ## 方式六
 
@@ -199,7 +199,7 @@ KISSY.use('helloworld',function(S,HelloWorld){
 </div>
 <script type="text/template" id="tmpl_helloword2">
     <div bx-name="helloworld" path="helloworld">
-        <span>Hello 
+        <span>Hello
             <span bx-tmpl="helloworld" bx-datakey="name">{{name}}</span>
         </span>
     </div>
@@ -227,7 +227,7 @@ KISSY.use('brix/core/pagelet',function(S,Pagelet){
 
 ### demo：
 
-{% demo tutorials/helloworld/helloworld6.html %}
+{% demo guide/helloworld/helloworld6.html %}
 
 
 helloworld之旅到此结束，你应该对brix有了一个初步的认识了,接下来，我们会逐步的完善helloworld，同时了解看看brix还有什么其他的特性。
