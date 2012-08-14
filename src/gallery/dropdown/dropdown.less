@@ -7,8 +7,8 @@
     .border-radius(2px);
     border: 1px solid #ddd;
     border-bottom: 1px solid #bbb;
-    height: 23px;
-    line-height: 23px;
+    height: 25px;
+    line-height: 25px;
 }
 .dropdown:after { content: '\20'; display: block; height: 0; clear: both; }
 
@@ -29,14 +29,19 @@
     padding-right: 24px;
     padding-left: 8px;
     display: block;
-    background-color: #fff;
+    #gradient > .vertical(#f8f8f8, #eee);
     cursor: default;
+}
+
+.dropdown .dropdown-hd:active,
+.dropdown .dropdown-hd-active {
+    #gradient > .vertical(#e6e6e6, #f2f2f2);
 }
 
 .dropdown .dropdown-list{
     display: none;
     width:118px;
-    top:22px;
+    top:26px;
     left:-1px;
     position: absolute;
     border:1px solid #ddd;
@@ -78,7 +83,7 @@
     color: #000;
 }
 .dropdown .dropdown-list .dropdown-itemselected .icon-ok{
-   visibility: visible; 
+   visibility: visible;
 }
 .dropdown .dropdown-list .dropdown-itemover{
     background-color:#488fcd;

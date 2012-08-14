@@ -1,0 +1,63 @@
+@import "../../style/variables.less";
+@import "../../style/mixins.less";
+
+@switcher-radius: 18px;
+@switcherStartColor: #525252;
+@switcherEndColor: #969696;
+@switcherStartColor: #525252;
+@switcherEndColor: #969696;
+@switcherOnStartColor: #194f86;
+@switcherOnEndColor: #3f86c5;
+@triggerBorderColor: #595959;
+@triggerOnBorderColor: #2b5579;
+@spirityforie: url(http://img04.taobaocdn.com/tps/i4/T1_CvAXXhhXXXKpIvf-41-52.png) no-repeat e("\9");
+
+.switcher {
+  position: relative;
+  *zoom: 1;
+  width:41px;
+  height: 18px;
+  .border-radius(@switcher-radius);
+  #gradient.vertical(@switcherStartColor, @switcherEndColor);
+  filter:none;
+  background: @spirityforie;
+  background-position: 0 -18px e("\9");
+  cursor: pointer;
+}
+.switcher .switcher-trigger {
+  position: absolute;
+  left: 1px;
+  top: 2px;
+  display: block;
+  width: 14px;
+  height:14px;
+  background:#fff;
+  border:1px splid @triggerBorderColor;
+  .border-radius(@switcher-radius);
+  top:1px e("\9");
+  width:16px e("\9");
+  height:15px e("\9");
+  border: none e("\9");
+  background: @spirityforie;
+  background-position: 0 -36px e("\9");
+}
+.switcher-on{
+  #gradient.vertical(@switcherOnStartColor, @switcherOnEndColor);
+  filter: none;
+  background: @spirityforie;
+  background-position: 0 0 e("\9");
+}
+.switcher-on .switcher-trigger {
+  left: auto;
+  right: 1px;
+  border:1px splid @triggerOnBorderColor;
+  border:none e("\9");
+}
+.switcher-no-status {
+  .switcher;
+}
+.switcher-no-status .switcher-trigger {
+  border:1px splid @triggerBorderColor;
+  border:none e("\9");
+}
+

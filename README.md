@@ -31,16 +31,25 @@
 * [Node.js](http://nodejs.org) 0.8+
 * [NPM](https://npmjs.org)
 * [grunt](https://github.com/cowboy/grunt)
-* [Less](http://lesscss.org)
+* [grunt-less](https://github.com/jharding/grunt-less)
 
 ## 开发
 
 ```bash
-# 安装 Grunt
-npm install -g grunt
-npm install -g less
 git clone git://github.com/etaoux/brix.git
 cd brix
-# 使用 Grunt 运行 Less 自动编译监视器
+# 安装 Grunt
+npm install -g grunt
+npm install grunt-less
+# 使用 Grunt 运行 js和less 自动监视文件变化编译,windows系统grunt.cmd
 grunt
 ```
+
+## 目录结构
+* demo : 组件开发的demo目录，一般存放静态的html文件，名称以组件名命名。
+* dist : 工具打包生成的目标目录，不用人为进行编辑。
+* src  : 源文件目录，你懂的；组件存放在gallery，再以组件名命名的组件目录，组件的js文件是以index.js命名，如下拉框组件：gallery/dropdown/index.js
+* tasks : 存放打包脚本目录
+* tools : 辅助工具目录
+
+

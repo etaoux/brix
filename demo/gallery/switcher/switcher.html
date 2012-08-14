@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Brix Switcher Demo</title>
+        <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+        <link rel="stylesheet" href="../../../src/gallery/switcher/switcher.css">
+        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+        <script src="../../config.js"></script>
+        <style type="text/css">
+
+        .label{float:left;padding:0px 5px;color:#666;}
+        .switcher{float:left;}
+        </style>
+    </head>
+    <body style="margin:0px;padding-top:40px">
+        <div style="padding-left:50px;width:240px"  id="test_container1">
+
+        </div>
+        <div style="padding:40px 0 0 50px;width:240px"  id="test_container2">
+            <label class="label">否</label>
+            <div id="brick2" class="switcher">
+                <span class="switcher-trigger"></span>
+            </div>
+            <label class="label">是</label>
+        </div>
+        <div style="padding:40px 0 0 50px;width:240px"  id="test_container3">
+            <label class="label">苹果</label>
+            <div id="brick3" class="switcher">
+                <span class="switcher-trigger"></span>
+            </div>
+            <label class="label">香蕉</label>
+        </div>
+        <div style="padding:40px 0 0 50px;width:240px"  id="test_container4">
+
+        </div>
+		<!--brix begin-->
+        <script type="text/template" id="tmpl_switcher1">
+            <div id="brick1" bx-name="switcher" bx-tmpl="switcher" class="switcher">
+                <span class="switcher-trigger"></span>
+            </div>
+        </script>
+        <script type="text/template" id="tmpl_switcher4">
+            <span class="label">开启选项?</span>
+            <label class="label">否</label>
+            <div id="brick4" bx-name="switcher" bx-tmpl="switcher" class="switcher">
+                <span class="switcher-trigger"></span>
+            </div>
+            <label class="label">是</label>
+        </script>
+        <script>
+            KISSY.ready(function(S) {
+                KISSY.use("brix/gallery/switcher/", function(S, Switcher) {
+                    var config = {
+                        container:'#test_container1',//容器节点
+                        tmpl: S.one("#tmpl_switcher1").html()
+                    };
+                    var switcher1 = new Switcher(config);
+
+                    switcher1.render();
+
+                    var switcher2 = new Switcher({
+                        el:'#brick2',
+                        switchOn:  false,
+                        switchNoStatus: true
+                    });
+
+                    var switcher3 = new Switcher({
+                        el:'#brick3',
+                        switchOn: true
+                    });
+
+                    //事件注册
+                    switcher1.on('switch',function(e){
+                        console.log('switcher1 switchto ' + e.value);
+                    });
+                    switcher2.on('switch',function(e){
+                        console.log('switcher2 switchto ' + e.value);
+                    });
+                    switcher3.on('switch',function(e){
+                        console.log('switcher3 switchto ' + e.value);
+                    });
+
+                });
+
+                KISSY.use("brix/core/pagelet", function(S, Pagelet) {
+                    var config = {
+                        container:'#test_container4',//容器节点
+                        tmpl: S.one("#tmpl_switcher4").html()
+                    };
+
+                    var pagelet = new Pagelet(config);
+                    pagelet.render();
+                    pagelet.addBehavior();
+                    pagelet.on('switch',function(e){
+                        console.log('switcher4 switchto ' + e.value);
+                    });
+                });
+
+            });
+        </script>
+        <!--brix end-->
+    </body>
+</html>

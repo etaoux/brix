@@ -1,0 +1,280 @@
+/**
+ * ux-table UX规范表格样式
+ */
+.ux-table-container {
+    -webkit-text-size-adjust: none; /*允许缩小至12px以下*/
+    -ms-text-size-adjust: none;
+}
+.ux-table-operation {
+    padding: 8px 14px;
+    background-color: #f7f7f7;
+}
+.ux-table {
+    width: 100%;
+    table-layout: auto;
+}
+
+.ux-table th {
+    background-color: #f7f7f7;
+    font-weight: normal;
+    padding: 7px 5px 6px;
+    color: #999;
+    border-bottom: 1px solid #ebebeb;
+}
+.ux-table .no-data th {
+    color: #ccc;
+}
+.ux-table th:first-child {
+    padding-left: 14px;
+}
+.ux-table th:last-child {
+    padding-right: 14px;
+}
+.ux-table th a {
+    color: #999;
+}
+.ux-table .no-data th a{
+    color: #ccc;
+}
+.ux-table th a.sort {
+    color: #666;
+}
+.ux-table tbody td {
+    border-bottom: 1px solid #ebebeb;
+    padding: 10px 5px 9px;
+    background-color: #FAFAFA;
+}
+.ux-table tbody td:first-child {
+    padding-left: 14px;
+}
+.ux-table tbody td:last-child {
+    padding-right: 14px;
+}
+.ux-table tbody td.sort {
+    background-color: #f2f2f2;
+}
+
+.ux-table tbody tr:hover td,
+.ux-table tbody tr.hover td,
+.ux-table tbody tr.current td {
+    background-color: #f7f7f7;
+}
+
+.ux-table tbody tr:hover td.table-child {
+    background: none;
+}
+
+.ux-table tbody tr td.table-child {
+    padding: 0 40px;
+}
+
+.ux-table tbody tr .operation {
+    /*display: none;
+    _display: block;*/
+    visibility: hidden;
+    /*_visibility: visible;*/
+}
+.ux-table tbody tr .operation a {
+    color: #0859AC;
+}
+
+.ux-table tbody tr:hover .operation,
+.ux-table tbody tr.hover .operation,
+.ux-table tbody tr.current .operation {
+    visibility: visible;
+}
+
+.ux-table tbody tr .operation-list li {
+    padding: 3px 0;
+}
+
+.ux-table tbody tr.none .create-btn {
+    padding-top: 15px;
+    display: inline-block;
+    position: relative;
+}
+.ux-table tbody tr.none .create-btn .icon-point-to {
+    position: absolute;
+    right: -26px;
+    top: 0;
+}
+.ux-table tbody tr.none td {
+    height: 131px;
+    font-size: 14px;
+    text-align: center;
+    color: #666;
+    background-color: #fafafa;
+}
+
+.ux-table tbody tr.none:hover td {
+    background-color: #fafafa;
+}
+
+.ux-table tbody tr.selected td {
+    background-color: #f2f2f2;
+}
+.ux-table tfoot td {
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #ebebeb;
+    padding: 0 14px;
+}
+.ux-table .left {
+    text-align: left;
+}
+
+.ux-table .center {
+    text-align: center;
+}
+
+.ux-table .right {
+    text-align: right;
+}
+
+.ux-table .link {
+    color: #555;
+}
+
+.ux-table .link:hover {
+    color: #000;
+}
+
+.ux-table-more {
+    display: block;
+    position: relative;
+    zoom: 1;
+}
+.ux-table-more .icon-horn-tilt {
+    position: absolute;
+    right: 0;
+    bottom: -5px;
+}
+
+.ux-table-namewrap {
+    height: 18px;
+    overflow: hidden;
+    /*white-space: nowrap;*/
+}
+
+.url-overflow {
+    width: 250px;
+    overflow: hidden;
+    display: block;
+    white-space: nowrap;
+}
+
+/*子表格样式*/
+.ux-table-child {
+    width: 100%;
+}
+
+.ux-table-child thead th {
+    border: 0;
+    background: none;
+}
+.ux-table-child tbody td {
+    border: 0;
+    border-top: 1px dashed #ccc;
+}
+.ux-table-child tbody tr td {
+    background: none!important;
+}
+.ux-table-child tbody tr:hover td {
+    background: #f7f7f7!important;
+}
+
+.ux-table-child tbody tr .operation {
+    visibility: hidden!important;
+    _visibility: visible;
+}
+.ux-table-child tbody tr:hover .operation {
+    visibility: visible!important;
+}
+
+
+.ux-table-info,
+.ux-table-change {
+    position: absolute;
+    /*width: 70px;*/
+    left: -5px;
+    top: -10px;
+    padding: 10px 12px 8px;
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
+    -ms-box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
+    background-color: #FFF;
+    border: 1px solid #ccc\9;
+    text-align: left;
+    display: none;
+    line-height: 1.8;
+    border-collapse: separate;
+}
+
+:root .ux-table-info {
+    border: none;
+}
+
+:root .ux-table-change {
+    border: none;
+}
+
+.ux-table-handle,
+.ux-table-icon {
+    width: 45px;
+    /*margin: 0 auto;*/
+    zoom: 1;
+    height: 18px;
+    line-height: 18px;
+    position: relative;
+    text-align: center;
+}
+
+/*短图标时*/
+.ux-table-icon-short {
+    width: 20px;
+    float: left;
+    margin:0 3px;
+    display: inline;
+}
+
+.ux-table-icon-short .ux-table-info {
+    left: 20px;
+}
+
+.ux-table-handle .icon-horn {
+    position: absolute;
+    top: 8px;
+    right: 0;
+}
+.ux-table-change {
+    padding: 5px 0;
+    left: 6px;
+    width: 110px;
+}
+.ux-table-change li {
+    height: 25px;
+    line-height: 25px;
+    padding: 2px 9px;
+    padding: 0px 7px 2px 8px\9;
+    cursor: pointer;
+}
+
+.ux-table-change li:hover {
+    background-color: #F0F0F0;
+
+}
+.ux-table-change li.selected {
+    cursor: default;
+}
+/*.ux-table-change li.selected:hover {
+    background: none;
+}*/
+.ux-table-change li.selected .ux-table-cur {
+    display: block;
+}
+.ux-table-cur {
+    color: #999;
+    font-size: 10px;
+    float: right;
+    display: none;
+}
