@@ -18,7 +18,6 @@
   font-size: 12px;
   font-weight: bold;
   cursor: pointer;
-
   border-bottom-color: #bbb;
   #gradient > .vertical(#f8f8f8, #eee);
 
@@ -36,6 +35,8 @@
   &:active {
     #gradient > .vertical(#e6e6e6, #f2f2f2);
   }
+
+  .iconfont { font-size:12px; }
 }
 
 /*group btn*/
@@ -136,23 +137,13 @@
   }
 }
 
-.btn-disabled {
-  &,
-  &:hover,
-  &:visited {
-    #gradient > .vertical(#f2f2f2, #e6e6e6);
-    cursor: default;
-    border: 1px solid #e0e0e0; border-bottom-color:#ccc;
-    color:#ccc;
-  }
-}
-
 //size 45px buttons
 .btn-size45, .btn-xlarge {
   height: 43px;
   line-height: 43px;
   font-size: 18px;
   padding: 0 20px;
+  .iconfont { font-size:18px; }
 }
 
 .btn-size40, .btn-large {
@@ -160,21 +151,25 @@
   line-height: 38px;
   font-size: 14px;
   padding: 0 20px;
+  .iconfont { font-size:14px; }
 }
 
 .btn-size30, .btn-medium {
   height: 28px;
   line-height: 28px;
   padding: 0 20px;
+  .iconfont { font-size:12px; }
 }
 
 .btn-size28, .btn-small {
   height: 26px;
   line-height: 26px;
   padding: 0 20px;
+  .iconfont { font-size:12px; }
 }
 
 .btn-size25, .btn-xsmall {
   height: 23px;
   line-height: 23px;
+  .iconfont { font-size:12px; }
 }

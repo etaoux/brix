@@ -56,11 +56,12 @@ KISSY.add('modules/content-anim', function(S, D, E, Node) {
 
     return {
         init: function () {
-            var nodes = document.querySelectorAll('.r-div');
-            var oldPos, newPos;
+            var nodes, oldPos, newPos;
+
             App.msg.on('beforePageWidthChange', function (e) {
                 S.all('.r-fake-div').remove();
 
+                nodes = document.querySelectorAll('.r-div');
                 oldPos = logPos(nodes);
             });
             App.msg.on('afterPageWidthChange', function (e) {
