@@ -1,0 +1,175 @@
+/****** bx-tips ******/
+.bx-tips-show {
+  color: #666;
+  max-width: 194px;
+  _width: 194px;
+  border: 1px solid #e5e5e5;
+  display: none;
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  text-wrap: none;
+  background: #ffffff;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: 0 1px 1px #eeeeee;
+  -webkit-box-shadow: 0 1px 1px #eeeeee;
+  box-shadow: 0 1px 1px #eeeeee;
+}
+.bx-tips-show p {
+  font-size: 12px;
+  line-height: 15px;
+  margin: 12px 14px;
+}
+.bx-tips-tri,
+.bx-tips-close {
+  background: url('http://img01.taobaocdn.com/tps/i1/T1UFfCXhpcXXaRnzPj-60-36.png') no-repeat -9999px -9999px transparent;
+}
+.bx-tips-tri {
+  display: block;
+  position: absolute;
+  font-size: 0;
+  overflow: hidden;
+}
+/*** BottomRight ***/
+.bx-tips-br .bx-tips-msg {
+  margin: 12px 25px 12px 14px;
+}
+.bx-tips-br .bx-tips-tri {
+  top: -9px;
+  left: 14px;
+  background-position: -24px 0;
+  width: 16px;
+  height: 9px;
+}
+.bx-tips-br .bx-tips-close {
+  right: 3px;
+  top: 3px;
+}
+/*** TopLeft ***/
+.bx-tips-tl .bx-tips-msg {
+  margin: 12px 14px 12px 25px;
+}
+.bx-tips-tl .bx-tips-tri {
+  bottom: -9px;
+  right: 14px;
+  background-position: -44px 0;
+  width: 16px;
+  height: 9px;
+}
+.bx-tips-tl .bx-tips-close {
+  left: 3px;
+  top: 3px;
+}
+/*** BottomLeft ***/
+.bx-tips-bl .bx-tips-msg {
+  margin: 12px 14px 12px 25px;
+}
+.bx-tips-bl .bx-tips-tri {
+  top: -9px;
+  right: 14px;
+  background-position: -24px 0;
+  width: 16px;
+  height: 9px;
+}
+.bx-tips-bl .bx-tips-close {
+  left: 3px;
+  top: 3px;
+}
+/*** TopRight ***/
+.bx-tips-tr .bx-tips-msg {
+  margin: 12px 25px 12px 14px;
+}
+.bx-tips-tr .bx-tips-tri {
+  bottom: -9px;
+  left: 14px;
+  background-position: -44px 0;
+  width: 16px;
+  height: 9px;
+}
+.bx-tips-tr .bx-tips-close {
+  right: 3px;
+  top: 3px;
+}
+/*** LeftTop ***/
+.bx-tips-lt .bx-tips-msg {
+  margin: 12px 14px 12px 25px;
+}
+.bx-tips-lt .bx-tips-tri {
+  right: -9px;
+  bottom: 12px;
+  background-position: -12px 0;
+  width: 9px;
+  height: 16px;
+}
+.bx-tips-lt .bx-tips-close {
+  left: 3px;
+  top: 3px;
+}
+/*** LeftBottom ***/
+.bx-tips-lb .bx-tips-msg {
+  margin: 12px 14px 12px 25px;
+}
+.bx-tips-lb .bx-tips-tri {
+  right: -9px;
+  top: 12px;
+  background-position: -12px 0;
+  width: 9px;
+  height: 16px;
+}
+.bx-tips-lb .bx-tips-close {
+  left: 3px;
+  top: 3px;
+}
+/*** RightTop ***/
+.bx-tips-rt .bx-tips-msg {
+  margin: 12px 25px 12px 14px;
+}
+.bx-tips-rt .bx-tips-tri {
+  left: -9px;
+  bottom: 12px;
+  background-position: 0 0;
+  width: 9px;
+  height: 16px;
+}
+.bx-tips-rt .bx-tips-close {
+  right: 3px;
+  top: 3px;
+}
+/*** RightBottom ***/
+.bx-tips-rb .bx-tips-msg {
+  margin: 12px 25px 12px 14px;
+}
+.bx-tips-rb .bx-tips-tri {
+  left: -9px;
+  top: 12px;
+  background-position: 0 0;
+  width: 9px;
+  height: 16px;
+}
+.bx-tips-rb .bx-tips-close {
+  right: 3px;
+  top: 3px;
+}
+/************/
+.bx-tips-uncloseable .bx-tips-msg {
+  margin: 12px 14px;
+}
+.bx-tips-close {
+  display: block;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  background-position: -20px -20px;
+  font-size: 0;
+  text-indent: -9999em;
+}
+.bx-tips-close:hover,
+.bx-tips-close.hover {
+  background-position: 0 -20px;
+  cursor: pointer;
+}
+.bx-tips-uncloseable .bx-tips-close {
+  display: none;
+}
