@@ -1,0 +1,259 @@
+@max-width: 194px;
+@border: 1px solid #e5e5e5;
+@background-color: #fff;
+@sprite: 'http://img01.taobaocdn.com/tps/i1/T1UFfCXhpcXXaRnzPj-60-36.png';
+@margin-top: 12px;
+@margin-bottom: 12px;
+@margin-left: 14px;
+@margin-right: 14px;
+@margin-close-none: @margin-top @margin-right;
+@margin-close-right: @margin-top 25px @margin-bottom @margin-left;
+@margin-close-left: @margin-top @margin-right @margin-bottom 25px;
+@margin-close: 3px;
+@tri-height: 9px;
+@tri-width: 16px;
+.tri-top(){
+    background-position: -24px 0;
+    width: @tri-width;
+    height: @tri-height;
+}
+
+.tri-bottom(){
+    background-position: -44px 0;
+    width: @tri-width;
+    height: @tri-height;
+}
+
+.tri-right(){
+    background-position: -12px 0;
+    width: @tri-height;
+    height: @tri-width;
+}
+
+.tri-left(){
+    background-position: 0 0;
+    width: @tri-height;
+    height: @tri-width;
+}
+
+.border-radius(@radius: 2px){
+    -moz-border-radius: @radius;
+    -webkit-border-radius: @radius;
+    border-radius: @radius;
+}
+
+.box-shadow(@x: 0, @y: 1px, @blur: 1px, @color: #eee){
+    -moz-box-shadow: @arguments;
+    -webkit-box-shadow: @arguments;
+    box-shadow: @arguments;
+}
+
+/****** bx-tips ******/
+.bx-tips-show {
+
+    color: #666;
+    max-width: @max-width;
+    _width: @max-width;
+    border: @border;
+    display: none;
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    text-wrap: none;
+    background: @background-color;
+    .border-radius();
+    .box-shadow();
+
+}
+
+.bx-tips-show p {
+    font-size: 12px;
+    line-height: 15px;
+    margin: @margin-close-none;
+}
+
+.bx-tips-tri, .bx-tips-close {
+    background: url(@sprite) no-repeat -9999px -9999px transparent;
+}
+
+.bx-tips-tri {
+    display: block;
+    position: absolute;
+    font-size: 0;
+    overflow: hidden;
+}
+
+/*** BottomRight ***/
+.bx-tips-br {
+    .bx-tips-msg {
+        margin: @margin-close-right;
+    }
+
+    .bx-tips-tri {
+        top: -@tri-height;
+        left: @margin-right;
+        .tri-top();
+
+    }
+
+    .bx-tips-close {
+        right: @margin-close;
+        top: @margin-close;
+    }
+}
+
+/*** TopLeft ***/
+.bx-tips-tl {
+    .bx-tips-msg {
+        margin: @margin-close-left;
+    }
+
+    .bx-tips-tri {
+        bottom: -@tri-height;
+        right: @margin-right;
+        .tri-bottom();
+    }
+
+    .bx-tips-close {
+        left: @margin-close;
+        top: @margin-close;
+    }
+}
+
+/*** BottomLeft ***/
+.bx-tips-bl {
+    .bx-tips-msg {
+        margin: @margin-close-left;
+    }
+
+    .bx-tips-tri {
+        top: -@tri-height;
+        right: @margin-right;
+        .tri-top();
+
+    }
+
+    .bx-tips-close {
+        left: @margin-close;
+        top: @margin-close;
+    }
+}
+
+/*** TopRight ***/
+.bx-tips-tr {
+    .bx-tips-msg {
+        margin: @margin-close-right;
+    }
+
+    .bx-tips-tri {
+        bottom: -@tri-height;
+        left: @margin-right;
+        .tri-bottom();
+
+    }
+
+    .bx-tips-close {
+        right: @margin-close;
+        top: @margin-close;
+    }
+}
+
+/*** LeftTop ***/
+.bx-tips-lt {
+    .bx-tips-msg {
+        margin: @margin-close-left;
+    }
+
+    .bx-tips-tri {
+        right: -@tri-height;
+        bottom: @margin-top;
+        .tri-right();
+
+    }
+
+    .bx-tips-close {
+        left: @margin-close;
+        top: @margin-close;
+    }
+}
+
+/*** LeftBottom ***/
+.bx-tips-lb {
+    .bx-tips-msg {
+        margin: @margin-close-left;
+    }
+
+    .bx-tips-tri {
+        right: -@tri-height;
+        top: @margin-top;
+        .tri-right();
+
+    }
+
+    .bx-tips-close {
+        left: @margin-close;
+        top: @margin-close;
+    }
+}
+
+/*** RightTop ***/
+.bx-tips-rt {
+    .bx-tips-msg {
+        margin: @margin-close-right;
+    }
+
+    .bx-tips-tri {
+        left: -@tri-height;
+        bottom: @margin-top;
+        .tri-left();
+
+    }
+
+    .bx-tips-close {
+        right: @margin-close;
+        top: @margin-close;
+    }
+}
+
+/*** RightBottom ***/
+.bx-tips-rb {
+    .bx-tips-msg {
+        margin: @margin-close-right;
+    }
+
+    .bx-tips-tri {
+        left: -@tri-height;
+        top: @margin-top;
+        .tri-left();
+
+    }
+
+    .bx-tips-close {
+        right: @margin-close;
+        top: @margin-close;
+    }
+}
+
+/************/
+.bx-tips-uncloseable .bx-tips-msg {
+    margin: @margin-close-none;
+}
+
+.bx-tips-close {
+    display: block;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    background-position: -20px -20px;
+    font-size: 0;
+    text-indent: -9999em;
+}
+
+.bx-tips-close:hover, .bx-tips-close.hover {
+    background-position: 0 -20px;
+    cursor: pointer;
+}
+
+.bx-tips-uncloseable .bx-tips-close {
+    display: none;
+}
