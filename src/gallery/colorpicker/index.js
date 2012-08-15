@@ -68,8 +68,9 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
         '.slide': {
             click: function(e) {
                 var self = this,
-                    top = e.offsetY,
-                    h = top / self.slideNode.height() * 360;
+                    height = self.slideNode.height(),
+                    top = (e.offsetY>=height?height-1:e.offsetY),
+                    h = top / height * 360;
                 self.setHsv({
                     h: h,
                     s: self.s,
@@ -89,23 +90,29 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
                 //this._fireSelected();
             }
         },
-        '.icon-arrow':{
-            click:function(e){
-                var self = this,animateNode = self.get('el').one('.colorpicker-bd');
+        '.icon-arrow': {
+            click: function(e) {
+                var self = this,
+                    animateNode = self.get('el').one('.colorpicker-bd');
                 var node = S.one(e.currentTarget);
                 animateNode.stop();
-                if(node.hasClass('icon-arrow-up')){
+                if (node.hasClass('icon-arrow-up')) {
                     node.removeClass('icon-arrow-up');
-                    animateNode.css('overflow','hidden');
-                    animateNode.animate({height:0,'marginBottom':0},0.3,'easyNone',function(){
+                    animateNode.css('overflow', 'hidden');
+                    animateNode.animate({
+                        height: 0,
+                        'marginBottom': 0
+                    }, 0.3, 'easyNone', function() {
                         node.html('&#405');
                     });
-                }
-                else{
+                } else {
                     node.addClass('icon-arrow-up');
-                    animateNode.animate({height:196,marginBottom:10},0.3,'easyNone',function(){
+                    animateNode.animate({
+                        height: 196,
+                        marginBottom: 10
+                    }, 0.3, 'easyNone', function() {
                         node.html('&#404');
-                        animateNode.css('overflow','visible');
+                        animateNode.css('overflow', 'visible');
                     });
                 }
             }
@@ -113,6 +120,14 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
     };
 
     ColorPicker.METHOD = {
+        /**
+         * 对齐 ColorPicker 到 node 的 points 点, 偏移 offset 处
+         * @param {Object} {
+//                node: null,         // 参考元素,
+//                points: ['cc','cc'], // ['tr', 'tl'] 表示 overlay 的 tl 与参考节点的 tr 对齐
+//                offset: [0, 0]      // 有效值为 [n, m]
+//            }
+         */
         align: function(align) {
             var self = this;
             self.overlay.set('align', align);
@@ -183,11 +198,12 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             self.slideDragNode.css({
                 top: self.h * self.slideNode.height() / 360 - 5
             });
-            var left = self.s * self.pickerNode.width() - 5, top = (1 - self.v) * self.pickerNode.height() - 5;
+            var left = self.s * self.pickerNode.width() - 5,
+                top = (1 - self.v) * self.pickerNode.height() - 5;
             self.pickerDragNode.css({
                 left: left,
                 top: top,
-                color:top>98?'#fff':'#000'
+                color: top > 98 ? '#fff' : '#000'
             });
             self.pickerNode.css({
                 "background-color": self.hsv2rgb(self.h, 1, 1).hex
@@ -197,23 +213,41 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             });
             self.get('el').one('input').val(c.hex);
         },
+        /**
+         * 设置颜色
+         * @param {Object} hsv hsv对象 { h: <hue>, s: <saturation>, v: <value> }
+         */
         setHsv: function(hsv) {
             this.setColor(hsv);
         },
+        /**
+         * 设置颜色
+         * @param {Object} rgb rgb对象 { r: <red>, g: <green>, b: <blue> }
+         */
         setRgb: function(rgb) {
             this.setColor(this.rgb2hsv(rgb.r, rgb.g, rgb.b), rgb);
         },
+        /**
+         * 设置颜色
+         * @param {String} hex 颜色值#RRGGBB.
+         */
         setHex: function(hex) {
             this.setColor(this.rgb2hsv(parseInt(hex.substr(1, 2), 16), parseInt(hex.substr(3, 2), 16), parseInt(hex.substr(5, 2), 16)), undefined, hex);
         }
     };
 
+    ColorPicker.FIRES = {
+        /**
+         * selected 事件，在点击确定后触发
+         * @type {String}
+         */
+        selected:'selected'
+    };
     S.extend(ColorPicker, Brick, {
         initialize: function() {
             var self = this;
             this.h = 0;
-            this.s = 1;
-            this.v = 1;
+            this.s = this.v = 1;
             var align = self.get('align');
             self.overlay = new Overlay({
                 srcNode: '#' + self.get('id'),
@@ -355,11 +389,15 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
                     left = width;
                 } else if (left < 0) {
                     left = 0;
+                } else {
+                    left += 5;
                 }
                 if (top > height) {
                     top = height;
                 } else if (top < 0) {
                     top = 0;
+                } else {
+                    top += 5;
                 }
 
                 var s = left / width,
@@ -380,10 +418,12 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
                 var offset = slideNode.offset();
                 var height = slideNode.height(),
                     top = ev.top - offset.top;
-                if (top > height) {
+                if (top + 5 > height) {
                     top = height - 1;
                 } else if (top < 0) {
                     top = 0;
+                } else {
+                    top += 5;
                 }
                 h = top / self.slideNode.height() * 360;
                 self.setHsv({
@@ -398,7 +438,7 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             var self = this,
                 c = self.hsv2rgb(self.h, self.s, self.v);
             self.overlay.hide();
-            self.fire('selected', {
+            self.fire(ColorPicker.FIRES.selected, {
                 hex: c.hex,
                 hsv: {
                     h: self.h,
@@ -413,7 +453,8 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             });
         },
         destructor: function() {
-
+            var self= this;
+            self.overlay.destroy();
         }
     });
     S.augment(ColorPicker, ColorPicker.METHOD);
