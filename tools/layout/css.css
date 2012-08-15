@@ -35,11 +35,19 @@ h6 {
     width: 51px;
     background: #bbb;
 }
-#r-add-resolution .iconfont {
-    font-size: 12px;
+#r-config,
+#r-preview,
+#r-save,
+#r-output {
+    display: block;
+    margin: 10px;
 }
-#r-save {
-    margin: 10px 20px;
+#r-config .iconfont,
+#r-preview .iconfont,
+#r-save .iconfont,
+#r-output .iconfont {
+    padding-right: .3em;
+    font-size: 12px;
 }
 
 /******* r-content *******/

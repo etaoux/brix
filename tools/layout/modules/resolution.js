@@ -11,7 +11,7 @@ KISSY.add('modules/resolution', function(S, D, E, Node) {
             html += '<li contenteditable>' + others[i] + 'px</li>';
         }
         html += '</ol>';
-        S.one('#r-add-resolution').before(html);
+        S.one('#r-resolution').append(html);
 
         S.one('#r-resolution').delegate('click', 'li', function(e) {
             var el = S.one(e.currentTarget);

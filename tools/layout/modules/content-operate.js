@@ -14,7 +14,7 @@ KISSY.add('modules/content-operate', function(S, Node, Utils) {
                     }) );
                 })
                 .delegate('click', '.r-add-div', function(e) {
-                    var num = Math.ceil((100 + App.grid.g) / (App.grid.c + App.grid.g));
+                    var num = Math.ceil((180 + App.grid.g) / (App.grid.c + App.grid.g));
 
                     S.one(e.currentTarget).parent('.r-section').one('.r-section-bd').append( S.substitute(App.tmpl.div, {
                         id: Utils.idGen(),
