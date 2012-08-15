@@ -6,6 +6,12 @@ KISSY.add('modules/content', function(S, Node, Utils, ContentOperate, ContentAni
         var str;
         var i, j;
 
+        var count = Math.floor(1920 / (App.grid.c + App.grid.g));
+        var bgs = '';
+        for (i=0; i<count; i++) {
+            bgs += '<div class="span1"></div>';
+        }
+
         for (i=0; i<rows.length; i++) {
             row = rows[i];
             str = '';
@@ -16,7 +22,10 @@ KISSY.add('modules/content', function(S, Node, Utils, ContentOperate, ContentAni
                 });
             }
 
-            html += S.substitute(App.tmpl.section, {divs: str});
+            html += S.substitute(App.tmpl.section, {
+                bgs: bgs,
+                divs: str
+            });
         }
 
         S.one('#r-add-section').before(html);

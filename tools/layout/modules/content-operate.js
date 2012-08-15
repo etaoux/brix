@@ -3,16 +3,26 @@ KISSY.add('modules/content-operate', function(S, Node, Utils) {
         init: function () {
             S.one('#r-content')
                 .delegate('click', '#r-add-section', function(e) {
-                    S.one(e.currentTarget).before( S.substitute(App.tmpl.section, {divs: ''}) );
+                    var count = Math.floor(1920 / (App.grid.c + App.grid.g));
+                    var bgs = '';
+                    for (var i=0; i<count; i++) {
+                        bgs += '<div class="span1"></div>';
+                    }
+                    S.one(e.currentTarget).before( S.substitute(App.tmpl.section, {
+                        bgs: bgs,
+                        divs: ''
+                    }) );
                 })
                 .delegate('click', '.r-add-div', function(e) {
-                    S.one(e.currentTarget).parent('.r-section').one('.row').append( S.substitute(App.tmpl.div, {
+                    var num = Math.ceil((100 + App.grid.g) / (App.grid.c + App.grid.g));
+
+                    S.one(e.currentTarget).parent('.r-section').one('.r-section-bd').append( S.substitute(App.tmpl.div, {
                         id: Utils.idGen(),
-                        cls: 'r-div span10'
+                        cls: 'r-div span' + num
                     }) );
                 })
                 .delegate('click', '.r-clear-section', function(e) {
-                    S.one(e.currentTarget).parent('.r-section').one('.row').empty();
+                    S.one(e.currentTarget).parent('.r-section').one('.r-section-bd').empty();
                 })
                 .delegate('click', '.r-remove-section', function(e) {
                     S.one(e.currentTarget).parent('.r-section').remove();
@@ -32,7 +42,7 @@ KISSY.add('modules/content-operate', function(S, Node, Utils) {
                     var cls = el.attr('class');
                     var suf = pageWidth === App.resolution.base ? '' : '_' + pageWidth;
                     var reg = new RegExp('^span\\d+' + suf + '$');
-                    cls = Utils.clsReplace(cls, reg, 'span' + Math.ceil(width/20) + suf);
+                    cls = Utils.clsReplace(cls, reg, 'span' + Math.ceil(width / (App.grid.c + App.grid.g)) + suf);
                     el.attr('class', cls);
                 })
                 .delegate('click', '.r-remove-div', function(e) {

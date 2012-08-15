@@ -3,7 +3,7 @@
 <title>Responsive Layout Generator - Brix Style</title>
 <link rel="stylesheet" href="http://etaoux.github.com/brix/dist/brix-min.css">
 <!--<link rel="stylesheet" href="assets/brix.css">-->
-<link rel="stylesheet" href="imgs/css.css">
+<link rel="stylesheet" href="css.css">
 
 <div id="r-panel">
     <div bx id="r-resolution">
@@ -18,7 +18,8 @@
 
 <script id="r-tmpl-section" type="text/template">
     <div class="r-section">
-        <div class="row">{divs}</div>
+        <div class="r-section-bg row">{bgs}</div>
+        <div class="r-section-bd row">{divs}</div>
         <div class="r-section-panel">
             <a class="r-add-div btn btn-size25"><span class="iconfont">&#410</span>新增区块</a>
             <a class="r-clear-section btn btn-size25"><span class="iconfont">&#223</span>清除区域</a>
@@ -38,4 +39,30 @@
 
 <script src="http://a.tbcdn.cn/s/kissy/1.3.0rc/seed-min.js"></script>
 <!--<script src="assets/seed-min.js"></script>-->
-<script src="app.js"></script>
+<script>
+    var App = {
+        appVer: '0.0.1',
+        grid: {
+            c: 10, // 列宽
+            g: 10  // 槽宽
+        },
+        resolution: {
+            base: 960,
+            others: [720, 1200, 1440, 1680]
+        },
+        struct: [[]],
+    };
+    KISSY.config({
+        packages: {
+            modules: {
+                base: '.',
+                debug: true,
+                tag: '20120813'
+            }
+        }
+    });
+    KISSY.use('modules/boot, modules/pagelet', function(S, Boot, Pagelet) {
+        Boot();
+        Pagelet.init();
+    });
+</script>

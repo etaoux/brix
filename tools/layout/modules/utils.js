@@ -21,18 +21,25 @@ KISSY.add('modules/utils', function(S, D) {
         if (all[width]) return;
         all[width] = true;
 
-        var total = Math.ceil(width / 20);
+        var isBase = width === App.resolution.base;
+        var total = Math.ceil((isBase ? 1920 : width) / (App.grid.c + App.grid.g));
         var css = '.w' + width + '{width: ' + width + 'px}' +
-                '.w' + width + ' .span0_' + width + '{display: none}';
+                '.row{margin-left: -' + App.grid.g + 'px}' +
+                (isBase ? '' : '.w' + width + ' ') +
+                '.span0' + (isBase ? '' : '_' + width) +
+                '{display: none}';
 
         for (var i=0; i<total; ) {
             ++i;
-            css += '.w' + width + ' .span' + i + '_' + width + '{width: ' + (20 * i - 10) + 'px}';
+            css += (isBase ? '' : '.w' + width + ' ') +
+                '.span' + i + (isBase ? '' : '_' + width) +
+                '{width: ' + ((App.grid.c + App.grid.g) * i - App.grid.g) + 'px;' +
+                'margin-left: ' + App.grid.g + 'px}';
         }
 
         D.addStyleSheet(css);
     }
-    all[App.resolution.base] = true;
+    //all[App.resolution.base] = true;
 
     function clsReplace(cls, reg, val) {
         cls = cls.split(/\s+/);

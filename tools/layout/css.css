@@ -16,9 +16,6 @@ html, body,
     min-height: 100%;
     background: #fff;
 }
-.w960 {
-    width: 960px;
-}
 
 /******* r-panel *******/
 h6 {
@@ -50,7 +47,15 @@ h6 {
     position: relative;
     margin-bottom: 15px;
     min-height: 100px;
-    background: #eee url(c10-g10.png);
+}
+.r-section-bg {
+    overflow: hidden;
+    position: absolute;
+    height: 100%;
+}
+.r-section-bg .span1 {
+    height: 100%;
+    background: #eee;
 }
 .r-section-panel {
     position: absolute;
@@ -60,7 +65,6 @@ h6 {
 }
 .r-div {
     position: relative;
-    float: left;
     box-sizing: border-box;
     border: 2px dashed #999;
     min-height: 100px;
