@@ -7,3 +7,4 @@ node_modules
 _deploy
 _site
 assets
+dist

@@ -1,0 +1,112 @@
+html, body,
+#r-panel {
+    height: 100%;
+    background: #bbb;
+}
+#r-panel {
+    position: fixed;
+    border-right: 1px solid #666;
+    width: 90px;
+    background: #f7f7f7;
+    z-index: 100;
+}
+#r-content {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+    margin-left: 120px;
+    min-height: 100%;
+    background: #fff;
+}
+
+/******* r-panel *******/
+h6 {
+    padding: 0 20px;
+}
+#r-resolution ol {
+    border-top: 1px solid #666;
+}
+#r-resolution li {
+    line-height: 30px;
+    border-bottom: 1px solid #666;
+    padding: 0 20px;
+    cursor: pointer;
+    color: #333;
+}
+#r-resolution .active {
+    width: 51px;
+    background: #bbb;
+}
+#r-config,
+#r-preview,
+#r-save,
+#r-output {
+    display: block;
+    margin: 10px;
+}
+#r-config .iconfont,
+#r-preview .iconfont,
+#r-save .iconfont,
+#r-output .iconfont {
+    padding-right: .3em;
+    font-size: 12px;
+}
+
+/******* r-content *******/
+.r-section {
+    position: relative;
+    margin-bottom: 15px;
+    min-height: 100px;
+}
+.r-section-bg {
+    overflow: hidden;
+    position: absolute;
+    height: 100%;
+}
+.r-section-bg .span1 {
+    height: 100%;
+    background: #eee;
+}
+.r-section-panel {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 90px;
+}
+.r-div {
+    position: relative;
+    box-sizing: border-box;
+    border: 2px dashed #999;
+    min-height: 100px;
+    -webkit-transition: background 2s;
+    transition: background 2s;
+}
+.r-div:hover {
+    border-color: #ff8400;
+}
+.r-div-name {
+    position: absolute;
+    top: 50%;
+    margin-top: -18px;
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+}
+.r-div-panel {
+    display: none;
+    position: absolute;
+    top: 0;
+}
+.r-div:hover .r-div-panel {
+    display: block;
+}
+.r-resize-div {
+    width: 70px;
+}
+.r-fake-div {
+    position: absolute;
+    box-sizing: border-box;
+    border: none;
+    background: #488fcd;
+    min-height: 100px;
+    -webkit-transition: all 1s;
+    transition: all 1s;
+}

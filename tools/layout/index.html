@@ -1,0 +1,70 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Responsive Layout Generator - Brix Style</title>
+<link rel="stylesheet" href="http://etaoux.github.com/brix/dist/brix-min.css">
+<!--<link rel="stylesheet" href="assets/brix.css">-->
+<link rel="stylesheet" href="css.css">
+
+<div id="r-panel">
+    <div bx id="r-resolution">
+        <h6>分辨率</h6>
+    </div>
+    <a bx id="r-config" class="btn"><span class="iconfont">&#355</span>配置</a>
+    <a bx id="r-preview" class="btn"><span class="iconfont">&#348</span>预览</a>
+    <a bx id="r-save" class="btn btn-blue"><span class="iconfont">&#342</span>保存</a>
+    <a bx id="r-output" class="btn btn-orange"><span class="iconfont">&#341</span>输出</a>
+</div>
+<div bx id="r-content">
+    <a id="r-add-section" class="btn btn-size25"><s class="iconfont">&#410</s>新增区域</a>
+</div>
+
+<script id="r-tmpl-section" type="text/template">
+    <div class="r-section">
+        <div class="r-section-bg row">{bgs}</div>
+        <div class="r-section-bd row">{divs}</div>
+        <div class="r-section-panel">
+            <a class="r-add-div btn btn-size25"><span class="iconfont">&#410</span>新增区块</a>
+            <a class="r-clear-section btn btn-size25"><span class="iconfont">&#223</span>清除区域</a>
+            <a class="r-remove-section btn btn-size25"><span class="iconfont">&#356</span>删除区域</a>
+        </div>
+    </div>
+</script>
+<script id="r-tmpl-div" type="text/template">
+    <div class="{cls}">
+        <p class="r-div-name" contenteditable>{id}</p>
+        <div class="r-div-panel">
+            <input class="r-resize-div">
+            <a class="r-remove-div btn btn-size25"><span class="iconfont">&#356</span>删除区块</a>
+        </div>
+    </div>
+</script>
+
+<script src="http://a.tbcdn.cn/s/kissy/1.3.0rc/seed-min.js"></script>
+<!--<script src="assets/seed-min.js"></script>-->
+<script>
+    var App = {
+        appVer: '0.0.1',
+        grid: {
+            c: 10, // 列宽
+            g: 10  // 槽宽
+        },
+        resolution: {
+            base: 960,
+            others: [720, 1200, 1440, 1680]
+        },
+        struct: [[]],
+    };
+    KISSY.config({
+        packages: {
+            modules: {
+                base: '.',
+                debug: true,
+                tag: '20120814'
+            }
+        }
+    });
+    KISSY.use('modules/boot, modules/pagelet', function(S, Boot, Pagelet) {
+        Boot();
+        Pagelet.init();
+    });
+</script>
