@@ -473,5 +473,5 @@ KISSY.add("brix/gallery/sidenav/index", function(S) {
     return Sidenav;
 
 }, {
-    requires: ['sizzle', "brix/core/brick", "node", "template"]
+    requires: ['sizzle', 'brix/core/brick', 'node', 'template', './sidenav.css']
 });

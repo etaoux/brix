@@ -1,0 +1,161 @@
+/**
+ * sidebar nav 模块所依赖的css
+ * Author: 崇志
+ * - START -
+ */
+/**
+ * main
+ */
+.main {
+  float: left;
+  width: 100%;
+}
+.inmain {
+  padding: 0 30px 10px 0;
+  min-height: 350px;
+  /*屏幕内容区指定最小高度*/
+
+  margin-left: 100px;
+}
+/**
+ * index-main 首页里的两栏布局，利用流体布局，左列定宽，右列自适应
+ */
+.index-main {
+  position: relative;
+  padding: 0 0 0 180px;
+  zoom: 1;
+}
+.index-side {
+  position: absolute;
+  width: 180px;
+  left: 0;
+  top: 0;
+}
+/**
+ * 边栏菜单
+ */
+.sidebar {
+  float: left;
+  margin-left: -100%;
+  display: inline;
+}
+.mr8 {
+  margin-right: 8px;
+}
+/*展开收缩icon*/
+.sub-nav .icon-expand,
+.sub-nav .icon-collapse {
+  background: url(http://img03.taobaocdn.com/tps/i3/T1C0jEXXXfXXcPntgR-80-234.png) no-repeat;
+  _background: url(http://img01.taobaocdn.com/tps/i1/T1JffDXkpnXXcPntgR-80-234.png) no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+  width: 16px;
+  height: 27px;
+  background-position: 0 0;
+  cursor: pointer;
+  position: absolute;
+  right: 1px;
+  top: 0;
+}
+.sub-nav .icon-expand:hover {
+  background-position: 0 -27px;
+}
+.sub-nav .icon-collapse {
+  background-position: -16px 0;
+}
+.sub-nav .icon-collapse:hover {
+  background-position: -16px -27px;
+}
+.sidebar-fixed {
+  float: none;
+  position: fixed;
+  margin-left: 0;
+  display: block;
+  top: 10px;
+  left: 0;
+  z-index: 7000;
+}
+.nav {
+  float: left;
+  width: 60px;
+  padding: 0 10px;
+  line-height: 1.1;
+  margin-top: -9px;
+}
+.nav a {
+  color: #777777;
+  font-size: 18px;
+  display: block;
+  padding: 8px 20px ;
+  width: 20px;
+}
+.nav a:hover {
+  color: #333333;
+}
+.nav a.on,
+.sub-nav-ul a.on,
+.sub-nav-ul i.on,
+.sub-nav-view a.on,
+.sub-nav-view i.on {
+  color: #0859ac!important;
+}
+.sub-nav-view {
+  font-size: 15px;
+  position: absolute;
+  background-color: #FFFFFF;
+  width: 120px;
+  left: -10000px;
+  padding: 9px 9px;
+  /*.box-shadow(0 0 10px rgba(60, 87, 118, .35));*/
+
+  box-shadow: 0 0 10px rgba(60, 87, 118, 0.35);
+  margin: -9px 0 0 -9px;
+  *border: 1px solid #ccc;
+  *margin: -10px 0 0 -10px;
+  z-index: 12000;
+  border-collapse: separate;
+}
+.sub-nav-view a {
+  color: #777;
+}
+.sub-nav-view a:hover {
+  color: #333;
+}
+.sub-nav {
+  float: left;
+  font-size: 15px;
+  overflow: hidden;
+  width: 1px;
+  /*chrome下0px会有 bug */
+
+  position: relative;
+  color: #777777;
+}
+.sub-nav-wrap {
+  width: 140px;
+  margin-left: -16px;
+  float: left;
+  /*opacity: 0;*/
+
+}
+.sub-nav a {
+  color: #777777;
+}
+.sub-nav a:hover {
+  color: #333333;
+}
+.sub-nav-ul {
+  display: none;
+  width: 140px;
+}
+.sub-nav-ul .li {
+  margin-bottom: 13px;
+}
+.sub-nav-third {
+  font-size: 12px;
+  padding-left: 24px;
+  overflow: hidden;
+}
+.sub-nav-third li {
+  padding: 5px 0 0;
+}
