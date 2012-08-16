@@ -160,7 +160,6 @@
     }
   }
 
-  .tfoot,
   tfoot td
     background-color: #f7f7f7;
     border-bottom: 1px solid #ebebeb;
@@ -239,6 +238,14 @@
   :root .icon-expend-collapse {
     line-height: 10px\9; /*兼容i9*/
   }
+}
+
+/* 用于在 table 标签之外实现 foot 的，这样就不用去计算 td 的 colspan 需要多少了  */
+.table-foot {
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #ebebeb;
+  padding: 0 14px;
+  height: 38px;
 }
 
 .table-settings {
