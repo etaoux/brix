@@ -12,10 +12,7 @@ KISSY.add("brix/gallery/switcher/index", function(S, Brick) {
     };
 
     Switcher.METHOD = {
-        switchTo: function(on) {
-            var self = this;
-            self._switchTo(on);
-        }
+
     };
 
     Switcher.ATTACH = {
