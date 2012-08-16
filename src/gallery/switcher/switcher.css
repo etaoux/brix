@@ -22,13 +22,13 @@
 }
 .switcher .switcher-trigger {
   position: absolute;
-  left: 1px;
-  top: 2px;
+  left: 0px;
+  top: 1px;
   display: block;
   width: 14px;
   height: 14px;
   background: #fff;
-  border: 1px splid #595959;
+  border: 1px solid #595959;
   -webkit-border-radius: 18px;
   -moz-border-radius: 18px;
   border-radius: 18px;
@@ -55,8 +55,8 @@
 }
 .switcher-on .switcher-trigger {
   left: auto;
-  right: 1px;
-  border: 1px splid #2b5579;
+  right: 0px;
+  border: 1px solid #2b5579;
   border: none \9;
 }
 .switcher-no-status {
@@ -82,6 +82,6 @@
   cursor: pointer;
 }
 .switcher-no-status .switcher-trigger {
-  border: 1px splid #595959;
+  border: 1px solid #595959;
   border: none \9;
 }

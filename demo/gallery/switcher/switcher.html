@@ -8,46 +8,53 @@
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
         <script src="../../config.js"></script>
         <style type="text/css">
-
-        .label{float:left;padding:0px 5px;color:#666;}
+        .container{padding:40px 0 0 50px;width:400px;height:22px;overflow:hidden;}
+        .switcher-label{float:left;padding:0px 5px;color:#666;}
         .switcher{float:left;}
+        .result-show{float:left;margin-left:40px;color:#101010}
         </style>
     </head>
     <body style="margin:0px;padding-top:40px">
-        <div style="padding-left:50px;width:240px"  id="test_container1">
+        <div class="container"  id="test_container1"></div>
 
-        </div>
-        <div style="padding:40px 0 0 50px;width:240px"  id="test_container2">
-            <label class="label">否</label>
+        <div class="container" id="test_container2">
+            <span class="switcher-label">否</span>
             <div id="brick2" class="switcher">
                 <span class="switcher-trigger"></span>
             </div>
-            <label class="label">是</label>
+            <span class="switcher-label">是</span>
+            <span id="switcher_result2" class="result-show"></span>
         </div>
-        <div style="padding:40px 0 0 50px;width:240px"  id="test_container3">
-            <label class="label">苹果</label>
-            <div id="brick3" class="switcher">
-                <span class="switcher-trigger"></span>
-            </div>
-            <label class="label">香蕉</label>
-        </div>
-        <div style="padding:40px 0 0 50px;width:240px"  id="test_container4">
 
+        <div id="J_Pagelet_container">
+            <div class="container" id="test_container3">
+                <span class="switcher-label">苹果</span>
+                <div bx-name="switcher" bx-config="{switchOn: true}" id="brick3" class="switcher">
+                    <span class="switcher-trigger"></span>
+                </div>
+                <span class="switcher-label">香蕉</span>
+                <span id="switcher_result3" class="result-show"></span>
+            </div>
+
+            <div class="container" id="test_container4">
+                <span class="switcher-label">开启选项?</span>
+                <span class="switcher-label">否</span>
+                <div bx-name="switcher" bx-tmpl="switcher" id="brick4" class="switcher">
+                    <span class="switcher-trigger"></span>
+                </div>
+                <span class="switcher-label">是</span>
+                <span id="switcher_result4" class="result-show"></span>
+            </div>
         </div>
+        
 		<!--brix begin-->
         <script type="text/template" id="tmpl_switcher1">
             <div id="brick1" bx-name="switcher" bx-tmpl="switcher" class="switcher">
                 <span class="switcher-trigger"></span>
             </div>
+            <span id="switcher_result1" class="result-show"></span>
         </script>
-        <script type="text/template" id="tmpl_switcher4">
-            <span class="label">开启选项?</span>
-            <label class="label">否</label>
-            <div id="brick4" bx-name="switcher" bx-tmpl="switcher" class="switcher">
-                <span class="switcher-trigger"></span>
-            </div>
-            <label class="label">是</label>
-        </script>
+            
         <script>
             KISSY.ready(function(S) {
                 KISSY.use("brix/gallery/switcher/", function(S, Switcher) {
@@ -56,45 +63,39 @@
                         tmpl: S.one("#tmpl_switcher1").html()
                     };
                     var switcher1 = new Switcher(config);
-
                     switcher1.render();
+                    switcher1.on('switch',function(e){
+                        S.one('#switcher_result1').html('switched to ' + e.value);
+                    });
 
                     var switcher2 = new Switcher({
-                        el:'#brick2',
+                        tmpl:'#brick2',
                         switchOn:  false,
                         switchNoStatus: true
                     });
-
-                    var switcher3 = new Switcher({
-                        el:'#brick3',
-                        switchOn: true
-                    });
-
-                    //事件注册
-                    switcher1.on('switch',function(e){
-                        console.log('switcher1 switchto ' + e.value);
-                    });
                     switcher2.on('switch',function(e){
-                        console.log('switcher2 switchto ' + e.value);
-                    });
-                    switcher3.on('switch',function(e){
-                        console.log('switcher3 switchto ' + e.value);
+                        S.one('#switcher_result2').html('switched to ' + e.value);
                     });
 
                 });
 
                 KISSY.use("brix/core/pagelet", function(S, Pagelet) {
                     var config = {
-                        container:'#test_container4',//容器节点
-                        tmpl: S.one("#tmpl_switcher4").html()
+                        tmpl:'#J_Pagelet_container'
                     };
 
                     var pagelet = new Pagelet(config);
                     pagelet.render();
                     pagelet.addBehavior();
-                    pagelet.on('switch',function(e){
-                        console.log('switcher4 switchto ' + e.value);
+                    pagelet.ready(function() {
+                        pagelet.getBrick('brick3').on('switch',function(e){
+                            S.one('#switcher_result3').html('switched to ' + e.value);
+                        });
+                        pagelet.getBrick('brick4').on('switch',function(e){
+                            S.one('#switcher_result4').html('switched to ' + e.value);
+                        });
                     });
+                    
                 });
 
             });
