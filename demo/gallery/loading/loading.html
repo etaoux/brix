@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Brix Switcher Demo</title>
+        <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+        <link rel="stylesheet" href="../../../src/gallery/loading/loading.css">
+        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+        <script src="../../config.js"></script>
+        <style type="text/css">
+        #brick2{padding:10px}
+        #brick2 img{vertical-align: top}
+        #brick2 span{padding:0 4px;line-height: 16px;}
+        </style>
+    </head>
+    <body style="margin:0px;padding-top:40px">
+        <div style="padding-left:50px;width:240px">
+            1、普通的loading,四种展现形式：
+        </div>
+        <div style="padding-left:50px;padding-top:10px;width:240px"  id="test_container1">
+        </div>
+        <div style="padding-top:10px;padding-left:50px;width:240px"  id="test_container3">
+            <div id="brick3" bx=name="loading" bx-tmpl="loading" class="loading" style="display:none;">
+                <img src="" alt="">
+            </div>
+        </div>
+        <div style="padding-top:10px;padding-left:50px;width:240px"  id="test_container4">
+            <div id="brick4" bx=name="loading" bx-tmpl="loading" class="loading" style="display:none;">
+                <img src="" alt="">
+            </div>
+        </div>
+        <div style="padding-top:10px;padding-left:50px;width:240px"  id="test_container5">
+            <div id="brick5" bx=name="loading" bx-tmpl="loading" class="loading" style="display:none;">
+                <img src="" alt="">
+            </div>
+        </div>
+        <div style="padding-left:50px;padding-top:30px;width:240px">
+            2、触发loading,5秒后结束.
+        </div>
+        <div style="padding-top:10px;padding-left:50px;width:240px">
+            <span class="btn-blue" id="J_Build_Loading1" style="padding:4px;">点击开始loading</span>
+            <div id="brick2" bx=name="loading" bx-tmpl="loading" class="loading" style="display:none;">
+                <img src="" alt=""><span>请耐心等候，宝贝马上出现哦~</span>
+            </div>
+        </div>
+        <!--brix begin-->
+        <script type="text/template" id="tmpl_loading1">
+            <div id="brick1" bx=name="loading" bx-tmpl="loading" class="loading" style="display:none;">
+                <img src="" alt="">
+            </div>
+        </script>
+        <script>
+            KISSY.ready(function(S) {
+                KISSY.use("brix/gallery/loading/", function(S, Loading) {
+                    var config = {
+                        container:'#test_container1',//容器节点
+                        tmpl: S.one("#tmpl_loading1").html()
+                    };
+                    var loading1 = new Loading(config);
+
+                    loading1.render();
+                    loading1.show();
+
+                    S.one('#J_Build_Loading1').on('click', function(e) {
+                        e.preventDefault();
+                        var loading2 = new Loading({
+                            el:'#brick2',
+                            loadingStyle: 3
+                        });
+                        
+                        loading2.on('show', function() {
+                            S.one('#J_Build_Loading1').html('loading 开始');
+                        });
+                        loading2.on('hide', function() {
+                            S.one('#J_Build_Loading1').html('loading 结束，点击重新开始');
+                        })
+                        loading2.show();
+                        S.later(function() {
+                            loading2.hide();
+                        }, 5000);
+                    });
+
+                    var loading3 = new Loading({
+                        el:'#brick3',
+                        loadingStyle: 1
+                    });
+                    loading3.show();
+
+
+                    var loading4 = new Loading({
+                        el:'#brick4',
+                        loadingStyle: 2
+                    });
+
+                    loading4.show();
+
+                    var loading5 = new Loading({
+                        el:'#brick5',
+                        loadingStyle: 3
+                    });
+
+                    loading5.show();
+                });
+
+                // KISSY.use("brix/core/pagelet", function(S, Pagelet) {
+                //     var config = {
+                //         container:'#test_container4',
+                //         tmpl: S.one("#tmpl_switcher4").html()
+                //     };
+
+                //     var pagelet = new Pagelet(config);
+                //     pagelet.render();
+                //     pagelet.addBehavior();
+                //     pagelet.on('switch',function(e){
+                //         console.log('switcher4 switchto ' + e.value);
+                //     });
+                // });
+
+            });
+        </script>
+        <!--brix end-->
+    </body>
+</html>
