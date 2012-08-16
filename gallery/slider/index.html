@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Brix &mdash; UX</title>
+  <!--[if lt IE 9]> <script>
+  // html5
+  (function() {
+      var tags = [
+          'article', 'aside', 'details', 'figcaption',
+          'figure', 'footer', 'header', 'hgroup',
+          'menu', 'nav', 'section', 'summary',
+          'time', 'mark', 'audio', 'video'],
+              i = 0, len = tags.length;
+      for (; i < len; i++) document.createElement(tags[i]);
+  })();
+</script> <![endif]-->
+  <link rel="stylesheet" type="text/css" href="/brix/assets/css/post.css">
+</head>
+<body>
+  <aside id="aside">
+  <div id="logo">
+    <a href="/brix/">Brix</a>
+  </div>
+  <section>
+  <h3>架构</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/arch/1-goal">BRIX 组件架构（一）</a></li>
+
+  <li><a href="/brix/arch/2-reporting-system-modulization">BRIX 组件架构（二）</a></li>
+
+  <li><a href="/brix/arch/3-tab-and-tab-configer">BRIX 组件架构（三）</a></li>
+
+  <li><a href="/brix/arch/4-sub-modules-and-data-structure">BRIX 组件架构（四）</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Meta</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/meta/estrap">HTML/CSS 书写规范</a></li>
+
+  <li><a href="/brix/meta/gallery">组件开发规范</a></li>
+
+  <li><a href="/brix/meta/gallery-doc-sample">组件文档示例</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Core</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/core/brick">Brick</a></li>
+
+  <li><a href="/brix/core/chunk">Chunk</a></li>
+
+  <li><a href="/brix/core/dataset">Dataset</a></li>
+
+  <li><a href="/brix/core/pagelet">Pagelet</a></li>
+
+  <li><a href="/brix/core/tmpler">Tmpler</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Style</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/style/scaffolding">Scaffolding</a></li>
+
+  <li><a href="/brix/style/type">Type</a></li>
+
+  <li><a href="/brix/style/grid">Grid</a></li>
+
+  <li><a href="/brix/style/forms">Forms</a></li>
+
+  <li><a href="/brix/style/buttons">Buttons</a></li>
+
+  <li><a href="/brix/style/flowsteps">flowsteps</a></li>
+
+  <li><a href="/brix/style/tags">tags</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Gallery</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/gallery/breadcrumbs">Breadcrumbs</a></li>
+
+  <li><a href="/brix/gallery/colorpicker">ColorPicker</a></li>
+
+  <li><a href="/brix/gallery/dialog">Dialog</a></li>
+
+  <li><a href="/brix/gallery/dropdown">Dropdown</a></li>
+
+  <li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li>
+
+  <li><a href="/brix/gallery/kwicks">Kwicks</a></li>
+
+  <li><a href="/brix/gallery/pagination">Pagination</a></li>
+
+  <li><a href="/brix/gallery/slider">Slider</a></li>
+
+  <li><a href="/brix/gallery/starrating">StarRating</a></li>
+
+  <li><a href="/brix/gallery/tips">tips</a></li>
+
+</ul>
+</section>
+<section>
+  <h3>Tutorials</h3>
+  
+  <ul class="entries">
+
+  <li><a href="/brix/tutorials/style">Brix Style开发指南</a></li>
+
+</ul>
+</section>
+
+</aside>
+  <div id="page">
+    <article>
+      <h1>Slider</h1>
+      
+      <p class="caption">滑块组件</p>
+      
+      
+      <section><div class='demo'><iframe src='/brix/demo/gallery/slider/slider.html' frameborder='0' scrolling='0' class='j-demo'></iframe></div>
+
+
+<h2>配置</h2>
+
+<p>包含 <a href="/brix/core/brick">Brick</a> 的所有配置</p>
+
+<h3><code>range</code> {Array}</h3>
+
+<p>支持数组，如： range: ["小小小","小小","小", "中","大","大大","大大大"]</p>
+
+<h3><code>mode</code> {String}</h3>
+
+<p>展现的横竖方式，只支持两个值， horizontal：横向， vertical：竖向，　默认: horizontal</p>
+
+<h3><code>startStep</code> {Number}</h3>
+
+<p>滑块的开始值。</p>
+
+<h3><code>endStep</code> {Number}</h3>
+
+<p>滑块的结束值。</p>
+
+<h3><code>integerStep</code> {Number}</h3>
+
+<p>整数值，值是integerStep的倍数, 默认是1 。如integerStep 可以设置成10, 那可能得到的值: 10, 20 30 40。</p>
+
+<h3><code>current</code> {Number|Array}</h3>
+
+<p>设置当前的值，如果是区间值，那应该是array类型，如:[5,10]，就是5~10的区间。</p>
+
+<h3><code>knobOffset</code> {Number}</h3>
+
+<p>设置拖动按钮的偏移量，拖动按钮的整个宽是14px，要把拖动按钮居中，需要设置margin-left:-7px。因此这里的默认值-7.</p>
+
+<h2>方法</h2>
+
+<h3><code>resize()</code></h3>
+
+<p>重新设置展现状态。当容器的宽高变动时，要重新设置展现。</p>
+
+<h2>事件</h2>
+
+<h3><code>resize()</code></h3>
+
+<p>重新设置展现状态</p>
+
+<p>drag : "drag",</p>
+
+<pre><code>    dragstart : "dragstart",
+    dragend : "dragend",
+</code></pre>
+
+<ul>
+<li>ev.value {String} 星星对应的值</li>
+</ul>
+
+
+<h3><code>drag(ev)</code></h3>
+
+<p>在拖动时执行。  drag、dragstart、dragend与DD.Draggable组件提供事件对应</p>
+
+<ul>
+<li>ev.data {Number} 内部值。</li>
+<li>ev.current 当前滑块对应的值。</li>
+</ul>
+
+
+<h3><code>dragstart(ev)</code></h3>
+
+<p>在拖动开始时</p>
+
+<ul>
+<li>ev.data {Number} 内部值。</li>
+<li>ev.current 当前滑块对应的值。</li>
+</ul>
+
+
+<h3><code>dragend(ev)</code></h3>
+
+<p>在拖动结束时</p>
+
+<ul>
+<li>ev.data {Number} 内部值。</li>
+<li>ev.current 当前滑块对应的值。</li>
+</ul>
+
+</section>
+    </article>
+  </div>
+  <div id="J_log" style="position:fixed;width:88px;height:18px;bottom:0;right:2px">
+    <a style="position:absolute;top:1px;right:1px;z-index:999;" id="J_close" href="#">显示调试窗口</a>
+  </div>
+  <footer id="footer">
+  </footer>
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+  <script src="/brix/assets/js/log4javascript.js"></script>
+  <script src="/brix/assets/js/post.js"></script>
+</body>

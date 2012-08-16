@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Brix slider Demo</title>
+        <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+        <link rel="stylesheet" href="../../../src/gallery/slider/slider.css">
+        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+        <script src="../../config.js"></script>
+    </head>
+    <body style="margin:0px;padding:40px">
+        <div id="J_container">
+            <h1>slider</h1>
+            <h3>slider1</h3>
+            <div class="slider-container slider-container-left clearfix">
+                <span class="slider-desc">缩放</span>
+                <span class="slider-start">10%</span>
+                <div id="slider1" bx-name="slider" bx-config='{current: 20, startStep: 10 }' class="slider clearfix">
+                    <span class="slider-bar"></span>
+                    <span class="slider-knob"></span>
+                </div>
+                <span class="slider-end">100%</span>
+
+                <span style="float:left;margin-left:50px;" id="slider1_txt"></span>
+            </div>
+            <br> <br>
+            <h3>slider2</h3>
+            <div class="slider-container slider-container-up clearfix">
+                <span class="slider-desc">缩放</span>
+                <div class="clearfix">
+                <span class="slider-start">小小小</span>
+                <span class="slider-end">大大大</span>
+                </div>
+                <div id="slider2" bx-name="slider" bx-config='{current: "小", range: ["小小小","小小","小", "中","大","大大","大大大"]}' class="slider clearfix">
+                    <span class="slider-bar"></span>
+                    <span class="slider-knob"></span>
+                </div>
+
+                <div id="slider2_txt"></div>
+            </div>
+
+            <br> <br>
+            <h3>slider3</h3>
+            <div  class="slider-container clearfix">
+                <div class="slider-scale">
+                    <span class="slider-scale-dot"><span>0</span></span>
+                    <span class="slider-scale-dot" style="margin-left:12.5%"></span>
+                    <span class="slider-scale-dot" style="margin-left:12.5%"><span>50</span></span>
+                    <span class="slider-scale-dot" style="margin-left:12.5%"></span>
+                    <span class="slider-scale-dot" style="margin-left:12.5%"><span>100</span></span>
+                    <span class="slider-scale-dot" style="margin-left:12.5%"></span>
+                    <span class="slider-scale-dot" style="margin-left:12.5%"><span>150</span></span>
+                    <span class="slider-scale-dot" style="margin-left:12.5%"></span>
+                    <span class="slider-scale-dot" style="margin-left:12.4%; *margin-left:12%;"><span>200</span></span>
+                </div>
+                <div id="slider3" bx-name="slider" bx-config='{current: [-50,-100], integerStep:10, endStep : -200}' class="slider clearfix">
+                    <span class="slider-bar"></span>
+                    <span class="slider-knob slider-knob-start" ></span>
+                    <span class="slider-knob slider-knob-end"></span>
+                </div>
+
+                <div id="slider3_txt"></div>
+
+            </div>
+
+            <br> <br>
+            <h3>slider4</h3>
+            <div  class="slider-container clearfix">
+                <div class="slider-scale">
+                    <span class="slider-scale-dot"><span>0</span></span>
+                    <span class="slider-scale-dot" style="margin-left:12.5%"></span>
+                    <span class="slider-scale-dot" style="margin-left:12.5%"><span>50</span></span>
+                    <span class="slider-scale-dot" style="margin-left:12.5%"></span>
+                    <span class="slider-scale-dot" style="margin-left:12.5%"><span>100</span></span>
+                    <span class="slider-scale-dot" style="margin-left:12.5%"></span>
+                    <span class="slider-scale-dot" style="margin-left:12.5%"><span>150</span></span>
+                    <span class="slider-scale-dot" style="margin-left:12.5%"></span>
+                    <span class="slider-scale-dot" style="margin-left:12.4%"><span>200</span></span>
+                </div>
+                <div id="slider4" bx-name="slider" bx-config='{current: [50,100], endStep : 200}' class="slider clearfix">
+                    <span class="slider-bar"></span>
+                    <span class="slider-knob slider-knob-start"> <span ></span></span>
+                    <span class="slider-knob slider-knob-end"> <span ></span></span>
+                </div>
+
+                <div id="slider4_txt"></div>
+
+            </div>
+
+            <br> <br>
+
+            <h3>slider5</h3>
+
+            <div style="height:300px;padding:10px 20px;">
+            <div id="slider5" bx-name="slider" bx-config='{mode: "vertical", current: 70, startStep : 100, endStep : 0}' class="slider slider-vertical clearfix">
+                <span class="slider-bar"></span>
+                <span class="slider-knob"></span>
+            </div>
+            <div id="slider5_txt"></div>
+            </div>
+            <div style="height:300px;padding:10px 20px;">
+            <div id="slider6" bx-name="slider" bx-config='{mode: "vertical", current:[10,70]}' class="slider slider-vertical clearfix">
+                <span class="slider-bar"></span>
+                <span class="slider-knob slider-knob-start"></span>
+                <span class="slider-knob slider-knob-end"></span>
+            </div>
+            <div id="slider6_txt"></div>
+            </div>
+
+         </div>
+        <script>
+            KISSY.ready(function(S) {
+                KISSY.use("brix/core/pagelet", function(S, Pagelet) {
+                    var config = {
+                        tmpl:'#J_container'
+                    }
+                    var p = new Pagelet(config);
+                    p.addBehavior();
+
+                    p.ready(function(){
+                        var slider1 = p.getBrick('slider1');
+                        slider1.on("drag", function(d){
+                            S.one("#slider1_txt").html("当前值:" + d.current + "%")
+                        })
+
+
+                        var slider2 = p.getBrick('slider2');
+                        slider2.on("drag", function(d){
+                            S.one("#slider2_txt").html("当前值:" + d.current )
+                        })
+
+                        var slider3 = p.getBrick('slider3');
+                        slider3.on("drag", function(d){
+                            S.one("#slider3_txt").html("当前值:" + d.current )
+                        })
+
+                        var slider4 = p.getBrick('slider4');
+                        slider4.on("drag", function(d){
+                            S.one("#slider4_txt").html("当前值:" + d.current )
+                            this.knobNode.one("span").html(d.data[1])
+                            this.knobNode_start.one("span").html(d.data[0])
+                        })
+
+
+                        var slider5 = p.getBrick('slider5');
+                        slider5.on("drag", function(d){
+                            S.one("#slider5_txt").html("当前值:" + d.current )
+                        })
+
+                        var slider6 = p.getBrick('slider6');
+                        slider6.on("drag", function(d){
+                            S.one("#slider6_txt").html("当前值:" + d.current )
+                        })
+
+                        S.one(window).on("resize", function(){
+                            slider1.resize();
+                            slider2.resize();
+                            slider3.resize();
+                            slider4.resize();
+                        })
+                    });
+
+                });
+            });
+        </script>
+    </body>
+</html>

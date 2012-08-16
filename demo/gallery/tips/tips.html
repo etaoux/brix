@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Brix Tips Demo</title>
+<link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+<link rel="stylesheet" href="../../../src/gallery/tips/tips.css">
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+<script src="../../config.js"></script>
+<style>
+.example-tips div {
+    width: 100px;
+    border: 1px solid #ffa757;
+}
+
+#tip1 {
+
+}
+
+#tip2 {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+#tip3 {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+}
+
+#tip4 {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+
+#tip5 {
+    position: absolute;
+    left: 400px;
+    top: 200px;
+}
+</style>
+</head>
+<body>
+<div class="example-tips">
+    <div id="tip6" class="bx-tips" data-tips="我是提示6我是提示6我是提示6我是提示6我是提示6我是提示6">鼠标hover6</div>
+    <h1>Brix Tips Demo</h1>
+
+
+    <div id="tip1" class="bx-tips" data-tips="我是提示1我是提示1我是提示1我是提示1我是提示1我是提示1">鼠标hover1</div>
+    <div id="tip2" class="bx-tips" data-tips="我是提示2我是提示2我提示2我是提示2我是提示2我是提示2我是提示2">鼠标hover2</div>
+    <div id="tip3" class="bx-tips" data-tips="我是提示3">鼠标hover3</div>
+    <div id="tip4" class="bx-tips" data-tips="我是提示4我是提示4我是提示4我是提示4我是提示4">鼠标hover4</div>
+    <div id="tip5" class="bx-tips" data-tips="我是提示5我是提示5我是提示5我是提示5我是提示5我是提示5我是提示5">鼠标hover5</div>
+
+</div>
+<script>
+    KISSY.ready(function (S) {
+        KISSY.use("brix/gallery/tips/", function (S, Tips) {
+            var tips = new Tips();
+        });
+    });
+</script>
+</body>
+</html>
