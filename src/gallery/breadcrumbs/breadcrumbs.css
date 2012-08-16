@@ -19,6 +19,10 @@
 }
 .breadcrumbs li.item:last-child {
   padding-right: 0px;
+}
+.breadcrumbs li.item:last-child,
+.breadcrumbs li.item:last-child a:link,
+.breadcrumbs li.item:last-child a:visited {
   color: #999;
 }
 .breadcrumbs li.split {
@@ -53,4 +57,15 @@
   border: 1px solid #ddd;
   border-bottom: 1px solid #bbb;
   padding: 0;
+}
+.breadcrumbs {
+  *zoom: 1;
+}
+.breadcrumbs::before,
+.breadcrumbs::after {
+  display: table;
+  content: "";
+}
+.breadcrumbs::after {
+  clear: both;
 }
