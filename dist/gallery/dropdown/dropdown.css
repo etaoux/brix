@@ -6,8 +6,8 @@
   border-radius: 2px;
   border: 1px solid #ddd;
   border-bottom: 1px solid #bbb;
-  height: 23px;
-  line-height: 23px;
+  height: 25px;
+  line-height: 25px;
 }
 .dropdown:after {
   content: '\20';
@@ -33,13 +33,33 @@
   padding-right: 24px;
   padding-left: 8px;
   display: block;
-  background-color: #fff;
+  background-color: #f4f4f4;
+  background-image: -moz-linear-gradient(top, #f8f8f8, #eeeeee);
+  background-image: -ms-linear-gradient(top, #f8f8f8, #eeeeee);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f8f8f8), to(#eeeeee));
+  background-image: -webkit-linear-gradient(top, #f8f8f8, #eeeeee);
+  background-image: -o-linear-gradient(top, #f8f8f8, #eeeeee);
+  background-image: linear-gradient(top, #f8f8f8, #eeeeee);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8f8f8', endColorstr='#eeeeee', GradientType=0);
   cursor: default;
+}
+.dropdown .dropdown-hd:active,
+.dropdown .dropdown-hd-active {
+  background-color: #ebebeb;
+  background-image: -moz-linear-gradient(top, #e6e6e6, #f2f2f2);
+  background-image: -ms-linear-gradient(top, #e6e6e6, #f2f2f2);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e6e6e6), to(#f2f2f2));
+  background-image: -webkit-linear-gradient(top, #e6e6e6, #f2f2f2);
+  background-image: -o-linear-gradient(top, #e6e6e6, #f2f2f2);
+  background-image: linear-gradient(top, #e6e6e6, #f2f2f2);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e6e6e6', endColorstr='#f2f2f2', GradientType=0);
 }
 .dropdown .dropdown-list {
   display: none;
   width: 118px;
-  top: 22px;
+  top: 26px;
   left: -1px;
   position: absolute;
   border: 1px solid #ddd;
