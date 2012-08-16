@@ -1,9 +1,7 @@
-
- // <a href="javascript:void(0);" class="calendar-hidden">0</a><a href="javascript:void(0);" class="calendar-hidden">0</a><a href="javascript:void(0);" class="calendar-hidden">0</a><a href="javascript:void(0);">1</a><a href="javascript:void(0);">2</a><a href="javascript:void(0);">3</a><a href="javascript:void(0);">4</a><a href="javascript:void(0);">5</a><a href="javascript:void(0);" class="calendar-today">6</a><a href="javascript:void(0);">7</a><a href="javascript:void(0);">8</a><a href="javascript:void(0);">9</a><a href="javascript:void(0);">10</a><a class="ks-selected" href="javascript:void(0);">11</a><a href="javascript:void(0);">12</a><a href="javascript:void(0);" class="calendar-disabled">13</a><a href="javascript:void(0);">14</a><a href="javascript:void(0);">15</a><a href="javascript:void(0);">16</a><a href="javascript:void(0);">17</a><a href="javascript:void(0);" class="calendar-selected">18</a><a href="javascript:void(0);">19</a><a href="javascript:void(0);">20</a><a href="javascript:void(0);">21</a><a href="javascript:void(0);">22</a><a href="javascript:void(0);">23</a><a href="javascript:void(0);">24</a><a href="javascript:void(0);">25</a><a href="javascript:void(0);">26</a><a href="javascript:void(0);">27</a><a href="javascript:void(0);">28</a><a href="javascript:void(0);">29</a><a href="javascript:void(0);">30</a><a href="javascript:void(0);">31</a>
 KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
     var days = ['日','一','二','三','四','五','六'];
     function _handleDaysOffset(startDay) {
-        a = [];
+        var a = [];
         for (var i = 0; i < 7; i++) {
             a[i] = days[(i + startDay) % 7]
         }

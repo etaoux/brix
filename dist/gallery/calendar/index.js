@@ -456,3 +456,760 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
 }, {
     requires: ["brix/core/brick", "overlay", "./page", "./date"]
 });
+/*
+ * Date Format 1.2.3
+ * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
+ * MIT license
+ *
+ * Includes enhancements by Scott Trenda <scott.trenda.net>
+ * and Kris Kowal <cixar.com/~kris.kowal/>
+ *
+ * Accepts a date, a mask, or a date and a mask.
+ * Returns a formatted version of the given date.
+ * The date defaults to the current date/time.
+ * The mask defaults to dateFormat.masks.default.
+ *
+ * Last modified by jayli 拔赤 2010-09-09
+ * - 增加中文的支持
+ * - 简单的本地化，对w（星期x）的支持
+ */
+KISSY.add('brix/gallery/calendar/date', function(S) {
+
+    function dateParse(data,s) {
+
+        var date = null;
+        s = s || '-';
+        //Convert to date
+        if (!(date instanceof Date)) {
+            date = new Date(data);
+        }
+        else {
+            return date;
+        }
+
+        // Validate
+        if (date instanceof Date && (date != "Invalid Date") && !isNaN(date)) {
+            return date;
+        }
+        else {
+            var arr = data.toString().split(s);
+            if(arr.length==3){
+                date = new Date(arr[0], (parseInt(arr[1], 10) - 1), arr[2]);
+                if (date instanceof Date && (date != "Invalid Date") && !isNaN(date)) {
+                    return date;
+                }
+            }
+        }
+        return null;
+    }
+
+
+    var dateFormat = function () {
+        var token = /w{1}|d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
+            timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
+            timezoneClip = /[^-+\dA-Z]/g,
+            pad = function (val, len) {
+                val = String(val);
+                len = len || 2;
+                while (val.length < len) {
+                    val = "0" + val;
+                }
+                return val;
+            },
+            // Some common format strings
+            masks = {
+                "default":      "ddd mmm dd yyyy HH:MM:ss",
+                shortDate:      "m/d/yy",
+                //mediumDate:     "mmm d, yyyy",
+                longDate:       "mmmm d, yyyy",
+                fullDate:       "dddd, mmmm d, yyyy",
+                shortTime:      "h:MM TT",
+                //mediumTime:     "h:MM:ss TT",
+                longTime:       "h:MM:ss TT Z",
+                isoDate:        "yyyy-mm-dd",
+                isoTime:        "HH:MM:ss",
+                isoDateTime:    "yyyy-mm-dd'T'HH:MM:ss",
+                isoUTCDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'",
+
+                //added by jayli
+                localShortDate:    "yy年mm月dd日",
+                localShortDateTime:"yy年mm月dd日 hh:MM:ss TT",
+                localLongDate:    "yyyy年mm月dd日",
+                localLongDateTime:"yyyy年mm月dd日 hh:MM:ss TT",
+                localFullDate:    "yyyy年mm月dd日 w",
+                localFullDateTime:"yyyy年mm月dd日 w hh:MM:ss TT"
+
+            },
+
+            // Internationalization strings
+            i18n = {
+                dayNames: [
+                    "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
+                    "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",
+                    "星期日","星期一","星期二","星期三","星期四","星期五","星期六"
+                ],
+                monthNames: [
+                    "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+                    "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+                ]
+            };
+
+        // Regexes and supporting functions are cached through closure
+        return function (date, mask, utc) {
+
+            // You can't provide utc if you skip other args (use the "UTC:" mask prefix)
+            if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
+                mask = date;
+                date = undefined;
+            }
+
+            // Passing date through Date applies Date.parse, if necessary
+            date = date ? dateParse(date) : new Date();
+            if (isNaN(date)) {
+                throw SyntaxError("invalid date");
+            }
+
+            mask = String(masks[mask] || mask || masks["default"]);
+
+            // Allow setting the utc argument via the mask
+            if (mask.slice(0, 4) == "UTC:") {
+                mask = mask.slice(4);
+                utc = true;
+            }
+
+            var _ = utc ? "getUTC" : "get",
+                d = date[_ + "Date"](),
+                D = date[_ + "Day"](),
+                m = date[_ + "Month"](),
+                y = date[_ + "FullYear"](),
+                H = date[_ + "Hours"](),
+                M = date[_ + "Minutes"](),
+                s = date[_ + "Seconds"](),
+                L = date[_ + "Milliseconds"](),
+                o = utc ? 0 : date.getTimezoneOffset(),
+                flags = {
+                    d:    d,
+                    dd:   pad(d, undefined),
+                    ddd:  i18n.dayNames[D],
+                    dddd: i18n.dayNames[D + 7],
+                    w:     i18n.dayNames[D + 14],
+                    m:    m + 1,
+                    mm:   pad(m + 1, undefined),
+                    mmm:  i18n.monthNames[m],
+                    mmmm: i18n.monthNames[m + 12],
+                    yy:   String(y).slice(2),
+                    yyyy: y,
+                    h:    H % 12 || 12,
+                    hh:   pad(H % 12 || 12, undefined),
+                    H:    H,
+                    HH:   pad(H, undefined),
+                    M:    M,
+                    MM:   pad(M, undefined),
+                    s:    s,
+                    ss:   pad(s, undefined),
+                    l:    pad(L, 3),
+                    L:    pad(L > 99 ? Math.round(L / 10) : L, undefined),
+                    t:    H < 12 ? "a" : "p",
+                    tt:   H < 12 ? "am" : "pm",
+                    T:    H < 12 ? "A" : "P",
+                    TT:   H < 12 ? "AM" : "PM",
+                    Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
+                    o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+                    S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
+                };
+
+            return mask.replace(token, function ($0) {
+                return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
+            });
+        };
+    }();
+
+    return {
+        format: function(date, mask, utc) {
+            return dateFormat(date, mask, utc);
+        },
+        parse: function(date,s) {
+            return dateParse(date,s);
+        },
+        isMinMax:function(minDate,maxDate,date){
+            date = dateFormat(date,'isoDate');
+            if(minDate){
+                minDate = Brix_Date.format(minDate,'isoDate');
+                if(minDate>date){
+                    return false;
+                }
+            }
+            if(maxDate){
+                maxDate = Brix_Date.format(maxDate,'isoDate');
+                if(maxDate<date){
+                    return false;
+                }
+            }
+            return true;
+        },
+        isDisabled:function(disabled,date){
+            date = dateFormat(date,'isoDate');
+            //是否需要提供正则
+            if(disabled){
+                for(var i=0;i<disabled.length;i++){
+                    if(dateFormat(disabled[i],'isoDate')==date){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        },
+        isInMulit:function (mulit,date){
+            date = dateFormat(date,'isoDate');
+            if(mulit){
+                for(var i=0;i<mulit.length;i++){
+                    if(dateFormat(mulit[i],'isoDate')==date){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        },
+        isInRang:function(range,date){
+            date = dateFormat(date,'isoDate');
+            if(range){
+                if(range.start&&range.end){
+                    if(date>=dateFormat(range.start,'isoDate')&&date<=dateFormat(range.end,'isoDate')){
+                        return true;
+                    }
+                }
+                else if(range.start&&date==dateFormat(range.start,'isoDate')){
+                    return true;
+                }
+            }
+            return false;
+        },
+        isYear : function(n) {
+            if (!/^\d+$/i.test(n)) {
+                return false;
+            }
+            n = Number(n);
+            return !(n < 100 || n > 10000);
+
+        }
+    };
+});
+KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
+    var days = ['日','一','二','三','四','五','六'];
+    function _handleDaysOffset(startDay) {
+        var a = [];
+        for (var i = 0; i < 7; i++) {
+            a[i] = days[(i + startDay) % 7]
+        }
+        return a;
+    }
+    function _getNumOfDays(year,month) {
+            return 32 - new Date(year, month, 32).getDate();
+    }
+
+    function Page() {
+        Page.superclass.constructor.apply(this, arguments);
+    }
+    Page.ATTRS = {
+        father:{
+            value:false
+        },
+        index:{
+            value:0
+        },
+        year:{
+            value:2012
+        },
+        month:{
+            value:7
+        },
+        prev:{
+            value:true
+        },
+        next:{
+            value:true
+        },
+        autoRender:{
+            value:true
+        },
+        tmpl:{
+            valueFn:function(){
+                var self = this,
+                    id=self.get('id');
+                return '<div id="'+id+'" bx-name="page" class="calendar-page">'+
+                        '<div class="calendar-page-hd">'+
+                            '<div bx-tmpl="page" bx-datakey="prev">'+
+                            '{{#prev}}'+
+                            '<a href="javascript:void(0);" class="calendar-prev-year"><i class="iconfont">&#403</i><i class="iconfont icon-yp">&#403</i></a>'+
+                            '<a href="javascript:void(0);" class="calendar-prev-month"><i class="iconfont">&#403</i></a>'+
+                            '{{/prev}}'+
+                            '</div>'+
+                            '<a bx-tmpl="page" bx-datakey="year,month" href="javascript:void(0);" class="calendar-year-month">{{year}}年{{month}}月</a>'+
+                            '<div bx-tmpl="page" bx-datakey="next">'+
+                            '{{#next}}'+
+                            '<a href="javascript:void(0);" class="calendar-next-month "><i class="iconfont">&#402</i></a>'+
+                            '<a href="javascript:void(0);" class="calendar-next-year "><i class="iconfont icon-yn">&#402</i><i class="iconfont">&#402</i></a>'+
+                            '{{/next}}'+
+                            '</div>'+
+                            '<div class="calendar-year-month-pupop" >'+
+                                '<p bx-tmpl="page" bx-datakey="month,'+id+'_select_html">{{{'+id+'_select_html}}}</p>'+
+                                '<p bx-tmpl="page" bx-datakey="year">年:<input type="text" value="{{year}}" onfocus="this.select()"></p>'+
+                                '<p><a class="btn btn-pupop-confirm">确定</a><a class="btn-pupop-cancel">取消</a></p>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div bx-tmpl="page" bx-datakey="startDay,'+id+'_days_html" class="calendar-page-wbd">'+
+                            '{{{'+id+'_days_html}}}'+
+                        '</div>'+
+                        '<div class="calendar-page-dbd" bx-tmpl="page" bx-datakey="startDay,year,month,selected,range,multi,disabled,minDate,maxDate,'+id+'_da_html">'+
+                           '{{{'+id+'_da_html}}}'+
+                        '</div>'+
+                        '<div class="calendar-page-fd">'+
+                            
+                        '</div>'+
+                    '</div>'
+                }
+        },
+        data:{
+            valueFn: function() {
+                var self = this, 
+                    father = self.get('father'),
+                    year=self.get('year'),
+                    month = self.get('month'),
+                    prev=self.get('prev'),
+                    next = self.get('next');
+                return {
+                    prev:prev,
+                    next:next,
+                    month:month+1,
+                    year:year
+                };
+            }
+        }
+    };
+
+    Page.RENDERER = {
+        da:{
+            html:function(context){
+                var self = context,
+                    father=self.get('father'),
+                    year = self.get('year'),
+                    month = self.get('month'),
+                    selectedDate = father.get('selected'),
+                    minDate = father.get('minDate'),
+                    maxDate = father.get('maxDate'),
+                    disabled = father.get('disabled'),
+                    multi = father.get('multi'),
+                    range = father.get('range'),
+                    startOffset = (7-father.get('startDay')+new Date(year,month,1).getDay())%7,//当月第一天是星期几
+                    days = _getNumOfDays(year,month),
+                    today = Brix_Date.format(new Date(),'isoDate'),
+                    s='';
+
+                if(selectedDate){
+                    selectedDate = Brix_Date.format(selectedDate,'isoDate');
+                }
+                if(minDate){
+                    minDate = Brix_Date.format(minDate,'isoDate');
+                }
+                if(maxDate){
+                    maxDate = Brix_Date.format(maxDate,'isoDate');
+                }
+                for(var i=0;i<startOffset;i++){
+                    s += '<a href="javascript:void(0);" class="calendar-hidden">0</a>';
+                }
+                for (var i = 1; i <= days; i++) {
+                    var cls = 'class="calendar-item';
+                    var date = Brix_Date.format(new Date(year,month, i),'isoDate');
+                    if(date<minDate || date>maxDate || Brix_Date.isDisabled(disabled,date)){
+                        cls += ' calendar-disabled';
+                    }
+                    else if(Brix_Date.isInRang(range,date)){
+                        cls += ' calendar-range';
+                    }
+                    else if(selectedDate==date){
+                        cls += ' calendar-selected';
+                    }
+                    else if(Brix_Date.isInMulit(multi,date)){
+                        cls += ' calendar-multi';    
+                    }
+                    if(today==date){
+                        cls += ' calendar-today';
+                    }
+
+                    s += '<a '+cls+'" href="javascript:void(0);">' + i + '</a>';
+                }
+                return s;
+            }
+        },
+        select:{
+            html:function(context){
+                var s = '月:<select>';
+                for (var i = 1; i <= 12; i++) {
+                    s+='<option'+(i==this.month?' selected':'')+' value="'+(i-1)+'">'+(i<10?'0'+i:i)+'</option>';
+                };
+                s+='</select>';
+                return s;
+            }
+        },
+        days:{
+            html:function(context){
+                var father = context.get('father'),
+                    days = _handleDaysOffset(father.get('startDay')),
+                    s='';
+                S.each(days,function(val){
+                    s+='<span>'+val+'</span>';
+                });
+                return s;
+            }
+        }
+    }
+
+    Page.ATTACH = {
+        '.calendar-prev-year':{
+            click:function(e){
+                var self = this,
+                    year = self.get('year'),
+                    month = self.get('month'),
+                    index = self.get('index');
+                year--;
+                date = new Date(year,month,1);
+                self.fire(Page.FIRES.monthChange,{date:date,index:index});
+            }
+        },
+        '.calendar-prev-month':{
+            click:function(e){
+                var self = this,
+                    year = self.get('year'),
+                    month = self.get('month'),
+                    index = self.get('index');
+                month--;
+                if(month<0){
+                    year--;
+                    month +=12; 
+                }
+                date = new Date(year,month,1);
+                self.fire(Page.FIRES.monthChange,{date:date,index:index});
+            }
+        },
+        '.calendar-next-year':{
+            click:function(e){
+                var self = this,
+                    year = self.get('year'),
+                    month = self.get('month'),
+                    index = self.get('index');
+                year++;
+                date = new Date(year,month,1);
+                self.fire(Page.FIRES.monthChange,{date:date,index:index});
+            }
+        },
+        '.calendar-next-month':{
+            click:function(e){
+                var self = this,
+                    year = self.get('year'),
+                    month = self.get('month'),
+                    index = self.get('index');
+                month++;
+                if(month>11){
+                    year++;
+                    month-=12;
+                }
+                date = new Date(year,month,1);
+                self.fire(Page.FIRES.monthChange,{date:date,index:index});
+            }
+        },
+        '.calendar-year-month':{
+            click:function(e){
+                var self = this,
+                    navigator = self.get('father').get('navigator');
+                if(navigator){
+                    popupNode = self.get('el').one('.calendar-year-month-pupop').show();
+                }
+            }
+        },
+        '.btn-pupop-confirm':{
+            click:function(e){
+                var self = this,
+                    index = self.get('index');
+                    popupNode = self.get('el').one('.calendar-year-month-pupop'),
+                    year = popupNode.one('input').val();
+                    month = popupNode.one('select').val()
+                if(Brix_Date.isYear(year)){
+                    year = Number(year);
+                    month = Number(month);
+                    var date = new Date(year,month,1);
+                    popupNode.hide();
+                    self.fire(Page.FIRES.monthChange,{date:date,index:index});
+                }
+
+            }
+        },
+        '.btn-pupop-cancel':{
+            click:function(e){
+                var self = this,
+                    popupNode = self.get('el').one('.calendar-year-month-pupop');
+                popupNode.hide();
+            }
+        },
+        '.calendar-item':{
+            click:function(e){
+                e.halt();
+                var self = this,
+                    node = S.one(e.currentTarget);
+                if(!node.hasClass('calendar-disabled')){
+                    var d = false;
+                    if(!node.hasClass('calendar-selected')){
+                        var year = self.get('year'),
+                            month = self.get('month');
+                        d = new Date(year,month,Number(node.html()));
+                        if(self.timeBrick){
+                            var time = self.timeBrick.get('time');
+                            d.setHours(time.getHours());
+                            d.setMinutes(time.getMinutes());
+                            d.setSeconds(time.getSeconds());
+                        }
+                    }
+                    self.fire(Page.FIRES.itemClick,{date:d});
+                }
+            },
+            mousedown:function(e){
+                e.halt();
+                var self = this,
+                    node = S.one(e.currentTarget);
+                if(!node.hasClass('calendar-disabled')){
+                    var year = self.get('year'),
+                        month = self.get('month'),
+                        d = new Date(year,month,Number(node.html()));
+                    self.fire(Page.FIRES.itemMouseDown,{date:d});
+                }
+            },
+            mouseup:function(e){
+                e.halt();
+                var self = this,
+                    node = S.one(e.currentTarget);
+                if(!node.hasClass('calendar-disabled')){
+                    var year = self.get('year'),
+                        month = self.get('month'),
+                        d = new Date(year,month,Number(node.html()));
+                    self.fire(Page.FIRES.itemMouseUp,{date:d});
+                }
+            }   
+        }
+    };
+
+    Page.METHOD = {
+
+    };
+
+    Page.FIRES = {
+        itemClick: 'itemClick',
+        itemMouseDown:'itemMouseDown',
+        itemMouseUp:'itemMouseUp',
+        monthChange:'monthChange'
+    };
+    S.extend(Page, Brick, {
+        initialize: function() {
+            var self = this,
+                el = self.get('el'),
+                father = self.get('father'),
+                showTime = father.get('showTime');
+            if(showTime){
+                self.timeBrick = new Time({container:el.one('.calendar-page-fd')});
+            }
+            self.on('afterYearChange',function(){
+                self.setChunkData('year',self.get('year'));
+            });
+            self.on('afterMonthChange',function(){
+                self.setChunkData('month',self.get('month')+1);
+            });
+        },
+        destructor: function() {
+            var self = this;
+            if(self.timeBrick){
+                self.timeBrick.destroy();
+            }
+        }
+
+    });
+    S.augment(Page, Page.METHOD);
+    return Page;
+}, {
+    requires: ["brix/core/brick","./time","./date"]
+});
+KISSY.add('brix/gallery/calendar/time', function(S, Brick) {
+    var LIST = {
+        h: ['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23'],
+        m: ['00','10','20','30','40','50'],
+        s: ['00','10','20','30','40','50']
+    }
+    function Time() {
+        Time.superclass.constructor.apply(this, arguments);
+    }
+    Time.ATTRS = {
+        time:{
+            value:new Date()
+        },
+        status:{
+            value:'s'
+        },
+        autoRender:{
+            value:true
+        },
+        tmpl:{
+            value:'<div bx-name="time" class="calendar-time">'+
+                        '时间：<span class="h">{{h}}</span>:<span class="m">{{m}}</span>:<span class="s">{{s}}</span>'+
+                        '<div class="calendar-time-updown">'+
+                            '<i class="iconfont u">&#456</i><i class="iconfont d">&#459</i>'+
+                        '</div>'+
+                    '</div>'+
+                    '<div class="calendar-time-popup">'+
+                        '<div bx-tmpl="time" bx-datakey="list" class="calendar-time-popup-bd">'+
+                            '{{#list}}'+
+                            '<a class="item">{{.}}</a>'+
+                            '{{/list}}'+
+                        '</div>'+
+                        '<i class="iconfont icon-close">&#223</i>'+
+                    '</div>'
+        },
+        data:{
+            valueFn: function() {
+                var self = this,
+                    date = self.get('time');
+                return {
+                    h: date.getHours(),
+                    m:date.getMinutes(),
+                    s:date.getSeconds()
+                };
+            }
+        }
+    };
+
+    Time.ATTACH = {
+        'span':{
+            click:function(e){
+                var self = this, node = S.one(e.currentTarget);
+                node.parent().all('span').removeClass('on');
+                node.addClass('on');
+                if(node.hasClass('h')){
+                    self.set('status','h');
+                }
+                else if(node.hasClass('m')){
+                    self.set('status','m');
+                }
+                else{
+                    self.set('status','s');
+                }
+                var status = self.get('status');
+                self.setChunkData('list',LIST[status]);
+                self.get('el').one('.calendar-time-popup').css({display:'block'});
+            }
+        },
+        '.icon-close':{
+            click:function(e){
+                var self = this;
+                self._hideTimePopup();
+            }
+        },
+        '.item':{
+            click:function(e){
+                var self = this, 
+                    node = S.one(e.currentTarget),
+                    status = self.get('status');
+                self._setTime(status,node.html());
+                self._hideTimePopup();
+            }
+        },
+        '.u':{
+            click:function(e){
+                var self = this, 
+                    status = self.get('status'),
+                    v = self._getTime(status);
+                v++;
+                self._setTime(status,v);
+            }
+        },
+        '.d':{
+            click:function(e){
+                var self = this, 
+                    status = self.get('status'),
+                    v = self._getTime(status);
+                v--;
+                self._setTime(status,v);
+            }
+        },
+        '':{
+            keyup:function(e){
+                var self = this, 
+                    status = self.get('status'),
+                    v = self._getTime(status);
+                if (e.keyCode == 38 || e.keyCode == 37) {//up or left
+                        e.preventDefault();
+                        v++;
+                        self._setTime(status,v);
+                    }
+                    if (e.keyCode == 40 || e.keyCode == 39) {//down or right
+                        //e.stopPropagation();
+                        e.preventDefault();
+                        v--;
+                        self._setTime(status,v);
+                    }
+            }
+        }
+    };
+
+    Time.METHOD = {
+
+    };
+
+    Time.FIRES = {
+        timeSelect: 'timeSelect'
+    };
+    S.extend(Time, Brick, {
+        initialize: function() {
+            var self = this;
+        },
+
+        _setTime : function(status, v) {
+            var self = this,
+                time = self.get('time'),el = self.get('el');
+            v = Number(v);
+            switch (status) {
+                case 'h':
+                    time.setHours(v);
+                    break;
+                case 'm':
+                    time.setMinutes(v);
+                    break;
+                case 's':
+                    time.setSeconds(v);
+                    break;
+            }
+            el.one('.h').html(time.getHours());
+            el.one('.m').html(time.getMinutes());
+            el.one('.s').html(time.getSeconds());
+        },
+        _getTime:function(status){
+            var self = this,
+                time = self.get('time');
+                switch (status) {
+                    case 'h':
+                        return time.getHours();
+                    case 'm':
+                        return time.getMinutes();
+                    case 's':
+                        return time.getSeconds();
+                }
+        },
+        _hideTimePopup:function(){
+            var self = this,el = self.get('el');
+            el.one('.calendar-time-popup').css({display:'none'});
+        },
+        destructor: function() {
+            var self = this;
+            self.overlay.destroy();
+        }
+    });
+    S.augment(Time, Time.METHOD);
+    return Time;
+}, {
+    requires: ["brix/core/brick"]
+});
