@@ -2021,6 +2021,7 @@ legend + .control-group {
 }
 /**
  * table
+ * author: chongzhi.ldq@taobao.com 崇志
  */
 .table-container {
   -webkit-text-size-adjust: none;
@@ -2341,7 +2342,8 @@ legend + .control-group {
   display: none;
   line-height: 1.8;
   border-collapse: separate;
-  padding: 5px 0;
+  /*padding: 5px 0;*/
+
   left: 6px;
   width: 100px;
 }
@@ -2368,6 +2370,9 @@ legend + .control-group {
 .table-info li.selected .table-cur,
 .table-change li.selected .table-cur {
   display: block;
+}
+.table-change {
+  padding: 5px 0;
 }
 :root .table-info {
   border: none;
