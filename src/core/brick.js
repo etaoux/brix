@@ -10,31 +10,33 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         var self = this;
         self.pagelet = arguments[0] ? arguments[0].pagelet : null; //pagelet的引用
         Brick.superclass.constructor.apply(this, arguments);
-        var context = self.pagelet ? self.pagelet : self;
-        if (context.get('rendered')) {
-            self.initialize();
-            self._bindEvent();
-        } else {
-            context.on('rendered', function() {
-                self.initialize();
-                self._bindEvent();
-            });
+
+        var id = self.get('id'),
+            tmpler = self.get('tmpler'),
+            renderer = self.constructor.RENDERER;
+        if (tmpler&&renderer) {
+            self.get('dataset').setRenderer(renderer, self, id);
         }
 
-        var tmpler = self.get('tmpler'),
-            id = self.get('id');
-        if (tmpler && !S.isEmptyObject(tmpler.bricks)) {
-            S.each(tmpler.bricks, function(b, k) {
-                tmpler.bricks[k].brick = self;
-            });
+        self.on('rendered', function() {
+            self.initialize();
+            self._bindEvent();
+        });
+
+        if(self.pagelet){
+            if(self.pagelet.get('rendered')){
+                self.render();
+            }
+            else{
+                self.pagelet.on('rendered', function() {
+                    self.render();
+                }) 
+            }
         }
-        if (!tmpler && !id) {
-            id = self.get('el').attr('id') || self.constructor.name;
-            self.set('id', id);
-        }
-        var renderer = self.constructor.RENDERER;
-        if (renderer) {
-            context.get('dataset').setRenderer(renderer, self, id);
+        else{
+            if (self.get('autoRender')||!tmpler||tmpler.inDom) {
+                self.render();
+            }
         }
     }
     Brick.ATTACH = {
@@ -208,6 +210,28 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
                     node["on" + type] = null;
                 })();
             }
+        },
+        /**
+         * 销毁组件
+         */
+        destroy:function(){
+            var self = this, 
+                tmpler = self.get('tmpler');
+            if (tmpler && !S.isEmptyObject(tmpler.bricks)) {
+                S.each(tmpler.bricks, function(b, k) {
+                    tmpler.bricks[k].brick = null;
+                    delete tmpler.bricks[k];
+                });
+            }
+            if(self.pagelet){
+                var id = self.get('id');
+                self.pagelet.destroy(id);
+            }
+            else{
+                self._detachEvent();
+                self.get("el").remove();
+            }
+            
         }
     });
     return Brick;

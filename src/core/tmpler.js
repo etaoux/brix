@@ -157,7 +157,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
                 name = el.attr('bx-name'),
                 path = el.attr('bx-path'),
                 config = el.attr('bx-config'),
-                tmplNodes = el.all('[bx-tmpl=' + name + ']');
+                tmplNodes = container.all('[bx-tmpl=' + name + ']');
             if (el.hasAttr('bx-tmpl')) {
                 tmplNodes = tmplNodes.add(el[0]);
             }

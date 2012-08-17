@@ -18,109 +18,123 @@
   font-size: 12px;
   font-weight: bold;
   cursor: pointer;
-}
-.btn,
-.btn:hover,
-.btn:visited {
-  color: #333!important;
-}
-
-.btn {
   border-bottom-color: #bbb;
   #gradient > .vertical(#f8f8f8, #eee);
-}
-.btn:hover {
-  // border-color: transparent;
-  .box-shadow(~"none");
-  #gradient > .vertical(#f2f2f2, #e6e6e6);
-}
-.btn:active {
-  #gradient > .vertical(#e6e6e6, #f2f2f2);
+
+  &,
+  &:hover,
+  &:visited {
+    color:#333!important;
+  }
+
+  &:hover {
+    .box-shadow(~"none");
+    #gradient > .vertical(#f2f2f2, #e6e6e6);
+  }
+
+  &:active {
+    #gradient > .vertical(#e6e6e6, #f2f2f2);
+  }
+
+  .iconfont { font-size:12px; }
 }
 
 /*group btn*/
-.btn-group .btn {
-  .border-radius(0);
-  border-left-width: 0;
-  /*border-right-width: 0;*/
-}
-
-.btn-group .btn:first-child {
-  border-left-width: 1px;
-  .border-radius(2px 0 0 2px);
-}
-
-.btn-group .btn:last-child {
-  /*border-right-width: 1px;*/
-  .border-radius(0 2px 2px 0);
+.btn-group {
+  .btn {
+    .border-radius(0);
+    border-left-width: 0;
+    /*border-right-width: 0;*/
+    &:first-child {
+      border-left-width: 1px;
+      .border-radius(2px 0 0 2px);
+    }
+    &:last-child {
+      /*border-right-width: 1px;*/
+      .border-radius(0 2px 2px 0);
+    }
+  }
 }
 
 // red button
-.btn-red,
-.btn-red:hover,
-.btn-red:visited {
-  color: #FFF;
-}
-
 .btn-red {
   border-color: transparent;
   border-bottom-color: #c21b1b;
   #gradient > .vertical(#f44, #f22);
-}
-.btn-red:hover {
-  #gradient > .vertical(#ee2020, #d51314);
-}
-.btn-red:active {
-  #gradient > .vertical(#d51314, #ee2020);
-}
 
-// orange button
-.btn-orange,
-.btn-orange:hover,
-.btn-orange:active,
-.btn-orange:visited {
-  color: #FFF;
+  &,
+  &:hover,
+  &:visited {
+    color:#FFF!important;
+  }
+
+  &:hover {
+    #gradient > .vertical(#ee2020, #d51314);
+  }
+
+  &:active {
+    #gradient > .vertical(#d51314, #ee2020);
+  }
 }
 
 .btn-orange {
   border-color: transparent;
   border-bottom-color: #cf370c;
   #gradient > .vertical(#f50, #f40);
-}
-.btn-orange:hover {
-  #gradient > .vertical(#f40, #d73900);
-}
-.btn-orange:active {
-  #gradient > .vertical(#d73900, #f40);
-}
 
-// blue button
-.btn-blue,
-.btn-blue:hover,
-.btn-blue:active,
-.btn-blue:visited {
-  color: #FFF;
+  &,
+  &:hover,
+  &:visited {
+    color:#FFF!important;
+  }
+
+  &:hover {
+    #gradient > .vertical(#f40, #d73900);
+  }
+
+  &:active {
+    #gradient > .vertical(#d73900, #f40);
+  }
 }
 
 .btn-blue {
   border-color: transparent;
   border-bottom-color: #0960ab;
   #gradient > .vertical(#488fcd, #3a7db8);
-}
-.btn-blue:hover {
-  #gradient > .vertical(#4087c6, #25659c);
-}
-.btn-blue:active {
-  #gradient > .vertical(#25659c, #4087c6);
+
+  &,
+  &:hover,
+  &:visited {
+    color:#FFF!important;
+  }
+
+  &:hover {
+    #gradient > .vertical(#4087c6, #25659c);
+  }
+
+  &:active {
+    #gradient > .vertical(#25659c, #4087c6);
+  }
 }
 
-// disabled button
-.btn-disabled,
-.btn-disabled:hover {
-  #gradient > .vertical(#f2f2f2, #e6e6e6);
-  color: #ccc;
-  cursor: default;
-  border: 1px solid #e0e0e0; border-bottom-color:#ccc;
+.btn-disabled {
+  border-color: transparent;
+  border-bottom-color: #0960ab;
+  #gradient > .vertical(#488fcd, #3a7db8);
+
+  &,
+  &:hover,
+  &:visited {
+    color:#FFF!important;
+  }
+
+  &:hover {
+    #gradient > .vertical(#4087c6, #25659c);
+  }
+
+  &:active {
+    #gradient > .vertical(#25659c, #4087c6);
+  }
 }
 
 //size 45px buttons
@@ -129,6 +143,7 @@
   line-height: 43px;
   font-size: 18px;
   padding: 0 20px;
+  .iconfont { font-size:18px!important; }
 }
 
 .btn-size40, .btn-large {
@@ -136,21 +151,25 @@
   line-height: 38px;
   font-size: 14px;
   padding: 0 20px;
+  .iconfont { font-size:14px!important; }
 }
 
 .btn-size30, .btn-medium {
   height: 28px;
   line-height: 28px;
   padding: 0 20px;
+  .iconfont { font-size:12px!important; }
 }
 
 .btn-size28, .btn-small {
   height: 26px;
   line-height: 26px;
   padding: 0 20px;
+  .iconfont { font-size:12px!important; }
 }
 
 .btn-size25, .btn-xsmall {
   height: 23px;
   line-height: 23px;
+  .iconfont { font-size:12px!important; }
 }

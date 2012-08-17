@@ -1,0 +1,226 @@
+@import "../../style/variables.less";
+@import "../../style/mixins.less";
+@import "../../style/utilities.less";
+
+.calendar{
+	width: 197px;
+	.border-radius(2px);
+	border: 1px solid #ddd;
+    .box-shadow(0 3px 5px rgba(0,0,0,0.1));
+    position:absolute;
+    left:-9999px;
+    top:-9999px;
+    visibility: hidden;
+    background-color: #fff;
+    -webkit-text-size-adjust: none;
+
+    .calendar-pages{
+		.clearfix;
+		.calendar-page{
+			margin: 10px;
+			float: left;
+			width: 177px;
+			overflow: hidden;
+			.calendar-page-hd{
+				.border-radius(2px);
+				height: 24px;
+				line-height: 24px;
+				position: relative;
+				background-color: #488fcd;
+				.calendar-prev-year,.calendar-prev-month,.calendar-next-year,.calendar-next-month{
+					position: absolute;
+					color: #fff;
+					top: 6px;
+					i{
+						float: left;
+						font-size: 12px;
+						line-height: 12px;
+					}
+				}
+				.calendar-prev-year{
+					left:3px;
+					.icon-yp{
+						margin-left: -6px;
+					}
+				}
+				.calendar-prev-month{
+					left:24px;
+				}
+				.calendar-next-year{
+					right: 3px;
+					.icon-yn{
+						margin-right: -6px;
+					}
+				}
+				.calendar-next-month{
+					right: 24px;
+				}
+
+				.calendar-year-month{
+					color: #fff;
+					margin: 0 auto;
+					width: 77px;
+					text-align: center;
+					display: block;
+				}
+				.calendar-year-month-pupop{
+					position: absolute;
+					left: 0px;
+					top: 24px;
+					width: 175px;
+					background: #F2F2F2;
+					border: 1px solid #9BC0E0;
+					text-align: center;
+					vertical-align: middle;
+					height: auto;
+					padding-top: 10px;
+					padding-bottom: 5px;
+					display: none;
+					p{
+						margin: 0;
+						margin-bottom: 5px;
+					}
+					input{
+						width: 62px;
+						margin:0;
+						margin-left: 3px;
+					}
+					select{
+						width: 80px;
+						margin:0;
+						margin-left: 3px;
+						padding: 0;
+						height: 25px;
+					}
+					.btn-pupop-confirm{
+						margin-right: 5px;
+					}
+					
+				}
+			}
+			.calendar-page-wbd{
+				width: 182px;
+				margin-top: 10px;
+				height: 18px;
+				span{
+					text-align: center;
+					float:left;
+					width: 21px;
+					height: 18px;
+					margin-right: 5px;
+				}	
+			}
+			.calendar-page-dbd{
+				width: 182px;
+				.clearfix;
+				a{
+					text-align: center;
+					float:left;
+					width: 19px;
+					height: 19px;
+					margin-right: 5px;
+					border:1px solid #fff;
+					.border-radius(2px);
+					margin-top: 3px;
+				}
+				a.calendar-hidden{
+					visibility: hidden;
+				}
+				a.calendar-today{
+					border-bottom-color:#488fcd 
+				}
+				a.calendar-selected,a.calendar-range,a.calendar-multi{
+					background-color: #488fcd;
+					border-color:#488fcd;
+					color: #fff;
+				}
+				a.calendar-disabled,a.calendar-disabled:hover{
+					color: #acacac;
+					cursor: default;
+				}
+			}
+			.calendar-page-fd{
+				padding: 0 15px;
+				position: relative;
+				.calendar-time{
+					margin-top: 10px;
+					position: relative;
+					.border-radius(2px);
+					background-color: #488fcd;
+					padding: 3px 0px 3px 15px;
+					color: #fff;
+					span{
+						color:#fff;
+						padding: 0 3px;
+						cursor: pointer;
+						margin-right: 3px;
+					}
+					span.on{
+						background-color: #333;
+					}
+					.calendar-time-updown{
+						position: absolute;
+						width: 12px;
+						height: 24px;
+						right: 0;
+						top: 0;
+						i{
+							font-size: 10px;
+							line-height: 10px;
+							position: absolute;
+							cursor: pointer;
+						}
+						i.u{
+							right: 2px;
+							top:2px;
+						}
+						i.d{
+							right: 2px;
+							top:12px;
+						}
+					}
+				}
+				.calendar-time-popup{
+					.border-radius(2px);
+					background: #F2F2F2;
+					border: 1px solid #9BC0E0;
+					padding: 10px 0; 
+					position: absolute;
+					bottom:26px;
+					left: 0px;
+					width: 175px;
+					display: none;
+					.calendar-time-popup-bd{
+						padding-left: 15px;
+					}
+					.calendar-time-popup-bd a{
+						float: left;
+						margin: 0 5px;
+						cursor: default;
+					}
+					.icon-close{
+						font-size: 8px;
+						line-height: 8px;
+						position: absolute;
+						right: 0;
+						bottom: 0;
+						cursor: pointer;
+					}
+				}
+			}
+		}
+	}
+	.calendar-operator{
+		margin-bottom: 10px;
+		text-align: center;
+	}
+}
+
+.calendar-2{
+		width: 394px;
+}
+
+.calendar-3{
+		width: 591px;
+}
+
