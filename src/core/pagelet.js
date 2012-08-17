@@ -7,7 +7,8 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         self.brickCount = 0;
         self.readyList = [];
         self.isAddBehavior = false;
-        if (self.get('autoRender')) {
+        //如果是自动渲染，或者已经在dom中，则触发rendered事件
+        if (self.get('autoRender')||self.get('tmpler').inDom) {
             self.ready(function(){
                 self.render();
             });
