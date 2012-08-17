@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<!-- author: chongzhi.ldq@taobao.com 崇志 -->
+<html>
+<head>
+<meta charset="utf-8">
+<title>Brix sidenav Demo</title>
+<link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+<!-- <link rel="stylesheet" href="../../../src/gallery/sidenav/sidenav.css"> --> <!-- sidenav.css直接require于sidenav.js -->
+<link rel="stylesheet" href="../../style/assets/doc.css">
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+<script src="../../config.js"></script>
+</head>
+<body>
+    <header id="overview" class="subhead">
+        <h1>竖形菜单</h1>
+        <h2>Brix Gallery</h2>
+    </header>
+
+
+    <!-- sidenav组件 html结构区 START -->
+    <!-- 绑定了页面框架结构样式 -->
+    <!-- 页面主体区请输入在inmain里面 -->
+    <div class="clearfix" id="body" style="padding-top:30px;">
+        <div class="main">
+            <div class="inmain" id="inmain">
+                content here!!! <br>
+                try to click sidenav
+            </div>
+        </div>
+        <div class="sidebar" id="sidebar">
+
+            <ul class="nav" id="nav">
+                <li><a href="#!/home/" hidefocus="true">首页</a></li>
+                <li><a href="#!/adzone/adzone/" hidefocus="true" data-sub="adzone" >展位超市</a></li>
+                <li><a href="#!/plan/list/" hidefocus="true">计划</a></li>
+                <li><a href="#!/board/list/" hidefocus="true" data-sub="board">创意</a></li>
+                <li><a href="#!/reports/account/" hidefocus="true" data-sub="report">报表</a></li>
+                <li><a href="#!/user/panel/" hidefocus="true">帐户</a></li>
+            </ul>
+
+            <div class="sub-nav" id="subNav">
+                <div class="sub-nav-wrap" id="subNavWrap">
+                    <i class="icon icon-expand" id="subNavHandle"></i>
+
+                    <!-- ===子菜单区=== -->
+                    <ul data-sub="adzone" class="sub-nav-ul">
+                        <li class="li"><a href="#!/adzone/adzone/"><i class="iconfont mr8" title="竞价展位">&#311;</i>竞价展位</a></li>
+
+                        <li class="li"><a href="#!/adzone/price_adzone/"><i class="iconfont mr8" title="定价展位">&#312;</i>定价展位</a></li>
+
+                        <li class="li"><a href="#!/adzone/my_fav_adzone/"><i id="myFav" class="iconfont mr8" title="我的收藏">&#361;</i>我的收藏</a></li>
+                    </ul>
+
+                    <!-- ===子菜单区=== -->
+                    <ul data-sub="board" class="sub-nav-ul">
+                        <li class="li"><a href="#!/board/list/" ><i class="iconfont mr8" title="创意">&#230;</i>创意</a></li>
+                        <li class="li"><a href="#!/board/list/board.archivestatus=1"><i title="回收站" class="iconfont mr8">&#356;</i>回收站</a></li>
+                    </ul>
+
+                    <!-- ===子菜单区=== -->
+                    <ul data-sub="report" class="sub-nav-ul">
+                        <li class="li"><a href="#!/reports/account/"><i class="iconfont mr8" title="帐户报表">&#338;</i>帐户报表</a></li>
+                        <li class="li sub"><i class="iconfont mr8">&#311;</i>竞价展位报表
+
+                            <!-- ===三级子菜单区=== -->
+                            <ul class="sub-nav-third">
+                                <li><a href="#!/reports/white_plan/">计划报表</a></li>
+                                <li><a href="#!/reports/white_plan_realtime/">计划时段报表</a> <i class="icon icon-new"></i></li>
+                                <li><a href="#!/reports/white_board/">创意报表</a></li>
+                                <li><a href="#!/reports/white_board_realtime/">创意时段报表</a> <i class="icon icon-new"></i></li>
+                                <li><a href="#!/reports/white_deliver/">定向报表</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="li sub"><i class="iconfont mr8">&#312;</i>定价展位报表
+                             <!-- ===三级子菜单区=== -->
+                            <ul class="sub-nav-third">
+                                <li><a href="#!/reports/price_plan/">计划报表</a></li>
+                                <li><a href="#!/reports/price_board/">创意报表</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="li sub"><i class="iconfont mr8">&#311;</i>全网竞价报表
+                             <!-- ===三级子菜单区=== -->
+                            <ul class="sub-nav-third">
+                                <li><a href="#!/reports/plan/">计划报表</a></li>
+                                <li><a href="#!/reports/plan_realtime/">计划时段报表</a> <i class="icon icon-new"></i></li>
+                                <li><a href="#!/reports/board/">创意报表</a></li>
+                                <li><a href="#!/reports/board_realtime/">创意时段报表</a> <i class="icon icon-new"></i></li>
+                                <li><a href="#!/reports/deliver/">定向报表</a></li>
+                                <li><a href="#!/reports/website/">网站报表</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- sidenav组件 html结构区 END -->
+
+<script>
+    var S = KISSY;
+    S.ready(function (S) {
+        S.use("brix/gallery/sidenav/", function (S, Sidenav) {
+            Sidenav.init();
+        });
+    });
+</script>
+</body>
+</html>
