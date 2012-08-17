@@ -19,17 +19,20 @@
   right: 24px;
   width: 28px;
   height: 28px;
-  line-height: 28px;
   text-decoration: none;
   text-align: center;
+  display: block;
+  cursor: default;
 }
 .ux-ext-close:hover .ux-ext-close-x {
   color: #488fcd;
   font-size: 28px;
+  line-height: 28px;
 }
 .ux-ext-close-x {
   font-family: "uxiconfont";
   font-style: normal;
   color: #ccc;
   font-size: 16px;
+  display: inline-block;
 }
