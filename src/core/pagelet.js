@@ -1,11 +1,18 @@
 KISSY.add("brix/core/pagelet", function(S, Chunk) {
     function Pagelet() {
         Pagelet.superclass.constructor.apply(this, arguments);
+        var self = this;
         //初始化属性
-        this.isReady = false;
-        this.brickCount = 0;
-        this.readyList = [];
-        this.isAddBehavior = false;
+        self.isReady = false;
+        self.brickCount = 0;
+        self.readyList = [];
+        self.isAddBehavior = false;
+        //如果是自动渲染，或者已经在dom中，则触发rendered事件
+        if (self.get('autoRender')||self.get('tmpler').inDom) {
+            self.ready(function(){
+                self.render();
+            });
+        }
     }
 
     S.extend(Pagelet, Chunk, {
@@ -59,6 +66,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 }
                 S.use(o.path, function(S, TheBrick) {
                     var config = S.merge({
+                        container:'#'+k,
                         id: k,
                         el: '#' + k,
                         pagelet: self
@@ -106,6 +114,59 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                     fn.call(self);
                 }
                 self.readyList = null;
+            }
+        },
+        /**
+         * 销毁组件或者pagelet
+         * @param  {String} id 组件id,如果带了id，销毁组件
+         */
+        destroy: function(id) {
+            var self = this,el = self.get('el'),tmpler = self.get('tmpler');
+            if (tmpler && !S.isEmptyObject(tmpler.bricks)) {
+                context._destroyBricks(tmpler.bricks,id);
+            }
+            if(!id){
+                el.remove();
+            }
+        },
+
+        /**
+         * 销毁brick引用
+         * @param  {object} bricks 需要销毁的对象集合
+         */
+        _destroyBricks: function(bricks,id) {
+            var self = this;
+            S.each(bricks, function(o,k) {
+                if(id){
+                    if(id===k){
+                        self._destroyBrick(o);
+                        delete bricks[k];
+                        return false;
+                    }
+                    else{
+                        self._destroyBricks(o.bricks);
+                    }
+                }
+                else{
+                    self._destroyBrick(o);
+                    delete bricks[k];
+                }
+            });
+        },
+        /**
+         * 销毁brick引用
+         * @param  {object} o 需要销毁的对象
+         */
+        _destroyBrick: function(o) {
+            var self = this;
+            if (o.brick) {
+                o.brick._detachEvent();
+                //递归调用
+                self._destroyBricks(o.bricks);
+                o.brick.get('el').remove();
+                o.brick.pagelet = null;
+                o.brick = null;
+                delete o;
             }
         }
     });
