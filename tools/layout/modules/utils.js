@@ -1,4 +1,4 @@
-KISSY.add('modules/utils', function(S, D) {
+KISSY.add('modules/utils', function(S) {
     var next = ['A', 0];
     function idGen() {
         var id = next.join('');
@@ -16,30 +16,78 @@ KISSY.add('modules/utils', function(S, D) {
         return id;
     }
 
-    var all = {};
-    function cssGen(width) {
-        if (all[width]) return;
-        all[width] = true;
+    function _css(width, maxWidth) {
+        var css = prefix = suffix = '';
 
         var isBase = width === App.resolution.base;
-        var total = Math.ceil((isBase ? 1920 : width) / (App.grid.c + App.grid.g));
-        var css = '.w' + width + '{width: ' + width + 'px}' +
-                '.row{margin-left: -' + App.grid.g + 'px}' +
-                (isBase ? '' : '.w' + width + ' ') +
-                '.span0' + (isBase ? '' : '_' + width) +
-                '{display: none}';
+        if (isBase) {
+            css = '.row{margin-left: -' + App.grid.g + 'px}';
+        } else {
+            suffix = '_' + width;
+        }
 
-        for (var i=0; i<total; ) {
-            ++i;
-            css += (isBase ? '' : '.w' + width + ' ') +
-                '.span' + i + (isBase ? '' : '_' + width) +
+        var mediaQuery = undefined !== maxWidth;
+        if (mediaQuery) {
+            css += '@media (';
+
+            switch (maxWidth) {
+            case -1: 
+                css += 'max-width: ' + width;
+                break;
+            case 0:
+                css += 'min-width: ' + width;
+                break;
+            default:
+                css += 'min-width: ' + width + 'px) and (max-width: ' + maxWidth;
+            }
+
+            css += 'px) {';
+        } else {
+            css += '.w' + width + '{width: ' + width + 'px}';
+            if (!isBase) {
+                prefix = '.w' + width + ' ';
+            }
+        }
+
+        css += prefix + '.span0' + suffix + '{display: none}';
+
+        var total = Math.ceil((isBase ? 1920 : width) / (App.grid.c + App.grid.g));
+        for (var i=0; i++<total; ) {
+            css += prefix + '.span' + i + suffix +
                 '{width: ' + ((App.grid.c + App.grid.g) * i - App.grid.g) + 'px;' +
                 'margin-left: ' + App.grid.g + 'px}';
         }
 
-        D.addStyleSheet(css);
+        if (mediaQuery) {
+            css += '}';
+        }
+
+        return css;
     }
-    //all[App.resolution.base] = true;
+    function cssGen(mediaQuery) {
+        var base = App.resolution.base;
+        var res = App.resolution.others;
+
+        var css = _css(base);
+
+        if (!mediaQuery) {
+            for (var i=0; i<res.length; i++) {
+                css += _css(res[i]);
+            }
+            return css;
+        }
+
+        var maxWidth;
+        for (var i=0; i<res.length; i++) {
+            if (res[i] < base) {
+                maxWidth = res[i+1] < base ? res[i+1] : base;
+            } else {
+                maxWidth = res[i+1] || 0;
+            }
+            css += _css(res[i], maxWidth);
+        }
+        return css;
+    }
 
     function clsReplace(cls, reg, val) {
         cls = cls.split(/\s+/);
@@ -61,6 +109,4 @@ KISSY.add('modules/utils', function(S, D) {
         cssGen: cssGen,
         clsReplace: clsReplace
     };
-}, {
-    requires: ['dom']
 });

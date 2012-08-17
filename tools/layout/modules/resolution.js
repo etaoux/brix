@@ -5,10 +5,10 @@ KISSY.add('modules/resolution', function(S, D, E, Node) {
         var others = App.resolution.others;
         for (var i=0; i<others.length; i++) {
             if (base < others[i]) {
-                html += '<li class="active base" contenteditable>' + base + 'px</li>';
+                html += '<li class="active base">' + base + 'px</li>';
                 base = undefined;
             }
-            html += '<li contenteditable>' + others[i] + 'px</li>';
+            html += '<li>' + others[i] + 'px</li>';
         }
         html += '</ol>';
         S.one('#r-resolution').append(html);
