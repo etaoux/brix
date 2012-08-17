@@ -9,7 +9,7 @@ KISSY.add('modules/boot', function (S, Base) {
 
     fns.push(function load() {
         if (location.hash) {
-            S.mix(App, JSON.parse(location.hash.slice(1)));
+            S.mix(App, JSON.parse(decodeURIComponent(location.hash.slice(1))));
         }
     });
 
