@@ -71,7 +71,7 @@
                     var switcher2 = new Switcher({
                         tmpl:'#brick2',
                         switchOn:  false,
-                        switchNoStatus: true
+                        switchStatus: false
                     });
                     switcher2.on('switch',function(e){
                         S.one('#switcher_result2').html('switched to ' + e.value);

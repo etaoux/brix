@@ -6,8 +6,8 @@ KISSY.add("brix/gallery/switcher/index", function(S, Brick) {
         switchOn: {
             value: false
         },
-        switchNoStatus: {
-            value: false
+        switchStatus: {
+            value: true
         }
     };
 
@@ -45,13 +45,13 @@ KISSY.add("brix/gallery/switcher/index", function(S, Brick) {
 
             if (on) {
                 el.addClass('switcher-on');
-                if (self.get('switchNoStatus')) {
+                if (!self.get('switchStatus')) {
                     el.addClass('switcher-no-status');
                 }
             }
             else {
                 el.removeClass('switcher-on');
-                if (self.get('switchNoStatus')) {
+                if (!self.get('switchStatus')) {
                     el.removeClass('switcher-no-status');
                 }
             }
