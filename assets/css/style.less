@@ -1,0 +1,35 @@
+@import 'base';
+
+#page {
+  margin: 70px auto 0;
+  text-align: left;
+
+  .grid-showcase {
+    .show-grid {
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+    .show-grid .span1,
+    .show-grid .span2,
+    .show-grid .span10,
+    .show-grid .span15,
+    .show-grid .span17,
+    .show-grid .span25,
+    .show-grid .span33,
+    .show-grid .span40,
+    .show-grid .span50 {
+      background-color: #ccc;
+      text-align: center;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      min-height: 30px;
+      line-height: 30px;
+    }
+
+    .show-grid .show-grid .span10,
+    .show-grid .show-grid .span15 {
+      background-color: #aaa;
+    }
+  }
+}
