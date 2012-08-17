@@ -34,12 +34,19 @@ h6 {
 }
 #r-resolution .tab {
     display: block;
-    line-height: 40px;
+    line-height: 50px;
     border-bottom: 1px solid #666;
     padding: 0 20px;
     font-size: 14px;
     cursor: pointer;
     color: #333;
+}
+#r-resolution .tab::after {
+    position: relative;
+    display: block;
+    content: '';
+    margin-top: -51px;
+    height: 51px;
 }
 #r-resolution .split {
     display: block;
@@ -91,6 +98,8 @@ h6 {
     width: 90px;
 }
 .r-div {
+    overflow: hidden;
+    resize: both;
     position: relative;
     box-sizing: border-box;
     border: 2px dashed #999;
