@@ -1,4 +1,4 @@
-KISSY.add('modules/boot', function (S, Base, Utils) {
+KISSY.add('modules/boot', function (S, Base) {
     var fns = [];
 
     function Boot() {
@@ -21,7 +21,6 @@ KISSY.add('modules/boot', function (S, Base, Utils) {
         App.msg.on('afterPageWidthChange', function(e) {
             var width = e.newVal;
             document.getElementById('r-content').className = 'w' + width;
-            Utils.cssGen(width);
         });
 
         App.msg.set('pageWidth', App.resolution.base);
@@ -37,5 +36,5 @@ KISSY.add('modules/boot', function (S, Base, Utils) {
 
     return Boot;
 }, {
-    requires: ['base', 'modules/utils']
+    requires: ['base']
 });
