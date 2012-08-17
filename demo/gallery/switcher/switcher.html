@@ -64,7 +64,7 @@
                     };
                     var switcher1 = new Switcher(config);
                     switcher1.render();
-                    switcher1.on('switch',function(e){
+                    switcher1.on('switched',function(e){
                         S.one('#switcher_result1').html('switched to ' + e.value);
                     });
 
@@ -73,7 +73,7 @@
                         switchOn:  false,
                         switchStatus: false
                     });
-                    switcher2.on('switch',function(e){
+                    switcher2.on('switched',function(e){
                         S.one('#switcher_result2').html('switched to ' + e.value);
                     });
 
@@ -88,10 +88,10 @@
                     pagelet.render();
                     pagelet.addBehavior();
                     pagelet.ready(function() {
-                        pagelet.getBrick('brick3').on('switch',function(e){
+                        pagelet.getBrick('brick3').on('switched',function(e){
                             S.one('#switcher_result3').html('switched to ' + e.value);
                         });
-                        pagelet.getBrick('brick4').on('switch',function(e){
+                        pagelet.getBrick('brick4').on('switched',function(e){
                             S.one('#switcher_result4').html('switched to ' + e.value);
                         });
                     });

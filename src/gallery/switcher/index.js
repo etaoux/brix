@@ -18,6 +18,10 @@ KISSY.add("brix/gallery/switcher/index", function(S, Brick) {
         }
     };
 
+    Switcher.FIRES = {
+        switched: 'switched'
+    };
+
     Switcher.ATTACH = {
         '': {
             click: function(e) {
@@ -59,7 +63,7 @@ KISSY.add("brix/gallery/switcher/index", function(S, Brick) {
             data = {
                 value: el.hasClass('switcher-on')
             };
-            this.fire('switch', data);
+            self.fire(Switcher.FIRES.switched, data);
         }
     });
 
