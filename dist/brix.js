@@ -1087,8 +1087,10 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
                     key = key.replace(/^data\./, '');
                     self._renderTmpl(tmpler.bricks, key, data);
                 } else {
-                    var container = self.get('container');
-                    container.append(tmpler.to_html(data));
+                    if(!tmpler.inDom){
+                        var container = self.get('container');
+                        container.append(tmpler.to_html(data));
+                    }
                 } 
             }
         },
@@ -1378,7 +1380,8 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         self.brickCount = 0;
         self.readyList = [];
         self.isAddBehavior = false;
-        if (self.get('autoRender')) {
+        //如果是自动渲染，或者已经在dom中，则触发rendered事件
+        if (self.get('autoRender')||self.get('tmpler').inDom) {
             self.ready(function(){
                 self.render();
             });

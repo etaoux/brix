@@ -43,12 +43,12 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
         //多选的日期数组
         multi: {
             value: null,
-            setter:function(v){
-                for(var i=0;i<v.length;i++){
-                        if(v[i] instanceof Date){
-                            v[i] = Brix_Date.format(v[i],'isoDate');
-                        }
+            setter: function(v) {
+                for (var i = 0; i < v.length; i++) {
+                    if (v[i] instanceof Date) {
+                        v[i] = Brix_Date.format(v[i], 'isoDate');
                     }
+                }
                 return v;
             }
         },
@@ -91,9 +91,9 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
         notLimited: {
             value: false
         },
-        autoRender:{
-            value:true
-        },        
+        autoRender: {
+            value: true
+        },
         tmpl: {
             valueFn: function() {
                 var self = this,
@@ -139,13 +139,13 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
         }
     }
     Calendar.DOCATTACH = {
-        '':{
-            click:function(e){
+        '': {
+            click: function(e) {
                 var self = this,
                     el = self.get('el'),
                     node = S.one(e.target),
                     trigger = S.one(self.get('trigger'));
-                if(!el.contains(node)&&node[0]!=trigger[0]){
+                if (!el.contains(node) && node[0] != trigger[0]) {
                     self.hide();
                 }
             }
@@ -160,7 +160,12 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     multiSelect = self.get('multiSelect');
                 if (multiSelect) {
                     var multi = S.clone(self.get('multi'));
-                    multi.sort(function(a,b){if(a>b){return 1;}return -1;});
+                    multi.sort(function(a, b) {
+                        if (a > b) {
+                            return 1;
+                        }
+                        return -1;
+                    });
                     for (var i = 0; i < multi.length; i++) {
                         multi[i] = Brix_Date.parse(multi[i]);
                     };
@@ -168,10 +173,9 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     self.fire(Calendar.FIRES.multiSelect, {
                         multi: multi
                     });
-                }
-                else if(showTime){
+                } else if (showTime) {
                     var date = new Date();
-                    if(selected){
+                    if (selected) {
                         date = selected;
                     }
                     var time = self.pageBricks[0].timeBrick.get('time');
@@ -179,7 +183,9 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     date.setMinutes(time.getMinutes());
                     date.setSeconds(time.getSeconds());
                     S.log(date);
-                    self.fire(Calendar.FIRES.timeSelect,{date:date})
+                    self.fire(Calendar.FIRES.timeSelect, {
+                        date: date
+                    })
                 }
                 self.hide();
             }
@@ -198,12 +204,12 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
     };
 
     Calendar.METHOD = {
-        align:function(){
+        align: function() {
             var self = this,
                 align = S.clone(self.get('align')),
                 trigger = S.one(self.get('trigger'));
             align.node = trigger;
-            self.overlay.set('align',align);
+            self.overlay.set('align', align);
         },
         show: function() {
             var self = this;
@@ -254,13 +260,16 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                 });
                 self.overlay.render();
                 var triggerType = self.get('triggerType');
-                S.each(triggerType,function(v){
-                    trigger.on(v,function(){
+                S.each(triggerType, function(v) {
+                    trigger.on(v, function() {
                         self.toggle();
                     });
                 })
             } else {
-                el.css({'position':'static',visibility:'visible'});
+                el.css({
+                    'position': 'static',
+                    visibility: 'visible'
+                });
                 trigger.append(el);
             }
             var container = el.one('.calendar-pages');
@@ -291,13 +300,13 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                         var rangeSelect = self.get('rangeSelect');
                         if (rangeSelect) {
                             self._handleRange(ev.date);
-                        } else if(ev.date) {
+                        } else if (ev.date) {
                             self.set('selected', ev.date);
 
                             self.fire(Calendar.FIRES.select, {
                                 date: ev.date
                             });
-                            if(popup&&closable&&!self.get('showTime')){
+                            if (popup && closable && !self.get('showTime')) {
                                 self.hide();
                             }
                         }
@@ -370,13 +379,12 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
         },
         destructor: function() {
             var self = this;
-            if(self.overlay){
+            if (self.overlay) {
                 self.overlay.destroy();
-            }
-            else{
+            } else {
                 S.one(self.get('trigger')).empty();
             }
-            
+
         },
         _bindDataChange: function(key, upperCaseKey) {
             var self = this,
@@ -411,7 +419,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                 self.fire('rangeSelect', range);
                 var popup = self.get('popup'),
                     closable = self.get('closable');
-                if(popup&&closable){
+                if (popup && closable) {
                     self.hide();
                 }
             }

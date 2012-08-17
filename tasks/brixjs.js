@@ -29,12 +29,11 @@ module.exports = function(grunt) {
         var src = this.file.src;
         var dest = this.file.dest;
         var options = this.data.options || {};
-        if(options.compress){
-            if(!options.min){
+        if (options.compress) {
+            if (!options.min) {
                 options.min = '-min';
             }
-        }
-        else{
+        } else {
             options.min = '';
         }
 
@@ -51,23 +50,24 @@ module.exports = function(grunt) {
         var self = this;
         files = fs.readdirSync(src);
         files.forEach(function(p) {
-            var srcFile = src + '/' + p + '/'  + 'index.js';
-            var destFile = dest + '/' + p + '/index'  + options.min+'.js'
+            var srcFile = src + '/' + p + '/' + 'index.js';
+            var destFile = dest + '/' + p + '/index' + options.min + '.js'
             if (fs.existsSync(srcFile)) {
                 var arr = [srcFile];
                 var tempArr = fs.readdirSync(src + '/' + p + '/');
-                tempArr.forEach(function  (f) {
-                    if(path.extname(f) =='.js'&&path.basename(f)!='index.js'){
-                        arr.push(src + '/' + p + '/'+f);
+                tempArr.forEach(function(f) {
+                    if (path.extname(f) == '.js' && path.basename(f) != 'index.js') {
+                        arr.push(src + '/' + p + '/' + f);
                     }
                 });
 
-                var max = grunt.helper('concat', arr, {separator: self.data.separator});
+                var max = grunt.helper('concat', arr, {
+                    separator: self.data.separator
+                });
                 var min;
-                if(options.compress){
+                if (options.compress) {
                     min = grunt.helper('uglify', max, grunt.config('uglify'));
-                }
-                else{
+                } else {
                     min = max;
                 }
                 file.write(destFile, min);
