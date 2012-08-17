@@ -158,8 +158,10 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
                     key = key.replace(/^data\./, '');
                     self._renderTmpl(tmpler.bricks, key, data);
                 } else {
-                    var container = self.get('container');
-                    container.append(tmpler.to_html(data));
+                    if(!tmpler.inDom){
+                        var container = self.get('container');
+                        container.append(tmpler.to_html(data));
+                    }
                 } 
             }
         },
