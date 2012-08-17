@@ -51,7 +51,7 @@
         <script type="text/template" id="tmpl_script">
             <ul bx-name="breadcrumbs" class="breadcrumbs">
                 {{#breadcrumbs_list}}
-                <li class="item{{^text}} item-dropdown{{/text}}">
+                <li class="item{{^text}} item-dropdown{{/text}}{{#last}} last{{/last}}{{#first}} first{{/first}}">
                     {{#text}}
                         {{#last}}
                             {{text}}
