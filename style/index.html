@@ -15,69 +15,355 @@
       for (; i < len; i++) document.createElement(tags[i]);
   })();
 </script> <![endif]-->
-  <link rel="stylesheet" type="text/css" href="/brix/assets/css/screen.css">
+  <link rel="stylesheet" type="text/css" href="/brix/dist/brix-min.css">
+  <link rel="stylesheet" type="text/css" href="/brix/assets/css/style.css">
 </head>
 <body>
-  <div id="header">
+  <div id="site-nav">
+    <nav class="container">
+      <a href="/brix/">首页 Home</a>
+      <a href="/brix/#tutorial">入门 Tutorials</a>
+      <a href="/brix/#documentation">文档 Documentation</a>
+      <a href="/brix/style">样式 Style</a>
+      <a href="/brix/#about">关于 About</a>
+    </nav>
+  </div>
+  <div id="page" class="container">
+  <h1><a href="/brix/" class="logo">Brix</a> Style</h1>
+  <div id="page-nav" class="clearfix">
+    <nav>
+      
+      <a href="#scaffolding">Scaffolding</a>
+      <a href="#type">Type</a>
+      <a href="#grid">Grid</a>
+      <a href="#forms">Forms</a>
+      <a href="#buttons">Buttons</a>
+      <a href="#flowsteps">flowsteps</a>
+      <a href="#tables">tables</a>
+      <a href="#tags">tags</a>
+    </nav>
+  </div>
+  
+  <hr class="soften"/>
+  <div class="post">
+    <h2 id="scaffolding">Scaffolding</h2>
+    
+    <div class="content"><h3>Reset样式</h3>
+
+<p>Brix Style 的 Reset 样式直接使用了 <a href="http://necolas.github.com/normalize.css/">Normalize.css</a>，
+省心省力，效果请参考 <a href="/brix/src/style/tests/reset.html">Reset测试</a></p>
+
+<h3>工具类</h3>
+
+<div class="row show-grid">
+  <div class="span18">
+    <p>工具类可以直接在页面中使用。</p>
+  </div>
+  <div class="span32">
+  
+<div class="highlight"><pre><code class="css"><span class="nc">.clearfix</span>
+<span class="nc">.text-overflow</span>
+</code></pre>
+</div>
+
+
+  </div>
+</div>
+
+
+
+
+<h3>Mixin</h3>
+
+
+<div class="row show-grid">
+  <div class="span18">
+    <p>Brix Style 提供了许多 Mixins 来加速 Brix 组件的开发。</p>
+    <p>暂定有以下 mixin：</p>
+  </div>
+  <div class="span32">
+    
+<div class="highlight"><pre><code class="css"><span class="nc">.border-radius</span> <span class="o">(</span><span class="k">@radius</span><span class="o">)</span>
+<span class="nc">.opacity</span> <span class="o">(</span><span class="k">@opacity</span><span class="o">)</span>
+<span class="nc">.box-shadow</span> <span class="o">(</span><span class="k">@shadow</span><span class="o">)</span>
+<span class="nc">.transition</span> <span class="o">(</span><span class="k">@transition</span><span class="o">)</span>
+<span class="nf">#gradient</span> <span class="o">&gt;</span> <span class="nc">.vertical</span> <span class="o">(</span><span class="k">@startColor</span><span class="o">:</span> <span class="nf">#555</span><span class="o">,</span> <span class="k">@endColor</span><span class="o">:</span> <span class="nf">#333</span><span class="o">)</span>
+<span class="nf">#gradient</span> <span class="o">&gt;</span> <span class="nc">.striped</span> <span class="o">(</span><span class="k">@color</span><span class="o">,</span> <span class="k">@angle</span><span class="o">:</span> <span class="nt">-45deg</span><span class="o">)</span>
+<span class="nc">.ie7-inline-block</span> <span class="o">()</span>
+<span class="nc">.reset-filter</span> <span class="o">()</span>
+<span class="nc">.buttonBackground</span> <span class="o">(</span><span class="k">@startColor</span><span class="o">,</span> <span class="k">@endColor</span><span class="o">)</span>
+<span class="nc">.formFieldState</span> <span class="o">(</span><span class="k">@textColor</span><span class="o">:</span> <span class="nf">#555</span><span class="o">,</span> <span class="k">@borderColor</span><span class="o">:</span> <span class="nf">#ccc</span><span class="o">,</span> <span class="k">@backgroundColor</span><span class="o">:</span> <span class="nf">#f5f5f5</span><span class="o">)</span>
+<span class="nf">#popoverArrow</span> <span class="o">&gt;</span> <span class="nc">.bottom</span> <span class="o">(</span><span class="k">@arrowWidth</span><span class="o">:</span> <span class="nt">5px</span><span class="o">,</span> <span class="k">@color</span><span class="o">:</span> <span class="k">@black</span><span class="o">)</span>
+<span class="nf">#popoverArrow</span> <span class="o">&gt;</span> <span class="nc">.right</span> <span class="o">(</span><span class="k">@arrowWidth</span><span class="o">:</span> <span class="nt">5px</span><span class="o">,</span> <span class="k">@color</span><span class="o">:</span> <span class="k">@black</span><span class="o">)</span>
+<span class="nf">#popoverArrow</span> <span class="o">&gt;</span> <span class="nc">.top</span> <span class="o">(</span><span class="k">@arrowWidth</span><span class="o">:</span> <span class="nt">5px</span><span class="o">,</span> <span class="k">@color</span><span class="o">:</span> <span class="k">@black</span><span class="o">)</span>
+<span class="nf">#popoverArrow</span> <span class="o">&gt;</span> <span class="nc">.left</span> <span class="o">(</span><span class="k">@arrowWidth</span><span class="o">:</span> <span class="nt">5px</span><span class="o">,</span> <span class="k">@color</span><span class="o">:</span> <span class="k">@black</span><span class="o">)</span>
+<span class="nf">#grid</span> <span class="o">&gt;</span> <span class="nc">.core</span> <span class="o">(</span><span class="k">@gridColumnWidth</span><span class="o">,</span> <span class="k">@gridGutterWidth</span><span class="o">)</span>
+<span class="nf">#grid</span> <span class="o">&gt;</span> <span class="nc">.fluid</span> <span class="o">(</span><span class="k">@fluidGridColumnWidth</span><span class="o">,</span> <span class="k">@fluidGridGutterWidth</span><span class="o">)</span>
+<span class="nf">#grid</span> <span class="o">&gt;</span> <span class="nc">.input</span> <span class="o">(</span><span class="k">@gridColumnWidth</span><span class="o">,</span> <span class="k">@gridGutterWidth</span><span class="o">)</span>
+</code></pre>
+</div>
+
+
+  </div>
+</div>
+
+</div>
+  </div>
+  
+  <hr class="soften"/>
+  <div class="post">
+    <h2 id="type">Type</h2>
+    
+    <div class="content">
+</div>
+  </div>
+  
+  <hr class="soften"/>
+  <div class="post">
+    <h2 id="grid">Grid</h2>
+    
+    <div class="content"><h3>50（+10） 列栅格系统</h3>
+<div class="grid-showcase">
   <div class="row show-grid">
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+    <div class="span1">1</div>
+  </div>
+  <div class="row show-grid">
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+    <div class="span2">2</div>
+  </div>
+  <div class="row show-grid">
+    <div class="span17">17</div>
+    <div class="span33">33</div>
+  </div>
+  <div class="row show-grid">
+    <div class="span10">10</div>
+    <div class="span40">40</div>
+  </div>
+  <div class="row show-grid">
+    <div class="span10">10</div>
+    <div class="span15">15</div>
+    <div class="span25">25</div>
+  </div>
+  <div class="row show-grid">
+    <div class="span25">25</div>
+    <div class="span25">25</div>
+  </div>
+  <div class="row show-grid">
+    <div class="span50">50</div>
+  </div>
+  <div class="row">
+    <div class="span10">
+    <p>
+        默认的<strong>50列、990px</strong>宽度的栅格系统。
+    </p>
+    </div>
+    <!-- /.span -->
+    <div class="span15"><div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;row&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;span10&quot;</span><span class="nt">&gt;</span>...<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;span15&quot;</span><span class="nt">&gt;</span>...<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;span25&quot;</span><span class="nt">&gt;</span>...<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre>
+</div>
+
+    </div>
+    <!-- /.span -->
+    <div class="span25">
+      <p>页面被我们分割成50个基础列，你通过指定横跨多少列来控制每个区域的宽度。</p>
+    </div>
+    <!-- /.span -->
   </div>
 </div>
-<div id="page">
-  
-  <div class="post">
-    <h3>tags</h3>
-    
-    <div class="content"><iframe src='/brix/demo/style/tags.html' frameborder='0' scrolling='0' onload='this.height=this.contentWindow.document.body.clientHeight'></iframe>
+
+<h3>带有偏移量的列</h3>
+<div class="grid-showcase">
+  <div class="row show-grid">
+    <div class="span10">10</div>
+    <div class="span25 offset15">25 offset 15</div>
+  </div>
+  <!-- /row -->
+  <div class="row show-grid">
+    <div class="span33 offset17">33 offset 17</div>
+  </div>
+  <!-- /row -->
+  <div class="row">
+    <div class="span25">
+      <p>只需要给偏移列加上 <code>offset*</code></p>
+    </div>
+    <div class="span25"><div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;row&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;span10&quot;</span><span class="nt">&gt;</span>...<span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;span25 offset15&quot;</span><span class="nt">&gt;</span>...<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;row show-grid&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;span33 offset17&quot;</span><span class="nt">&gt;</span>33 offset 17<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre>
 </div>
+
+  </div>
+  <!-- /row -->
+</div>
+
+<h3>嵌套列</h3>
+<div class="grid-showcase">
+  <div class="row">
+    <div class="span25">
+      <div class="row show-grid">
+          <div class="span25">
+              Level 1 of column
+              <div class="row show-grid">
+                  <div class="span10">Level 2</div>
+                  <div class="span15">Level 2</div>
+              </div>
+          </div>
+      </div>
+      <p>
+          有时我们需要在某一列中嵌套一个栅格，只需要在
+          <code>.span*</code>
+          中增加一个
+          <code>.row</code>
+          ， 并在
+          <code>.row</code>
+          中增加若干
+          <code>.span*</code>
+          。
+      </p>
+      <p>
+          嵌套行中的列横跨宽度相加必须等于其外部列的宽度。 例如：一个
+          <code>.span25</code>
+          列中可以有一个
+          <code>.span10</code>
+          列和一个
+          <code>.span15</code>
+          列。
+      </p>
+    </div>
+    <!-- /.span -->
+    <div class="span25">
+      <div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;row&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;span25&quot;</span><span class="nt">&gt;</span>
+Level 1 of column
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;row&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;span10&quot;</span><span class="nt">&gt;</span>Level 2<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;span15&quot;</span><span class="nt">&gt;</span>Level 2<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre>
+</div>
+
+    </div>
+    <!-- /.span -->
+  </div>
+  <!-- /.row -->
+</div></div>
   </div>
   
+  <hr class="soften"/>
   <div class="post">
-    <h3>tables</h3>
+    <h2 id="forms">Forms</h2>
     
-    <div class="content"><iframe src='/brix/demo/style/tables.html' frameborder='0' scrolling='0' onload='this.height=this.contentWindow.document.body.clientHeight'></iframe>
-</div>
+    <div class="content"></div>
   </div>
   
+  <hr class="soften"/>
   <div class="post">
-    <h3>flowsteps</h3>
+    <h2 id="buttons">Buttons</h2>
     
-    <div class="content"><iframe src='/brix/demo/style/flowsteps.html' frameborder='0' scrolling='0' onload='this.height=this.contentWindow.document.body.clientHeight'></iframe>
-</div>
+    <div class="content"></div>
   </div>
   
+  <hr class="soften"/>
   <div class="post">
-    <h3>Buttons</h3>
+    <h2 id="flowsteps">flowsteps</h2>
     
-    <div class="content"><iframe src='/brix/demo/style/buttons.html' frameborder='0' scrolling='0' onload='this.height=this.contentWindow.document.body.clientHeight'></iframe>
-</div>
+    <div class="content"></div>
   </div>
   
+  <hr class="soften"/>
   <div class="post">
-    <h3>Forms</h3>
+    <h2 id="tables">tables</h2>
     
-    <div class="content"><iframe src='/brix/demo/style/forms.html' frameborder='0' scrolling='0' onload='this.height=this.contentWindow.document.body.clientHeight'></iframe>
-</div>
+    <div class="content"></div>
   </div>
   
+  <hr class="soften"/>
   <div class="post">
-    <h3>Grid</h3>
+    <h2 id="tags">tags</h2>
     
-    <div class="content"><iframe src='/brix/demo/style/grid-fixed.html' frameborder='0' scrolling='0' onload='this.height=this.contentWindow.document.body.clientHeight'></iframe>
-</div>
-  </div>
-  
-  <div class="post">
-    <h3>Type</h3>
-    
-    <div class="content"><iframe src='/brix/demo/style/type.html' frameborder='0' scrolling='0' onload='this.height=this.contentWindow.document.body.clientHeight'></iframe>
-</div>
-  </div>
-  
-  <div class="post">
-    <h3>Scaffolding</h3>
-    
-    <div class="content"><iframe src='/brix/demo/style/scaffolding.html' frameborder='0' scrolling='0' onload='this.height=this.contentWindow.document.body.clientHeight'></iframe>
-</div>
+    <div class="content"></div>
   </div>
   
 </div>
