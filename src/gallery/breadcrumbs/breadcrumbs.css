@@ -14,14 +14,19 @@
   color: #666;
   text-decoration: none;
 }
+.breadcrumbs li.item.first,
 .breadcrumbs li.item:first-child {
   padding-left: 0px;
 }
+.breadcrumbs li.item.last,
 .breadcrumbs li.item:last-child {
   padding-right: 0px;
 }
+.breadcrumbs li.item.last,
 .breadcrumbs li.item:last-child,
+.breadcrumbs li.item.last a:link,
 .breadcrumbs li.item:last-child a:link,
+.breadcrumbs li.item.last a:visited,
 .breadcrumbs li.item:last-child a:visited {
   color: #999;
 }

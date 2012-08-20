@@ -8,10 +8,28 @@ KISSY.add('brix/gallery/loading/index', function(S, Brick) {
             value: 0
         }
     };
+    
+    Loading.METHOD = {
+        show: function() {
+            var self = this;
+                el = self.get('el');
 
-    Loading.METHOD = {};
+            el.css('display', 'block');
+            self.fire(Loading.FIRES.show);
+        },
+        hide: function() {
+            var self = this,
+                el = self.get('el');
+            
+            el.css('display', 'none');
+            self.fire(Loading.FIRES.hide);
+        }
+    };
 
-    Loading.ATTACH = {};
+    Loading.FIRES= {
+        show:'show', //显示loading
+        hide:'hide' //隐藏loading
+    };
 
     S.extend(Loading, Brick, {
         initialize: function() {
@@ -32,20 +50,6 @@ KISSY.add('brix/gallery/loading/index', function(S, Brick) {
             else {
                 img.attr('src', styles[0]);
             }
-        },
-        show: function() {
-            var self = this;
-                el = self.get('el');
-
-            el.css('display', 'block');
-            self.fire('show');
-        },
-        hide: function() {
-            var self = this,
-                el = self.get('el');
-            
-            el.css('display', 'none');
-            self.fire('hide');
         }
     });
 
