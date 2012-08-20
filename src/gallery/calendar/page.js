@@ -58,7 +58,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
                             '<div class="calendar-year-month-pupop" >'+
                                 '<p bx-tmpl="page" bx-datakey="month,'+id+'_select_html">{{{'+id+'_select_html}}}</p>'+
                                 '<p bx-tmpl="page" bx-datakey="year">年:<input type="text" value="{{year}}" onfocus="this.select()"></p>'+
-                                '<p><a class="btn btn-pupop-confirm">确定</a><a class="btn-pupop-cancel">取消</a></p>'+
+                                '<p><a class="btn btn-pupop-confirm">确定</a><a class="btn-pupop-cancel" href="#">取消</a></p>'+
                             '</div>'+
                         '</div>'+
                         '<div bx-tmpl="page" bx-datakey="startDay,'+id+'_days_html" class="calendar-page-wbd">'+
@@ -232,6 +232,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
         },
         '.btn-pupop-confirm':{
             click:function(e){
+                e.halt();
                 var self = this,
                     index = self.get('index');
                     popupNode = self.get('el').one('.calendar-year-month-pupop'),
@@ -249,6 +250,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
         },
         '.btn-pupop-cancel':{
             click:function(e){
+                e.halt();
                 var self = this,
                     popupNode = self.get('el').one('.calendar-year-month-pupop');
                 popupNode.hide();

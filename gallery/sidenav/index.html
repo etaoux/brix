@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Brix &mdash; UX</title>
+  <!--[if lt IE 9]> <script>
+  // html5
+  (function() {
+      var tags = [
+          'article', 'aside', 'details', 'figcaption',
+          'figure', 'footer', 'header', 'hgroup',
+          'menu', 'nav', 'section', 'summary',
+          'time', 'mark', 'audio', 'video'],
+              i = 0, len = tags.length;
+      for (; i < len; i++) document.createElement(tags[i]);
+  })();
+</script> <![endif]-->
+  <link rel="stylesheet" type="text/css" href="/brix/dist/brix-min.css">
+  <link rel="stylesheet" type="text/css" href="/brix/assets/css/post.css">
+</head>
+<body>
+  <aside id="aside">
+  <div id="logo">
+    <a href="/brix/">Brix</a>
+  </div>
+  <section>
+  <h3>Core</h3>
+  
+  <ul class="entries">
+<li><a href="/brix/core/brick">Brick</a></li><li><a href="/brix/core/chunk">Chunk</a></li><li><a href="/brix/core/dataset">Dataset</a></li><li><a href="/brix/core/pagelet">Pagelet</a></li><li><a href="/brix/core/tmpler">Tmpler</a></li>
+</ul>
+</section>
+<section>
+  <h3>Gallery</h3>
+  
+  <ul class="entries">
+<li><a href="/brix/gallery/breadcrumbs">Breadcrumbs</a></li><li><a href="/brix/gallery/calendar">Calendar</a></li><li><a href="/brix/gallery/colorpicker">ColorPicker</a></li><li><a href="/brix/gallery/dialog">Dialog</a></li><li><a href="/brix/gallery/dropdown">Dropdown</a></li><li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li><li><a href="/brix/gallery/kwicks">Kwicks</a></li><li><a href="/brix/gallery/loading">Loading</a></li><li><a href="/brix/gallery/pagination">Pagination</a></li><li><a href="/brix/gallery/slider">Slider</a></li><li><a href="/brix/gallery/starrating">StarRating</a></li><li><a href="/brix/gallery/switcher">Switcher</a></li><li><a href="/brix/gallery/tips">tips</a></li><li><a href="/brix/gallery/sidenav">SideNav</a></li>
+</ul>
+</section>
+</aside>
+  <div id="page">
+    <article>
+      <h1>SideNav</h1>
+      
+      <p class="caption">竖形菜单组件</p>
+      
+      
+      <section><div class='demo'><iframe src='/brix/demo/gallery/sidenav/sidenav.html' frameborder='0' scrolling='0' class='j-demo'></iframe></div>
+
+
+<h2>配置</h2>
+
+<p>包含 <a href="/brix/core/brick">Brick</a> 的所有配置</p>
+
+<h3><code>index</code> {String}</h3>
+
+<p>默认的首页地址</p>
+
+<h3><code>duration</code> {Number}</h3>
+
+<p>可配置的导航动画持续时间</p>
+
+<h2>方法</h2>
+
+<h3><code>clickSwitch(node)</code></h3>
+
+<p>提供一个切换到指定菜单打开状态的方法
+请传入模拟点击的node节点</p>
+
+<ul>
+<li>@param  {DOM} node DOM节点</li>
+</ul>
+
+
+<h2>事件</h2>
+
+<p>无</p>
+</section>
+    </article>
+  </div>
+  <div id="J_log" style="position:fixed;width:88px;height:18px;bottom:0;right:2px">
+    <a style="position:absolute;top:1px;right:1px;z-index:999;" id="J_close" href="#">显示调试窗口</a>
+  </div>
+  <footer id="footer">
+  </footer>
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+  <script src="/brix/assets/js/log4javascript.js"></script>
+  <script src="/brix/assets/js/post.js"></script>
+</body>

@@ -43,6 +43,7 @@
 }
 .calendar .calendar-pages .calendar-page {
   margin: 10px;
+  _display: inline;
   float: left;
   width: 177px;
   overflow: hidden;

@@ -37,6 +37,22 @@
   }
 }
 
+// Minin clearfix to a class
+.clearfix() {
+  & {
+    *zoom: 1;
+  }
+
+  &::before,
+  &::after {
+    display: table;
+    content: "";
+  }
+
+  &::after {
+    clear: both;
+  }
+}
 
 // CSS3 PROPERTIES
 // --------------------------------------------------
