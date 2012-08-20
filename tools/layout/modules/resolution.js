@@ -1,19 +1,23 @@
 KISSY.add('modules/resolution', function(S, D, E, Node) {
     return function () {
-        var html = '<ol>';
-        var base = App.resolution.base;
-        var others = App.resolution.others;
-        for (var i=0; i<others.length; i++) {
-            if (base < others[i]) {
-                html += '<li class="active base">' + base + 'px</li>';
-                base = undefined;
+        var html = '<div class="list">';
+        var all = App.resolution.all;
+        for (var i=0; i<all.length; i++) {
+            if (i % 2) {
+                html += '<span class="split">' + all[i] + 'px</span>';
+                continue;
             }
-            html += '<li>' + others[i] + 'px</li>';
+
+            if (all[i] === App.resolution.base) {
+                html += '<a class="tab active base">' + all[i] + 'px</a>';
+            } else {
+                html += '<a class="tab">' + all[i] + 'px</a>';
+            }
         }
-        html += '</ol>';
+        html += '</div>';
         S.one('#r-resolution').append(html);
 
-        S.one('#r-resolution').delegate('click', 'li', function(e) {
+        S.one('#r-resolution').delegate('click', '.tab', function(e) {
             var el = S.one(e.currentTarget);
             
             if (el.hasClass('active')) return;

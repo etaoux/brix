@@ -16,7 +16,7 @@ KISSY.add('modules/utils', function(S) {
         return id;
     }
 
-    function _css(width, maxWidth) {
+    function _css(width, minWidth, maxWidth) {
         var css = prefix = suffix = '';
 
         var isBase = width === App.resolution.base;
@@ -26,27 +26,23 @@ KISSY.add('modules/utils', function(S) {
             suffix = '_' + width;
         }
 
-        var mediaQuery = undefined !== maxWidth;
-        if (mediaQuery) {
-            css += '@media (';
-
-            switch (maxWidth) {
-            case -1: 
-                css += 'max-width: ' + width;
-                break;
-            case 0:
-                css += 'min-width: ' + width;
-                break;
-            default:
-                css += 'min-width: ' + width + 'px) and (max-width: ' + maxWidth;
-            }
-
-            css += 'px) {';
+        var mediaQuery = true;
+        if (minWidth && maxWidth) {
+            css += '@media (min-width: ' + minWidth + 'px) and (max-width: ' + maxWidth + 'px) {';
+        } else if (minWidth && !maxWidth) {
+            css += '@media (min-width: ' + minWidth + 'px) {';
+        } else if (!minWidth && maxWidth) {
+            css += '@media (max-width: ' + maxWidth + 'px) {';
         } else {
-            css += '.w' + width + '{width: ' + width + 'px}';
+            mediaQuery = false;
             if (!isBase) {
                 prefix = '.w' + width + ' ';
             }
+            css += '.w' + width + '{width: ' + width + 'px}';
+        }
+
+        if (mediaQuery) {
+            css += '#r-content' + '{width: ' + width + 'px}';
         }
 
         css += prefix + '.span0' + suffix + '{display: none}';
@@ -65,26 +61,26 @@ KISSY.add('modules/utils', function(S) {
         return css;
     }
     function cssGen(mediaQuery) {
+        var all = App.resolution.all;
         var base = App.resolution.base;
-        var res = App.resolution.others;
 
         var css = _css(base);
 
         if (!mediaQuery) {
-            for (var i=0; i<res.length; i++) {
-                css += _css(res[i]);
+            for (var i=0; i<all.length; ) {
+                if (all[i] !== base) {
+                    css += _css(all[i]);
+                }
+                i += 2;
             }
             return css;
         }
 
-        var maxWidth;
-        for (var i=0; i<res.length; i++) {
-            if (res[i] < base) {
-                maxWidth = res[i+1] < base ? res[i+1] : base;
-            } else {
-                maxWidth = res[i+1] || 0;
+        for (var i=0; i<all.length; ) {
+            if (all[i] !== base) {
+                css += _css(all[i], all[i-1], all[i+1]);
             }
-            css += _css(res[i], maxWidth);
+            i += 2;
         }
         return css;
     }

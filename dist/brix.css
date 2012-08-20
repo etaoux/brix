@@ -1265,6 +1265,18 @@ a:visited {
   font-size: 16px;
   font-style: normal;
 }
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: #eee;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: #ccc;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #488fcd;
+}
 form {
   margin: 0 0 18px;
 }
@@ -1485,6 +1497,17 @@ select:focus:required:invalid:focus {
 .form-actions:after {
   clear: both;
 }
+.form-actions {
+  *zoom: 1;
+}
+.form-actions::before,
+.form-actions::after {
+  display: table;
+  content: "";
+}
+.form-actions::after {
+  clear: both;
+}
 .uneditable-input {
   overflow: hidden;
   white-space: nowrap;
@@ -1700,6 +1723,17 @@ legend + .control-group {
   content: "";
 }
 .form-horizontal .control-group:after {
+  clear: both;
+}
+.form-horizontal .control-group {
+  *zoom: 1;
+}
+.form-horizontal .control-group::before,
+.form-horizontal .control-group::after {
+  display: table;
+  content: "";
+}
+.form-horizontal .control-group::after {
   clear: both;
 }
 .form-horizontal .control-label {

@@ -23,7 +23,7 @@
     <div class="clearfix" id="body" style="padding-top:30px;">
         <div class="main">
             <div class="inmain" id="inmain">
-                content here!!! <br>
+                <strong>content here!!!</strong> <br>
                 try to click sidenav
             </div>
         </div>
@@ -106,7 +106,10 @@
     var S = KISSY;
     S.ready(function (S) {
         S.use("brix/gallery/sidenav/", function (S, Sidenav) {
-            Sidenav.init();
+            new Sidenav({
+                index: '#!/home/',
+                duration: 0.25
+            });
         });
     });
 </script>

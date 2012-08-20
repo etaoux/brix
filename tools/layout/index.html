@@ -6,12 +6,12 @@
 <p id="r-support">Chrome最新版测试通过</p>
 <div id="r-panel">
     <div bx id="r-resolution">
-        <h6>分辨率</h6>
+        <h6>页宽/分辨率</h6>
     </div>
     <a bx id="r-config" class="btn"><span class="iconfont">&#355</span>配置</a>
     <a bx id="r-preview" class="btn" target="_blank"><span class="iconfont">&#348</span>预览</a>
     <a bx id="r-save" class="btn btn-blue"><span class="iconfont">&#342</span>保存</a>
-    <a bx id="r-output" class="btn btn-orange"><span class="iconfont">&#341</span>输出</a>
+    <a bx id="r-output" class="btn btn-orange"><span class="iconfont">&#288</span>输出</a>
 </div>
 <div bx id="r-content">
     <a id="r-add-section" class="btn btn-size25"><s class="iconfont">&#410</s>新增区域</a>
@@ -30,18 +30,18 @@
 </script>
 <script id="r-tmpl-div" type="text/template">
     <div class="{cls}">
+        <a class="r-remove-div">&times;</a>
+        <span class="r-div-size" contenteditable>190x100</span>
         <p class="r-div-name" contenteditable>{id}</p>
-        <div class="r-div-panel">
-            <input class="r-resize-div">
-            <a class="r-remove-div btn btn-size25"><span class="iconfont">&#356</span>删除区块</a>
-        </div>
     </div>
 </script>
 
 <script src="http://a.tbcdn.cn/s/kissy/1.3.0rc/kissy-min.js"></script>
 <script>
-var TAG = '20120814';
-if ( -1 !== location.search.indexOf('mode=dev') ) {
+var TAG = '20120815';
+if ( -1 === location.search.indexOf('mode=dev') ) {
+    document.write('<scr' + 'ipt src="modules-min.js?t=' + TAG + '"></scr' + 'ipt>');
+} else {
     KISSY.config({
         packages: {
             modules: {
@@ -51,8 +51,6 @@ if ( -1 !== location.search.indexOf('mode=dev') ) {
             }
         }
     });
-} else {
-    document.write('<scr' + 'ipt src="modules-min.js?t=' + TAG + '"></scr' + 'ipt>');
 }
 </script>
 <script>
@@ -64,7 +62,7 @@ var App = {
     },
     resolution: {
         base: 960,
-        others: [720, 1200, 1440, 1680]
+        all: [720, 1024, 960, 1280, 1200, 1680, 1440, 1920, 1680]
     },
     struct: [[]],
 };

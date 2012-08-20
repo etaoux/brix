@@ -3,10 +3,7 @@ KISSY.add('modules/save', function (S, E) {
         var data = {
             struct: [],
             grid: App.grid,
-            resolution: {
-                base: 960,
-                others: [720, 1200, 1440, 1680]
-            },
+            resolution: App.resolution,
             appVer: App.appVer
         };
 
