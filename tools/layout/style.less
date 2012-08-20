@@ -99,16 +99,19 @@ h6 {
 }
 .r-div {
     overflow: hidden;
-    resize: both;
     position: relative;
     box-sizing: border-box;
-    border: 2px dashed #999;
     min-height: 100px;
-    -webkit-transition: background 2s;
-    transition: background 2s;
+    color: #fff;
+    background: rgba(51, 51, 51, .6);
+    -webkit-transition: background .2s;
+    transition: background .2s;
 }
-.r-div:hover {
-    border-color: #ff8400;
+.r-div:hover,
+.r-div.drag {
+    border: 2px solid #333;
+    color: #999;
+    background: rgba(204, 204, 204, .1);
 }
 .r-div-name {
     position: absolute;
@@ -118,16 +121,33 @@ h6 {
     text-align: center;
     font-size: 2em;
 }
-.r-div-panel {
+.r-remove-div {
     display: none;
     position: absolute;
-    top: 0;
+    right: 0;
+    width: 28px;
+    line-height: 26px;
+    height: 28px;
+    font-size: 24px;
+    text-indent: 6px;
+    color: #fff;
+    background: #333;
 }
-.r-div:hover .r-div-panel {
+.r-div-size {
+    display: none;
+    position: absolute;
+    right: 38px;
+    bottom: 0;
+    font-size: 18px;
+    color: #333;
+}
+.r-div:hover .r-div-size,
+.r-div.drag .r-div-size,
+.r-div:hover .r-remove-div,
+.r-div.drag .r-remove-div,
+.r-div:hover .ks-resizable-handler,
+.r-div.drag .ks-resizable-handler {
     display: block;
-}
-.r-resize-div {
-    width: 70px;
 }
 .r-fake-div {
     position: absolute;
@@ -137,4 +157,33 @@ h6 {
     min-height: 100px;
     -webkit-transition: all 1s;
     transition: all 1s;
+}
+
+.ks-resizable-handler {
+    display: none;
+    position: absolute;
+    overflow: hidden;
+    font-size: 0;
+    line-height: 0;
+    z-index: 1;
+}
+.ks-resizable-handler-bl, .ks-resizable-handler-br, .ks-resizable-handler-tl, .ks-resizable-handler-tr {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    background: #333;
+    z-index: 2;
+}
+.ks-resizable-handler-br {
+    right: 0;
+    bottom: 0;
+    cursor: nw-resize;
+}
+.ks-resizable-handler-br::after {
+    display: block;
+    margin: 24px -23px 0 0;
+    content: '\2194';
+    color: #fff;
+    font-size: 24px;
+    -webkit-transform: rotate(45deg);
 }
