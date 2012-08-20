@@ -1,4 +1,4 @@
-KISSY.add('modules/content-operate', function(S, Node, Utils) {
+KISSY.add('modules/content-operate', function(S, Resizable, Utils) {
     function delegate() {
         S.one('#r-content')
             .delegate('click', '#r-add-section', function(e) {
@@ -14,11 +14,44 @@ KISSY.add('modules/content-operate', function(S, Node, Utils) {
             })
             .delegate('click', '.r-add-div', function(e) {
                 var num = Math.ceil((180 + App.grid.g) / (App.grid.c + App.grid.g));
+                var section = S.one(e.currentTarget).parent('.r-section');
 
-                S.one(e.currentTarget).parent('.r-section').one('.r-section-bd').append( S.substitute(App.tmpl.div, {
+                section.one('.r-section-bd').append( S.substitute(App.tmpl.div, {
                     id: Utils.idGen(),
                     cls: 'r-div span' + num
                 }) );
+
+                var node = section.all('.r-div').slice(-1);
+                var r = new Resizable({
+                    node: node,
+                    handlers: ['br'],
+                    minWidth: App.grid.c,
+                    minHeight: 30,
+                    maxWidth: App.msg.get('pageWidth')
+                });
+                r.dds.br.on('dragstart', function(e) {
+                    node.addClass('drag');
+                });
+                r.dds.br.on('drag', function(e) {
+                    var width = node.width();
+
+                    width -= width % (App.grid.c + App.grid.g);
+
+                    node.one('.r-div-size').html(width + 'x' + node.height());
+                });
+                r.dds.br.on('dragend', function(e) {
+                    node.removeClass('drag');
+
+                    var pageWidth = App.msg.get('pageWidth');
+
+                    var cls = node.attr('class');
+                    var suf = pageWidth === App.resolution.base ? '' : '_' + pageWidth;
+                    var reg = new RegExp('^span\\d+' + suf + '$');
+                    cls = Utils.clsReplace(cls, reg, 'span' + Math.ceil(node.width() / (App.grid.c + App.grid.g)) + suf);
+                    node.attr('class', cls);
+
+                    node.css('width', '');
+                });
             })
             .delegate('click', '.r-clear-section', function(e) {
                 S.one(e.currentTarget).parent('.r-section').one('.r-section-bd').empty();
@@ -26,7 +59,7 @@ KISSY.add('modules/content-operate', function(S, Node, Utils) {
             .delegate('click', '.r-remove-section', function(e) {
                 S.one(e.currentTarget).parent('.r-section').remove();
             })
-            .delegate('change', '.r-resize-div', function(e) {
+            .delegate('change', '.r-div-size', function(e) {
                 var el = S.one(e.currentTarget);
                 var val = el.val();
                 var matches = val.match(/(\d+)x(\d+)/);
@@ -51,8 +84,14 @@ KISSY.add('modules/content-operate', function(S, Node, Utils) {
     }
 
     function resize() {
-        S.all('.r-div').on('resize', function(e) {
-            console.log(e);
+        S.all('.r-div').each(function(node) {
+            var r = new Resizable({
+                node: node,
+                handlers: ['br'],
+                minWidth: App.grid.c,
+                minHeight: 30,
+                maxWidth: App.msg.get('pageWidth')
+            });
         });
     }
 
@@ -63,5 +102,5 @@ KISSY.add('modules/content-operate', function(S, Node, Utils) {
         }
     };
 }, {
-    requires: ['node', 'modules/utils']
+    requires: ['resizable', 'modules/utils']
 });
