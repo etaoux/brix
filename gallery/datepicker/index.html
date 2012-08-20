@@ -40,24 +40,31 @@
 </aside>
   <div id="page">
     <article>
-      <h1>ColorPicker</h1>
+      <h1>DatePicker</h1>
       
-      <p class="caption">颜色选择组件</p>
+      <p class="caption">时间选择</p>
       
       
-      <section><div class='demo'><iframe src='/brix/demo/gallery/colorpicker/colorpicker.html' frameborder='0' scrolling='0' class='j-demo'></iframe></div>
+      <section><div class='demo'><iframe src='/brix/demo/gallery/datepicker/datepicker.html' frameborder='0' scrolling='0' class='j-demo'></iframe></div>
 
 
 <h2>配置</h2>
 
 <p>包含 <a href="/brix/core/brick">Brick</a> 的所有配置</p>
 
+<h3><code>trigger</code> {String|Node}</h3>
+
+<p>触发节点或者容器节点</p>
+
+<h3><code>triggerType</code> {Array}</h3>
+
+<p>弹出状态下, 触发弹出日历的事件, 例如：[‘click’,’focus’],也可以直接传入’focus’, 默认为[‘click’]</p>
+
 <h3><code>align</code> {Object}</h3>
 
 <p>弹出组件对其方式</p>
 
 <div class="highlight"><pre><code class="js"> <span class="p">{</span>
-    <span class="nx">node</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>         <span class="c1">// 参考元素,</span>
     <span class="nx">points</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;cc&#39;</span><span class="p">,</span><span class="s1">&#39;cc&#39;</span><span class="p">],</span> <span class="c1">// [&#39;tr&#39;, &#39;tl&#39;] 表示 colorpicker 的 tl 与参考节点的 tr 对齐</span>
     <span class="nx">offset</span><span class="o">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>      <span class="c1">// 偏移值，有效值为 [n, m]</span>
 <span class="p">}</span>
@@ -65,60 +72,79 @@
 </div>
 
 
-<h3><code>color</code> {String}</h3>
+<h3><code>quickDates</code> {Date}</h3>
 
-<p>默认颜色 hex，默认#ffffff</p>
+<p>快速时段选择</p>
+
+<div class="highlight"><pre><code class="js"><span class="p">{</span>
+    <span class="s1">&#39;today&#39;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;今天&#39;</span><span class="p">,</span>
+        <span class="nx">dateRange</span><span class="o">:</span> <span class="p">[</span><span class="k">new</span> <span class="nb">Date</span><span class="p">(),</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">()]</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;yestoday&#39;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">text</span><span class="o">:</span> <span class="s1">&#39;昨天&#39;</span><span class="p">,</span>
+        <span class="nx">dateRange</span><span class="o">:</span> <span class="p">[</span><span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="mi">2011</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">26</span><span class="p">),</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="mi">2011</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">26</span><span class="p">)]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+
+<h3><code>dates</code> {Date}</h3>
+
+<p>已经选择的时间段</p>
+
+<div class="highlight"><pre><code class="js"><span class="p">{</span>
+    <span class="nx">start</span><span class="o">:</span><span class="k">new</span> <span class="nb">Date</span><span class="p">(),</span>
+    <span class="nx">end</span><span class="o">:</span><span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+
+<h3><code>pages</code> {Date}</h3>
+
+<p>日历的页数, 默认为1, 包含一页日历</p>
+
+<h3><code>notLimited</code> {Boolen}</h3>
+
+<p>是否出现不限的按钮,默认为false</p>
 
 <h2>方法</h2>
 
-<h3><code>align(align)</code></h3>
+<h3><code>show()</code></h3>
 
-<p>对齐 ColorPicker 到 node 的 points 点, 偏移 offset 处</p>
+<p>显示日历</p>
 
-<ul>
-<li>@param  {Object} align 同配置参数align</li>
-</ul>
+<h3><code>hide()</code></h3>
 
+<p>隐藏日历</p>
 
-<h3><code>setHex()</code></h3>
+<h3><code>toggle()</code></h3>
 
-<p>设置颜色</p>
-
-<ul>
-<li>@param {String} hex 颜色值#RRGGBB.</li>
-</ul>
-
-
-<h3><code>setRgb()</code></h3>
-
-<p>设置颜色</p>
-
-<ul>
-<li>@param {Object} rgb rgb对象 { r: <red>, g: <green>, b: <blue> }</li>
-</ul>
-
-
-<h3><code>setHsv()</code></h3>
-
-<p>设置颜色</p>
-
-<ul>
-<li>@param {Object} hsv hsv对象 { h: <hue>, s: <saturation>, v: <value> }</li>
-</ul>
-
+<p>切换显示隐藏</p>
 
 <h2>事件</h2>
 
 <h3><code>selected(ev)</code></h3>
 
-<p>确定事件</p>
+<p>范围选择</p>
 
 <ul>
-<li>ev.hex {String} hex 颜色值#RRGGBB.</li>
-<li>ev.hsv {Object} hsv对象 { h: <hue>, s: <saturation>, v: <value> }</li>
-<li>ev.rgb {String} rgb对象 { r: <red>, g: <green>, b: <blue> }</li>
+<li>ev.start {Date} 选择的开始日期</li>
+<li>ev.end {Date} 选择的开始日期</li>
+<li>ev.isQuick {Boolen} 是否快速选择</li>
+<li>ev.quickDate {Boolen} 快速选择的数据</li>
 </ul>
 
+
+<h3><code>show()</code></h3>
+
+<p>显示</p>
+
+<h3><code>hide()</code></h3>
+
+<p>隐藏</p>
 </section>
     </article>
   </div>
