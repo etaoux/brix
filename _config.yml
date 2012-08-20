@@ -1,7 +1,6 @@
 baseurl: /brix
 permalink: /:categories/:title
 pygments: true
-paginate: 1
 lsi: false
 markdown: rdiscount
 exclude: [Gemfile, Gemfile.lock, Guardfile, README.md, Rakefile, node_modules]

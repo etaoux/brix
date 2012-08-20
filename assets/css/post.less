@@ -1,11 +1,12 @@
-@import 'normalize';
-@import 'syntax/pygments';
+@import 'base';
 
 html, body {
   height: 100%;
 }
 body {
   font-size: .8em;
+  text-align: left;
+  background: #fff;
 }
 #logo {
   a {
@@ -30,7 +31,6 @@ body {
   width: 200px;
   height: 100%;
   border-right: 1px solid #ddd;
-  background: #f4f5f5;
   background: -webkit-gradient(linear, left top, right top,
                  from(transparent),
                  color-stop(0.92, transparent),
@@ -40,12 +40,13 @@ body {
   overflow-x: hidden;
 
   h3 {
-    padding-left: 15px;
     margin-bottom: 5px;
     color: #666;
+    font-size: 14px;
+    padding-left: 15px;
   }
   .entries {
-    padding-left: 15px;
+    padding-left: 8px;
     margin-top: 0;
 
     li:before {
@@ -83,25 +84,6 @@ body {
     display: inline-block;
     padding: 0 2px;
     background: #f4f5f5;
-  }
-
-  .highlight {
-    max-width: 800px;
-    padding: 6px 10px;
-    border-radius: 2px;
-    box-shadow: 0 0 7px rgba(0, 0, 0, .1) inset;
-
-    pre {
-      margin: 0;
-      line-height: 1.4;
-    }
-    pre, code {
-      font-family: 'Envy Code R', Monaco, Consolas, monospace;
-      font-size: 12px;
-      border: none;
-      padding: 0;
-      background: none;
-    }
   }
 
   .bottom-nav {

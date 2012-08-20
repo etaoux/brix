@@ -1,0 +1,24 @@
+---
+layout: default
+css: style.css
+---
+
+<div id="page" class="container">
+  <h1><a href="{{ site.baseurl }}/" class="logo">Brix</a> Style</h1>
+  <div id="page-nav" class="clearfix">
+    <nav>
+      {% for post in site.categories.style reversed %}
+      <a href="#{{ post.title | downcase | replace:' ', '-' }}">{{ post.title }}</a>{% endfor %}
+    </nav>
+  </div>
+  {% for post in site.categories.style reversed %}
+  <hr class="soften"/>
+  <div class="post">
+    <h2 id="{{ post.title | downcase | replace:' ', '-' }}">{{ post.title }}</h2>
+    {% if post.caption %}
+    <div class="caption">{{ post.caption }}</div>
+    {% endif %}
+    <div class="content">{{ post.content | rdiscount }}</div>
+  </div>
+  {% endfor %}
+</div>
