@@ -16,7 +16,7 @@ task :lessc do
 end
 
 desc "生成网站"
-task :build => [:lessc] do
+task :build do
   system "jekyll"
 end
 
@@ -42,8 +42,8 @@ end
 # Parse the source lessfile and write to target cssfile
 def compile(lessfile, cssfile)
   parser = ::Less::Parser.new :paths => ['assets/css'], :filename => lessfile
-  File.open(lessfile,'r') do |infile|
-    File.open(cssfile,'w') do |outfile|
+  File.open(lessfile, 'r') do |infile|
+    File.open(cssfile, 'w') do |outfile|
       tree = parser.parse(infile.read)
       outfile << tree.to_css(:compress => true)
     end
