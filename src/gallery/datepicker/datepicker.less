@@ -1,0 +1,86 @@
+@import "../../style/variables.less";
+@import "../../style/mixins.less";
+@import "../../style/utilities.less";
+
+.datepicker{
+	.border-radius(2px);
+    .box-shadow(0 3px 5px rgba(0,0,0,0.1));
+    border: 1px solid #ddd;
+    position: absolute;
+    visibility: hidden;
+    left: -9999px;
+    top: -9999px;
+    width: 180px;
+    -webkit-text-size-adjust: none;
+    .datepicker-bd{
+    	.clearfix;
+    	label{
+    		margin-bottom: 0px;
+    	}
+    	.bd-left{
+    		float: left;
+    		padding: 10px;
+    		width: 160px;
+    		min-height: 115px;
+    		_height:115px;
+    		position: relative;
+    		.range{
+    			margin-top: 8px;
+    		}
+    		input{
+    			width: 64px;
+    			margin-bottom: 0px;
+    			padding-left: 5px;
+    			padding-right: 4px;
+    		}
+    		.bd-left-split{
+    			margin: 0 2px;
+    		}
+    		.operator{
+    			position: absolute;
+    			bottom: 10px;
+    			.btn{
+    				margin-right: 8px;
+    			}
+    		}
+    	}
+    	.bd-right{
+    		float: left;
+    		padding: 10px;
+    		background-color: #fafafa;
+    		min-height: 115px;
+    		_height:115px;
+    		width: 160px;
+    		li{
+    			width: 80px;
+    			float:left;
+    			margin-top: 5px;
+    		}
+    		li a.item{
+    			display: inline-block;
+    			padding: 0 3px;
+    		}
+    		li a.current{
+    			background-color: #488fcd;
+    			.border-radius(2px);
+    			color: #fff;
+    		}
+    	}
+    }
+
+    .datepicker-bd-change-lr{
+    	.bd-left{
+    		float:right;
+    	}
+    	.bd-right{
+    		float:right;
+    	}
+    }
+}
+
+.datepicker-quick{
+	width: 360px;
+}
+
+
+

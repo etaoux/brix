@@ -22,11 +22,11 @@ KISSY.add('brix/gallery/calendar/date', function(S) {
         var date = null;
         s = s || '-';
         //Convert to date
-        if (!(date instanceof Date)) {
+        if (!(data instanceof Date)) {
             date = new Date(data);
         }
         else {
-            return date;
+            return data;
         }
 
         // Validate
