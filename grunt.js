@@ -13,7 +13,8 @@ module.exports = function(grunt) {
         concat: {
             brix_js: {
                 src: ['<banner:meta.banner>', "src/core/mustache.js", "src/core/mu.js", "src/core/tmpler.js", "src/core/dataset.js", "src/core/chunk.js", "src/core/brick.js", "src/core/pagelet.js"],
-                dest: 'dist/<%= pkg.name %>.js'
+                dest: 'dist/<%= pkg.name %>.js',
+                separator:'\n' //合并文件默认字符，替换window和mac系统的默认newline
             }
         },
         min: {
