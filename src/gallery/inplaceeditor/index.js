@@ -27,16 +27,19 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
          * @param  {Number} y 显示的Y坐标
          * @param  {String} v 文本框的值
          */
-        show: function(x, y, v) {
-            var el = this.get('el');
+        show: function(x, y, v,css) {
+            var el = this.get('el'),inputNode = el.one('input');
             el.css({
                 visibility: 'visible',
                 left: x,
                 top: y
             });
             this._v = v;
-            el.one('input')[0].focus();
-            el.one('input').val(v);
+            if(css){
+                inputNode.css(css);
+            }
+            inputNode[0].focus();
+            inputNode.val(v);
         },
         /**
          *  隐藏就地编辑
