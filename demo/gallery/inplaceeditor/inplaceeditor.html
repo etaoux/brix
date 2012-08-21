@@ -24,6 +24,7 @@
             .url_list_con{
                 zoom:1;
                 padding-top：5px;
+                padding-left: 20px;
             }
 
             .url_list{
@@ -94,7 +95,7 @@
         <br>
 
         <h2>方式二</h2>
-        <div style="padding:0px 20px;">
+        <div style="padding:0px 20px 20px">
             <a id="edittest" href="#">待编辑</a>
         </div>
 		<!--brix begin-->
@@ -182,9 +183,6 @@
                     url_listNode.delegate('click', '.icon-edit', function(e) {
                         e.preventDefault();
                         var currentNode = S.one(e.currentTarget);
-                        if(!inplaceeditor.get('rendered')){
-                            inplaceeditor.render();
-                        }
 
                         var itemNode = currentNode.parent('.item');
                         var offset = itemNode.offset();
@@ -199,7 +197,6 @@
                         e.halt();
                         if(!inplaceeditor1){
                             inplaceeditor1 = new InplaceEditor();
-                            inplaceeditor1.render();
                             inplaceeditor1.on('valueChange',function(ev){
                                 editNode.html(ev.value);
                             });

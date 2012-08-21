@@ -3,6 +3,9 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
         InplaceEditor.superclass.constructor.apply(this, arguments);
     }
     InplaceEditor.ATTRS = {
+        autoRender:{
+            value:true
+        },
         tmpl:{
             value:'<div class="inplaceeditor-popup"><input type="text" value=""></div>'
         }
