@@ -32,6 +32,17 @@
 .datepicker .datepicker-bd {
   *zoom: 1;
 }
+.datepicker .datepicker-bd {
+  *zoom: 1;
+}
+.datepicker .datepicker-bd::before,
+.datepicker .datepicker-bd::after {
+  display: table;
+  content: "";
+}
+.datepicker .datepicker-bd::after {
+  clear: both;
+}
 .datepicker .datepicker-bd:before,
 .datepicker .datepicker-bd:after {
   display: table;

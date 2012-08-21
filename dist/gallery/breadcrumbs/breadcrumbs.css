@@ -1,7 +1,7 @@
 .breadcrumbs {
   -webkit-text-size-adjust: none;
 }
-.breadcrumbs .breadcrumbs-item {
+.breadcrumbs li.item {
   padding: 0 10px;
   height: 25px;
   line-height: 25px;
@@ -9,42 +9,71 @@
   list-style-type: none;
   margin: 0;
 }
-.breadcrumbs .breadcrumbs-itemsplit {
-  padding: 0;
-}
-.breadcrumbs .breadcrumbs-itemsplit .icon-arrow-right {
-  font-size: 8px;
-  display: block;
-}
-.breadcrumbs .breadcrumbs-itemdropdown {
-  padding: 0 6px;
-}
-.breadcrumbs .breadcrumbs-item a {
+.breadcrumbs li.item a:link,
+.breadcrumbs li.item a:visited {
   color: #666;
   text-decoration: none;
 }
-.breadcrumbs .breadcrumbs-itemfirst {
+.breadcrumbs li.item.first,
+.breadcrumbs li.item:first-child {
   padding-left: 0px;
 }
-.breadcrumbs .breadcrumbs-itemlast {
+.breadcrumbs li.item.last,
+.breadcrumbs li.item:last-child {
   padding-right: 0px;
+}
+.breadcrumbs li.item.last,
+.breadcrumbs li.item:last-child,
+.breadcrumbs li.item.last a:link,
+.breadcrumbs li.item:last-child a:link,
+.breadcrumbs li.item.last a:visited,
+.breadcrumbs li.item:last-child a:visited {
   color: #999;
+}
+.breadcrumbs li.split {
+  padding: 0;
+}
+.breadcrumbs li.split .iconfont {
+  font-size: 8px;
+  display: block;
+}
+.breadcrumbs li.item-dropdown {
+  padding: 0 6px;
+}
+.breadcrumbs li.item-dropdown a:link,
+.breadcrumbs li.item-dropdown a:visited {
+  color: #666;
+  text-decoration: none;
 }
 .breadcrumbs .dropdown {
   border: 0px;
   padding: 1px;
   _float: left;
 }
+.breadcrumbs .dropdown .icon-arrow-down {
+  top: 9px;
+  right: 9px;
+}
+.breadcrumbs .dropdown .icon-arrow-down {
+  top: 8px;
+  right: 8px;
+}
+.breadcrumbs .dropdown .dropdown-hd {
+  background: none;
+}
 .breadcrumbs .dropdownfocus {
   border: 1px solid #ddd;
   border-bottom: 1px solid #bbb;
   padding: 0;
 }
-.breadcrumbs .dropdown .icon-arrow-down {
-  top: 9px;
-  right: 9px;
+.breadcrumbs {
+  *zoom: 1;
 }
-.breadcrumbs .dropdownfocus .icon-arrow-down {
-  top: 8px;
-  right: 8px;
+.breadcrumbs::before,
+.breadcrumbs::after {
+  display: table;
+  content: "";
+}
+.breadcrumbs::after {
+  clear: both;
 }
