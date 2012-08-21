@@ -13,13 +13,14 @@ caption: 单行编辑
 
 ## 方法
 
-### `show()`
+### `show(x,y,v,css)`
 
 显示就地编辑
 
 * @param  {Number} x 显示的X坐标
 * @param  {Number} y 显示的Y坐标
 * @param  {String} v 文本框的值
+* @param  {Object} css 文本框的自定义样式
 
 ### `hide()`
 
