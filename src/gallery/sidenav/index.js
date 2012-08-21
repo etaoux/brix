@@ -16,6 +16,10 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
 
     //默认配置
     Sidenav.ATTRS = {
+        el: {
+            value: ''
+        },
+
         index: { //默认的首页地址
             value: '#!/home/'
         },
@@ -39,9 +43,8 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
         }
     };
 
-    S.extend(Sidenav, Base, {
+    S.extend(Sidenav, Brix, {
         init: function() {
-            debugger;
             /**
              * 配置
              * @type {[type]}
@@ -160,11 +163,14 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
             self.nav.delegate('click', 'a', function(e) {
                 var t = S.one(e.target);
 
+                // self.fire('navClick', {clickTarget: t});
+
                 self.isHandleClick = false;
                 self._expandCollapseNav(t);
                 self.nowNav = t;
                 self.isNavClick = true;
                 $(window).scrollTop(0);
+
                 // self._fixedStatic();
             });
 
@@ -175,6 +181,8 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
                 var t = S.one(e.target).closest('a');
                 var thisSubNav = t.closest('.sub-nav-ul');
                 var dataSub = thisSubNav.attr('data-sub');
+
+                // self.fire('navClick', {clickTarget: t});
 
                 self.isHandleClick = false;
                 self.nowNav = self.nav.all('a[data-sub=' + dataSub + ']');
