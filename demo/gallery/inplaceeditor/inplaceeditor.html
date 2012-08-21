@@ -81,18 +81,27 @@
         </style>
     </head>
     <body style="margin:0px;padding-top:40px">
-        <div class="container">
-            <div class="url_list_con">
-                    <ul class="url_list ks-clear url_list_edit inplaceeditor">
+        <h2>方式一</h2>
+        <div class="url_list_con">
+            <ul class="url_list ks-clear url_list_edit inplaceeditor">
 
-                    </ul>
-                </div>
+            </ul>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <h2>方式二</h2>
+        <div style="padding:0px 20px;">
+            <a id="edittest" href="#">待编辑</a>
         </div>
 		<!--brix begin-->
         <script>
             KISSY.ready(function(S) {
                 KISSY.use("brix/gallery/inplaceeditor/,cookie,json", function(S, InplaceEditor, COOKIE, JSON) {
-                    var url_listNode = S.one('.url_list'),url_add_conNode = S.one('.url_add_con'),inplaceeditor = new InplaceEditor(),editPoup;
+                    var url_listNode = S.one('.url_list'),url_add_conNode = S.one('.url_add_con'),inplaceeditor = new InplaceEditor();
                     inplaceeditor.on('valueChange',function(e){
                         var inputNode = inplaceeditor.get('el').one('input');
                         S.one('#item_' + inputNode.attr('data-sid')).one('span').html(e.value);
@@ -175,14 +184,28 @@
                         var currentNode = S.one(e.currentTarget);
                         if(!inplaceeditor.get('rendered')){
                             inplaceeditor.render();
-                            editPoup = inplaceeditor.get('el');
                         }
 
                         var itemNode = currentNode.parent('.item');
                         var offset = itemNode.offset();
-                        var inputNode = editPoup.one('input');
+                        var inputNode = inplaceeditor.get('el').one('input');
                         inputNode.attr('data-sid', itemNode.attr('data-sid'));
                         inplaceeditor.show(offset.left,offset.top - 1,currentNode.prev().one('span').html());
+                    });
+
+                    var editNode = S.one('#edittest');
+                    var inplaceeditor1;
+                    editNode.on('mouseenter',function(e){ 
+                        e.halt();
+                        if(!inplaceeditor1){
+                            inplaceeditor1 = new InplaceEditor();
+                            inplaceeditor1.render();
+                            inplaceeditor1.on('valueChange',function(ev){
+                                editNode.html(ev.value);
+                            });
+                        }
+                        var offset = editNode.offset();
+                        inplaceeditor1.show(offset.left-8,offset.top - 5,editNode.html(),{width:editNode.width()});
                     });
                 });
             });
