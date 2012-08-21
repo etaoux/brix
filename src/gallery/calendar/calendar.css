@@ -33,6 +33,17 @@
 .calendar .calendar-pages {
   *zoom: 1;
 }
+.calendar .calendar-pages {
+  *zoom: 1;
+}
+.calendar .calendar-pages::before,
+.calendar .calendar-pages::after {
+  display: table;
+  content: "";
+}
+.calendar .calendar-pages::after {
+  clear: both;
+}
 .calendar .calendar-pages:before,
 .calendar .calendar-pages:after {
   display: table;
@@ -43,6 +54,7 @@
 }
 .calendar .calendar-pages .calendar-page {
   margin: 10px;
+  _display: inline;
   float: left;
   width: 177px;
   overflow: hidden;
@@ -145,6 +157,17 @@
 .calendar .calendar-pages .calendar-page .calendar-page-dbd {
   width: 182px;
   *zoom: 1;
+}
+.calendar .calendar-pages .calendar-page .calendar-page-dbd {
+  *zoom: 1;
+}
+.calendar .calendar-pages .calendar-page .calendar-page-dbd::before,
+.calendar .calendar-pages .calendar-page .calendar-page-dbd::after {
+  display: table;
+  content: "";
+}
+.calendar .calendar-pages .calendar-page .calendar-page-dbd::after {
+  clear: both;
 }
 .calendar .calendar-pages .calendar-page .calendar-page-dbd:before,
 .calendar .calendar-pages .calendar-page .calendar-page-dbd:after {

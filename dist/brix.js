@@ -1147,8 +1147,9 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         var id = self.get('id'),
             tmpler = self.get('tmpler'),
             renderer = self.constructor.RENDERER;
-        if (tmpler&&renderer) {
-            self.get('dataset').setRenderer(renderer, self, id);
+        if (renderer) {
+            var context = self.pagelet?self.pagelet:self;
+            context.get('dataset').setRenderer(renderer, self, id);
         }
 
         self.on('rendered', function() {
