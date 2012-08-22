@@ -1,22 +1,22 @@
-.bx-timer {
+.timer {
   color: #666;
   font-family: 'SimSun';
   font-size: 12px;
   letter-spacing: 1px;
 }
-.timer-days,
-.timer-hours,
-.timer-mins,
-.timer-secs {
+.timer .timer-title {
+  color: #999;
+}
+.timer .timer-days,
+.timer .timer-hours,
+.timer .timer-mins,
+.timer .timer-secs {
   font-family: Tahoma;
   letter-spacing: 1px;
 }
-.bx-timer .timer-title {
-  color: #999;
-}
-.timer-bold .timer-num {
+.timer .timer-bold .timer-num {
   font-weight: bold;
 }
-.timer-highlight .timer-num {
+.timer .timer-highlight .timer-num {
   color: #ff4444;
 }
