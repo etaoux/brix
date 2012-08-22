@@ -27,7 +27,7 @@
                 try to click sidenav
             </div>
         </div>
-        <div class="sidebar" id="sidebar">
+        <div class="sidebar" id="sidebar" >
 
             <ul class="nav" id="nav">
                 <li><a href="#!/home/" hidefocus="true">首页</a></li>
@@ -106,10 +106,15 @@
     var S = KISSY;
     S.ready(function (S) {
         S.use("brix/gallery/sidenav/", function (S, Sidenav) {
-            new Sidenav({
+            var s = new Sidenav({
                 index: '#!/home/',
                 duration: 0.25
             });
+
+            // s.on('navClick', function(e) {
+            //     alert(1);
+            //     console.log(e.clickTarget); // e.clickTarget为点击到的a链接标签
+            // });
         });
     });
 </script>

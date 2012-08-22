@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>表单 - Brix Style</title>
+    <!--[if lt IE 9]> <script src="assets/html5.js"></script> <![endif]-->
+    <link rel="stylesheet" href="../../dist/brix-min.css">
+    <link rel="stylesheet" href="assets/doc.css">
+</head>
+<body>
+<header id="overview" class="subhead">
+    <h1>表单</h1>
+    <h2>Brix Style</h2>
+</header>
+<div class="container">
+    <div class="row">
+        <div class="span25">
+            <h2>垂直表单</h2>
+            <form class="well">
+                <fieldset>
+                    <label class="control-label" for="input01">输入框:</label>
+                    <input id="input01" placeholder="placeholder占位" value="文字" />
+                    <label class="control-label">单选按钮 - 原生:</label>
+                    <div class="controls">
+                        <label class="radio inline">
+                            <input type="radio" name="optionsRadios1" id="optionsRadio01" value="option01" checked />单点我
+                        </label>
+                        <label class="radio inline">
+                            <input type="radio" name="optionsRadios1" id="optionsRadio02" value="option02" />别点我
+                        </label>
+                    </div>
+                    <label class="control-label">单选按钮 - Brix:</label>
+                    <div bx-name="form" class="controls">
+                        <label class="radio inline">
+                            <input type="radio" name="optionsRadios2" id="optionsRadio03" value="option03" checked />单点我
+                        </label>
+                        <label class="radio inline">
+                            <input type="radio" name="optionsRadios2" id="optionsRadio04" value="option04" />别点我
+                        </label>
+                    </div>
+                    <label class="control-label">单选按钮 - Brix:</label>
+                    <div bx-name="form" class="controls">
+                        <label class="radio inline checked-colorful">
+                            <input type="radio" name="optionsRadios3" id="optionsRadio05" value="option05" checked />高帅富
+                        </label>
+                    </div>
+                    <label class="control-label">单选按钮 - Brix:</label>
+                    <div bx-name="form" class="controls">
+                        <label class="radio inline disabled">
+                            <input type="radio" name="optionsRadios4" id="optionsRadio06" value="option06" disabled />已禁用
+                        </label>
+                        <label class="radio inline checked-disabled">
+                            <input type="radio" name="optionsRadios4" id="optionsRadio07" value="option07" checked disabled />已禁用
+                        </label>
+                    </div>
+                    <label class="control-label">多选按钮 - 原生:</label>
+                    <div class="controls">
+                        <label class="checkbox inline">
+                            <input type="checkbox" name="optionsCheckbox1" id="optionsCheckbox01" value="option01" checked />1
+                        </label>
+                        <label class="checkbox inline">
+                            <input type="checkbox" name="optionsCheckbox1" id="optionsCheckbox02" value="option02" />2
+                        </label>
+                    </div>
+                    <label class="control-label">多选按钮 - Brix:</label>
+                    <div bx-name="form" class="controls">
+                        <label class="checkbox inline">
+                            <input type="checkbox" name="optionsCheckbox3" id="optionsCheckbox05" value="option03" />3
+                        </label>
+                        <label class="checkbox inline">
+                            <input type="checkbox" name="optionsCheckbox3" id="optionsCheckbox06" value="option04" checked />4
+                        </label>
+                    </div>
+                    <label class="control-label">多选按钮 - Brix:</label>
+                    <div bx-name="form" class="controls">
+                        <label class="checkbox inline disabled">
+                            <input type="checkbox" name="optionsCheckbox2" id="optionsCheckbox03" value="option03" disabled />3
+                        </label>
+                        <label class="checkbox inline checked-disabled">
+                            <input type="checkbox" name="optionsCheckbox2" id="optionsCheckbox04" value="option04" checked disabled />4
+                        </label>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="span25">
+            <h2>水平表单</h2>
+            <form class="form-horizontal">
+                <fieldset>
+                    <div class="control-group">
+                        <label class="control-label" for="input02">表单项名称:</label>
+                        <div class="controls">
+                            <input id="input02" placeholder="placeholder占位" />
+                            <p class="help-block">说明解释类提示</p>
+                        </div>
+                    </div>
+                    <div class="control-group error">
+                        <label class="control-label" for="input03">表单项名称:</label>
+                        <div class="controls">
+                            <input id="input03" placeholder="placeholder占位" value="妈妈说这样是不对的" />
+                            <p class="help-block">说明解释类提示</p>
+                        </div>
+                    </div>
+                    <div class="control-group disabled">
+                        <label class="control-label" for="input04">表单项名称:</label>
+                        <div class="controls">
+                            <input id="input04" class="disabled" disabled placeholder="placeholder占位" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">单选按钮:</label>
+                        <div bx-name="form" class="controls">
+                            <label class="radio inline">
+                                <input type="radio" name="optionsRadios5" id="optionsRadio08" value="option08" checked />单点我
+                            </label>
+                            <label class="radio inline">
+                                <input type="radio" name="optionsRadios5" id="optionsRadio09" value="option09" />别点我
+                            </label>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">多选按钮:</label>
+                        <div bx-name="form" class="controls">
+                            <label class="checkbox inline">
+                                <input type="checkbox" name="optionsCheckbox4" id="optionsCheckbox07" value="option01" checked />1
+                            </label>
+                            <label class="checkbox inline">
+                                <input type="checkbox" name="optionsCheckbox4" id="optionsCheckbox08" value="option02" />2
+                            </label>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">单选按钮:</label>
+                        <div bx-name="form" class="controls">
+                            <label class="radio">
+                                <input type="radio" name="optionsRadios6" id="optionsRadio10" value="option08" checked />单点我
+                            </label>
+                            <label class="radio">
+                                <input type="radio" name="optionsRadios6" id="optionsRadio11" value="option09" />别点我
+                            </label>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">多选按钮:</label>
+                        <div bx-name="form" class="controls">
+                            <label class="checkbox">
+                                <input type="checkbox" name="optionsCheckbox5" id="optionsCheckbox09" value="option01" checked />1
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" name="optionsCheckbox5" id="optionsCheckbox10" value="option02" />2
+                            </label>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">文本框:</label>
+                        <div class="controls">
+                            <textarea rows="3"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+<!--<script src="../config.js"></script>-->
+<script>
+KISSY.config({
+    packages: [{
+        name: "brix",
+        tag: "20120419",
+        path: "../../../",//这里可以配置cdn的路径
+        charset: "utf-8"
+    }]
+});
+
+KISSY.config({
+    map: [
+        [/(.+brix)\/(.+?)(?:-min)?.js(\?[^?]+)?$/, "$1/src/$2.js$3"],
+        [/(.+brix)\/(.+?)(?:-min)?.css(\?[^?]+)?$/, "$1/src/$2.css$3"]
+    ]
+});
+</script>
+<script>
+    KISSY.use('brix/core/pagelet', function(S, Pagelet) {
+        var pagelet = new Pagelet({
+            tmpl: '.container' // 模板(容器节点)
+        });
+
+        pagelet.addBehavior();
+        pagelet.ready(function() {
+            pagelet.render();
+        });
+    });
+</script>
+</body>
+</html>

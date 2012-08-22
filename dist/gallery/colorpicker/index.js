@@ -52,8 +52,9 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
         '.picker': {
             click: function(e) {
                 var self = this,
-                    left = e.offsetX,
-                    top = e.offsetY,
+                    offset = self.pickerNode.offset(),
+                    left = e.pageX-offset.left,
+                    top = e.pageY-offset.top,
                     width = self.pickerNode.width(),
                     height = self.pickerNode.height(),
                     s = left / width,
@@ -68,8 +69,9 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
         '.slide': {
             click: function(e) {
                 var self = this,
+                    offset = self.slideNode.offset(),
                     height = self.slideNode.height(),
-                    top = (e.offsetY>=height?height-1:e.offsetY),
+                    top = ((e.pageY-offset.top>=height)?height-1:e.pageY-offset.top),
                     h = top / height * 360;
                 self.setHsv({
                     h: h,
@@ -114,6 +116,14 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
                         node.html('&#404');
                         animateNode.css('overflow', 'visible');
                     });
+                }
+            }
+        },
+        'input':{
+            'blur':function(e){
+                var self = this,v= S.one(e.currentTarget).val();
+                if(self.get('color')!=v){
+                    this.setHex(v);
                 }
             }
         }
@@ -196,10 +206,10 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             var c = self.hsv2rgb(self.h, self.s, self.v);
 
             self.slideDragNode.css({
-                top: self.h * self.slideNode.height() / 360 - 5
+                top: Math.round(self.h * self.slideNode.height() / 360 - 5)
             });
-            var left = self.s * self.pickerNode.width() - 5,
-                top = (1 - self.v) * self.pickerNode.height() - 5;
+            var left = Math.round(self.s * self.pickerNode.width() - 5),
+                top = Math.round((1 - self.v) * self.pickerNode.height() - 5);
             self.pickerDragNode.css({
                 left: left,
                 top: top,
@@ -211,6 +221,7 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             self.get('el').one('.bg').css({
                 "background-color": c.hex
             });
+            self.set('color',c.hex);
             self.get('el').one('input').val(c.hex);
         },
         /**
