@@ -4,7 +4,7 @@ css: style.css
 ---
 
 <div id="page" class="container">
-  <h1><a href="{{ site.baseurl }}/" class="logo">Brix</a> Style</h1>
+  <h1 id="logo"><a href="{{ site.baseurl }}/" class="logo">Brix</a> Style</h1>
   <div id="page-nav" class="clearfix">
     <nav>
       {% for post in site.categories.style reversed %}
@@ -13,8 +13,8 @@ css: style.css
   </div>
   {% for post in site.categories.style reversed %}
   <hr class="soften"/>
-  <div class="post">
-    <h2 id="{{ post.title | downcase | replace:' ', '-' }}">{{ post.title }}</h2>
+  <div class="post" id="{{ post.title | downcase | replace:' ', '-' }}">
+    <h2>{{ post.title }}</h2>
     {% if post.caption %}
     <div class="caption">{{ post.caption }}</div>
     {% endif %}
@@ -24,34 +24,6 @@ css: style.css
 </div>
 
 <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
-<script>
-KISSY.config({
-    packages: [{
-        name: "brix",
-        tag: "20120419",
-        path: "../../",//这里可以配置cdn的路径
-        charset: "utf-8"
-    }]
-});
-
-KISSY.config({
-    map: [
-        [/(.+brix)\/(.+?)(?:-min)?.js(\?[^?]+)?$/, "$1/src/$2.js$3"],
-        [/(.+brix)\/(.+?)(?:-min)?.css(\?[^?]+)?$/, "$1/src/$2.css$3"]
-    ]
-});
-</script>
-<script>
-    KISSY.use('brix/core/pagelet', function(S, Pagelet) {
-        var pagelet = new Pagelet({
-            tmpl: '#page' // 模板(容器节点)
-        });
-
-        pagelet.addBehavior();
-        pagelet.ready(function() {
-            pagelet.render();
-        });
-    });
-</script>
+<script src="{{ site.baseurl}}/assets/js/style.js" type="text/javascript"></script>
 </body>
 </html>
