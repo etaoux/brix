@@ -2574,7 +2574,7 @@ legend + .control-group {
 }
 .footer .copyright-alone .copyright-no {
   margin-top: 10px;
-  margin-left: -1px;
+  margin-left: 0;
 }
 .footer .zuanshi-logo {
   width: 89px;
