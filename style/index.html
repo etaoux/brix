@@ -29,7 +29,7 @@
     </nav>
   </div>
   <div id="page" class="container">
-  <h1><a href="/brix/" class="logo">Brix</a> Style</h1>
+  <h1 id="logo"><a href="/brix/" class="logo">Brix</a> Style</h1>
   <div id="page-nav" class="clearfix">
     <nav>
       
@@ -41,12 +41,13 @@
       <a href="#flowsteps">flowsteps</a>
       <a href="#tables">tables</a>
       <a href="#tags">tags</a>
+      <a href="#avatar">Avatar</a>
     </nav>
   </div>
   
   <hr class="soften"/>
-  <div class="post">
-    <h2 id="scaffolding">Scaffolding</h2>
+  <div class="post" id="scaffolding">
+    <h2>Scaffolding</h2>
     
     <div class="content"><h3>Reset样式</h3>
 
@@ -111,16 +112,16 @@
   </div>
   
   <hr class="soften"/>
-  <div class="post">
-    <h2 id="type">Type</h2>
+  <div class="post" id="type">
+    <h2>Type</h2>
     
     <div class="content">
 </div>
   </div>
   
   <hr class="soften"/>
-  <div class="post">
-    <h2 id="grid">Grid</h2>
+  <div class="post" id="grid">
+    <h2>Grid</h2>
     
     <div class="content"><h3>50（+10） 列栅格系统</h3>
 <div class="grid-showcase">
@@ -334,163 +335,166 @@ Level 1 of column
   </div>
   
   <hr class="soften"/>
-  <div class="post">
-    <h2 id="forms">Forms</h2>
+  <div class="post" id="forms">
+    <h2>Forms</h2>
     
-    <div class="content">    <div class="row">
-        <div class="span18">
-            <h3>垂直表单</h3>
-            <form class="well">
-                <fieldset>
-                    <label class="control-label" for="input01">输入框:</label>
-                    <input id="input01" placeholder="placeholder占位" value="文字" />
-                    <label class="control-label">单选按钮 - 原生:</label>
-                    <div class="controls">
-                        <label class="radio inline">
-                            <input type="radio" name="optionsRadios1" id="optionsRadio01" value="option01" checked />单点我
-                        </label>
-                        <label class="radio inline">
-                            <input type="radio" name="optionsRadios1" id="optionsRadio02" value="option02" />别点我
-                        </label>
-                    </div>
-                    <label class="control-label">单选按钮 - Brix:</label>
-                    <div bx-name="form" class="controls">
-                        <label class="radio inline">
-                            <input type="radio" name="optionsRadios2" id="optionsRadio03" value="option03" checked />单点我
-                        </label>
-                        <label class="radio inline">
-                            <input type="radio" name="optionsRadios2" id="optionsRadio04" value="option04" />别点我
-                        </label>
-                    </div>
-                    <label class="control-label">单选按钮 - Brix:</label>
-                    <div bx-name="form" class="controls">
-                        <label class="radio inline checked-colorful">
-                            <input type="radio" name="optionsRadios3" id="optionsRadio05" value="option05" checked />高帅富
-                        </label>
-                    </div>
-                    <label class="control-label">单选按钮 - Brix:</label>
-                    <div bx-name="form" class="controls">
-                        <label class="radio inline disabled">
-                            <input type="radio" name="optionsRadios4" id="optionsRadio06" value="option06" disabled />已禁用
-                        </label>
-                        <label class="radio inline checked-disabled">
-                            <input type="radio" name="optionsRadios4" id="optionsRadio07" value="option07" checked disabled />已禁用
-                        </label>
-                    </div>
-                    <label class="control-label">多选按钮 - 原生:</label>
-                    <div class="controls">
-                        <label class="checkbox inline">
-                            <input type="checkbox" name="optionsCheckbox1" id="optionsCheckbox01" value="option01" checked />1
-                        </label>
-                        <label class="checkbox inline">
-                            <input type="checkbox" name="optionsCheckbox1" id="optionsCheckbox02" value="option02" />2
-                        </label>
-                    </div>
-                    <label class="control-label">多选按钮 - Brix:</label>
-                    <div bx-name="form" class="controls">
-                        <label class="checkbox inline">
-                            <input type="checkbox" name="optionsCheckbox3" id="optionsCheckbox05" value="option03" />3
-                        </label>
-                        <label class="checkbox inline">
-                            <input type="checkbox" name="optionsCheckbox3" id="optionsCheckbox06" value="option04" checked />4
-                        </label>
-                    </div>
-                    <label class="control-label">多选按钮 - Brix:</label>
-                    <div bx-name="form" class="controls">
-                        <label class="checkbox inline disabled">
-                            <input type="checkbox" name="optionsCheckbox2" id="optionsCheckbox03" value="option03" disabled />3
-                        </label>
-                        <label class="checkbox inline checked-disabled">
-                            <input type="checkbox" name="optionsCheckbox2" id="optionsCheckbox04" value="option04" checked disabled />4
-                        </label>
-                    </div>
-                </fieldset>
-            </form>
-        </div>
-        <div class="span32">
-            <h3>水平表单</h3>
-            <form class="form-horizontal">
-                <fieldset>
-                    <div class="control-group">
-                        <label class="control-label" for="input02">表单项名称:</label>
-                        <div class="controls">
-                            <input id="input02" placeholder="placeholder占位" />
-                            <p class="help-block">说明解释类提示</p>
-                        </div>
-                    </div>
-                    <div class="control-group error">
-                        <label class="control-label" for="input03">表单项名称:</label>
-                        <div class="controls">
-                            <input id="input03" placeholder="placeholder占位" value="妈妈说这样是不对的" />
-                            <p class="help-block">说明解释类提示</p>
-                        </div>
-                    </div>
-                    <div class="control-group disabled">
-                        <label class="control-label" for="input04">表单项名称:</label>
-                        <div class="controls">
-                            <input id="input04" class="disabled" disabled placeholder="placeholder占位" />
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">单选按钮:</label>
-                        <div bx-name="form" class="controls">
-                            <label class="radio inline">
-                                <input type="radio" name="optionsRadios5" id="optionsRadio08" value="option08" checked />单点我
-                            </label>
-                            <label class="radio inline">
-                                <input type="radio" name="optionsRadios5" id="optionsRadio09" value="option09" />别点我
-                            </label>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">多选按钮:</label>
-                        <div bx-name="form" class="controls">
-                            <label class="checkbox inline">
-                                <input type="checkbox" name="optionsCheckbox4" id="optionsCheckbox07" value="option01" checked />1
-                            </label>
-                            <label class="checkbox inline">
-                                <input type="checkbox" name="optionsCheckbox4" id="optionsCheckbox08" value="option02" />2
-                            </label>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">单选按钮:</label>
-                        <div bx-name="form" class="controls">
-                            <label class="radio">
-                                <input type="radio" name="optionsRadios6" id="optionsRadio10" value="option08" checked />单点我
-                            </label>
-                            <label class="radio">
-                                <input type="radio" name="optionsRadios6" id="optionsRadio11" value="option09" />别点我
-                            </label>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">多选按钮:</label>
-                        <div bx-name="form" class="controls">
-                            <label class="checkbox">
-                                <input type="checkbox" name="optionsCheckbox5" id="optionsCheckbox09" value="option01" checked />1
-                            </label>
-                            <label class="checkbox">
-                                <input type="checkbox" name="optionsCheckbox5" id="optionsCheckbox10" value="option02" />2
-                            </label>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">文本框:</label>
-                        <div class="controls">
-                            <textarea rows="3"></textarea>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
-        </div>
+    <div class="content"><div class="row">
+
+</div>
+<div class="row">
+    <div class="span18">
+        <h3>垂直表单</h3>
+        <form class="well">
+            <fieldset>
+                <label class="control-label" for="input01">输入框:</label>
+                <input id="input01" placeholder="placeholder占位" value="文字" />
+                <label class="control-label">单选按钮 - 原生:</label>
+                <div class="controls">
+                    <label class="radio inline">
+                        <input type="radio" name="optionsRadios1" id="optionsRadio01" value="option01" checked />单点我
+                    </label>
+                    <label class="radio inline">
+                        <input type="radio" name="optionsRadios1" id="optionsRadio02" value="option02" />别点我
+                    </label>
+                </div>
+                <label class="control-label">单选按钮 - Brix:</label>
+                <div bx-name="form" class="controls">
+                    <label class="radio inline">
+                        <input type="radio" name="optionsRadios2" id="optionsRadio03" value="option03" checked />单点我
+                    </label>
+                    <label class="radio inline">
+                        <input type="radio" name="optionsRadios2" id="optionsRadio04" value="option04" />别点我
+                    </label>
+                </div>
+                <label class="control-label">单选按钮 - Brix:</label>
+                <div bx-name="form" class="controls">
+                    <label class="radio inline checked-colorful">
+                        <input type="radio" name="optionsRadios3" id="optionsRadio05" value="option05" checked />高帅富
+                    </label>
+                </div>
+                <label class="control-label">单选按钮 - Brix:</label>
+                <div bx-name="form" class="controls">
+                    <label class="radio inline disabled">
+                        <input type="radio" name="optionsRadios4" id="optionsRadio06" value="option06" disabled />已禁用
+                    </label>
+                    <label class="radio inline checked-disabled">
+                        <input type="radio" name="optionsRadios4" id="optionsRadio07" value="option07" checked disabled />已禁用
+                    </label>
+                </div>
+                <label class="control-label">多选按钮 - 原生:</label>
+                <div class="controls">
+                    <label class="checkbox inline">
+                        <input type="checkbox" name="optionsCheckbox1" id="optionsCheckbox01" value="option01" checked />1
+                    </label>
+                    <label class="checkbox inline">
+                        <input type="checkbox" name="optionsCheckbox1" id="optionsCheckbox02" value="option02" />2
+                    </label>
+                </div>
+                <label class="control-label">多选按钮 - Brix:</label>
+                <div bx-name="form" class="controls">
+                    <label class="checkbox inline">
+                        <input type="checkbox" name="optionsCheckbox3" id="optionsCheckbox05" value="option03" />3
+                    </label>
+                    <label class="checkbox inline">
+                        <input type="checkbox" name="optionsCheckbox3" id="optionsCheckbox06" value="option04" checked />4
+                    </label>
+                </div>
+                <label class="control-label">多选按钮 - Brix:</label>
+                <div bx-name="form" class="controls">
+                    <label class="checkbox inline disabled">
+                        <input type="checkbox" name="optionsCheckbox2" id="optionsCheckbox03" value="option03" disabled />3
+                    </label>
+                    <label class="checkbox inline checked-disabled">
+                        <input type="checkbox" name="optionsCheckbox2" id="optionsCheckbox04" value="option04" checked disabled />4
+                    </label>
+                </div>
+            </fieldset>
+        </form>
     </div>
+    <div class="span32">
+        <h3>水平表单</h3>
+        <form class="form-horizontal">
+            <fieldset>
+                <div class="control-group">
+                    <label class="control-label" for="input02">表单项名称:</label>
+                    <div class="controls">
+                        <input id="input02" placeholder="placeholder占位" />
+                        <p class="help-block">说明解释类提示</p>
+                    </div>
+                </div>
+                <div class="control-group error">
+                    <label class="control-label" for="input03">表单项名称:</label>
+                    <div class="controls">
+                        <input id="input03" placeholder="placeholder占位" value="妈妈说这样是不对的" />
+                        <p class="help-block">说明解释类提示</p>
+                    </div>
+                </div>
+                <div class="control-group disabled">
+                    <label class="control-label" for="input04">表单项名称:</label>
+                    <div class="controls">
+                        <input id="input04" class="disabled" disabled placeholder="placeholder占位" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">单选按钮:</label>
+                    <div bx-name="form" class="controls">
+                        <label class="radio inline">
+                            <input type="radio" name="optionsRadios5" id="optionsRadio08" value="option08" checked />单点我
+                        </label>
+                        <label class="radio inline">
+                            <input type="radio" name="optionsRadios5" id="optionsRadio09" value="option09" />别点我
+                        </label>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">多选按钮:</label>
+                    <div bx-name="form" class="controls">
+                        <label class="checkbox inline">
+                            <input type="checkbox" name="optionsCheckbox4" id="optionsCheckbox07" value="option01" checked />1
+                        </label>
+                        <label class="checkbox inline">
+                            <input type="checkbox" name="optionsCheckbox4" id="optionsCheckbox08" value="option02" />2
+                        </label>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">单选按钮:</label>
+                    <div bx-name="form" class="controls">
+                        <label class="radio">
+                            <input type="radio" name="optionsRadios6" id="optionsRadio10" value="option08" checked />单点我
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="optionsRadios6" id="optionsRadio11" value="option09" />别点我
+                        </label>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">多选按钮:</label>
+                    <div bx-name="form" class="controls">
+                        <label class="checkbox">
+                            <input type="checkbox" name="optionsCheckbox5" id="optionsCheckbox09" value="option01" checked />1
+                        </label>
+                        <label class="checkbox">
+                            <input type="checkbox" name="optionsCheckbox5" id="optionsCheckbox10" value="option02" />2
+                        </label>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">文本框:</label>
+                    <div class="controls">
+                        <textarea rows="3"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
 </div>
   </div>
   
   <hr class="soften"/>
-  <div class="post">
-    <h2 id="buttons">Buttons</h2>
+  <div class="post" id="buttons">
+    <h2>Buttons</h2>
     
     <div class="content">    <h3>Simple Buttons</h3>
     <p>a, input, button。考虑IE67，不建议a与input或button混用</p>
@@ -561,58 +565,116 @@ Level 1 of column
   </div>
   
   <hr class="soften"/>
-  <div class="post">
-    <h2 id="flowsteps">flowsteps</h2>
+  <div class="post" id="flowsteps">
+    <h2>flowsteps</h2>
     
     <div class="content"></div>
   </div>
   
   <hr class="soften"/>
-  <div class="post">
-    <h2 id="tables">tables</h2>
+  <div class="post" id="tables">
+    <h2>tables</h2>
     
     <div class="content"></div>
   </div>
   
   <hr class="soften"/>
-  <div class="post">
-    <h2 id="tags">tags</h2>
+  <div class="post" id="tags">
+    <h2>tags</h2>
     
     <div class="content"></div>
+  </div>
+  
+  <hr class="soften"/>
+  <div class="post" id="avatar">
+    <h2>Avatar</h2>
+    
+    <div class="content">    <h3>普通尺寸头像</h3>
+    <p>普通样式</p>
+    <a href="#" onclick="return false" class="avatar">
+        <span class="avatar-rim"></span>
+        <span class="avatar-pic">
+            <img src="/brix/src/img/avatar.jpg" alt="avatar-default">
+        </span>
+    </a>
+    <p>普通样式-高亮</p>
+    <a href="#" onclick="return false" class="avatar">
+        <span class="avatar-rim avatar-active"></span>
+        <span class="avatar-pic">
+            <img src="/brix/src/img/avatar.jpg" alt="avatar-default">
+        </span>
+    </a>
+    <p>带标签的普通头像</p>
+    <a href="#" onclick="return false" class="avatar avatar-has-label">
+        <span class="avatar-rim"></span>
+        <span class="avatar-pic">
+            <img src="/brix/src/img/avatar.jpg" alt="avatar-default">
+        </span>
+    </a>
+    <p>带标签的普通头像-高亮</p>
+    <a href="#" onclick="return false" class="avatar avatar-has-label">
+        <span class="avatar-rim avatar-active"></span>
+        <span class="avatar-pic">
+            <img src="/brix/src/img/avatar.jpg" alt="avatar-default">
+        </span>
+    </a>
+    <h3>mini型头像</h3>
+    <p>普通小头像</p>
+    <a href="#" onclick="return false" class="avatar-min">
+        <span class="avatar-rim"></span>
+        <span class="avatar-pic">
+            <img src="/brix/src/img/avatar-min.png" alt="avatar-default">
+        </span>
+    </a>
+    <p>普通小头像-高亮</p>
+    <a href="#" onclick="return false" class="avatar-min">
+        <span class="avatar-rim avatar-active"></span>
+        <span class="avatar-pic">
+            <img src="/brix/src/img/avatar-min.png" alt="avatar-default">
+        </span>
+    </a>
+    <p>带标签的小头像</p>
+    <a href="#" onclick="return false" class="avatar-min avatar-min-label">
+        <span class="avatar-rim"></span>
+        <span class="avatar-pic">
+            <img src="/brix/src/img/avatar-min.png" alt="avatar-default">
+        </span>
+    </a>
+    <p>带标签的小头像-高亮</p>
+    <a href="#" onclick="return false" class="avatar-min avatar-min-label">
+        <span class="avatar-rim avatar-active"></span>
+        <span class="avatar-pic">
+            <img src="/brix/src/img/avatar-min.png" alt="avatar-default">
+        </span>
+    </a>
+    <h3>坐标头像</h3>
+    <a href="#" onclick="return false" class="avatar-point">
+        <span class="avatar-rim"></span>
+        <span class="avatar-pic">
+            <img src="/brix/src/img/avatar.jpg" alt="avatar-default">
+        </span>
+    </a>
+    <h3>默认男</h3>
+    <a href="#" onclick="return false" class="avatar">
+        <span class="avatar-rim avatar-active"></span>
+        <span class="avatar-pic">
+            <img src="/brix/src/img/avatar_default_man.png" alt="avatar-default">
+        </span>
+    </a>
+    <h3>默认女</h3>
+    <a href="#" onclick="return false" class="avatar">
+        <span class="avatar-rim avatar-active"></span>
+        <span class="avatar-pic">
+            <img src="/brix/src/img/avatar_default_woman.png" alt="avatar-default">
+        </span>
+    </a>
+</div>
   </div>
   
 </div>
 
 <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
-<script>
-KISSY.config({
-    packages: [{
-        name: "brix",
-        tag: "20120419",
-        path: "../../",//这里可以配置cdn的路径
-        charset: "utf-8"
-    }]
-});
-
-KISSY.config({
-    map: [
-        [/(.+brix)\/(.+?)(?:-min)?.js(\?[^?]+)?$/, "$1/src/$2.js$3"],
-        [/(.+brix)\/(.+?)(?:-min)?.css(\?[^?]+)?$/, "$1/src/$2.css$3"]
-    ]
-});
-</script>
-<script>
-    KISSY.use('brix/core/pagelet', function(S, Pagelet) {
-        var pagelet = new Pagelet({
-            tmpl: '#page' // 模板(容器节点)
-        });
-
-        pagelet.addBehavior();
-        pagelet.ready(function() {
-            pagelet.render();
-        });
-    });
-</script>
+<script src="/brix/assets/js/style.js" type="text/javascript"></script>
 </body>
 </html>
 
