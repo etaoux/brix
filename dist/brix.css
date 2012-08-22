@@ -2,12 +2,12 @@
  * CSS Reset
  *   借鉴normalize成果，同时做些向前兼容
  **/
-/* normalize.css 2012-03-11T12:53 UTC - http://github.com/necolas/normalize.css */
-/* =============================================================================
+/*! normalize.css v1.0.1 | MIT License | git.io/normalize */
+/* ==========================================================================
    HTML5 display definitions
    ========================================================================== */
 /*
- * Corrects block display not defined in IE6/7/8/9 & FF3
+ * Corrects `block` display not defined in IE 6/7/8/9 and Firefox 3.
  */
 article,
 aside,
@@ -23,7 +23,7 @@ summary {
   display: block;
 }
 /*
- * Corrects inline-block display not defined in IE6/7/8/9 & FF3
+ * Corrects `inline-block` display not defined in IE 6/7/8/9 and Firefox 3.
  */
 audio,
 canvas,
@@ -33,28 +33,29 @@ video {
   *zoom: 1;
 }
 /*
- * Prevents modern browsers from displaying 'audio' without controls
- * Remove excess height in iOS5 devices
+ * Prevents modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
  */
 audio:not([controls]) {
   display: none;
   height: 0;
 }
 /*
- * Addresses styling for 'hidden' attribute not present in IE7/8/9, FF3, S4
- * Known issue: no IE6 support
+ * Addresses styling for `hidden` attribute not present in IE 7/8/9, Firefox 3,
+ * and Safari 4.
+ * Known issue: no IE 6 support.
  */
 [hidden] {
   display: none;
 }
-/* =============================================================================
+/* ==========================================================================
    Base
    ========================================================================== */
 /*
- * 1. Corrects text resizing oddly in IE6/7 when body font-size is set using em units
- *    http://clagnut.com/blog/348/#c790
- * 2. Prevents iOS text size adjust after orientation change, without disabling user zoom
- *    www.456bereastreet.com/archive/201012/controlling_text_size_in_safari_for_ios_without_disabling_user_zoom/
+ * 1. Corrects text resizing oddly in IE 6/7 when body `font-size` is set using
+ *    `em` units.
+ * 2. Prevents iOS text size adjust after orientation change, without disabling
+ *    user zoom.
  */
 html {
   font-size: 100%;
@@ -68,7 +69,8 @@ html {
 
 }
 /*
- * Addresses font-family inconsistency between 'textarea' and other form elements.
+ * Addresses `font-family` inconsistency between `textarea` and other form
+ * elements.
  */
 html,
 button,
@@ -78,34 +80,34 @@ textarea {
   font-family: sans-serif;
 }
 /*
- * Addresses margins handled incorrectly in IE6/7
+ * Addresses margins handled incorrectly in IE 6/7.
  */
 body {
   margin: 0;
 }
-/* =============================================================================
+/* ==========================================================================
    Links
    ========================================================================== */
 /*
- * Addresses outline displayed oddly in Chrome
+ * Addresses `outline` inconsistency between Chrome and other browsers.
  */
 a:focus {
   outline: thin dotted;
 }
 /*
- * Improves readability when focused and also mouse hovered in all browsers
- * people.opera.com/patrickl/experiments/keyboard/test
+ * Improves readability when focused and also mouse hovered in all browsers.
  */
-a:hover,
-a:active {
+a:active,
+a:hover {
   outline: 0;
 }
-/* =============================================================================
+/* ==========================================================================
    Typography
    ========================================================================== */
 /*
- * Addresses font sizes and margins set differently in IE6/7
- * Addresses font sizes within 'section' and 'article' in FF4+, Chrome, S5
+ * Addresses font sizes and margins set differently in IE 6/7.
+ * Addresses font sizes within `section` and `article` in Firefox 4+, Safari 5,
+ * and Chrome.
  */
 h1 {
   font-size: 2em;
@@ -132,14 +134,14 @@ h6 {
   margin: 2.33em 0;
 }
 /*
- * Addresses styling not present in IE7/8/9, S5, Chrome
+ * Addresses styling not present in IE 7/8/9, Safari 5, and Chrome.
  */
 abbr[title] {
   border-bottom: 1px dotted;
 }
 /*
- * Addresses style set to 'bolder' in FF3+, S4/5, Chrome
-*/
+ * Addresses style set to `bolder` in Firefox 3+, Safari 4/5, and Chrome.
+ */
 b,
 strong {
   font-weight: bold;
@@ -148,39 +150,38 @@ blockquote {
   margin: 1em 40px;
 }
 /*
- * Addresses styling not present in S5, Chrome
+ * Addresses styling not present in Safari 5 and Chrome.
  */
 dfn {
   font-style: italic;
 }
 /*
- * Addresses styling not present in IE6/7/8/9
+ * Addresses styling not present in IE 6/7/8/9.
  */
 mark {
   background: #ff0;
   color: #000;
 }
 /*
- * Addresses margins set differently in IE6/7
+ * Addresses margins set differently in IE 6/7.
  */
 p,
 pre {
   margin: 1em 0;
 }
 /*
- * Corrects font family set oddly in IE6, S4/5, Chrome
- * en.wikipedia.org/wiki/User:Davidgothberg/Test59
+ * Corrects font family set oddly in IE 6, Safari 4/5, and Chrome.
  */
-pre,
 code,
 kbd,
+pre,
 samp {
   font-family: monospace, serif;
   _font-family: 'courier new', monospace;
   font-size: 1em;
 }
 /*
- * Improves readability of pre-formatted text in all browsers
+ * Improves readability of pre-formatted text in all browsers.
  */
 pre {
   white-space: pre;
@@ -188,25 +189,27 @@ pre {
   word-wrap: break-word;
 }
 /*
- * 1. Addresses CSS quotes not supported in IE6/7
- * 2. Addresses quote property not supported in S4
+ * Addresses CSS quotes not supported in IE 6/7.
  */
-/* 1 */
 q {
   quotes: none;
 }
-/* 2 */
+/*
+ * Addresses `quotes` property not supported in Safari 4.
+ */
 q:before,
 q:after {
   content: '';
   content: none;
 }
+/*
+ * Addresses inconsistent and variable font size in all browsers.
+ */
 small {
-  font-size: 75%;
+  font-size: 80%;
 }
 /*
- * Prevents sub and sup affecting line-height in all browsers
- * gist.github.com/413930
+ * Prevents `sub` and `sup` affecting `line-height` in all browsers.
  */
 sub,
 sup {
@@ -221,11 +224,11 @@ sup {
 sub {
   bottom: -0.25em;
 }
-/* =============================================================================
+/* ==========================================================================
    Lists
    ========================================================================== */
 /*
- * Addresses margins set differently in IE6/7
+ * Addresses margins set differently in IE 6/7.
  */
 dl,
 menu,
@@ -237,7 +240,7 @@ dd {
   margin: 0 0 0 40px;
 }
 /*
- * Addresses paddings set differently in IE6/7
+ * Addresses paddings set differently in IE 6/7.
  */
 menu,
 ol,
@@ -245,20 +248,19 @@ ul {
   padding: 0 0 0 40px;
 }
 /*
- * Corrects list images handled incorrectly in IE7
+ * Corrects list images handled incorrectly in IE 7.
  */
 nav ul,
 nav ol {
   list-style: none;
   list-style-image: none;
 }
-/* =============================================================================
+/* ==========================================================================
    Embedded content
    ========================================================================== */
 /*
- * 1. Removes border when inside 'a' element in IE6/7/8/9, FF3
- * 2. Improves image quality when scaled in IE7
- *    code.flickr.com/blog/2008/11/12/on-ui-quality-the-little-things-client-side-image-resizing/
+ * 1. Removes border when inside `a` element in IE 6/7/8/9 and Firefox 3.
+ * 2. Improves image quality when scaled in IE 7.
  */
 img {
   border: 0;
@@ -269,31 +271,31 @@ img {
 
 }
 /*
- * Corrects overflow displayed oddly in IE9
+ * Corrects overflow displayed oddly in IE 9.
  */
 svg:not(:root) {
   overflow: hidden;
 }
-/* =============================================================================
+/* ==========================================================================
    Figures
    ========================================================================== */
 /*
- * Addresses margin not present in IE6/7/8/9, S5, O11
+ * Addresses margin not present in IE 6/7/8/9, Safari 5, and Opera 11.
  */
 figure {
   margin: 0;
 }
-/* =============================================================================
+/* ==========================================================================
    Forms
    ========================================================================== */
 /*
- * Corrects margin displayed oddly in IE6/7
+ * Corrects margin displayed oddly in IE 6/7.
  */
 form {
   margin: 0;
 }
 /*
- * Define consistent border, margin, and padding
+ * Define consistent border, margin, and padding.
  */
 fieldset {
   border: 1px solid #c0c0c0;
@@ -301,9 +303,9 @@ fieldset {
   padding: 0.35em 0.625em 0.75em;
 }
 /*
- * 1. Corrects color not being inherited in IE6/7/8/9
- * 2. Corrects text not wrapping in FF3
- * 3. Corrects alignment displayed oddly in IE6/7
+ * 1. Corrects color not being inherited in IE 6/7/8/9.
+ * 2. Corrects text not wrapping in Firefox 3.
+ * 3. Corrects alignment displayed oddly in IE 6/7.
  */
 legend {
   border: 0;
@@ -318,9 +320,10 @@ legend {
 
 }
 /*
- * 1. Corrects font size not being inherited in all browsers
- * 2. Addresses margins set differently in IE6/7, FF3+, S5, Chrome
- * 3. Improves appearance and consistency in all browsers
+ * 1. Corrects font size not being inherited in all browsers.
+ * 2. Addresses margins set differently in IE 6/7, Firefox 3+, Safari 5,
+ *    and Chrome.
+ * 3. Improves appearance and consistency in all browsers.
  */
 button,
 input,
@@ -340,46 +343,48 @@ textarea {
 
 }
 /*
- * Addresses FF3/4 setting line-height on 'input' using !important in the UA stylesheet
+ * Addresses Firefox 3+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
  */
 button,
 input {
   line-height: normal;
-  /* 1 */
-
 }
 /*
- * 1. Improves usability and consistency of cursor style between image-type 'input' and others
- * 2. Corrects inability to style clickable 'input' types in iOS
- * 3. Removes inner spacing in IE7 without affecting normal text inputs
- *    Known issue: inner spacing remains in IE6
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Corrects inability to style clickable `input` types in iOS.
+ * 3. Improves usability and consistency of cursor style between image-type
+ *    `input` and others.
+ * 4. Removes inner spacing in IE 7 without affecting normal text inputs.
+ *    Known issue: inner spacing remains in IE 6.
  */
 button,
-input[type="button"],
+html input[type="button"],
 input[type="reset"],
 input[type="submit"] {
-  cursor: pointer;
-  /* 1 */
-
   -webkit-appearance: button;
   /* 2 */
 
-  *overflow: visible;
+  cursor: pointer;
   /* 3 */
+
+  *overflow: visible;
+  /* 4 */
 
 }
 /*
- * Re-set default cursor for disabled elements
+ * Re-set default cursor for disabled elements.
  */
 button[disabled],
 input[disabled] {
   cursor: default;
 }
 /*
- * 1. Addresses box sizing set to content-box in IE8/9
- * 2. Removes excess padding in IE8/9
- * 3. Removes excess padding in IE7
-      Known issue: excess padding remains in IE6
+ * 1. Addresses box sizing set to content-box in IE 8/9.
+ * 2. Removes excess padding in IE 8/9.
+ * 3. Removes excess padding in IE 7.
+ *    Known issue: excess padding remains in IE 6.
  */
 input[type="checkbox"],
 input[type="radio"] {
@@ -397,8 +402,9 @@ input[type="radio"] {
 
 }
 /*
- * 1. Addresses appearance set to searchfield in S5, Chrome
- * 2. Addresses box-sizing set to border-box in S5, Chrome (include -moz to future-proof)
+ * 1. Addresses `appearance` set to `searchfield` in Safari 5 and Chrome.
+ * 2. Addresses `box-sizing` set to `border-box` in Safari 5 and Chrome
+ *    (include `-moz` to future-proof).
  */
 input[type="search"] {
   -webkit-appearance: textfield;
@@ -411,15 +417,15 @@ input[type="search"] {
   box-sizing: content-box;
 }
 /*
- * Removes inner padding and search cancel button in S5, Chrome on OS X
+ * Removes inner padding and search cancel button in Safari 5 and Chrome
+ * on OS X.
  */
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button {
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 /*
- * Removes inner padding and border in FF3+
- * www.sitepen.com/blog/2008/05/14/the-devils-in-the-details-fixing-dojos-toolbar-buttons/
+ * Removes inner padding and border in Firefox 3+.
  */
 button::-moz-focus-inner,
 input::-moz-focus-inner {
@@ -427,8 +433,8 @@ input::-moz-focus-inner {
   padding: 0;
 }
 /*
- * 1. Removes default vertical scrollbar in IE6/7/8/9
- * 2. Improves readability and alignment in all browsers
+ * 1. Removes default vertical scrollbar in IE 6/7/8/9.
+ * 2. Improves readability and alignment in all browsers.
  */
 textarea {
   overflow: auto;
@@ -438,11 +444,11 @@ textarea {
   /* 2 */
 
 }
-/* =============================================================================
+/* ==========================================================================
    Tables
    ========================================================================== */
 /*
- * Remove most spacing between table cells
+ * Remove most spacing between table cells.
  */
 table {
   border-collapse: collapse;
@@ -2506,67 +2512,157 @@ legend + .control-group {
   color: #999999;
   padding-left: 5px;
 }
-.bx-etao-footer {
+.footer {
   border-top: 1px solid #CBCBCB;
   text-align: center;
   padding: 30px 0;
   line-height: 1em;
+  font-family: 'SimSun';
 }
-.bx-common-links {
+.footer .common {
   margin-bottom: 15px;
 }
-.bx-corp-links {
+.footer .common a {
+  color: #606060;
+  padding: 0 7px;
+}
+.footer .corp {
   margin: 15px 0;
 }
-.bx-etao-footer .bx-footer-copyright {
-  color: #acacac;
-}
-.bx-common-links a {
-  color: #606060;
-  padding: 0 10px;
-}
-.bx-corp-links a {
+.footer .corp a {
   color: #606060;
 }
-.bx-corp-links .bx-footer-split {
+.footer .corp .split {
   color: #666;
   padding-right: 10px;
   padding-left: 5px;
   border-right: 1px solid #d0d0d0;
   border-left: none;
 }
-.bx-corp-links .bx-footer-nosplit {
+.footer .corp .nosplit {
   border: none;
   margin: 0 1px;
   padding: 0;
 }
-.bx-corp-links .last-link {
+.footer .corp .last-link {
   border-right: none;
+  padding-right: 10px;
+  padding-left: 5px;
 }
-.bx-corp-links .common-name {
+.footer .corp .corp-network {
+  color: #ACACAC;
+}
+.footer .corp .corp-name {
+  font-family: tahoma;
+}
+.footer .copyright {
   color: #acacac;
 }
-.etao-copyright-no {
+.footer .copyright-sign {
+  font-family: tahoma;
+}
+.footer .copyright-no {
   margin-left: 20px;
 }
-.bx-footer-sep {
+.footer .sep {
   color: #ACACAC;
   margin: 5px 0;
 }
-.etao-copyright-alone span {
+.footer .copyright-alone span {
   display: block;
   line-height: 1em;
 }
-.etao-copyright-alone .etao-copyright-no {
+.footer .copyright-alone .copyright-no {
   margin-top: 10px;
+  margin-left: -1px;
 }
-.bx-footer-zuanshi {
+.footer .zuanshi-logo {
   width: 89px;
   height: 87px;
   background: url(http://img03.taobaocdn.com/tps/i3/T15XvFXeNbXXX.NiPr-89-87.png) no-repeat;
   _background: none;
   _filter: progid:dximagetransform.microsoft.alphaimageloader(src='http://img03.taobaocdn.com/tps/i3/T15XvFXeNbXXX.NiPr-89-87.png', sizingMethod='crop');
   margin: 20px auto 0;
+}
+/**
+ * avatar normal 
+ */
+.avatar,
+.avatar-min,
+.avatar-point,
+.avatar-rim {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  width: 78px;
+  height: 78px;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-rim {
+  background: url(tests/assets/avatar_bg.png) no-repeat 2px 2px;
+  -background: url(tests/assets/avatar_bg_ie6.png) no-repeat 2px 2px;
+  z-index: 2;
+}
+.avatar-pic {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+  left: 8px;
+  top: 9px;
+  z-index: 1;
+}
+.avatar-pic img {
+  border: 0;
+}
+.avatar .avatar-active {
+  background-position: -76px 1px;
+}
+.avatar-has-label .avatar-rim {
+  background-position: -153px 2px;
+}
+.avatar-has-label .avatar-active {
+  background-position: -231px 1px;
+}
+/**
+ * avatar min
+ */
+.avatar-min,
+.avatar-min .avatar-rim {
+  width: 44px;
+  height: 44px;
+}
+.avatar-min .avatar-pic {
+  width: 30px;
+  height: 30px;
+  top: 7px;
+}
+.avatar-min .avatar-pic img {
+  width: 30px;
+  height: 30px;
+}
+.avatar-min .avatar-rim {
+  background-position: 3px -76px;
+}
+.avatar-min .avatar-active {
+  background-position: -39px -77px;
+}
+.avatar-min-label .avatar-rim {
+  background-position: -83px -77px;
+}
+.avatar-min-label .avatar-active {
+  background-position: -130px -77px;
+}
+/**
+ * avatar point
+ */
+.avatar-point {
+  height: 92px;
+}
+.avatar-point .avatar-rim {
+  height: 92px;
+  background-position: -320px 4px;
 }
 /*@import "breadcrumbs.less";*/
 /*@import "code.less";*/
