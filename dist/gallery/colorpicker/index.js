@@ -52,8 +52,9 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
         '.picker': {
             click: function(e) {
                 var self = this,
-                    left = e.offsetX-1,
-                    top = e.offsetY,
+                    offset = self.pickerNode.offset(),
+                    left = e.pageX-offset.left,
+                    top = e.pageY-offset.top,
                     width = self.pickerNode.width(),
                     height = self.pickerNode.height(),
                     s = left / width,
@@ -68,8 +69,9 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
         '.slide': {
             click: function(e) {
                 var self = this,
+                    offset = self.slideNode.offset(),
                     height = self.slideNode.height(),
-                    top = (e.offsetY>=height?height-1:e.offsetY),
+                    top = ((e.pageY-offset.top>=height)?height-1:e.pageY-offset.top),
                     h = top / height * 360;
                 self.setHsv({
                     h: h,
