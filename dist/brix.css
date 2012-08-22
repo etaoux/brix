@@ -2574,11 +2574,7 @@ legend + .control-group {
 }
 .footer .copyright-alone .copyright-no {
   margin-top: 10px;
-<<<<<<< HEAD
-  margin-left: 0;
-=======
   margin-left: -1px;
->>>>>>> 4aded4aa7500468b2999069620f8f498618516db
 }
 .footer .zuanshi-logo {
   width: 89px;
@@ -2604,8 +2600,8 @@ legend + .control-group {
   overflow: hidden;
 }
 .avatar-rim {
-  background: url(tests/assets/avatar_bg.png) no-repeat 2px 2px;
-  -background: url(tests/assets/avatar_bg_ie6.png) no-repeat 2px 2px;
+  background: url(../img/avatar_bg.png) no-repeat 2px 2px;
+  -background: url(../img/avatar_bg_ie6.png) no-repeat 2px 2px;
   z-index: 2;
 }
 .avatar-pic {
