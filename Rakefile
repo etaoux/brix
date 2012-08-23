@@ -18,6 +18,9 @@ end
 desc "发布到 Github"
 task :deploy => ["build"] do
   puts "## 发布当前分支到 Github Pages "
+  cd "#{deploy_dir}" do
+    system "git pull"
+  end
   (Dir["#{deploy_dir}/*"]).each { |f| rm_rf(f) }
   puts "\n## copying #{public_dir} to #{deploy_dir}"
   cp_r "#{public_dir}/.", deploy_dir
