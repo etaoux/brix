@@ -15,18 +15,15 @@
         <script>
             KISSY.ready(function(S) {
                 KISSY.use("brix/gallery/colorpicker/", function(S, ColorPicker) {
-                    var colorpicker= new ColorPicker();
-                    colorpicker.render();
+                    var colorpicker= new ColorPicker({
+                        trigger:'#test1'
+                    });
                     colorpicker.on('selected',function(e){
                         top.console.log(e.hex);
                     });
-                    S.one('#test1').on('click',function(e){
-                        colorpicker.show();
-                    });
-
-
 
                     var colorpicker2= new ColorPicker({
+                        trigger:'#test2',
                         min:true,
                         align:{
                             node: '#test2',
@@ -36,9 +33,6 @@
                     });
                     colorpicker2.on('selected',function(e){
                         top.console.log(e.hex);
-                    });
-                    S.one('#test2').on('click',function(e){
-                        colorpicker2.show();
                     });
                 });
             });
