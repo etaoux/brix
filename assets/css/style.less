@@ -1,9 +1,47 @@
-@import 'base';
+@import 'base.less';
+
+#logo {
+  margin: 0 0 20px;
+
+  .logo {
+    float: left;
+    margin-right: 10px;
+  }
+  .sub {
+    &:link, &:visited {
+      color: #4E6092;
+    }
+    &:hover {
+      text-decoration: none;
+      color: #222D49;
+    }
+  }
+}
 
 #page {
-  margin: 70px auto 0;
+  margin: 0 auto;
+  padding-top: 70px;
   text-align: left;
 
+  .post {
+    padding: 24px 0;
+
+    .title-bar {
+      line-height: 1;
+      padding: 24px 0 20px;
+
+      h2 {
+        margin: 0;
+      }
+      h2, .demo-link {
+        float: left;
+        margin-right: 20px;
+      }
+      .demo-link {
+        margin-top: 10px;
+      }
+    }
+  }
   .grid-showcase {
     .show-grid {
       margin-top: 10px;
@@ -31,5 +69,8 @@
     .show-grid .show-grid .span15 {
       background-color: #aaa;
     }
+  }
+  .avatar-showcase {
+    background: #fff;
   }
 }

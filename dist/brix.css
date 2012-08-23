@@ -1544,7 +1544,7 @@ select:focus:required:invalid:focus {
 .help-inline {
   display: inline-block;
   *display: inline;
-  /* IE7 inline-block hack */
+  /* IE inline-block hack */
 
   *zoom: 1;
   vertical-align: middle;
@@ -1686,7 +1686,7 @@ select:focus:required:invalid:focus {
 .form-horizontal .input-append {
   display: inline-block;
   *display: inline;
-  /* IE7 inline-block hack */
+  /* IE inline-block hack */
 
   *zoom: 1;
   margin-bottom: 0;
