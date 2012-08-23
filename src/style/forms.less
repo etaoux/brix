@@ -89,6 +89,17 @@ select {
   color: @inputTextColor;
   border: 1px solid @inputBorder;
   border-top-color: @inputBorderTop;
+  border-radius: 2px;
+}
+
+::-webkit-input-placeholder {
+  color: @placeholderText;
+}
+:-ms-input-placeholder {
+  color: @placeholderText;
+}
+:-moz-placeholder {
+  color: @placeholderText;
 }
 
 // Set the height of select and file controls to match text inputs
@@ -102,7 +113,7 @@ select {
 
 // Make textarea height behave
 textarea {
-  padding-top: 8px;
+  padding-top: 4px;
   height: auto;
 }
 
@@ -252,7 +263,7 @@ select:focus:required:invalid {
 
 .help-inline {
   display: inline-block;
-  .ie7-inline-block();
+  .ie-inline-block();
   vertical-align: middle;
   padding-left: 5px;
 }
@@ -383,7 +394,7 @@ select:focus:required:invalid {
   .input-prepend,
   .input-append {
     display: inline-block;
-    .ie7-inline-block();
+    .ie-inline-block();
     margin-bottom: 0;
   }
   // Re-hide hidden elements due to specifity
