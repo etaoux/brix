@@ -7,6 +7,11 @@ body {
   font-size: .8em;
   text-align: left;
   background: #fff;
+  padding-top: 35px;
+}
+#site-nav .container {
+  margin: 0;
+  margin-left: 220px;
 }
 #logo {
   a {
@@ -28,6 +33,7 @@ body {
   _position: absolute;
   top: 0;
   left: 0;
+  padding-top: 35px;
   width: 200px;
   height: 100%;
   border-right: 1px solid #ddd;
@@ -46,14 +52,11 @@ body {
     padding-left: 15px;
   }
   .entries {
-    padding-left: 8px;
+    padding-left: 32px;
     margin-top: 0;
 
-    li:before {
-      content: '- ';
-    }
     li {
-      list-style: none;
+      list-style: circle;
     }
     a {
       color: #888;
@@ -65,18 +68,41 @@ body {
   }
 }
 #page {
-  margin: 0 20px 0 220px;
+  margin-left: 200px;
   padding-bottom: 20px;
   color: #333;
 
   h1, h2, h3, h4 {
     color: #555;
   }
-  p{
-    max-width: 800px;
+  .title-bar, article {
+    padding: 0 20px;
   }
-  .caption {
-    padding: 10px 10px 10px 40px;
+  .title-bar {
+    padding-top: 16px;
+    margin-bottom: 20px;
+    line-height: 1;
+    border-bottom: 1px solid #eee;
+
+    h1 {
+      float: left;
+      margin: 0;
+      margin-right: 20px;
+    }
+    .caption {
+      float: left;
+      margin-top: 15px;
+      color: #777;
+    }
+  }
+  h2 {
+    font-size: 20px;
+  }
+  h3 {
+    font-size: 16px;
+  }
+  p, ul, ol, hr.soften {
+    max-width: 800px;
   }
   code {
     border: 1px solid #ddd;

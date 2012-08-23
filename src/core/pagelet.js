@@ -123,7 +123,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         destroy: function(id) {
             var self = this,el = self.get('el'),tmpler = self.get('tmpler');
             if (tmpler && !S.isEmptyObject(tmpler.bricks)) {
-                context._destroyBricks(tmpler.bricks,id);
+                self._destroyBricks(tmpler.bricks,id);
             }
             if(!id){
                 el.remove();

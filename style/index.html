@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>Brix &mdash; UX</title>
-  <!--[if lt IE 9]> <script>
+  <!--[if lt IE 9]>
+<script>
   // html5
   (function() {
       var tags = [
@@ -14,22 +15,26 @@
               i = 0, len = tags.length;
       for (; i < len; i++) document.createElement(tags[i]);
   })();
-</script> <![endif]-->
+</script>
+<![endif]-->
   <link rel="stylesheet" type="text/css" href="/brix/dist/brix-min.css">
   <link rel="stylesheet" type="text/css" href="/brix/assets/css/style.css">
 </head>
 <body>
   <div id="site-nav">
-    <nav class="container">
-      <a href="/brix/">首页 Home</a>
-      <a href="/brix/#tutorial">入门 Tutorials</a>
-      <a href="/brix/#documentation">文档 Documentation</a>
-      <a href="/brix/style">样式 Style</a>
-      <a href="/brix/#about">关于 About</a>
-    </nav>
-  </div>
+  <nav class="container">
+    <a href="/brix/">首页 Home</a>
+    <a href="/brix/#tutorial">入门 Tutorials</a>
+    <a href="/brix/#doc">文档 Doc</a>
+    <a href="/brix/style">样式 Style</a>
+    <a href="/brix/#about">关于 About</a>
+  </nav>
+</div>
   <div id="page" class="container">
-  <h1 id="logo"><a href="/brix/" class="logo">Brix</a> Style</h1>
+  <h1 id="logo">
+    <a href="/brix/" class="logo">Brix</a>
+    <a href="/brix/style" class="sub">Style</a>
+  </h1>
   <div id="page-nav" class="clearfix">
     <nav>
       
@@ -42,13 +47,16 @@
       <a href="#tables">tables</a>
       <a href="#tags">tags</a>
       <a href="#avatar">Avatar</a>
+      <a href="#footer">footer</a>
     </nav>
   </div>
   
-  <hr class="soften"/>
   <div class="post" id="scaffolding">
-    <h2>Scaffolding</h2>
-    
+    <div class="title-bar clearfix">
+      <h2>Scaffolding</h2>
+      
+      
+    </div>
     <div class="content"><h3>Reset样式</h3>
 
 <p>Brix Style 的 Reset 样式直接使用了 <a href="http://necolas.github.com/normalize.css/">Normalize.css</a>，
@@ -110,19 +118,29 @@
 
 </div>
   </div>
-  
   <hr class="soften"/>
+  
   <div class="post" id="type">
-    <h2>Type</h2>
-    
+    <div class="title-bar clearfix">
+      <h2>Type</h2>
+      
+      <a href="/brix/demo/style/type.html" class="demo-link">Demo</a>
+      
+      
+    </div>
     <div class="content">
 </div>
   </div>
-  
   <hr class="soften"/>
+  
   <div class="post" id="grid">
-    <h2>Grid</h2>
-    
+    <div class="title-bar clearfix">
+      <h2>Grid</h2>
+      
+      <a href="/brix/demo/style/grid.html" class="demo-link">Demo</a>
+      
+      
+    </div>
     <div class="content"><h3>50（+10） 列栅格系统</h3>
 <div class="grid-showcase">
   <div class="row show-grid">
@@ -333,11 +351,16 @@ Level 1 of column
 </div>
 </div>
   </div>
-  
   <hr class="soften"/>
+  
   <div class="post" id="forms">
-    <h2>Forms</h2>
-    
+    <div class="title-bar clearfix">
+      <h2>Forms</h2>
+      
+      <a href="/brix/demo/style/forms.html" class="demo-link">Demo</a>
+      
+      
+    </div>
     <div class="content"><div class="row">
 
 </div>
@@ -491,11 +514,16 @@ Level 1 of column
 </div>
 </div>
   </div>
-  
   <hr class="soften"/>
+  
   <div class="post" id="buttons">
-    <h2>Buttons</h2>
-    
+    <div class="title-bar clearfix">
+      <h2>Buttons</h2>
+      
+      <a href="/brix/demo/style/buttons.html" class="demo-link">Demo</a>
+      
+      
+    </div>
     <div class="content">    <h3>Simple Buttons</h3>
     <p>a, input, button。考虑IE67，不建议a与input或button混用</p>
     <a href="#" class="btn btn-red btn-xlarge">红色</a>
@@ -563,32 +591,52 @@ Level 1 of column
     <a class="btn btn-disabled"><i class="iconfont">ŝ</i> 发送私信</a>
 </div>
   </div>
-  
   <hr class="soften"/>
+  
   <div class="post" id="flowsteps">
-    <h2>flowsteps</h2>
-    
+    <div class="title-bar clearfix">
+      <h2>flowsteps</h2>
+      
+      <a href="/brix/demo/style/flowsteps.html" class="demo-link">Demo</a>
+      
+      
+    </div>
     <div class="content"></div>
   </div>
-  
   <hr class="soften"/>
+  
   <div class="post" id="tables">
-    <h2>tables</h2>
-    
+    <div class="title-bar clearfix">
+      <h2>tables</h2>
+      
+      <a href="/brix/demo/style/tables.html" class="demo-link">Demo</a>
+      
+      
+    </div>
     <div class="content"></div>
   </div>
-  
   <hr class="soften"/>
+  
   <div class="post" id="tags">
-    <h2>tags</h2>
-    
+    <div class="title-bar clearfix">
+      <h2>tags</h2>
+      
+      <a href="/brix/demo/style/tags.html" class="demo-link">Demo</a>
+      
+      
+    </div>
     <div class="content"></div>
   </div>
-  
   <hr class="soften"/>
+  
   <div class="post" id="avatar">
-    <h2>Avatar</h2>
-    
+    <div class="title-bar clearfix">
+      <h2>Avatar</h2>
+      
+      <a href="/brix/demo/style/avatar.html" class="demo-link">Demo</a>
+      
+      
+    </div>
     <div class="content">    <h3>普通尺寸头像</h3>
     <p>普通样式</p>
     <a href="#" onclick="return false" class="avatar">
@@ -670,6 +718,19 @@ Level 1 of column
     </a>
 </div>
   </div>
+  <hr class="soften"/>
+  
+  <div class="post" id="footer">
+    <div class="title-bar clearfix">
+      <h2>footer</h2>
+      
+      <a href="/brix/demo/style/footer.html" class="demo-link">Demo</a>
+      
+      
+    </div>
+    <div class="content"></div>
+  </div>
+  <hr class="soften"/>
   
 </div>
 

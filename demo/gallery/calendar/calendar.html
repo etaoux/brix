@@ -120,32 +120,34 @@ custom自定义格式 <input type=text value="yyyy/mm/dd HH:MM:ss" id="J_CustomT
         var S_Date = Calendar.Date;
         var i = 0;
         //静态日历,单击回调
-        var cr = new Calendar({trigger:'#J_Calendar'}).on('select', function(e) {
+        var cr = new Calendar({container:'#J_Calendar',popup:false});
+        cr.show();
+        cr.on('select', function(e) {
             alert(e.date);
-        }, {
-            popup:false
         });
         S.one('#J_CalendarRemove').on('click',function(){cr.destroy();});
         S.log(++i);
         //静态双月日历,默认选中某日
         c = new Calendar( {
-            trigger:'#J_MultiPage_1',
+            container:'#J_MultiPage_1',
             pages:2,
             selected:showdate(-2, new Date()),
             popup:false
         });
+        c.show();
         
         S.log(++i);
         //静态三月日历
         new Calendar( {
-            trigger:'#J_MultiPage_2',
+            container:'#J_MultiPage_2',
             pages:3,
             popup:false
-        });
+        }).show();
         S.log(++i);
         //选择范围,并绑定范围回调
         new Calendar( {
-            trigger:'#J_Range',
+            container:'#J_Range',
+            autoRender:true,
             pages:2,
             rangeSelect:true,
             popup:false
@@ -155,7 +157,8 @@ custom自定义格式 <input type=text value="yyyy/mm/dd HH:MM:ss" id="J_CustomT
         S.log(++i);
         //选择范围,指定默认范围
         new Calendar( {
-            trigger:'#J_DefaultRange',
+            container:'#J_DefaultRange',
+            autoRender:true,
             pages:2,
             rangeSelect:true,
             popup:false,
@@ -167,7 +170,8 @@ custom自定义格式 <input type=text value="yyyy/mm/dd HH:MM:ss" id="J_CustomT
         S.log(++i);
         //月份切换事件
         new Calendar({
-            trigger:'#J_AllEvents', 
+            container:'#J_AllEvents',
+            autoRender:true, 
             popup:false
         }).on('monthChange', function(e) {
             alert('切换事件,月份切换到' + (e.date.getMonth() + 1));
@@ -255,7 +259,8 @@ custom自定义格式 <input type=text value="yyyy/mm/dd HH:MM:ss" id="J_CustomT
         S.log(++i);
         //日历可操作范围
         c = new Calendar( {
-            trigger:'#J_MinDateMaxDate',
+            container:'#J_MinDateMaxDate',
+            autoRender:true,
             minDate:new Date(),
             maxDate:showdate(10, new Date()),
             popup:false
@@ -263,14 +268,16 @@ custom自定义格式 <input type=text value="yyyy/mm/dd HH:MM:ss" id="J_CustomT
         S.log(++i);
         //某些天禁止操作
         c = new Calendar( {
-            trigger:'#J_DisabledDate',
+            container:'#J_DisabledDate',
+            autoRender:true,
             disabled:[showdate(1, new Date()),showdate(-1, new Date()),showdate(3, new Date()),showdate(5, new Date())],
             popup:false
         });
         S.log(++i);
         //日历可选择time
         c = new Calendar( {
-            trigger:'#J_WithTime',
+            container:'#J_WithTime',
+            autoRender:true,
             showTime:true,
             popup:false
         }).on('timeSelect', function(e) {
@@ -279,7 +286,8 @@ custom自定义格式 <input type=text value="yyyy/mm/dd HH:MM:ss" id="J_CustomT
         S.log(++i);
         //日历可选择不限
         c = new Calendar( {
-            trigger:'#J_NotLimited',
+            container:'#J_NotLimited',
+            autoRender:true,
             notLimited:true,
             popup:false
         }).on('select', function(e) {
@@ -288,7 +296,8 @@ custom自定义格式 <input type=text value="yyyy/mm/dd HH:MM:ss" id="J_CustomT
         S.log(++i);
         //可以自定义起始日期
         c = new Calendar({
-            trigger:'#J_CustomDay', 
+            container:'#J_CustomDay', 
+            autoRender:true,
             startDay:1,
             popup:false
         });
@@ -302,7 +311,8 @@ custom自定义格式 <input type=text value="yyyy/mm/dd HH:MM:ss" id="J_CustomT
         S.log(++i);
         //格式化时间类型
         c = new Calendar( {
-            trigger:'#J_DateFormat',
+            container:'#J_DateFormat',
+            autoRender:true,
             showTime:true,
             popup:false
         }).on('timeSelect', function(e) {

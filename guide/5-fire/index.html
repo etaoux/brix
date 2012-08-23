@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>Brix &mdash; UX</title>
-  <!--[if lt IE 9]> <script>
+  <!--[if lt IE 9]>
+<script>
   // html5
   (function() {
       var tags = [
@@ -14,11 +15,21 @@
               i = 0, len = tags.length;
       for (; i < len; i++) document.createElement(tags[i]);
   })();
-</script> <![endif]-->
+</script>
+<![endif]-->
   <link rel="stylesheet" type="text/css" href="/brix/dist/brix-min.css">
   <link rel="stylesheet" type="text/css" href="/brix/assets/css/post.css">
 </head>
 <body>
+  <div id="site-nav">
+  <nav class="container">
+    <a href="/brix/">首页 Home</a>
+    <a href="/brix/#tutorial">入门 Tutorials</a>
+    <a href="/brix/#doc">文档 Doc</a>
+    <a href="/brix/style">样式 Style</a>
+    <a href="/brix/#about">关于 About</a>
+  </nav>
+</div>
   <aside id="aside">
   <div id="logo">
     <a href="/brix/">Brix</a>
@@ -34,29 +45,36 @@
   <h3>Gallery</h3>
   
   <ul class="entries">
-<li><a href="/brix/gallery/breadcrumbs">Breadcrumbs</a></li><li><a href="/brix/gallery/calendar">Calendar</a></li><li><a href="/brix/gallery/colorpicker">ColorPicker</a></li><li><a href="/brix/gallery/datepicker">DatePicker</a></li><li><a href="/brix/gallery/dialog">Dialog</a></li><li><a href="/brix/gallery/dropdown">Dropdown</a></li><li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li><li><a href="/brix/gallery/kwicks">Kwicks</a></li><li><a href="/brix/gallery/loading">Loading</a></li><li><a href="/brix/gallery/pagination">Pagination</a></li><li><a href="/brix/gallery/slider">Slider</a></li><li><a href="/brix/gallery/starrating">StarRating</a></li><li><a href="/brix/gallery/switcher">Switcher</a></li><li><a href="/brix/gallery/tips">tips</a></li><li><a href="/brix/gallery/sidenav">SideNav</a></li>
+<li><a href="/brix/gallery/breadcrumbs">Breadcrumbs</a></li><li><a href="/brix/gallery/calendar">Calendar</a></li><li><a href="/brix/gallery/colorpicker">ColorPicker</a></li><li><a href="/brix/gallery/datepicker">DatePicker</a></li><li><a href="/brix/gallery/dialog">Dialog</a></li><li><a href="/brix/gallery/dropdown">Dropdown</a></li><li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li><li><a href="/brix/gallery/kwicks">Kwicks</a></li><li><a href="/brix/gallery/loading">Loading</a></li><li><a href="/brix/gallery/pagination">Pagination</a></li><li><a href="/brix/gallery/slider">Slider</a></li><li><a href="/brix/gallery/starrating">StarRating</a></li><li><a href="/brix/gallery/switcher">Switcher</a></li><li><a href="/brix/gallery/tips">tips</a></li><li><a href="/brix/gallery/sidenav">SideNav</a></li><li><a href="/brix/gallery/timer">Timer</a></li>
 </ul>
 </section>
 </aside>
   <div id="page">
-    <article>
+    <div class="title-bar clearfix">
       <h1>fire</h1>
       
       <p class="caption">自定义事件</p>
       
+    </div>
+    <article>
       
-      <section><h2>fire</h2>
+      <section class="content"><h2>fire</h2>
 
 <p>给HelloWorld的show,hide方法中添加自定义事件show和hide</p>
 
-<div class="highlight"><pre><code class="js"><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">METHOD</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="js"><span class="c1">//事件的定义，提高代码阅读</span>
+<span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">FIRES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">show</span><span class="o">:</span><span class="s1">&#39;show&#39;</span><span class="p">,</span>
+    <span class="nx">hide</span><span class="o">:</span><span class="s1">&#39;hide&#39;</span>
+<span class="p">}</span>
+<span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">METHOD</span> <span class="o">=</span> <span class="p">{</span>
     <span class="nx">show</span><span class="o">:</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;el&#39;</span><span class="p">).</span><span class="nx">fadeIn</span><span class="p">();</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">fire</span><span class="p">(</span><span class="s1">&#39;show&#39;</span><span class="p">,{</span><span class="nx">data</span><span class="o">:</span><span class="s1">&#39;showdata&#39;</span><span class="p">});</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">fire</span><span class="p">(</span><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">FIRES</span><span class="p">.</span><span class="nx">show</span><span class="p">,{</span><span class="nx">data</span><span class="o">:</span><span class="s1">&#39;showdata&#39;</span><span class="p">});</span>
     <span class="p">},</span>
     <span class="nx">hide</span><span class="o">:</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;el&#39;</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">();</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">fire</span><span class="p">(</span><span class="s1">&#39;hide&#39;</span><span class="p">,{</span><span class="nx">data</span><span class="o">:</span><span class="s1">&#39;hidedata&#39;</span><span class="p">});</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">fire</span><span class="p">(</span><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">FIRES</span><span class="p">.</span><span class="nx">hide</span><span class="p">,{</span><span class="nx">data</span><span class="o">:</span><span class="s1">&#39;hidedata&#39;</span><span class="p">});</span>
     <span class="p">}</span>
 <span class="p">};</span>
 </code></pre>
@@ -119,3 +137,4 @@
   <script src="/brix/assets/js/log4javascript.js"></script>
   <script src="/brix/assets/js/post.js"></script>
 </body>
+</html>

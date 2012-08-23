@@ -208,9 +208,25 @@ body {
   text-align: center;
   font: 14px/1.5 normal Helvetica, Arial, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
 }
+#logo {
+  line-height: 1;
+}
+#logo .logo {
+  display: block;
+  background: url(../img/logo.png) no-repeat;
+  width: 118px;
+  height: 26px;
+  text-indent: -9999px;
+  opacity: 1;
+  -webkit-transition: opacity 0.15s ease-in;
+}
+#logo .logo:hover {
+  opacity: 0.7;
+}
 #site-nav {
   background: #4E6092;
   position: fixed;
+  _position: absolute;
   top: 0;
   left: 0;
   height: 32px;
@@ -238,15 +254,6 @@ body {
   height: 36px;
   line-height: 36px;
   background: #ddd;
-  background-color: rgba(222, 222, 222, 0.34);
-  background-image: -moz-linear-gradient(top, rgba(233, 233, 233, 0.3), rgba(208, 208, 208, 0.4));
-  background-image: -ms-linear-gradient(top, rgba(233, 233, 233, 0.3), rgba(208, 208, 208, 0.4));
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(233, 233, 233, 0.3)), to(rgba(208, 208, 208, 0.4)));
-  background-image: -webkit-linear-gradient(top, rgba(233, 233, 233, 0.3), rgba(208, 208, 208, 0.4));
-  background-image: -o-linear-gradient(top, rgba(233, 233, 233, 0.3), rgba(208, 208, 208, 0.4));
-  background-image: linear-gradient(top, rgba(233, 233, 233, 0.3), rgba(208, 208, 208, 0.4));
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(233, 233, 233, 0.3)', endColorstr='rgba(208, 208, 208, 0.4)', GradientType=0);
   border: 1px solid #ccc;
   border-radius: 2px;
 }
@@ -264,7 +271,6 @@ body {
 }
 #page hr.soften {
   height: 1px;
-  margin: 24px 0;
   background-image: -webkit-linear-gradient(left, transparent, rgba(0, 0, 0, 0.1), transparent);
   background-image: -moz-linear-gradient(left, transparent, rgba(0, 0, 0, 0.1), transparent);
   background-image: -ms-linear-gradient(left, transparent, rgba(0, 0, 0, 0.1), transparent);
@@ -292,9 +298,43 @@ body {
   padding: 0;
   background: none;
 }
+#logo {
+  margin: 0 0 20px;
+}
+#logo .logo {
+  float: left;
+  margin-right: 10px;
+}
+#logo .sub:link,
+#logo .sub:visited {
+  color: #4E6092;
+}
+#logo .sub:hover {
+  text-decoration: none;
+  color: #222D49;
+}
 #page {
-  margin: 70px auto 0;
+  margin: 0 auto;
+  padding-top: 70px;
   text-align: left;
+}
+#page .post {
+  padding: 24px 0;
+}
+#page .post .title-bar {
+  line-height: 1;
+  padding: 24px 0 20px;
+}
+#page .post .title-bar h2 {
+  margin: 0;
+}
+#page .post .title-bar h2,
+#page .post .title-bar .demo-link {
+  float: left;
+  margin-right: 20px;
+}
+#page .post .title-bar .demo-link {
+  margin-top: 10px;
 }
 #page .grid-showcase .show-grid {
   margin-top: 10px;
@@ -320,4 +360,7 @@ body {
 #page .grid-showcase .show-grid .show-grid .span10,
 #page .grid-showcase .show-grid .show-grid .span15 {
   background-color: #aaa;
+}
+#page .avatar-showcase {
+  background: #fff;
 }

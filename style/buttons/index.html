@@ -2,7 +2,8 @@
 <head>
   <meta charset="utf-8">
   <title>Brix &mdash; UX</title>
-  <!--[if lt IE 9]> <script>
+  <!--[if lt IE 9]>
+<script>
   // html5
   (function() {
       var tags = [
@@ -13,21 +14,35 @@
               i = 0, len = tags.length;
       for (; i < len; i++) document.createElement(tags[i]);
   })();
-</script> <![endif]-->
-  <link rel="stylesheet" type="text/css" href="/brix/assets/css/post.css">
-  <style>
-      #page {
-          margin-left: 201px;
-          max-width: 100%;
-      }
-      #page iframe {
-          width: 100%;
-      }
-  </style>
+</script>
+<![endif]-->
+  <link rel="stylesheet" type="text/css" href="/brix/dist/brix-min.css">
+  <link rel="stylesheet" type="text/css" href="/brix/assets/css/style.css">
 </head>
 <body>
-  Included file '_aside.html' not found in _includes directory
-  <div id="page">    <h3>Simple Buttons</h3>
+  <div id="site-nav">
+  <nav class="container">
+    <a href="/brix/">首页 Home</a>
+    <a href="/brix/#tutorial">入门 Tutorials</a>
+    <a href="/brix/#doc">文档 Doc</a>
+    <a href="/brix/style">样式 Style</a>
+    <a href="/brix/#about">关于 About</a>
+  </nav>
+</div>
+  <div id="page" class="container">
+    <h1 id="logo">
+      <a href="/brix/" class="logo">Brix</a>
+      <a href="/brix/style" class="sub">Style</a>
+    </h1>
+    <div id="page-nav" class="clearfix">
+      <nav>
+        <a href="/brix//style/buttons">Buttons</a>
+      </nav>
+    </div>
+    <div class="post">
+      <h2>Buttons</h2>
+      
+      <div class="content">    <h3>Simple Buttons</h3>
     <p>a, input, button。考虑IE67，不建议a与input或button混用</p>
     <a href="#" class="btn btn-red btn-xlarge">红色</a>
     <input type="button" class="btn btn-red btn-xlarge" value="红色" />
@@ -93,15 +108,9 @@
     <a href="#" class="btn btn-xsmall btn-blue"><i class="iconfont">ŝ</i> 发送私信</a>
     <a class="btn btn-disabled"><i class="iconfont">ŝ</i> 发送私信</a>
 </div>
-  <footer id="footer">
-    <div id="bottom-nav">
-      
-        <a rel="prev" href="/brix/style/forms">&larr; 上一篇</a>
-      
-      
-        <a rel="next" href="/brix/style/flowsteps">下一篇 &rarr;</a>
-      
     </div>
+  </div>
+  <footer id="footer">
   </footer>
   <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
 </body>

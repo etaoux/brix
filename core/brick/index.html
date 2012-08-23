@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>Brix &mdash; UX</title>
-  <!--[if lt IE 9]> <script>
+  <!--[if lt IE 9]>
+<script>
   // html5
   (function() {
       var tags = [
@@ -14,11 +15,21 @@
               i = 0, len = tags.length;
       for (; i < len; i++) document.createElement(tags[i]);
   })();
-</script> <![endif]-->
+</script>
+<![endif]-->
   <link rel="stylesheet" type="text/css" href="/brix/dist/brix-min.css">
   <link rel="stylesheet" type="text/css" href="/brix/assets/css/post.css">
 </head>
 <body>
+  <div id="site-nav">
+  <nav class="container">
+    <a href="/brix/">首页 Home</a>
+    <a href="/brix/#tutorial">入门 Tutorials</a>
+    <a href="/brix/#doc">文档 Doc</a>
+    <a href="/brix/style">样式 Style</a>
+    <a href="/brix/#about">关于 About</a>
+  </nav>
+</div>
   <aside id="aside">
   <div id="logo">
     <a href="/brix/">Brix</a>
@@ -34,18 +45,20 @@
   <h3>Gallery</h3>
   
   <ul class="entries">
-<li><a href="/brix/gallery/breadcrumbs">Breadcrumbs</a></li><li><a href="/brix/gallery/calendar">Calendar</a></li><li><a href="/brix/gallery/colorpicker">ColorPicker</a></li><li><a href="/brix/gallery/datepicker">DatePicker</a></li><li><a href="/brix/gallery/dialog">Dialog</a></li><li><a href="/brix/gallery/dropdown">Dropdown</a></li><li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li><li><a href="/brix/gallery/kwicks">Kwicks</a></li><li><a href="/brix/gallery/loading">Loading</a></li><li><a href="/brix/gallery/pagination">Pagination</a></li><li><a href="/brix/gallery/slider">Slider</a></li><li><a href="/brix/gallery/starrating">StarRating</a></li><li><a href="/brix/gallery/switcher">Switcher</a></li><li><a href="/brix/gallery/tips">tips</a></li><li><a href="/brix/gallery/sidenav">SideNav</a></li>
+<li><a href="/brix/gallery/breadcrumbs">Breadcrumbs</a></li><li><a href="/brix/gallery/calendar">Calendar</a></li><li><a href="/brix/gallery/colorpicker">ColorPicker</a></li><li><a href="/brix/gallery/datepicker">DatePicker</a></li><li><a href="/brix/gallery/dialog">Dialog</a></li><li><a href="/brix/gallery/dropdown">Dropdown</a></li><li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li><li><a href="/brix/gallery/kwicks">Kwicks</a></li><li><a href="/brix/gallery/loading">Loading</a></li><li><a href="/brix/gallery/pagination">Pagination</a></li><li><a href="/brix/gallery/slider">Slider</a></li><li><a href="/brix/gallery/starrating">StarRating</a></li><li><a href="/brix/gallery/switcher">Switcher</a></li><li><a href="/brix/gallery/tips">tips</a></li><li><a href="/brix/gallery/sidenav">SideNav</a></li><li><a href="/brix/gallery/timer">Timer</a></li>
 </ul>
 </section>
 </aside>
   <div id="page">
-    <article>
+    <div class="title-bar clearfix">
       <h1>Brick</h1>
       
       <p class="caption">继承自Chunk，是组件的父类</p>
       
+    </div>
+    <article>
       
-      <section><pre><code>设计思路:组件基类，完成组件渲染后的事件代理（既行为）。initialize是多有组件在渲染后的初始化方法
+      <section class="content"><pre><code>设计思路:组件基类，完成组件渲染后的事件代理（既行为）。initialize是多有组件在渲染后的初始化方法，destructor是析构方法
 </code></pre>
 
 <h2>配置</h2>
@@ -95,7 +108,13 @@
 
 <p>所有继承Brick的组件，在destroy时都调用到此函数。</p>
 
+<h3><code>destroy()</code></h3>
+
+<p>销毁brick</p>
+
 <h2>事件</h2>
+
+<p>无</p>
 </section>
     </article>
   </div>
@@ -108,3 +127,4 @@
   <script src="/brix/assets/js/log4javascript.js"></script>
   <script src="/brix/assets/js/post.js"></script>
 </body>
+</html>
