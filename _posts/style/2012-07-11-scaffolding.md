@@ -35,7 +35,7 @@ Brix Style 的 Reset 样式直接使用了 [Normalize.css](http://necolas.github
 .transition (@transition)
 #gradient > .vertical (@startColor: #555, @endColor: #333)
 #gradient > .striped (@color, @angle: -45deg)
-.ie7-inline-block ()
+.ie-inline-block ()
 .reset-filter ()
 .buttonBackground (@startColor, @endColor)
 .formFieldState (@textColor: #555, @borderColor: #ccc, @backgroundColor: #f5f5f5)
