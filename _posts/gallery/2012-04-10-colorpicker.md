@@ -11,6 +11,13 @@ caption: 颜色选择组件
 
 包含 [Brick](/brix/core/brick) 的所有配置
 
+### `trigger` {String|Node}
+
+触发节点或者容器节点
+
+### `triggerType` {Array}
+
+弹出状态下, 触发的事件, 例如：[‘click’,’focus’], 默认为[‘click’]
 ### `align` {Object}
 
 弹出组件对其方式
@@ -29,12 +36,17 @@ caption: 颜色选择组件
 
 ## 方法
 
-### `align(align)`
+### `show()`
 
-对齐 ColorPicker 到 node 的 points 点, 偏移 offset 处
+显示
 
-* @param  {Object} align 同配置参数align
+### `hide()`
 
+隐藏
+
+### `toggle()`
+
+切换显示隐藏
 
 ### `setHex()`
 

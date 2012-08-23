@@ -4,11 +4,23 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
         
     function DatePicker() {
         DatePicker.superclass.constructor.apply(this, arguments);
+        //绑定触发事件
+        var self = this,
+            trigger = S.one(self.get('trigger'));
+        if(trigger){
+            var triggerType = self.get('triggerType');
+            S.each(triggerType, function(v) {
+                trigger.on(v, function(e) {
+                    e.preventDefault();
+                    self.toggle();
+                })
+            });
+        }
     }
     DatePicker.Date = Calendar.Date;
     DatePicker.ATTRS = {
         trigger:{
-            value: 'body'
+            value: false
         },
         triggerType:{
             value:['click']
@@ -24,15 +36,13 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
         },
         align:{
             value:{
+                node:false,
                 points : ['bl', 'tl'],
                 offset : [0, 0]
-                } //设置对其方式
+            } //设置对其方式
         },
         notLimited:{
             value:false
-        },
-        autoRender: {
-            value: true
         },
         pages:{
             value:2
@@ -102,7 +112,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                     el = self.get('el'),
                     node = S.one(e.target),
                     trigger = S.one(self.get('trigger'));
-                if (!el.contains(node) && node[0] != trigger[0]&&(!self.calendar || !self.calendar.get('el').contains(node))) {
+                if (!el.contains(node) && trigger && node[0] != trigger[0]&&(!self.calendar || !self.calendar.get('el').contains(node))) {
                     self.hide();
                 }
             }
@@ -114,10 +124,10 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                 var self = this,
                     node = S.one(e.currentTarget),
                     date = Calendar.Date.parse(node.val())||new Date(),
-                    selected = Calendar.Date.parse(node.val());
+                    selected = Calendar.Date.parse(node.val()),
+                    align = S.clone(self.get('align'));
+                    align.node = node[0];
                 if(!self.calendar){
-                    var align = S.clone(self.get('align'));
-                    align.node = node;
                     self.calendar = new Calendar({
                         date:date,
                         selected:selected,
@@ -125,11 +135,8 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                         closable:true,
                         notLimited:self.get('notLimited'),
                         pages:self.get('pages'),
-                        align:align,
-                        trigger:node,
-                        triggerType:[]
+                        align:align
                     });
-
                     self.calendar.on('select',function(ev){
                         var t = self.calendar.get('trigger');
                         if(ev.date){
@@ -138,12 +145,12 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                         else{
                             t.val(NOTLIMITEDTEXT);
                         }
-                    })
-
+                    });
                 }
                 self.calendar.set('date',date);
                 self.calendar.set('selected',selected); 
                 self.calendar.set('trigger',node);
+                self.calendar.set('align',align);
                 self.calendar.show();
             }
         },
@@ -189,17 +196,17 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
     };
 
     DatePicker.METHOD = {
-        align: function() {
-            var self = this,
-                align = S.clone(self.get('align')),
-                trigger = S.one(self.get('trigger'));
-            align.node = trigger;
-            self.overlay.set('align', align);
-        },
         show: function() {
             var self = this;
+            if(!self.get('rendered')){
+                self.render();
+            }
             if (self.overlay) {
-                self.align();
+                var align = S.clone(self.get('align'));
+                if(!align.node){
+                    align.node = self.get('trigger');
+                }
+                self.overlay.set('align', align);
                 self.overlay.show();
                 self.fire(DatePicker.FIRES.show);
             }
@@ -221,7 +228,10 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                     self.hide();
                 }
             }
-        }
+            else{
+                self.show();
+            }
+        },
     };
 
     DatePicker.FIRES = {
@@ -235,28 +245,21 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
     };
     S.extend(DatePicker, Brick, {
         initialize: function() {
-            var self = this,
-                el = self.get('el'),
-                trigger = S.one(self.get('trigger'));
+            var self = this;
             self.overlay = new Overlay({
                 srcNode: '#' + self.get('id')
             });
             self.overlay.render();
-            var triggerType = self.get('triggerType');
-            S.each(triggerType, function(v) {
-                trigger.on(v, function(e) {
-                    e.preventDefault();
-                    self.toggle();
-                })
-            });
         },
         destructor: function() {
             var self = this;
             if(self.calender){
                 self.calender.destroy();
+                self.calender = null;
             }
             if (self.overlay) {
                 self.overlay.destroy();
+                self.overlay = null;
             }
         }
                 
