@@ -1784,11 +1784,11 @@ legend + .control-group {
   border-radius: 2px;
   *margin-right: .3em;
   margin-bottom: 0;
-  padding: 0 20px;
+  padding: 0 10px;
   *padding: 1px 10px;
   width: auto;
-  height: 28px;
-  line-height: 28px;
+  height: 21px;
+  line-height: 21px;
   font-size: 12px;
   font-weight: bold;
   cursor: pointer;
@@ -1999,6 +1999,7 @@ legend + .control-group {
 }
 .btn-size45,
 .btn-xlarge {
+  padding: 0 20px;
   height: 43px;
   line-height: 43px;
   font-size: 18px;
@@ -2009,6 +2010,7 @@ legend + .control-group {
 }
 .btn-size40,
 .btn-large {
+  padding: 0 20px;
   height: 38px;
   line-height: 38px;
   font-size: 14px;
@@ -2017,22 +2019,22 @@ legend + .control-group {
 .btn-large .iconfont {
   font-size: 14px!important;
 }
+.btn-size30,
+.btn-medium {
+  height: 28px;
+  line-height: 28px;
+  padding: 0 20px;
+}
 .btn-size28,
 .btn-small {
   height: 26px;
   line-height: 26px;
+  padding: 0 20px;
 }
 .btn-size25,
 .btn-xsmall {
   height: 23px;
   line-height: 23px;
-  padding: 0 10px;
-}
-.btn-size23,
-.btn-tiny {
-  height: 21px;
-  line-height: 21px;
-  padding: 0 10px;
 }
 /**
  * table
