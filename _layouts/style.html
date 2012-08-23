@@ -1,0 +1,32 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+  <title>Brix &mdash; UX</title>
+  {% include html5-shim.html %}
+  <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/dist/brix-min.css">
+  <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/assets/css/style.css">
+</head>
+<body>
+  {% include site-nav.html %}
+  <div id="page" class="container">
+    <h1 id="logo">
+      <a href="{{ site.baseurl }}/" class="logo">Brix</a>
+      <a href="{{ site.baseurl }}/style" class="sub">Style</a>
+    </h1>
+    <div id="page-nav" class="clearfix">
+      <nav>
+        <a href="{{ site.baseurl }}/{{ page.url }}">{{ page.title }}</a>
+      </nav>
+    </div>
+    <div class="post">
+      <h2>{{ page.title }}</h2>
+      {% if page.caption %}
+      <div class="caption">{{ page.caption }}</div>
+      {% endif %}
+      <div class="content">{{ content }}</div>
+    </div>
+  </div>
+  <footer id="footer">
+  </footer>
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+</body>

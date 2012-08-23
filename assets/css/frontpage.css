@@ -209,9 +209,25 @@ body {
   text-align: center;
   font: 14px/1.5 normal Helvetica, Arial, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
 }
+#logo {
+  line-height: 1;
+}
+#logo .logo {
+  display: block;
+  background: url(../img/logo.png) no-repeat;
+  width: 118px;
+  height: 26px;
+  text-indent: -9999px;
+  opacity: 1;
+  -webkit-transition: opacity 0.15s ease-in;
+}
+#logo .logo:hover {
+  opacity: 0.7;
+}
 #site-nav {
   background: #4E6092;
   position: fixed;
+  _position: absolute;
   top: 0;
   left: 0;
   height: 32px;
@@ -256,7 +272,6 @@ body {
 }
 #page hr.soften {
   height: 1px;
-  margin: 24px 0;
   background-image: -webkit-linear-gradient(left, transparent, rgba(0, 0, 0, 0.1), transparent);
   background-image: -moz-linear-gradient(left, transparent, rgba(0, 0, 0, 0.1), transparent);
   background-image: -ms-linear-gradient(left, transparent, rgba(0, 0, 0, 0.1), transparent);
@@ -288,21 +303,10 @@ body {
   margin: 0 0 20px;
   float: left;
 }
-#logo a {
-  display: block;
-  background: url(../img/logo.png) no-repeat;
-  width: 118px;
-  height: 26px;
-  text-indent: -9999px;
-  opacity: 1;
-  -webkit-transition: opacity 0.15s ease-in;
-}
-#logo a:hover {
-  opacity: 0.7;
-}
 #header {
   height: 361px;
-  margin: 70px auto 0;
+  padding-top: 70px;
+  margin: 0 auto;
   text-align: left;
   position: relative;
 }
@@ -362,6 +366,9 @@ body {
 #page h3 {
   font: 14px bold 'Architects Daughter', cursive, 'Hiragino Sans GB', Helvetica, Arial;
   color: #909090;
+}
+#page section {
+  padding: 30px 0;
 }
 #page .entries {
   margin: 1em 0;

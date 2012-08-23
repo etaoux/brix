@@ -1,6 +1,7 @@
 ---
 title: Scaffolding
 category: style
+layout: style
 ---
 
 ### Reset样式

@@ -4,7 +4,10 @@ css: style.css
 ---
 
 <div id="page" class="container">
-  <h1 id="logo"><a href="{{ site.baseurl }}/" class="logo">Brix</a> Style</h1>
+  <h1 id="logo">
+    <a href="{{ site.baseurl }}/" class="logo">Brix</a>
+    <a href="{{ site.baseurl }}/style" class="sub">Style</a>
+  </h1>
   <div id="page-nav" class="clearfix">
     <nav>
       {% for post in site.categories.style reversed %}
@@ -12,14 +15,19 @@ css: style.css
     </nav>
   </div>
   {% for post in site.categories.style reversed %}
-  <hr class="soften"/>
   <div class="post" id="{{ post.title | downcase | replace:' ', '-' }}">
-    <h2>{{ post.title }}</h2>
-    {% if post.caption %}
-    <div class="caption">{{ post.caption }}</div>
-    {% endif %}
+    <div class="title-bar clearfix">
+      <h2>{{ post.title }}</h2>
+      {% if post.demo %}
+      <a href="{{ site.baseurl }}/demo/style/{{ post.demo }}.html" class="demo-link">Demo</a>
+      {% endif %}
+      {% if post.caption %}
+      <div class="caption">{{ post.caption }}</div>
+      {% endif %}
+    </div>
     <div class="content">{{ post.content | rdiscount }}</div>
   </div>
+  <hr class="soften"/>
   {% endfor %}
 </div>
 

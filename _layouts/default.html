@@ -8,15 +8,7 @@
   <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/assets/css/{{ page.css || 'screen.css' }}">
 </head>
 <body>
-  <div id="site-nav">
-    <nav class="container">
-      <a href="{{ site.baseurl }}/">首页 Home</a>
-      <a href="{{ site.baseurl }}/#tutorial">入门 Tutorials</a>
-      <a href="{{ site.baseurl }}/#documentation">文档 Documentation</a>
-      <a href="{{ site.baseurl }}/style">样式 Style</a>
-      <a href="{{ site.baseurl }}/#about">关于 About</a>
-    </nav>
-  </div>
+  {% include site-nav.html %}
   {{ content }}
 </body>
 </html>
