@@ -22,6 +22,9 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
         ColorPicker.superclass.constructor.apply(this, arguments);
     }
     ColorPicker.ATTRS = {
+        min:{
+            value:false
+        },
         align: {
             value: {
                 node: '#test1',
@@ -36,12 +39,16 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             valueFn: function() {
                 return {
                     colorList: this.get('colorList'),
-                    color: this.get('color')
+                    color: this.get('color'),
+                    min:this.get('min')
                 };
             }
         },
+        autoRender:{
+            value:true
+        },
         tmpl: {
-            value: '<div class="colorpicker">' + '<div class="colorpicker-hd">' + '<ul>' + '{{#colorList}}' + '<li val="{{.}}" style="background-color:{{.}};"></li>' + '{{/colorList}}' + '</ul>' + '</div>' + '<div class="colorpicker-md">' + '<i class="iconfont icon-arrow icon-arrow-up">&#404</i>' + '</div>' + '<div class="colorpicker-bd">' + '<div class="picker-wrapper">' + '<div class="picker"></div>' + '<i class="iconfont icon-picker-indicator">&#470</i>' + '</div>' + '<div class="slide-wrapper">' + '<div class="slide"></div>' + '<i class="iconfont icon-slide-indicator">&#461</i>' + '</div>' + '</div>' + '<div class="colorpicker-fd">' + '<span class="bg" style="background-color:{{color}}"></span><input type="text" value="{{color}}"><a class="btn btn-size25 btn-confirm">确定</a>' + '</div>' + '</div>'
+            value: '<div class="colorpicker">' + '<div class="colorpicker-hd">' + '<ul>' + '{{#colorList}}' + '<li val="{{.}}" style="background-color:{{.}};"></li>' + '{{/colorList}}' + '</ul>' + '</div>' + '<div class="colorpicker-md">' + '<i class="iconfont icon-arrow {{^min}}icon-arrow-up{{/min}}">{{#min}}&#405{{/min}}{{^min}}&#404{{/min}}</i>' + '</div>' + '<div class="colorpicker-bd {{#min}}colorpicker-bd-min{{/min}}">' + '<div class="picker-wrapper">' + '<div class="picker"></div>' + '<i class="iconfont icon-picker-indicator">&#470</i>' + '</div>' + '<div class="slide-wrapper">' + '<div class="slide"></div>' + '<i class="iconfont icon-slide-indicator">&#461</i>' + '</div>' + '</div>' + '<div class="colorpicker-fd">' + '<span class="bg" style="background-color:{{color}}"></span><input type="text" value="{{color}}"><a class="btn btn-size25 btn-confirm">确定</a>' + '</div>' + '</div>'
         },
         color: {
             value: '#ffffff'
@@ -52,8 +59,9 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
         '.picker': {
             click: function(e) {
                 var self = this,
-                    left = e.offsetX,
-                    top = e.offsetY,
+                    offset = self.pickerNode.offset(),
+                    left = e.pageX-offset.left,
+                    top = e.pageY-offset.top,
                     width = self.pickerNode.width(),
                     height = self.pickerNode.height(),
                     s = left / width,
@@ -68,8 +76,9 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
         '.slide': {
             click: function(e) {
                 var self = this,
+                    offset = self.slideNode.offset(),
                     height = self.slideNode.height(),
-                    top = (e.offsetY>=height?height-1:e.offsetY),
+                    top = ((e.pageY-offset.top>=height)?height-1:e.pageY-offset.top),
                     h = top / height * 360;
                 self.setHsv({
                     h: h,
@@ -116,6 +125,14 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
                     });
                 }
             }
+        },
+        'input':{
+            'blur':function(e){
+                var self = this,v= S.one(e.currentTarget).val();
+                if(self.get('color')!=v){
+                    this.setHex(v);
+                }
+            }
         }
     };
 
@@ -131,7 +148,16 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
         align: function(align) {
             var self = this;
             self.overlay.set('align', align);
+        },
+        show:function(){
+            var self = this,
+                align = S.clone(self.get('align'));
+            self.align(align);
             self.overlay.show();
+        },
+        hide:function(){
+
+            self.overlay.hide();
         },
         /**
          * Convert HSV representation to RGB HEX string.
@@ -196,10 +222,10 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             var c = self.hsv2rgb(self.h, self.s, self.v);
 
             self.slideDragNode.css({
-                top: self.h * self.slideNode.height() / 360 - 5
+                top: Math.round(self.h * self.slideNode.height() / 360 - 5)
             });
-            var left = self.s * self.pickerNode.width() - 5,
-                top = (1 - self.v) * self.pickerNode.height() - 5;
+            var left = Math.round(self.s * self.pickerNode.width() - 5),
+                top = Math.round((1 - self.v) * self.pickerNode.height() - 5);
             self.pickerDragNode.css({
                 left: left,
                 top: top,
@@ -211,6 +237,7 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             self.get('el').one('.bg').css({
                 "background-color": c.hex
             });
+            self.set('color',c.hex);
             self.get('el').one('input').val(c.hex);
         },
         /**

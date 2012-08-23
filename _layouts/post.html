@@ -10,15 +10,17 @@
 <body>
   {% include aside.html %}
   <div id="page">
-    <article>
+    <div class="title-bar clearfix">
       <h1>{{ page.title }}</h1>
       {% if page.caption %}
       <p class="caption">{{ page.caption }}</p>
       {% endif %}
+    </div>
+    <article>
       {% if page.description %}
       <section class="description">{{ page.description | markdownify }}</section>
       {% endif %}
-      <section>{{ content }}</section>
+      <section class="content">{{ content }}</section>
     </article>
   </div>
   <div id="J_log" style="position:fixed;width:88px;height:18px;bottom:0;right:2px">
@@ -30,3 +32,4 @@
   <script src="/brix/assets/js/log4javascript.js"></script>
   <script src="/brix/assets/js/post.js"></script>
 </body>
+</html>

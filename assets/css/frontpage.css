@@ -239,15 +239,6 @@ body {
   height: 36px;
   line-height: 36px;
   background: #ddd;
-  background-color: rgba(222, 222, 222, 0.34);
-  background-image: -moz-linear-gradient(top, rgba(233, 233, 233, 0.3), rgba(208, 208, 208, 0.4));
-  background-image: -ms-linear-gradient(top, rgba(233, 233, 233, 0.3), rgba(208, 208, 208, 0.4));
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(233, 233, 233, 0.3)), to(rgba(208, 208, 208, 0.4)));
-  background-image: -webkit-linear-gradient(top, rgba(233, 233, 233, 0.3), rgba(208, 208, 208, 0.4));
-  background-image: -o-linear-gradient(top, rgba(233, 233, 233, 0.3), rgba(208, 208, 208, 0.4));
-  background-image: linear-gradient(top, rgba(233, 233, 233, 0.3), rgba(208, 208, 208, 0.4));
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(233, 233, 233, 0.3)', endColorstr='rgba(208, 208, 208, 0.4)', GradientType=0);
   border: 1px solid #ccc;
   border-radius: 2px;
 }
