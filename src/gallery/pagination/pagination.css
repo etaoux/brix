@@ -86,6 +86,7 @@
 .pagination-page .page-prev i,
 .pagination-page .page-next i {
   font-size: 12px;
+  float: left;
 }
 .pagination .pagination-count {
   float: left;
@@ -98,6 +99,11 @@
 .pagination .dropdown {
   float: left;
   margin: 0 5px;
+  height: 23px;
+  line-height: 23px;
+}
+.pagination .dropdown-list {
+  top: 24px;
 }
 .pagination input {
   margin-bottom: 0px;

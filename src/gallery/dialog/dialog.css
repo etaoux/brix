@@ -1,9 +1,9 @@
-.ux-overlay {
+.dialog {
   position: absolute;
   left: -99999px;
   top: -99999px;
 }
-.ux-overlay .ux-contentbox {
+.dialog .dialog-contentbox {
   padding: 30px;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -13,7 +13,7 @@
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
   border: 1px solid #ddd;
 }
-.ux-ext-close {
+.dialog .dialog-ext-close {
   position: absolute;
   top: 24px;
   right: 24px;
@@ -24,12 +24,12 @@
   display: block;
   cursor: default;
 }
-.ux-ext-close:hover .ux-ext-close-x {
+.dialog .dialog-ext-close:hover .dialog-ext-close-x {
   color: #488fcd;
   font-size: 28px;
   line-height: 28px;
 }
-.ux-ext-close-x {
+.dialog .dialog-ext-close-x {
   font-family: "uxiconfont";
   font-style: normal;
   color: #ccc;

@@ -1,40 +1,27 @@
-
-
 KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
-    // function _getContent(v, dir) {
-    //     var wrapper = {
-    //         'up': ['<div class="popup popup-up">', '<div class="popup-left"></div>', '<div class="popup-center">', '<div class="popup-content">' + v + '</div>', '</div>', '<div class="popup-right"></div>', '<div class="popup-bottom">', '<div class="popup-bottom-left"></div>', '<div class="popup-bottom-center">&nbsp;</div>', '<div class="popup-bottom-right"></div>', '</div>', '</div>'],
-    //         'right': ['<div class="popup-h popup-h-right">', '<div class="popup-h-top"></div>', '<div class="popup-h-center">', '<div class="popup-h-body">', '<div class="popup-content">' + v + '</div>', '</div>', '</div>', '<div class="popup-h-bottom"></div>', '</div>']
-    //     };
-    //     wrapper['down'] = wrapper['up'].slice(0);
-    //     wrapper['down'][0] = wrapper['down'][0].replace('popup-up', '');
-    //     wrapper['left'] = wrapper['right'].slice(0);
-    //     wrapper['left'][0] = wrapper['left'][0].replace('popup-h-right', '');
-    //     return wrapper[dir].join('');
-    // }
-
-    // function _setWidth(v, dir) {
-    //     switch (dir) {
-    //     case 'up':
-    //     case 'down':
-    //         if (v < 320) {
-    //             return 320;
-    //         }
-    //         break;
-    //     case 'left':
-    //     case 'right':
-    //         if (v < 145) {
-    //             return 145;
-    //         }
-    //         break;
-    //     }
-    //     return v;
-    // }
     function Dialog(config) {
         var self = this;
         Dialog.superclass.constructor.apply(this, arguments);
+        //绑定触发事件
+        var self = this,
+            trigger = S.one(self.get('trigger'));
+        if(trigger){
+            var triggerType = self.get('triggerType');
+            S.each(triggerType, function(v) {
+                trigger.on(v, function(e) {
+                    e.preventDefault();
+                    self.toggle();
+                })
+            });
+        }
     }
     Dialog.ATTRS = {
+        trigger:{
+            value:false
+        },
+        triggerType:{
+            value:['click']
+        },
         start: {
             value: {
                 left: 600,
@@ -71,28 +58,11 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
                 return dir;
             }
         },
-        // width: {
-        //     valueFn: function(v) {
-        //         if (!v) {
-        //             return v;
-        //         }
-        //         var self = this;
-        //         var dir = self.get('dir');
-        //         return _setWidth(v, dir);
-        //     },
-        //     setter: function(v) {
-        //         var self = this;
-        //         var dir = self.get('dir');
-        //         return _setWidth(v, dir);
-        //     }
-        // },
-        // elCls: {
-        //     valueFn: function() {
-        //         return 'dialog-' + this.get('dir');
-        //     }
-        // },
+        elCls:{
+            value:'dialog'
+        },
         prefixCls: {
-            value: 'ux-'
+            value: 'dialog-'
         },
         duration: {
             value: 0.3
@@ -106,14 +76,6 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
         mask: {
             value: false
         },
-        // content: {
-        //     valueFn: function(v) {
-        //         return _getContent('', this.get('dir'));
-        //     },
-        //     setter: function(v) {
-        //         return _getContent(v, this.get('dir'));
-        //     }
-        // },
         tmpl: {
             value: null
         },
@@ -127,13 +89,13 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
             var self = this;
             //渲染模板内容
             self.on('afterRenderUI', function() {
-                var closeBtn = self.get('el').one('.ux-ext-close');
-                closeBtn.one('.ux-ext-close-x').html('&#223');
+                var closeBtn = self.get('el').one('.dialog-ext-close');
+                closeBtn.one('.dialog-ext-close-x').html('&#223');
                 closeBtn.on('mouseenter',function(e){
-                    closeBtn.one('.ux-ext-close-x').html('&#378');
+                    closeBtn.one('.dialog-ext-close-x').html('&#378');
                 });
                 closeBtn.on('mouseleave',function(e){
-                    closeBtn.one('.ux-ext-close-x').html('&#223');
+                    closeBtn.one('.dialog-ext-close-x').html('&#223');
                 });
                 if (self.get('tmpl')) {
                     self.pagelet = new Pagelet({
@@ -193,6 +155,26 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
                     self._visibilityChange(v);
                 }
             });
+        },
+        destructor:function(){
+            var self = this;
+            if(self.pagelet){
+                self.pagelet.destroy();
+                self.pagelet = null;
+            }
+        },
+        toggle: function() {
+            var self = this,el = self.get('el');
+            if(el){
+                if (el.css('visibility') == 'hidden') {
+                    self.show();
+                } else {
+                    self.hide();
+                }
+            }
+            else{
+                self.show();
+            }
         }
     });
     return Dialog;

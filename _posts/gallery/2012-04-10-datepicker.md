@@ -13,7 +13,7 @@ caption: 时间选择
 
 ### `trigger` {String|Node}
 
-触发节点或者容器节点
+触发节点
 
 ### `triggerType` {Array}
 
@@ -25,6 +25,7 @@ caption: 时间选择
 
 {% highlight js %}
  {
+ 	node:false,
     points: ['cc','cc'], // ['tr', 'tl'] 表示 colorpicker 的 tl 与参考节点的 tr 对齐
     offset: [0, 0]      // 偏移值，有效值为 [n, m]
 }
