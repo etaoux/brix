@@ -1416,7 +1416,6 @@ textarea[readonly] {
 .control-group.warning input,
 .control-group.warning select,
 .control-group.warning textarea {
-  color: #c09853;
   border-color: #c09853;
 }
 .control-group.warning input:focus,
@@ -1441,7 +1440,6 @@ textarea[readonly] {
 .control-group.error input,
 .control-group.error select,
 .control-group.error textarea {
-  color: #ec0000;
   border-color: #ec0000;
 }
 .control-group.error input:focus,
@@ -1466,7 +1464,6 @@ textarea[readonly] {
 .control-group.success input,
 .control-group.success select,
 .control-group.success textarea {
-  color: #468847;
   border-color: #468847;
 }
 .control-group.success input:focus,
