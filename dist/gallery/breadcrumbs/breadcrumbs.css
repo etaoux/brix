@@ -45,6 +45,27 @@
   color: #666;
   text-decoration: none;
 }
+.breadcrumbs .dropdown {
+  border: 0px;
+  padding: 1px;
+  _float: left;
+}
+.breadcrumbs .dropdown .icon-arrow-down {
+  top: 9px;
+  right: 9px;
+}
+.breadcrumbs .dropdown .icon-arrow-down {
+  top: 8px;
+  right: 8px;
+}
+.breadcrumbs .dropdown .dropdown-hd {
+  background: none;
+}
+.breadcrumbs .dropdownfocus {
+  border: 1px solid #ddd;
+  border-bottom: 1px solid #bbb;
+  padding: 0;
+}
 .breadcrumbs {
   *zoom: 1;
 }
