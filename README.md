@@ -52,4 +52,9 @@ grunt
 * tasks : 存放打包脚本目录
 * tools : 辅助工具目录
 
+### 说明
+* 组件开发使用一般使用到src, demo两个目录， src是组件的源代码目录，进入目录后，再选择gallery还是style，同时开发时的demo文件存放在demo目录，对应gallery或style。这两个目录是直接提交到master分支。
+* 文档是在gh-pages-source分支，主要是操作_post目录，gallery组件直接放在_post/gallery目录下; style放在_post/style目录下。
+* gh-pages-source分支下不要去修改src与demo目录，提交也是无效的。
+* 组件中使用到的图片，都传到tps中，项目中直接使用链接地址。
 
