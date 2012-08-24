@@ -57,6 +57,7 @@
   margin-bottom: 8px;
 }
 .datepicker .datepicker-bd .range {
+  *zoom: 1;
   margin-bottom: 15px;
 }
 .datepicker .datepicker-bd .range .input-split {

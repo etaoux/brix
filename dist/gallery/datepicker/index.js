@@ -44,6 +44,13 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                 })
             });
         }
+
+        var isCompare = self.get('isCompare');
+        if(isCompare){
+            self.on('afterCompareTextChange',function(ev){
+                self.setChunkData('compareText',self.get('compareText'));
+            })
+        }
     }
     DatePicker.Date = Calendar.Date;
     DatePicker.ATTRS = {
@@ -63,13 +70,13 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
             }
         },
         isQuick:{
-            value:true,
+            value:true
         },
         isCompare:{
             value:false
         },
         compareText:{
-            value:'过去七天'
+            value:'过去7天'
         },
         align:{
             value:{
@@ -88,7 +95,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
             valueFn:function(){
                 var self = this,
                     id = self.get('id') || 'brix_datepicker_' + S.guid();
-                return '<div id="'+id+'" class="datepicker">'+
+                return '<div id="'+id+'" bx-name="datepicker" class="datepicker">'+
                             '<div class="datepicker-bd">'+
                                 '{{^isCompare}}'+
                                 '<label>日期范围：</label>'+
@@ -100,8 +107,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                                 '{{/isCompare}}'+
                                 '{{#isCompare}}'+
                                 '<label>当前日期：</label>'+
-                                '<div class="range">'+
-                                    '{{compareText}}'+
+                                '<div bx-tmpl="datepicker" bx-datakey="compareText" class="range">{{compareText}}'+
                                 '</div>'+
                                 '<label>与其他日期比较：(须同样天数)</label>'+
                                 '<div class="range">'+
