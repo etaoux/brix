@@ -387,7 +387,7 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 			var self = this;
 			this._checkerRunner = setInterval(function() {
 				var xhr, serverDate, serverTime, timeBefore = new Date().getTime(), timeAfter;
-                var url = window.location.protocol + '//' + window.location.host + '?t=' + (+new Date())
+                var url = window.location.protocol + '//' + window.location.host + '?t=' + (+new Date());
 				function getServerDate(data, textStatus, xhr) {
 					//取得响应头时间
 					serverDate = new Date(xhr.getResponseHeader('Date'));
