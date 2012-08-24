@@ -136,10 +136,10 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     s = '';
 
                 if (showTime || multiSelect) {
-                    s += '<a class="btn btn-calendar-confirm">确定</a>'
+                    s += '<a class="btn btn-size25 btn-calendar-confirm">确定</a>'
                 }
                 if (notLimited) {
-                    s += '<a class="btn btn-calendar-notlimited">不限</a>'
+                    s += '<a class="btn btn-size25 btn-calendar-notlimited">不限</a>'
                 }
                 return s;
             }
@@ -775,7 +775,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
                             '<div class="calendar-year-month-pupop" >'+
                                 '<p bx-tmpl="page" bx-datakey="month,'+id+'_select_html">{{{'+id+'_select_html}}}</p>'+
                                 '<p bx-tmpl="page" bx-datakey="year">年:<input type="text" value="{{year}}" onfocus="this.select()"></p>'+
-                                '<p><a class="btn btn-pupop-confirm">确定</a><a class="btn-pupop-cancel" href="#">取消</a></p>'+
+                                '<p><a class="btn btn-size25 btn-pupop-confirm">确定</a><a class="btn-pupop-cancel" href="#">取消</a></p>'+
                             '</div>'+
                         '</div>'+
                         '<div bx-tmpl="page" bx-datakey="startDay,'+id+'_days_html" class="calendar-page-wbd">'+

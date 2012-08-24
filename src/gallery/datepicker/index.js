@@ -1,6 +1,34 @@
 KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) {
-    var QUICKHTML = '<div class="bd-right"><label>快捷日期:</label><ul>{$QUICKHTML}</ul></div>',
-        NOTLIMITEDTEXT = '不限';
+
+    function getRecentlyDate(n) {
+        var dt = 1000 * 60 * 60 * 24; //一天的毫秒数
+        var d = new Date();
+        var ct = d.getTime();
+
+        d.setTime(ct + dt * n)
+        return d;
+    };
+    var date=new Date(),
+        yestoday = getRecentlyDate(-1),
+        quickDates = { //快捷日期组
+            'today': {
+                text: '今天',
+                dateRange: [date, date]
+            },
+            'yestoday': {
+                text: '昨天',
+                dateRange: [yestoday, yestoday]
+            },
+            'days7before': {
+                text: '过去7天',
+                dateRange: [getRecentlyDate(-7), yestoday]
+            },
+            'days14before': {
+                text: '过去15天',
+                dateRange: [getRecentlyDate(-15), yestoday]
+            }
+        };
+    var NOTLIMITEDTEXT = '不限';
         
     function DatePicker() {
         DatePicker.superclass.constructor.apply(this, arguments);
@@ -26,13 +54,22 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
             value:['click']
         },
         quickDates:{
-                value:null
-                },//快捷日期数组
+                value:quickDates //快捷日期
+        },
         dates:{
             value:{
                 start:null,//开始日期
                 end:null//结束日期
             }
+        },
+        isQuick:{
+            value:true,
+        },
+        isCompare:{
+            value:false
+        },
+        compareText:{
+            value:'过去七天'
         },
         align:{
             value:{
@@ -51,20 +88,34 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
             valueFn:function(){
                 var self = this,
                     id = self.get('id') || 'brix_datepicker_' + S.guid();
-                return '<div id="'+id+'" class="datepicker {{#quickDates}}datepicker-quick{{/quickDates}}">'+
-                            '<div class="datepicker-bd {{#changeLR}}datepicker-bd-change-lr{{/changeLR}}">'+
-                                '<div class="bd-left">'+
-                                    '<label>日期范围：</label>'+
-                                    '<div class="range">'+
-                                        '<input value="{{start}}">'+
-                                        '<span class="bd-left-split">-</span>'+
-                                        '<input value="{{end}}">'+
-                                    '</div>'+
-                                    '<div class="operator">'+
-                                        '<a class="btn btn-confirm" href="#">确定</a><a class="btn-cancel" href="#">取消</a>'+
-                                    '</div>'+
+                return '<div id="'+id+'" class="datepicker">'+
+                            '<div class="datepicker-bd">'+
+                                '{{^isCompare}}'+
+                                '<label>日期范围：</label>'+
+                                '<div class="range">'+
+                                    '<input value="{{start}}">'+
+                                    '<span class="input-split">-</span>'+
+                                    '<input value="{{end}}">'+
                                 '</div>'+
+                                '{{/isCompare}}'+
+                                '{{#isCompare}}'+
+                                '<label>当前日期：</label>'+
+                                '<div class="range">'+
+                                    '{{compareText}}'+
+                                '</div>'+
+                                '<label>与其他日期比较：(须同样天数)</label>'+
+                                '<div class="range">'+
+                                    '<input value="{{start}}">'+
+                                    '<span class="input-split">-</span>'+
+                                    '<input value="{{end}}">'+
+                                '</div>'+
+                                '{{/isCompare}}'+
+                                '{{#isQuick}}'+
                                 '{{{'+id+'_quick_html}}}'+
+                                '{{/isQuick}}'+
+                                '<div class="operator">'+
+                                    '<a class="btn btn-size25 btn-confirm" href="#">确定</a><a class="btn-cancel" href="#">取消</a>'+
+                                '</div>'+
                             '</div>'+
                         '</div>';
             }
@@ -72,36 +123,33 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
         data:{
             valueFn:function(){
                 var self = this,
-                align = self.get('align'),
-                quickDates = self.get('quickDates'),
+                isQuick = self.get('isQuick'),
+                isCompare = self.get('isCompare'),
+                compareText = self.get('compareText'),
                 dates = self.get('dates'),
                 start = dates.start?Calendar.Date.format(dates.start,'isoDate'):NOTLIMITEDTEXT,
-                end = dates.end?Calendar.Date.format(dates.end,'isoDate'):NOTLIMITEDTEXT,
-                changeLR = false;
-                if(align.points[0]=='br'&&align.points[1]=='tr'&&quickDates){
-                    changeLR  = true;
-                }
+                end = dates.end?Calendar.Date.format(dates.end,'isoDate'):NOTLIMITEDTEXT;
                 return {
                     start:start,
                     end:end,
-                    quickDates:quickDates,
-                    changeLR:changeLR
+                    isQuick:isQuick,
+                    isCompare:isCompare,
+                    compareText:compareText
                 }
+
             }
         }
     };
     DatePicker.RENDERER = {
         quick:{
             html:function(context){
-                var self = context,quickDates = self.get('quickDates');
-                if(!quickDates){
-                    return '';
-                }
-                var html = '';
+                var quickDates = context.get('quickDates');
+                var html = '<label>快捷日期:</label><ul class="quick-list">';
                 for(var quick in quickDates){
                     html+='<li><a class="quick-item" key="'+quick+'" href="#">'+quickDates[quick].text+'</a></li>';
                 }
-                return QUICKHTML.replace('{$QUICKHTML}',html);
+                html+='</ul>';
+                return html;
             }
         }
     };
@@ -158,10 +206,15 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
             click:function(e){
                 e.preventDefault();
                 var self = this,
+                el = self.get('el'),
+                quickListNode = el.one('.quick-list');
                 dates = {
                     isQuick : false
                 },
-                inputs = self.get('el').one('.range').all('input');
+                inputs = el.all('input');
+                if(quickListNode){
+                    quickListNode.all('a').removeClass('quick-current');
+                }
                 dates.start = Calendar.Date.parse(inputs.item(0).val());
                 dates.end = Calendar.Date.parse(inputs.item(1).val());
                 S.log(dates);
@@ -179,18 +232,22 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
             click:function(e){
                 e.preventDefault();
                 var self = this,
+                    node = S.one(e.currentTarget),
+                    el = self.get('el'),
                     quickDates = self.get('quickDates'),
                     key = S.one(e.currentTarget).attr('key'),
                     quick = quickDates[key],
                     dates = {
                         isQuick : true
                     };
-                    dates.start = quick.dateRange[0];
-                    dates.end = quick.dateRange[1];
-                    dates.quickDate = quick;
-                    S.log(dates);
-                    self.fire(DatePicker.FIRES.select,dates);
-                    self.hide();
+                el.one('.quick-list').all('a').removeClass('quick-current');
+                node.addClass('quick-current');
+                dates.start = quick.dateRange[0];
+                dates.end = quick.dateRange[1];
+                dates.quickDate = quick;
+                S.log(dates);
+                self.fire(DatePicker.FIRES.selected,dates);
+                self.hide();
             }
         }
     };
@@ -231,7 +288,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
             else{
                 self.show();
             }
-        },
+        }
     };
 
     DatePicker.FIRES = {
