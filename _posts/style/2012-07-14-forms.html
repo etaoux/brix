@@ -1,6 +1,8 @@
 ---
 title: Forms
+demo: forms
 category: style
+layout: style
 ---
 
 <h4>默认样式</h4>
@@ -112,6 +114,34 @@ category: style
         </label>
     </div>
 </form>
+{% highlight html %}
+<form class="form-horizontal">
+    <div class="control-group disabled">
+        <label class="control-label" for="input04">表单项名称:</label>
+        <div class="controls">
+            <input id="input04" class="disabled" disabled placeholder="placeholder占位" />
+        </div>
+    </div>
+    <label class="control-label">单选按钮:</label>
+    <div bx-name="form" class="controls">
+        <label class="radio inline disabled">
+            <input type="radio" id="optionsRadio06" disabled />已禁用
+        </label>
+        <label class="radio inline checked-disabled">
+            <input type="radio" id="optionsRadio07" checked disabled />已禁用
+        </label>
+    </div>
+    <label class="control-label">多选按钮:</label>
+    <div bx-name="form" class="controls">
+        <label class="checkbox inline disabled">
+            <input type="checkbox" id="optionsCheckbox03" disabled />3
+        </label>
+        <label class="checkbox inline checked-disabled">
+            <input type="checkbox" id="optionsCheckbox04" checked disabled />4
+        </label>
+    </div>
+</form>
+{% endhighlight %}
 <h5>验证状态</h5>
 <form class="form-horizontal">
     <div class="control-group error">
@@ -122,6 +152,17 @@ category: style
         </div>
     </div>
 </form>
+{% highlight html %}
+<form class="form-horizontal">
+    <div class="control-group error">
+        <label class="control-label" for="input03">表单项名称:</label>
+        <div class="controls">
+            <input id="input03" placeholder="placeholder占位" value="妈妈说这样是不对的" />
+            <p class="help-block">说明解释类提示</p>
+        </div>
+    </div>
+</form>
+{% endhighlight %}
 <h4>其它：垂直表单样式</h4>
 <form class="well">
     <legend>垂直表单Demo</legend>
@@ -147,3 +188,29 @@ category: style
         </label>
     </div>
 </form>
+{% highlight html %}
+<form class="well">
+    <legend>垂直表单Demo</legend>
+    <label class="control-label" for="input01">输入框:</label>
+    <input id="input01" placeholder="placeholder占位" value="文字" />
+    <span class="help-block">说明/提示文字</span>
+    <label class="control-label">单选按钮:</label>
+    <div bx-name="form" class="controls">
+        <label class="radio inline">
+            <input type="radio" id="optionsRadio03" checked />单点我
+        </label>
+        <label class="radio inline">
+            <input type="radio" id="optionsRadio04" />别点我
+        </label>
+    </div>
+    <label class="control-label">多选按钮:</label>
+    <div bx-name="form" class="controls">
+        <label class="checkbox inline">
+            <input type="checkbox" id="optionsCheckbox05" />3
+        </label>
+        <label class="checkbox inline">
+            <input type="checkbox" id="optionsCheckbox06" checked />4
+        </label>
+    </div>
+</form>
+{% endhighlight %}
