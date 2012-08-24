@@ -384,10 +384,10 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 			if(this._status) return;
 			var AJUST_TIME = ajustTime || 3600000;
 			//定时获取服务器时间来矫正计时器
-			var self = this, url = window.location.protocol + '//' + window.location.host;
+			var self = this;
 			this._checkerRunner = setInterval(function() {
 				var xhr, serverDate, serverTime, timeBefore = new Date().getTime(), timeAfter;
-                url += '?t=' + (+new Date());
+                var url = window.location.protocol + '//' + window.location.host + '?t=' + (+new Date())
 				function getServerDate(data, textStatus, xhr) {
 					//取得响应头时间
 					serverDate = new Date(xhr.getResponseHeader('Date'));
