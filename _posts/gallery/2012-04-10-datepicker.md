@@ -59,6 +59,18 @@ caption: 时间选择
 }
 {% endhighlight %}
 
+### `isQuick` {Boolen}
+
+是否快捷日期
+
+### `isCompare` {Boolen}
+
+是否比较日期
+
+### `compareText` {String}
+
+比较的字符串
+
 ### `pages` {Date}
 
 日历的页数, 默认为1, 包含一页日历
