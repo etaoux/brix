@@ -11,6 +11,7 @@
     <body style="margin:0px;padding-top:40px">
         <a id="test1" class="btn" href="#">时间段</a>
         <a id="test2" class="btn" href="#">比较</a>
+        <a id="update" class="btn" href="#">修改比较时间</a>
         <a id="test3" class="btn" href="#">测试3</a>
         <a style="float:right;margin-right:5px;" id="test4" class="btn" href="#">测试4</a>
         <script>
@@ -34,7 +35,10 @@
                         S.one('#test2').html(Brix_Date.format(e.start,'isoDate') + '至' +Brix_Date.format(e.end,'isoDate'));
                     });
                     
-
+                    S.one('#update').on('click',function(e){
+                        e.halt();
+                        datepicker2.set('compareText','过去14天')
+                    });
                     
 
                     var datepicker3 = new DatePicker({
@@ -45,6 +49,9 @@
                         },
                         isQuick:false
                     });
+
+
+                    
 
                     var datepicker4 = new DatePicker({
                         trigger: '#test4',
