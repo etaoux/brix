@@ -26,11 +26,13 @@
   visibility: hidden;
   left: -9999px;
   top: -9999px;
-  width: 180px;
+  width: 200px;
+  background-color: #fff;
   -webkit-text-size-adjust: none;
 }
 .datepicker .datepicker-bd {
   *zoom: 1;
+  padding: 15px;
 }
 .datepicker .datepicker-bd {
   *zoom: 1;
@@ -52,65 +54,63 @@
   clear: both;
 }
 .datepicker .datepicker-bd label {
-  margin-bottom: 0px;
+  margin-bottom: 8px;
 }
-.datepicker .datepicker-bd .bd-left {
-  float: left;
-  padding: 10px;
-  width: 160px;
-  min-height: 115px;
-  _height: 115px;
-  position: relative;
+.datepicker .datepicker-bd .range {
+  *zoom: 1;
+  margin-bottom: 15px;
 }
-.datepicker .datepicker-bd .bd-left .range {
-  margin-top: 8px;
+.datepicker .datepicker-bd .range .input-split {
+  margin: 0 8px;
 }
-.datepicker .datepicker-bd .bd-left input {
+.datepicker .datepicker-bd input {
   width: 64px;
   margin-bottom: 0px;
   padding-left: 5px;
   padding-right: 4px;
 }
-.datepicker .datepicker-bd .bd-left .bd-left-split {
-  margin: 0 2px;
+.datepicker .datepicker-bd ul.quick-list {
+  *zoom: 1;
+  margin-bottom: 15px;
+  margin-left: -8px;
 }
-.datepicker .datepicker-bd .bd-left .operator {
-  position: absolute;
-  bottom: 10px;
+.datepicker .datepicker-bd ul.quick-list {
+  *zoom: 1;
 }
-.datepicker .datepicker-bd .bd-left .operator .btn {
-  margin-right: 8px;
+.datepicker .datepicker-bd ul.quick-list::before,
+.datepicker .datepicker-bd ul.quick-list::after {
+  display: table;
+  content: "";
 }
-.datepicker .datepicker-bd .bd-right {
+.datepicker .datepicker-bd ul.quick-list::after {
+  clear: both;
+}
+.datepicker .datepicker-bd ul.quick-list:before,
+.datepicker .datepicker-bd ul.quick-list:after {
+  display: table;
+  content: "";
+}
+.datepicker .datepicker-bd ul.quick-list:after {
+  clear: both;
+}
+.datepicker .datepicker-bd ul.quick-list li {
   float: left;
-  padding: 10px;
-  background-color: #fafafa;
-  min-height: 115px;
-  _height: 115px;
-  width: 160px;
+  height: 25px;
+  line-height: 25px;
+  width: 88px;
 }
-.datepicker .datepicker-bd .bd-right li {
-  width: 80px;
-  float: left;
-  margin-top: 5px;
-}
-.datepicker .datepicker-bd .bd-right li a.item {
+.datepicker .datepicker-bd ul.quick-list li a.quick-item {
   display: inline-block;
-  padding: 0 3px;
+  padding: 0 8px;
+  white-space: nowrap;
 }
-.datepicker .datepicker-bd .bd-right li a.current {
+.datepicker .datepicker-bd ul.quick-list li a.quick-current {
   background-color: #488fcd;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
   color: #fff;
 }
-.datepicker .datepicker-bd-change-lr .bd-left {
-  float: right;
-}
-.datepicker .datepicker-bd-change-lr .bd-right {
-  float: right;
-}
-.datepicker-quick {
-  width: 360px;
+.datepicker .datepicker-bd .operator .btn {
+  margin-right: 8px;
 }

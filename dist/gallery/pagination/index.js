@@ -332,9 +332,9 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 arrHTML.push('<div class="pagination-info"><span>当前</span><span class="b">' + (count == 0 ? 0 : ((index - 1) * size + 1)) + '-' + Math.min(index * size, count) + '</span><span>条</span><span class="mr">共</span><span class="b">' + count + '</span><span>条</span><span class="mr">每页展现</span>');
                 if (self.get('sizeChange')) {
                     var sizes = self.get('sizes');
-                    arrHTML.push('<div class="dropdown">' + '<span class="dropdown-hd">' + '<span class="dropdown-text" value="' + S.indexOf(size, sizes) + '">' + size + '</span>' + '<i class="iconfont icon-arrow-down">&#405</i>' + '</span>' + '<ul class="dropdown-list">');
+                    arrHTML.push('<div class="dropdown">' + '<span class="dropdown-hd">' + '<span class="dropdown-text" value="' + S.indexOf(size, sizes) + '">' + size + '</span>' + '</span>' + '<ul class="dropdown-list dropdown-list-noicon">');
                     S.each(sizes, function(s, i) {
-                        arrHTML.push('<li class="dropdown-item' + (s == size ? ' dropdown-itemselected' : '') + '"><span value="' + i + '">' + s + '</span><i class="iconfont icon-ok">&#126</i></li>');
+                        arrHTML.push('<li class="dropdown-item' + (s == size ? ' dropdown-itemselected' : '') + '"><span value="' + i + '">' + s + '</span></li>');
                     });
                     arrHTML.push('</ul></div>');
                 } else {

@@ -174,7 +174,8 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
         _renderTmpl: function(bricks, key, data) {
             S.each(bricks, function(b) {
                 S.each(b.tmpls, function(o, id) {
-                    if (S.inArray(key, o.datakey)) {
+                    var node = S.one('#' + o.id);
+                    if (node&&S.inArray(key, o.datakey)) {
                         //这里数据是否需要拼装，还是传入完整的数据，待考虑
                         var newData = {};
                         S.each(o.datakey, function(item) {
@@ -189,7 +190,7 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
                             newData[temparr[length - 1]] = tempdata;
                             tempdata = null;
                         });
-                        S.one('#' + o.id).html(o.tmpler.to_html(newData));
+                        node.html(o.tmpler.to_html(newData));
                         newData = null;
                     }
                 });

@@ -136,10 +136,10 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     s = '';
 
                 if (showTime || multiSelect) {
-                    s += '<a class="btn btn-calendar-confirm">确定</a>'
+                    s += '<a class="btn btn-size25 btn-calendar-confirm">确定</a>'
                 }
                 if (notLimited) {
-                    s += '<a class="btn btn-calendar-notlimited">不限</a>'
+                    s += '<a class="btn btn-size25 btn-calendar-notlimited">不限</a>'
                 }
                 return s;
             }
