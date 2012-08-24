@@ -316,7 +316,12 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 			hours = hours % 24;
 			mins = floor(leftTime / 60 % 60);
 			secs = leftTime % 60;
-
+			if (this.config.style == "simple") {
+				days = 0;
+				hours = floor(leftTime / 3600);
+				mins = floor(leftTime / 60 % 60);
+				secs = leftTime % 60;
+			}
 			//补零
 			if(hours < 10)
 				hours = '0' + hours;

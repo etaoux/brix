@@ -4,7 +4,7 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
     }
     Dropdown.ATTRS = {
         mode:{
-            value:1,
+            value:1
         }
     }
 
