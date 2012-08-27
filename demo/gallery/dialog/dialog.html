@@ -75,16 +75,13 @@
                             opacity:1
                         },
                         width:300,
-                        duration:0.3
+                        duration:0.3,
+                        trigger:'#btnShow'
                     }
                     var dialog = new Dialog(config);
                     dialog.on('hide',function(){console.log('hide')});
                     dialog.on('show',function(){console.log('show')});
-                    dialog.show();
 
-                    S.one('#btnShow').on('click',function(){
-                        dialog.show();
-                    });
                     S.one('#btnHide').on('click',function(){
                         dialog.hide();
                     });

@@ -1,0 +1,283 @@
+.searchbox {
+}
+
+.s-ipt-inner input,
+.s-menu-selected i,
+.s-ipt-inner label,
+.s-btn-clear,
+.s-btn-submit {
+    background: url(http://img03.taobaocdn.com/tps/i3/T1b8fAXfpnXXX5DWD4-200-260.png) no-repeat -9999px -9999px;
+}
+
+.searchbox form {
+    margin: 0;
+}
+
+.searchbox fieldset {
+    /*修复tab下拉被单选钮压住的bug*/
+    *position: relative;
+    *z-index: 1;
+}
+
+.searchbox legend {
+    display: none;
+}
+
+.searchbox-outer {
+    padding: 3px;
+    -moz-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-transition: background-color 0.25s ease-out 0s;
+    -moz-transition: background-color 0.25s ease-out 0s;
+    transition: background-color 0.25s ease-out 0s;
+    background-color: #ccc;
+}
+
+.searchbox-inner {
+    height: 37px;
+    background-color: #fff;
+    -moz-border-radius: 3px;
+    -khtml-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-transition: border-radius 0s ease-out .2s;
+    -moz-transition: border-radius 0s ease-out .2s;
+    transition: border-radius 0s ease-out .2s;
+}
+
+.searchbox-inner.expandmenu {
+    -webkit-border-bottom-left-radius: 0px;
+    -moz-border-radius-bottomleft: 0px;
+    border-bottom-left-radius: 0px;
+    -webkit-transition: border-radius 0s ease-out 0s;
+    -moz-transition: border-radius 0s ease-out 0s;
+    transition: border-radius 0s ease-out 0s;
+}
+
+.default .searchbox-outer.focus,
+.default .searchbox-outer.focus .s-menu-container {
+    background-color: #4690cd;
+}
+
+.custom .searchbox-outer.focus,
+.custom .searchbox-outer.focus .s-menu-container {
+    background-color: #f82500;
+}
+
+.searchbox-menu {
+    float: left;
+    position: relative;
+    _margin-right: -3px;
+    -webkit-transition: color 0.25s ease-out 0s;
+    -moz-transition: color 0.25s ease-out 0s;
+    transition: color 0.25s ease-out 0s;
+}
+
+.s-menu-selected {
+    height: 37px;
+    line-height: 37px;
+    font-size: 16px;
+    padding: 0 10px;
+    color: #8C8C8C;
+    _margin-top: 9px;
+    _height: 28px;
+    _display: inline; /* 防止宽度100% */
+    _zoom: 1;
+
+}
+
+.expand .s-menu-selected {
+    color: #404040;
+    cursor: pointer;
+}
+
+.searchbox-menu .s-menu-selected i {
+    display: inline-block;
+    margin: 0 0 2px 10px;
+    width: 11px;
+    height: 7px;
+    _overflow: hidden;
+    background-position: 0 -15px;
+    *vertical-align: middle;
+    -webkit-transition: -webkit-transform .2s ease-in-out;
+    -moz-transition: -moz-transform .2s ease-in-out;
+    -o-transition: -o-transform .2s ease-in-out;
+    -ms-transition: -ms-transform .2s ease-in-out;
+    transition: transform .2s ease-in-out;
+}
+
+.searchbox-menu:hover .s-menu-selected i,
+.searchbox-menu.expand .s-menu-selected i {
+    -webkit-transform: rotate(-180deg);
+    -moz-transform: rotate(-180deg);
+    -o-transform: rotate(-180deg);
+    -ms-transform: rotate(-180deg);
+    transform: rotate(-180deg);
+}
+
+.s-ipt-outer {
+
+}
+
+.s-ipt-inner {
+    position: relative;
+    height: 37px;
+    overflow: hidden;
+
+}
+
+.s-ipt-inner label {
+    position: absolute;
+    left: 10px;
+    top: 0;
+    height: 37px;
+    line-height: 37px;
+    background-position: 0 -220px;
+    padding-left: 25px;
+    font-size: 12px;
+    color: #ddd;
+    cursor: text;
+}
+
+.s-ipt-inner label.hide {
+    top: -9999px;
+}
+
+.s-ipt-inner input {
+    background-position: 0 -180px;
+
+    width: 98.5%;
+    _width: 90%;
+    height: 30px;
+    margin: 0;
+    font-size: 20px;
+    line-height: 30px;
+    padding: 4px 4px 3px 10px;
+    border: 0 none;
+}
+
+.searchbox button {
+    float: right;
+    margin: 0;
+    padding: 0;
+}
+
+.s-btn-clear {
+    display: none;
+    width: 36px;
+    height: 37px;
+    border: 0 none;
+    text-indent: -9999em;
+    background-position: 0 -140px;
+    _margin-left: -3px;
+}
+
+.s-btn-clear:hover {
+    background-position: -100px -140px;
+}
+
+.s-btn-clear:active {
+    background-position: -150px -140px;
+}
+
+.s-btn-submit {
+    width: 44px;
+    height: 37px;
+    border: 0 none;
+    text-indent: -9999em;
+    background-position: 0 -90px;
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    -moz-border-radius-topright: 3px;
+    -moz-border-radius-bottomright: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px
+}
+
+.default .focus .s-btn-submit {
+    background-position: -50px -40px;
+}
+
+.default .focus .s-btn-submit:hover {
+    background-position: -100px -40px;
+}
+
+.default .focus .s-btn-submit:active {
+    background-position: -150px -40px;
+}
+
+.custom .focus .s-btn-submit {
+    background-position: -50px -90px;
+}
+
+.custom .focus .s-btn-submit:hover {
+    background-position: -100px -90px;
+}
+
+.custom .focus .s-btn-submit:active {
+    background-position: -150px -90px;
+}
+
+.s-menu-container {
+    position: absolute;
+    left: -3px;
+    top: 37px;
+    width: 73px;
+    background-color: #ccc;
+    z-index: 10000;
+    -webkit-border-bottom-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    -webkit-transition: height 0.2s ease-out 0s;
+    -moz-transition: height 0.2s ease-out 0s;
+    transition: height 0.2s ease-out 0s;
+}
+
+.s-menu-list {
+    /*height: 178px;*/
+    height: 0;
+    overflow: hidden;
+    margin: 0 3px 3px;
+    background-color: #fff;
+    -webkit-border-bottom-right-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -moz-border-radius-bottomright: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    transition: height .2s ease-out 0s;
+    -webkit-transition: height .2s ease-out 0s;
+    -moz-transition: height .2s ease-out 0s;
+}
+
+.s-menu-list li a {
+    display: block;
+    width: 57px;
+    height: 24px;
+    line-height: 22px;
+    padding-left: 10px;
+    color: #666;
+    letter-spacing: 1px;
+    font-size: 14px;
+}
+
+.s-menu-list li a:hover {
+    color: #404040;
+}
+
+.s-menu-list li.selected a {
+    color: #9b9b9b;
+    background-color: #e7e7e7;
+}
+.btn-hide {
+    display: none;
+}
+
+.btn-show {
+    display: block;
+}

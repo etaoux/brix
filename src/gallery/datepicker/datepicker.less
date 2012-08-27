@@ -10,76 +10,56 @@
     visibility: hidden;
     left: -9999px;
     top: -9999px;
-    width: 180px;
+    width: 200px;
+    background-color: #fff;
     -webkit-text-size-adjust: none;
     .datepicker-bd{
     	.clearfix;
+        padding: 15px;
     	label{
-    		margin-bottom: 0px;
+    		margin-bottom: 8px;
     	}
-    	.bd-left{
-    		float: left;
-    		padding: 10px;
-    		width: 160px;
-    		min-height: 115px;
-    		_height:115px;
-    		position: relative;
-    		.range{
-    			margin-top: 8px;
-    		}
-    		input{
-    			width: 64px;
-    			margin-bottom: 0px;
-    			padding-left: 5px;
-    			padding-right: 4px;
-    		}
-    		.bd-left-split{
-    			margin: 0 2px;
-    		}
-    		.operator{
-    			position: absolute;
-    			bottom: 10px;
-    			.btn{
-    				margin-right: 8px;
-    			}
-    		}
-    	}
-    	.bd-right{
-    		float: left;
-    		padding: 10px;
-    		background-color: #fafafa;
-    		min-height: 115px;
-    		_height:115px;
-    		width: 160px;
-    		li{
-    			width: 80px;
-    			float:left;
-    			margin-top: 5px;
-    		}
-    		li a.item{
-    			display: inline-block;
-    			padding: 0 3px;
-    		}
-    		li a.current{
-    			background-color: #488fcd;
-    			.border-radius(2px);
-    			color: #fff;
-    		}
-    	}
+		.range{
+            *zoom:1;
+            margin-bottom: 15px;
+            .input-split{
+                margin: 0 8px;
+            }
+		}
+		input{
+			width: 64px;
+			margin-bottom: 0px;
+			padding-left: 5px;
+			padding-right: 4px;
+		}
+		
+        ul.quick-list{
+            .clearfix;
+            margin-bottom: 15px;
+            margin-left: -8px;
+            li{
+                float:left;
+                height: 25px;
+                line-height: 25px;
+                width: 88px;
+                a.quick-item{
+                    display: inline-block;
+                    padding: 0 8px;
+                    white-space: nowrap;
+                }
+                a.quick-current{
+                    background-color: #488fcd;
+                    .border-radius(2px);
+                    color: #fff;
+                }
+            }
+        }
+		.operator{
+			.btn{
+				margin-right: 8px;
+			}
+		}
     }
-
-    .datepicker-bd-change-lr{
-    	.bd-left{
-    		float:right;
-    	}
-    	.bd-right{
-    		float:right;
-    	}
-    }
-}
-
-.datepicker-quick{
-	width: 360px;
 }
 
 

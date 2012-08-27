@@ -30,10 +30,10 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 		},
 		//是否需要使用服务器时间对计时器进行校正
 		needAjusted : {
-			value : true
+			value : false
 		},
 		ajustTime : {
-			value : 60000
+			value : 3600000
 		}
 		
 	};
@@ -316,7 +316,12 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 			hours = hours % 24;
 			mins = floor(leftTime / 60 % 60);
 			secs = leftTime % 60;
-
+			if (this.config.style == "simple") {
+				days = 0;
+				hours = floor(leftTime / 3600);
+				mins = floor(leftTime / 60 % 60);
+				secs = leftTime % 60;
+			}
 			//补零
 			if(hours < 10)
 				hours = '0' + hours;
@@ -384,15 +389,16 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 			if(this._status) return;
 			var AJUST_TIME = ajustTime || 3600000;
 			//定时获取服务器时间来矫正计时器
-			var self = this, url = window.location.protocol + '//' + window.location.host + '?t=' + (+new Date());
+			var self = this;
 			this._checkerRunner = setInterval(function() {
 				var xhr, serverDate, serverTime, timeBefore = new Date().getTime(), timeAfter;
+                var url = window.location.protocol + '//' + window.location.host + '?t=' + (+new Date());
 				function getServerDate(data, textStatus, xhr) {
 					//取得响应头时间
 					serverDate = new Date(xhr.getResponseHeader('Date'));
 					serverTime = serverDate.getTime();
 					timeAfter = new Date().getTime();
-					self._calibrater(serverTime + timeAfter - timeBefore);
+                    self._calibrater(serverTime + (timeAfter - timeBefore)/2);
 				};
 				S.io({
 					type : 'head',
