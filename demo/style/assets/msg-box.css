@@ -14,6 +14,31 @@
     position: relative;
 }
 
+.msg-box .msg-body {
+    display: inline;
+    margin: 0;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 20px;
+}
+
+.msg-box .msg-head {
+    margin-bottom: 6px;
+}
+
+.msg-head .msg-title {
+    float: left;
+    color: #0066cc;
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 20px;
+}
+
+.msg-head .msg-date {
+    float: right;
+    color: #999;
+}
+
 .msg-box .msg-arrow,
 .msg-box .msg-arrow span {
     position: absolute;
