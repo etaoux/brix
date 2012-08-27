@@ -10,7 +10,13 @@
     </head>
     <body style="margin:0px;padding-top:40px">
         <div>
-        <a href="#" id="btnShow">显示</a>
+            <a href="#" id="btnShowleft">显示左</a>
+        <a href="#" id="btnShowright">显示右</a>
+
+        <a href="#" id="btnShowup">显示上</a>
+
+        <a href="#" id="btnShowdown">显示下</a>
+
         <a href="#" id="btnHide">隐藏</a>
         </div>
 		<!--brix begin-->
@@ -59,7 +65,6 @@
         </script>
         <script>
             KISSY.ready(function(S) {
-
                 KISSY.use("brix/gallery/dialog/", function(S, Dialog) {
                     var config = {
                         data:dropdown_data,
@@ -74,16 +79,83 @@
                             top:100,
                             opacity:1
                         },
-                        width:300,
-                        duration:0.3,
-                        trigger:'#btnShow'
+                        width:300
                     }
                     var dialog = new Dialog(config);
-                    dialog.on('hide',function(){console.log('hide')});
-                    dialog.on('show',function(){console.log('show')});
+                    //dialog.on('hide',function(){console.log('hide')});
+                    //dialog.on('show',function(){console.log('show')});
 
-                    S.one('#btnHide').on('click',function(){
+                    S.one('#btnHide').on('click',function(e){
+                        e.halt();
                         dialog.hide();
+                    });
+
+                    S.one('#btnShowleft').on('click',function(e){
+                        e.halt();
+                        dialog.hide();
+                        dialog.set('start',{
+                            left:-300,
+                            top:100,
+                            opacity:0
+                        });
+
+                        dialog.set('end',{
+                            left:0,
+                            top:100,
+                            opacity:1
+                        });
+                        dialog.show();
+                    });
+
+                    S.one('#btnShowright').on('click',function(e){
+                        e.halt();
+                        dialog.hide();
+                        dialog.set('start',{
+                            left:S.DOM.docWidth(),
+                            top:100,
+                            opacity:0
+                        });
+
+                        dialog.set('end',{
+                            left:S.DOM.docWidth()-300,
+                            top:100,
+                            opacity:1
+                        });
+                        dialog.show();
+                    });
+
+                    S.one('#btnShowup').on('click',function(e){
+                        e.halt();
+                        dialog.hide();
+                        dialog.set('start',{
+                            left:300,
+                            top:S.DOM.docHeight(),
+                            opacity:0
+                        });
+
+                        dialog.set('end',{
+                            left:300,
+                            top:S.DOM.docHeight()-87,
+                            opacity:1
+                        });
+                        dialog.show();
+                    });
+
+                    S.one('#btnShowdown').on('click',function(e){
+                        e.halt();
+                        dialog.hide();
+                        dialog.set('start',{
+                            left:300,
+                            top:-87,
+                            opacity:0
+                        });
+
+                        dialog.set('end',{
+                            left:300,
+                            top:0,
+                            opacity:1
+                        });
+                        dialog.show();
                     });
                 });
             });

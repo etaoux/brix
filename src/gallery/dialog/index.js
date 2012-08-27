@@ -68,7 +68,7 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
             value: 0.3
         },
         easing: {
-            value: 'easeOut'
+            value: 'easeNone'
         },
         closable: {
             value: true
@@ -112,13 +112,16 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
             var self = this;
             var el = self.get('el'),
                 body = S.one('body'),
-                s = 'start';
+                html = S.one('html'),
+                s = 'start',
+                dir = self.get('dir');
             //移除动画队列，设置显示，为动画增加效果
             el.stop();
             el.css('visibility', 'visible');
             if (v) {//如果显示
                 el.css(self.get('start'));
-                s = 'end'
+                s = 'end';
+                el.removeClass('dialog-left').removeClass('dialog-right').removeClass('dialog-up').removeClass('dialog-down').addClass('dialog-'+dir);
             }
             else{
                 el.css(self.get('end'));
@@ -126,12 +129,14 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
             }
             //为防止出现滚动条
             body.css({width:body.width(),height:body.height(),overflow:'hidden'});
+            html.css({width:body.width(),height:body.height(),overflow:'hidden'});
             el.animate(self.get(s), self.get('duration'), self.get('easing'), function() {
                 el.css('visibility', v?'visible':"hidden");
                 if(!v){
                     el.css({left:'-99999px',top:'-99999px'});
                 }
                 body.css({width:'',height:'',overflow:''});
+                html.css({width:'',height:'',overflow:''});
                 fn&&fn.call(self);
             });
         },

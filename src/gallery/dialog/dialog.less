@@ -11,7 +11,7 @@
     .dialog-contentbox{
         padding: 30px;
         .border-radius(2px);
-        .box-shadow(0 0 8px rgba(0, 0, 0, 0.1));
+        .box-shadow(0 0 10px rgba(0, 0, 0, 0.1));
         border: 1px solid #ddd;
     }
 
@@ -39,5 +39,33 @@
         color:#ccc;
         font-size: 16px;
         display: inline-block;
+    }
+}
+
+.dialog-left{
+    .dialog-contentbox{
+        .box-shadow(-5px 0px 10px rgba(0, 0, 0, 0.1));
+        border-right: none;
+    }
+}
+
+.dialog-right{
+    .dialog-contentbox{
+        .box-shadow(5px 0px 10px rgba(0, 0, 0, 0.1));
+        border-left: none;
+    }
+}
+
+.dialog-up{
+    .dialog-contentbox{
+        .box-shadow(0px -5px 10px rgba(0, 0, 0, 0.1));
+        border-down: none;
+    }
+}
+
+.dialog-down{
+    .dialog-contentbox{
+        .box-shadow(0px 5px 10px rgba(0, 0, 0, 0.1));
+        border-up: none;
     }
 }

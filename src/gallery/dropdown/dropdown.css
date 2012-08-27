@@ -56,6 +56,7 @@
 .dropdown-arrow .dropdown-hd {
   padding-right: 20px;
   background: none;
+  filter: none;
 }
 .dropdown .dropdown-hd-active {
   background-color: #ebebeb;
