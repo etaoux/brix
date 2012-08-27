@@ -1,53 +1,61 @@
-// CSS Reset
-// 用normalize省心省力，我们的目标不是做reset
+/**
+ * CSS Reset
+ *   借鉴normalize成果，同时做些向前兼容
+ **/
 @import "normalize.less";
+@import "reset-patch.less";
 
-// Core variables and mixins
+/**
+ * 小工具类
+ *   可以在页面直接输出的mixin
+ **/
+@import "utilities.less";
+
+/**
+ * 核心变量及mixin，会提供给gallery使用
+ *   思路：最小影响，最大适用范围
+ **/
 @import "variables.less"; // Modify this for custom colors, font-sizes, etc
 @import "mixins.less";
 
-// Grid system and page structure
-/*@import "scaffolding.less";*/
-/*@import "grid.less";*/
+/**
+ * 栅格系统及页面布局
+ **/
+@import "grid.less";
 /*@import "layouts.less";*/
 
-// Base CSS
+/**
+ * 基础CSS
+ *   字体 及 UX控件
+ **/
 @import "type.less";
-/*@import "code.less";*/
+@import "icons.less";
+@import "scrollbar.less";
 @import "forms.less";
-/*@import "tables.less";*/
+@import "buttons.less";
+@import "tables.less";
+@import "tags.less";
+@import "footer.less";
+@import "avatar.less";
 
-// Components: common
-/*@import "sprites.less";*/
-/*@import "dropdowns.less";*/
+/*@import "breadcrumbs.less";*/
+
+/*@import "code.less";*/
 /*@import "wells.less";*/
 /*@import "component-animations.less";*/
 /*@import "close.less";*/
-
-// Components: Buttons & Alerts
-@import "buttons.less"; // add by chongzhi.ldq - 崇志
 /*@import "button-groups.less";*/
 /*@import "alerts.less"; // Note: alerts share common CSS with buttons and thus have styles in buttons.less*/
-
-// Components: Nav
 /*@import "navs.less";*/
 /*@import "navbar.less";*/
-/*@import "breadcrumbs.less";*/
 /*@import "pagination.less";*/
 /*@import "pager.less";*/
-
-// Components: Popovers
 /*@import "modals.less";*/
 /*@import "tooltip.less";*/
 /*@import "popovers.less";*/
-
-// Components: Misc
 /*@import "thumbnails.less";*/
 /*@import "labels-badges.less";*/
 /*@import "progress-bars.less";*/
 /*@import "accordion.less";*/
 /*@import "carousel.less";*/
 /*@import "hero-unit.less";*/
-
-// Utility classes
-/*@import "utilities.less"; // Has to be last to override when necessary*/

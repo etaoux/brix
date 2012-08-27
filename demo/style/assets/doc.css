@@ -1,0 +1,22 @@
+body {
+    background: #f5f5f5;
+}
+#overview {
+    min-width: 1020px;
+    line-height: 96px;
+    background: #488fcd;
+}
+#overview h1 {
+    position: absolute;
+    margin: 0 0 0 30px;
+    font-weight: bold;
+    color: #fff;
+}
+#overview h2 {
+    margin: 0 0 0 903px;
+    white-space: nowrap;
+    color: #fff;
+}
+.container {
+    margin-left: 30px;
+}

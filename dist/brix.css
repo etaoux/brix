@@ -1,13 +1,13 @@
-/*! Brix - v0.1.0 - 7/24/2012
-* https://github.com/etaoux/brix
-* Copyright (c) 2012 etaoux; Licensed MIT */
-
-/* normalize.css 2012-03-11T12:53 UTC - http://github.com/necolas/normalize.css */
-/* =============================================================================
+/**
+ * CSS Reset
+ *   借鉴normalize成果，同时做些向前兼容
+ **/
+/*! normalize.css v1.0.1 | MIT License | git.io/normalize */
+/* ==========================================================================
    HTML5 display definitions
    ========================================================================== */
 /*
- * Corrects block display not defined in IE6/7/8/9 & FF3
+ * Corrects `block` display not defined in IE 6/7/8/9 and Firefox 3.
  */
 article,
 aside,
@@ -23,7 +23,7 @@ summary {
   display: block;
 }
 /*
- * Corrects inline-block display not defined in IE6/7/8/9 & FF3
+ * Corrects `inline-block` display not defined in IE 6/7/8/9 and Firefox 3.
  */
 audio,
 canvas,
@@ -33,28 +33,29 @@ video {
   *zoom: 1;
 }
 /*
- * Prevents modern browsers from displaying 'audio' without controls
- * Remove excess height in iOS5 devices
+ * Prevents modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
  */
 audio:not([controls]) {
   display: none;
   height: 0;
 }
 /*
- * Addresses styling for 'hidden' attribute not present in IE7/8/9, FF3, S4
- * Known issue: no IE6 support
+ * Addresses styling for `hidden` attribute not present in IE 7/8/9, Firefox 3,
+ * and Safari 4.
+ * Known issue: no IE 6 support.
  */
 [hidden] {
   display: none;
 }
-/* =============================================================================
+/* ==========================================================================
    Base
    ========================================================================== */
 /*
- * 1. Corrects text resizing oddly in IE6/7 when body font-size is set using em units
- *    http://clagnut.com/blog/348/#c790
- * 2. Prevents iOS text size adjust after orientation change, without disabling user zoom
- *    www.456bereastreet.com/archive/201012/controlling_text_size_in_safari_for_ios_without_disabling_user_zoom/
+ * 1. Corrects text resizing oddly in IE 6/7 when body `font-size` is set using
+ *    `em` units.
+ * 2. Prevents iOS text size adjust after orientation change, without disabling
+ *    user zoom.
  */
 html {
   font-size: 100%;
@@ -68,7 +69,8 @@ html {
 
 }
 /*
- * Addresses font-family inconsistency between 'textarea' and other form elements.
+ * Addresses `font-family` inconsistency between `textarea` and other form
+ * elements.
  */
 html,
 button,
@@ -78,34 +80,34 @@ textarea {
   font-family: sans-serif;
 }
 /*
- * Addresses margins handled incorrectly in IE6/7
+ * Addresses margins handled incorrectly in IE 6/7.
  */
 body {
   margin: 0;
 }
-/* =============================================================================
+/* ==========================================================================
    Links
    ========================================================================== */
 /*
- * Addresses outline displayed oddly in Chrome
+ * Addresses `outline` inconsistency between Chrome and other browsers.
  */
 a:focus {
   outline: thin dotted;
 }
 /*
- * Improves readability when focused and also mouse hovered in all browsers
- * people.opera.com/patrickl/experiments/keyboard/test
+ * Improves readability when focused and also mouse hovered in all browsers.
  */
-a:hover,
-a:active {
+a:active,
+a:hover {
   outline: 0;
 }
-/* =============================================================================
+/* ==========================================================================
    Typography
    ========================================================================== */
 /*
- * Addresses font sizes and margins set differently in IE6/7
- * Addresses font sizes within 'section' and 'article' in FF4+, Chrome, S5
+ * Addresses font sizes and margins set differently in IE 6/7.
+ * Addresses font sizes within `section` and `article` in Firefox 4+, Safari 5,
+ * and Chrome.
  */
 h1 {
   font-size: 2em;
@@ -132,14 +134,14 @@ h6 {
   margin: 2.33em 0;
 }
 /*
- * Addresses styling not present in IE7/8/9, S5, Chrome
+ * Addresses styling not present in IE 7/8/9, Safari 5, and Chrome.
  */
 abbr[title] {
   border-bottom: 1px dotted;
 }
 /*
- * Addresses style set to 'bolder' in FF3+, S4/5, Chrome
-*/
+ * Addresses style set to `bolder` in Firefox 3+, Safari 4/5, and Chrome.
+ */
 b,
 strong {
   font-weight: bold;
@@ -148,39 +150,38 @@ blockquote {
   margin: 1em 40px;
 }
 /*
- * Addresses styling not present in S5, Chrome
+ * Addresses styling not present in Safari 5 and Chrome.
  */
 dfn {
   font-style: italic;
 }
 /*
- * Addresses styling not present in IE6/7/8/9
+ * Addresses styling not present in IE 6/7/8/9.
  */
 mark {
   background: #ff0;
   color: #000;
 }
 /*
- * Addresses margins set differently in IE6/7
+ * Addresses margins set differently in IE 6/7.
  */
 p,
 pre {
   margin: 1em 0;
 }
 /*
- * Corrects font family set oddly in IE6, S4/5, Chrome
- * en.wikipedia.org/wiki/User:Davidgothberg/Test59
+ * Corrects font family set oddly in IE 6, Safari 4/5, and Chrome.
  */
-pre,
 code,
 kbd,
+pre,
 samp {
   font-family: monospace, serif;
   _font-family: 'courier new', monospace;
   font-size: 1em;
 }
 /*
- * Improves readability of pre-formatted text in all browsers
+ * Improves readability of pre-formatted text in all browsers.
  */
 pre {
   white-space: pre;
@@ -188,25 +189,27 @@ pre {
   word-wrap: break-word;
 }
 /*
- * 1. Addresses CSS quotes not supported in IE6/7
- * 2. Addresses quote property not supported in S4
+ * Addresses CSS quotes not supported in IE 6/7.
  */
-/* 1 */
 q {
   quotes: none;
 }
-/* 2 */
+/*
+ * Addresses `quotes` property not supported in Safari 4.
+ */
 q:before,
 q:after {
   content: '';
   content: none;
 }
+/*
+ * Addresses inconsistent and variable font size in all browsers.
+ */
 small {
-  font-size: 75%;
+  font-size: 80%;
 }
 /*
- * Prevents sub and sup affecting line-height in all browsers
- * gist.github.com/413930
+ * Prevents `sub` and `sup` affecting `line-height` in all browsers.
  */
 sub,
 sup {
@@ -221,11 +224,11 @@ sup {
 sub {
   bottom: -0.25em;
 }
-/* =============================================================================
+/* ==========================================================================
    Lists
    ========================================================================== */
 /*
- * Addresses margins set differently in IE6/7
+ * Addresses margins set differently in IE 6/7.
  */
 dl,
 menu,
@@ -237,7 +240,7 @@ dd {
   margin: 0 0 0 40px;
 }
 /*
- * Addresses paddings set differently in IE6/7
+ * Addresses paddings set differently in IE 6/7.
  */
 menu,
 ol,
@@ -245,20 +248,19 @@ ul {
   padding: 0 0 0 40px;
 }
 /*
- * Corrects list images handled incorrectly in IE7
+ * Corrects list images handled incorrectly in IE 7.
  */
 nav ul,
 nav ol {
   list-style: none;
   list-style-image: none;
 }
-/* =============================================================================
+/* ==========================================================================
    Embedded content
    ========================================================================== */
 /*
- * 1. Removes border when inside 'a' element in IE6/7/8/9, FF3
- * 2. Improves image quality when scaled in IE7
- *    code.flickr.com/blog/2008/11/12/on-ui-quality-the-little-things-client-side-image-resizing/
+ * 1. Removes border when inside `a` element in IE 6/7/8/9 and Firefox 3.
+ * 2. Improves image quality when scaled in IE 7.
  */
 img {
   border: 0;
@@ -269,31 +271,31 @@ img {
 
 }
 /*
- * Corrects overflow displayed oddly in IE9
+ * Corrects overflow displayed oddly in IE 9.
  */
 svg:not(:root) {
   overflow: hidden;
 }
-/* =============================================================================
+/* ==========================================================================
    Figures
    ========================================================================== */
 /*
- * Addresses margin not present in IE6/7/8/9, S5, O11
+ * Addresses margin not present in IE 6/7/8/9, Safari 5, and Opera 11.
  */
 figure {
   margin: 0;
 }
-/* =============================================================================
+/* ==========================================================================
    Forms
    ========================================================================== */
 /*
- * Corrects margin displayed oddly in IE6/7
+ * Corrects margin displayed oddly in IE 6/7.
  */
 form {
   margin: 0;
 }
 /*
- * Define consistent border, margin, and padding
+ * Define consistent border, margin, and padding.
  */
 fieldset {
   border: 1px solid #c0c0c0;
@@ -301,9 +303,9 @@ fieldset {
   padding: 0.35em 0.625em 0.75em;
 }
 /*
- * 1. Corrects color not being inherited in IE6/7/8/9
- * 2. Corrects text not wrapping in FF3
- * 3. Corrects alignment displayed oddly in IE6/7
+ * 1. Corrects color not being inherited in IE 6/7/8/9.
+ * 2. Corrects text not wrapping in Firefox 3.
+ * 3. Corrects alignment displayed oddly in IE 6/7.
  */
 legend {
   border: 0;
@@ -318,9 +320,10 @@ legend {
 
 }
 /*
- * 1. Corrects font size not being inherited in all browsers
- * 2. Addresses margins set differently in IE6/7, FF3+, S5, Chrome
- * 3. Improves appearance and consistency in all browsers
+ * 1. Corrects font size not being inherited in all browsers.
+ * 2. Addresses margins set differently in IE 6/7, Firefox 3+, Safari 5,
+ *    and Chrome.
+ * 3. Improves appearance and consistency in all browsers.
  */
 button,
 input,
@@ -340,46 +343,48 @@ textarea {
 
 }
 /*
- * Addresses FF3/4 setting line-height on 'input' using !important in the UA stylesheet
+ * Addresses Firefox 3+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
  */
 button,
 input {
   line-height: normal;
-  /* 1 */
-
 }
 /*
- * 1. Improves usability and consistency of cursor style between image-type 'input' and others
- * 2. Corrects inability to style clickable 'input' types in iOS
- * 3. Removes inner spacing in IE7 without affecting normal text inputs
- *    Known issue: inner spacing remains in IE6
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Corrects inability to style clickable `input` types in iOS.
+ * 3. Improves usability and consistency of cursor style between image-type
+ *    `input` and others.
+ * 4. Removes inner spacing in IE 7 without affecting normal text inputs.
+ *    Known issue: inner spacing remains in IE 6.
  */
 button,
-input[type="button"],
+html input[type="button"],
 input[type="reset"],
 input[type="submit"] {
-  cursor: pointer;
-  /* 1 */
-
   -webkit-appearance: button;
   /* 2 */
 
-  *overflow: visible;
+  cursor: pointer;
   /* 3 */
+
+  *overflow: visible;
+  /* 4 */
 
 }
 /*
- * Re-set default cursor for disabled elements
+ * Re-set default cursor for disabled elements.
  */
 button[disabled],
 input[disabled] {
   cursor: default;
 }
 /*
- * 1. Addresses box sizing set to content-box in IE8/9
- * 2. Removes excess padding in IE8/9
- * 3. Removes excess padding in IE7
-      Known issue: excess padding remains in IE6
+ * 1. Addresses box sizing set to content-box in IE 8/9.
+ * 2. Removes excess padding in IE 8/9.
+ * 3. Removes excess padding in IE 7.
+ *    Known issue: excess padding remains in IE 6.
  */
 input[type="checkbox"],
 input[type="radio"] {
@@ -397,8 +402,9 @@ input[type="radio"] {
 
 }
 /*
- * 1. Addresses appearance set to searchfield in S5, Chrome
- * 2. Addresses box-sizing set to border-box in S5, Chrome (include -moz to future-proof)
+ * 1. Addresses `appearance` set to `searchfield` in Safari 5 and Chrome.
+ * 2. Addresses `box-sizing` set to `border-box` in Safari 5 and Chrome
+ *    (include `-moz` to future-proof).
  */
 input[type="search"] {
   -webkit-appearance: textfield;
@@ -411,15 +417,15 @@ input[type="search"] {
   box-sizing: content-box;
 }
 /*
- * Removes inner padding and search cancel button in S5, Chrome on OS X
+ * Removes inner padding and search cancel button in Safari 5 and Chrome
+ * on OS X.
  */
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button {
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 /*
- * Removes inner padding and border in FF3+
- * www.sitepen.com/blog/2008/05/14/the-devils-in-the-details-fixing-dojos-toolbar-buttons/
+ * Removes inner padding and border in Firefox 3+.
  */
 button::-moz-focus-inner,
 input::-moz-focus-inner {
@@ -427,8 +433,8 @@ input::-moz-focus-inner {
   padding: 0;
 }
 /*
- * 1. Removes default vertical scrollbar in IE6/7/8/9
- * 2. Improves readability and alignment in all browsers
+ * 1. Removes default vertical scrollbar in IE 6/7/8/9.
+ * 2. Improves readability and alignment in all browsers.
  */
 textarea {
   overflow: auto;
@@ -438,16 +444,30 @@ textarea {
   /* 2 */
 
 }
-/* =============================================================================
+/* ==========================================================================
    Tables
    ========================================================================== */
 /*
- * Remove most spacing between table cells
+ * Remove most spacing between table cells.
  */
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+dl,
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+ul,
+ol {
+  list-style: none;
+}
+/**
+ * 小工具类
+ *   可以在页面直接输出的mixin
+ **/
 .clearfix {
   *zoom: 1;
 }
@@ -464,9 +484,718 @@ table {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/*@import "scaffolding.less";*/
-/*@import "grid.less";*/
+/**
+ * 核心变量及mixin，会提供给gallery使用
+ *   思路：最小影响，最大适用范围
+ **/
+/**
+ * 栅格系统及页面布局
+ **/
+.row {
+  margin-left: -10px;
+  *zoom: 1;
+}
+.row:before,
+.row:after {
+  display: table;
+  content: "";
+}
+.row:after {
+  clear: both;
+}
+/*
+    [class*="span"] {
+      float: left;
+      margin-left: @gridGutterWidth;
+    }
+    */
+.container,
+.navbar-fixed-top .container,
+.navbar-fixed-bottom .container {
+  width: 990px;
+}
+.span50 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 990px;
+}
+.span49 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 970px;
+}
+.span48 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 950px;
+}
+.span47 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 930px;
+}
+.span46 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 910px;
+}
+.span45 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 890px;
+}
+.span44 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 870px;
+}
+.span43 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 850px;
+}
+.span42 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 830px;
+}
+.span41 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 810px;
+}
+.span40 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 790px;
+}
+.span39 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 770px;
+}
+.span38 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 750px;
+}
+.span37 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 730px;
+}
+.span36 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 710px;
+}
+.span35 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 690px;
+}
+.span34 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 670px;
+}
+.span33 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 650px;
+}
+.span32 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 630px;
+}
+.span31 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 610px;
+}
+.span30 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 590px;
+}
+.span29 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 570px;
+}
+.span28 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 550px;
+}
+.span27 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 530px;
+}
+.span26 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 510px;
+}
+.span25 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 490px;
+}
+.span24 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 470px;
+}
+.span23 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 450px;
+}
+.span22 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 430px;
+}
+.span21 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 410px;
+}
+.span20 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 390px;
+}
+.span19 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 370px;
+}
+.span18 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 350px;
+}
+.span17 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 330px;
+}
+.span16 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 310px;
+}
+.span15 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 290px;
+}
+.span14 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 270px;
+}
+.span13 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 250px;
+}
+.span12 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 230px;
+}
+.span11 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 210px;
+}
+.span10 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 190px;
+}
+.span9 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 170px;
+}
+.span8 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 150px;
+}
+.span7 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 130px;
+}
+.span6 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 110px;
+}
+.span5 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 90px;
+}
+.span4 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 70px;
+}
+.span3 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 50px;
+}
+.span2 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 30px;
+}
+.span1 {
+  float: left;
+  _display: inline;
+  margin-left: 10px;
+  width: 10px;
+}
+.offset50 {
+  margin-left: 1010px;
+}
+.offset49 {
+  margin-left: 990px;
+}
+.offset48 {
+  margin-left: 970px;
+}
+.offset47 {
+  margin-left: 950px;
+}
+.offset46 {
+  margin-left: 930px;
+}
+.offset45 {
+  margin-left: 910px;
+}
+.offset44 {
+  margin-left: 890px;
+}
+.offset43 {
+  margin-left: 870px;
+}
+.offset42 {
+  margin-left: 850px;
+}
+.offset41 {
+  margin-left: 830px;
+}
+.offset40 {
+  margin-left: 810px;
+}
+.offset39 {
+  margin-left: 790px;
+}
+.offset38 {
+  margin-left: 770px;
+}
+.offset37 {
+  margin-left: 750px;
+}
+.offset36 {
+  margin-left: 730px;
+}
+.offset35 {
+  margin-left: 710px;
+}
+.offset34 {
+  margin-left: 690px;
+}
+.offset33 {
+  margin-left: 670px;
+}
+.offset32 {
+  margin-left: 650px;
+}
+.offset31 {
+  margin-left: 630px;
+}
+.offset30 {
+  margin-left: 610px;
+}
+.offset29 {
+  margin-left: 590px;
+}
+.offset28 {
+  margin-left: 570px;
+}
+.offset27 {
+  margin-left: 550px;
+}
+.offset26 {
+  margin-left: 530px;
+}
+.offset25 {
+  margin-left: 510px;
+}
+.offset24 {
+  margin-left: 490px;
+}
+.offset23 {
+  margin-left: 470px;
+}
+.offset22 {
+  margin-left: 450px;
+}
+.offset21 {
+  margin-left: 430px;
+}
+.offset20 {
+  margin-left: 410px;
+}
+.offset19 {
+  margin-left: 390px;
+}
+.offset18 {
+  margin-left: 370px;
+}
+.offset17 {
+  margin-left: 350px;
+}
+.offset16 {
+  margin-left: 330px;
+}
+.offset15 {
+  margin-left: 310px;
+}
+.offset14 {
+  margin-left: 290px;
+}
+.offset13 {
+  margin-left: 270px;
+}
+.offset12 {
+  margin-left: 250px;
+}
+.offset11 {
+  margin-left: 230px;
+}
+.offset10 {
+  margin-left: 210px;
+}
+.offset9 {
+  margin-left: 190px;
+}
+.offset8 {
+  margin-left: 170px;
+}
+.offset7 {
+  margin-left: 150px;
+}
+.offset6 {
+  margin-left: 130px;
+}
+.offset5 {
+  margin-left: 110px;
+}
+.offset4 {
+  margin-left: 90px;
+}
+.offset3 {
+  margin-left: 70px;
+}
+.offset2 {
+  margin-left: 50px;
+}
+.offset1 {
+  margin-left: 30px;
+}
+.row-fluid {
+  width: 100%;
+  *zoom: 1;
+}
+.row-fluid:before,
+.row-fluid:after {
+  display: table;
+  content: "";
+}
+.row-fluid:after {
+  clear: both;
+}
+.row-fluid [class*="span"] {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  float: left;
+  margin-left: 2.127659574%;
+  *margin-left: 2.0771545234949493%;
+}
+.row-fluid [class*="span"]:first-child {
+  margin-left: 0;
+}
+.row-fluid .span50 {
+  width: 423.404255276%;
+  *width: 423.353750225495%;
+}
+.row-fluid .span49 {
+  width: 414.893616979%;
+  *width: 414.843111928495%;
+}
+.row-fluid .span48 {
+  width: 406.382978682%;
+  *width: 406.33247363149496%;
+}
+.row-fluid .span47 {
+  width: 397.872340385%;
+  *width: 397.82183533449495%;
+}
+.row-fluid .span46 {
+  width: 389.361702088%;
+  *width: 389.311197037495%;
+}
+.row-fluid .span45 {
+  width: 380.851063791%;
+  *width: 380.800558740495%;
+}
+.row-fluid .span44 {
+  width: 372.340425494%;
+  *width: 372.28992044349496%;
+}
+.row-fluid .span43 {
+  width: 363.829787197%;
+  *width: 363.77928214649495%;
+}
+.row-fluid .span42 {
+  width: 355.31914889999996%;
+  *width: 355.26864384949494%;
+}
+.row-fluid .span41 {
+  width: 346.80851060299995%;
+  *width: 346.7580055524949%;
+}
+.row-fluid .span40 {
+  width: 338.297872306%;
+  *width: 338.24736725549496%;
+}
+.row-fluid .span39 {
+  width: 329.787234009%;
+  *width: 329.73672895849495%;
+}
+.row-fluid .span38 {
+  width: 321.276595712%;
+  *width: 321.226090661495%;
+}
+.row-fluid .span37 {
+  width: 312.765957415%;
+  *width: 312.715452364495%;
+}
+.row-fluid .span36 {
+  width: 304.255319118%;
+  *width: 304.20481406749497%;
+}
+.row-fluid .span35 {
+  width: 295.744680821%;
+  *width: 295.69417577049495%;
+}
+.row-fluid .span34 {
+  width: 287.23404252399996%;
+  *width: 287.18353747349494%;
+}
+.row-fluid .span33 {
+  width: 278.723404227%;
+  *width: 278.672899176495%;
+}
+.row-fluid .span32 {
+  width: 270.21276593%;
+  *width: 270.16226087949497%;
+}
+.row-fluid .span31 {
+  width: 261.702127633%;
+  *width: 261.65162258249495%;
+}
+.row-fluid .span30 {
+  width: 253.19148933600002%;
+  *width: 253.14098428549497%;
+}
+.row-fluid .span29 {
+  width: 244.680851039%;
+  *width: 244.63034598849495%;
+}
+.row-fluid .span28 {
+  width: 236.170212742%;
+  *width: 236.11970769149494%;
+}
+.row-fluid .span27 {
+  width: 227.65957444499998%;
+  *width: 227.60906939449492%;
+}
+.row-fluid .span26 {
+  width: 219.14893614800002%;
+  *width: 219.09843109749497%;
+}
+.row-fluid .span25 {
+  width: 210.638297851%;
+  *width: 210.58779280049495%;
+}
+.row-fluid .span24 {
+  width: 202.127659554%;
+  *width: 202.07715450349494%;
+}
+.row-fluid .span23 {
+  width: 193.617021257%;
+  *width: 193.56651620649495%;
+}
+.row-fluid .span22 {
+  width: 185.10638296000002%;
+  *width: 185.05587790949497%;
+}
+.row-fluid .span21 {
+  width: 176.595744663%;
+  *width: 176.54523961249495%;
+}
+.row-fluid .span20 {
+  width: 168.085106366%;
+  *width: 168.03460131549494%;
+}
+.row-fluid .span19 {
+  width: 159.57446806899998%;
+  *width: 159.52396301849492%;
+}
+.row-fluid .span18 {
+  width: 151.063829772%;
+  *width: 151.01332472149494%;
+}
+.row-fluid .span17 {
+  width: 142.553191475%;
+  *width: 142.50268642449495%;
+}
+.row-fluid .span16 {
+  width: 134.042553178%;
+  *width: 133.99204812749494%;
+}
+.row-fluid .span15 {
+  width: 125.531914881%;
+  *width: 125.48140983049495%;
+}
+.row-fluid .span14 {
+  width: 117.02127658399999%;
+  *width: 116.97077153349494%;
+}
+.row-fluid .span13 {
+  width: 108.510638287%;
+  *width: 108.46013323649495%;
+}
+.row-fluid .span12 {
+  width: 99.99999998999999%;
+  *width: 99.94949493949494%;
+}
+.row-fluid .span11 {
+  width: 91.489361693%;
+  *width: 91.43885664249495%;
+}
+.row-fluid .span10 {
+  width: 82.97872339599999%;
+  *width: 82.92821834549494%;
+}
+.row-fluid .span9 {
+  width: 74.468085099%;
+  *width: 74.41758004849495%;
+}
+.row-fluid .span8 {
+  width: 65.95744680199999%;
+  *width: 65.90694175149494%;
+}
+.row-fluid .span7 {
+  width: 57.446808505%;
+  *width: 57.39630345449495%;
+}
+.row-fluid .span6 {
+  width: 48.93617020799999%;
+  *width: 48.88566515749494%;
+}
+.row-fluid .span5 {
+  width: 40.425531911%;
+  *width: 40.37502686049495%;
+}
+.row-fluid .span4 {
+  width: 31.914893614%;
+  *width: 31.86438856349495%;
+}
+.row-fluid .span3 {
+  width: 23.404255317%;
+  *width: 23.35375026649495%;
+}
+.row-fluid .span2 {
+  width: 14.89361702%;
+  *width: 14.84311196949495%;
+}
+.row-fluid .span1 {
+  width: 6.382978723%;
+  *width: 6.33247367249495%;
+}
 /*@import "layouts.less";*/
+/**
+ * 基础CSS
+ *   字体 及 UX控件
+ **/
 body,
 button,
 input,
@@ -505,6 +1234,7 @@ h6 {
 }
 a {
   color: #0066dd;
+  text-decoration: none;
 }
 a:hover {
   color: #ff8400;
@@ -527,7 +1257,32 @@ a:visited {
   font-style: normal;
   padding-left: 4px;
 }
-/*@import "code.less";*/
+@font-face {
+  font-family: "uxiconfont";
+  src: url("http://ux.taobao.com/assets/src_uxiconfont.eot");
+  src: url("http://ux.taobao.com/assets/src_uxiconfont.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+   url("http://ux.taobao.com/assets/src_uxiconfont.woff") format("woff"), /* chrome、firefox */
+   url("http://ux.taobao.com/assets/src_uxiconfont.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+   url("http://ux.taobao.com/assets/src_uxiconfont.svg#svgFontName") format("svg");/* IE9*/
+  /* iOS 4.1- */
+}
+.iconfont {
+  font-family: "uxiconfont";
+  font-size: 16px;
+  font-style: normal;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: #eee;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: #ccc;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #488fcd;
+}
 form {
   margin: 0 0 18px;
 }
@@ -558,67 +1313,28 @@ label {
 }
 input,
 textarea,
-select,
-.uneditable-input {
+select {
   display: inline-block;
   width: 210px;
   height: 18px;
-  padding: 3px 7px;
+  padding: 2px 8px 3px;
   margin-bottom: 9px;
   line-height: 18px;
   color: #333333;
-  border: 1px solid #eeeeee;
-  border-top-color: #d8d8d8;
+  border: 1px solid #dddddd;
+  border-top-color: #bbbbbb;
+  border-radius: 2px;
 }
-.uneditable-textarea {
-  width: auto;
-  height: auto;
+::-webkit-input-placeholder {
+  color: #cccccc;
 }
-label input,
-label textarea,
-label select {
-  display: block;
+:-ms-input-placeholder {
+  color: #cccccc;
 }
-input[type="image"],
-input[type="checkbox"],
-input[type="radio"] {
-  width: auto;
-  height: auto;
-  padding: 0;
-  margin: 3px 0;
-  *margin-top: 0;
-  /* IE7 */
-
-  line-height: normal;
-  cursor: pointer;
-  background-color: transparent;
-  border: 0 \9;
-  /* IE9 and down */
-
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
+:-moz-placeholder {
+  color: #cccccc;
 }
-input[type="image"] {
-  border: 0;
-}
-input[type="file"] {
-  width: auto;
-  padding: initial;
-  line-height: initial;
-  border: initial;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-input[type="button"],
-input[type="reset"],
-input[type="submit"] {
-  width: auto;
-  height: auto;
-}
-select,
-input[type="file"] {
+select {
   height: 28px;
   /* In IE7, the height of the select element cannot be changed by height, only font-size */
 
@@ -626,52 +1342,29 @@ input[type="file"] {
   /* For IE7, add top margin to align select with labels */
 
   line-height: 28px;
-}
-input[type="file"] {
-  line-height: 18px \9;
-}
-select {
   width: 220px;
 }
-select[multiple],
-select[size] {
-  height: auto;
-}
-input[type="image"] {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
 textarea {
+  padding-top: 4px;
   height: auto;
 }
-input[type="hidden"] {
-  display: none;
+label input,
+label textarea,
+label select {
+  display: block;
 }
 .radio,
 .checkbox {
-  min-height: 18px;
+  margin-top: 5px;
   padding-left: 18px;
 }
-.radio input[type="radio"],
-.checkbox input[type="checkbox"] {
+.radio input,
+.checkbox input {
   float: left;
+  _display: inline;
+  border: none;
   margin-left: -18px;
-}
-.controls > .radio:first-child,
-.controls > .checkbox:first-child {
-  padding-top: 5px;
-}
-.radio.inline,
-.checkbox.inline {
-  display: inline-block;
-  padding-top: 5px;
-  margin-bottom: 0;
-  vertical-align: middle;
-}
-.radio.inline + .radio.inline,
-.checkbox.inline + .checkbox.inline {
-  margin-left: 10px;
+  width: auto;
 }
 input,
 textarea {
@@ -683,8 +1376,8 @@ textarea {
 }
 input:hover,
 textarea:hover {
-  border-color: #d9d9d9;
-  border-top-color: #bfbfbf;
+  border-color: #cccccc;
+  border-top-color: #999999;
   -webkit-box-shadow: inset 0 1px #f5f5f5;
   -moz-box-shadow: inset 0 1px #f5f5f5;
   box-shadow: inset 0 1px #f5f5f5;
@@ -693,47 +1386,11 @@ input:focus,
 textarea:focus {
   border-color: #488fcd;
   outline: 0;
-  -webkit-box-shadow: 0 0 8px rgba(72,143,205,.14);
-  -moz-box-shadow: 0 0 8px rgba(72,143,205,.14);
-  box-shadow: 0 0 8px rgba(72,143,205,.14);
+  -webkit-box-shadow: 0 0 8px rgba(72,143,205,.6);
+  -moz-box-shadow: 0 0 8px rgba(72,143,205,.6);
+  box-shadow: 0 0 8px rgba(72,143,205,.6);
 }
-input[type="file"]:focus,
-input[type="radio"]:focus,
-input[type="checkbox"]:focus,
-select:focus {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-.input-mini {
-  width: 60px;
-}
-.input-small {
-  width: 90px;
-}
-.input-medium {
-  width: 150px;
-}
-.input-large {
-  width: 210px;
-}
-.input-xlarge {
-  width: 270px;
-}
-.input-xxlarge {
-  width: 530px;
-}
-input[class*="span"],
-select[class*="span"],
-textarea[class*="span"],
-.uneditable-input[class*="span"],
-.row-fluid input[class*="span"],
-.row-fluid select[class*="span"],
-.row-fluid textarea[class*="span"],
-.row-fluid .uneditable-input[class*="span"] {
-  float: none;
-  margin-left: 0;
-}
+input.disabled,
 input[disabled],
 select[disabled],
 textarea[disabled],
@@ -741,14 +1398,15 @@ input[readonly],
 select[readonly],
 textarea[readonly] {
   cursor: not-allowed;
-  background-color: #cccccc;
-  border-color: #ddd;
+  border-color: #cccccc;
+  color: #cccccc;
+  background-color: #f5f5f5;
 }
-input[type="radio"][disabled],
-input[type="checkbox"][disabled],
-input[type="radio"][readonly],
-input[type="checkbox"][readonly] {
-  background-color: transparent;
+.controls .inline {
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 0;
+  vertical-align: middle;
 }
 .control-group.warning > label,
 .control-group.warning .help-block,
@@ -758,7 +1416,6 @@ input[type="checkbox"][readonly] {
 .control-group.warning input,
 .control-group.warning select,
 .control-group.warning textarea {
-  color: #c09853;
   border-color: #c09853;
 }
 .control-group.warning input:focus,
@@ -778,27 +1435,26 @@ input[type="checkbox"][readonly] {
 .control-group.error > label,
 .control-group.error .help-block,
 .control-group.error .help-inline {
-  color: #b94a48;
+  color: #ec0000;
 }
 .control-group.error input,
 .control-group.error select,
 .control-group.error textarea {
-  color: #b94a48;
-  border-color: #b94a48;
+  border-color: #ec0000;
 }
 .control-group.error input:focus,
 .control-group.error select:focus,
 .control-group.error textarea:focus {
-  border-color: #953b39;
-  -webkit-box-shadow: 0 0 6px #d59392;
-  -moz-box-shadow: 0 0 6px #d59392;
-  box-shadow: 0 0 6px #d59392;
+  border-color: #b90000;
+  -webkit-box-shadow: 0 0 6px #ff5353;
+  -moz-box-shadow: 0 0 6px #ff5353;
+  box-shadow: 0 0 6px #ff5353;
 }
 .control-group.error .input-prepend .add-on,
 .control-group.error .input-append .add-on {
-  color: #b94a48;
+  color: #ec0000;
   background-color: #f2dede;
-  border-color: #b94a48;
+  border-color: #ec0000;
 }
 .control-group.success > label,
 .control-group.success .help-block,
@@ -808,7 +1464,6 @@ input[type="checkbox"][readonly] {
 .control-group.success input,
 .control-group.success select,
 .control-group.success textarea {
-  color: #468847;
   border-color: #468847;
 }
 .control-group.success input:focus,
@@ -855,6 +1510,17 @@ select:focus:required:invalid:focus {
 .form-actions:after {
   clear: both;
 }
+.form-actions {
+  *zoom: 1;
+}
+.form-actions::before,
+.form-actions::after {
+  display: table;
+  content: "";
+}
+.form-actions::after {
+  clear: both;
+}
 .uneditable-input {
   overflow: hidden;
   white-space: nowrap;
@@ -875,7 +1541,7 @@ select:focus:required:invalid:focus {
 .help-inline {
   display: inline-block;
   *display: inline;
-  /* IE7 inline-block hack */
+  /* IE inline-block hack */
 
   *zoom: 1;
   vertical-align: middle;
@@ -1017,7 +1683,7 @@ select:focus:required:invalid:focus {
 .form-horizontal .input-append {
   display: inline-block;
   *display: inline;
-  /* IE7 inline-block hack */
+  /* IE inline-block hack */
 
   *zoom: 1;
   margin-bottom: 0;
@@ -1061,7 +1727,7 @@ legend + .control-group {
   -webkit-margin-top-collapse: separate;
 }
 .form-horizontal .control-group {
-  margin-bottom: 26px;
+  margin-bottom: 18px;
   *zoom: 1;
 }
 .form-horizontal .control-group:before,
@@ -1070,6 +1736,17 @@ legend + .control-group {
   content: "";
 }
 .form-horizontal .control-group:after {
+  clear: both;
+}
+.form-horizontal .control-group {
+  *zoom: 1;
+}
+.form-horizontal .control-group::before,
+.form-horizontal .control-group::after {
+  display: table;
+  content: "";
+}
+.form-horizontal .control-group::after {
   clear: both;
 }
 .form-horizontal .control-label {
@@ -1094,42 +1771,24 @@ legend + .control-group {
 .form-horizontal .form-actions {
   padding-left: 160px;
 }
-/*@import "tables.less";*/
-/*@import "sprites.less";*/
-/*@import "dropdowns.less";*/
-/*@import "wells.less";*/
-/*@import "component-animations.less";*/
-/*@import "close.less";*/
 .btn {
-  display: inline-block;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  -o-appearance: none;
-  appearance: none;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  -ms-box-sizing: content-box;
-  -o-box-sizing: content-box;
   box-sizing: content-box;
-  overflow: visible;
+  display: inline-block;
   border: 1px solid #ddd;
+  *border: none;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
+  *margin-right: .3em;
+  margin-bottom: 0;
   padding: 0 10px;
+  *padding: 1px 10px;
+  width: auto;
   height: 21px;
   line-height: 21px;
   font-size: 12px;
   font-weight: bold;
-  text-decoration: none;
-}
-.btn,
-.btn:hover,
-.btn:visited {
-  color: #333;
-}
-.btn {
+  cursor: pointer;
   border-bottom-color: #bbb;
   background-color: #f4f4f4;
   background-image: -moz-linear-gradient(top, #f8f8f8, #eeeeee);
@@ -1141,7 +1800,15 @@ legend + .control-group {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8f8f8', endColorstr='#eeeeee', GradientType=0);
 }
+.btn,
+.btn:hover,
+.btn:visited {
+  color: #333!important;
+}
 .btn:hover {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
   background-color: #ededed;
   background-image: -moz-linear-gradient(top, #f2f2f2, #e6e6e6);
   background-image: -ms-linear-gradient(top, #f2f2f2, #e6e6e6);
@@ -1163,10 +1830,30 @@ legend + .control-group {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e6e6e6', endColorstr='#f2f2f2', GradientType=0);
 }
-.btn-red,
-.btn-red:hover,
-.btn-red:visited {
-  color: #FFF;
+.btn .iconfont {
+  font-size: 12px!important;
+}
+/*group btn*/
+.btn-group .btn {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  border-left-width: 0;
+  /*border-right-width: 0;*/
+
+}
+.btn-group .btn:first-child {
+  border-left-width: 1px;
+  -webkit-border-radius: 2px 0 0 2px;
+  -moz-border-radius: 2px 0 0 2px;
+  border-radius: 2px 0 0 2px;
+}
+.btn-group .btn:last-child {
+  /*border-right-width: 1px;*/
+
+  -webkit-border-radius: 0 2px 2px 0;
+  -moz-border-radius: 0 2px 2px 0;
+  border-radius: 0 2px 2px 0;
 }
 .btn-red {
   border-color: transparent;
@@ -1180,6 +1867,11 @@ legend + .control-group {
   background-image: linear-gradient(top, #ff4444, #ff2222);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff4444', endColorstr='#ff2222', GradientType=0);
+}
+.btn-red,
+.btn-red:hover,
+.btn-red:visited {
+  color: #FFF!important;
 }
 .btn-red:hover {
   background-color: #e41b1b;
@@ -1203,12 +1895,6 @@ legend + .control-group {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d51314', endColorstr='#ee2020', GradientType=0);
 }
-.btn-orange,
-.btn-orange:hover,
-.btn-orange:active,
-.btn-orange:visited {
-  color: #FFF;
-}
 .btn-orange {
   border-color: transparent;
   border-bottom-color: #cf370c;
@@ -1221,6 +1907,11 @@ legend + .control-group {
   background-image: linear-gradient(top, #ff5500, #ff4400);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5500', endColorstr='#ff4400', GradientType=0);
+}
+.btn-orange,
+.btn-orange:hover,
+.btn-orange:visited {
+  color: #FFF!important;
 }
 .btn-orange:hover {
   background-color: #ef4000;
@@ -1244,12 +1935,6 @@ legend + .control-group {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d73900', endColorstr='#ff4400', GradientType=0);
 }
-.btn-blue,
-.btn-blue:hover,
-.btn-blue:active,
-.btn-blue:visited {
-  color: #FFF;
-}
 .btn-blue {
   border-color: transparent;
   border-bottom-color: #0960ab;
@@ -1262,6 +1947,11 @@ legend + .control-group {
   background-image: linear-gradient(top, #488fcd, #3a7db8);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#488fcd', endColorstr='#3a7db8', GradientType=0);
+}
+.btn-blue,
+.btn-blue:hover,
+.btn-blue:visited {
+  color: #FFF!important;
 }
 .btn-blue:hover {
   background-color: #3579b5;
@@ -1285,8 +1975,15 @@ legend + .control-group {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#25659c', endColorstr='#4087c6', GradientType=0);
 }
+.btn-disabled {
+  border: 1px solid #e0e0e0;
+  border-bottom-color: #ccc;
+  cursor: default;
+}
 .btn-disabled,
-.btn-disabled:hover {
+.btn-disabled:hover,
+.btn-disabled:visited {
+  color: #ccc !important;
   background-color: #ededed;
   background-image: -moz-linear-gradient(top, #f2f2f2, #e6e6e6);
   background-image: -ms-linear-gradient(top, #f2f2f2, #e6e6e6);
@@ -1296,40 +1993,660 @@ legend + .control-group {
   background-image: linear-gradient(top, #f2f2f2, #e6e6e6);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f2f2f2', endColorstr='#e6e6e6', GradientType=0);
-  color: #ccc;
-  cursor: default;
 }
-.btn-size45 {
+.btn-size45,
+.btn-xlarge {
+  padding: 0 20px;
   height: 43px;
   line-height: 43px;
   font-size: 18px;
-  padding: 0 20px;
 }
-.btn-size40 {
+.btn-size45 .iconfont,
+.btn-xlarge .iconfont {
+  font-size: 18px!important;
+}
+.btn-size40,
+.btn-large {
+  padding: 0 20px;
   height: 38px;
   line-height: 38px;
   font-size: 14px;
-  padding: 0 20px;
 }
-.btn-size30 {
+.btn-size40 .iconfont,
+.btn-large .iconfont {
+  font-size: 14px!important;
+}
+.btn-size30,
+.btn-medium {
   height: 28px;
   line-height: 28px;
   padding: 0 20px;
 }
-.btn-size28 {
+.btn-size28,
+.btn-small {
   height: 26px;
   line-height: 26px;
   padding: 0 20px;
 }
-.btn-size25 {
+.btn-size25,
+.btn-xsmall {
   height: 23px;
   line-height: 23px;
 }
+/**
+ * table
+ * author: chongzhi.ldq@taobao.com 崇志
+ */
+.table-container {
+  -webkit-text-size-adjust: none;
+  /*允许缩小至12px以下*/
+
+  -ms-text-size-adjust: none;
+  color: #333;
+}
+.table-container .color-grey {
+  color: #999!important;
+}
+.table-container .color-smoke {
+  color: #CCC!important;
+}
+.table-container .color-blue {
+  color: #0859AC!important;
+}
+.table-container .toolbar {
+  padding: 8px 14px;
+  background-color: #f7f7f7;
+}
+.table-container .btn {
+  font-weight: normal;
+}
+.table-container .btn:hover {
+  color: #333;
+}
+.table {
+  width: 100%;
+  table-layout: auto;
+  /* 向下三角形小icon */
+
+  /* 斜下三角形小icon */
+
+  /*打开关闭按钮*/
+
+}
+.table input {
+  padding: 0;
+  margin: 0;
+  width: auto;
+  height: auto;
+  border: none;
+}
+.table th {
+  background-color: #f7f7f7;
+  font-weight: normal;
+  padding: 7px 5px 6px;
+  color: #999;
+  border-bottom: 1px solid #ebebeb;
+}
+.table th:first-child {
+  padding-left: 14px;
+}
+.table th:last-child {
+  padding-right: 14px;
+}
+.table th a {
+  color: #999;
+}
+.table th a.sort {
+  color: #666;
+}
+.table th a.sort .iconfont {
+  font-size: 10px;
+  vertical-align: 2px;
+}
+.table .no-data th {
+  color: #ccc;
+}
+.table .no-data th a {
+  color: #ccc;
+}
+.table tbody a {
+  color: #333;
+}
+.table tbody a:hover {
+  color: #0859AC;
+}
+.table tbody tr td {
+  border-bottom: 1px solid #ebebeb;
+  padding: 10px 5px 9px;
+}
+.table tbody tr td:first-child {
+  padding-left: 14px;
+}
+.table tbody tr td:last-child {
+  padding-right: 14px;
+}
+.table tbody tr td.sort {
+  background-color: #f2f2f2;
+}
+.table tbody tr td.table-child {
+  padding: 0 40px;
+}
+.table tbody tr td .operation {
+  visibility: hidden;
+}
+.table tbody tr td .operation a {
+  color: #0859AC;
+}
+.table tbody tr:hover td,
+.table tbody tr.hover td,
+.table tbody tr.current td {
+  background-color: #f7f7f7;
+}
+.table tbody tr:hover td .operation,
+.table tbody tr.hover td .operation,
+.table tbody tr.current td .operation {
+  visibility: visible;
+}
+.table tbody tr:hover td .operation a,
+.table tbody tr.hover td .operation a,
+.table tbody tr.current td .operation a {
+  color: #0859AC;
+}
+.table tbody tr:hover td.table-child {
+  background: none;
+}
+.table tbody tr .operation-list li {
+  padding: 3px 0;
+}
+.table tbody tr.none .create-btn {
+  padding-top: 15px;
+  display: inline-block;
+  position: relative;
+}
+.table tbody tr.none .create-btn .icon-point-to {
+  position: absolute;
+  right: -26px;
+  top: 0;
+}
+.table tbody tr.none td {
+  height: 131px;
+  font-size: 14px;
+  text-align: center;
+  color: #666;
+  /*background-color: #fafafa;*/
+
+}
+.table tbody tr.none:hover td {
+  background: none;
+}
+.table tbody tr.selected td {
+  background-color: #f2f2f2;
+}
+.table tfoot td {
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #ebebeb;
+  padding: 0 14px;
+  height: 38px;
+}
+.table td.left,
+.table th.left {
+  text-align: left;
+}
+.table td.center,
+.table th.center {
+  text-align: center;
+}
+.table td.right,
+.table th.right {
+  text-align: right;
+}
+.table .link {
+  color: #555;
+}
+.table .link :hover {
+  color: #000;
+}
+.table .url-overflow {
+  width: 250px;
+  overflow: hidden;
+  display: block;
+  white-space: nowrap;
+}
+.table .icon-horn,
+.table .icon-horn-tilt {
+  display: inline-block;
+  width: 0px;
+  height: 0px;
+  line-height: 0px;
+  font-size: 0px;
+  overflow: hidden;
+  border-style: solid;
+  border-width: 4px 4px 0 4px;
+  border-color: #999 transparent transparent transparent;
+  _border-color: #999 #FFFFFF #FFFFFF #FFFFFF;
+}
+.table .icon-horn-tilt {
+  border-width: 3px 3px 3px 3px;
+  border-color: transparent #999 #999 transparent;
+  _border-color: #FFFFFF #999 #999 #FFFFFF;
+}
+.table .icon-expend-collapse {
+  font-style: normal;
+  border: 1px solid #777;
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  text-align: center;
+  line-height: 9px;
+  line-height: 8px\9;
+  /*兼容ie8-*/
+
+  border-radius: 2px;
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  background: white;
+  font-size: 10px;
+  color: black;
+  overflow: hidden;
+  font-family: simsun;
+}
+.table :root .icon-expend-collapse {
+  line-height: 10px\9;
+  /*兼容i9*/
+
+}
+/* 用于在 table 标签之外实现 foot 的，这样就不用去计算 td 的 colspan 需要多少了  */
+.table-foot {
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #ebebeb;
+  padding: 5px 14px;
+}
+.table-settings {
+  float: right;
+  padding: 0 6px!important;
+}
+.table-settings .iconfont {
+  color: #666;
+}
+/*title*/
+.table-title {
+  margin-bottom: 40px;
+}
+.table-title li {
+  float: left;
+  margin-right: 30px;
+}
+.table-title li.selected h2 a {
+  color: #333;
+  font-size: 32px;
+}
+.table-title h2 {
+  margin: 0;
+}
+.table-title h2 a {
+  color: #999;
+}
+.table-data {
+  margin: -20px 0 35px 14px;
+}
+.table-data .data-font {
+  font-size: 18px;
+  font-weight: bold;
+}
+.table-data li {
+  float: left;
+  width: 150px;
+}
+.table-more {
+  display: block;
+  position: relative;
+  zoom: 1;
+}
+.table-more .icon-horn-tilt {
+  position: absolute;
+  right: 0;
+  bottom: -5px;
+}
+.table-namewrap {
+  height: 18px;
+  overflow: hidden;
+  /*white-space: nowrap;*/
+
+}
+/* 子表格样式 */
+.table-child {
+  width: 100%;
+}
+.table-child thead th {
+  border: 0;
+  background: none;
+}
+.table-child tbody td {
+  border: 0;
+  border-top: 1px dashed #ccc;
+}
+.table-child tbody tr td {
+  background: none!important;
+}
+.table-child tbody tr:hover td {
+  background: #f7f7f7!important;
+}
+.table-child tbody tr:hover .operation {
+  visibility: visible!important;
+}
+.table-child tbody tr .operation {
+  visibility: hidden!important;
+  _visibility: visible;
+}
+.table-info,
+.table-change {
+  position: absolute;
+  /*width: 70px;*/
+
+  left: -5px;
+  top: -10px;
+  padding: 10px 12px 8px;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
+  -ms-box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
+  background-color: #FFF;
+  border: 1px solid #ccc\9;
+  text-align: left;
+  display: none;
+  line-height: 1.8;
+  border-collapse: separate;
+  /*padding: 5px 0;*/
+
+  left: 6px;
+  width: 100px;
+}
+.table-info p,
+.table-change p {
+  margin: 0;
+}
+.table-info li,
+.table-change li {
+  height: 25px;
+  line-height: 25px;
+  padding: 2px 9px;
+  padding: 0px 7px 2px 8px\9;
+  cursor: pointer;
+}
+.table-info li:hover,
+.table-change li:hover {
+  background-color: #F0F0F0;
+}
+.table-info li.selected,
+.table-change li.selected {
+  cursor: default;
+}
+.table-info li.selected .table-cur,
+.table-change li.selected .table-cur {
+  display: block;
+}
+.table-change {
+  padding: 5px 0;
+}
+:root .table-info {
+  border: none;
+}
+:root .table-change {
+  border: none;
+}
+.table-handle,
+.table-icon {
+  width: 45px;
+  margin: 0 auto;
+  zoom: 1;
+  height: 18px;
+  line-height: 18px;
+  position: relative;
+  text-align: center;
+}
+/* 短图标时 */
+.table-icon-short {
+  width: 20px;
+  float: left;
+  margin: 0 3px;
+  display: inline;
+}
+.table-icon-short .table-info {
+  left: 20px;
+}
+.table-handle .icon-horn {
+  position: absolute;
+  top: 8px;
+  right: 0;
+}
+.table-cur {
+  color: #999;
+  font-size: 10px;
+  float: right;
+  display: none;
+}
+.tags {
+  font-size: 0;
+  letter-spacing: -5px;
+  white-space: nowrap;
+  word-wrap: normal;
+}
+.tags-hd {
+  color: #333333;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: normal;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: top;
+  padding: 3px 5px 4px 0;
+}
+.tags-bd {
+  font-size: 12px;
+  letter-spacing: normal;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: top;
+  margin: 0;
+}
+.tags-list,
+.tags-list li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.tags-list li {
+  float: left;
+  padding: 3px 8px 4px 8px;
+  margin: 0 10px 5px 0;
+  background-color: #eee;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+.tags-list .no-bg {
+  background-color: #ffffff;
+}
+.tags-list .current {
+  background-color: #488fdc;
+}
+.tags-list .current a {
+  color: #ffffff;
+}
+.tags-list li a {
+  color: #666666;
+  text-decoration: none;
+}
+.tags-list li a:hover {
+  color: #ff8400;
+}
+.tags-list .del {
+  color: #999999;
+  padding-left: 5px;
+}
+.footer {
+  border-top: 1px solid #CBCBCB;
+  text-align: center;
+  padding: 30px 0;
+  line-height: 1em;
+  font-family: 'SimSun';
+}
+.footer .common {
+  margin-bottom: 15px;
+}
+.footer .common a {
+  color: #606060;
+  padding: 0 7px;
+}
+.footer .corp {
+  margin: 15px 0;
+}
+.footer .corp a {
+  color: #606060;
+}
+.footer .corp .split {
+  color: #666;
+  padding-right: 10px;
+  padding-left: 5px;
+  border-right: 1px solid #d0d0d0;
+  border-left: none;
+}
+.footer .corp .nosplit {
+  border: none;
+  margin: 0 1px;
+  padding: 0;
+}
+.footer .corp .last-link {
+  border-right: none;
+  padding-right: 10px;
+  padding-left: 5px;
+}
+.footer .corp .corp-network {
+  color: #ACACAC;
+}
+.footer .corp .corp-name {
+  font-family: tahoma;
+}
+.footer .copyright {
+  color: #acacac;
+}
+.footer .copyright-sign {
+  font-family: tahoma;
+}
+.footer .copyright-no {
+  margin-left: 20px;
+}
+.footer .sep {
+  color: #ACACAC;
+  margin: 5px 0;
+}
+.footer .copyright-alone span {
+  display: block;
+  line-height: 1em;
+}
+.footer .copyright-alone .copyright-no {
+  margin-top: 10px;
+  margin-left: 0;
+}
+.footer .zuanshi-logo {
+  width: 89px;
+  height: 87px;
+  background: url(http://img03.taobaocdn.com/tps/i3/T15XvFXeNbXXX.NiPr-89-87.png) no-repeat;
+  _background: none;
+  _filter: progid:dximagetransform.microsoft.alphaimageloader(src='http://img03.taobaocdn.com/tps/i3/T15XvFXeNbXXX.NiPr-89-87.png', sizingMethod='crop');
+  margin: 20px auto 0;
+}
+/**
+ * avatar normal 
+ */
+.avatar,
+.avatar-min,
+.avatar-point,
+.avatar-rim {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  width: 78px;
+  height: 78px;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-rim {
+  background: url(tests/assets/avatar_bg.png) no-repeat 2px 2px;
+  -background: url(tests/assets/avatar_bg_ie6.png) no-repeat 2px 2px;
+  z-index: 2;
+}
+.avatar-pic {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+  left: 8px;
+  top: 9px;
+  z-index: 1;
+}
+.avatar-pic img {
+  border: 0;
+}
+.avatar .avatar-active {
+  background-position: -76px 1px;
+}
+.avatar-has-label .avatar-rim {
+  background-position: -153px 2px;
+}
+.avatar-has-label .avatar-active {
+  background-position: -231px 1px;
+}
+/**
+ * avatar min
+ */
+.avatar-min,
+.avatar-min .avatar-rim {
+  width: 44px;
+  height: 44px;
+}
+.avatar-min .avatar-pic {
+  width: 30px;
+  height: 30px;
+  top: 7px;
+}
+.avatar-min .avatar-pic img {
+  width: 30px;
+  height: 30px;
+}
+.avatar-min .avatar-rim {
+  background-position: 3px -76px;
+}
+.avatar-min .avatar-active {
+  background-position: -39px -77px;
+}
+.avatar-min-label .avatar-rim {
+  background-position: -83px -77px;
+}
+.avatar-min-label .avatar-active {
+  background-position: -130px -77px;
+}
+/**
+ * avatar point
+ */
+.avatar-point {
+  height: 92px;
+}
+.avatar-point .avatar-rim {
+  height: 92px;
+  background-position: -320px 4px;
+}
+/*@import "breadcrumbs.less";*/
+/*@import "code.less";*/
+/*@import "wells.less";*/
+/*@import "component-animations.less";*/
+/*@import "close.less";*/
 /*@import "button-groups.less";*/
 /*@import "alerts.less"; // Note: alerts share common CSS with buttons and thus have styles in buttons.less*/
 /*@import "navs.less";*/
 /*@import "navbar.less";*/
-/*@import "breadcrumbs.less";*/
 /*@import "pagination.less";*/
 /*@import "pager.less";*/
 /*@import "modals.less";*/
@@ -1341,4 +2658,3 @@ legend + .control-group {
 /*@import "accordion.less";*/
 /*@import "carousel.less";*/
 /*@import "hero-unit.less";*/
-/*@import "utilities.less"; // Has to be last to override when necessary*/

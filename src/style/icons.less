@@ -1,0 +1,30 @@
+// 注意：使用font-face需要css线上地址和引用的font线上地址同域，否则ie9会有CSS3117问题
+// CSS3117: @font-face failed cross-origin request. Resource access is restricted.
+
+//    第一步：使用font-face声明字体
+//    @font-face {font-family: 'uxiconfont';
+//        src: url('src_uxiconfont.eot'); /* IE9*/
+//        src: url('scr_uxiconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+//        url('scr_uxiconfont.woff') format('woff'), /* chrome、firefox */
+//        url('scr_uxiconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+//        url('scr_uxiconfont.svg#svgFontName') format('svg'); /* iOS 4.1- */
+//    }
+//    第二步：定义使用iconfont的样式
+//    .iconfont{font-family:"uxiconfont";
+//    font-size:16px;font-style:normal;}
+//    第三步：挑选相应图标并获取字体编码，应用于页面
+//    <i class="iconfont">&#33</i>
+
+@font-face {
+    font-family: "uxiconfont";
+    src: url("@{iconfontpath}.eot"); /* IE9*/
+    src: url("@{iconfontpath}.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("@{iconfontpath}.woff") format("woff"), /* chrome、firefox */
+    url("@{iconfontpath}.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url("@{iconfontpath}.svg#svgFontName") format("svg"); /* iOS 4.1- */
+}
+.iconfont {
+    font-family: "uxiconfont";
+    font-size: 16px;
+    font-style: normal;
+}

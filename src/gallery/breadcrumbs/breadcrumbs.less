@@ -1,0 +1,53 @@
+@import "../../style/variables.less";
+@import "../../style/mixins.less";
+
+.breadcrumbs {
+  -webkit-text-size-adjust: none;
+  li.item {
+    padding:0 10px;
+    height: 25px;
+    line-height: 25px;
+    float: left;
+    list-style-type:none;
+    margin: 0;
+
+    a:link,
+    a:visited {
+      color: #666;
+      text-decoration: none;
+    }
+
+    &.first,
+    &:first-child {
+      padding-left: 0px;
+    }
+
+    &.last,
+    &:last-child {
+      padding-right: 0px;
+      &,
+      a:link,
+      a:visited {
+        color:#999;
+      }
+    }
+  }
+
+  li.split {
+    padding:0;
+    .iconfont {
+      font-size:8px;
+      display: block;
+    }
+  }
+
+  li.item-dropdown{
+    padding: 0 6px;
+    a:link,
+    a:visited {
+      color:#666;
+      text-decoration:none;
+    }
+  }
+  .clearfix()
+}

@@ -2,3 +2,8 @@
 .*.swp
 .idea
 node_modules
+
+# Brix Docs branch folders
+_deploy
+_site
+assets

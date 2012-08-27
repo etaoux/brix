@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Brix StarRating Demo</title>
+        <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+        <link rel="stylesheet" href="../../../src/gallery/starrating/starrating.css">
+        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+        <script src="../../config.js"></script>
+    </head>
+    <body style="margin:0px;padding-top:40px">
+        <div id="J_container">
+            <h1>静态大猩猩</h1>
+            <div class="starrating-static clearfix" title="自定义大猩猩">
+                <div class="starrating-static-on" style="width:50%;"></div>
+            </div>
+            <h1>静态小猩猩</h1>
+            <div class="starrating-static-s clearfix" title="自定义小猩猩">
+                <div class="starrating-static-s-on" style="width:40%;"></div>
+            </div>
+
+            <h1>大猩猩</h1>
+            <div id="daxingxing" bx-name="starrating" class="starrating clearfix">
+            </div>
+            <div style="padding-top:10px;"><a href="#" class="btn">设置</a></div>
+            <h1>小猩猩</h1>
+            <div id="xiaoxingxing" bx-name="starrating" class="starrating-s clearfix">
+            </div>
+            <h1>自定义分数</h1>
+            <div bx-name="starrating" bx-config="{split:1}" class="starrating clearfix">
+                <input class="star" type="radio" name="test-1-rating-2" value="1"/>
+                <input class="star" type="radio" name="test-1-rating-2" value="5"/>
+                <input class="star" type="radio" name="test-1-rating-2" value="7"/>
+                <input class="star" type="radio" name="test-1-rating-2" value="3"/>
+                <input class="star" type="radio" name="test-1-rating-2" value="6"/>
+            </div>
+            <h1>奇葩需求</h1>
+            <div bx-name="starrating" bx-config="{split:1}" class="starrating clearfix">
+                <input class="star" type="radio" name="test-2-rating-1" value="N" title="No"/>
+                <input class="star" type="radio" name="test-2-rating-1" value="M" title="Maybe" checked="checked"/>
+                <input class="star" type="radio" name="test-2-rating-1" value="Y" title="Yes"/>
+            </div>
+            <h1>考试成绩100分</h1>
+            <div bx-name="starrating " class="starrating clearfix" bx-config="{split:1,maxValue:100,length:100,defaultValue:20}">
+            </div>
+         </div>
+        <script>
+            KISSY.ready(function(S) {
+                KISSY.use("brix/core/pagelet", function(S, Pagelet) {
+                    var config = {
+                        tmpl:'#J_container'
+                    }
+                    var p = new Pagelet(config);
+                    p.addBehavior();
+                    p.ready(function(){
+                        var daxingxing = p.getBrick('daxingxing');
+
+                        //设置分数和readOnly
+                        S.one('.btn').on('click',function(e){
+                            e.halt();
+                            daxingxing.select('4.5');
+                            daxingxing.readOnly();
+                        });
+
+                        var xiaoxingxing = p.getBrick('xiaoxingxing');
+
+                        xiaoxingxing.on('focus',function(ev){
+                            top.console.log('focus:'+ev.value);
+                        });
+                        xiaoxingxing.on('blur',function(ev){
+                            top.console.log('blur:'+ev.value);
+                        });
+                        xiaoxingxing.on('selected',function(ev){
+                            top.console.log('selected:'+ev.value);
+                            //xiaoxingxing.readOnly();
+                        });
+
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

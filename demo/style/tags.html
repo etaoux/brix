@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>标签云 - 设计模式库</title>
+    <link rel="stylesheet/less" type="text/css" href="../../src/style/brix.less"/>    
+    <script src="../../src/style/tests/less.js"></script>
+    <link rel="stylesheet/css" type="text/css" href="assets/doc.css"/>    
+    <style>
+        body {
+            padding: 10px;
+        }
+
+        code {
+            border: 1px solid #666;
+            border-radius: 3px;
+        }
+
+        pre {
+            color: #1E347B;
+            display: block;
+            padding: 8px;
+            background-color: #F7F7F9;
+            border: 1px solid #E1E1E8;
+            border-radius: 3px;
+            padding: 8.5px;
+            margin: 9px;
+            font-size: 12.025px;
+            line-height: 18px;
+            word-break: break-all;
+            word-wrap: break-word;
+            white-space: pre;
+            white-space: pre-wrap;
+            background-color: whiteSmoke;
+            border: 1px solid #CCC;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h2>标签云 tags</h2>
+    <h3>默认</h3>
+    <dl class="tags">
+        <dt class="tags-hd">商品属性:</dt>
+        <dd class="tags-bd">
+            <ul class="tags-list clearfix">
+                <li><a href="#">全部</a></li>
+                <li><a href="#">雪纺</a></li>
+                <li><a href="#">小清新</a></li>
+                <li><a href="#">甜美</a></li>
+                <li class="current"><a href="#">韩系</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+                <li><a href="#">牛仔衬衫</a></li>
+            </ul>
+        </dd>
+    </dl>
+    <pre>
+    &lt;dl class="tags"&gt;
+        &lt;dt class="tags-hd"&gt;商品属性:&lt;/dt&gt;
+        &lt;dd class="tags-bd"&gt;
+            &lt;ul class="tags-list clearfix"&gt;
+                &lt;li&gt;&lt;a href="#"&gt;全部&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#"&gt;雪纺&lt;/a&gt;&lt;/li&gt;
+                &lt;li class="current"&gt;&lt;a href="#"&gt;韩系&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#"&gt;甜美&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/dd&gt;
+    &lt;/dl&gt;
+    </pre>
+    <h3>无标签标题</h3>
+    <ul class="tags-list clearfix">
+        <li><a href="#">全部</a></li>
+        <li><a href="#">雪纺</a></li>
+        <li><a href="#">小清新</a></li>
+        <li><a href="#">甜美</a></li>
+        <li class="current"><a href="#">韩系</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+        <li><a href="#">牛仔衬衫</a></li>
+    </ul>
+    <pre>
+            &lt;ul class="tags-list clearfix"&gt;
+                &lt;li&gt;&lt;a href="#"&gt;全部&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#"&gt;雪纺&lt;/a&gt;&lt;/li&gt;
+                &lt;li class="current"&gt;&lt;a href="#"&gt;韩系&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="#"&gt;甜美&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+    </pre>
+
+    <h3>背景不选中</h3>
+    <dl class="tags">
+        <dt class="tags-hd">商品属性:</dt>
+        <dd class="tags-bd">
+            <ul class="tags-list clearfix">
+                <li class="no-bg"><a href="#">家居</a></li>
+                <li class="current"><a href="#">牛仔衬衫</a></li>
+                <li class="no-bg"><a href="#">牛仔衬衫</a></li>
+                <li class="no-bg"><a href="#">牛仔衬衫</a></li>
+                <li class="no-bg"><a href="#">牛仔衬衫</a></li>
+                <li class="no-bg"><a href="#">牛仔衬衫</a></li>
+                <li class="no-bg"><a href="#">牛仔衬衫</a></li>
+                <li class="no-bg"><a href="#">牛仔衬衫</a></li>
+                <li class="no-bg"><a href="#">牛仔衬衫</a></li>
+                <li class="no-bg"><a href="#">牛仔衬衫</a></li>
+                <li class="no-bg"><a href="#">牛仔衬衫</a></li>
+                <li class="no-bg"><a href="#">牛仔衬衫</a></li>
+                <li class="no-bg"><a href="#">牛仔衬衫</a></li>
+                <li class="no-bg"><a href="#">牛仔衬衫</a></li>
+            </ul>
+        </dd>
+    </dl>
+    <pre>
+            &lt;ul class="tags-list clearfix"&gt;
+                &lt;li class="no-bg"&gt;&lt;a href="#"&gt;家居&lt;/a&gt;&lt;/li&gt;
+                &lt;li class="current"&gt;&lt;a href="#"&gt;牛仔衬衫&lt;/a&gt;&lt;/li&gt;
+                &lt;li class="no-bg"&gt;&lt;a href="#"&gt;牛仔衬衫&lt;/a&gt;&lt;/li&gt;
+                &lt;li class="no-bg"&gt;&lt;a href="#"&gt;牛仔衬衫&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+    </pre>
+    <h3>删除tag</h3>
+            <ul class="tags-list clearfix">
+                <li><a href="#">卡哇伊<span class="del">x</span></a></li>
+                <li><a href="#">卡哇伊<span class="del">x</span></a></li>
+                <li><a href="#">卡哇伊<span class="del">x</span></a></li>
+                <li><a href="#">卡哇伊<span class="del">x</span></a></li>
+                <li><a href="#">小清新<span class="del">x</span></a></li>
+                <li><a href="#">小清新<span class="del">x</span></a></li>
+                <li><a href="#">小清新<span class="del">x</span></a></li>
+                <li><a href="#">小清新<span class="del">x</span></a></li>
+                <li><a href="#">小清新<span class="del">x</span></a></li>
+                <li><a href="#">小清新<span class="del">x</span></a></li>
+            </ul>
+    <pre>
+        &lt;ul class="tags-list clearfix"&gt;
+            &lt;li&gt;&lt;a href="#"&gt;卡哇伊&lt;span class="del"&gt;x&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#"&gt;卡哇伊&lt;span class="del"&gt;x&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#"&gt;小清新&lt;span class="del"&gt;x&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href="#"&gt;小清新&lt;span class="del"&gt;x&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    </pre>    
+    </body>
+</html>

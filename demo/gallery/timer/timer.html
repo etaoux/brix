@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Brix Timer Demo</title>
+        <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+        <link rel="stylesheet" href="../../../src/gallery/timer/timer.css">
+        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+        <script src="../../config.js"></script>
+        <style>
+			.wrap {
+				width:700px; 
+				margin:50px auto;
+			}
+        	.timer {
+        		margin-top: 10px;
+        	}
+			.downshow {
+				float: left;
+				width: 200px;
+			}
+			.upshow {
+				float: left;
+				width: 180px;
+			}
+			.alone-config {
+				float: left;
+				width: 200px;
+			}
+        </style>
+</head>
+<body>
+    <div class="wrap" id="J_container" >
+        
+        <div class="downshow">
+        	<div id="timer_1_1" bx-name="timer" 
+               class="timer" 
+               bx-config="{mode:'down',  timeEnd:'10000'}">
+            </div>
+        	<div id="timer_1" bx-name="timer" 
+               class="timer" 
+               bx-config="{mode:'down',  timeLeft:'60000'}">
+            </div>
+        	<div id="timer0" bx-name="timer" 
+               class="timer" 
+               bx-config="{mode:'down',  timeLeft:'3600000' ,bold:true}">
+            </div>
+            <div id="timer_2" bx-name="timer" 
+               class="timer" 
+               bx-config="{mode:'down',  timeLeft:'36000000',highlight:true }">
+            </div>
+            <div id="timer1" bx-name="timer" class="timer" 
+               bx-config="{mode:'down',  timeLeft:'259200000',bold:true,highlight:true }">
+            </div>
+           
+		</div>
+		<div class="upshow">
+			 <div id="timerdown1" bx-name="timer" 
+               class="timer" 
+               bx-config="{mode:'down', timeLeft:'60000', style:'simple'}">
+            </div>
+            <div id="timerdown2" bx-name="timer" 
+               class="timer" 
+               bx-config="{mode:'down', timeLeft:'3600000', style:'simple',bold:true}">
+            </div>
+            <div id="timerdown3" bx-name="timer" 
+               class="timer" 
+               bx-config="{mode:'down', timeLeft:'36000000', style:'simple',highlight:true }">
+            </div>
+            <div id="timerdown4" bx-name="timer" 
+               class="timer" 
+               bx-config="{mode:'down', timeLeft:'360000000', style:'simple',bold:true, highlight:true }">
+            </div>
+		</div>
+		<div class="alone-config">
+			
+			<div id="timerup1" bx-name="timer" class="timer"></div> 
+			<div id="timerup2" bx-name="timer" class="timer"></div>
+			<div id="timerup3" bx-name="timer" class="timer"></div>
+			<div id="timerup4" bx-name="timer" class="timer"></div>
+			<div id="timerup" bx-name="timer" 
+               class="timer" 
+               bx-config="{mode:'up', updateTime: '1344578945098'}">
+            </div> 
+			<div id="timerup5" bx-name="timer" class="timer"></div>
+		</div>
+    </div>
+	        <script>
+        	 KISSY.ready(function(S) {
+                KISSY.use("brix/core/pagelet", function(S, Pagelet) {
+                    var config = {
+                        tmpl:'#J_container'
+                    }
+                    var p = new Pagelet(config);
+                    p.addBehavior();
+                });
+                KISSY.use("brix/gallery/timer/", function(S, TimerManager) {
+                    var cfg = {
+                        container:'#timerup1',
+                        type: 'up',
+                        updateTime: (new Date).getTime()
+                    }
+                    TimerManager.create(cfg);
+                    cfg = {
+                        container:'#timerup2',
+                        type: 'up',
+                        updateTime: (new Date).getTime()-60*1000
+                    }                     
+                    TimerManager.create(cfg);
+                    cfg = {
+                        container:'#timerup3',
+                        type: 'up',
+                        updateTime: (new Date).getTime()-3600*1000
+                    }
+                    TimerManager.create(cfg);
+                    cfg = {
+                        container:'#timerup4',
+                        type: 'up',
+                        updateTime: (new Date).getTime()-3*24*3600*1000
+                    }
+                    TimerManager.create(cfg);
+                    cfg = {
+                        container:'#timerup5',
+                        type: 'up',
+                        updateTime: (new Date).getTime()-3*365*24*3600*1000
+                    }
+                    TimerManager.create(cfg);
+                });
+            });
+            
+        </script>
+</body>
+</html>
+

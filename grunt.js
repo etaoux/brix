@@ -5,73 +5,80 @@ module.exports = function(grunt) {
         pkg: '<json:package.json>',
         meta: {
             name: 'Brix',
-            banner: '/*! <%= meta.name %> - v<%= pkg.version %> - <%= grunt.template.today("m/d/yyyy") %>\n' + '* <%= pkg.homepage %>\n' + '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' + ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
+            banner: '/*! <%= meta.name %> - v<%= pkg.version %>\n' + '* <%= pkg.homepage %>\n' + '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' + ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
         },
         lint: {
             files: ['grunt.js']
         },
         concat: {
-            brixjs: {
+            brix_js: {
                 src: ['<banner:meta.banner>', "src/core/mustache.js", "src/core/mu.js", "src/core/tmpler.js", "src/core/dataset.js", "src/core/chunk.js", "src/core/brick.js", "src/core/pagelet.js"],
-                dest: 'dist/<%= pkg.name %>.js'
-            },
-            brixcss:{
-                src:['<banner:meta.banner>','dist/brix.css'],
-                dest: 'dist/brix.css'
+                dest: 'dist/<%= pkg.name %>.js',
+                separator:'\n' //合并文件默认字符，替换window和mac系统的默认newline
             }
         },
         min: {
             brix: {
                 src: ['<banner:meta.banner>', 'dist/<%= pkg.name %>.js'],
                 dest: 'dist/<%= pkg.name %>-min.js'
-            },
-            dialog: {
-                src: ['src/gallery/dialog/index.js'],
-                dest: 'dist/gallery/dialog/index-min.js'
-            },
-            kwicks: {
-                src: ['src/gallery/kwicks/index.js'],
-                dest: 'dist/gallery/kwicks/index-min.js'
-            },
-            inplaceeditor: {
-                src: ['src/gallery/inplaceeditor/index.js'],
-                dest: 'dist/gallery/inplaceeditor/index-min.js'
-            },
-            dropdown: {
-                src: ['src/gallery/dropdown/index.js'],
-                dest: 'dist/gallery/dropdown/index-min.js'
-            },
-            breadcrumbs: {
-                src: ['src/gallery/breadcrumbs/index.js'],
-                dest: 'dist/gallery/breadcrumbs/index-min.js'
             }
         },
         less: {
             brix: {
                 src: ['src/style/brix.less'],
-                dest: 'dist/brix.css'
+                dest: 'dist/<%= pkg.name %>.css'
+            },
+            brix_min: {
+                src: ['src/style/brix.less'],
+                dest: 'dist/<%= pkg.name %>-min.css',
+                options: {
+                  yuicompress: true
+                }
             }
         },
-        cssmin: {
-            brix: {
-                src: ['dist/brix.css'],
-                dest: 'dist/brix-min.css'
+        brixless:{
+            gallerysrc:{
+                src:'src/gallery/',
+                dest:'src/gallery/'
             },
-            dialog: {
-                src: ['src/gallery/dialog/dialog.css'],
-                dest: 'dist/gallery/dialog/dialog-min.css'
+            gallerydes:{
+                src:'src/gallery/',
+                dest:'dist/gallery/'
             },
-            dropdown: {
-                src: ['src/gallery/dropdown/dropdown.css'],
-                dest: 'dist/gallery/dropdown/dropdown-min.css'
+            gallerydes_min:{
+                src:'src/gallery/',
+                dest:'dist/gallery/',
+                options: {
+                  yuicompress: true
+                }
+            }
+        },
+        brixjs:{
+            gallerysrc:{
+                src:'src/gallery/',
+                dest:'dist/gallery/'
             },
-            breadcrumbs: {
-                src: ['src/gallery/breadcrumbs/breadcrumbs.css'],
-                dest: 'dist/gallery/breadcrumbs/breadcrumbs-min.css'
-            }},
+            gallerydes:{
+                src:'src/gallery/',
+                dest:'dist/gallery/',
+                options: {
+                  compress: true
+                }
+            }
+        },
         watch: {
-            files: '<config:lint.files>',
-            tasks: 'lint:files test:files'
+            watchless:{
+                files: 'src/gallery/**/*.less',
+                tasks: 'brixless'
+            },
+            watchjs:{
+                files: 'src/gallery/**/index.js',
+                tasks: 'brixjs'
+            },
+            watchcss:{
+                files: 'src/style/*.less',
+                tasks: 'less'
+            }
         },
         jshint: {
             options: {
@@ -103,11 +110,13 @@ module.exports = function(grunt) {
             }
         }
     });
-    
+
     //npm install grunt-less
     grunt.loadNpmTasks('grunt-less');
-    //npm install grunt-css
-    grunt.loadNpmTasks('grunt-css');
+
+    //tasks
+    grunt.loadTasks('tasks');
+
     // Default task.
-    grunt.registerTask('default', 'lint less concat min cssmin');
+    grunt.registerTask('default', 'lint concat min less brixless brixjs watch');
 };

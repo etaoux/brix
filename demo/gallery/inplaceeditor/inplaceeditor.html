@@ -21,12 +21,10 @@
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
         <script src="../../config.js"></script>
         <style type="text/css">
-            .search_input .s_l,.search_input .s_r,.search_input .s_input,.module .hd h4,.mod_line s,.mod_edit i,.url_list .item .s_edit,.url_list .item .s_del,.url_list .item_add .s_name .add_icon{
-    background:url("http://img02.taobaocdn.com/tps/i2/T1Uya9XgRXXXXXXXXX-62-280.png") no-repeat;
-}
             .url_list_con{
                 zoom:1;
                 padding-top：5px;
+                padding-left: 20px;
             }
 
             .url_list{
@@ -35,7 +33,6 @@
 
             .url_list .item,.url_list .item_add{
                 float: left;
-                height: 24px;
                 margin: 5px 5px 5px 0;
                 position: relative;
                 vertical-align: middle;
@@ -45,27 +42,21 @@
                 list-style: none;
             }
 
-            .url_list .item .s_name,.url_list .item_add .s_name{
+            .url_list .item .s_name{
                 float: left;
-                padding: 3px 0 3px 5px;
-                height: 18px;
                 outline: medium none;
                 text-decoration: none;
             }
-            .url_list .item img,.url_list .item_add img{
+            .url_list .item img{
                 float: left;
                 margin-top: 1px;
                 vertical-align: middle;
                 padding-bottom: 1px;
             }
 
-            .url_list .item .s_name span,.url_list .item_add span{
+            .url_list .item .s_name span{
                 display: inline-block;
-                font-size: 14px;
-                height: 18px;
-                line-height: 18px;
                 text-align: left;
-                padding-left: 1px;
                 float: left;
                 overflow: hidden;
                 white-space: nowrap;
@@ -77,127 +68,41 @@
                 color: #2b7bad;
             }
 
-            .url_list .item .s_edit,.url_list .item .s_del{
-                float: left;
-                text-indent: -9999px;
-                font-size: 0;
-                width:13px;
-                height:13px;
-                margin-top: 6px;
-                margin-right: 5px;
-                display: none;
-            }
-            .url_list .item .s_edit{
-                background-position:0px -32px;
-            }
-            .url_list .item .s_del{
-                background-position:0px -16px;
-            }
-            .url_list .item .s_edit:hover{
-                background-position:-16px -32px;
-            }
-            .url_list .item .s_del:hover{
-                background-position:-16px -16px;
-            }
-
-            .url_list_edit{
-
-            }
-
-            .url_list .ks-dd-dragging{
-                border: 1px dotted #BBB;
-            }
-
-            /*添加按钮样式*/
-            .url_list .item_add{
-                float: left;
-                border: 1px dotted #BBB;
-            }
-
-            .url_list .item_add span{
-                color: #bdbdbd;
-            }
-
-            .url_list .item_add .s_name .add_icon{
-                float: left;
-                width:16px;
-                height:16px;
-                display: block;
-                font-size: 0;
-                overflow: hidden;
-                background-position:-16px -48px;
-                cursor: pointer;
-                margin-top: 1px;
-            }
-            .url_list .item_add .s_name:hover{
-                zoom:1;
-            }
-            .url_list .item_add .s_name:hover .add_icon{
-                background-position:-40px -48px;
-            }
-
-            .url_list_edit .item_add{
+            .url_list .item .icon-edit,.url_list .item .icon-del{
                 display: none;
             }
 
 
-
-            .url_list .item_edit .s_edit,.url_list .item_edit .s_del{
+            .url_list .item_edit .icon-edit,.url_list .item_edit .icon-del{
                 display: block;
             }
-            .url_list .ks-dd-proxy .s_name{
-                cursor:move;
-            }
-            .url_list .ks-dd-proxy .s_name img{
-                cursor: move;
-            }
-            .url_list .ks-dd-proxy .s_name span{
-                    cursor: move;
-            }
-            .url_list .ks-dd-proxy .s_name span,.url_list .item_edit .s_name span{
+            .url_list .item_edit .s_name span{
                 width:71px;
-            }
-
-            .editPoup{
-                position: absolute;
-                display: block;
-                z-index: 99;
-                visibility: hidden;
-                top: -9999px;
-                left: -9999px;
-            }
-
-            .editPoup input{
-                width:120px;
-                border: 1px solid #CCC;
-                padding: 5px 7px 5px 4px;
-                font: 14px arial;
             }
         </style>
     </head>
     <body style="margin:0px;padding-top:40px">
-        <div class="container">
-            <div class="url_list_con">
-                    <ul class="url_list ks-clear url_list_edit">
+        <h2>方式一</h2>
+        <div class="url_list_con">
+            <ul class="url_list ks-clear url_list_edit inplaceeditor">
 
-                    </ul>
-                </div>
+            </ul>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <h2>方式二</h2>
+        <div style="padding:0px 20px 20px">
+            <a id="edittest" href="#">待编辑</a>
         </div>
 		<!--brix begin-->
-        <script type="text/template" id="tmpl_brick">
-            <div class="editPoup" bx-name="inplaceeditor">
-                <input maxlength="128" type="text" value="">
-            </div>
-        </script>
         <script>
             KISSY.ready(function(S) {
                 KISSY.use("brix/gallery/inplaceeditor/,cookie,json", function(S, InplaceEditor, COOKIE, JSON) {
-                    var config = {
-                        tmpl: S.one("#tmpl_brick").html()
-                    };
-                    //删除节点，有用吗？
-                    S.one("#tmpl_brick").remove();
-                    var url_listNode = S.one('.url_list'),url_add_conNode = S.one('.url_add_con'),inplaceeditor = new InplaceEditor(config),editPoup;
+                    var url_listNode = S.one('.url_list'),url_add_conNode = S.one('.url_add_con'),inplaceeditor = new InplaceEditor();
                     inplaceeditor.on('valueChange',function(e){
                         var inputNode = inplaceeditor.get('el').one('input');
                         S.one('#item_' + inputNode.attr('data-sid')).one('span').html(e.value);
@@ -225,32 +130,11 @@
                     for (var i = 0; i < navData.length; i++) {
                         var data = navData[i];
                         var id = S.guid();
-                        url_listNode.append(['<li class="item" id="item_' + id + '" data-sid="' + id + '">', '<a class="s_name" target="_blank" href="' + data.url + '">', '<img width="16" height="16" src="http://api.tao123.com/collectsite/ico.php?domain_url=' + data.url + '" >', '<span>' + data.name + '</span>', '</a>', '<a class="s_edit" href="#"></a>', '<a class="s_del" href="#"></a>', '</li>'].join(''));
+                        url_listNode.append(['<li class="item" id="item_' + id + '" data-sid="' + id + '">', '<a class="s_name" target="_blank" href="' + data.url + '">', '<img width="16" height="16" src="http://api.tao123.com/collectsite/ico.php?domain_url=' + data.url + '" >', '<span>' + data.name + '</span>', '</a>', '<a class="iconfont icon-edit" href="#">&#372</a>', '<a class="iconfont icon-del" href="#">&#223</a>', '</li>'].join(''));
                     }
-                    url_listNode.append(['<li class="item_add">', '<a class="s_name" href="#" target="_blank">', '<i class="add_icon"></i>', '<span>添加</span>', '</a>', '</li>'].join(''));
 
                     var fnHalt = function(e) {
                             e.preventDefault();
-                        };
-                    var fnEditNav = function(e) {
-                            e.preventDefault();
-                            if (!url_listNode.hasClass('url_list_edit')) {
-                                url_add_conNode.stop();
-                                url_add_conNode.animate({
-                                    'height': '121px'
-                                }, 0.3, "easeOut",function(){
-                                    url_listNode.addClass('url_list_edit');
-                                });
-                            } else {
-                                url_add_conNode.stop();
-                                url_add_conNode.animate({
-                                    'height': '0px'
-                                }, 0.3, "easeOut",function(){
-                                    url_listNode.removeClass('url_list_edit');
-                                    saveData();
-                                });
-                            }
-
                         };
                     var saveData = function(){
                         //将数据保存到cookie
@@ -269,8 +153,6 @@
                         }
                     };
 
-                    S.one('.url_list_con').one('.item_add').one('.s_name').on('click', fnEditNav);
-
 
                     url_listNode.delegate('mouseenter','.item',function(e){
                         S.one(e.currentTarget).addClass('item_edit');
@@ -281,8 +163,8 @@
 
 
                     /*删除*/
-                    url_listNode.delegate('mousedown', '.s_del', fnHalt);
-                    url_listNode.delegate('click', '.s_del', function(e) {
+                    url_listNode.delegate('mousedown', '.icon-del', fnHalt);
+                    url_listNode.delegate('click', '.icon-del', function(e) {
                         e.preventDefault();
                         var url = S.one(e.currentTarget).parent('.item').one('.s_name').attr('href');
                         S.one(e.currentTarget).parent('.item').remove();
@@ -297,20 +179,30 @@
                     });
 
                     /*编辑*/
-                    url_listNode.delegate('mousedown', '.s_edit', fnHalt);
-                    url_listNode.delegate('click', '.s_edit', function(e) {
+                    url_listNode.delegate('mousedown', '.icon-edit', fnHalt);
+                    url_listNode.delegate('click', '.icon-edit', function(e) {
                         e.preventDefault();
                         var currentNode = S.one(e.currentTarget);
-                        if(!inplaceeditor.get('rendered')){
-                            inplaceeditor.render();
-                            editPoup = inplaceeditor.get('el');
-                        }
 
                         var itemNode = currentNode.parent('.item');
                         var offset = itemNode.offset();
-                        var inputNode = editPoup.one('input');
+                        var inputNode = inplaceeditor.get('el').one('input');
                         inputNode.attr('data-sid', itemNode.attr('data-sid'));
                         inplaceeditor.show(offset.left,offset.top - 1,currentNode.prev().one('span').html());
+                    });
+
+                    var editNode = S.one('#edittest');
+                    var inplaceeditor1;
+                    editNode.on('mouseenter',function(e){ 
+                        e.halt();
+                        if(!inplaceeditor1){
+                            inplaceeditor1 = new InplaceEditor();
+                            inplaceeditor1.on('valueChange',function(ev){
+                                editNode.html(ev.value);
+                            });
+                        }
+                        var offset = editNode.offset();
+                        inplaceeditor1.show(offset.left-9,offset.top - 5,editNode.html(),{width:editNode.width()});
                     });
                 });
             });

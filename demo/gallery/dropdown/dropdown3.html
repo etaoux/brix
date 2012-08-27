@@ -9,11 +9,7 @@
         <script src="../../config.js"></script>
     </head>
     <body style="margin:0px;padding-top:40px">
-        <div class="container">
-            <div class="row">
-                <div class="span12" style="padding-left:50px;width:200px"  id="test_container">
-                </div>
-            </div>
+        <div style="padding-left:50px;width:200px"  id="test_container">
         </div>
 		<!--brix begin-->
         <script>
@@ -40,19 +36,17 @@
         </script>
         <script type="text/template" id="tmpl_dropdown">
             <div id="brick13" bx-name="dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown dropdown123">
-                <a class="dropdown-a">
-                    {{#dropdown_list}}
-                    {{#selected}}
-                    <span class="dropdown-hd">
-                    <span class="dropdown-text" value="{{value}}">{{text}}</span></span>
-                    <i class="icon icon-arrow-down">&#405</i>
-                    {{/selected}}
-
-                    {{/dropdown_list}}
-                </a>
+                {{#dropdown_list}}
+                {{#selected}}
+                <span class="dropdown-hd">
+                <span class="dropdown-text" value="{{value}}">{{text}}</span>
+                <i class="iconfont icon-arrow-down">&#405</i>
+                </span>
+                {{/selected}}
+                {{/dropdown_list}}
                 <ul class="dropdown-list">
                     {{#dropdown_list}}
-                    <li class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}"><span value="{{value}}">{{text}}</span><i class="icon icon-ok">&#126</i></li>
+                    <li class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}"><span value="{{value}}">{{text}}</span><i class="iconfont icon-ok">&#126</i></li>
                     {{/dropdown_list}}
                 </ul>
                 {{#dropdown_list}}

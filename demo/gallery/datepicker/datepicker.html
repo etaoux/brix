@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Brix DatePicker Demo</title>
+        <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+        <link rel="stylesheet" href="../../../src/gallery/datepicker/datepicker.css">
+        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+        <script src="../../config.js"></script>
+    </head>
+    <body style="margin:0px;padding-top:40px">
+        <a id="test1" class="btn" href="#">时间段</a>
+        <a id="test2" class="btn" href="#">比较</a>
+        <a id="update" class="btn" href="#">修改比较时间</a>
+        <a id="test3" class="btn" href="#">测试3</a>
+        <a style="float:right;margin-right:5px;" id="test4" class="btn" href="#">测试4</a>
+        <script>
+            KISSY.ready(function(S) {
+                KISSY.use("brix/gallery/datepicker/", function(S, DatePicker) {
+                    var Brix_Date = DatePicker.Date;
+                    var datepicker = new DatePicker({
+                        trigger: '#test1'
+                    });
+
+                    datepicker.on('selected',function(e){
+                        S.one('#test1').html(Brix_Date.format(e.start,'isoDate') + '至' +Brix_Date.format(e.end,'isoDate'));
+                    });
+
+                    var datepicker2 = new DatePicker({
+                        trigger: '#test2',
+                        isCompare:true,
+                        isQuick :false
+                    });
+                    datepicker2.on('selected',function(e){
+                        S.one('#test2').html(Brix_Date.format(e.start,'isoDate') + '至' +Brix_Date.format(e.end,'isoDate'));
+                    });
+                    
+                    S.one('#update').on('click',function(e){
+                        e.halt();
+                        datepicker2.set('compareText','过去14天')
+                    });
+                    
+
+                    var datepicker3 = new DatePicker({
+                        trigger: '#test3',
+                        dates: {
+                            start: new Date(),
+                            end: new Date()
+                        },
+                        isQuick:false
+                    });
+
+
+                    
+
+                    var datepicker4 = new DatePicker({
+                        trigger: '#test4',
+                        dates: {
+                            start: new Date(),
+                            end: new Date()
+                        },
+                        quickDates: {
+                            'today': {
+                                text: '今天',
+                                dateRange: [new Date(), new Date()]
+                            },
+                            'yestoday': {
+                                text: '昨天',
+                                dateRange: [new Date(2011, 12, 26), new Date(2011, 12, 26)]
+                            },
+                            'dd': {
+                                text: '过去14天',
+                                dateRange: [new Date(2011, 12, 14), new Date(2011, 12, 27)]
+                            },
+                            'tt': {
+                                text: '上个工作日',
+                                dateRange: [new Date(2011, 12, 21), new Date(2011, 12, 27)]
+                            }
+                        },
+                        align: {
+                            points: ['br', 'tr'],
+                            offset: [0, 0]
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

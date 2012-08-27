@@ -1,0 +1,73 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Responsive Layout Generator - Brix Style</title>
+<link rel="stylesheet" href="style-min.css">
+
+<p id="r-support">Chrome最新版测试通过</p>
+<div id="r-panel">
+    <div bx id="r-resolution">
+        <h6>页宽/分辨率</h6>
+    </div>
+    <a bx id="r-config" class="btn"><span class="iconfont">&#355</span>配置</a>
+    <a bx id="r-preview" class="btn" target="_blank"><span class="iconfont">&#348</span>预览</a>
+    <a bx id="r-save" class="btn btn-blue"><span class="iconfont">&#342</span>保存</a>
+    <a bx id="r-output" class="btn btn-orange"><span class="iconfont">&#288</span>输出</a>
+</div>
+<div bx id="r-content">
+    <a id="r-add-section" class="btn btn-size25"><s class="iconfont">&#410</s>新增区域</a>
+</div>
+
+<script id="r-tmpl-section" type="text/template">
+    <div class="r-section">
+        <div class="r-section-bg row">{bgs}</div>
+        <div class="r-section-bd row">{divs}</div>
+        <div class="r-section-panel">
+            <a class="r-add-div btn btn-size25"><span class="iconfont">&#410</span>新增区块</a>
+            <a class="r-clear-section btn btn-size25"><span class="iconfont">&#223</span>清除区域</a>
+            <a class="r-remove-section btn btn-size25"><span class="iconfont">&#356</span>删除区域</a>
+        </div>
+    </div>
+</script>
+<script id="r-tmpl-div" type="text/template">
+    <div class="{cls}">
+        <a class="r-remove-div">&times;</a>
+        <span class="r-div-size" contenteditable>190x100</span>
+        <p class="r-div-name" contenteditable>{id}</p>
+    </div>
+</script>
+
+<script src="http://a.tbcdn.cn/s/kissy/1.3.0rc/kissy-min.js"></script>
+<script>
+var TAG = '20120815';
+if ( -1 === location.search.indexOf('mode=dev') ) {
+    document.write('<scr' + 'ipt src="modules-min.js?t=' + TAG + '"></scr' + 'ipt>');
+} else {
+    KISSY.config({
+        packages: {
+            modules: {
+                base: '.',
+                debug: true,
+                tag: TAG
+            }
+        }
+    });
+}
+</script>
+<script>
+var App = {
+    appVer: '0.0.1',
+    grid: {
+        c: 10, // 列宽
+        g: 10  // 槽宽
+    },
+    resolution: {
+        base: 960,
+        all: [720, 1024, 960, 1280, 1200, 1680, 1440, 1920, 1680]
+    },
+    struct: [[]],
+};
+KISSY.use('modules/boot, modules/pagelet', function(S, Boot, Pagelet) {
+    Boot();
+    Pagelet.init();
+});
+</script>

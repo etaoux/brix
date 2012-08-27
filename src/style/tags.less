@@ -1,0 +1,70 @@
+@currentColor: #488fdc;
+
+.tags {
+    font-size: 0;    
+    letter-spacing: -5px;
+    white-space: nowrap;
+    word-wrap: normal;
+}
+
+.tags-hd {
+    color: @grayDark;
+    font-size: 12px;    
+    font-weight: bold;
+    letter-spacing: normal;
+    display: inline-block;    
+    *display: inline;    
+    *zoom: 1;    
+    vertical-align: top;
+    padding: 3px 5px 4px 0;
+}
+
+.tags-bd {
+    font-size: 12px;    
+    letter-spacing: normal;
+    display: inline-block;    
+    *display: inline;    
+    *zoom: 1;  
+    vertical-align: top;
+    margin: 0;
+}
+
+.tags-list, .tags-list li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}    
+
+.tags-list li {
+    float: left;    
+    padding: 3px 8px 4px 8px;
+    margin: 0 10px 5px 0;
+    background-color: #eee;
+    .border-radius(3px);
+}
+
+.tags-list .no-bg {
+    background-color: @white;
+}
+
+.tags-list .current {
+    background-color: @currentColor; 
+}
+
+.tags-list .current a {
+    color: @white; 
+}
+
+.tags-list li a {
+    color: @gray;
+    text-decoration: none;
+}
+
+.tags-list li a:hover {
+    color: @orange;
+}
+
+.tags-list .del {
+    color: @grayLight;     
+    padding-left: 5px;
+}

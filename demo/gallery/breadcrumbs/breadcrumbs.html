@@ -10,53 +10,48 @@
         <script src="../../config.js"></script>
     </head>
     <body style="margin:0px;padding-top:40px">
-        <div class="container">
-            <div class="row">
-                <div class="span12" style="padding-left:50px"  id="test_container">
-                </div>
-            </div>
+        <div style="padding-left:50px"  id="test_container">
         </div>
 		<!--brix begin-->
         <script>
 			var breadcrumbs_data ={
-                breadcrumbs_list:[{
-                    text:'首页',
-                    value:'#1234',
-                    first:true
-                },{
-                    dropdown_list:[{
-                            value: "1",
-                            text: "计划列表",
-                            selected:true
-                        },
-                        {
-                            value: "2",
-                            text: "计划列表2"
-                        },
-                        {
-                            value: "3",
-                            text: "计划列表3"
-                        },
-                        {
-                            value: "4",
-                            text: "计划列表4"
-                        }]
-                },{
-                    text:'创意管理',
-                    value:'#44'
-                },{
-                    text:'创意活动五',
-                    value:'#123',
-                    last:true
-
-                }]
-            };
+                    breadcrumbs_list:[{
+                        text:'首页',
+                        value:'#1234',
+                        first:true
+                    },{
+                        dropdown_list:[{
+                                value: "1",
+                                text: "计划列表",
+                                selected:true
+                            },
+                            {
+                                value: "2",
+                                text: "计划列表2"
+                            },
+                            {
+                                value: "3",
+                                text: "计划列表3"
+                            },
+                            {
+                                value: "4",
+                                text: "计划列表4"
+                            }]
+                    },{
+                        text:'创意管理',
+                        value:'#44'
+                    },{
+                        text:'创意活动五',
+                        value:'#123',
+                        last:true
+                    }]
+                };
         </script>
 
         <script type="text/template" id="tmpl_script">
             <ul bx-name="breadcrumbs" class="breadcrumbs">
                 {{#breadcrumbs_list}}
-                <li class="breadcrumbs-item {{#first}}breadcrumbs-itemfirst{{/first}} {{#last}}breadcrumbs-itemlast{{/last}} {{^text}}breadcrumbs-itemdropdown{{/text}}">
+                <li class="item{{^text}} item-dropdown{{/text}}{{#last}} last{{/last}}{{#first}} first{{/first}}">
                     {{#text}}
                         {{#last}}
                             {{text}}
@@ -66,15 +61,15 @@
                         {{/last}}
                     {{/text}}
                     {{^text}}
-                    <div bx-name="dropdown" bx-path="brix/gallery/dropdown/" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown">
+                    <div bx-name="dropdown" bx-path="brix/gallery/dropdown/" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown dropdown-arrow" bx-config="{mode:2}">
                         {{#dropdown_list}}
                         {{#selected}}
-                        <span class="dropdown-hd"><span>计划：</span><span value="{{value}}" class="dropdown-text">{{text}}</span><i class="icon icon-arrow-down">&#405</i></span>
+                        <span class="dropdown-hd"><a href="#"><span>计划：</span><span value="{{value}}" class="dropdown-text">{{text}}</span></a><i class="iconfont icon-arrow-down">&#405</i></span>
                         {{/selected}}
                         {{/dropdown_list}}
                         <ul class="dropdown-list">
                             {{#dropdown_list}}
-                            <li class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}"><span value="{{value}}">{{text}}</span><i class="icon icon-ok">&#126</i></li>
+                            <li class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}"><span value="{{value}}">{{text}}</span><i class="iconfont icon-ok">&#126</i></li>
                             {{/dropdown_list}}
                         </ul>
                         {{#dropdown_list}}
@@ -86,8 +81,8 @@
                     {{/text}}
                 </li>
                 {{^last}}
-                <li class="breadcrumbs-item breadcrumbs-itemsplit">
-                    <i class="icon icon-arrow-right">&#402</i>
+                <li class="item split">
+                    <i class="iconfont">&#402</i>
                 </li>
                 {{/last}}
             {{/breadcrumbs_list}}
