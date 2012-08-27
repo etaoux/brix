@@ -36,13 +36,13 @@ body {
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.4) 0 1px 3px;
   z-index: 9999;
-  padding-top: 3px;
 
   .container {
     margin: 0 auto;
     text-align: left;
   }
   a {
+    padding-top: 1px;
     display: inline-block;
     margin-right: 20px;
     text-shadow: rgba(0, 0, 0, 0.7) 0 1px;
@@ -63,7 +63,7 @@ body {
 
   a {
     float: left;
-    padding: 0 20px;
+    padding: 0 15px;
     border-right: 1px solid #ccc;
     border-left: 1px solid #efefef;
   }
@@ -72,6 +72,20 @@ body {
   }
   a:last-child {
     border-right: none;
+  }
+  &.fixed {
+    position: fixed;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    top: 32px;
+    left: 0;
+    z-index: 9998;
+
+    nav {
+      width: 990px;
+      margin: 0 auto;
+    }
   }
 }
 
