@@ -11,59 +11,62 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick, Node) {
     }
 
     Searchbox.ATTRS = {
-        menuItems:{
-            value:{}
-        },
-        menuItemsCount:{
-            value:{}
-        },
-        prex: {
-            value: 'bx-searchbox-'
-        },
         el:{
-            value:'body'
+            value:'#J_searchbox'
+        },
+        currentCls: {
+            value:'selected'
+        },
+        redirect: {
+            value: 'data-redirect'
+        },
+        emptyAction: {
+            value: 'data-empty-action'
+        },
+        curItem : {
+            value: {}
+        },
+        stat: {
+            value: 'data-stat-submit'
         }
 
     };
 
-    Searchbox.DOCATTACH = {
+    Searchbox.ATTACH = {
 
         '.searchbox-menu':{
             mouseenter:function (e) {
                 e.preventDefault();
                 var self = this;
+                var s = self.searchObj;
                 var target = e.currentTarget;
-                var searchbox = D.parent(target, ".J_searchbox");
-                var menuContainer = D.get(".s-menu-container", target);
-                var menuList = D.get(".s-menu-list", target);
-                var searchboxid = searchbox.id;
-                var menuItemCount = self.get("menuItemsCount")[searchboxid];
                 D.addClass(target, 'expand');
-                D.height(menuContainer, 24 * menuItemCount + 13);
-                D.height(menuList, 24 * menuItemCount + 10);
-                D.addClass(D.get('.searchbox-inner', searchbox), 'expandmenu');
-                var searchboxOuter = D.get('.searchbox-outer', searchbox);
+                D.height(s.menuContainer, 24 * s.menuItemCount + 13);
+                D.height(s.menuList, 24 * s.menuItemCount + 10);
+                D.addClass(s.searchboxInner, 'expandmenu');
+                var searchboxOuter = s.searchboxOuter;
                 if (!D.hasClass(searchboxOuter, 'focus')) {
                     D.addClass(searchboxOuter, 'focus');
                 }
             },
             mouseleave:function (e) {
-
                 e.preventDefault();
-                /*
-                 self.searchInput.focus();
-                 */
                 var self = this;
                 var target = e.currentTarget;
-                self._collapse(target);
+                self._collapse();
+                self._focusInput();
             }
 
+        },
+        'li' : {
+            'click': function(e) {
+                this.tabChange(e);
+            }
         },
         '.searchbox-input':{
             focus:function (e) {
                 var target = e.currentTarget;
-                var searchbox = D.parent(target, ".J_searchbox");
-                var searchboxOuter = D.get('.searchbox-outer', searchbox);
+                var searchboxOuter = this.searchObj.searchboxOuter;
                 if (!D.hasClass(searchboxOuter, 'focus')) {
                     D.addClass(searchboxOuter, 'focus');
                 }
@@ -74,25 +77,22 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick, Node) {
                 if (target.value === '') {
                     D.removeClass(D.prev(target), 'hide');
                 }
-                var searchbox = D.parent(target, ".J_searchbox");
-                var searchboxOuter = D.get('.searchbox-outer', searchbox);
-                var menu = D.get('.searchbox-menu', searchbox);
+                var searchboxOuter = this.searchObj.searchboxOuter;
+                var menu = this.searchObj.menu;
                 if (D.hasClass(searchboxOuter, 'focus') && !D.hasClass(menu, 'expand')) {
                     D.removeClass(searchboxOuter, 'focus');
                 }
             },
-            keyup: function(e) {
-                console.log(1);
+            keyup:function (e) {
                 var self = this;
-                var target = e.currentTarget;
-                var searchbox = D.parent(target, ".J_searchbox");
-                self._dealClearBtn(target, searchbox);
+                self._dealClearBtn();
             },
-            keydown: function(e) {
-                if(e.keyCode == 13){
+            keydown:function (e) {
+                if (e.keyCode == 13) {
                     e.halt(true);
                     //TODO:
                     //self.fireEvent(self.searchForm, 'submit');
+                    self.submit();
                 }
             }
         },
@@ -102,42 +102,45 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick, Node) {
                 E.fire(D.next(target), 'focus');
             }
         },
-        '.s-btn-clear': {
-            click: function(e) {
-                var self =  this;
-                var target = e.currentTarget;
-                var searchbox = D.parent(target, ".J_searchbox");
-                var ipt = D.get(".searchbox-input", searchbox);
-                D.val(ipt, '');
-                //D.hide(self.btnClear);
-                self._hideBtn(target);
-                ipt.focus();
+        '.s-btn-clear':{
+            click:function (e) {
+                var self = this;
+                self._focusInput();
+
             }
         }
 
     };
 
     Searchbox.METHOD = {
-        _collapse:function (target) {
-            var searchbox = D.parent(target, ".J_searchbox");
-            var menuContainer = D.get(".s-menu-container", target);
-            var menuList = D.get(".s-menu-list", target);
-            D.removeClass(target, 'expand');
-            D.height(menuContainer, 0);
-            D.height(menuList, 0);
-            D.removeClass(D.get('.searchbox-inner', searchbox), 'expandmenu');
+        _focusInput:function () {
+            var self = this;
+            var s = self.searchObj;
+            var ipt = s.input;
+            D.val(ipt, '');
+            //D.hide(self.btnClear);
+            self._hideBtn();
+            ipt.focus();
         },
-        _dealClearBtn: function(ipt, searchbox) {
-            var btnClear = D.get(".s-btn-clear", searchbox);
+        _collapse:function () {
+            var s = this.searchObj;
+            D.removeClass(s.menu, 'expand');
+            D.height(s.menuContainer, 0);
+            D.height(s.menuList, 0);
+            D.removeClass(s.searchboxInner, 'expandmenu');
+        },
+        _dealClearBtn:function () {
+            var ipt = this.searchObj.input;
             if (ipt.value !== '') {
                 //D.show(btnClear);
-                this._showBtn(btnClear);
+                this._showBtn();
             } else {
                 //D.hide(btnClear);
-                this._hideBtn(btnClear);
+                this._hideBtn();
             }
         },
-        _dealLabel: function(ipt) {
+        _dealLabel:function () {
+            var ipt = this.searchObj.input;
             var label = D.prev(ipt);
             if (ipt.value === '') {
                 D.removeClass(label, 'hide');
@@ -145,45 +148,149 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick, Node) {
                 D.addClass(label, 'hide');
             }
         },
-        _hideBtn:function (btn) {
+        _hideBtn:function () {
+            var btn = this.searchObj.btnClear;
             D.removeClass(btn, "btn-show");
             D.addClass(btn, "btn-hide");
         },
 
-        _showBtn:function (btn) {
+        _showBtn:function () {
+            var btn = this.searchObj.btnClear;
             D.removeClass(btn, "btn-hide");
             D.addClass(btn, "btn-show");
         },
-        _createSearchboxId:function () {
-            return this.get('prex') + ++count;
+        tabChange:function(e) {
+            var self = this;
+            var s = self.searchObj,
+
+            //单击触发tabChange的具体的那个li
+                tar = e.currentTarget;
+            var curCls = self.get("currentCls");
+            //点击本身 跳出
+            if (D.hasClass(tar, curCls)) {
+                //阻止a链接默认跳转页面
+                e.halt(true);
+                return;
+            }
+
+            //点击加选中背景
+            S.each(s.menuItems, function(tab) {
+                D.removeClass(tab, curCls);
+            });
+            D.addClass(tar, curCls);
+
+            self._collapse();
+
+            D.html(s.menuSelected, D.html(D.get('a', tar)) + '<i></i>');
+            s.input.focus();
+
+            //切换tab时，销毁suggest //TODO:
+            /*if (self.suggest) {
+                self.suggest.on('beforeStart', function() {
+                    return false;
+                });
+                self.suggest = undefined;
+            }*/
+
+            self.curItem = tar;
+
+            //self.fire(self.event.tabChanged, {'eventData' : tar});
+
+            //点击tab是否直接提交表单
+            var isRedirect = S.trim(D.attr(D.get(s.menuList), self.get("redirect"))) !== 'false';
+            if (!isRedirect) {
+                e.halt(true);
+                return;
+            }
+
+            var currentTabA = D.get('a', self.curItem),
+                emptyAction = S.trim(D.attr(currentTabA, self.get("emptyAction")));
+
+            if (s.input.value !== '') {
+                e.halt(true);
+                //有query提交表单 TODO:
+                //self.fireEvent(self.searchForm, 'submit');
+                self.submit();
+            } else {
+                //空query看是否有data-empty-action属性,无此属性不提交
+                if (emptyAction) {
+                    D.get('a', self.curItem).href = emptyAction;
+                } else {
+                    //阻止a链接click触发的跳转
+                    e.halt(true);
+                }
+            }
+        },
+        submit: function(e) {
+            //e.halt(true);
+            var self = this;
+            var s = self.searchObj;
+            var currentTabA = D.get('a', self.curItem),
+                emptyAction = S.trim(D.attr(currentTabA, self.get("emptyAction")));
+
+            if (s.input.value === '') {
+                //如果配置了data-emptyAction则空query跳转至emptyAction,否则空query不提交表单
+                if (emptyAction) {
+                    s.input.value = '';
+                    self.action = emptyAction;
+
+                    //D.addClass(s.btnSubmit, 'loading'); TODO:
+                    //return self.submited();
+                    s.searchForm.submit();
+                } else {
+                    e.halt(true);
+                    s.input.focus();
+                }
+
+            } else {
+                //D.addClass(s.btnSubmit, 'loading'); TODO:
+                self.action = D.attr(currentTabA, 'href');
+                //不同tab传递不一样的参数，通过a中的href后面的？来配置要传递的参数
+                self.parseAction(this.action);
+                var stat = D.attr(currentTabA, self.get("stat"));
+
+                //给atpanel发送埋点
+                if (S.trim(stat)) {
+                    //TODO
+                    //S.Stat(stat, true);
+                }
+                //return self.submited();
+                s.searchForm.submit();
+            }
         }
     };
     S.extend(Searchbox, Brick, {
         initialize:function () {
             var self = this;
-            var searchboxs = D.query(".J_searchbox");
-            for (var i = 0; i < searchboxs.length; i++) {
-                var item = searchboxs[i];
-                item.id = self._createSearchboxId();
-                var menu = D.get(".searchbox-menu", item);
-                var count = D.query('li', menu).length;
-                self.get("menuItemsCount")[item.id] = count;
-                ////
-                var ipt = D.get(".searchbox-input", item);
-                self._dealClearBtn(ipt, item);
-                self._dealLabel(ipt);
-            }
-            console.log(self.get("menuItemsCount"));
+            var searchbox = D.get(self.get("el"));
+            var menu = D.get('.searchbox-menu', searchbox);
+            var ipt =  D.get(".searchbox-input", searchbox);
+            self.searchObj = {
+                searchbox:searchbox,
+                searchForm:D.get('form', searchbox),
+                menu:menu,
+                menuSelected:D.get(".s-menu-selected", menu),
+                menuContainer:D.get(".s-menu-container", menu),
+                menuList:D.get(".s-menu-list", menu),
+                menuItems :D.query('li', menu),
+                searchboxOuter:D.get('.searchbox-outer', searchbox),
+                searchboxInner:D.get('.searchbox-inner', searchbox),
+                input:ipt,
+                btnClear:D.get(".s-btn-clear", searchbox),
+                menuItemCount:D.query('li', menu).length
+            };
+            self._dealClearBtn();
+            self._dealLabel();
 
-            if (S.UA.ie && S.UA.ie == 6) {
-                E.delegate('html', 'mouseenter mouseleave', '.bx-tips-close', function (e) {
-                    if (e.type === 'mouseenter') {
-                        D.addClass(e.currentTarget, 'hover');
-                    } else {
-                        D.removeClass(e.currentTarget, 'hover');
-                    }
-                });
-            }
+            /*if (S.UA.ie && S.UA.ie == 6) {
+             E.delegate('html', 'mouseenter mouseleave', '.bx-tips-close', function (e) {
+             if (e.type === 'mouseenter') {
+             D.addClass(e.currentTarget, 'hover');
+             } else {
+             D.removeClass(e.currentTarget, 'hover');
+             }
+             });
+             }*/
         },
         destructor:function () {
 
