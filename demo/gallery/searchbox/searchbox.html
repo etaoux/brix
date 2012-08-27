@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Brix Tips Demo</title>
+    <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+    <link rel="stylesheet" href="../../../src/gallery/searchbox/searchbox.css">
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+    <script src="../../config.js"></script>
+    <style>
+        .example-logo, .example-banner, .example-logo2, .example-banner2 {
+            height: 41px;
+            border: 1px solid #bbb5ff;
+        }
+
+        .example-logo, .example-logo2 {
+            float: left;
+            _margin-right: -3px; /** fixed ie6 3px bug**/
+        }
+
+        .example-banner, .example-banner2 {
+            float: right;
+            _margin-left: -3px; /** fixed ie6 3px bug**/
+        }
+
+        .example-searchbox, .example-searchbox2 {
+            width: 990px;
+        }
+
+        .example-searchbox2 {
+            margin-top: 200px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="example-searchbox">
+    <div class="example-logo">我是logo1</div>
+    <div class="example-banner">我是banner1</div>
+    <div bx-name="searchbox" class="searchbox default J_searchbox">
+        <form action="/search" method="get" id="J_searchForm" target="_self">
+            <fieldset tabindex="0">
+                <legend>一淘搜索</legend>
+                <div class="searchbox-outer" id="J_sOuter">
+                    <div class="searchbox-inner clear-fix">
+                        <div class="searchbox-menu" id="J_sMenu">
+                            <div id="J_sMenuSelected" class="s-menu-selected">商品<i></i></div>
+                            <div class="s-menu-container">
+                                <ul class="s-menu-list" id="J_sMenuList" data-redirect="true">
+                                    <li class="selected"
+                                        data-suggest-api="http://suggest.taobao.com/sug?area=etao&code=utf-8"><a
+                                            target="_self" hidefocus="true" data-stat-submit="dgp=t0&dgl=t&dgt=11"
+                                            href="http://s.etao.com/search">商品</a></li>
+                                    <li data-suggest-api="http://suggest.taobao.com/sug?area=etao&code=utf-8"><a
+                                            target="_self" href="http://s8.etao.com/search?spm=1002.1.0.21&t=0"
+                                            hidefocus="true" data-stat-submit="dgp=t0&dgl=t&dgt=11">热卖</a></li>
+                                    <li><a target="_self" hidefocus="true" data-stat-submit="dgp=t0&dgl=t&dgt=5"
+                                           href="http://web.etao.com/search?t=5">网页</a></li>
+                                    <li><a target="_self" hidefocus="true" data-stat-submit="dgp=t0&dgl=t&dgt=0"
+                                           href="http://www.etao.com/search?t=0">资讯</a></li>
+                                    <li><a target="_self" hidefocus="true" data-stat-submit="dgp=t0&dgl=t&dgt=2"
+                                           href="http://8.etao.com/etao.htm?ly=e" id="taoba_href">淘吧</a></li>
+                                    <li><a target="_self" hidefocus="true" data-stat-submit="dgp=t0&dgl=t&dgt=1"
+                                           href="http://tuan.etao.com/list.htm">团购</a></li>
+                                    <li><a target="_self" hidefocus="true" data-stat-submit="dgp=t0&dgl=t&dgt=15"
+                                           href="http://price.etao.com/search.htm">降价</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button type="submit" class="s-btn-submit" id="J_sBtnSubmit">search</button>
+                        <button type="button" class="s-btn-clear" id="J_sBtnClear">clear</button>
+                        <div class="s-ipt-outer">
+                            <fieldset tabindex="1">
+                                <legend>一淘搜索框</legend>
+                                <div class="s-ipt-inner">
+                                    <label class="search-label hide">直接输入商品或是网址就可以找到优惠？</label>
+                                    <input class="searchbox-input" accesskey="s" x-webkit-speech
+                                           x-webkit-grammar="builtin:translate" data-autofocus="autofocus"
+                                           autocomplete="off" name="q" value="" maxlength="100">
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+
+    </div>
+</div>
+
+
+<div class="example-searchbox2">
+    <div class="example-logo2">我是logo2我是logo2</div>
+    <div class="example-banner2">我是banner2我是banner2</div>
+    <div bx-name="searchbox" class="searchbox custom J_searchbox">
+        <form action="/search" method="get" id="J_searchForm" target="_self">
+            <fieldset tabindex="0">
+                <legend>一淘搜索</legend>
+                <div class="searchbox-outer" id="J_sOuter">
+                    <div class="searchbox-inner clear-fix">
+                        <div class="searchbox-menu" id="J_sMenu">
+                            <div id="J_sMenuSelected" class="s-menu-selected">团购<i></i></div>
+                            <div class="s-menu-container">
+                                <ul class="s-menu-list" id="J_sMenuList" data-redirect="true">
+                                    <li data-suggest-api="http://suggest.taobao.com/sug?area=etao&code=utf-8"><a
+                                            target="_self" hidefocus="true" data-stat-submit="dgp=t0&dgl=t&dgt=11"
+                                            href="http://s.etao.com/search">商品</a></li>
+                                    <li><a target="_self" hidefocus="true" data-stat-submit="dgp=t0&dgl=t&dgt=5"
+                                           href="http://web.etao.com/search?t=5">网页</a></li>
+                                    <li><a target="_self" hidefocus="true" data-stat-submit="dgp=t0&dgl=t&dgt=0"
+                                           href="http://www.etao.com/search?t=0">资讯</a></li>
+                                    <li><a target="_self" hidefocus="true" data-stat-submit="dgp=t0&dgl=t&dgt=2"
+                                           href="http://8.etao.com/etao.htm?ly=e" id="taoba_href">淘吧</a></li>
+                                    <li class="selected"><a target="_self" hidefocus="true" data-stat-submit="dgp=t0&dgl=t&dgt=1"
+                                           href="http://tuan.etao.com/list.htm">团购</a></li>
+                                    <li><a target="_self" hidefocus="true" data-stat-submit="dgp=t0&dgl=t&dgt=15"
+                                           href="http://price.etao.com/search.htm">降价</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button type="submit" class="s-btn-submit" id="J_sBtnSubmit">search</button>
+                        <button type="button" class="s-btn-clear" id="J_sBtnClear">clear</button>
+                        <div class="s-ipt-outer">
+                            <fieldset tabindex="1">
+                                <legend>一淘搜索框</legend>
+                                <div class="s-ipt-inner">
+                                    <label class="search-label hide">直接输入商品或是网址就可以找到优惠？</label>
+                                    <input class="searchbox-input" accesskey="s" x-webkit-speech
+                                           x-webkit-grammar="builtin:translate" data-autofocus="autofocus"
+                                           autocomplete="off" name="q" value="ipad2" maxlength="100">
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+
+    </div>
+</div>
+<script>
+    KISSY.ready(function (S) {
+        KISSY.use("brix/gallery/searchbox/", function (S, Searchbox) {
+            var searchbox = new Searchbox();
+        });
+    });
+</script>
+</body>
+</html>
