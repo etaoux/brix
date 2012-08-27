@@ -387,7 +387,7 @@ body {
   padding: 0 20px;
 }
 #page .title-bar {
-  padding-top: 16px;
+  padding: 16px 20px;
   margin-bottom: 20px;
   line-height: 1;
   border-bottom: 1px solid #eee;
@@ -420,6 +420,18 @@ body {
   display: inline-block;
   padding: 0 2px;
   background: #f4f5f5;
+}
+#page ul {
+  padding-left: 30px;
+}
+#page ul li {
+  list-style: circle;
+}
+#page ol {
+  padding-left: 30px;
+}
+#page ol li {
+  list-style: decimal;
 }
 #page .bottom-nav {
   padding: 20px 0;
