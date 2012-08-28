@@ -1,3 +1,4 @@
+/* 展开收起的代码  */
 .show-more{
     position: relative;
     top: -2px;
@@ -20,27 +21,27 @@
 .show-more .inner b{
     position: absolute;
     right: 25px;
-    top: 5px;
+    top: 0;
     width: 0;
     height: 0;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #666 white white;
     font-size: 0;
     line-height: 0;
+    border-width: 5px;
+    border-style: solid;
+    border-color: white white #666;
 }
 .show-more .inner b b{
     border-width: 3px;
-    border-color: white transparent transparent;
-    top: -5px;
+    border-color: transparent transparent white;
+    top: -2px;
     left: -3px;
     height: 1px;
 }
 .show-more .inner .fold b b{
-    border-color: transparent transparent white;
-    top: -2px;
+    border-color: white transparent transparent;
+    top: -5px;
 }
 .show-more .fold b{
-    border-color: white white #666;
-    top: 0;
+    border-color: #666 white white;
+    top: 5px;
 }
