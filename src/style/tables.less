@@ -205,7 +205,7 @@
     font-size: 0px;
     overflow: hidden;
     border-style: solid;
-    border-width: 4px 4px 0 4px;
+    border-width: 3px 3px 0 3px;
     border-color: #999 transparent transparent transparent;
     _border-color: #999 #FFFFFF #FFFFFF #FFFFFF;
   }
@@ -217,7 +217,21 @@
   }
 
   /*打开关闭按钮*/
-  .icon-expend-collapse {
+  .icon-expend,
+  .icon-collapse {
+    width: 11px;
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: middle;
+    height: 11px;
+    font-size: 0;
+    background: url(http://img01.taobaocdn.com/tps/i1/T1o0jIXkNhXXaSrQza-22-11.png) no-repeat;
+  }
+
+  .icon-expend {
+    background-position: -11px 0;
+  }
+  /*.icon-expend-collapse {
     font-style: normal;
     border: 1px solid #777;
     display: inline-block;
@@ -225,7 +239,7 @@
     height: 9px;
     text-align: center;
     line-height: 9px;
-    line-height: 8px\9; /*兼容ie8-*/
+    line-height: 8px\9;
     border-radius: 2px;
     box-shadow: 1px 1px 0 rgba(0,0,0,0.1);
     cursor: pointer;
@@ -237,8 +251,8 @@
   }
 
   :root .icon-expend-collapse {
-    line-height: 10px\9; /*兼容i9*/
-  }
+    line-height: 10px\9;
+  }*/
 }
 
 /* 用于在 table 标签之外实现 foot 的，这样就不用去计算 td 的 colspan 需要多少了  */
@@ -360,15 +374,13 @@
   left: -5px;
   top: -10px;
   padding: 10px 12px 8px;
-  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
-  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
-  -ms-box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
   background-color: #FFF;
   border: 1px solid #ccc\9;
   text-align: left;
   display: none;
   line-height: 1.8;
+  .border-radius(2px);
+  .box-shadow(0 1px 3px rgba(0, 0, 0, 0.1));
   border-collapse: separate;
   /*padding: 5px 0;*/
   left: 6px;

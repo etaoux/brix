@@ -392,7 +392,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             }
             //render Jump
             if (self.get('jump')) {
-                arrHTML.push('<div class="pagination-form"><span>向前</span><input class="page-num" value="' + Math.min(max, index + 1) + '" name="page" type="text"><span>页</span><a class="btn-jump btn btn-size25">跳转</a></div>');
+                arrHTML.push('<div class="pagination-form"><span>向第</span><input class="page-num" value="' + Math.min(max, index + 1) + '" name="page" type="text"><span>页</span><a class="btn-jump btn btn-size25">跳转</a></div>');
             }
 
             arrHTML.push('</div>');
