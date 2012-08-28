@@ -2506,6 +2506,20 @@ legend + .control-group {
   line-height: 1em;
   font-family: 'SimSun';
 }
+.footer .common a:hover,
+.footer .copyright a:hover,
+.footer .corp a:hover {
+  color: #F40;
+  text-decoration: underline;
+}
+.footer .char-num {
+  font-family: tahoma;
+  vertical-align: text-bottom;
+}
+.footer b.char-num {
+  vertical-align: top;
+  font-weight: normal;
+}
 .footer .common {
   margin-bottom: 15px;
 }
@@ -2555,7 +2569,8 @@ legend + .control-group {
   color: #ACACAC;
   margin: 5px 0;
 }
-.footer .copyright-alone span {
+.footer .copyright-alone .copyright-sign,
+.footer .copyright-alone .copyright-no {
   display: block;
   line-height: 1em;
 }
@@ -2650,6 +2665,53 @@ legend + .control-group {
 .avatar-point .avatar-rim {
   height: 92px;
   background-position: -320px 4px;
+}
+/* չ�������Ĵ���  */
+.show-more {
+  position: relative;
+  top: -2px;
+}
+.show-more .inner {
+  text-align: center;
+}
+.show-more .inner a {
+  position: relative;
+  border-width: 1px;
+  border-style: solid;
+  border-color: white #CACACA #CACACA;
+  padding: 0 40px 9px 25px;
+  color: #666;
+}
+.show-more .inner a:hover {
+  color: #FF8400;
+  cursor: pointer;
+}
+.show-more .inner b {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  width: 0;
+  height: 0;
+  font-size: 0;
+  line-height: 0;
+  border-width: 5px;
+  border-style: solid;
+  border-color: white white #666;
+}
+.show-more .inner b b {
+  border-width: 3px;
+  border-color: transparent transparent white;
+  top: -2px;
+  left: -3px;
+  height: 1px;
+}
+.show-more .inner .fold b b {
+  border-color: white transparent transparent;
+  top: -5px;
+}
+.show-more .fold b {
+  border-color: #666 white white;
+  top: 5px;
 }
 /*@import "breadcrumbs.less";*/
 /*@import "code.less";*/
