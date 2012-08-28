@@ -211,7 +211,14 @@ KISSY.add('brix/gallery/starrating/index', function(S, Brick, Node,UA) {
                 }).one('a').css({
                     'margin-left': '-' + (spi * spw) + 'px'
                 });
+                if(i!=0&&i%split!=0){
+                    star.css({'margin-right':'1px'});
+                }
             }
+            else{
+                star.css({'margin-right':'1px'});
+            }
+
             star.data('input', input);
             if(readOnly){
                 star.addClass('starrating-star-readonly');

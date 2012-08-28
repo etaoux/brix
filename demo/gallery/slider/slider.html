@@ -53,7 +53,7 @@
                     <span class="slider-scale-dot" style="margin-left:12.5%"></span>
                     <span class="slider-scale-dot" style="margin-left:12.4%; *margin-left:12%;"><span>200</span></span>
                 </div>
-                <div id="slider3" bx-name="slider" bx-config='{current: [-50,-100], integerStep:10, endStep : -200}' class="slider clearfix">
+                <div id="slider3" bx-name="slider" bx-config='{current: [50,100], integerStep:10, endStep : 200}' class="slider clearfix">
                     <span class="slider-bar"></span>
                     <span class="slider-knob slider-knob-start" ></span>
                     <span class="slider-knob slider-knob-end"></span>
@@ -66,7 +66,13 @@
             <br> <br>
             <h3>slider4</h3>
             <div  class="slider-container clearfix">
-                <div class="slider-scale">
+
+                <div id="slider4" bx-name="slider" bx-config='{current: [50,100], endStep : 200}' class="slider clearfix">
+                    <span class="slider-bar"></span>
+                    <span class="slider-knob slider-knob-start"> <span ></span></span>
+                    <span class="slider-knob slider-knob-end"> <span ></span></span>
+                </div>
+                <div class="slider-scale slider-scale-down">
                     <span class="slider-scale-dot"><span>0</span></span>
                     <span class="slider-scale-dot" style="margin-left:12.5%"></span>
                     <span class="slider-scale-dot" style="margin-left:12.5%"><span>50</span></span>
@@ -76,11 +82,6 @@
                     <span class="slider-scale-dot" style="margin-left:12.5%"><span>150</span></span>
                     <span class="slider-scale-dot" style="margin-left:12.5%"></span>
                     <span class="slider-scale-dot" style="margin-left:12.4%"><span>200</span></span>
-                </div>
-                <div id="slider4" bx-name="slider" bx-config='{current: [50,100], endStep : 200}' class="slider clearfix">
-                    <span class="slider-bar"></span>
-                    <span class="slider-knob slider-knob-start"> <span ></span></span>
-                    <span class="slider-knob slider-knob-end"> <span ></span></span>
                 </div>
 
                 <div id="slider4_txt"></div>
@@ -92,7 +93,7 @@
             <h3>slider5</h3>
 
             <div style="height:300px;padding:10px 20px;">
-            <div id="slider5" bx-name="slider" bx-config='{mode: "vertical", current: 70, startStep : 100, endStep : 0}' class="slider slider-vertical clearfix">
+            <div id="slider5" bx-name="slider" bx-config='{mode: "vertical", current: 70, startStep : 0, endStep : 100}' class="slider slider-vertical clearfix">
                 <span class="slider-bar"></span>
                 <span class="slider-knob"></span>
             </div>
