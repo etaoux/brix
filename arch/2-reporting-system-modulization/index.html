@@ -51,7 +51,7 @@
 </aside>
   <div id="page">
     <div class="title-bar clearfix">
-      <h1>BRIX 组件架构（二）</h1>
+      <h1>Brix 组件架构（二）</h1>
       
     </div>
     <article>
@@ -62,7 +62,7 @@
 
 <p><img src="/brix/assets/img/brix-arch/2/1.png" alt="1" /></p>
 
-<p>上图是subway报表系统的核心列表页面。
+<p>上图是 subway 报表系统的核心列表页面。
 <strong>基于具体业务进行组件拆解工作。</strong></p>
 
 <p><img src="/brix/assets/img/brix-arch/2/2.png" alt="2" /></p>
@@ -101,7 +101,7 @@
 
 
 <p>数据为特殊的属性，但我们需要对数据表示特别的关注
-对于Tab组件而言，数据包含两部分：TabList 和 CurrentTabID</p>
+对于 Tab 组件而言，数据包含两部分：TabList 和 CurrentTabID</p>
 
 <p><img src="/brix/assets/img/brix-arch/2/4.jpg" alt="2" /></p>
 
@@ -114,9 +114,9 @@
 </ol>
 
 
-<p><em>这解决了Magix中View过大，整个View重刷带价过大的问题。</em></p>
+<p><em>这解决了 Magix 中 View 过大，整个 View 重刷带价过大的问题。</em></p>
 
-<p><em>子模板机制保障了Tab和TabConfiger两个组件，虽然DOM结构上存在父子关系，但是是两个独立的组件，可以按照组件间交互模式交互</em></p>
+<p><em>子模板机制保障了 Tab 和 TabConfiger 两个组件，虽然 DOM 结构上存在父子关系，但是是两个独立的组件，可以按照组件间交互模式交互</em></p>
 
 <p><img src="/brix/assets/img/brix-arch/2/5.jpg" alt="2" /></p>
 
@@ -125,12 +125,12 @@
 <ol>
 <li>获取数据</li>
 <li>获取模板</li>
-<li>输出模板渲染后的HTML</li>
-<li>将其他组件行为附加到HTML上</li>
+<li>输出模板渲染后的 HTML</li>
+<li>将其他组件行为附加到 HTML 上</li>
 </ol>
 
 
-<p>结合用expando标识events信息以及在模板内的完成状态渲染逻辑，将YUI Widget 组件初始化的SyncUI，BindUI工作转移至模板中。</p>
+<p>结合用 expando 标识 events 信息以及在模板内的完成状态渲染逻辑，将 YUI Widget 组件初始化的 SyncUI，BindUI 工作转移至模板中。</p>
 
 <p>其中步骤1、2、3可以在后台执行，也可以在前台执行。
 当组件凭空创建时，也需要遵照1、2、3顺序。</p>

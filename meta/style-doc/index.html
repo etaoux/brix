@@ -51,7 +51,7 @@
 </aside>
   <div id="page">
     <div class="title-bar clearfix">
-      <h1>Brix Style 文档</h1>
+      <h1>Brix Style 文档规范</h1>
       
     </div>
     <article>
@@ -144,12 +144,15 @@
 <a href="https://github.com/Shopify/liquid/wiki/Liquid-for-Designers">Liquid 模板</a> 的语法，
 例如，在 <code>2012-04-10-hello.md</code> 中，我们可以这么写：</p>
 
+<pre><code>[{{ 'brix' | capitailize }}](http://etaoux.github.com/brix) is awesome!
+</code></pre>
+
 <p>这里的解析顺序是这样的：</p>
 
 <ol>
 <li>把内容交给 Liquid 引擎，<code>Brix</code> 变成了 <code>Brix</code></li>
 <li><code>[Brix](http://etaoux.github.com/brix)</code> 再交给 Markdown 引擎，
-变成最终我们想要的 `<a href="http://etaoux.github.com/brix">Brix</a></li>
+变成最终我们想要的 <code>&lt;a href="http://etaoux.github.com/brix"&gt;Brix&lt;/a&gt;</code></li>
 </ol>
 
 
