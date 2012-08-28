@@ -31,6 +31,8 @@
         color: #488fcd;
         font-size: 28px;
         line-height: 28px;
+        left: 0px;
+        top:0px;
     }
 
     .dialog-ext-close-x {
@@ -38,7 +40,10 @@
         font-style:normal;
         color:#ccc;
         font-size: 16px;
-        display: inline-block;
+        line-height: 16px;
+        position: absolute;
+        left: 6px;
+        top:6px;
     }
 }
 
@@ -59,13 +64,13 @@
 .dialog-up{
     .dialog-contentbox{
         .box-shadow(0px -5px 10px rgba(0, 0, 0, 0.1));
-        border-down: none;
+        border-bottom: none;
     }
 }
 
 .dialog-down{
     .dialog-contentbox{
         .box-shadow(0px 5px 10px rgba(0, 0, 0, 0.1));
-        border-up: none;
+        border-top: none;
     }
 }

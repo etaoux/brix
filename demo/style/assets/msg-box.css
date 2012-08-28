@@ -2,16 +2,64 @@
  * Msg-Box
  */
 
+/* iconfont */
+
+@font-face {
+    font-family: 'uxiconfont';
+    src: url('iconfont/msg-box/msg-box/uxiconfont.eot'); /* IE9*/
+    src: url('iconfont/msg-box/uxiconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('iconfont/msg-box/uxiconfont.woff') format('woff'), /* chrome、firefox */
+    url('iconfont/msg-box/uxiconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('iconfont/msg-box/uxiconfont.svg#uxiconfont') format('svg'); /* iOS 4.1- */
+} 
+
+.iconfont{font-family:"uxiconfont";font-size:16px;font-style:normal; cursor: pointer; color: #a0a0a0;}
+ 
 .msg-box {
     display: inline-block;
     *display: inline;
     *zoom: 1;
+    margin-right: 20px;
     padding: 8px 10px;
     border: 1px solid #d0d0d0;
     box-shadow: 0 0 3px #ccc;
     border-radius: 6px 6px 6px 0;
     background-color: #fff;
     position: relative;
+}
+
+.msg-box .msg-body {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    margin: 0;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 20px;
+}
+
+.msg-box .msg-head {
+    margin-bottom: 6px;
+}
+
+.msg-head .msg-title {
+    float: left;
+    color: #0066cc;
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 20px;
+}
+
+.msg-head .msg-date {
+    float: right;
+    color: #999;
+}
+
+.msg-time {
+    position: absolute;
+    width: 40px;
+    text-align: right;
+    left: 0;
 }
 
 .msg-box .msg-arrow,
@@ -131,4 +179,17 @@
 
 .msg-by-self {
     color: #488fcd;
+}
+
+.msg-box .icon-del {
+    position: absolute;
+    width: 30px;
+    text-align: right;
+    right: -20px;
+    top: -5px;
+    visibility: hidden;
+}
+
+.msg-box:hover .icon-del {
+    visibility: visible;
 }
