@@ -3,21 +3,8 @@
   *zoom: 1;
   width: 41px;
   height: 18px;
-  -webkit-border-radius: 18px;
-  -moz-border-radius: 18px;
-  border-radius: 18px;
-  background-color: #6d6d6d;
-  background-image: -moz-linear-gradient(top, #525252, #969696);
-  background-image: -ms-linear-gradient(top, #525252, #969696);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#525252), to(#969696));
-  background-image: -webkit-linear-gradient(top, #525252, #969696);
-  background-image: -o-linear-gradient(top, #525252, #969696);
-  background-image: linear-gradient(top, #525252, #969696);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#525252', endColorstr='#969696', GradientType=0);
-  filter: none;
-  background: url(http://img04.taobaocdn.com/tps/i4/T1_CvAXXhhXXXKpIvf-41-52.png) no-repeat \9;
-  background-position: 0 -18px \9;
+  background: url(http://img04.taobaocdn.com/tps/i4/T1_CvAXXhhXXXKpIvf-41-52.png) no-repeat;
+  background-position: 0 -18px;
   cursor: pointer;
 }
 .switcher .switcher-trigger {
@@ -27,61 +14,26 @@
   display: block;
   width: 14px;
   height: 14px;
-  background: #fff;
-  border: 1px solid #595959;
-  -webkit-border-radius: 18px;
-  -moz-border-radius: 18px;
-  border-radius: 18px;
-  top: 1px \9;
-  width: 16px \9;
-  height: 15px \9;
-  border: none \9;
-  background: url(http://img04.taobaocdn.com/tps/i4/T1_CvAXXhhXXXKpIvf-41-52.png) no-repeat \9;
-  background-position: 0 -36px \9;
+  top: 1px;
+  width: 16px;
+  height: 15px;
+  background: url(http://img04.taobaocdn.com/tps/i4/T1_CvAXXhhXXXKpIvf-41-52.png) no-repeat;
+  background-position: 0 -36px;
 }
 .switcher-on {
-  background-color: #28659f;
-  background-image: -moz-linear-gradient(top, #194f86, #3f86c5);
-  background-image: -ms-linear-gradient(top, #194f86, #3f86c5);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#194f86), to(#3f86c5));
-  background-image: -webkit-linear-gradient(top, #194f86, #3f86c5);
-  background-image: -o-linear-gradient(top, #194f86, #3f86c5);
-  background-image: linear-gradient(top, #194f86, #3f86c5);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#194f86', endColorstr='#3f86c5', GradientType=0);
-  filter: none;
-  background: url(http://img04.taobaocdn.com/tps/i4/T1_CvAXXhhXXXKpIvf-41-52.png) no-repeat \9;
-  background-position: 0 0 \9;
+  background: url(http://img04.taobaocdn.com/tps/i4/T1_CvAXXhhXXXKpIvf-41-52.png) no-repeat;
+  background-position: 0 0;
 }
 .switcher-on .switcher-trigger {
   left: auto;
   right: 0px;
-  border: 1px solid #2b5579;
-  border: none \9;
 }
 .switcher-no-status {
   position: relative;
   *zoom: 1;
   width: 41px;
   height: 18px;
-  -webkit-border-radius: 18px;
-  -moz-border-radius: 18px;
-  border-radius: 18px;
-  background-color: #6d6d6d;
-  background-image: -moz-linear-gradient(top, #525252, #969696);
-  background-image: -ms-linear-gradient(top, #525252, #969696);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#525252), to(#969696));
-  background-image: -webkit-linear-gradient(top, #525252, #969696);
-  background-image: -o-linear-gradient(top, #525252, #969696);
-  background-image: linear-gradient(top, #525252, #969696);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#525252', endColorstr='#969696', GradientType=0);
-  filter: none;
-  background: url(http://img04.taobaocdn.com/tps/i4/T1_CvAXXhhXXXKpIvf-41-52.png) no-repeat \9;
-  background-position: 0 -18px \9;
+  background: url(http://img04.taobaocdn.com/tps/i4/T1_CvAXXhhXXXKpIvf-41-52.png) no-repeat;
+  background-position: 0 -18px;
   cursor: pointer;
-}
-.switcher-no-status .switcher-trigger {
-  border: 1px solid #595959;
-  border: none \9;
 }
