@@ -1,0 +1,226 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Msg-Box</title>
+        <link rel="stylesheet" href="../../dist/brix-min.css">
+        <link rel="stylesheet" href="../../src/style/avatar.less">
+        <link rel="stylesheet" href="assets/msg-box.css">
+         <link rel="stylesheet" href="../../src/gallery/starrating/starrating.css">
+        <style>
+            body {
+                padding: 40px;
+            }
+            hr {
+                display: block;
+                height: 0;
+                overflow: hidden;
+                border-bottom: 1px solid #ccc;
+                box-shadow: 0 0 3px #ddd;
+            }
+            .span {
+                padding: 0 30px;
+            }
+            .msg-box {
+                margin-bottom: 10px;
+            }
+            
+            .user-name {
+                margin: 0;
+                text-align: center;
+            }
+            
+            .timeline {
+                width: 500px;
+                height: 600px;
+                background: url(assets/timeline_bg.png) no-repeat 0 0;
+                position: absolute;
+            }
+            
+            .timeline .msg-box {
+                position: absolute;
+                width: 200px;
+            }
+            
+            .timeline .msg-body {
+                padding-left: 40px;
+            }
+            
+            #timeline-today {
+                left: 86px;
+                bottom: 505px;
+            }
+            
+            #timeline-yesterday {
+                left: 86px;
+                bottom: 415px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="main">
+            <div class="msg-box">
+                <div class="msg-body">
+                    今天接到警方电话，劫走老罗英语学员手机的劫匪已抓获，<br>
+                    该犯为惯犯，律师说应为三年左右有期徒刑。<br>
+                    感谢北京警方，感谢@平安北京 。这件事的教训是：<br>
+                    1.生存艰难也不要靠打劫和伤害无辜为生；<br>
+                    2.如果一定要打劫，不要打劫老罗的人。<br>
+                    3.求职也罢，上培训学校也罢，要相信那些能罩得住、也愿意为你出头的人。
+                </div>
+                <span class="msg-arrow"><span></span></span>
+            </div>
+            <span class="span"></span>
+            <div class="msg-box msg-arrow-top">
+                <p class="msg-body">左上角的气泡样式</p>
+                <span class="msg-arrow"><span></span></span>
+            </div>
+            <span class="span"></span>
+            <div class="msg-box msg-arrow-right">
+                <p class="msg-body">右上角的气泡样式</p>
+                <span class="msg-arrow"><span></span></span>
+            </div>
+            <span class="span"></span>
+            <div class="msg-box msg-arrow-bottom">
+                <p class="msg-body">右下角的气泡样式</p>
+                <span class="msg-arrow"><span></span></span>
+            </div>
+            <hr>
+            <div class="msg-box msg-skin-orange">
+                <p class="msg-body">橙色对话框</p>
+                <span class="msg-arrow"><span></span></span>
+            </div>
+            <span class="span"></span>
+            <div class="msg-box msg-arrow-top msg-skin-orange">
+                <p class="msg-body">橙色对话框-左上</p>
+                <span class="msg-arrow"><span></span></span>
+            </div>
+            <span class="span"></span>
+            <div class="msg-box msg-arrow-right msg-skin-orange">
+                <p class="msg-body">橙色对话框-右上</p>
+                <span class="msg-arrow msg-skin-arrow"><span></span></span>
+            </div>
+            <span class="span"></span>
+            <div class="msg-box msg-arrow-bottom msg-skin-orange">
+                <p class="msg-body">橙色对话框-右下</p>
+                <span class="msg-arrow msg-skin-arrow"><span></span></span>
+            </div>
+            <hr>
+            <div class="msg-box msg-skin-gray">
+                <p class="msg-body">灰色对话框</p>
+                <span class="msg-arrow"><span></span></span>
+            </div>
+            <span class="span"></span>
+            <div class="msg-box msg-arrow-top msg-skin-gray">
+                <p class="msg-body">灰色对话框-左上</p>
+                <span class="msg-arrow"><span></span></span>
+            </div>
+            <span class="span"></span>
+            <div class="msg-box msg-arrow-right msg-skin-gray">
+                <p class="msg-body">灰色对话框-右上</p>
+                <span class="msg-arrow msg-skin-arrow"><span></span></span>
+            </div>
+            <span class="span"></span>
+            <div class="msg-box msg-arrow-bottom msg-skin-gray">
+                <p class="msg-body">灰色对话框-右下</p>
+                <span class="msg-arrow msg-skin-arrow"><span></span></span>
+            </div>
+            <hr>
+            <div class="msg-box msg-arrow-bottom msg-by-self">
+                <p class="msg-body">普通对话框-对话</p>
+                <span class="msg-arrow msg-skin-arrow"><span></span></span>
+            </div>
+            <hr>
+            <h4>发帖模式</h4>
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="padding-right: 18px; vertical-align: top;">
+                            <a href="#" onclick="return false" class="avatar avatar-has-label">
+                                <span class="avatar-rim"></span>
+                                <span class="avatar-pic">
+                                    <img src="../../src/img/avatar.jpg" alt="avatar-default">
+                                </span>
+                            </a>
+                            <h4 class="user-name">Angela</h4>
+                        </td>
+                        <td style="padding-top: 6px;">
+                            <div class="msg-box msg-arrow-top">
+                                <div class="msg-main">
+                                    <div class="msg-head clearfix">
+                                        <strong class="msg-title">超爱苹果</strong>
+                                        <div style="float:left;margin-top:3px" class="starrating-static-s">
+                                            <div class="starrating-static-s-on" style="width:50%;"></div>
+                                        </div>
+                                        <div style="font-family:tahoma;color:#999;padding-left:10px;float:left">
+                                            4.5
+                                        </div>
+                                        <span class="msg-date">发表于: 2012-12-12</span>
+                                    </div>
+                                    <div class="msg-body">
+                                        柴静专访华裔NBA球星林书豪-＜与骄傲为敌＞哈佛经济系毕业、华裔、板凳球员，有人说他成功几率比美国总统还要小，但他说：＂如果别人告诉我不能做什么，我反而更想把它做好＂（林书豪出生在美国，可以听得懂中文，也会说一些，为了表达更准确，在采访时用英文表达）
+                                    </div>
+                                </div>
+                                <span class="msg-arrow msg-skin-arrow"><span></span></span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+            <h4>对话模式</h4>
+            <table>
+                <tbody>
+                    <tr>
+                        <td style="padding-right: 18px; vertical-align: bottom;">
+                            <a href="#" onclick="return false" class="avatar avatar-has-label">
+                                <span class="avatar-rim"></span>
+                                <span class="avatar-pic">
+                                    <img src="../../src/img/avatar.jpg" alt="avatar-default">
+                                </span>
+                            </a>
+                            <h4 class="user-name">Angela</h4>
+                        </td>
+                        <td style="vertical-align: bottom; padding-bottom: 26px;">
+                            <div class="msg-box">
+                                <div class="msg-main">
+                                    <div class="msg-body">
+                                        柴静专访华裔NBA球星林书豪-＜与骄傲为敌＞哈佛经济系毕业、华裔、板凳球员，有人说他成功几率比美国总统还要小，但他说：＂如果别人告诉我不能做什么，我反而更想把它做好＂（林书豪出生在美国，可以听得懂中文，也会说一些，为了表达更准确，在采访时用英文表达）
+                                    </div>
+                                </div>
+                                <span class="msg-arrow msg-skin-arrow"><span></span></span>
+                                <span class="icon-del"><i class="iconfont">&#356</i></span>
+                            </div>
+                        </td>
+                        <td >
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="text-align: right">
+                            <div class="msg-box msg-arrow-bottom msg-by-self">
+                                <p class="msg-body">我去, 不想理你!</p>
+                                <span class="msg-arrow msg-skin-arrow"><span></span></span>
+                            </div>
+                        </td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h4>时间轴</h4>
+            <div class="timeline">
+                <div id="timeline-today" class="msg-box msg-skin-orange">
+                    <span class="msg-time">16:40</span>
+                    <p class="msg-body">杭州市文三路给你扫描, 给你扫描, 给你扫描, 给你扫描!</p>
+                    <span class="msg-arrow"><span></span></span>
+                </div>
+                <div id="timeline-yesterday" class="msg-box msg-skin-gray">
+                    <span class="msg-time">16:40</span>
+                    <p class="msg-body">杭州市文三路给你扫描, 再次给你扫描, 再次给你扫描, 再次给你扫描!</p>
+                    <span class="msg-arrow"><span></span></span>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
