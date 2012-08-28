@@ -7,7 +7,7 @@
   overflow: hidden;
 }
 .starrating-star a {
-  background: url("http://img01.taobaocdn.com/tps/i1/T1J26zXnXjXXXR5_Hq-90-80.png") no-repeat;
+  background: url("http://img02.taobaocdn.com/tps/i2/T1Uh6DXkVmXXcWTjbs-95-80.png") no-repeat;
 }
 .starrating-star a {
   display: block;
@@ -41,11 +41,11 @@
 .starrating-static-on,
 .starrating-static-s,
 .starrating-static-s-on {
-  background: url("http://img01.taobaocdn.com/tps/i1/T1J26zXnXjXXXR5_Hq-90-80.png") no-repeat;
+  background: url("http://img02.taobaocdn.com/tps/i2/T1Uh6DXkVmXXcWTjbs-95-80.png") no-repeat;
 }
 .starrating-static,
 .starrating-static-on {
-  width: 90px;
+  width: 95px;
   height: 18px;
 }
 .starrating-static {
@@ -56,7 +56,7 @@
 }
 .starrating-static-s,
 .starrating-static-s-on {
-  width: 60px;
+  width: 65px;
   height: 12px;
   line-height: 1;
 }
