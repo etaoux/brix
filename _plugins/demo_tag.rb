@@ -12,7 +12,7 @@ module Jekyll
       unless path =~ /\.html$/
         path = "#{path}/#{path.split('/').last}.html"
       end
-      "<div class='demo'><iframe src='/brix/demo/#{path}' frameborder='0' scrolling='0' class='j-demo'></iframe></div>"
+      "<div class='demo'><iframe src='/brix/demo/#{path}' frameborder='0' scrolling='no' class='j-demo'></iframe></div>"
     end
   end
 end
