@@ -4,6 +4,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Brix Loading Demo</title>
         <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+        <link rel="stylesheet" href="../../../src/gallery/dropdown/dropdown.css">
+        <link rel="stylesheet" href="../../../src/gallery/pagination/pagination.css">
         <link rel="stylesheet" href="../../../src/gallery/loading/loading.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
         <script src="../../config.js"></script>
@@ -11,110 +13,106 @@
         #brick2{padding:10px}
         #brick2 img{vertical-align: top}
         #brick2 span{padding:0 4px;line-height: 16px;}
+        .section {width:990px;margin:0 auto;margin-top:15px;}
+        .section p em{padding-left:15px;}
+        .loading-desc{color:#ddd;line-height:18px;vertical-align: top}
+        .hidden{display: none}
+        #J_Loading1 .loading{display:none;}
+        #J_Loading1.btn-loading .loading{display:block;}
+        #J_Loading1.btn-loading .btn-desc{display:none;}
         </style>
     </head>
     <body style="margin:0px;padding-top:40px">
-        <div style="padding-left:50px;width:240px">
-            1、普通的loading,四种展现形式：
+        <div class="section">
+            <p>
+                <strong>1、loading默认有四种动画形式：</strong>
+            </p>
         </div>
-        <div style="padding-left:50px;padding-top:10px;width:240px"  id="test_container1">
+        <div class="section">
+            <p>a、<em>淘宝版本1</em></p>
+            <span class="loading loading-color"></span>
+            <p>b、<em>淘宝版本2</em></p>
+            <span class="loading loading-color-mini"></span>
+            <p>c、<em>轻型版本1</em></p>
+            <span class="loading loading-grey-border"></span>
+            <p>d、<em>轻型版本2</em></p>
+            <span class="loading loading-grey"></span>
         </div>
-        <div style="padding-top:10px;padding-left:50px;width:240px"  id="test_container3">
-            <div id="brick3" bx=name="loading" bx-tmpl="loading" class="loading" style="display:none;">
-                <img src="" alt="">
+        <div class="section">
+            <p>
+                <strong>2、loading配合文字使用：</strong>
+            </p>
+            <span class="loading loading-color-mini"></span>
+            <span>加载中...</span>
+        </div>
+        <div class="section">
+            <p>
+                <strong>3、按钮中的loading：</strong>
+            </p>
+            <div style="height:18px;padding:10px;text-align:left">
+                <a href="#" class="btn btn-blue">
+                    <span class="loading loading-grey"></span>
+                </a>
+                <a href="#" style="padding-left:10px;font-size:12px;color:#606060">忘记密码？</a>
             </div>
         </div>
-        <div style="padding-top:10px;padding-left:50px;width:240px"  id="test_container4">
-            <div id="brick4" bx=name="loading" bx-tmpl="loading" class="loading" style="display:none;">
-                <img src="" alt="">
+        <div class="section">
+            <p>
+                <strong>4、按钮激活后的loading：</strong>
+            </p>
+            <div style="height:18px;padding:10px;text-align:left">
+                <a id="J_Loading1" href="#" class="btn btn-blue">
+                    <span class="loading loading-grey"></span><span class="btn-desc">点击我</span>
+                </a>
             </div>
         </div>
-        <div style="padding-top:10px;padding-left:50px;width:240px"  id="test_container5">
-            <div id="brick5" bx=name="loading" bx-tmpl="loading" class="loading" style="display:none;">
-                <img src="" alt="">
+        <div class="section" id="J_container">
+            <p>
+                <strong>5、翻页触发的loading</strong>
+            </p>
+            <div style="height:28px;text-align:center">
+                <span id="J_P1_Loading" class="loading loading-grey hidden"></span>
+            </div>
+            <div id="J_P1" bx-name="pagination" class="pagination clearfix" bx-config="{pageSizeName:false,statistics:true,sizeChange:true,jump:true,goTo:false}"></div>
+        </div>
+        <div class="section">
+            <p>
+                <strong>6、普通的状态栏loading：</strong>
+            </p>
+            <div style="height:18px;padding:10px;background:#555;text-align:center">
+                <span class="loading loading-grey"></span>
+                <span class="loading-desc">一淘带您去京东商城，请稍等...</span>  
             </div>
         </div>
-        <div style="padding-left:50px;padding-top:30px;width:240px">
-            2、触发loading,5秒后结束.
-        </div>
-        <div style="padding-top:10px;padding-left:50px;width:240px">
-            <span class="btn-blue" id="J_Build_Loading1" style="padding:4px;">点击开始loading</span>
-            <div id="brick2" bx=name="loading" bx-tmpl="loading" class="loading" style="display:none;">
-                <img src="" alt=""><span>请耐心等候，宝贝马上出现哦~</span>
-            </div>
-        </div>
-        <!--brix begin-->
-        <script type="text/template" id="tmpl_loading1">
-            <div id="brick1" bx=name="loading" bx-tmpl="loading" class="loading" style="display:none;">
-                <img src="" alt="">
-            </div>
-        </script>
         <script>
             KISSY.ready(function(S) {
-                KISSY.use("brix/gallery/loading/", function(S, Loading) {
+                KISSY.use("brix/core/pagelet", function(S, Pagelet) {
                     var config = {
-                        container:'#test_container1',//容器节点
-                        tmpl: S.one("#tmpl_loading1").html()
-                    };
-                    var loading1 = new Loading(config);
-
-                    loading1.render();
-                    loading1.show();
-
-                    S.one('#J_Build_Loading1').on('click', function(e) {
-                        e.preventDefault();
-                        var loading2 = new Loading({
-                            el:'#brick2',
-                            loadingStyle: 3
+                        tmpl:'#J_container'
+                    }
+                    var p = new Pagelet(config);
+                    p.addBehavior();
+                    p.ready(function() {
+                        p.getBrick('J_P1').on('goToPage',function(e){
+                            S.one('#J_P1_Loading').removeClass('hidden');
+                            S.later(function() {
+                                S.one('#J_P1_Loading').addClass('hidden');
+                            }, 1000);
                         });
-                        
-                        loading2.on('show', function() {
-                            S.one('#J_Build_Loading1').html('loading 开始');
-                        });
-                        loading2.on('hide', function() {
-                            S.one('#J_Build_Loading1').html('loading 结束，点击重新开始');
-                        })
-                        loading2.show();
-                        S.later(function() {
-                            loading2.hide();
-                        }, 5000);
                     });
-
-                    var loading3 = new Loading({
-                        el:'#brick3',
-                        loadingStyle: 1
-                    });
-                    loading3.show();
-
-
-                    var loading4 = new Loading({
-                        el:'#brick4',
-                        loadingStyle: 2
-                    });
-
-                    loading4.show();
-
-                    var loading5 = new Loading({
-                        el:'#brick5',
-                        loadingStyle: 3
-                    });
-
-                    loading5.show();
                 });
 
-                // KISSY.use("brix/core/pagelet", function(S, Pagelet) {
-                //     var config = {
-                //         container:'#test_container4',
-                //         tmpl: S.one("#tmpl_switcher4").html()
-                //     };
+                S.one('#J_Loading1').on('click', function(e) {
+                    e.preventDefault();
+                    var target = S.one(e.currentTarget);
 
-                //     var pagelet = new Pagelet(config);
-                //     pagelet.render();
-                //     pagelet.addBehavior();
-                //     pagelet.on('switch',function(e){
-                //         console.log('switcher4 switchto ' + e.value);
-                //     });
-                // });
+                    if (!target.hasClass('btn-loading')) {
+                        target.addClass('btn-loading');
+                        S.later(function() {
+                            target.removeClass('btn-loading');
+                        }, 3000);
+                    }
+                });
 
             });
         </script>
