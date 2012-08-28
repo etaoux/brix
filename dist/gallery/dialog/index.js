@@ -54,6 +54,9 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
                 var dir = '',
                     start = self.get('start'),
                     end = self.get('end');
+                if(start.left===end.left&&start.top===end.top){
+                    return false;
+                }
                 dir = start.left === end.left && (start.top < end.top ? 'down' : 'up') || start.top === end.top && (start.left < end.left ? 'right' : 'left') || 'left';
                 return dir;
             }
@@ -121,7 +124,7 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
             if (v) {//如果显示
                 el.css(self.get('start'));
                 s = 'end';
-                el.removeClass('dialog-left').removeClass('dialog-right').removeClass('dialog-up').removeClass('dialog-down').addClass('dialog-'+dir);
+                
             }
             else{
                 el.css(self.get('end'));
@@ -141,12 +144,16 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
             });
         },
         bindUI:function(){
-            var self = this;
+            var self = this,el = self.get('el');
             self.on('beforeVisibleChange', function(ev) {
-                var v = ev.newVal;
+                var v = ev.newVal,dir = self.get('dir');
+                el.removeClass('dialog-left').removeClass('dialog-right').removeClass('dialog-up').removeClass('dialog-down');
+                if(dir){
+                    el.addClass('dialog-'+dir)
+                }
                 if(!v){
                     self._visibilityChange(v,function(){
-                        self.get('el').css('visibility', 'hidden');
+                        el.css('visibility', 'hidden');
                         self.set('visible',false,{silent:true});
                         self.fire('hide');
                     });
