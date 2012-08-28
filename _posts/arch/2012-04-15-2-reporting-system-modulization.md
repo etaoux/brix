@@ -1,6 +1,6 @@
 ---
 layout: post
-title: BRIX 组件架构（二）
+title: Brix 组件架构（二）
 category: arch
 ---
 
@@ -10,7 +10,7 @@ category: arch
 
 ![1](/brix/assets/img/brix-arch/2/1.png)
 
-上图是subway报表系统的核心列表页面。
+上图是 subway 报表系统的核心列表页面。
 **基于具体业务进行组件拆解工作。**
 
 ![2](/brix/assets/img/brix-arch/2/2.png)
@@ -39,7 +39,7 @@ category: arch
 - 结合具体业务进行数据流分析
 
 数据为特殊的属性，但我们需要对数据表示特别的关注
-对于Tab组件而言，数据包含两部分：TabList 和 CurrentTabID
+对于 Tab 组件而言，数据包含两部分：TabList 和 CurrentTabID
 
 ![2](/brix/assets/img/brix-arch/2/4.jpg)
 
@@ -49,9 +49,9 @@ category: arch
 2. 建立 数据 与 子模板 与 渲染方法 的一一对应，支持局部依照变化了的数据和子模板重新渲染
 3. 所有子模板承载数据之和>所有数据，校验数据完整性
 
-*这解决了Magix中View过大，整个View重刷带价过大的问题。*
+*这解决了 Magix 中 View 过大，整个 View 重刷带价过大的问题。*
 
-*子模板机制保障了Tab和TabConfiger两个组件，虽然DOM结构上存在父子关系，但是是两个独立的组件，可以按照组件间交互模式交互*
+*子模板机制保障了 Tab 和 TabConfiger 两个组件，虽然 DOM 结构上存在父子关系，但是是两个独立的组件，可以按照组件间交互模式交互*
 
 ![2](/brix/assets/img/brix-arch/2/5.jpg)
 
@@ -59,10 +59,10 @@ category: arch
 
 1. 获取数据
 2. 获取模板
-3. 输出模板渲染后的HTML
-4. 将其他组件行为附加到HTML上
+3. 输出模板渲染后的 HTML
+4. 将其他组件行为附加到 HTML 上
 
-结合用expando标识events信息以及在模板内的完成状态渲染逻辑，将YUI Widget 组件初始化的SyncUI，BindUI工作转移至模板中。
+结合用 expando 标识 events 信息以及在模板内的完成状态渲染逻辑，将 YUI Widget 组件初始化的 SyncUI，BindUI 工作转移至模板中。
 
 其中步骤1、2、3可以在后台执行，也可以在前台执行。
 当组件凭空创建时，也需要遵照1、2、3顺序。
