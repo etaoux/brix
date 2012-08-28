@@ -41,6 +41,7 @@ KISSY.add('brix/gallery/slider/index', function(S, Brick, UA, Node, DD) {
         integerStep : {
             value : 1
         },
+
         // 当前值
         current : {
 
@@ -83,13 +84,19 @@ KISSY.add('brix/gallery/slider/index', function(S, Brick, UA, Node, DD) {
                 barNode = el.one(".slider-bar"),
                 knobNode = el.one(".slider-knob-end"),
                 knobNode_start = this.knobNode_start = el.one(".slider-knob-start"),
-                knobNode_left_val = 0, knobNode_start_left_val = null,
+                knobNode_left_val = 0,  // 表示拖动按钮的像素值。
+                knobNode_start_left_val = null,
+
                 knobOffset = self.get("knobOffset"),
-                left_top = mode === MODE.horizontal ? "left" : "top",
-                width_height = mode === MODE.horizontal ? "width" : "height";
+                vertical = mode === MODE.horizontal ? false : true,
+                left_top = !vertical ? "left" : "top",
+                left_bottom = !vertical ? "left" : "bottom",
+                width_height = !vertical ? "width" : "height";
 
             knobNode = knobNode || el.one(".slider-knob");
             this.knobNode = knobNode;
+
+
             // 创建一个拖动按钮
             var knob = self.knob = new DD.Draggable({
                     node: knobNode,
@@ -97,23 +104,17 @@ KISSY.add('brix/gallery/slider/index', function(S, Brick, UA, Node, DD) {
                 });
             knob.on('drag', function(ev){
                 var offset = el.offset(),
-                    max_set = mode === MODE.horizontal ? el.width() : el.height(),
-                    val = ev[left_top] - offset[left_top] - knobOffset;
-                if(val > max_set){
-                    val = max_set;
+                    max_set = vertical ? el.height() : el.width(),
+                    val = knobNode_left_val = ev[left_top] - offset[left_top] - knobOffset;
+                if(vertical){
+                    //如果是垂直，选中在下面，因此要最大值减val
+                    knobNode_left_val = max_set - val;
                 }
-                if(val < 0){
-                    val = 0;
-                }
-                knobNode_left_val = val;
+                knobNode_left_val = valid_value(knobNode_left_val, knobNode_start_left_val || 0,max_set);
 
-                if(knobNode_start){
-                    val = val - knobNode_start_left_val;
-                }
-
-                barNode.css(width_height, Math.abs(val));
-                barNode.css(left_top, knobNode_left_val > knobNode_start_left_val ?  knobNode_start_left_val : knobNode_left_val);
-                knobNode.css(left_top, knobNode_left_val);
+                barNode.css(width_height, Math.abs(knobNode_left_val - (knobNode_start_left_val || 0)));
+                barNode.css(left_bottom, knobNode_start_left_val || 0);
+                knobNode.css(left_bottom, knobNode_left_val);
                 change({target : knobNode});
             });
 
@@ -128,19 +129,18 @@ KISSY.add('brix/gallery/slider/index', function(S, Brick, UA, Node, DD) {
                 });
                 knob_start.on('drag', function(ev){
                     var offset = el.offset(),
-                        max_set = mode === MODE.horizontal ? el.width() : el.height(),
-                        val = ev[left_top] - offset[left_top] - knobOffset;
-                    if(val > max_set){
-                        val = max_set;
-                    }
-                    if(val < 0){
-                        val = 0;
-                    }
-                    knobNode_start_left_val = val;
+                        max_set = vertical ? el.height() : el.width(),
+                        val = knobNode_start_left_val = ev[left_top] - offset[left_top] - knobOffset;
 
-                    barNode.css(left_top, knobNode_left_val > knobNode_start_left_val ?  knobNode_start_left_val : knobNode_left_val);
+                    if(vertical){
+                        //如果是垂直，选中在下面，因此要最大值减val
+                        knobNode_start_left_val = max_set - val;
+                    }
+                    knobNode_start_left_val =  valid_value(knobNode_start_left_val,0,knobNode_left_val);
+
+                    barNode.css(left_bottom, knobNode_start_left_val);
                     barNode.css(width_height, Math.abs(knobNode_left_val - knobNode_start_left_val));
-                    knobNode_start.css(left_top, val);
+                    knobNode_start.css(left_bottom, knobNode_start_left_val);
                     change({target : knobNode_start});
                 });
                 knob_start.on("dragstart", dragstart)
@@ -161,8 +161,8 @@ KISSY.add('brix/gallery/slider/index', function(S, Brick, UA, Node, DD) {
 
             // 处理当前展现状态
             function _render_current (){
-                var current  = self.value, tmp,
-                    max_set = mode === MODE.horizontal ? el.width() : el.height();
+                var current  = self.value, tmp, val, val_start,
+                    max_set = vertical ? el.height() : el.width();
 
                 if(S.isArray(current)){
                     // 处理两个拖动按钮的
@@ -171,16 +171,21 @@ KISSY.add('brix/gallery/slider/index', function(S, Brick, UA, Node, DD) {
                     knobNode_left_val = max_set * (current[1] - startStep) / (endStep - startStep)
                     knobNode_start_left_val = max_set * (current[0] - startStep) / (endStep - startStep)
 
-                    knobNode.css(left_top, knobNode_left_val)
-                    knobNode_start.css(left_top, knobNode_start_left_val)
-                    barNode.css(left_top, knobNode_left_val > knobNode_start_left_val ?  knobNode_start_left_val : knobNode_left_val);
+                    knobNode.css(left_bottom, knobNode_left_val)
+                    knobNode_start.css(left_bottom, knobNode_start_left_val)
+                    barNode.css(left_bottom, knobNode_start_left_val);
                     barNode.css(width_height, Math.abs(knobNode_left_val - knobNode_start_left_val));
+                    if(knobNode_start_left_val == max_set){
+                        knobNode_start.css("zIndex", 2);
+                    }else{
+                        knobNode_start.css("zIndex", "auto");
+                    }
                 }else{
                     current = valid_value(current,startStep,endStep);
                     knobNode_left_val = max_set * (current - startStep) / (endStep - startStep);
-                    knobNode.css(left_top, knobNode_left_val)
-                    barNode.css(width_height, knobNode_left_val);
 
+                    barNode.css(width_height, Math.abs(knobNode_left_val));
+                    knobNode.css(left_bottom, knobNode_left_val);
                 }
             }
 
@@ -200,13 +205,15 @@ KISSY.add('brix/gallery/slider/index', function(S, Brick, UA, Node, DD) {
 
             // change 事件，同时处理 integerStep 倍数
             function change(e){
-                var max_set = mode === MODE.horizontal ? el.width() : el.height(),
+                var max_set = vertical ? el.height() : el.width(),
                     val = (endStep - startStep) * knobNode_left_val / max_set + startStep,
                     val2 = knobNode_start_left_val === null ? null : ((endStep - startStep) * knobNode_start_left_val / max_set + startStep);
                 if(integer){
+                    // 处理整数值的倍数
                     val = Math.round(val/integer) * integer ;
                     val2 = val2 === null ? null :  Math.round(val2 / integer) * integer
                 }
+                    S.log( "(" + endStep+ "-" + startStep+ ")*" + knobNode_left_val + "/" + max_set + "+"+startStep)
                 if (knobNode_start){
                     self.value = [val2, val];
                 }else{
@@ -216,7 +223,7 @@ KISSY.add('brix/gallery/slider/index', function(S, Brick, UA, Node, DD) {
                 set_current(self.value);
                 self.fire(Slider.FIRES.drag, {data: self.value , current : self.get("current")})
 
-                //S.log("Slider: change=" + self.value + "," + self.get("current"));
+                S.log("Slider: change=" + self.value + "," + self.get("current"));
             }
 
 
