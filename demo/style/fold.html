@@ -1,0 +1,123 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Brix 展开收起 Demo</title>
+    <link type="text/css" rel="stylesheet" href="../../dist/brix.css" charset="utf-8">
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+</head>
+<body style="margin:0px;padding-top:40px">
+<H1>demo1</H1>
+<div class="navigation">
+    <div id="J_ShowMore" class="show-more">
+        <div class="inner">
+            <a class=""><span>收起</span><b><b></b></b></a>
+        </div>
+    </div>
+</div>
+<script>
+    KISSY.ready(function(S) {
+        var foldBtn = S.one("#J_ShowMore a");
+        if(!foldBtn) return;
+        foldBtn.on("click",function(){
+            var self = S.one(this),
+                spanNode = self.one("span");
+            if(self.hasClass("fold")){
+                self.removeClass("fold");
+                spanNode.text("收起");
+            }else{
+                self.addClass("fold");
+                spanNode.text("展开");
+            }
+        })
+    });
+</script>
+<H1>demo2</H1>
+<style>
+    .filter-panel{
+        position: relative;
+        border: 1px solid #E6E6E6;
+        border-bottom-color: #CACACA;
+        border-top: none;
+    }
+    .filter-panel .charactor-panel {
+        border-top: 1px solid #F8F8F8;
+        margin: 0 10px;
+        overflow: hidden;
+        position: relative;
+    }
+    .filter-panel .fold dl {
+        height: 30px;
+        overflow: hidden;
+    }
+    .filter-panel .charactor-panel dt {
+        float: left;
+        margin: 6px 0;
+        padding-left: 15px;
+        width: 100px;
+        color: #999;
+    }
+    .filter-panel .charactor-panel dd .charactor-item {
+        float: left;
+        height: 20px;
+        margin: 6px 15px 0 0;
+        overflow: hidden;
+        width: 100px;
+        color: #333;
+        text-decoration: none;
+    }
+    .filter-panel .fold{
+        height: 30px;
+        overflow: hidden;
+    }
+</style>
+<div class="navigation">
+    <div class="filter-panel" id="J_RecommendProp">
+        <div class="charactor-panel border-none fold">
+            <dl class="clearfix">
+                <dt title="商品属性" style="">商品属性：</dt>
+                <dd class="clearfix">
+                    <a  class="charactor-item" href="#" title="新品">新品</a>
+                    <a  class="charactor-item" href="#" title="热品">热品</a>
+                    <a  class="charactor-item" href="#" title="促销">促销</a>
+                </dd>
+            </dl>
+            <dl class="clearfix">
+                <dt title="商品属性" style="">商品属性：</dt>
+                <dd class="clearfix">
+                    <a  class="charactor-item" href="#" title="新品">新品</a>
+                    <a  class="charactor-item" href="#" title="热品">热品</a>
+                    <a  class="charactor-item" href="#" title="促销">促销</a>
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div id="J_ShowMore1" class="show-more">
+        <div class="inner">
+            <a class="fold"><span>展开</span><b><b></b></b></a>
+        </div>
+    </div>
+</div>
+<script>
+    KISSY.ready(function(S) {
+        var foldBtn = S.one("#J_ShowMore1 a");
+        if(!foldBtn) return;
+        foldBtn.on("click",function(){
+            var self = S.one(this),
+                    spanNode = self.one("span"),
+                    panel = S.one("#J_RecommendProp .charactor-panel");
+            if(self.hasClass("fold")){
+                self.removeClass("fold");
+                spanNode.text("收起");
+                if(panel) panel.removeClass("fold");
+            }else{
+                self.addClass("fold");
+                spanNode.text("展开");
+                if(panel) panel.addClass("fold");
+            }
+        })
+    });
+</script>
+<!--brix end-->
+</body>
+</html>
