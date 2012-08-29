@@ -8,61 +8,84 @@
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
         <script src="../../config.js"></script>
         <style>
-        	.bx-timer {
+			.wrap {
+				width:700px; 
+				margin:50px auto;
+			}
+        	.timer {
         		margin-top: 10px;
         	}
+			.downshow {
+				float: left;
+				width: 200px;
+			}
+			.upshow {
+				float: left;
+				width: 180px;
+			}
+			.alone-config {
+				float: left;
+				width: 200px;
+			}
         </style>
 </head>
 <body>
-    <div style="width:990px; margin:150px auto;">
+    <div class="wrap" id="J_container" >
         
-        <div id="J_container">
+        <div class="downshow">
         	<div id="timer_1_1" bx-name="timer" 
-               class="bx-timer" 
-               bx-config="{mode:'down',  timeLeft:'10000'}">
+               class="timer" 
+               bx-config="{mode:'down',  timeEnd:'10000'}">
             </div>
         	<div id="timer_1" bx-name="timer" 
-               class="bx-timer" 
+               class="timer" 
                bx-config="{mode:'down',  timeLeft:'60000'}">
             </div>
         	<div id="timer0" bx-name="timer" 
-               class="bx-timer" 
+               class="timer" 
                bx-config="{mode:'down',  timeLeft:'3600000' ,bold:true}">
             </div>
             <div id="timer_2" bx-name="timer" 
-               class="bx-timer" 
+               class="timer" 
                bx-config="{mode:'down',  timeLeft:'36000000',highlight:true }">
             </div>
-            <div id="timer1" bx-name="timer" class="bx-timer" 
+            <div id="timer1" bx-name="timer" class="timer" 
                bx-config="{mode:'down',  timeLeft:'259200000',bold:true,highlight:true }">
             </div>
-            <div id="timerdown1" bx-name="timer" 
-               class="bx-timer" 
+           
+		</div>
+		<div class="upshow">
+			 <div id="timerdown1" bx-name="timer" 
+               class="timer" 
                bx-config="{mode:'down', timeLeft:'60000', style:'simple'}">
             </div>
             <div id="timerdown2" bx-name="timer" 
-               class="bx-timer" 
+               class="timer" 
                bx-config="{mode:'down', timeLeft:'3600000', style:'simple',bold:true}">
             </div>
             <div id="timerdown3" bx-name="timer" 
-               class="bx-timer" 
+               class="timer" 
                bx-config="{mode:'down', timeLeft:'36000000', style:'simple',highlight:true }">
             </div>
             <div id="timerdown4" bx-name="timer" 
-               class="bx-timer" 
+               class="timer" 
                bx-config="{mode:'down', timeLeft:'360000000', style:'simple',bold:true, highlight:true }">
             </div>
-            <div id="timerup" bx-name="timer" 
-               class="bx-timer" 
+		</div>
+		<div class="alone-config">
+			
+			<div id="timerup1" bx-name="timer" class="timer"></div> 
+			<div id="timerup2" bx-name="timer" class="timer"></div>
+			<div id="timerup3" bx-name="timer" class="timer"></div>
+			<div id="timerup4" bx-name="timer" class="timer"></div>
+			<div id="timerup" bx-name="timer" 
+               class="timer" 
                bx-config="{mode:'up', updateTime: '1344578945098'}">
-            </div>                    
-        </div>
-        <div id="timerup1" bx-name="timer" class="bx-timer"></div> 
-        <div id="timerup2" bx-name="timer" class="bx-timer"></div>
-        <div id="timerup3" bx-name="timer" class="bx-timer"></div>
-        <div id="timerup4" bx-name="timer" class="bx-timer"></div>
-        <div id="timerup5" bx-name="timer" class="bx-timer"></div>
-        <script>
+            </div> 
+			<div id="timerup5" bx-name="timer" class="timer"></div>
+		</div>
+    </div>
+	        <script>
         	 KISSY.ready(function(S) {
                 KISSY.use("brix/core/pagelet", function(S, Pagelet) {
                     var config = {
@@ -106,7 +129,6 @@
             });
             
         </script>
-    </div>
 </body>
 </html>
 

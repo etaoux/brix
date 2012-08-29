@@ -10,6 +10,55 @@
     </head>
     <body style="margin:0px;padding-top:40px">
         <div id="J_container">
+            <div class="clearfix">
+                <div id="dafendaxingxing" bx-config="{split:1,maxValue:5,length:5}" style="float:left" bx-name="starrating" class="starrating">
+                </div>
+                <div id="dafentip" style="color:#999;padding-left:20px;float:left">
+                    点击星星为商品打分
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="clearfix">
+                <div style="float:left" class="starrating-static clearfix">
+                    <div class="starrating-static-on" style="width:50%;"></div>
+                </div>
+                <div style="color:#999;padding-left:20px;float:left">
+                    推荐
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="clearfix">
+                <div  style="float:left;margin-top:14px;" class="starrating-static">
+                    <div class="starrating-static-on" style="width:78%;"></div>
+                </div>
+                <div style="padding-left:20px;float:left">
+                    <span style="font-family:tahoma;color:#488fcd;font-size:28px;">3.9</span><span style="padding-left:10px;color:#999;">(满分5分)</span>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="clearfix">
+                <div style="float:left;margin-top:3px" class="starrating-static-s">
+                    <div class="starrating-static-s-on" style="width:50%;"></div>
+                </div>
+                <div style="font-family:tahoma;color:#999;padding-left:10px;float:left">
+                    3.9
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="clearfix">
+                <div style="float:left;margin-top:3px" class="starrating-static-s">
+                    <div class="starrating-static-s-on" style="width:50%;"></div>
+                </div>
+                <div style="color:#999;padding-left:10px;float:left">
+                    (共320个点评)
+                </div>
+            </div>
+            <br>
+            <br>
             <h1>静态大猩猩</h1>
             <div class="starrating-static clearfix" title="自定义大猩猩">
                 <div class="starrating-static-on" style="width:50%;"></div>
@@ -73,6 +122,82 @@
                         xiaoxingxing.on('selected',function(ev){
                             top.console.log('selected:'+ev.value);
                             //xiaoxingxing.readOnly();
+                        });
+
+
+
+                        dafendaxingxing = p.getBrick('dafendaxingxing');
+                        var fen;
+                        dafendaxingxing.on('focus',function(ev){
+                            var node = S.one('#dafentip'),
+                                val = parseInt(ev.value);
+                            switch(val){
+                                case 1:
+                                    node.html('很差');
+                                    break;
+                                case 2:
+                                    node.html('不好');
+                                    break;
+                                case 3:
+                                    node.html('一般');
+                                    break;
+                                case 4:
+                                    node.html('推荐');
+                                    break;
+                                case 5:
+                                    node.html('极佳');
+                                    break;
+                            }
+                        });
+                        dafendaxingxing.on('blur',function(ev){
+                            var node = S.one('#dafentip'),
+                                val = parseInt(ev.value);
+                            if(!fen){
+                                node.html('点击星星为商品打分');
+                                return;
+                            }
+                            else{
+                               val = fen; 
+                            }
+                            switch(val){
+                                case 1:
+                                    node.html('很差');
+                                    break;
+                                case 2:
+                                    node.html('不好');
+                                    break;
+                                case 3:
+                                    node.html('一般');
+                                    break;
+                                case 4:
+                                    node.html('推荐');
+                                    break;
+                                case 5:
+                                    node.html('极佳');
+                                    break;
+                            }
+                        });
+                        dafendaxingxing.on('selected',function(ev){
+                           var node = S.one('#dafentip'),
+                                val = parseInt(ev.value);
+                            switch(val){
+                                case 1:
+                                    node.html('很差');
+                                    break;
+                                case 2:
+                                    node.html('不好');
+                                    break;
+                                case 3:
+                                    node.html('一般');
+                                    break;
+                                case 4:
+                                    node.html('推荐');
+                                    break;
+                                case 5:
+                                    node.html('极佳');
+                                    break;
+                            }
+                            fen = val;
                         });
 
                     });

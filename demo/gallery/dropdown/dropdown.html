@@ -9,8 +9,54 @@
         <script src="../../config.js"></script>
     </head>
     <body style="margin:0px;padding-top:40px">
-        <div style="padding-left:50px;width:240px"  id="test_container">
-        </div>
+        <table>
+            <tr>
+                <td id="test_container"></td>
+                <td>
+                    <div bx-name="dropdown" style="width:200px" class="dropdown dropdown-arrow" id="brick_14">
+                        <span class="dropdown-hd">
+                            <span class="dropdown-text" value="3">计划列表3</span>
+                            <i class="iconfont icon-arrow-down">&#405</i>
+                          </span>
+                        <ul class="dropdown-list">
+                            <li class="dropdown-item"><span value="1">计划列表</span><i class="iconfont icon-ok">&#126</i></li>
+                            <li class="dropdown-item"><span value="2">计划列表2</span><i class="iconfont icon-ok">&#126</i></li>
+                            <li class="dropdown-item dropdown-itemselected "><span value="3">计划列表3</span><i class="iconfont icon-ok">&#126</i></li>
+                            <li class="dropdown-item"><span value="4">计划列表4</span><i class="iconfont icon-ok">&#126</i></li>
+                        </ul>
+                    </div>
+                </td>
+                <td>
+                    <div bx-name="dropdown" style="width:200px" class="dropdown" id="brick_15">
+                        <span class="dropdown-hd">
+                            <span class="dropdown-text" value="3">计划列表3</span>
+                        </span>
+                        <ul class="dropdown-list" style="height:120px">
+                            <li class="dropdown-item"><span value="1">计划列表</span><i class="iconfont icon-ok">&#126</i></li>
+                            <li class="dropdown-item"><span value="2">计划列表2</span><i class="iconfont icon-ok">&#126</i></li>
+                            <li class="dropdown-item dropdown-itemselected "><span value="3">计划列表3</span><i class="iconfont icon-ok">&#126</i></li>
+                            <li class="dropdown-item"><span value="4">计划列表4</span><i class="iconfont icon-ok">&#126</i></li>
+                            <li class="dropdown-item"><span value="2">计划列表2</span><i class="iconfont icon-ok">&#126</i></li>
+                            <li class="dropdown-item"><span value="3">计划列表3</span><i class="iconfont icon-ok">&#126</i></li>
+                            <li class="dropdown-item"><span value="4">计划列表4</span><i class="iconfont icon-ok">&#126</i></li>
+                            <li class="dropdown-item"><span value="2">计划列表2</span><i class="iconfont icon-ok">&#126</i></li>
+                            <li class="dropdown-item"><span value="3">计划列表3</span><i class="iconfont icon-ok">&#126</i></li>
+                            <li class="dropdown-item"><span value="4">计划列表4</span><i class="iconfont icon-ok">&#126</i></li>
+                        </ul>
+                    </div>
+                </td>
+                <td>
+                    <div class="dropdown" id="brix_brick_16">
+                        <span class="dropdown-hd">
+                            <span class="dropdown-text" value="-1">30</span>
+                        </span>
+                        <ul class="dropdown-list dropdown-list-noicon" style="display: none; ">
+                            <li class="dropdown-item"><span value="0">10</span></li><li class="dropdown-item"><span value="1">15</span></li><li class="dropdown-item"><span value="2">20</span></li><li class="dropdown-item"><span value="3">25</span></li><li class="dropdown-item dropdown-itemselected"><span value="4">30</span></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </table>
 		<!--brix begin-->
         <script>
 			var dropdown_data = {
@@ -35,18 +81,17 @@
             }
         </script>
         <script type="text/template" id="tmpl_dropdown">
-            <div id="brick13" bx-name="dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown">
+            <div style="width:200px" id="brick13" bx-name="dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown">
                 {{#dropdown_list}}
                 {{#selected}}
                 <span class="dropdown-hd">
                 <span class="dropdown-text" value="{{value}}">{{text}}</span>
-                <i class="iconfont icon-arrow-down">&#405</i>
                 </span>
                 {{/selected}}
                 {{/dropdown_list}}
-                <ul class="dropdown-list">
+                <ul class="dropdown-list dropdown-list-noicon">
                     {{#dropdown_list}}
-                    <li class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}"><span value="{{value}}">{{text}}</span><i class="iconfont icon-ok">&#126</i></li>
+                    <li class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}"><span value="{{value}}">{{text}}</span></li>
                     {{/dropdown_list}}
                 </ul>
                 {{#dropdown_list}}
@@ -61,7 +106,7 @@
                 KISSY.use("brix/gallery/dropdown/", function(S, DropdownBrick) {
                     var config = {
                         container:'#test_container',//容器节点
-                        tmpl: S.one("#tmpl_dropdown").html(),//需要的模板
+                        tmpl: '#tmpl_dropdown',//需要的模板
                         data: dropdown_data,  //这个数据会被重新clone一份，所以更新原始数据不会对内部产生影响
                         events:{ //自定义事件代理
                             ".dropdown-a": {
@@ -72,8 +117,7 @@
                             }
                     }
                     };
-                    //删除节点，有用吗？
-                    S.one("#tmpl_dropdown").remove();
+
                     var dropdownBrick = new DropdownBrick(config);
                     dropdownBrick.render();
 
@@ -105,6 +149,10 @@
                     dropdownBrick.on('selected',function(e){
                         top.console.log('selected:value='+e.value+';text='+e.text);
                     });
+
+                    new DropdownBrick({tmpl:'#brick_14',mode:2});
+                    new DropdownBrick({tmpl:'#brick_15'});
+                    new DropdownBrick({tmpl:'#brix_brick_16'});
                 });
             });
         </script>

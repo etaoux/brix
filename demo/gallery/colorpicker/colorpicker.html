@@ -10,16 +10,29 @@
     </head>
     <body style="margin:0px;padding-top:40px">
         <a id="test1" class="btn">测试</a>
+
+        <a style="float:right" id="test2" class="btn">测试2</a>
         <script>
             KISSY.ready(function(S) {
                 KISSY.use("brix/gallery/colorpicker/", function(S, ColorPicker) {
-                    var colorpicker= new ColorPicker();
-                    colorpicker.render();
+                    var colorpicker= new ColorPicker({
+                        trigger:'#test1'
+                    });
                     colorpicker.on('selected',function(e){
                         top.console.log(e.hex);
                     });
-                    S.one('#test1').on('click',function(e){
-                        colorpicker.overlay.show();
+
+                    var colorpicker2= new ColorPicker({
+                        trigger:'#test2',
+                        min:true,
+                        align:{
+                            node: '#test2',
+                            points: ['br', 'tr'],
+                            offset: [0, 0]
+                        }
+                    });
+                    colorpicker2.on('selected',function(e){
+                        top.console.log(e.hex);
                     });
                 });
             });

@@ -3,7 +3,6 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 	function TimerManager() {
 		TimerManager.superclass.constructor.apply(this, arguments);
 	}
-
 	TimerManager.ATTRS = {
 		mode : {
 			value : 'down'
@@ -31,7 +30,7 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 		},
 		//是否需要使用服务器时间对计时器进行校正
 		needAjusted : {
-			value : true
+			value : false
 		},
 		ajustTime : {
 			value : 3600000
@@ -40,7 +39,7 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 	};
 	var MILLISECONDS_PER_DAY = 24 * 3600 * 1000;
 	
-	var timers = window.timers = [];
+	var timers = [];
 	//存储页面上的TimerSpan实例
 	var units = {
 		'years' : '年',
@@ -65,13 +64,11 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 	function Timer(option) {
 		var defaultOption = {
 			container : null,
-			type : '', //两种类型的计时器:'down' 和 'up'
+			type : 'down', //两种类型的计时器:'down' 和 'up'
 			htmlTemplate : ''
 		};
 		this.config = S.merge(defaultOption, option || {});
-
 	}
-
 
 	Timer.prototype = {
 		_init : function() {
@@ -136,7 +133,7 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 				self.render(obj);
 				self._timerHandler = setTimeout(timerInstance, interval);
 			}
-			setTimeout(timerInstance, interval);
+			self._timerHandler = setTimeout(timerInstance, interval);
 		},
 		_validate : function() {
 			var cfg = this.config;
@@ -174,8 +171,7 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 				hours = hours % 24;
 				mins = floor(leftTime / 60 % 60);
 				secs = leftTime % 60;
-			}
-			
+			}			
 			return {
 				'years' : years,
 				'months' : months,
@@ -186,7 +182,9 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 			};
 		},
 		_getInterval : function(obj) {
-			var type = this.config.type, start = new Date, intervas = {
+			var type = this.config.type, 
+				start = new Date;
+			var	intervas = {
 				'years' : 360 * 24 * 3600 * 1000,
 				'months' : borrowMonths(new Date(start.getFullYear(), start.getMonth(), 15), 1) * 24 * 3600 * 1000,
 				'days' : 24 * 3600 * 1000,
@@ -196,7 +194,6 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 			};
 			this.unit = this.pruneUnits(obj);
 			return intervas[this.unit];
-
 		},
 		/**
 		 * 计算已过时间的最大单位
@@ -230,7 +227,10 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 		},
 		calibrate : function(serverTime) {
 			this._offsetTime = serverTime - (new Date).getTime();
-			this._init();
+			if(this._timerHandler){
+				clearTimeout(self._timerHandler);
+				this._init();
+			}			
 		}
 	});
 	function TimerDown(option) {
@@ -239,7 +239,7 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 			timeCurrent : 0,
 			timeLeft : 0,
 			leadingZero : true,
-			style : '',
+			style : 'units',
 			days : /%\{d\}/,
 			hours : /%\{h\}/,
 			mins : /%\{m\}/,
@@ -271,10 +271,8 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 			var self = this, start = (new Date).getTime(), interval = self.config.interval;
 
 			function timerInstance() {
-
 				self._leftTime--;
 				var obj = self._populate();
-
 				if(self._leftTime < 0) {
 					//完成后执行回调
 					self.config.callback && self.config.callback.call(self);
@@ -318,7 +316,12 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 			hours = hours % 24;
 			mins = floor(leftTime / 60 % 60);
 			secs = leftTime % 60;
-
+			if (this.config.style == "simple") {
+				days = 0;
+				hours = floor(leftTime / 3600);
+				mins = floor(leftTime / 60 % 60);
+				secs = leftTime % 60;
+			}
 			//补零
 			if(hours < 10)
 				hours = '0' + hours;
@@ -386,15 +389,16 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 			if(this._status) return;
 			var AJUST_TIME = ajustTime || 3600000;
 			//定时获取服务器时间来矫正计时器
-			var self = this, url = window.location.protocol + '//' + window.location.host + '?t=' + (+new Date());
+			var self = this;
 			this._checkerRunner = setInterval(function() {
 				var xhr, serverDate, serverTime, timeBefore = new Date().getTime(), timeAfter;
+                var url = window.location.protocol + '//' + window.location.host + '?t=' + (+new Date());
 				function getServerDate(data, textStatus, xhr) {
 					//取得响应头时间
 					serverDate = new Date(xhr.getResponseHeader('Date'));
 					serverTime = serverDate.getTime();
 					timeAfter = new Date().getTime();
-					self._calibrater(serverTime + timeAfter - timeBefore);
+                    self._calibrater(serverTime + (timeAfter - timeBefore)/2);
 				};
 				S.io({
 					type : 'head',

@@ -10,8 +10,27 @@
         <script src="../../config.js"></script>
     </head>
     <body style="margin:0px;padding-top:40px">
+        <h2>带下拉</h2>
         <div style="padding-left:50px"  id="test_container">
         </div>
+        <h2>常规</h2>
+        <ul style="margin-left:50px" bx-name="breadcrumbs" class="breadcrumbs" id="brix_brick_12">
+            <li class="item first ">
+                    <a href="#1234">首页</a>
+            </li>
+            <li class="item split">
+                <i class="iconfont">ƒ</i>
+            </li>
+            <li class="item">
+                    <a href="#44">创意管理</a>
+            </li>
+            <li class="item split">
+                <i class="iconfont">ƒ</i>
+            </li>
+            <li class="item last">
+                创意活动五
+            </li>
+        </ul>
 		<!--brix begin-->
         <script>
 			var breadcrumbs_data ={
@@ -61,10 +80,10 @@
                         {{/last}}
                     {{/text}}
                     {{^text}}
-                    <div bx-name="dropdown" bx-path="brix/gallery/dropdown/" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown">
+                    <div bx-name="dropdown" bx-path="brix/gallery/dropdown/" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown dropdown-arrow" bx-config="{mode:2}">
                         {{#dropdown_list}}
                         {{#selected}}
-                        <span class="dropdown-hd"><span>计划：</span><span value="{{value}}" class="dropdown-text">{{text}}</span><i class="iconfont icon-arrow-down">&#405</i></span>
+                        <span class="dropdown-hd"><a href="#"><span>计划：</span><span value="{{value}}" class="dropdown-text">{{text}}</span></a><i class="iconfont icon-arrow-down">&#405</i></span>
                         {{/selected}}
                         {{/dropdown_list}}
                         <ul class="dropdown-list">
@@ -87,6 +106,7 @@
                 {{/last}}
             {{/breadcrumbs_list}}
             </ul>
+
         </script>
         <script>
             KISSY.ready(function(S) {

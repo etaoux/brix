@@ -727,12 +727,16 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
          * @param  {String} tmpl 模板字符串
          */
         _buildBricks: function(tmpl) {
-            var self = this;
-            var node = $(tmpl);
-            var tmplNode = null;
-            var inDom = _inDom(node[0]); //判断是否已经添加到dom中
+            var self = this,inDom = false,node = $(tmpl),tmplNode;
+
+            if(node.item(0)[0].tagName.toUpperCase()=='SCRIPT'){
+                //如果是script节点，则直接取html
+                tmpl= node.item(0).html()
+            }
+            else{
+                inDom = _inDom(node[0]);//判断是否已经添加到dom中
+            }
             if (!inDom) {
-                node.remove();
                 //牛逼的正则啊
                 var reg = /(\{{2,3}\#(.+?)\}{2,3})\s*([\s\S]*)?\s*((\{{2,3})\/\2(\}{2,3}))/g;
                 while (reg.test(tmpl)) {
@@ -1103,7 +1107,8 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
         _renderTmpl: function(bricks, key, data) {
             S.each(bricks, function(b) {
                 S.each(b.tmpls, function(o, id) {
-                    if (S.inArray(key, o.datakey)) {
+                    var node = S.one('#' + o.id);
+                    if (node&&S.inArray(key, o.datakey)) {
                         //这里数据是否需要拼装，还是传入完整的数据，待考虑
                         var newData = {};
                         S.each(o.datakey, function(item) {
@@ -1118,7 +1123,7 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
                             newData[temparr[length - 1]] = tempdata;
                             tempdata = null;
                         });
-                        S.one('#' + o.id).html(o.tmpler.to_html(newData));
+                        node.html(o.tmpler.to_html(newData));
                         newData = null;
                     }
                 });
@@ -1164,7 +1169,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
             else{
                 self.pagelet.on('rendered', function() {
                     self.render();
-                }) 
+                }); 
             }
         }
         else{
@@ -1497,7 +1502,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         destroy: function(id) {
             var self = this,el = self.get('el'),tmpler = self.get('tmpler');
             if (tmpler && !S.isEmptyObject(tmpler.bricks)) {
-                context._destroyBricks(tmpler.bricks,id);
+                self._destroyBricks(tmpler.bricks,id);
             }
             if(!id){
                 el.remove();

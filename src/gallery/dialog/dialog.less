@@ -2,43 +2,75 @@
 @import "../../style/variables.less";
 @import "../../style/mixins.less";
 
-.ux-overlay {
+
+.dialog{
     position: absolute;
     left:-99999px;
     top:-99999px;
+
+    .dialog-contentbox{
+        padding: 30px;
+        .border-radius(2px);
+        .box-shadow(0 0 10px rgba(0, 0, 0, 0.1));
+        border: 1px solid #ddd;
+    }
+
+    .dialog-ext-close {
+        position: absolute;
+        top: 24px;
+        right: 24px;
+        width: 28px;
+        height: 28px;
+        text-decoration:none;
+        text-align: center;
+        display: block;
+        cursor: default;
+
+    }
+    .dialog-ext-close:hover .dialog-ext-close-x{
+        color: #488fcd;
+        font-size: 28px;
+        line-height: 28px;
+        left: 0px;
+        top:0px;
+    }
+
+    .dialog-ext-close-x {
+        font-family:"uxiconfont";
+        font-style:normal;
+        color:#ccc;
+        font-size: 16px;
+        line-height: 16px;
+        position: absolute;
+        left: 6px;
+        top:6px;
+    }
 }
 
-.ux-overlay .ux-contentbox{
-    padding: 30px;
-    .border-radius(2px);
-    .box-shadow(0 0 8px rgba(0, 0, 0, 0.1));
-    border: 1px solid #ddd;
+.dialog-left{
+    .dialog-contentbox{
+        .box-shadow(-5px 0px 10px rgba(0, 0, 0, 0.1));
+        border-right: none;
+    }
 }
 
-
-
-.ux-ext-close {
-    position: absolute;
-    top: 24px;
-    right: 24px;
-    width: 28px;
-    height: 28px;
-    text-decoration:none;
-    text-align: center;
-    display: block;
-    cursor: default;
-
-}
-.ux-ext-close:hover .ux-ext-close-x{
-    color: #488fcd;
-    font-size: 28px;
-    line-height: 28px;
+.dialog-right{
+    .dialog-contentbox{
+        .box-shadow(5px 0px 10px rgba(0, 0, 0, 0.1));
+        border-left: none;
+    }
 }
 
-.ux-ext-close-x {
-    font-family:"uxiconfont";
-    font-style:normal;
-    color:#ccc;
-    font-size: 16px;
-    display: inline-block;
+.dialog-up{
+    .dialog-contentbox{
+        .box-shadow(0px -5px 10px rgba(0, 0, 0, 0.1));
+        border-bottom: none;
+    }
+}
+
+.dialog-down{
+    .dialog-contentbox{
+        .box-shadow(0px 5px 10px rgba(0, 0, 0, 0.1));
+        border-top: none;
+    }
 }

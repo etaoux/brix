@@ -2,6 +2,18 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
 
     function Calendar() {
         Calendar.superclass.constructor.apply(this, arguments);
+        var self = this,
+            popup = self.get('popup'),
+            trigger = S.one(self.get('trigger'));
+        if(popup&&trigger){
+            var triggerType = self.get('triggerType');
+            S.each(triggerType, function(v) {
+                trigger.on(v, function(e) {
+                    e.preventDefault();
+                    self.toggle();
+                });
+            });
+        }
     }
     Calendar.Date = Brix_Date;
     Calendar.ATTRS = {
@@ -59,11 +71,14 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
         },
         //日历是否为弹出,默认为false
         popup: {
-            value: false
+            value: true
         },
         //是否显示时间的选择,默认为false
         showTime: {
             value: false
+        },
+        trigger:{
+            value:false
         },
         //弹出状态下, 触发弹出日历的事件, 例如：[‘click’,’focus’],也可以直接传入’focus’, 默认为[‘click’]
         triggerType: {
@@ -84,6 +99,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
         //对齐方式
         align: {
             value: {
+                node:false,
                 points: ['bl', 'tl'],
                 offset: [0, 0]
             }
@@ -91,9 +107,6 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
         // 是否出现不限的按钮
         notLimited: {
             value: false
-        },
-        autoRender: {
-            value: true
         },
         tmpl: {
             valueFn: function() {
@@ -123,10 +136,10 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     s = '';
 
                 if (showTime || multiSelect) {
-                    s += '<a class="btn btn-calendar-confirm">确定</a>'
+                    s += '<a class="btn btn-size25 btn-calendar-confirm">确定</a>'
                 }
                 if (notLimited) {
-                    s += '<a class="btn btn-calendar-notlimited">不限</a>'
+                    s += '<a class="btn btn-size25 btn-calendar-notlimited">不限</a>'
                 }
                 return s;
             }
@@ -139,12 +152,12 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     el = self.get('el'),
                     node = S.one(e.target),
                     trigger = S.one(self.get('trigger'));
-                if (!el.contains(node) && node[0] != trigger[0]) {
+                if (!el.contains(node) && trigger && node[0] != trigger[0]) {
                     self.hide();
                 }
             }
         }
-    }
+    };
     Calendar.ATTACH = {
         ".btn-calendar-confirm": {
             click: function(e) {
@@ -199,17 +212,17 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
     };
 
     Calendar.METHOD = {
-        align: function() {
-            var self = this,
-                align = S.clone(self.get('align')),
-                trigger = S.one(self.get('trigger'));
-            align.node = trigger;
-            self.overlay.set('align', align);
-        },
         show: function() {
             var self = this;
+            if(!self.get('rendered')){
+                self.render();
+            }
             if (self.overlay) {
-                self.align();
+                var align = S.clone(self.get('align'));
+                if(!align.node){
+                    align.node = self.get('trigger');
+                }
+                self.overlay.set('align', align);
                 self.overlay.show();
                 self.fire(Calendar.FIRES.show);
             }
@@ -231,6 +244,9 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     self.hide();
                 }
             }
+            else{
+                self.show();
+            }
         }
     };
 
@@ -245,28 +261,22 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                 date = self.get('date'),
                 month = date.getMonth(),
                 year = date.getFullYear(),
-                trigger = S.one(self.get('trigger'));
+                trigger = self.get('trigger');
             if (popup) {
                 var align = S.clone(self.get('align'));
-                align.node = trigger;
+                if(!align.node){
+                    align.node = trigger;
+                }
                 self.overlay = new Overlay({
                     srcNode: '#' + self.get('id'),
                     align: align
                 });
                 self.overlay.render();
-                var triggerType = self.get('triggerType');
-                S.each(triggerType, function(v) {
-                    trigger.on(v, function(e) {
-                        e.preventDefault();
-                        self.toggle();
-                    });
-                })
             } else {
                 el.css({
                     'position': 'static',
                     visibility: 'visible'
                 });
-                trigger.append(el);
             }
             var container = el.one('.calendar-pages');
             self.pageBricks = [];
@@ -765,7 +775,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
                             '<div class="calendar-year-month-pupop" >'+
                                 '<p bx-tmpl="page" bx-datakey="month,'+id+'_select_html">{{{'+id+'_select_html}}}</p>'+
                                 '<p bx-tmpl="page" bx-datakey="year">年:<input type="text" value="{{year}}" onfocus="this.select()"></p>'+
-                                '<p><a class="btn btn-pupop-confirm">确定</a><a class="btn-pupop-cancel" href="#">取消</a></p>'+
+                                '<p><a class="btn btn-size25 btn-pupop-confirm">确定</a><a class="btn-pupop-cancel" href="#">取消</a></p>'+
                             '</div>'+
                         '</div>'+
                         '<div bx-tmpl="page" bx-datakey="startDay,'+id+'_days_html" class="calendar-page-wbd">'+

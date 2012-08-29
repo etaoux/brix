@@ -153,6 +153,7 @@
   width: 21px;
   height: 18px;
   margin-right: 5px;
+  color: #606060;
 }
 .calendar .calendar-pages .calendar-page .calendar-page-dbd {
   width: 182px;
@@ -201,6 +202,7 @@
   background-color: #488fcd;
   border-color: #488fcd;
   color: #fff;
+  font-weight: bold;
 }
 .calendar .calendar-pages .calendar-page .calendar-page-dbd a.calendar-disabled,
 .calendar .calendar-pages .calendar-page .calendar-page-dbd a.calendar-disabled:hover {

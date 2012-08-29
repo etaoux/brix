@@ -3,19 +3,27 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
         Dropdown.superclass.constructor.apply(this, arguments);
     }
     Dropdown.ATTRS = {
-
+        mode:{
+            value:1
+        }
     }
 
     Dropdown.METHOD = {
         focus: function() {
-            var el = this.get('el');
+            var mode = this.get('mode'),
+                el = this.get('el');
             var w = el.one('.dropdown-hd').outerWidth();
-            el.one('.dropdown-hd').addClass("dropdown-hd-active");
+            if(mode==1){
+                el.one('.dropdown-hd').addClass("dropdown-hd-active");
+            }
             el.one('.dropdown-list').css({'display':'block',width:w+'px'});
         },
         blur: function() {
-            var el = this.get('el');
-            el.one('.dropdown-hd').removeClass("dropdown-hd-active");
+            var mode = this.get('mode'),
+                el = this.get('el');
+            if(mode==1){
+                el.one('.dropdown-hd').removeClass("dropdown-hd-active");
+            }
             el.one('.dropdown-list').css('display', 'none');
         }
     }
@@ -34,14 +42,31 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
         }
     }
     Dropdown.ATTACH = {
+        "":{
+            mouseleave:function(){
+                var mode = this.get('mode');
+                if(mode!=1){
+                    this.blur()
+                }
+            }
+        },
         ".dropdown-hd": {
             click: function(e) {
-                var el = this.get('el').one('.dropdown-list');
-                this.__show = true;
-                if (el.css('display') == 'block') {
-                    this.blur();
-                } else {
-                    this.focus();
+                var mode = this.get('mode');
+                if(mode==1){
+                    el = this.get('el').one('.dropdown-list');
+                    this.__show = true;
+                    if (el.css('display') == 'block') {
+                        this.blur();
+                    } else {
+                        this.focus();
+                    }
+                }
+            },
+            mouseenter:function(){
+                var mode = this.get('mode');
+                if(mode!=1){
+                    this.focus()
                 }
             }
         },

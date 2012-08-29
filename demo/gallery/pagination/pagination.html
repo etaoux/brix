@@ -12,7 +12,7 @@
     <body style="margin:0px;padding-top:40px">
         <div id="J_container">
             <h1>现有html结构</h1>
-            <div bx-name="pagination" class="pagination" bx-config="{simplify:true,defaultUI:false,sizeChange:true,jump:true,statistics:true,goTo:false}">
+            <div bx-name="pagination" class="pagination" bx-config="{defaultUI:false,sizeChange:true,jump:true,statistics:true,goTo:false}">
                 <div class="pagination-info">
                     <span>当前</span><span class="b">1-30</span><span>条</span>
                     <span class="mr">共</span><span class="b">42</span><span>条</span>
@@ -20,13 +20,12 @@
                     <div bx-name="dropdown" class="dropdown">
                         <span class="dropdown-hd">
                             <span class="dropdown-text" value="3">30</span>
-                            <i class="iconfont icon-arrow-down">&#405</i>
                           </span>
                         <ul class="dropdown-list">
-                            <li class="dropdown-item"><span value="1">10</span><i class="iconfont icon-ok">&#126</i></li>
-                            <li class="dropdown-item"><span value="2">15</span><i class="iconfont icon-ok">&#126</i></li>
-                            <li class="dropdown-item dropdown-itemselected"><span value="3">20</span><i class="iconfont icon-ok">&#126</i></li>
-                            <li class="dropdown-item"><span value="4">30</span><i class="iconfont icon-ok">&#126</i></li>
+                            <li class="dropdown-item"><span value="1">10</span></li>
+                            <li class="dropdown-item"><span value="2">15</span></li>
+                            <li class="dropdown-item dropdown-itemselected"><span value="3">20</span></li>
+                            <li class="dropdown-item"><span value="4">30</span></li>
                         </ul>
                 </div><span>条</span>
                 </div>
@@ -49,7 +48,7 @@
                         <span>共</span><span class="b">36</span><span>页</span>
                     </div>
                     <div class="pagination-form">
-                            <span>向前</span><input class="page-num" name="page" type="text"><span>页</span><a class="btn-jump btn btn-size25">跳转</a>
+                            <span>向第</span><input class="page-num" name="page" type="text"><span>页</span><a class="btn-jump btn btn-size25">跳转</a>
                     </div>
                 </div>
             </div>
@@ -76,7 +75,7 @@
             </div>
 
             <h1>etao搜索模式</h1>
-            <div bx-name="pagination" class="pagination" bx-config="{mode:'s',pageName:'s',pageSizeName:false,jump:true,sizeChange:true}">
+            <div bx-name="pagination" class="pagination" bx-config="{mode:'s',pageName:'s',pageSizeName:false,jump:true,sizeChange:true,goTo:false}">
             </div>
         </div>
 		<!--brix begin-->
