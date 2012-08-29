@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Brix &mdash; UX</title>
-  <!--[if lt IE 9]>
+<title>Brix &mdash; UX</title>
+<!--[if lt IE 9]>
 <script>
   // html5
   (function() {
@@ -17,8 +17,8 @@
   })();
 </script>
 <![endif]-->
-  <link rel="stylesheet" type="text/css" href="/brix/dist/brix-min.css">
-  <link rel="stylesheet" type="text/css" href="/brix/assets/css/post.css">
+<link rel="stylesheet" type="text/css" href="/brix/dist/brix-min.css">
+<link rel="stylesheet" type="text/css" href="/brix/assets/css/post.css">
 </head>
 <body>
   <div id="site-nav">
@@ -34,31 +34,40 @@
   <div id="logo">
     <a href="/brix/">Brix</a>
   </div>
+  
+  
   <section>
-  <h3>Core</h3>
-  
-  <ul class="entries">
-<li><a href="/brix/core/brick">Brick</a></li><li><a href="/brix/core/chunk">Chunk</a></li><li><a href="/brix/core/dataset">Dataset</a></li><li><a href="/brix/core/pagelet">Pagelet</a></li><li><a href="/brix/core/tmpler">Tmpler</a></li>
+    <h3>Guide</h3>
+    
+    <ul class="entries">
+<li><a href="/brix/guide/1-helloworld">Brix之旅开始</a></li><li><a href="/brix/guide/2-attrs">ATTRS</a></li><li><a href="/brix/guide/3-attach">ATTACH & DOCATTACH</a></li><li><a href="/brix/guide/4-method">METHOD</a></li><li><a href="/brix/guide/5-fire">fire</a></li><li><a href="/brix/guide/6-renderder">RENDERDER</a></li><li><a href="/brix/guide/7-brixhook">Hook</a></li><li><a href="/brix/guide/7-goodbye">Brix之旅结束</a></li>
 </ul>
-</section>
-<section>
-  <h3>Gallery</h3>
+  </section>
   
-  <ul class="entries">
-<li><a href="/brix/gallery/breadcrumbs">Breadcrumbs</a></li><li><a href="/brix/gallery/calendar">Calendar</a></li><li><a href="/brix/gallery/colorpicker">ColorPicker</a></li><li><a href="/brix/gallery/datepicker">DatePicker</a></li><li><a href="/brix/gallery/dialog">Dialog</a></li><li><a href="/brix/gallery/dropdown">Dropdown</a></li><li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li><li><a href="/brix/gallery/kwicks">Kwicks</a></li><li><a href="/brix/gallery/loading">Loading</a></li><li><a href="/brix/gallery/pagination">Pagination</a></li><li><a href="/brix/gallery/slider">Slider</a></li><li><a href="/brix/gallery/starrating">StarRating</a></li><li><a href="/brix/gallery/switcher">Switcher</a></li><li><a href="/brix/gallery/tips">tips</a></li><li><a href="/brix/gallery/sidenav">SideNav</a></li><li><a href="/brix/gallery/timer">Timer</a></li>
-</ul>
-</section>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 </aside>
   <div id="page">
-    <div class="title-bar clearfix">
-      <h1>Brix之旅结束</h1>
-      
-      <p class="caption">整个Brix的教程在这一节就结束了，我们把前面所有的实现都放在一个demo中,再看看还有什么需要注意的。</p>
-      
-    </div>
-    <article>
-      
-      <section class="content"><h2>采用KISSY加载方式new Pagelet</h2>
+  <div class="title-bar clearfix">
+    <h1>Brix之旅结束</h1>
+    
+    <p class="caption">整个Brix的教程在这一节就结束了，我们把前面所有的实现都放在一个demo中,再看看还有什么需要注意的。</p>
+    
+  </div>
+  <article>
+    
+    <section class="content"><h2>采用KISSY加载方式new Pagelet</h2>
 
 <div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;brix/core/pagelet&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">Pagelet</span><span class="p">){</span>
     <span class="kd">var</span> <span class="nx">pagelet</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Pagelet</span><span class="p">({</span><span class="nx">container</span><span class="o">:</span><span class="s1">&#39;#container1&#39;</span><span class="p">,</span><span class="nx">tmpl</span><span class="o">:</span><span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#tmpl_helloword2&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(),</span><span class="nx">data</span><span class="o">:</span><span class="nx">data</span><span class="p">});</span>
@@ -117,15 +126,11 @@
 
 <h1>THANK GOODNESS</h1>
 </section>
-    </article>
-  </div>
-  <div id="J_log" style="position:fixed;width:88px;height:18px;bottom:0;right:2px">
-    <a style="position:absolute;top:1px;right:1px;z-index:999;" id="J_close" href="#">显示调试窗口</a>
-  </div>
+  </article>
+</div>
   <footer id="footer">
   </footer>
   <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
-  <script src="/brix/assets/js/log4javascript.js"></script>
   <script src="/brix/assets/js/post.js"></script>
 </body>
 </html>

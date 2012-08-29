@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Brix &mdash; UX</title>
-  <!--[if lt IE 9]>
+<title>Brix &mdash; UX</title>
+<!--[if lt IE 9]>
 <script>
   // html5
   (function() {
@@ -17,8 +17,8 @@
   })();
 </script>
 <![endif]-->
-  <link rel="stylesheet" type="text/css" href="/brix/dist/brix-min.css">
-  <link rel="stylesheet" type="text/css" href="/brix/assets/css/post.css">
+<link rel="stylesheet" type="text/css" href="/brix/dist/brix-min.css">
+<link rel="stylesheet" type="text/css" href="/brix/assets/css/post.css">
 </head>
 <body>
   <div id="site-nav">
@@ -34,29 +34,38 @@
   <div id="logo">
     <a href="/brix/">Brix</a>
   </div>
+  
+  
+  
+  
+  
+  
+  
+  
   <section>
-  <h3>Core</h3>
-  
-  <ul class="entries">
-<li><a href="/brix/core/brick">Brick</a></li><li><a href="/brix/core/chunk">Chunk</a></li><li><a href="/brix/core/dataset">Dataset</a></li><li><a href="/brix/core/pagelet">Pagelet</a></li><li><a href="/brix/core/tmpler">Tmpler</a></li>
+    <h3>Meta</h3>
+    
+    <ul class="entries">
+<li><a href="/brix/meta/gallery">组件开发规范</a></li><li><a href="/brix/meta/gallery-doc-sample">组件文档示例</a></li><li><a href="/brix/meta/style">Brix Style 开发规范</a></li><li><a href="/brix/meta/style-doc">Brix Style 文档规范</a></li>
 </ul>
-</section>
-<section>
-  <h3>Gallery</h3>
+  </section>
   
-  <ul class="entries">
-<li><a href="/brix/gallery/breadcrumbs">Breadcrumbs</a></li><li><a href="/brix/gallery/calendar">Calendar</a></li><li><a href="/brix/gallery/colorpicker">ColorPicker</a></li><li><a href="/brix/gallery/datepicker">DatePicker</a></li><li><a href="/brix/gallery/dialog">Dialog</a></li><li><a href="/brix/gallery/dropdown">Dropdown</a></li><li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li><li><a href="/brix/gallery/kwicks">Kwicks</a></li><li><a href="/brix/gallery/loading">Loading</a></li><li><a href="/brix/gallery/pagination">Pagination</a></li><li><a href="/brix/gallery/slider">Slider</a></li><li><a href="/brix/gallery/starrating">StarRating</a></li><li><a href="/brix/gallery/switcher">Switcher</a></li><li><a href="/brix/gallery/tips">tips</a></li><li><a href="/brix/gallery/sidenav">SideNav</a></li><li><a href="/brix/gallery/timer">Timer</a></li>
-</ul>
-</section>
+  
+  
+  
+  
+  
+  
+  
 </aside>
   <div id="page">
-    <div class="title-bar clearfix">
-      <h1>Brix Style 文档规范</h1>
-      
-    </div>
-    <article>
-      
-      <section class="content"><h2>demo 与文档</h2>
+  <div class="title-bar clearfix">
+    <h1>Brix Style 文档规范</h1>
+    
+  </div>
+  <article>
+    
+    <section class="content"><h2>demo 与文档</h2>
 
 <p><a href="http://etaoux.github.com/brix/style/">Brix Style</a> 是指 Brix 框架中基础样式的部分，
 使用 Less 编写，部分组件依赖 Brix 的 JS 部分以初始化（例如 <a href="http://etaoux.github.com/brix/style/#forms">Forms</a>）。</p>
@@ -69,7 +78,7 @@
 
 <ul>
 <li>demo：<code>demo/style/grid-fixed.html</code></li>
-<li>post：<code>_posts/style/2012-07-13-grid.html</code></li>
+<li>post：<code>style/_posts/2012-07-13-grid.html</code></li>
 </ul>
 
 
@@ -114,12 +123,11 @@
 
 <h3>头部 YAML</h3>
 
-<p>在 <code>_posts/style</code> 目录下的每篇文档，头部都有这种信息：</p>
+<p>在 <code>style/_posts</code> 目录下的每篇文档，头部都有这种信息：</p>
 
 <div class="highlight"><pre><code class="yaml"><span class="nn">---</span>
 <span class="l-Scalar-Plain">title</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Grid</span>
 <span class="l-Scalar-Plain">demo</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">grid-fixed</span>
-<span class="l-Scalar-Plain">category</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">style</span>
 <span class="l-Scalar-Plain">layout</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">style</span>
 <span class="nn">---</span>
 </code></pre>
@@ -136,7 +144,7 @@
 </ul>
 
 
-<p>category 与 layout 是 Brix 网站中用到的组织这些文档结构的属性，请勿修改。</p>
+<p>layout 是单独渲染此页面时所使用的模板文件，<code>style/_posts</code> 下的都是 <code>style</code>，即 <code>_layouts/style.html</code> 模板文件，请勿修改。</p>
 
 <h3>内容中插入 Liquid Template</h3>
 
@@ -212,17 +220,13 @@ int main() {
 
 <h3>更多示例</h3>
 
-<p>翻阅 <code>_posts</code> 目录下的文件就知道啦！</p>
+<p>翻阅 <code>style/_posts</code> 目录下的文件就知道啦！</p>
 </section>
-    </article>
-  </div>
-  <div id="J_log" style="position:fixed;width:88px;height:18px;bottom:0;right:2px">
-    <a style="position:absolute;top:1px;right:1px;z-index:999;" id="J_close" href="#">显示调试窗口</a>
-  </div>
+  </article>
+</div>
   <footer id="footer">
   </footer>
   <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
-  <script src="/brix/assets/js/log4javascript.js"></script>
   <script src="/brix/assets/js/post.js"></script>
 </body>
 </html>
