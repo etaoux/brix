@@ -7,7 +7,10 @@ KISSY.add("brix/gallery/form/index", function(S, Brick) {
     function Form() {
         Form.superclass.constructor.apply(this, arguments);
     }
-    Form.ATTACH = {
+    /*
+        delete by miaojing 页面中有checkbox元素，只要该checkbox不被隐藏（display:none;/visibility:hidden;/overflow:hidden）,则可tab focus到该checkbox,原生自带的行为也就都有，不需要补。
+    */
+    /*Form.ATTACH = {
         '.checkbox, .radio': {
             'keyup': function (e) {
                 if (e.keyCode === KeyCodes.ENTER ||
@@ -19,7 +22,7 @@ KISSY.add("brix/gallery/form/index", function(S, Brick) {
                 }
             }
         }
-    };
+    };*/
 
     function handleStat(node, checkSiblings) {
         var input = node.one('.input');
@@ -57,13 +60,13 @@ KISSY.add("brix/gallery/form/index", function(S, Brick) {
             // 2. 坑爹的IE6/7只能在label有对应for属性时click才能传递到input，嵌套都不行
             //    ref: http://lucassmith.name/2008/04/label-checkbox-concerns.html
             // 这里统一隐藏掉input
-            if (S.UA.ie < 9) {
+            /*if (S.UA.ie < 9) {
                 el.all('.checkbox, .radio').on('click', function (e) {
                     // 避免循环触发.
                     if (e.target.nodeName === 'INPUT') { return; }
                     S.one(e.currentTarget).one('input')[0].click();
                 });
-            }
+            }*/
         }
     });
     return Form;

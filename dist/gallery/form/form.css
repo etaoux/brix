@@ -1,6 +1,5 @@
 .bx-controls .input {
   float: left;
-  margin-left: -19px;
   margin-bottom: 9px;
   width: 16px;
   height: 18px;
@@ -17,9 +16,6 @@
 }
 .bx-controls .checkbox .checked-disabled {
   background-position: 0 -322px;
-}
-.bx-controls .radio {
-  padding-left: 19px;
 }
 .bx-controls .radio .input {
   background-position: 0 2px;

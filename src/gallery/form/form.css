@@ -1,35 +1,50 @@
+/*
+ *  实现自定义checkbox图片替代原生checkbox方法：
+ *  如：<label><span class="icon"></span><input type="checkbox"/>1</label>
+ *  1.直接将checkbox隐藏（display:none/visibility:hidden/overflow:hidden）掉，会导致tab无法focus到改checkbox,导致读屏效果缺失checkbox效果（如mac下的“已选中注记格 1”）; 
+ *  2.使用绝对定位到可视区域外可解决1的问题，但是如果将checkbox定位到可视区域外（如：-9999px），当点击该checkbox的label内容时，该页面的焦点会focus到该checkbox的实际位置，产生页面向上滚动现象。
+ *  3.选择将图片覆盖真实的checkbox可以解决1和2的问题,还有个好处当js不可用时，原生的checkbox还在原来的位置上,该checkbox依然可用。
+ *  TODO:小王子你来搞;
+ *  单选钮、复选框的图片整大点，保证能覆盖所有浏览器原生的大小，现在小了
+ *  ie下面因为label包含radio和input，导致选中的时候出现的outline边框包含了radio和标题本身，设计师反馈不好看，最好换成<label>选我选我:</label><input type="checkbox"/>
+ */ 
 .bx-controls .input {
-  float: left;
-  margin-left: -19px;
-  margin-bottom: 9px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
   width: 16px;
   height: 18px;
-  background: url(../../brix.png) 0 -178px;
-}
-.bx-controls .checkbox {
-  padding-left: 19px;
-}
-.bx-controls .checkbox .checked {
-  background-position: 0 -214px;
-}
-.bx-controls .checkbox .disabled {
-  background-position: 0 -286px;
-}
-.bx-controls .checkbox .checked-disabled {
-  background-position: 0 -322px;
+  background: url(../../brix.png) 0 -180px;
 }
 .bx-controls .radio {
-  padding-left: 19px;
+  position: relative;
+  padding-left: 0;
+  _zoom: 1;
+}
+.bx-controls .checkbox {
+  position: relative;
+  padding-left: 0;
+  _zoom: 1;
+}
+.bx-controls .checkbox .checked {
+  background-position: 0 -216px;
+}
+.bx-controls .checkbox .disabled {
+  background-position: 0 -288px;
+}
+.bx-controls .checkbox .checked-disabled {
+  background-position: 0 -324px;
 }
 .bx-controls .radio .input {
-  background-position: 0 2px;
+  background-position: 0 0;
 }
 .bx-controls .radio .checked {
-  background-position: 0 -34px;
+  background-position: 0 -36px;
 }
 .bx-controls .radio .disabled {
-  background-position: 0 -106px;
+  background-position: 0 -108px;
 }
 .bx-controls .radio .checked-disabled {
-  background-position: 0 -142px;
+  background-position: 0 -144px;
 }
