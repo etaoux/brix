@@ -1,0 +1,178 @@
+.msg-box {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    margin-right: 20px;
+    padding: 8px 10px;
+    border: 1px solid #d0d0d0;
+    box-shadow: 0 0 3px #ccc;
+    border-radius: 6px 6px 6px 0;
+    background-color: #fff;
+    position: relative;
+}
+
+.msg-box .msg-body {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    margin: 0;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 20px;
+}
+
+.msg-box .msg-head {
+    margin-bottom: 6px;
+}
+
+.msg-head .msg-title {
+    float: left;
+    color: #0066cc;
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 20px;
+}
+
+.msg-head .msg-date {
+    float: right;
+    color: #999;
+}
+
+.msg-time {
+    position: absolute;
+    width: 40px;
+    text-align: right;
+    left: 0;
+}
+
+.msg-box .msg-arrow,
+.msg-box .msg-arrow span {
+    position: absolute;
+    font-size: 0;
+    line-height: 0;
+    width: 0;
+    height: 0;
+    bottom: -1px;
+    left: -10px;
+    border-width: 15px 10px 0 0;
+    border-color: transparent #d0d0d0 transparent transparent;
+    border-style: dashed solid dashed dashed;
+}
+
+.msg-box .msg-arrow span {
+    left: 2px;
+    bottom: 1px;
+    border-color: transparent white transparent transparent;
+}
+
+.msg-arrow-top {
+    border-radius: 0 6px 6px 6px;
+}
+
+.msg-arrow-top .msg-arrow,
+.msg-arrow-top .msg-arrow span {
+    bottom: auto;
+    top: -1px;
+    left: -10px;
+    border-width: 0 10px 15px 0;
+}
+
+.msg-arrow-top .msg-arrow span {
+    top: 1px;
+    left: 2px;
+}
+
+.msg-arrow-right {
+    border-radius: 6px 0 6px 6px;
+}
+
+.msg-arrow-right .msg-arrow,
+.msg-arrow-right .msg-arrow span {
+    bottom: auto;
+    left: auto;
+    top: -1px;
+    right: -11px;
+    border-width: 0 0 15px 10px;
+    border-style: dashed dashed dashed solid;
+    border-color: transparent transparent transparent #d0d0d0;
+}
+
+.msg-arrow-right .msg-arrow span {
+    top: 1px;
+    right: 2px;
+    border-color: transparent transparent transparent white;
+}
+
+.msg-arrow-bottom {
+    border-radius: 6px 6px 0 6px;
+}
+
+.msg-arrow-bottom .msg-arrow,
+.msg-arrow-bottom .msg-arrow span {
+    left: auto;
+    right: -11px;
+    border-width: 15px 0 0 10px;
+    border-style: dashed dashed dashed solid;
+    border-color: transparent transparent transparent #d0d0d0;
+}
+
+.msg-arrow-bottom .msg-arrow span {
+    right: 2px;
+    bottom: 1px;
+    border-color: transparent transparent transparent white;
+}
+
+.msg-skin-orange {
+    box-shadow: none;
+    background-color: #f40;
+    border-color: #f40;
+    color: white;
+}
+
+.msg-skin-orange .msg-arrow {
+    border-right-color: #f40;
+}
+
+.msg-skin-orange .msg-skin-arrow {
+    border-left-color: #f40;
+}
+
+.msg-skin-orange .msg-arrow span {
+    visibility: hidden;
+}
+
+.msg-skin-gray {
+    box-shadow: none;
+    background-color: #ccc;
+    border-color: #ccc;
+    color: black;
+}
+
+.msg-skin-gray .msg-arrow {
+    border-right-color: #ccc;
+}
+
+.msg-skin-gray .msg-skin-arrow {
+    border-left-color: #ccc;
+}
+
+.msg-skin-gray .msg-arrow span {
+    visibility: hidden;
+}
+
+.msg-by-self {
+    color: #488fcd;
+}
+
+.msg-box .icon-del {
+    position: absolute;
+    width: 30px;
+    text-align: right;
+    right: -20px;
+    top: -5px;
+    visibility: hidden;
+}
+
+.msg-box:hover .icon-del {
+    visibility: visible;
+}
