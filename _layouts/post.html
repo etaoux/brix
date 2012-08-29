@@ -1,36 +1,15 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Brix &mdash; UX</title>
-  {% include html5-shim.html %}
-  <link rel="stylesheet" type="text/css" href="/brix/dist/brix-min.css">
-  <link rel="stylesheet" type="text/css" href="/brix/assets/css/post.css">
+  {% include head.html %}
 </head>
 <body>
   {% include site-nav.html %}
   {% include aside.html %}
-  <div id="page">
-    <div class="title-bar clearfix">
-      <h1>{{ page.title }}</h1>
-      {% if page.caption %}
-      <p class="caption">{{ page.caption }}</p>
-      {% endif %}
-    </div>
-    <article>
-      {% if page.description %}
-      <section class="description">{{ page.description | markdownify }}</section>
-      {% endif %}
-      <section class="content">{{ content }}</section>
-    </article>
-  </div>
-  <div id="J_log" style="position:fixed;width:88px;height:18px;bottom:0;right:2px">
-    <a style="position:absolute;top:1px;right:1px;z-index:999;" id="J_close" href="#">显示调试窗口</a>
-  </div>
+  {% include post.html %}
   <footer id="footer">
   </footer>
   <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
-  <script src="/brix/assets/js/log4javascript.js"></script>
   <script src="/brix/assets/js/post.js"></script>
 </body>
 </html>
