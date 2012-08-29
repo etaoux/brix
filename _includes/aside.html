@@ -2,5 +2,13 @@
   <div id="logo">
     <a href="/brix/">Brix</a>
   </div>
-  {% include catalog.html %}
+  {% for category in site.categories %}
+  {% if page.categories contains category[0] %}
+  <section>
+    <h3>{{ category | first | capitalize }}</h3>
+    {% assign posts = category[1] %}
+    {% include entries.html %}
+  </section>
+  {% endif %}
+  {% endfor %}
 </aside>
