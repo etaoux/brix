@@ -1,4 +1,57 @@
+@sprite: 'http://img03.taobaocdn.com/tps/i3/T1b8fAXfpnXXX5DWD4-200-260.png';
+@backgroundColorDefault: #4690cd;
+@backgroundColorCustom: #f82500;
+
+.border-radius(@radius: 5px) {
+    -moz-border-radius: @radius;
+    -khtml-border-radius: @radius;
+    -webkit-border-radius: @radius;
+    border-radius: @radius;
+}
+
+.transition(@property:background-color,  @duration:0.25s,  @timing-function:ease-out, @delay: 0) {
+    -webkit-transition: @arguments;
+    -moz-transition: @arguments;
+    transition: @arguments;
+}
+
+.transition-transform(@duration: .2s, @timing-function:ease-in-out) {
+    -webkit-transition: -webkit-transform @arguments;
+    -moz-transition: -moz-transform @arguments;
+    -o-transition: -o-transform @arguments;
+    -ms-transition: -ms-transform @arguments;
+    transition: transform @arguments;
+}
+
+.transform (@property: rotate(-180deg)) {
+    -webkit-transform: @property;
+    -moz-transform: @property;
+    -o-transform: @property;
+    -ms-transform: @property;
+    transform: @property;
+}
+
+.border-radius-bottomleft(@radius: 0px) {
+    -webkit-border-bottom-left-radius: @radius;
+    -moz-border-radius-bottomleft: @radius;
+    border-bottom-left-radius: @radius;
+}
+
+.border-radius-topright(@radius: 0px) {
+    -webkit-border-top-right-radius: @radius;
+    -moz-border-radius-topright: @radius;
+    border-top-right-radius: @radius;
+
+}
+
+.border-radius-bottomright(@radius: 0px) {
+    -webkit-border-bottom-right-radius: @radius;
+    -moz-border-radius-bottomright: @radius;
+    border-bottom-right-radius: @radius;
+}
+
 .searchbox {
+
 }
 
 .s-ipt-inner input,
@@ -6,7 +59,7 @@
 .s-ipt-inner label,
 .s-btn-clear,
 .s-btn-submit {
-    background: url(http://img03.taobaocdn.com/tps/i3/T1b8fAXfpnXXX5DWD4-200-260.png) no-repeat -9999px -9999px;
+    background: url(@sprite) no-repeat -9999px -9999px;
 }
 
 .searchbox form {
@@ -25,54 +78,42 @@
 
 .searchbox-outer {
     padding: 3px;
-    -moz-border-radius: 5px;
-    -khtml-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    -webkit-transition: background-color 0.25s ease-out 0s;
-    -moz-transition: background-color 0.25s ease-out 0s;
-    transition: background-color 0.25s ease-out 0s;
+    .border-radius(5px);
+    .transition(background-color, 0.25s, ease-out, 0s);
     background-color: #ccc;
 }
 
 .searchbox-inner {
     height: 37px;
     background-color: #fff;
-    -moz-border-radius: 3px;
-    -khtml-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
-    -webkit-transition: border-radius 0s ease-out .2s;
-    -moz-transition: border-radius 0s ease-out .2s;
-    transition: border-radius 0s ease-out .2s;
+    .border-radius(3px);
+    .transition(border-radius, 0s, ease-out, .2s);
 }
 
 .searchbox-inner.expandmenu {
-    -webkit-border-bottom-left-radius: 0px;
-    -moz-border-radius-bottomleft: 0px;
-    border-bottom-left-radius: 0px;
-    -webkit-transition: border-radius 0s ease-out 0s;
-    -moz-transition: border-radius 0s ease-out 0s;
-    transition: border-radius 0s ease-out 0s;
+    .border-radius-bottomleft(0);
+    .transition(border-radius, 0s, ease-out, 0s);
 }
 
-.default .searchbox-outer.focus,
-.default .searchbox-outer.focus .s-menu-container {
-    background-color: #4690cd;
+.default {
+    .searchbox-outer.focus,
+    .searchbox-outer.focus .s-menu-container {
+        background-color: @backgroundColorDefault;
+    }
 }
 
-.custom .searchbox-outer.focus,
-.custom .searchbox-outer.focus .s-menu-container {
-    background-color: #f82500;
+.custom {
+    .searchbox-outer.focus,
+    .searchbox-outer.focus .s-menu-container {
+        background-color: @backgroundColorCustom;
+    }
 }
 
 .searchbox-menu {
     float: left;
     position: relative;
     _margin-right: -3px;
-    -webkit-transition: color 0.25s ease-out 0s;
-    -moz-transition: color 0.25s ease-out 0s;
-    transition: color 0.25s ease-out 0s;
+    .transition(color, 0.25s, ease-out, 0s);
 }
 
 .s-menu-selected {
@@ -101,20 +142,12 @@
     _overflow: hidden;
     background-position: 0 -15px;
     *vertical-align: middle;
-    -webkit-transition: -webkit-transform .2s ease-in-out;
-    -moz-transition: -moz-transform .2s ease-in-out;
-    -o-transition: -o-transform .2s ease-in-out;
-    -ms-transition: -ms-transform .2s ease-in-out;
-    transition: transform .2s ease-in-out;
+    .transition-transform(.2s, ease-in-out)
 }
 
 .searchbox-menu:hover .s-menu-selected i,
 .searchbox-menu.expand .s-menu-selected i {
-    -webkit-transform: rotate(-180deg);
-    -moz-transform: rotate(-180deg);
-    -o-transform: rotate(-180deg);
-    -ms-transform: rotate(-180deg);
-    transform: rotate(-180deg);
+    .transform (rotate(-180deg));
 }
 
 .s-ipt-outer {
@@ -188,12 +221,8 @@
     border: 0 none;
     text-indent: -9999em;
     background-position: 0 -90px;
-    -webkit-border-top-right-radius: 3px;
-    -webkit-border-bottom-right-radius: 3px;
-    -moz-border-radius-topright: 3px;
-    -moz-border-radius-bottomright: 3px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px
+    .border-radius-topright(3px);
+    .border-radius-bottomright(3px);
 }
 
 .default .focus .s-btn-submit {
@@ -227,15 +256,9 @@
     width: 73px;
     background-color: #ccc;
     z-index: 10000;
-    -webkit-border-bottom-right-radius: 5px;
-    -webkit-border-bottom-left-radius: 5px;
-    -moz-border-radius-bottomright: 5px;
-    -moz-border-radius-bottomleft: 5px;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    -webkit-transition: height 0.2s ease-out 0s;
-    -moz-transition: height 0.2s ease-out 0s;
-    transition: height 0.2s ease-out 0s;
+    .border-radius-bottomleft(5px);
+    .border-radius-bottomright(5px);
+    .transition(height,  0.2s,  ease-out, 0);
 }
 
 .s-menu-list {
@@ -244,15 +267,9 @@
     overflow: hidden;
     margin: 0 3px 3px;
     background-color: #fff;
-    -webkit-border-bottom-right-radius: 3px;
-    -webkit-border-bottom-left-radius: 3px;
-    -moz-border-radius-bottomright: 3px;
-    -moz-border-radius-bottomleft: 3px;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
-    transition: height .2s ease-out 0s;
-    -webkit-transition: height .2s ease-out 0s;
-    -moz-transition: height .2s ease-out 0s;
+    .border-radius-bottomleft(3px);
+    .border-radius-bottomright(3px);
+    .transition(height,  0.2s,  ease-out, 0);
 }
 
 .s-menu-list li a {
