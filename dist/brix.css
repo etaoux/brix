@@ -2072,6 +2072,29 @@ legend + .control-group {
 
   /*打开关闭按钮*/
 
+  /*.icon-expend-collapse {
+    font-style: normal;
+    border: 1px solid #777;
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    text-align: center;
+    line-height: 9px;
+    line-height: 8px\9;
+    border-radius: 2px;
+    box-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+    cursor: pointer;
+    background: white;
+    font-size: 10px;
+    color: black;
+    overflow: hidden;
+    font-family: simsun;
+  }
+
+  :root .icon-expend-collapse {
+    line-height: 10px\9;
+  }*/
+
 }
 .table input {
   padding: 0;
@@ -2221,7 +2244,7 @@ legend + .control-group {
   font-size: 0px;
   overflow: hidden;
   border-style: solid;
-  border-width: 4px 4px 0 4px;
+  border-width: 3px 3px 0 3px;
   border-color: #999 transparent transparent transparent;
   _border-color: #999 #FFFFFF #FFFFFF #FFFFFF;
 }
@@ -2230,30 +2253,18 @@ legend + .control-group {
   border-color: transparent #999 #999 transparent;
   _border-color: #FFFFFF #999 #999 #FFFFFF;
 }
-.table .icon-expend-collapse {
-  font-style: normal;
-  border: 1px solid #777;
+.table .icon-expend,
+.table .icon-collapse {
+  width: 11px;
   display: inline-block;
-  width: 9px;
-  height: 9px;
-  text-align: center;
-  line-height: 9px;
-  line-height: 8px\9;
-  /*兼容ie8-*/
-
-  border-radius: 2px;
-  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  background: white;
-  font-size: 10px;
-  color: black;
-  overflow: hidden;
-  font-family: simsun;
+  vertical-align: middle;
+  height: 11px;
+  font-size: 0;
+  background: url(http://img01.taobaocdn.com/tps/i1/T1o0jIXkNhXXaSrQza-22-11.png) no-repeat;
 }
-.table :root .icon-expend-collapse {
-  line-height: 10px\9;
-  /*兼容i9*/
-
+.table .icon-expend {
+  background-position: -11px 0;
 }
 /* 用于在 table 标签之外实现 foot 的，这样就不用去计算 td 的 colspan 需要多少了  */
 .table-foot {
@@ -2346,15 +2357,17 @@ legend + .control-group {
   left: -5px;
   top: -10px;
   padding: 10px 12px 8px;
-  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
-  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
-  -ms-box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
   background-color: #FFF;
   border: 1px solid #ccc\9;
   text-align: left;
   display: none;
   line-height: 1.8;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   border-collapse: separate;
   /*padding: 5px 0;*/
 
@@ -2460,7 +2473,7 @@ legend + .control-group {
 .tags-list li {
   float: left;
   padding: 3px 8px 4px 8px;
-  margin: 0 10px 5px 0;
+  margin: 0 10px 10px 0;
   background-color: #eee;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -2492,6 +2505,20 @@ legend + .control-group {
   padding: 30px 0;
   line-height: 1em;
   font-family: 'SimSun';
+}
+.footer .common a:hover,
+.footer .copyright a:hover,
+.footer .corp a:hover {
+  color: #F40;
+  text-decoration: underline;
+}
+.footer .char-num {
+  font-family: tahoma;
+  vertical-align: text-bottom;
+}
+.footer b.char-num {
+  vertical-align: top;
+  font-weight: normal;
 }
 .footer .common {
   margin-bottom: 15px;
@@ -2542,7 +2569,8 @@ legend + .control-group {
   color: #ACACAC;
   margin: 5px 0;
 }
-.footer .copyright-alone span {
+.footer .copyright-alone .copyright-sign,
+.footer .copyright-alone .copyright-no {
   display: block;
   line-height: 1em;
 }
@@ -2574,8 +2602,8 @@ legend + .control-group {
   overflow: hidden;
 }
 .avatar-rim {
-  background: url(tests/assets/avatar_bg.png) no-repeat 2px 2px;
-  -background: url(tests/assets/avatar_bg_ie6.png) no-repeat 2px 2px;
+  background: url(../img//avatar_bg.png) no-repeat 2px 2px;
+  -background: url(../img/avatar_bg_ie6.png) no-repeat 2px 2px;
   z-index: 2;
 }
 .avatar-pic {
@@ -2637,6 +2665,53 @@ legend + .control-group {
 .avatar-point .avatar-rim {
   height: 92px;
   background-position: -320px 4px;
+}
+/* չ�������Ĵ���  */
+.show-more {
+  position: relative;
+  top: -2px;
+}
+.show-more .inner {
+  text-align: center;
+}
+.show-more .inner a {
+  position: relative;
+  border-width: 1px;
+  border-style: solid;
+  border-color: white #CACACA #CACACA;
+  padding: 0 40px 9px 25px;
+  color: #666;
+}
+.show-more .inner a:hover {
+  color: #FF8400;
+  cursor: pointer;
+}
+.show-more .inner b {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  width: 0;
+  height: 0;
+  font-size: 0;
+  line-height: 0;
+  border-width: 5px;
+  border-style: solid;
+  border-color: white white #666;
+}
+.show-more .inner b b {
+  border-width: 3px;
+  border-color: transparent transparent white;
+  top: -2px;
+  left: -3px;
+  height: 1px;
+}
+.show-more .inner .fold b b {
+  border-color: white transparent transparent;
+  top: -5px;
+}
+.show-more .fold b {
+  border-color: #666 white white;
+  top: 5px;
 }
 /*@import "breadcrumbs.less";*/
 /*@import "code.less";*/

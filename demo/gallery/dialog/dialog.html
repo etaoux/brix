@@ -5,6 +5,7 @@
         <title>Brix Dialog Demo</title>
         <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
         <link rel="stylesheet" href="../../../src/gallery/dropdown/dropdown.css">
+        <link rel="stylesheet" href="../../../src/gallery/dialog/dialog.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
         <script src="../../config.js"></script>
     </head>
@@ -16,6 +17,8 @@
         <a href="#" id="btnShowup">显示上</a>
 
         <a href="#" id="btnShowdown">显示下</a>
+
+        <a href="#" id="btnShow">显示</a>
 
         <a href="#" id="btnHide">隐藏</a>
         </div>
@@ -42,6 +45,9 @@
             }
         </script>
         <script type="text/template" id="tmpl_dropdown">
+            <div style="margin-top:-10px">
+            <h2 style="margin:0">标题</h2>
+            没有共产党就没有新中国，没有共产党就没有新中国。
             <div id="brick13" bx-name="dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown" style="width:200px">
                 {{#dropdown_list}}
                 {{#selected}}
@@ -61,6 +67,8 @@
                 <input value="{{value}}" type="hidden" />
                 {{/selected}}
                 {{/dropdown_list}}
+            </div>
+            <div style="margin-top:15px"><a class="btn">确定</a></div>
             </div>
         </script>
         <script>
@@ -135,7 +143,7 @@
 
                         dialog.set('end',{
                             left:300,
-                            top:S.DOM.docHeight()-87,
+                            top:S.DOM.docHeight()-193,
                             opacity:1
                         });
                         dialog.show();
@@ -145,14 +153,31 @@
                         e.halt();
                         dialog.hide();
                         dialog.set('start',{
+                            left:600,
+                            top:-193,
+                            opacity:0
+                        });
+
+                        dialog.set('end',{
+                            left:600,
+                            top:0,
+                            opacity:1
+                        });
+                        dialog.show();
+                    });
+
+                    S.one('#btnShow').on('click',function(e){
+                        e.halt();
+                        dialog.hide();
+                        dialog.set('start',{
                             left:300,
-                            top:-87,
+                            top:200,
                             opacity:0
                         });
 
                         dialog.set('end',{
                             left:300,
-                            top:0,
+                            top:200,
                             opacity:1
                         });
                         dialog.show();
