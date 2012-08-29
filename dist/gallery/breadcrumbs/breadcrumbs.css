@@ -58,6 +58,9 @@
   top: 8px;
   right: 8px;
 }
+.breadcrumbs .dropdown .dropdown-hd {
+  background: none;
+}
 .breadcrumbs .dropdownfocus {
   border: 1px solid #ddd;
   border-bottom: 1px solid #bbb;

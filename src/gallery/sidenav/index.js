@@ -1,6 +1,5 @@
-KISSY.add("brix/gallery/sidenav/index", function(S) {
+KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
     // author: chongzhi.ldq@taobao.com 崇志
-
     /**
      * 页面主导航切换
      * cfg {object}
@@ -12,10 +11,40 @@ KISSY.add("brix/gallery/sidenav/index", function(S) {
     var $ = S.all;
     var Sidenav = function() {
         Sidenav.superclass.constructor.apply(this, arguments);
+        this.init();
     };
 
-    var Sidenav = {
-        init: function(cfg) {
+    //默认配置
+    Sidenav.ATTRS = {
+        el: {
+            value: ''
+        },
+
+        index: { //默认的首页地址
+            value: '#!/home/'
+        },
+
+        duration: { //导航动画持续时间，可配置
+            value: 0.25
+        },
+
+        //这里配置有的页面不是导航点击进来的，
+        //可以配置成相应的导航下面
+        //置空则不停在任何导航上
+        pathMap: {
+            value: {
+                '#!/adzone/adzone_detail/': '#!/adzone/adzone/',
+                '#!/plan/handle/': '#!/plan/list/',
+                '#!/plan/price_handle/': '#!/plan/list/',
+                '#!/messages/list/': '',
+                '#!/messages/detail/': '',
+                '#!/components/': ''
+            }
+        }
+    };
+
+    S.extend(Sidenav, Brix, {
+        init: function() {
             /**
              * 配置
              * @type {[type]}
@@ -32,14 +61,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S) {
             //这里配置有的页面不是导航点击进来的，
             //可以配置成相应的导航下面
             //置空则不停在任何导航上
-            this.pathMap = {
-                '#!/adzone/adzone_detail/': '#!/adzone/adzone/',
-                '#!/plan/handle/': '#!/plan/list/',
-                '#!/plan/price_handle/': '#!/plan/list/',
-                '#!/messages/list/': '',
-                '#!/messages/detail/': '',
-                '#!/components/': ''
-            };
+            this.pathMap = this.get('pathMap');
 
             //收缩子菜单状态下，子菜单是复制附加到body根节点下的
             this.subNavView = S.one('<div class="sub-nav-view"></div>').appendTo('body');
@@ -50,8 +72,8 @@ KISSY.add("brix/gallery/sidenav/index", function(S) {
             this.isFullSubNav = this.localStorage && this.localStorage.isFullSubNav || '1';
 
             //可配置的两个参数 duration index
-            this.index = cfg && cfg.index || '#!/home/'; //默认的首页地址
-            this.duration = cfg && cfg.duration || 0.25; //导航动画持续时间，可配置
+            this.index = this.get('index'); //默认的首页地址
+            this.duration = this.get('duration'); //导航动画持续时间，可配置
 
             this.isHandleClick = false; //标识是否点击了扩展收缩按钮
             this.navTop = this.nav.offset().top; //导航的初始offset.top值
@@ -141,11 +163,14 @@ KISSY.add("brix/gallery/sidenav/index", function(S) {
             self.nav.delegate('click', 'a', function(e) {
                 var t = S.one(e.target);
 
+                // self.fire('navClick', {clickTarget: t});
+
                 self.isHandleClick = false;
                 self._expandCollapseNav(t);
                 self.nowNav = t;
                 self.isNavClick = true;
                 $(window).scrollTop(0);
+
                 // self._fixedStatic();
             });
 
@@ -156,6 +181,8 @@ KISSY.add("brix/gallery/sidenav/index", function(S) {
                 var t = S.one(e.target).closest('a');
                 var thisSubNav = t.closest('.sub-nav-ul');
                 var dataSub = thisSubNav.attr('data-sub');
+
+                // self.fire('navClick', {clickTarget: t});
 
                 self.isHandleClick = false;
                 self.nowNav = self.nav.all('a[data-sub=' + dataSub + ']');
@@ -468,10 +495,10 @@ KISSY.add("brix/gallery/sidenav/index", function(S) {
             }, this.duration, 'easeOut');
 
         }
-    };
+    });
 
     return Sidenav;
 
 }, {
-    requires: ['sizzle', 'brix/core/brick', 'node', 'template', './sidenav.css']
+    requires: ['brix/core/brick', 'base', 'sizzle', './sidenav.css']
 });

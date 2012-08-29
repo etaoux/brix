@@ -9,15 +9,6 @@
 .bx-controls .checkbox {
   padding-left: 19px;
 }
-/*无障碍支持：图片绝对定位覆盖原生radio checkout替代直接display:none*/
-.bx-controls .checkbox, .bx-controls .radio {
-    position: relative;
-}
-.bx-controls .checkbox input, .bx-controls .radio input{
-    position: absolute;
-    left: -9999px;
-    top: -99999px;
-}
 .bx-controls .checkbox .checked {
   background-position: 0 -214px;
 }

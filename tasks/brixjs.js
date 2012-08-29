@@ -62,7 +62,7 @@ module.exports = function(grunt) {
                 });
 
                 var max = grunt.helper('concat', arr, {
-                    separator: self.data.separator
+                    separator: '\n'
                 });
                 var min;
                 if (options.compress) {

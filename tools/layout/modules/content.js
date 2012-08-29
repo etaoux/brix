@@ -33,6 +33,12 @@ KISSY.add('modules/content', function(S, Node, Utils, ContentOperate, ContentAni
     
     return function () {
         S.DOM.addStyleSheet(Utils.cssGen());
+
+        App.msg.on('afterPageWidthChange', function(e) {
+            document.getElementById('r-content').className = 'w' + e.newVal;
+        });
+        App.msg.set('pageWidth', App.resolution.base);
+
         render();
         ContentOperate.init();
         ContentAnim.init();
