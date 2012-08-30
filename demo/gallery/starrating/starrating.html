@@ -124,13 +124,9 @@
                             //xiaoxingxing.readOnly();
                         });
 
-
-
-                        dafendaxingxing = p.getBrick('dafendaxingxing');
-                        var fen;
-                        dafendaxingxing.on('focus',function(ev){
+                        function setFen(v){
                             var node = S.one('#dafentip'),
-                                val = parseInt(ev.value);
+                            val = parseInt(v);
                             switch(val){
                                 case 1:
                                     node.html('很差');
@@ -148,56 +144,24 @@
                                     node.html('极佳');
                                     break;
                             }
+                        }
+
+                        var dafendaxingxing = p.getBrick('dafendaxingxing'),
+                            fen;
+                        dafendaxingxing.on('focus',function(ev){
+                            setFen(ev.value);
                         });
                         dafendaxingxing.on('blur',function(ev){
-                            var node = S.one('#dafentip'),
-                                val = parseInt(ev.value);
                             if(!fen){
-                                node.html('点击星星为商品打分');
-                                return;
+                                S.one('#dafentip').html('点击星星为商品打分');
                             }
                             else{
-                               val = fen; 
-                            }
-                            switch(val){
-                                case 1:
-                                    node.html('很差');
-                                    break;
-                                case 2:
-                                    node.html('不好');
-                                    break;
-                                case 3:
-                                    node.html('一般');
-                                    break;
-                                case 4:
-                                    node.html('推荐');
-                                    break;
-                                case 5:
-                                    node.html('极佳');
-                                    break;
+                               setFen(fen);
                             }
                         });
                         dafendaxingxing.on('selected',function(ev){
-                           var node = S.one('#dafentip'),
-                                val = parseInt(ev.value);
-                            switch(val){
-                                case 1:
-                                    node.html('很差');
-                                    break;
-                                case 2:
-                                    node.html('不好');
-                                    break;
-                                case 3:
-                                    node.html('一般');
-                                    break;
-                                case 4:
-                                    node.html('推荐');
-                                    break;
-                                case 5:
-                                    node.html('极佳');
-                                    break;
-                            }
-                            fen = val;
+                            setFen(ev.value);
+                            fen = ev.value;
                         });
 
                     });
