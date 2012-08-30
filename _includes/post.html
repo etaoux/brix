@@ -1,0 +1,14 @@
+<div id="page">
+  <div class="title-bar clearfix">
+    <h1>{{ page.title }}</h1>
+    {% if page.caption %}
+    <p class="caption">{{ page.caption }}</p>
+    {% endif %}
+  </div>
+  <article>
+    {% if page.description %}
+    <section class="description">{{ page.description | markdownify }}</section>
+    {% endif %}
+    <section class="content">{{ content }}</section>
+  </article>
+</div>
