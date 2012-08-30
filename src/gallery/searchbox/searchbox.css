@@ -3,7 +3,7 @@
 .s-ipt-inner label,
 .s-btn-clear,
 .s-btn-submit {
-  background: url(http://img03.taobaocdn.com/tps/i3/T1b8fAXfpnXXX5DWD4-200-260.png) no-repeat -9999px -9999px;
+  background: url('http://img03.taobaocdn.com/tps/i3/T1b8fAXfpnXXX5DWD4-200-260.png') no-repeat -9999px -9999px;
 }
 .searchbox form {
   margin: 0;
@@ -40,9 +40,9 @@
   transition: border-radius 0s ease-out 0.2s;
 }
 .searchbox-inner.expandmenu {
-  -webkit-border-bottom-left-radius: 0px;
-  -moz-border-radius-bottomleft: 0px;
-  border-bottom-left-radius: 0px;
+  -webkit-border-bottom-left-radius: 0;
+  -moz-border-radius-bottomleft: 0;
+  border-bottom-left-radius: 0;
   -webkit-transition: border-radius 0s ease-out 0s;
   -moz-transition: border-radius 0s ease-out 0s;
   transition: border-radius 0s ease-out 0s;
@@ -160,10 +160,10 @@
   text-indent: -9999em;
   background-position: 0 -90px;
   -webkit-border-top-right-radius: 3px;
-  -webkit-border-bottom-right-radius: 3px;
   -moz-border-radius-topright: 3px;
-  -moz-border-radius-bottomright: 3px;
   border-top-right-radius: 3px;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-bottomright: 3px;
   border-bottom-right-radius: 3px;
 }
 .default .focus .s-btn-submit {
@@ -191,15 +191,15 @@
   width: 73px;
   background-color: #ccc;
   z-index: 10000;
-  -webkit-border-bottom-right-radius: 5px;
   -webkit-border-bottom-left-radius: 5px;
-  -moz-border-radius-bottomright: 5px;
   -moz-border-radius-bottomleft: 5px;
-  border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
-  -webkit-transition: height 0.2s ease-out 0s;
-  -moz-transition: height 0.2s ease-out 0s;
-  transition: height 0.2s ease-out 0s;
+  -webkit-border-bottom-right-radius: 5px;
+  -moz-border-radius-bottomright: 5px;
+  border-bottom-right-radius: 5px;
+  -webkit-transition: height 0.2s ease-out 0;
+  -moz-transition: height 0.2s ease-out 0;
+  transition: height 0.2s ease-out 0;
 }
 .s-menu-list {
   /*height: 178px;*/
@@ -208,15 +208,15 @@
   overflow: hidden;
   margin: 0 3px 3px;
   background-color: #fff;
-  -webkit-border-bottom-right-radius: 3px;
   -webkit-border-bottom-left-radius: 3px;
-  -moz-border-radius-bottomright: 3px;
   -moz-border-radius-bottomleft: 3px;
-  border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
-  transition: height 0.2s ease-out 0s;
-  -webkit-transition: height 0.2s ease-out 0s;
-  -moz-transition: height 0.2s ease-out 0s;
+  -webkit-border-bottom-right-radius: 3px;
+  -moz-border-radius-bottomright: 3px;
+  border-bottom-right-radius: 3px;
+  -webkit-transition: height 0.2s ease-out 0;
+  -moz-transition: height 0.2s ease-out 0;
+  transition: height 0.2s ease-out 0;
 }
 .s-menu-list li a {
   display: block;
