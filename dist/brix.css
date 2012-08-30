@@ -1346,6 +1346,7 @@ select {
 }
 textarea {
   padding-top: 4px;
+  padding-right: 4px;
   height: auto;
 }
 label input,
@@ -1411,7 +1412,6 @@ textarea[readonly] {
   margin-bottom: 0;
   vertical-align: middle;
 }
-.control-group.warning > label,
 .control-group.warning .help-block,
 .control-group.warning .help-inline {
   color: #c09853;
@@ -1435,7 +1435,6 @@ textarea[readonly] {
   background-color: #fcf8e3;
   border-color: #c09853;
 }
-.control-group.error > label,
 .control-group.error .help-block,
 .control-group.error .help-inline {
   color: #ec0000;
@@ -1459,7 +1458,6 @@ textarea[readonly] {
   background-color: #f2dede;
   border-color: #ec0000;
 }
-.control-group.success > label,
 .control-group.success .help-block,
 .control-group.success .help-inline {
   color: #468847;
@@ -1835,6 +1833,7 @@ legend + .control-group {
 }
 .btn .iconfont {
   font-size: 12px!important;
+  font-weight: normal;
 }
 /*group btn*/
 .btn-group .btn {
