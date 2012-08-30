@@ -96,7 +96,7 @@
         &.sort {
           background-color: #f2f2f2;
         }
-        &.table-child {
+        &.table-child-td {
           padding: 0 40px;
         }
 
@@ -118,7 +118,7 @@
           }
         }
       }
-      &:hover td.table-child {
+      &:hover td.table-child-td {
         background: none;
       }
 
@@ -333,18 +333,20 @@
     th {
       border: 0;
       background: none;
+      border-bottom: 1px dashed #ccc;
     }
   }
 
   tbody {
     td {
       border: 0;
-      border-top: 1px dashed #ccc;
+
     }
 
     tr {
       td {
         background: none!important;
+        border-bottom: 1px solid #ebebeb;
       }
 
       &:hover {
@@ -357,11 +359,19 @@
         }
       }
 
+      &:last-child {
+        td {
+          border-bottom: none;
+        }
+      }
+
       .operation {
         visibility: hidden!important;
         _visibility: visible;
       }
     }
+
+
 
   }
 
@@ -383,7 +393,7 @@
   .box-shadow(0 1px 3px rgba(0, 0, 0, 0.1));
   border-collapse: separate;
   /*padding: 5px 0;*/
-  left: 6px;
+  /*left: 6px;*/
   width: 100px;
   p {
     margin: 0;

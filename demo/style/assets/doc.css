@@ -20,3 +20,25 @@ body {
 .container {
     margin-left: 30px;
 }
+
+.tips {
+    border-radius: 3px;
+    background-color: #eee;
+    padding: 10px 10px 10px 55px;
+    line-height: 1.5;
+    margin: 10px 0;
+    position: relative;
+}
+.tips:before {
+    content: 'Tips';
+    position: absolute;
+    top: 0;
+    left: 5px;
+    font-size: 20px;
+    color: #bbb;
+    font-style: italic;
+}
+
+.tips p {
+    margin: 0;
+}
