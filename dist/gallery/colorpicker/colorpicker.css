@@ -117,11 +117,12 @@
 }
 .colorpicker-fd .bg {
   width: 60px;
-  height: 25px;
-  line-height: 25px;
+  height: 23px;
+  line-height: 23px;
   display: inline-block;
   margin-right: 10px;
   vertical-align: middle;
+  border: 1px solid #ddd;
 }
 .colorpicker-fd input {
   width: 60px;
