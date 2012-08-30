@@ -123,6 +123,7 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             click: function(e) {
                 var color = S.one(e.currentTarget).attr('val');
                 this.setHex(color);
+                S.one(e.currentTarget).addClass('selected');
                 //this._fireSelected();
             }
         },
@@ -266,7 +267,7 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
          * @param {string} hex String of the form: #RRGGBB.
          */
         setColor: function(hsv, rgb, hex) {
-            var self = this;
+            var self = this,el = self.get('el');
             self.h = hsv.h % 360;
             self.s = hsv.s;
             self.v = hsv.v;
@@ -285,11 +286,12 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             self.pickerNode.css({
                 "background-color": self.hsv2rgb(self.h, 1, 1).hex
             });
-            self.get('el').one('.bg').css({
+            el.one('.bg').css({
                 "background-color": c.hex
             });
             self.set('color',c.hex);
-            self.get('el').one('input').val(c.hex);
+            el.all('li').removeClass('selected');
+            el.one('input').val(c.hex);
         },
         /**
          * 设置颜色

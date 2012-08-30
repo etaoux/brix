@@ -727,12 +727,16 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
          * @param  {String} tmpl 模板字符串
          */
         _buildBricks: function(tmpl) {
-            var self = this;
-            var node = $(tmpl);
-            var tmplNode = null;
-            var inDom = _inDom(node[0]); //判断是否已经添加到dom中
+            var self = this,inDom = false,node = $(tmpl),tmplNode;
+
+            if(node.item(0)[0].tagName.toUpperCase()=='SCRIPT'){
+                //如果是script节点，则直接取html
+                tmpl= node.item(0).html()
+            }
+            else{
+                inDom = _inDom(node[0]);//判断是否已经添加到dom中
+            }
             if (!inDom) {
-                node.remove();
                 //牛逼的正则啊
                 var reg = /(\{{2,3}\#(.+?)\}{2,3})\s*([\s\S]*)?\s*((\{{2,3})\/\2(\}{2,3}))/g;
                 while (reg.test(tmpl)) {
@@ -948,8 +952,6 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
             getter: function(s) {
                 if (S.isString(s)) {
                     s = $(s);
-                    //el节点考虑性能，不缓存，以免对dom节点的引用，引起内存泄漏
-                    // this.__set("el", s);
                 }
                 return s;
             }
@@ -1070,7 +1072,7 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 if(dataset){
                     self._render('data', dataset.get('data'));
                 }
-                self.__set("rendered", true);
+                self.set("rendered", true);
                 self.fire('rendered');
             }
         },
