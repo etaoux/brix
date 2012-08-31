@@ -70,5 +70,5 @@ KISSY.add("brix/gallery/switcher/index", function(S, Brick) {
     S.augment(Switcher,Switcher.METHOD);
     return Switcher;
 }, {
-    requires: ["brix/core/brick"]
+    requires: ["brix/core/brick","./switcher.css"]
 });
