@@ -337,5 +337,5 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
 
 
 }, {
-    requires:["brix/core/brick", "node", "template"]
+    requires:["brix/core/brick", "node", "template","./tips.css"]
 });

@@ -278,5 +278,5 @@ KISSY.add('brix/gallery/slider/index', function(S, Brick, UA, Node, DD) {
     S.augment(Slider, Slider.METHOD);
     return Slider;
 }, {
-    requires: ["brix/core/brick", "ua","node", "dd"]
+    requires: ["brix/core/brick", "ua","node", "dd","./slider.css"]
 });
