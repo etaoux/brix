@@ -1,3 +1,6 @@
+.bx-controls input {
+  display: none;
+}
 .bx-controls .input {
   float: left;
   margin-bottom: 9px;
