@@ -330,5 +330,5 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
     S.augment(DatePicker, DatePicker.METHOD);
     return DatePicker;
 }, {
-    requires: ["brix/core/brick", "overlay","../calendar/index"]
+    requires: ["brix/core/brick", "overlay","../calendar/index","./datepicker.css"]
 });
