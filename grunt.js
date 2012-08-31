@@ -5,14 +5,15 @@ module.exports = function(grunt) {
         pkg: '<json:package.json>',
         meta: {
             name: 'Brix',
-            banner: '/*! <%= meta.name %> - v<%= pkg.version %>\n' + '* <%= pkg.homepage %>\n' + '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' + ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
+            banner: '/*! <%= meta.name %> - v<%= pkg.version %>\n' + '* <%= pkg.homepage %>\n' + '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' + ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */',
+            kspackage:'KISSY.config({packages:[{name: "brix",tag: "<%= grunt.template.today("yyyymmdd") %>",path: "http://a.tbcdn.cn/p/",charset: "utf-8"}]});'
         },
         lint: {
             files: ['grunt.js']
         },
         concat: {
             brix_js: {
-                src: ['<banner:meta.banner>', "src/core/mustache.js", "src/core/mu.js", "src/core/tmpler.js", "src/core/dataset.js", "src/core/chunk.js", "src/core/brick.js", "src/core/pagelet.js"],
+                src: ['<banner:meta.banner>',"<banner:meta.kspackage>", "src/core/mustache.js", "src/core/mu.js", "src/core/tmpler.js", "src/core/dataset.js", "src/core/chunk.js", "src/core/brick.js", "src/core/pagelet.js"],
                 dest: 'dist/<%= pkg.name %>.js',
                 separator:'\n' //合并文件默认字符，替换window和mac系统的默认newline
             }

@@ -442,5 +442,5 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick, Node) {
 
 
 }, {
-    requires:["brix/core/brick", "node","./searchbox.css"]
+    requires:["brix/core/brick", "node"]
 });

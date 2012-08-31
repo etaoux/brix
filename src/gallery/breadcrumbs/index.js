@@ -10,5 +10,5 @@ KISSY.add("brix/gallery/breadcrumbs/index", function(S, Brick) {
     });
     return Breadcrumbs;
 }, {
-    requires: ["brix/core/brick","./breadcrumbs.css"]
+    requires: ["brix/core/brick"]
 });

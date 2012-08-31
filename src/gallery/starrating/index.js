@@ -264,5 +264,5 @@ KISSY.add('brix/gallery/starrating/index', function(S, Brick, Node,UA) {
     S.augment(StarRating, StarRating.METHOD);
     return StarRating;
 }, {
-    requires: ["brix/core/brick", "node","ua","./starrating.css"]
+    requires: ["brix/core/brick", "node","ua"]
 });

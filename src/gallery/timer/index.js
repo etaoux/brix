@@ -487,5 +487,5 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick) {
 
 	return TimerManager
 }, {
-	requires : ["brix/core/brick","./timer.css"]
+	requires : ["brix/core/brick"]
 });
