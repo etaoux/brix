@@ -534,5 +534,5 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
     S.augment(ColorPicker, ColorPicker.METHOD);
     return ColorPicker;
 }, {
-    requires: ["brix/core/brick", "overlay", "dd","./colorpicker.css"]
+    requires: ["brix/core/brick", "overlay", "dd"]
 });

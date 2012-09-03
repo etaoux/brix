@@ -536,5 +536,5 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
     S.augment(Pagination, Pagination.METHOD);
     return Pagination;
 }, {
-    requires: ["brix/core/brick","./pagination.css"]
+    requires: ["brix/core/brick"]
 });
