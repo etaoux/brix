@@ -2479,6 +2479,8 @@ legend + .control-group {
 }
 .tags-list li {
   float: left;
+  height: 18px;
+  line-height: 18px;
   padding: 3px 8px 4px 8px;
   margin: 0 10px 10px 0;
   background-color: #eee;
@@ -2487,7 +2489,7 @@ legend + .control-group {
   border-radius: 3px;
 }
 .tags-list .no-bg {
-  background-color: #ffffff;
+  background-color: transparent;
 }
 .tags-list .current {
   background-color: #488fdc;
@@ -2506,8 +2508,16 @@ legend + .control-group {
   color: #ff8400;
 }
 .tags-list .del {
+  background: transparent url(http://img01.taobaocdn.com/tps/i1/T1mczJXiheXXa9hgfr-5-5.png) no-repeat 5px center;
   color: #999999;
   padding-left: 5px;
+  display: inline-block;
+  *zoom: 1;
+  text-indent: -999px;
+  vertical-align: middle;
+  width: 5px;
+  height: 18px;
+  overflow: hidden;
 }
 .footer {
   border-top: 1px solid #CBCBCB;
