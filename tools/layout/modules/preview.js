@@ -7,7 +7,7 @@ KISSY.add('modules/preview', function (S, Utils) {
                 '<style>#r-content{margin: 0 auto}</style>\n',
                 '<style>#r-add-section,.r-div:hover .r-div-panel,.r-section-panel{display: none}</style>\n',
                 '<style>' + Utils.cssGen(true) + '</style>\n',
-                S.one('#r-content').outerHTML() + '\n' +
+                document.getElementById('r-content').outerHTML + '\n' +
                 ''
             ], {type: 'text/html'});
 
