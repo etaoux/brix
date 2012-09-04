@@ -17,3 +17,33 @@
 .container {
     margin-left: 30px;
 }
+
+
+code {
+    border: 1px solid #666;
+    border-radius: 3px;
+}
+
+pre {
+    font-family: Tahoma;
+    color: #1E347B;
+    display: block;
+    padding: 8px;
+    background-color: #F7F7F9;
+    border: 1px solid #E1E1E8;
+    border-radius: 3px;
+    padding: 8.5px;
+    margin: 9px;
+    font-size: 12.025px;
+    line-height: 18px;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: pre;
+    white-space: pre-wrap;
+    background-color: whiteSmoke;
+    border: 1px solid #CCC;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}

@@ -2526,7 +2526,6 @@ legend + .control-group {
   text-align: center;
   padding: 30px 0;
   line-height: 1em;
-  font-family: 'SimSun';
 }
 .footer .common a:hover,
 .footer .copyright a:hover,
@@ -2535,7 +2534,6 @@ legend + .control-group {
   text-decoration: underline;
 }
 .footer .char-num {
-  font-family: tahoma;
   vertical-align: text-bottom;
 }
 .footer b.char-num {
@@ -2575,14 +2573,8 @@ legend + .control-group {
 .footer .corp .corp-network {
   color: #ACACAC;
 }
-.footer .corp .corp-name {
-  font-family: tahoma;
-}
 .footer .copyright {
   color: #acacac;
-}
-.footer .copyright-sign {
-  font-family: tahoma;
 }
 .footer .copyright-no {
   margin-left: 20px;
