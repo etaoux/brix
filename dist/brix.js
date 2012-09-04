@@ -2,8 +2,6 @@
 * https://github.com/etaoux/brix
 * Copyright (c) 2012 etaoux; Licensed MIT */
 
-KISSY.config({packages:[{name: "brix",tag: "20120903",path: "http://a.tbcdn.cn/p/",charset: "utf-8"}]});
-
 KISSY.add('brix/core/mustache', function(S) {
   /*!
    * mustache.js - Logic-less {{mustache}} templates with JavaScript
@@ -954,6 +952,8 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
             getter: function(s) {
                 if (S.isString(s)) {
                     s = $(s);
+                    //el节点考虑性能，不缓存，以免对dom节点的引用，引起内存泄漏
+                    // this.__set("el", s);
                 }
                 return s;
             }
@@ -1074,7 +1074,7 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 if(dataset){
                     self._render('data', dataset.get('data'));
                 }
-                self.set("rendered", true);
+                self.__set("rendered", true);
                 self.fire('rendered');
             }
         },

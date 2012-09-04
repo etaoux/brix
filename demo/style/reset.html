@@ -3,18 +3,31 @@
 <head>
     <meta charset="utf-8"/>
     <title>样式重置(Reset) - Brix Style</title>
-    <base href="../..">
-    <!--[if lt IE 9]> <script src="demo/assets/html5.js"></script> <![endif]-->
-    <link rel="stylesheet/less" href="src/style/normalize.less"/>
-    <script src="demo/assets/less.js"></script>
-    <link rel="stylesheet" href="demo/assets/doc.css">
+    <script>
+        // html5
+        if (!+[1,]) {
+            (function() {
+                var tags = [
+                    'article', 'aside', 'details', 'figcaption',
+                    'figure', 'footer', 'header', 'hgroup',
+                    'menu', 'nav', 'section', 'summary',
+                    'time', 'mark', 'audio', 'video'],
+                        i = 0, len = tags.length;
+                for (; i < len; i++) document.createElement(tags[i]);
+            })();
+        }
+    </script>
+    <link rel="stylesheet/less" href="../normalize.less"/>
+    <script src="less.js"></script>
+    <style>
+        body{padding:10px;}
+    </style>
 </head>
 <body>
-    <header id="overview" class="subhead">
+    <div class="s-section">
         <h1>CSS Reset Test</h1>
-        <h2>Brix Style</h2>
-    </header>
-    <div class="container">
+        <hr />
+
         <h2>推荐使用的元素</h2>
         <p>
         1. 结构元素：blockquote, body, br, div, h1 - h6, head, hr, html, p<br />

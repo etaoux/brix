@@ -31,11 +31,12 @@
                 zoom:1;
             }
 
-            .url_list .item{
+            .url_list .item,.url_list .item_add{
                 float: left;
                 margin: 5px 5px 5px 0;
                 position: relative;
                 vertical-align: middle;
+                width: 131px;
                 border: 1px dotted transparent;
                 *border-color:#fff;
                 list-style: none;
@@ -61,18 +62,22 @@
                 white-space: nowrap;
                 text-overflow: ellipsis;
                 -o-text-overflow: ellipsis;
+                width:91px;
                 cursor: pointer;
                 padding-left: 3px;
                 color: #2b7bad;
             }
 
             .url_list .item .icon-edit,.url_list .item .icon-del{
-                visibility: hidden;
+                display: none;
             }
 
 
             .url_list .item_edit .icon-edit,.url_list .item_edit .icon-del{
-                visibility: visible;
+                display: block;
+            }
+            .url_list .item_edit .s_name span{
+                width:71px;
             }
         </style>
     </head>
@@ -125,7 +130,7 @@
                     for (var i = 0; i < navData.length; i++) {
                         var data = navData[i];
                         var id = S.guid();
-                        url_listNode.append(['<li class="item" id="item_' + id + '" data-sid="' + id + '">', '<a class="s_name" target="_blank" href="' + data.url + '">', '<span>' + data.name + '</span>', '</a>', '<a class="iconfont icon-edit" href="#">&#372</a>', '<a class="iconfont icon-del" href="#">&#223</a>', '</li>'].join(''));
+                        url_listNode.append(['<li class="item" id="item_' + id + '" data-sid="' + id + '">', '<a class="s_name" target="_blank" href="' + data.url + '">', '<img width="16" height="16" src="http://api.tao123.com/collectsite/ico.php?domain_url=' + data.url + '" >', '<span>' + data.name + '</span>', '</a>', '<a class="iconfont icon-edit" href="#">&#372</a>', '<a class="iconfont icon-del" href="#">&#223</a>', '</li>'].join(''));
                     }
 
                     var fnHalt = function(e) {
@@ -183,7 +188,7 @@
                         var offset = itemNode.offset();
                         var inputNode = inplaceeditor.get('el').one('input');
                         inputNode.attr('data-sid', itemNode.attr('data-sid'));
-                        inplaceeditor.show(offset.left-5,offset.top-2,currentNode.prev().one('span').html(),{width:currentNode.prev().one('span').width()});
+                        inplaceeditor.show(offset.left,offset.top - 1,currentNode.prev().one('span').html());
                     });
 
                     var editNode = S.one('#edittest');

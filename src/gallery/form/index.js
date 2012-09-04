@@ -70,5 +70,5 @@ KISSY.add("brix/gallery/form/index", function(S, Brick) {
     });
     return Form;
 }, {
-    requires: ["brix/core/brick"]
+    requires: ["brix/core/brick", "./form.css"]
 });

@@ -3,10 +3,9 @@
 <head>
     <meta charset="utf-8"/>
     <title>按钮 - Brix Style</title>
-    <base href="../..">
-    <!--[if lt IE 9]> <script src="demo/assets/html5.js"></script> <![endif]-->
-    <link rel="stylesheet" href="dist/brix-min.css">
-    <link rel="stylesheet" href="demo/assets/doc.css">
+    <!--[if lt IE 9]> <script src="assets/html5.js"></script> <![endif]-->
+    <link rel="stylesheet" href="../../dist/brix-min.css">
+    <link rel="stylesheet" href="assets/doc.css">
 </head>
 <body>
 <header id="overview" class="subhead">
@@ -15,9 +14,9 @@
 </header>
 <div class="container">
     <h3>Simple Buttons</h3>
-    <p>a, button。 推荐使用 button</p>
+    <p>a, input, button。考虑IE67，不建议a与input或button混用</p>
     <a href="#" class="btn btn-red btn-xlarge">红色</a>
-    <button class="btn btn-orange btn-xlarge">橙色</button>
+    <input type="button" class="btn btn-red btn-xlarge" value="红色" />
     <button class="btn btn-xlarge">默认</button>
 
     <p>.btn-xlarge / .btn-size45</p>
@@ -76,9 +75,9 @@
     <a href="#" class="btn btn-xlarge btn-orange btn-disabled"><i class="iconfont">Ơ</i> 系统升级</a>
     <a href="#" class="btn btn-large"><i class="iconfont">ő</i> Search</a>
     <a href="#" class="btn btn-red btn-medium"><i class="iconfont">ŭ</i> 加入购物车</a>
-
-    <p>在25px高及以下的button,不推荐在里面放iconfont</p>
-
+    <a href="#" class="btn btn-small"><i class="iconfont">ţ</i> 个人设置</a>
+    <a href="#" class="btn btn-xsmall btn-blue"><i class="iconfont">ŝ</i> 发送私信</a>
+    <a class="btn btn-disabled"><i class="iconfont">ŝ</i> 发送私信</a>
 </div>
 </body>
 </html>

@@ -2,13 +2,15 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Msg-Box - Brix Style</title>
-        <base href="../..">
-        <!--[if lt IE 9]> <script src="demo/assets/html5.js"></script> <![endif]-->
-        <link rel="stylesheet" href="dist/brix-min.css">
-        <link rel="stylesheet" href="dist/gallery/starrating/starrating-min.css">
-        <link rel="stylesheet" href="demo/assets/doc.css">
+        <title>Msg-Box</title>
+        <link rel="stylesheet" href="../../dist/brix-min.css">
+        <link rel="stylesheet" href="../../src/style/avatar.less">
+        <link rel="stylesheet" href="assets/msg-box.css">
+         <link rel="stylesheet" href="../../src/gallery/starrating/starrating.css">
         <style>
+            body {
+                padding: 40px;
+            }
             hr {
                 display: block;
                 height: 0;
@@ -20,35 +22,35 @@
                 padding: 0 30px;
             }
             .msg-box {
-                margin: 10px 0;
+                margin-bottom: 10px;
             }
-
+            
             .user-name {
                 margin: 0;
                 text-align: center;
             }
-
+            
             .timeline {
                 width: 500px;
                 height: 600px;
                 background: url(assets/timeline_bg.png) no-repeat 0 0;
                 position: absolute;
             }
-
+            
             .timeline .msg-box {
                 position: absolute;
                 width: 200px;
             }
-
+            
             .timeline .msg-body {
                 padding-left: 40px;
             }
-
+            
             #timeline-today {
                 left: 86px;
                 bottom: 505px;
             }
-
+            
             #timeline-yesterday {
                 left: 86px;
                 bottom: 415px;
@@ -56,11 +58,7 @@
         </style>
     </head>
     <body>
-    <header id="overview" class="subhead">
-        <h1>Msg-Box</h1>
-        <h2>Brix Style</h2>
-    </header>
-        <div class="container">
+        <div id="main">
             <div class="msg-box">
                 <div class="msg-body">
                     今天接到警方电话，劫走老罗英语学员手机的劫匪已抓获，<br>
@@ -141,7 +139,7 @@
                             <a href="#" onclick="return false" class="avatar avatar-has-label">
                                 <span class="avatar-rim"></span>
                                 <span class="avatar-pic">
-                                    <img src="assets/avatar/gal.jpg" alt="avatar-default">
+                                    <img src="../../src/img/avatar.jpg" alt="avatar-default">
                                 </span>
                             </a>
                             <h4 class="user-name">Angela</h4>
@@ -178,7 +176,7 @@
                             <a href="#" onclick="return false" class="avatar avatar-has-label">
                                 <span class="avatar-rim"></span>
                                 <span class="avatar-pic">
-                                    <img src="assets/avatar/gal.jpg" alt="avatar-default">
+                                    <img src="../../src/img/avatar.jpg" alt="avatar-default">
                                 </span>
                             </a>
                             <h4 class="user-name">Angela</h4>
@@ -195,7 +193,7 @@
                             </div>
                         </td>
                         <td >
-
+                            
                         </td>
                     </tr>
                     <tr>

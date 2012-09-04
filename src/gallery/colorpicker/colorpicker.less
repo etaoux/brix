@@ -11,54 +11,38 @@
     left:-9999px;
     top:-9999px;
     -webkit-text-size-adjust: none;
-   	background-color: #fff;
 }
 
 .colorpicker .colorpicker-hd{
-	height: 59px;
-	border: 1px solid #000;
-	width:223px;
-	overflow: hidden;
-}
-.colorpicker-hd ul{
-	width: 226px;
-	.clearfix;
+	border-top: 1px solid #000;
+	border-left: 1px solid #000;
+	height: 60px;
 }
 .colorpicker-hd li{
-	border: 1px solid #000;
+	border-right: 1px solid #000;
+	border-bottom: 1px solid #000;
 	float: left;
 	width: 13px;
 	height: 14px;
-	line-height: 14px;
-	margin: -1px 0px 0 -1px;
 	background-color: red;
-	display: inline;
-}
-
-.colorpicker-hd li.selected{
-	width: 9px;
-	height: 10px;
-	margin: 1px 2px 2px 1px;
-	font-size: 10px;
-	line-height: 10px;
-	overflow: hidden;
 }
 
 .colorpicker .colorpicker-md{
 	text-align: center;
-	padding: 7px 0 9px;
-	height: 10px;
-	line-height: 10px;
+	height: 9px;
+	padding: 9px 0 8px 0;
+	font-size: 9px;
+	line-height: 9px;
 }
 
 .colorpicker-md .icon-arrow{
     font-size:10px;
-    line-height: 10px;
-    height: 10px;
-    overflow: hidden;
-    zoom:1;
+    line-height: 11px;
     color: #999;
     cursor: pointer;
+    display: block;
+    *display: inline-block;
+    vertical-align: middle;
 }
 
 .colorpicker .colorpicker-bd{
@@ -118,13 +102,11 @@
 
 .colorpicker-fd .bg{
 	width: 60px;
-	height: 23px;
-	line-height: 23px;
+	height: 25px;
+	line-height: 25px;
 	display: inline-block;
 	margin-right: 10px;
 	vertical-align: middle;
-	border: 1px solid #ddd;
-
 }
 .colorpicker-fd input{
 	width: 60px;

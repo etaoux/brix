@@ -76,12 +76,10 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
         showTips:function (el) {
             var self = this;
             var _id = self._getTipId(el);
-            var isCloseable = !D.hasClass(el, 'bx-uncloseable') && self.get("closeable");
-            console.log(isCloseable);
             if (!_id || !self.get("tips")[_id]) {
                 _id = self._createTipId();
                 var __tip = Template(self.get("tmpl-tip"))
-                    .render({'id':_id, 'tips':D.attr(el, self.get("dataAttrName")), 'hide': isCloseable? '' : 'bx-tips-uncloseable'});
+                    .render({'id':_id, 'tips':D.attr(el, self.get("dataAttrName")), 'hide':self.get("closeable") ? '' : 'bx-tips-uncloseable'});
                 self.get("tips")[_id] = _id;
                 D.attr(el, "data-tipid", _id);
                 $(__tip).appendTo('body');
@@ -156,8 +154,7 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
             }
 
             var _tri = D.get('.bx-tips-tri', tip);
-            var isCloseable = !D.hasClass(el, 'bx-uncloseable') && self.get("closeable");
-            D.attr(tip, "class", isCloseable ? 'bx-tips-show' : "bx-tips-show bx-tips-uncloseable");
+            D.attr(tip, "class", self.get("closeable") ? 'bx-tips-show' : "bx-tips-show bx-tips-uncloseable");
             D.addClass(tip, _offset.cls);
             D.css(tip, {position:'absolute', left:_offset.left + 'px', top:_offset.top + 'px'});
 
