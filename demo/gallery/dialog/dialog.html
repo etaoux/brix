@@ -6,21 +6,23 @@
         <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
         <link rel="stylesheet" href="../../../src/gallery/dropdown/dropdown.css">
         <link rel="stylesheet" href="../../../src/gallery/dialog/dialog.css">
+        <link rel="stylesheet" href="../../assets/doc.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
         <script src="../../config.js"></script>
     </head>
-    <body style="margin:0px;padding-top:40px">
-        <div>
-            <a href="#" id="btnShowleft">显示左</a>
-        <a href="#" id="btnShowright">显示右</a>
+    <body>
+        <div class="container">
+            <a href="#" id="btnShowleft" class="btn">显示左</a>
 
-        <a href="#" id="btnShowup">显示上</a>
+            <a href="#" id="btnShowright" class="btn">显示右</a>
 
-        <a href="#" id="btnShowdown">显示下</a>
+            <a href="#" id="btnShowup" class="btn">显示上</a>
 
-        <a href="#" id="btnShow">显示</a>
+            <a href="#" id="btnShowdown" class="btn">显示下</a>
 
-        <a href="#" id="btnHide">隐藏</a>
+            <a href="#" id="btnShow" class="btn">显示</a>
+
+            <a href="#" id="btnHide" class="btn">隐藏</a>
         </div>
 		<!--brix begin-->
         <script>
@@ -143,7 +145,7 @@
 
                         dialog.set('end',{
                             left:300,
-                            top:S.DOM.docHeight()-193,
+                            top:S.DOM.docHeight()-167,
                             opacity:1
                         });
                         dialog.show();
@@ -154,7 +156,7 @@
                         dialog.hide();
                         dialog.set('start',{
                             left:600,
-                            top:-193,
+                            top:-167,
                             opacity:0
                         });
 

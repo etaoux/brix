@@ -6,31 +6,34 @@
         <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
         <link rel="stylesheet" href="../../../src/gallery/dropdown/dropdown.css">
         <link rel="stylesheet" href="../../../src/gallery/breadcrumbs/breadcrumbs.css">
+        <link rel="stylesheet" href="../../assets/doc.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
         <script src="../../config.js"></script>
     </head>
-    <body style="margin:0px;padding-top:40px">
-        <h2>带下拉</h2>
-        <div style="padding-left:50px"  id="test_container">
+    <body>
+        <div class="container">
+            <h2>带下拉</h2>
+            <div style="padding-left:50px"  id="test_container">
+            </div>
+            <h2>常规</h2>
+            <ul style="margin-left:50px" bx-name="breadcrumbs" class="breadcrumbs" id="brix_brick_12">
+                <li class="item first ">
+                        <a href="#1234">首页</a>
+                </li>
+                <li class="item split">
+                    <i class="iconfont">ƒ</i>
+                </li>
+                <li class="item">
+                        <a href="#44">创意管理</a>
+                </li>
+                <li class="item split">
+                    <i class="iconfont">ƒ</i>
+                </li>
+                <li class="item last">
+                    创意活动五
+                </li>
+            </ul>
         </div>
-        <h2>常规</h2>
-        <ul style="margin-left:50px" bx-name="breadcrumbs" class="breadcrumbs" id="brix_brick_12">
-            <li class="item first ">
-                    <a href="#1234">首页</a>
-            </li>
-            <li class="item split">
-                <i class="iconfont">ƒ</i>
-            </li>
-            <li class="item">
-                    <a href="#44">创意管理</a>
-            </li>
-            <li class="item split">
-                <i class="iconfont">ƒ</i>
-            </li>
-            <li class="item last">
-                创意活动五
-            </li>
-        </ul>
 		<!--brix begin-->
         <script>
 			var breadcrumbs_data ={

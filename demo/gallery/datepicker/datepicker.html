@@ -6,15 +6,19 @@
         <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
         <link rel="stylesheet" href="../../../src/gallery/calendar/calendar.css">
         <link rel="stylesheet" href="../../../src/gallery/datepicker/datepicker.css">
+        <link rel="stylesheet" href="../../assets/doc.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
         <script src="../../config.js"></script>
     </head>
-    <body style="margin:0px;padding-top:40px">
-        <a id="test1" class="btn" href="#">时间段</a>
-        <a id="test2" class="btn" href="#">比较</a>
-        <a id="update" style="display:none" class="btn" href="#">修改比较时间</a>
-        <a id="test3" class="btn" href="#">测试3</a>
-        <a style="float:right;margin-right:5px;" id="test4" class="btn" href="#">测试4</a>
+    <body>
+        <div class="container">
+            <a id="test1" class="btn" href="#">时间段</a>
+            <a id="test2" class="btn" href="#">比较</a>
+            <a id="update" style="display:none" class="btn" href="#">修改比较时间</a>
+            <a id="test3" class="btn" href="#">测试3</a>
+            <a style="float:right;margin-right:5px;" id="test4" class="btn" href="#">测试4</a>
+        </div>
+        
         <script>
             KISSY.ready(function(S) {
                 KISSY.use("brix/gallery/datepicker/", function(S, DatePicker) {

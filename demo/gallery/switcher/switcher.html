@@ -5,11 +5,11 @@
         <title>Brix Switcher Demo</title>
         <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
         <link rel="stylesheet" href="../../../src/gallery/switcher/switcher.css">
+        <link rel="stylesheet" href="../../assets/doc.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
         <script src="../../config.js"></script>
         <style type="text/css">
         .section {width:990px;margin:0 auto;padding:20px 0;clear:both;}
-        .container{padding:10px 0 0 50px;width:400px;height:22px;overflow:hidden;}
         .switcher-label{float:left;padding:0px 5px;color:#666;}
         .switcher{float:left;}
         .config-desc{margin-left:80px;float:left;}
@@ -18,74 +18,70 @@
         .result-show{color:#101010}
         </style>
     </head>
-    <body style="margin:0px;padding-top:40px">
-
-        <div class="section" id="test_container1">
-            <p>
-                <strong>无设置项</strong>
-            </p>
-            <div id="brick1" bx-name="switcher" bx-tmpl="switcher" class="switcher">
-                <span class="switcher-trigger"></span>
-            </div>
-            <span class="config-desc">
-                <strong>底色不变蓝</strong>
-                <span id="switcher_result1" class="result-show"></span>
-            </span>
-        </div>
-
-        <div class="section" id="test_container2">
-            <p>
-                <strong>“是” 或 “否” 的设置项</strong>
-            </p>
-            <span class="switcher-label">否</span>
-            <div id="brick2" class="switcher">
-                <span class="switcher-trigger"></span>
-            </div>
-            <span class="switcher-label">是</span>
-            <span class="config-desc config-blue">
-                <strong>底色变蓝</strong>
-                <span id="switcher_result2" class="result-show"></span>
-            </span>
-        </div>
-
-        <div id="J_Pagelet_container">
-            <div class="section" id="test_container3">
+    <body>
+        <div class="container">
+            <div class="section " id="test_container1">
                 <p>
-                    <strong>“A” 或 “B” 的设置项</strong>
+                    <strong>无设置项</strong>
                 </p>
-                <span class="switcher-label">苹果</span>
-                <div bx-name="switcher" bx-config="{switchOn: false,switchStatus: false}" id="brick3" class="switcher">
+                <div id="brick1" bx-name="switcher" bx-tmpl="switcher" class="switcher">
                     <span class="switcher-trigger"></span>
                 </div>
-                <span class="switcher-label">香蕉</span>
                 <span class="config-desc">
                     <strong>底色不变蓝</strong>
-                    <span id="switcher_result3" class="result-show"></span>
+                    <span id="switcher_result1" class="result-show"></span>
                 </span>
             </div>
 
-            <div class="section" id="test_container4">
+            <div class="section" id="test_container2">
                 <p>
-                    <strong>可尽量将内容提炼成判断句，作为开关标题</strong>
+                    <strong>“是” 或 “否” 的设置项</strong>
                 </p>
-                <span class="switcher-label">开启选项?</span>
                 <span class="switcher-label">否</span>
-                <div bx-name="switcher" bx-tmpl="switcher" id="brick4" class="switcher">
+                <div id="brick2" class="switcher">
                     <span class="switcher-trigger"></span>
                 </div>
                 <span class="switcher-label">是</span>
                 <span class="config-desc config-blue">
                     <strong>底色变蓝</strong>
-                    <span id="switcher_result4" class="result-show"></span>
+                    <span id="switcher_result2" class="result-show"></span>
                 </span>
             </div>
+
+            <div id="J_Pagelet_container">
+                <div class="section" id="test_container3">
+                    <p>
+                        <strong>“A” 或 “B” 的设置项</strong>
+                    </p>
+                    <span class="switcher-label">苹果</span>
+                    <div bx-name="switcher" bx-config="{switchOn: false,switchStatus: false}" id="brick3" class="switcher">
+                        <span class="switcher-trigger"></span>
+                    </div>
+                    <span class="switcher-label">香蕉</span>
+                    <span class="config-desc">
+                        <strong>底色不变蓝</strong>
+                        <span id="switcher_result3" class="result-show"></span>
+                    </span>
+                </div>
+
+                <div class="section" id="test_container4">
+                    <p>
+                        <strong>可尽量将内容提炼成判断句，作为开关标题</strong>
+                    </p>
+                    <span class="switcher-label">开启选项?</span>
+                    <span class="switcher-label">否</span>
+                    <div bx-name="switcher" bx-tmpl="switcher" id="brick4" class="switcher">
+                        <span class="switcher-trigger"></span>
+                    </div>
+                    <span class="switcher-label">是</span>
+                    <span class="config-desc config-blue">
+                        <strong>底色变蓝</strong>
+                        <span id="switcher_result4" class="result-show"></span>
+                    </span>
+                </div>
+            </div>
         </div>
-        
 		<!--brix begin-->
-        <script type="text/template" id="tmpl_switcher1">
-            
-        </script>
-            
         <script>
             KISSY.ready(function(S) {
                 KISSY.use("brix/gallery/switcher/", function(S, Switcher) {
