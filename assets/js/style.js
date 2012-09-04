@@ -11,30 +11,6 @@ KISSY.config({
     ]
 });
 
-KISSY.ready(function(S) {
-
-    var affix = '#page-nav',
-        threshold = getThreshold(affix);
-
-    S.Event.on(window, 'scroll', function(ev) {
-        var body = S.one(window);
-
-        if (body.scrollTop() > threshold) {
-            S.one(affix).addClass('fixed');
-        }
-        else {
-            S.one(affix).removeClass('fixed');
-        }
-    });
-
-    function getThreshold(selector) {
-        var node = S.one(selector),
-            offset = node.offset();
-
-        return offset.top - node.outerHeight();
-    }
-});
-
 KISSY.use('brix/core/pagelet', function(S, Pagelet) {
     var pagelet = new Pagelet({
         tmpl: '#page' // 模板(容器节点)
@@ -43,5 +19,11 @@ KISSY.use('brix/core/pagelet', function(S, Pagelet) {
     pagelet.addBehavior();
     pagelet.ready(function() {
         pagelet.render();
+    });
+});
+
+KISSY.use('brix/gallery/affix/', function(S, Affix) {
+    new Affix({
+        el: '#page-nav'
     });
 });
