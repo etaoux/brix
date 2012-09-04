@@ -45,7 +45,7 @@
       <h3>Gallery</h3>
       
       <ul class="entries">
-<li><a href="/brix/gallery/breadcrumbs">Breadcrumbs</a></li><li><a href="/brix/gallery/calendar">Calendar</a></li><li><a href="/brix/gallery/colorpicker">ColorPicker</a></li><li><a href="/brix/gallery/datepicker">DatePicker</a></li><li><a href="/brix/gallery/dialog">Dialog</a></li><li><a href="/brix/gallery/dropdown">Dropdown</a></li><li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li><li><a href="/brix/gallery/kwicks">Kwicks</a></li><li><a href="/brix/gallery/loading">Loading</a></li><li><a href="/brix/gallery/pagination">Pagination</a></li><li><a href="/brix/gallery/slider">Slider</a></li><li><a href="/brix/gallery/starrating">StarRating</a></li><li><a href="/brix/gallery/switcher">Switcher</a></li><li><a href="/brix/gallery/tips">tips</a></li><li><a href="/brix/gallery/sidenav">SideNav</a></li><li><a href="/brix/gallery/timer">Timer</a></li>
+<li><a href="/brix/gallery/breadcrumbs">Breadcrumbs</a></li><li><a href="/brix/gallery/calendar">Calendar</a></li><li><a href="/brix/gallery/colorpicker">ColorPicker</a></li><li><a href="/brix/gallery/datepicker">DatePicker</a></li><li><a href="/brix/gallery/dialog">Dialog</a></li><li><a href="/brix/gallery/dropdown">Dropdown</a></li><li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li><li><a href="/brix/gallery/kwicks">Kwicks</a></li><li><a href="/brix/gallery/loading">Loading</a></li><li><a href="/brix/gallery/pagination">Pagination</a></li><li><a href="/brix/gallery/slider">Slider</a></li><li><a href="/brix/gallery/starrating">StarRating</a></li><li><a href="/brix/gallery/switcher">Switcher</a></li><li><a href="/brix/gallery/tips">tips</a></li><li><a href="/brix/gallery/sidenav">SideNav</a></li><li><a href="/brix/gallery/timer">Timer</a></li><li><a href="/brix/gallery/searchbox">Searchbox</a></li>
 </ul>
     </section>
   </aside>
@@ -65,81 +65,33 @@
 
 <p>包含 <a href="/brix/core/brick">Brick</a> 的所有配置</p>
 
-<h3><code>split</code> {Number}</h3>
+<h3><code>closeable</code> {Boolen}</h3>
 
-<p>每个星星分割成几个，默认为2</p>
+<p>tips是否显示关闭按钮</p>
 
-<h3><code>maxValue</code> {Number}</h3>
+<h3><code>order</code> {Array}</h3>
 
-<p>最大值，默认为5</p>
+<p>判断显示方位顺序，默认为['RB', 'BR', 'LB', 'LT', 'TL', 'TR', 'RT', 'BL']</p>
 
-<h3><code>length</code> {Number}</h3>
+<h3><code>timeout</code> {Number}</h3>
 
-<p>份数（注意：星星的个数=length/split），默认为10</p>
-
-<h3><code>defaultValue</code> {String|Number}</h3>
-
-<p>默认值，当是Number类型时候，是指第几份，对应length，默认为false，不设置</p>
-
-<h3><code>readOnly</code> {Boolen}</h3>
-
-<p>是否只读，默认false</p>
-
-<h3><code>inputs</code> {Array}</h3>
-
-<p>radio数组，如果在组件内部放置radio，并且class为"star",组件初始化会读取。</p>
+<p>tips显示时长，默认为3，即3秒后自动关闭</p>
 
 <h2>方法</h2>
 
-<h3><code>select(value)</code></h3>
+<h3><code>showTips(el)</code></h3>
 
-<p>选中星星，</p>
+<p>显示页面元素el的tip</p>
 
 <ul>
-<li>@param  {Number|String} value 同配置参数defaultValue</li>
+<li>@param  {Element} value 页面中元素</li>
 </ul>
 
 
-<h3><code>readOnly()</code></h3>
+<h3><code>hide(el)</code></h3>
 
-<p>设置只读</p>
-
-<h3><code>disable()</code></h3>
-
-<p>如果有表单元素，设置不提交</p>
-
-<h3><code>enable()</code></h3>
-
-<p>如果有表单元素，设置提交</p>
-
-<h2>事件</h2>
-
-<h3><code>focus(ev)</code></h3>
-
-<p>鼠标聚焦</p>
-
-<ul>
-<li>ev.value {String} 星星对应的值</li>
-</ul>
-
-
-<h3><code>blur(ev)</code></h3>
-
-<p>鼠标离开</p>
-
-<ul>
-<li>ev.value {String} 星星对应的值</li>
-</ul>
-
-
-<h3><code>selected(ev)</code></h3>
-
-<p>鼠标点击后</p>
-
-<ul>
-<li>ev.value {String} 星星对应的值</li>
-</ul>
-
+<p>隐藏页面元素el的tip
+* @param  {Element} value 页面中元素</p>
 </section>
   </article>
 </div>

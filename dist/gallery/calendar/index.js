@@ -475,7 +475,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
     S.augment(Calendar, Calendar.METHOD);
     return Calendar;
 }, {
-    requires: ["brix/core/brick", "overlay", "./page", "./date","./calendar.css"]
+    requires: ["brix/core/brick", "overlay", "./page", "./date"]
 });
 /*
  * Date Format 1.2.3

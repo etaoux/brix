@@ -500,5 +500,5 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
     return Sidenav;
 
 }, {
-    requires: ['brix/core/brick', 'base', 'sizzle', './sidenav.css']
+    requires: ['brix/core/brick', 'base', 'sizzle']
 });

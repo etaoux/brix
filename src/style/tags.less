@@ -1,5 +1,4 @@
 @currentColor: #488fdc;
-
 .tags {
     font-size: 0;    
     letter-spacing: -5px;
@@ -37,6 +36,8 @@
 
 .tags-list li {
     float: left;    
+    height: 18px;
+    line-height: 18px;
     padding: 3px 8px 4px 8px;
     margin: 0 10px 10px 0;
     background-color: #eee;
@@ -44,7 +45,7 @@
 }
 
 .tags-list .no-bg {
-    background-color: @white;
+    background-color: transparent;
 }
 
 .tags-list .current {
@@ -52,6 +53,10 @@
 }
 
 .tags-list .current a {
+    color: @white; 
+}
+
+.tags-list .current a:hover {
     color: @white; 
 }
 
@@ -65,6 +70,14 @@
 }
 
 .tags-list .del {
+    background: transparent url(http://img01.taobaocdn.com/tps/i1/T1mczJXiheXXa9hgfr-5-5.png) no-repeat 5px center;
     color: @grayLight;     
     padding-left: 5px;
+    display: inline-block;
+    *zoom: 1;
+    text-indent: -999px;
+    vertical-align: middle;
+    width: 5px;
+    height: 18px;
+    overflow: hidden;
 }

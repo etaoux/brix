@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Brix Affix Demo</title>
+  <link rel="stylesheet" type="text/css" href="../../../dist/brix.css">
+  <link type="text/css" rel="stylesheet" href="affix.css" charset="utf-8">
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+  <script src="../../config.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Affix Demo</h1>
+  </div>
+  <div id="page-nav">
+    <nav>
+      <div class="container clearfix">
+        <a href="#about">About</a>
+        <a href="#part1">Part I</a>
+        <a href="#part2">Part II</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </div>
+  <div id="about" class="section container">
+    <h2>About</h2>
+  </div>
+  <div id="part1" class="section container">
+    <h2>Part I</h2>
+  </div>
+  <div id="part2" class="section container">
+    <h2>Part II</h2>
+  </div>
+  <div id="contact" class="section container">
+    <h2>Contact</h2>
+  </div>
+  <script type="text/javascript">
+KISSY.ready(function(S) {
+    KISSY.use('brix/gallery/affix/', function(S, Affix) {
+        var affix = new Affix({
+            el: '#page-nav'
+        });
+    });
+});
+  </script>
+</body>
+</html>

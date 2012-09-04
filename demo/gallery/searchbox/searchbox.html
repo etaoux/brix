@@ -37,18 +37,17 @@
 <div class="example-searchbox">
     <div class="example-logo">我是logo1</div>
     <div class="example-banner">我是banner1</div>
-    <div bx-name="searchbox" class="searchbox default J_searchbox">
-        <form action="/search" method="get" id="J_searchForm" target="_self">
+    <div bx-name="searchbox" class="searchbox default" id="J_searchbox">
+        <form action="/search" method="get" class="search-form" target="_self">
             <fieldset tabindex="0">
                 <legend>一淘搜索</legend>
-                <div class="searchbox-outer" id="J_sOuter">
+                <div class="searchbox-outer">
                     <div class="searchbox-inner clear-fix">
-                        <div class="searchbox-menu" id="J_sMenu">
-                            <div id="J_sMenuSelected" class="s-menu-selected">商品<i></i></div>
+                        <div class="searchbox-menu">
+                            <div class="s-menu-selected">商品<i></i></div>
                             <div class="s-menu-container">
-                                <ul class="s-menu-list" id="J_sMenuList" data-redirect="true">
-                                    <li class="selected"
-                                        data-suggest-api="http://suggest.taobao.com/sug?area=etao&code=utf-8"><a
+                                <ul class="s-menu-list" data-redirect="true">
+                                    <li class="selected" data-suggest-api="http://suggest.taobao.com/sug?area=etao&code=utf-8"><a
                                             target="_self" hidefocus="true" data-stat-submit="dgp=t0&dgl=t&dgt=11"
                                             href="http://s.etao.com/search">商品</a></li>
                                     <li data-suggest-api="http://suggest.taobao.com/sug?area=etao&code=utf-8"><a
@@ -67,8 +66,8 @@
                                 </ul>
                             </div>
                         </div>
-                        <button type="submit" class="s-btn-submit" id="J_sBtnSubmit">search</button>
-                        <button type="button" class="s-btn-clear" id="J_sBtnClear">clear</button>
+                        <button type="submit" class="s-btn-submit">search</button>
+                        <button type="button" class="s-btn-clear">clear</button>
                         <div class="s-ipt-outer">
                             <fieldset tabindex="1">
                                 <legend>一淘搜索框</legend>
@@ -92,16 +91,16 @@
 <div class="example-searchbox2">
     <div class="example-logo2">我是logo2我是logo2</div>
     <div class="example-banner2">我是banner2我是banner2</div>
-    <div bx-name="searchbox" class="searchbox custom J_searchbox">
-        <form action="/search" method="get" id="J_searchForm" target="_self">
+    <div bx-name="searchbox" class="searchbox custom" id="J_searchbox2">
+        <form action="/search" method="get" class="search-form" target="_self">
             <fieldset tabindex="0">
                 <legend>一淘搜索</legend>
-                <div class="searchbox-outer" id="J_sOuter">
+                <div class="searchbox-outer">
                     <div class="searchbox-inner clear-fix">
-                        <div class="searchbox-menu" id="J_sMenu">
-                            <div id="J_sMenuSelected" class="s-menu-selected">团购<i></i></div>
+                        <div class="searchbox-menu">
+                            <div class="s-menu-selected">团购<i></i></div>
                             <div class="s-menu-container">
-                                <ul class="s-menu-list" id="J_sMenuList" data-redirect="true">
+                                <ul class="s-menu-list" data-redirect="true">
                                     <li data-suggest-api="http://suggest.taobao.com/sug?area=etao&code=utf-8"><a
                                             target="_self" hidefocus="true" data-stat-submit="dgp=t0&dgl=t&dgt=11"
                                             href="http://s.etao.com/search">商品</a></li>
@@ -118,8 +117,8 @@
                                 </ul>
                             </div>
                         </div>
-                        <button type="submit" class="s-btn-submit" id="J_sBtnSubmit">search</button>
-                        <button type="button" class="s-btn-clear" id="J_sBtnClear">clear</button>
+                        <button type="submit" class="s-btn-submit">search</button>
+                        <button type="button" class="s-btn-clear">clear</button>
                         <div class="s-ipt-outer">
                             <fieldset tabindex="1">
                                 <legend>一淘搜索框</legend>
@@ -142,6 +141,9 @@
     KISSY.ready(function (S) {
         KISSY.use("brix/gallery/searchbox/", function (S, Searchbox) {
             var searchbox = new Searchbox();
+            var searchbox2 = new Searchbox({
+                el : '#J_searchbox2'
+            });
         });
     });
 </script>

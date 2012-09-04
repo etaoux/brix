@@ -432,6 +432,23 @@ body {
 #page ol li {
   list-style: decimal;
 }
+#page table {
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-right: none;
+  border-bottom: none;
+}
+#page table th,
+#page table td {
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-left: none;
+  border-top: none;
+}
+#page table th {
+  background: #f0f0f0;
+  color: #555;
+}
 #page .bottom-nav {
   padding: 20px 0;
   text-align: center;
