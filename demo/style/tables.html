@@ -4,19 +4,17 @@
 <head>
   <meta charset="utf-8"/>
   <title>表格 - Brix Style</title>
-  <!--[if lt IE 9]>
-  <script src="assets/html5.js"></script>
-  <![endif]-->
-  <link rel="stylesheet" href="../../dist/brix.css">
-  <link rel="stylesheet" href="assets/doc.css">
-  <style type="text/css">body{background:none;}</style>
+    <base href="../..">
+    <!--[if lt IE 9]> <script src="demo/assets/html5.js"></script> <![endif]-->
+    <link rel="stylesheet" href="dist/brix-min.css">
+    <link rel="stylesheet" href="dist/gallery/form/form-min.css">
+    <link rel="stylesheet" href="demo/assets/doc.css">
 </head>
-
 <body>
-  <header id="overview" class="subhead">
+<header id="overview" class="subhead">
     <h1>表格</h1>
     <h2>Brix Style</h2>
-  </header>
+</header>
   <div style="padding:0 30px;">
     <div class="table-container">
       <ul class="table-title clearfix">
@@ -68,6 +66,13 @@
         </li>
       </ul>
 
+      <div class="tips">
+        <p>- 表格中提供.left .right .center的class供内容对齐</p>
+        <p>- 选中行请给该行tr加上class="selected"</p>
+        <p>- 排序的列请在该td/th上加class="sort"</p>
+        <p>- 高亮的行请在该tr上加class="hover"</p>
+      </div>
+
       <div class="toolbar clearfix">
         <a href="#" class="btn btn-size25 table-settings">
           <i class="iconfont">&#355;</i>
@@ -96,7 +101,7 @@
             <th class="left">计划名称</th>
             <th width="80">
               <a href="#" class="sort">
-                有效展现
+                排序列
                 <i class="iconfont">&#322;</i>
               </a>
             </th>
@@ -106,7 +111,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+
+            <!-- table行分隔 -->
+          <tr class="hover">
             <td>
               <div bx-name="form" class="controls">
                 <label class="checkbox">
@@ -115,7 +122,7 @@
               </div>
             </td>
             <td>
-              <i class="icon-expend"></i>
+              <i class="icon-expend J_expendCollapse"></i>
             </td>
             <td class="center">
               <div class="table-handle">
@@ -146,9 +153,9 @@
                 </div>
               </div>
             </td>
-            <td>计划名称计划名称计划名称计划名称划名称</td>
+            <td>1111计划名称计划名称计划名称计划名称划名称</td>
 
-            <td class="sort">内容</td>
+            <td class="sort">排序列</td>
 
             <td>内容</td>
             <td>内容</td>
@@ -159,8 +166,11 @@
               </div>
             </td>
           </tr>
-          <tr id="boards-tr94001">
-            <td class="table-child" colspan="9" id="vf-15">
+
+
+          <!-- table child -->
+          <tr class="table-child-tr">
+            <td class="table-child-td" colspan="9">
               <table class="table-child">
                 <thead>
                   <tr>
@@ -215,7 +225,7 @@
               </div>
             </td>
             <td>
-              <i class="icon-collapse"></i>
+              <i class="icon-collapse J_expendCollapse"></i>
             </td>
             <td class=" center">
               <div class="table-handle">
@@ -246,9 +256,9 @@
                 </div>
               </div>
             </td>
-            <td>计划名称计划名称计划名称计划名称划名称</td>
+            <td>选中行样式</td>
 
-            <td class="sort">选中行样式</td>
+            <td class="sort">排序列</td>
 
             <td>...</td>
             <td>内容</td>
@@ -257,6 +267,53 @@
                 <a href="#" class="mr10">操作1</a>
                 <a href="#">操作2</a>
               </div>
+            </td>
+          </tr>
+
+          <!-- table child -->
+          <tr class="table-child-tr" style="display:none;">
+            <td class="table-child-td" colspan="9">
+              <table class="table-child">
+                <thead>
+                  <tr>
+                    <th class="left" width="206">创意名称</th>
+                    <th class="left" width="90">创意类型</th>
+                    <th class="left" width="100">尺寸</th>
+                    <th class="left" width="220">url</th>
+                    <th class="left"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <span data-size="300x250" data-origin="http://img.daily.taobao.net/simba/img/T15muyXkdXXXb1upjX.jpg?noq=y" mxmouseover="preview:2" mxmouseout="hidePreview" id="mxevt-16">老周的创意001</span>
+                    </td>
+                    <td>图片</td>
+                    <td>300x250</td>
+                    <td>
+                      <div style="width:220px;" class="url-overflow">
+                        <a title="http://www.taobao.com" href="http://www.taobao.com" target="_blank">http://www.taobao.com</a>
+                      </div>
+                    </td>
+
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span data-size="300x250" data-origin="http://img.daily.taobao.net/simba/img/T1SoiyXchXXXb1upjX.jpg?noq=y" mxmouseover="preview:2" mxmouseout="hidePreview" id="mxevt-17">老周的创意003</span>
+                    </td>
+                    <td>图片</td>
+                    <td>300x250</td>
+                    <td>
+                      <div style="width:220px;" class="url-overflow">
+                        <a title="http://www.taobao.com" href="http://www.taobao.com" target="_blank">http://www.taobao.com</a>
+                      </div>
+                    </td>
+
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
             </td>
           </tr>
 
@@ -270,7 +327,7 @@
               </div>
             </td>
             <td>
-              <i class="icon-collapse"></i>
+              <i class="icon-collapse J_expendCollapse"></i>
             </td>
             <td class=" center">
               <div class="table-more table-icon">
@@ -304,7 +361,7 @@
             </td>
             <td>.计划名称计划名称计划名称计划名称划名称...</td>
 
-            <td class="sort">内容</td>
+            <td class="sort">排序列</td>
 
             <td>...</td>
             <td>内容</td>
@@ -313,6 +370,53 @@
                 <a href="#" class="mr10">操作1</a>
                 <a href="#">操作2</a>
               </div>
+            </td>
+          </tr>
+
+          <!-- table child -->
+          <tr class="table-child-tr" style="display:none;">
+            <td class="table-child-td" colspan="9">
+              <table class="table-child">
+                <thead>
+                  <tr>
+                    <th class="left" width="206">创意名称</th>
+                    <th class="left" width="90">创意类型</th>
+                    <th class="left" width="100">尺寸</th>
+                    <th class="left" width="220">url</th>
+                    <th class="left"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <span data-size="300x250" data-origin="http://img.daily.taobao.net/simba/img/T15muyXkdXXXb1upjX.jpg?noq=y" mxmouseover="preview:2" mxmouseout="hidePreview" id="mxevt-16">老周的创意001</span>
+                    </td>
+                    <td>图片</td>
+                    <td>300x250</td>
+                    <td>
+                      <div style="width:220px;" class="url-overflow">
+                        <a title="http://www.taobao.com" href="http://www.taobao.com" target="_blank">http://www.taobao.com</a>
+                      </div>
+                    </td>
+
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span data-size="300x250" data-origin="http://img.daily.taobao.net/simba/img/T1SoiyXchXXXb1upjX.jpg?noq=y" mxmouseover="preview:2" mxmouseout="hidePreview" id="mxevt-17">老周的创意003</span>
+                    </td>
+                    <td>图片</td>
+                    <td>300x250</td>
+                    <td>
+                      <div style="width:220px;" class="url-overflow">
+                        <a title="http://www.taobao.com" href="http://www.taobao.com" target="_blank">http://www.taobao.com</a>
+                      </div>
+                    </td>
+
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
             </td>
           </tr>
 
@@ -326,7 +430,7 @@
               </div>
             </td>
             <td>
-              <i class="icon-collapse"></i>
+              <i class="icon-collapse J_expendCollapse"></i>
             </td>
             <td class="center">
               <div class="table-icon">
@@ -346,7 +450,7 @@
             </td>
             <td>...计划名称计划名称计划名称计划名称划名称.</td>
 
-            <td class="sort">内容</td>
+            <td class="sort">排序列</td>
 
             <td>内容</td>
             <td>内容</td>
@@ -355,6 +459,53 @@
                 <a href="#" class="mr10">操作1</a>
                 <a href="#">操作2</a>
               </div>
+            </td>
+          </tr>
+
+          <!-- table child -->
+          <tr class="table-child-tr" style="display:none;">
+            <td class="table-child-td" colspan="9">
+              <table class="table-child">
+                <thead>
+                  <tr>
+                    <th class="left" width="206">创意名称</th>
+                    <th class="left" width="90">创意类型</th>
+                    <th class="left" width="100">尺寸</th>
+                    <th class="left" width="220">url</th>
+                    <th class="left"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <span data-size="300x250" data-origin="http://img.daily.taobao.net/simba/img/T15muyXkdXXXb1upjX.jpg?noq=y" mxmouseover="preview:2" mxmouseout="hidePreview" id="mxevt-16">老周的创意001</span>
+                    </td>
+                    <td>图片</td>
+                    <td>300x250</td>
+                    <td>
+                      <div style="width:220px;" class="url-overflow">
+                        <a title="http://www.taobao.com" href="http://www.taobao.com" target="_blank">http://www.taobao.com</a>
+                      </div>
+                    </td>
+
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span data-size="300x250" data-origin="http://img.daily.taobao.net/simba/img/T1SoiyXchXXXb1upjX.jpg?noq=y" mxmouseover="preview:2" mxmouseout="hidePreview" id="mxevt-17">老周的创意003</span>
+                    </td>
+                    <td>图片</td>
+                    <td>300x250</td>
+                    <td>
+                      <div style="width:220px;" class="url-overflow">
+                        <a title="http://www.taobao.com" href="http://www.taobao.com" target="_blank">http://www.taobao.com</a>
+                      </div>
+                    </td>
+
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
             </td>
           </tr>
 
@@ -368,7 +519,7 @@
               </div>
             </td>
             <td>
-              <i class="icon-collapse"></i>
+              <i class="icon-collapse J_expendCollapse"></i>
             </td>
             <td class="center">
               <div class="table-icon">
@@ -388,7 +539,7 @@
             </td>
             <td>..计划名称计划名称计划名称计划名称划名称..</td>
 
-            <td class="sort">内容</td>
+            <td class="sort">排序列</td>
 
             <td>内容</td>
             <td>内容</td>
@@ -397,6 +548,52 @@
                 <a href="#" class="mr10">操作1</a>
                 <a href="#">操作2</a>
               </div>
+            </td>
+          </tr>
+          <!-- table child -->
+          <tr class="table-child-tr" style="display:none;">
+            <td class="table-child-td" colspan="9">
+              <table class="table-child">
+                <thead>
+                  <tr>
+                    <th class="left" width="206">创意名称</th>
+                    <th class="left" width="90">创意类型</th>
+                    <th class="left" width="100">尺寸</th>
+                    <th class="left" width="220">url</th>
+                    <th class="left"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <span data-size="300x250" data-origin="http://img.daily.taobao.net/simba/img/T15muyXkdXXXb1upjX.jpg?noq=y" mxmouseover="preview:2" mxmouseout="hidePreview" id="mxevt-16">老周的创意001</span>
+                    </td>
+                    <td>图片</td>
+                    <td>300x250</td>
+                    <td>
+                      <div style="width:220px;" class="url-overflow">
+                        <a title="http://www.taobao.com" href="http://www.taobao.com" target="_blank">http://www.taobao.com</a>
+                      </div>
+                    </td>
+
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <span data-size="300x250" data-origin="http://img.daily.taobao.net/simba/img/T1SoiyXchXXXb1upjX.jpg?noq=y" mxmouseover="preview:2" mxmouseout="hidePreview" id="mxevt-17">老周的创意003</span>
+                    </td>
+                    <td>图片</td>
+                    <td>300x250</td>
+                    <td>
+                      <div style="width:220px;" class="url-overflow">
+                        <a title="http://www.taobao.com" href="http://www.taobao.com" target="_blank">http://www.taobao.com</a>
+                      </div>
+                    </td>
+
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
             </td>
           </tr>
 
@@ -429,8 +626,10 @@
   </div>
   <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
   <script type="text/javascript">
+    var S = KISSY;
+    var $ = S.all;
 
-    KISSY.config({
+    S.config({
       packages: [{
         name: "brix",
         tag: "20120419",
@@ -439,7 +638,7 @@
       }]
     });
 
-    KISSY.config({
+    S.config({
       map: [
         [/(.+brix)\/(.+?)(?:-min)?.js(\?[^?]+)?$/, "$1/src/$2.js$3"],
         [/(.+brix)\/(.+?)(?:-min)?.css(\?[^?]+)?$/, "$1/src/$2.css$3"]
@@ -447,7 +646,7 @@
     });
 
 
-    KISSY.use('brix/core/pagelet', function(S, Pagelet) {
+    S.use('brix/core/pagelet', function(S, Pagelet) {
       var pagelet = new Pagelet({
         tmpl: '.table-container' // 模板(容器节点)
       });
@@ -458,24 +657,52 @@
       });
     });
 
-    var $ = KISSY.all;
-    //可操作栏
-    $('.table-handle').on('mouseover', function() {
-      $(this).css('z-index', 9996).all('.table-change').show();
-    });
 
-    $('.table-handle').on('mouseout', function() {
-      $(this).css('z-index', '').all('.table-change').hide();
-    });
+    S.use('sizzle', function() {
+        //可操作栏
+        $('.table-handle').on('mouseover', function() {
+        $(this).css('z-index', 9996).all('.table-change').show();
+        });
 
-    $('.table-more').on('mouseover', function() {
-      $(this).css('z-index', 9996).all('.table-info').show();
-    });
+        $('.table-handle').on('mouseout', function() {
+        $(this).css('z-index', '').all('.table-change').hide();
+        });
 
-    $('.table-more').on('mouseout', function() {
-      $(this).css('z-index', '').all('.table-info').hide();
-    });
+        $('.table-more').on('mouseover', function() {
+        $(this).css('z-index', 9996).all('.table-info').show();
+        });
 
+        $('.table-more').on('mouseout', function() {
+        $(this).css('z-index', '').all('.table-info').hide();
+        });
+
+        //鼠标经过高亮的行
+        var trs = $('.table > tbody > tr');
+        var curTr = trs.item(0);
+        trs.each(function (n) {
+            if (!n.hasClass('table-child-tr') && !n.hasClass('none')) {
+                n.on('mouseover', function () {
+                    curTr.removeClass('hover');
+                    n.addClass('hover');
+                    curTr = n;
+                });
+            }
+        })
+
+        //打开关闭子table
+        $('.J_expendCollapse').on('click', function () {
+            var child = $(this).parent('tr').next('.table-child-tr');
+
+            if ($(this).hasClass('icon-expend')) {
+                $(this).replaceClass('icon-expend', 'icon-collapse');
+                child.hide();
+            } else {
+                $(this).replaceClass('icon-collapse', 'icon-expend');
+                child.show();
+            }
+        })
+
+    });
 
 
 </script>

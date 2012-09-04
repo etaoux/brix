@@ -386,3 +386,7 @@ body {
   border: 1px solid #ddd;
   box-shadow: 0 0 7px rgba(0, 0, 0, 0.1) inset;
 }
+
+.content{
+  font-size: 12px;
+}
