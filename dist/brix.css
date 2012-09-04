@@ -2616,14 +2616,14 @@ legend + .control-group {
   display: inline-block;
   *display: inline;
   *zoom: 1;
-  width: 78px;
-  height: 78px;
+  width: 76px;
+  height: 76px;
   position: relative;
   overflow: hidden;
 }
 .avatar-rim {
-  background: url(img/avatar_bg.png) no-repeat 2px 2px;
-  -background: url(img/avatar_bg_ie6.png) no-repeat 2px 2px;
+  background: url(http://img04.taobaocdn.com/tps/i4/T1ZvTJXnJjXXaWi27q-395-120.png) no-repeat 0px 0px;
+  -background: url(http://img02.taobaocdn.com/tps/i2/T1HpnKXfxdXXaWi27q-395-120.png) no-repeat 0px 0px;
   z-index: 2;
 }
 .avatar-pic {
@@ -2631,50 +2631,54 @@ legend + .control-group {
   width: 60px;
   height: 60px;
   overflow: hidden;
-  left: 8px;
-  top: 9px;
+  left: 6px;
+  top: 7px;
   z-index: 1;
 }
 .avatar-pic img {
   border: 0;
+  -webkit-border-radius: 28px;
+  -moz-border-radius: 28px;
+  border-radius: 28px;
 }
 .avatar .avatar-active {
-  background-position: -76px 1px;
+  background-position: -78px 0px;
 }
 .avatar-has-label .avatar-rim {
-  background-position: -153px 2px;
+  background-position: -155px 0px;
 }
 .avatar-has-label .avatar-active {
-  background-position: -231px 1px;
+  background-position: -233px 0px;
 }
 /**
  * avatar min
  */
 .avatar-min,
 .avatar-min .avatar-rim {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
 }
 .avatar-min .avatar-pic {
   width: 30px;
   height: 30px;
-  top: 7px;
+  top: 4px;
+  left: 5px;
 }
 .avatar-min .avatar-pic img {
   width: 30px;
   height: 30px;
 }
 .avatar-min .avatar-rim {
-  background-position: 3px -76px;
+  background-position: 0px -80px;
 }
 .avatar-min .avatar-active {
-  background-position: -39px -77px;
+  background-position: -40px -80px;
 }
 .avatar-min-label .avatar-rim {
-  background-position: -83px -77px;
+  background-position: -80px -80px;
 }
 .avatar-min-label .avatar-active {
-  background-position: -130px -77px;
+  background-position: -120px -80px;
 }
 /**
  * avatar point
@@ -2684,7 +2688,26 @@ legend + .control-group {
 }
 .avatar-point .avatar-rim {
   height: 92px;
-  background-position: -320px 4px;
+  background-position: -318px 0px;
+}
+.avatar-pic img {
+  display: none\9;
+}
+:root .avatar-pic img {
+  display: inline;
+}
+.avatar-pic v\:oval {
+  display: block;
+  width: 62px;
+  height: 62px;
+  zoom: 1;
+  position: absolute;
+  left: -1px;
+  top: -1px;
+}
+.avatar-min .avatar-pic v\:oval {
+  width: 32px;
+  height: 32px;
 }
 /* չ�������Ĵ���  */
 .show-more {
