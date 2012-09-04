@@ -4,20 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Brix InplaceEditor Demo</title>
         <link rel="stylesheet" href="../../../dist/brix-min.css"/>
-        <script>
-            // html5
-            if (!+[1,]) {
-                (function() {
-                    var tags = [
-                        'article', 'aside', 'details', 'figcaption',
-                        'figure', 'footer', 'header', 'hgroup',
-                        'menu', 'nav', 'section', 'summary',
-                        'time', 'mark', 'audio', 'video'],
-                            i = 0, len = tags.length;
-                    for (; i < len; i++) document.createElement(tags[i]);
-                })();
-            }
-        </script>
+        <link rel="stylesheet" href="../../../src/gallery/inplaceeditor/inplaceeditor.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
         <script src="../../config.js"></script>
         <style type="text/css">
@@ -183,7 +170,7 @@
                         var offset = itemNode.offset();
                         var inputNode = inplaceeditor.get('el').one('input');
                         inputNode.attr('data-sid', itemNode.attr('data-sid'));
-                        inplaceeditor.show(offset.left-5,offset.top-2,currentNode.prev().one('span').html(),{width:currentNode.prev().one('span').width()});
+                        inplaceeditor.show(offset.left-5,offset.top-2,currentNode.prev().one('span').html(),{width:currentNode.prev().one('span').width()+40});
                     });
 
                     var editNode = S.one('#edittest');
