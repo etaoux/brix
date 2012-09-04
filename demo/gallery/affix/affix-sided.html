@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Brix Affix Sided Demo</title>
+  <link rel="stylesheet" type="text/css" href="../../../dist/brix.css">
+  <link type="text/css" rel="stylesheet" href="affix-sided.css" charset="utf-8">
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+  <script src="../../config.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Affix Demo</h1>
+    <div class="row">
+      <div id="page-nav" class="span12">
+        <nav>
+          <a href="#about">About</a>
+          <a href="#part1">Part I</a>
+          <a href="#part2">Part II</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+      <div class="span37 offset1">
+        <div id="about" class="section">
+          <h2>About</h2>
+        </div>
+        <div id="part1" class="section">
+          <h2>Part I</h2>
+        </div>
+        <div id="part2" class="section">
+          <h2>Part II</h2>
+        </div>
+        <div id="contact" class="section">
+          <h2>Contact</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+KISSY.ready(function(S) {
+    KISSY.use('brix/gallery/affix/', function(S, Affix) {
+        var affix = new Affix({
+            el: '#page-nav',
+            scrollOffset: 20,
+            countHeight: false
+        });
+    });
+});
+  </script>
+</body>
+</html>

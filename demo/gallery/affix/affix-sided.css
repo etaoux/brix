@@ -1,0 +1,39 @@
+body {
+  text-align: center;
+}
+#page-nav nav {
+  border: 1px solid #eee;
+  border-radius: 2px;
+}
+#page-nav nav a {
+  display: block;
+  padding: 10px 20px;
+  border-bottom: 1px solid #eee;
+}
+#page-nav nav a:last-child {
+  border-bottom: none;
+}
+#page-nav nav .current {
+  background: #eee;
+}
+#page-nav.affix {
+  height: 1px;
+}
+#page-nav.affix nav {
+  width: 230px;
+  position: fixed;
+  top: 20px;
+}
+.container {
+  margin: 0 auto;
+  text-align: left;
+}
+.section {
+  text-align: center;
+  border: 1px solid #f0f0f0;
+  margin-bottom: 40px;
+}
+.section h2 {
+  font-size: 20px;
+  padding: 280px 0 680px;
+}

@@ -8,10 +8,12 @@ css: style.css
     <a href="{{ site.baseurl }}/" class="logo">Brix</a>
     <a href="{{ site.baseurl }}/style" class="sub">Style</a>
   </h1>
-  <div id="page-nav" class="clearfix">
+  <div id="page-nav">
     <nav>
-      {% for post in site.categories.style reversed %}
-      <a href="#{{ post.title | downcase | replace:' ', '-' }}">{{ post.title }}</a>{% endfor %}
+      <div class="container clearfix">
+        {% for post in site.categories.style reversed %}
+        <a href="#{{ post.title | downcase | replace:' ', '-' }}">{{ post.title | capitalize }}</a>{% endfor %}
+      </div>
     </nav>
   </div>
   {% for post in site.categories.style reversed %}
