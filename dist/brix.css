@@ -2909,101 +2909,81 @@ legend + .control-group {
 .msg-box:hover .icon-del {
   visibility: visible;
 }
-.flowsteps-icon {
-  font-family: "uxiconfont";
-  font-style: normal;
-}
-/*** normal style ***/
-.flowsteps-item {
+.fs-item {
   float: left;
+}
+.flowsteps .fs-item {
   position: relative;
-  margin-right: 18px;
-  list-style-type: none;
-  font-size: 16px;
-  color: #999999;
-  -webkit-text-size-adjust: none;
-  height: 30px;
-  line-height: 30px;
+  margin-top: 8px;
+  margin-right: 30px;
+  color: #acacac;
 }
-.flowsteps-item i,
-.flowsteps-item b,
-.flowsteps-item span {
-  display: inline-block;
-  *display: inline;
-  *zoom: 1;
-  height: 30px;
-  line-height: 30px;
-}
-.flowsteps-item i {
+.flowsteps .fs-item b {
+  margin-right: 6px;
+  font-size: 18px;
   position: relative;
-  top: 2px;
-  left: 0;
-  margin: 0 8px 0 0;
-  font-size: 27px;
-  color: #eeeeee;
+  top: 1px;
+  font-family: tahoma;
+  font-weight: 400;
 }
-.flowsteps-item b {
-  position: absolute;
-  top: 2px;
-  left: 10px;
-  font-size: 11px;
-  font-weight: bold;
-  color: #999999;
+.flowsteps .fs-item-current {
+  margin-top: 0;
+  font-size: 24px;
+  color: #101010;
 }
-.flowsteps-item-done {
-  color: #666666;
+.flowsteps .fs-item-current b {
+  font-size: 26px;
 }
-.flowsteps-item-done i {
-  color: #488fcd;
+.flowsteps .fs-item-done {
+  color: #606060;
 }
-.flowsteps-item-done b {
-  color: #ffffff;
-}
-.flowsteps-item-current {
-  color: #666666;
-}
-.flowsteps-item-current i {
-  color: #ff4400;
-}
-.flowsteps-item-current b {
-  color: #ffffff;
-}
-/*** small style ***/
-.flowsteps-small .flowsteps-item {
-  margin: 30px 0 0 1px;
+.flowsteps-small .fs-item {
+  float: left;
   font-size: 12px;
+  position: relative;
+  margin: 30px 0 0 1px;
 }
-.flowsteps-small .flowsteps-item i {
+.flowsteps-small .fs-item i {
+  background: url(http://img01.taobaocdn.com/tps/i1/T1f9YKXblXXXaEiM6e-36-12.png) no-repeat -24px 0;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
   margin: 0 1px 0 0;
-  font-size: 15px;
 }
-.flowsteps-small .flowsteps-item b {
+.flowsteps-small .fs-item b {
   display: inline-block;
   *display: inline;
   *zoom: 1;
   position: relative;
   height: 0;
-  top: 0;
   left: 0;
-  *top: -4px;
+  top: -4px;
+  _top: -7px;
   border: 2px solid #eeeeee;
   width: 100px;
   _overflow: hidden;
 }
-.flowsteps-small .flowsteps-item span {
+.flowsteps-small .fs-item span {
   position: absolute;
-  top: -20px;
-  left: 2px;
+  top: -25px;
+  left: 1px;
   white-space: nowrap;
+  color: #acacac;
 }
-.flowsteps-small .flowsteps-item-done b {
-  border-color: #d1e3f2;
+.flowsteps-small .fs-item-done i {
+  background-position: 0 0;
 }
-.flowsteps-small .flowsteps-item-current i {
-  font-size: 13px;
+.flowsteps-small .fs-item-done b {
+  border-color: #ccc;
 }
-.flowsteps-small .flowsteps-item-current b {
-  border-color: #d1e3f2;
+.flowsteps-small .fs-item-done span {
+  color: #606060;
+}
+.flowsteps-small .fs-item-current i {
+  background-position: -12px 0;
+}
+.flowsteps-small .fs-item-current span {
+  color: #606060;
 }
 /*@import "breadcrumbs.less";*/
 /*@import "code.less";*/
