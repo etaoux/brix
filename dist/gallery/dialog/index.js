@@ -36,6 +36,12 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
                 opacity: 1
             }
         },
+        elCls:{
+            value:'dialog'
+        },
+        prefixCls: {
+            value: 'dialog-'
+        },
         x: {
             getter: function() {
                 var self = this;
@@ -60,12 +66,6 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
                 dir = start.left === end.left && (start.top < end.top ? 'down' : 'up') || start.top === end.top && (start.left < end.left ? 'right' : 'left') || 'left';
                 return dir;
             }
-        },
-        elCls:{
-            value:'dialog'
-        },
-        prefixCls: {
-            value: 'dialog-'
         },
         duration: {
             value: 0.3
