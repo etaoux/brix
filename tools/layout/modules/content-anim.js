@@ -50,7 +50,7 @@ KISSY.add('modules/content-anim', function(S, D, E, Node) {
             S.all('.r-fake-div').css('opacity', 0);
         });
         S.later(function () {
-            S.all('.r-div').css('background-color', 'transparent');
+            S.all('.r-div').css('background-color', '#ccc');
         }, 1000);
     }
 
