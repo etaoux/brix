@@ -253,9 +253,6 @@ body {
   width: 100%;
   height: 36px;
   line-height: 36px;
-  background: #ddd;
-  border: 1px solid #ccc;
-  border-radius: 2px;
 }
 #page-nav a {
   float: left;
@@ -269,7 +266,12 @@ body {
 #page-nav a:last-child {
   border-right: none;
 }
-#page-nav.fixed {
+#page-nav nav {
+  background: #ddd;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+#page-nav.affix nav {
   position: fixed;
   border-radius: 0;
   border-left: none;
@@ -277,9 +279,9 @@ body {
   top: 32px;
   left: 0;
   z-index: 9998;
+  width: 100%;
 }
-#page-nav.fixed nav {
-  width: 990px;
+#page-nav.affix nav .container {
   margin: 0 auto;
 }
 #page hr.soften {
@@ -324,6 +326,7 @@ body {
 #site-nav .container {
   margin: 0;
   margin-left: 220px;
+  font-size: 14px;
 }
 #logo a {
   display: block;
@@ -386,7 +389,7 @@ body {
   padding: 0 20px;
 }
 #page .title-bar {
-  padding: 16px 20px 6px;
+  padding: 20px 20px 6px;
   margin-bottom: 20px;
   line-height: 1;
   border-bottom: 1px solid #eee;
@@ -395,6 +398,7 @@ body {
   float: left;
   margin: 0;
   margin-right: 20px;
+  font-size: 26px;
 }
 #page .title-bar .caption {
   float: left;

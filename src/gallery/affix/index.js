@@ -50,7 +50,7 @@ KISSY.add("brix/gallery/affix/index", function(S, Brick) {
             }
             for (var i = tabEdges.length - 1; i >= 0; i--) {
                 tab = tabEdges[i];
-                if (scrollTop >= tab.edge) {
+                if (scrollTop + 1 >= tab.edge) {    // some offset().top might differs in less than 1.
                     el.all('a').removeClass('current');
                     el.all('a[href="#' + tab.id + '"]').addClass('current');
                     matched = true;

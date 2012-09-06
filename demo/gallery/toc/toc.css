@@ -1,0 +1,31 @@
+.container {
+  margin: 0 auto;
+  text-align: left;
+}
+#page h1 {
+  font-size: 28px;
+}
+#page h2 {
+  font-size: 22px;
+}
+#page h3 {
+  font-size: 16px;
+}
+#page .toc {
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 20px 0;
+}
+#page .toc ul {
+  padding-left: 20px;
+}
+#page .toc li {
+  list-style: circle;
+}
+#page .toc .affix {
+  position: fixed;
+  top: 20px;
+}
+#page .toc .current {
+  background: #ddd;
+}
