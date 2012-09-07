@@ -35,7 +35,8 @@
   cursor: pointer;
   text-indent: -9999em;
 }
-.bx-tips-show .bx-tips-close:hover {
+.bx-tips-show .bx-tips-close:hover,
+.bx-tips-show .bx-tips-close.hover {
   background-position: 0 -12px;
 }
 .bx-tips-show .tri {
