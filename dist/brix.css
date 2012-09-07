@@ -1387,6 +1387,8 @@ textarea:hover {
   box-shadow: inset 0 1px #f5f5f5;
 }
 input:focus,
+input.focus,
+textarea.focus,
 textarea:focus {
   border-color: #488fcd;
   outline: 0;
@@ -2524,7 +2526,6 @@ legend + .control-group {
   text-align: center;
   padding: 30px 0;
   line-height: 1em;
-  font-family: 'SimSun';
 }
 .footer .common a:hover,
 .footer .copyright a:hover,
@@ -2533,7 +2534,6 @@ legend + .control-group {
   text-decoration: underline;
 }
 .footer .char-num {
-  font-family: tahoma;
   vertical-align: text-bottom;
 }
 .footer b.char-num {
@@ -2573,14 +2573,8 @@ legend + .control-group {
 .footer .corp .corp-network {
   color: #ACACAC;
 }
-.footer .corp .corp-name {
-  font-family: tahoma;
-}
 .footer .copyright {
   color: #acacac;
-}
-.footer .copyright-sign {
-  font-family: tahoma;
 }
 .footer .copyright-no {
   margin-left: 20px;
@@ -2616,14 +2610,14 @@ legend + .control-group {
   display: inline-block;
   *display: inline;
   *zoom: 1;
-  width: 78px;
-  height: 78px;
+  width: 76px;
+  height: 76px;
   position: relative;
   overflow: hidden;
 }
 .avatar-rim {
-  background: url(img/avatar_bg.png) no-repeat 2px 2px;
-  -background: url(img/avatar_bg_ie6.png) no-repeat 2px 2px;
+  background: url(http://img04.taobaocdn.com/tps/i4/T1ZvTJXnJjXXaWi27q-395-120.png) no-repeat 0px 0px;
+  -background: url(http://img02.taobaocdn.com/tps/i2/T1HpnKXfxdXXaWi27q-395-120.png) no-repeat 0px 0px;
   z-index: 2;
 }
 .avatar-pic {
@@ -2631,50 +2625,56 @@ legend + .control-group {
   width: 60px;
   height: 60px;
   overflow: hidden;
-  left: 8px;
-  top: 9px;
+  left: 6px;
+  top: 7px;
   z-index: 1;
 }
 .avatar-pic img {
   border: 0;
+  -webkit-border-radius: 28px;
+  -moz-border-radius: 28px;
+  border-radius: 28px;
+  width: 60px;
+  height: 60px;
 }
 .avatar .avatar-active {
-  background-position: -76px 1px;
+  background-position: -78px 0px;
 }
 .avatar-has-label .avatar-rim {
-  background-position: -153px 2px;
+  background-position: -155px 0px;
 }
 .avatar-has-label .avatar-active {
-  background-position: -231px 1px;
+  background-position: -233px 0px;
 }
 /**
  * avatar min
  */
 .avatar-min,
 .avatar-min .avatar-rim {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
 }
 .avatar-min .avatar-pic {
   width: 30px;
   height: 30px;
-  top: 7px;
+  top: 4px;
+  left: 5px;
 }
 .avatar-min .avatar-pic img {
   width: 30px;
   height: 30px;
 }
 .avatar-min .avatar-rim {
-  background-position: 3px -76px;
+  background-position: 0px -80px;
 }
 .avatar-min .avatar-active {
-  background-position: -39px -77px;
+  background-position: -40px -80px;
 }
 .avatar-min-label .avatar-rim {
-  background-position: -83px -77px;
+  background-position: -80px -80px;
 }
 .avatar-min-label .avatar-active {
-  background-position: -130px -77px;
+  background-position: -120px -80px;
 }
 /**
  * avatar point
@@ -2684,7 +2684,26 @@ legend + .control-group {
 }
 .avatar-point .avatar-rim {
   height: 92px;
-  background-position: -320px 4px;
+  background-position: -318px 0px;
+}
+.avatar-pic img {
+  display: none\9;
+}
+:root .avatar-pic img {
+  display: inline;
+}
+.avatar-pic v\:oval {
+  display: block;
+  width: 62px;
+  height: 62px;
+  zoom: 1;
+  position: absolute;
+  left: -1px;
+  top: -1px;
+}
+.avatar-min .avatar-pic v\:oval {
+  width: 32px;
+  height: 32px;
 }
 /* չ�������Ĵ���  */
 .show-more {
@@ -2884,101 +2903,81 @@ legend + .control-group {
 .msg-box:hover .icon-del {
   visibility: visible;
 }
-.flowsteps-icon {
-  font-family: "uxiconfont";
-  font-style: normal;
-}
-/*** normal style ***/
-.flowsteps-item {
+.fs-item {
   float: left;
+}
+.flowsteps .fs-item {
   position: relative;
-  margin-right: 18px;
-  list-style-type: none;
-  font-size: 16px;
-  color: #999999;
-  -webkit-text-size-adjust: none;
-  height: 30px;
-  line-height: 30px;
+  margin-top: 8px;
+  margin-right: 30px;
+  color: #acacac;
 }
-.flowsteps-item i,
-.flowsteps-item b,
-.flowsteps-item span {
-  display: inline-block;
-  *display: inline;
-  *zoom: 1;
-  height: 30px;
-  line-height: 30px;
-}
-.flowsteps-item i {
+.flowsteps .fs-item b {
+  margin-right: 6px;
+  font-size: 18px;
   position: relative;
-  top: 2px;
-  left: 0;
-  margin: 0 8px 0 0;
-  font-size: 27px;
-  color: #eeeeee;
+  top: 1px;
+  font-family: tahoma;
+  font-weight: 400;
 }
-.flowsteps-item b {
-  position: absolute;
-  top: 2px;
-  left: 10px;
-  font-size: 11px;
-  font-weight: bold;
-  color: #999999;
+.flowsteps .fs-item-current {
+  margin-top: 0;
+  font-size: 24px;
+  color: #101010;
 }
-.flowsteps-item-done {
-  color: #666666;
+.flowsteps .fs-item-current b {
+  font-size: 26px;
 }
-.flowsteps-item-done i {
-  color: #488fcd;
+.flowsteps .fs-item-done {
+  color: #606060;
 }
-.flowsteps-item-done b {
-  color: #ffffff;
-}
-.flowsteps-item-current {
-  color: #666666;
-}
-.flowsteps-item-current i {
-  color: #ff4400;
-}
-.flowsteps-item-current b {
-  color: #ffffff;
-}
-/*** small style ***/
-.flowsteps-small .flowsteps-item {
-  margin: 30px 0 0 1px;
+.flowsteps-small .fs-item {
+  float: left;
   font-size: 12px;
+  position: relative;
+  margin: 30px 0 0 1px;
 }
-.flowsteps-small .flowsteps-item i {
+.flowsteps-small .fs-item i {
+  background: url(http://img01.taobaocdn.com/tps/i1/T1f9YKXblXXXaEiM6e-36-12.png) no-repeat -24px 0;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
   margin: 0 1px 0 0;
-  font-size: 15px;
 }
-.flowsteps-small .flowsteps-item b {
+.flowsteps-small .fs-item b {
   display: inline-block;
   *display: inline;
   *zoom: 1;
   position: relative;
   height: 0;
-  top: 0;
   left: 0;
-  *top: -4px;
+  top: -4px;
+  _top: -7px;
   border: 2px solid #eeeeee;
   width: 100px;
   _overflow: hidden;
 }
-.flowsteps-small .flowsteps-item span {
+.flowsteps-small .fs-item span {
   position: absolute;
-  top: -20px;
-  left: 2px;
+  top: -25px;
+  left: 1px;
   white-space: nowrap;
+  color: #acacac;
 }
-.flowsteps-small .flowsteps-item-done b {
-  border-color: #d1e3f2;
+.flowsteps-small .fs-item-done i {
+  background-position: 0 0;
 }
-.flowsteps-small .flowsteps-item-current i {
-  font-size: 13px;
+.flowsteps-small .fs-item-done b {
+  border-color: #ccc;
 }
-.flowsteps-small .flowsteps-item-current b {
-  border-color: #d1e3f2;
+.flowsteps-small .fs-item-done span {
+  color: #606060;
+}
+.flowsteps-small .fs-item-current i {
+  background-position: -12px 0;
+}
+.flowsteps-small .fs-item-current span {
+  color: #606060;
 }
 /*@import "breadcrumbs.less";*/
 /*@import "code.less";*/

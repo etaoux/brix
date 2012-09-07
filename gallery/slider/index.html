@@ -31,24 +31,33 @@
   </nav>
 </div>
   <aside id="aside">
-    <div id="logo">
-      <a href="/brix/">Brix</a>
-    </div>
-    <section>
-      <h3>Core</h3>
-      
-      <ul class="entries">
-<li><a href="/brix/core/brick">Brick</a></li><li><a href="/brix/core/chunk">Chunk</a></li><li><a href="/brix/core/dataset">Dataset</a></li><li><a href="/brix/core/pagelet">Pagelet</a></li><li><a href="/brix/core/tmpler">Tmpler</a></li>
+  <div id="logo">
+    <a href="/brix/">Brix</a>
+  </div>
+  
+  
+  
+  
+  <section>
+    <h3>Gallery</h3>
+    
+    <ul class="entries">
+<li><a href="/brix/gallery/breadcrumbs">Breadcrumbs</a></li><li><a href="/brix/gallery/calendar">Calendar</a></li><li><a href="/brix/gallery/colorpicker">ColorPicker</a></li><li><a href="/brix/gallery/datepicker">DatePicker</a></li><li><a href="/brix/gallery/dialog">Dialog</a></li><li><a href="/brix/gallery/dropdown">Dropdown</a></li><li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li><li><a href="/brix/gallery/kwicks">Kwicks</a></li><li><a href="/brix/gallery/loading">Loading</a></li><li><a href="/brix/gallery/pagination">Pagination</a></li><li><a href="/brix/gallery/slider">Slider</a></li><li><a href="/brix/gallery/starrating">StarRating</a></li><li><a href="/brix/gallery/switcher">Switcher</a></li><li><a href="/brix/gallery/tips">Tips</a></li><li><a href="/brix/gallery/sidenav">SideNav</a></li><li><a href="/brix/gallery/timer">Timer</a></li><li><a href="/brix/gallery/searchbox">Searchbox</a></li>
 </ul>
-    </section>
-    <section>
-      <h3>Gallery</h3>
-      
-      <ul class="entries">
-<li><a href="/brix/gallery/breadcrumbs">Breadcrumbs</a></li><li><a href="/brix/gallery/calendar">Calendar</a></li><li><a href="/brix/gallery/colorpicker">ColorPicker</a></li><li><a href="/brix/gallery/datepicker">DatePicker</a></li><li><a href="/brix/gallery/dialog">Dialog</a></li><li><a href="/brix/gallery/dropdown">Dropdown</a></li><li><a href="/brix/gallery/inplace-editor">InplaceEditor</a></li><li><a href="/brix/gallery/kwicks">Kwicks</a></li><li><a href="/brix/gallery/loading">Loading</a></li><li><a href="/brix/gallery/pagination">Pagination</a></li><li><a href="/brix/gallery/slider">Slider</a></li><li><a href="/brix/gallery/starrating">StarRating</a></li><li><a href="/brix/gallery/switcher">Switcher</a></li><li><a href="/brix/gallery/tips">tips</a></li><li><a href="/brix/gallery/sidenav">SideNav</a></li><li><a href="/brix/gallery/timer">Timer</a></li><li><a href="/brix/gallery/searchbox">Searchbox</a></li>
-</ul>
-    </section>
-  </aside>
+  </section>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</aside>
   <div id="page">
   <div class="title-bar clearfix">
     <h1>Slider</h1>
@@ -144,9 +153,32 @@
 </div>
   <footer id="footer">
   </footer>
-  <div id="J_log" style="position:fixed;width:88px;height:18px;bottom:0;right:2px">
+  <div id="J_tocBox" class="table-of-contents"></div>
+  <div id="J_log" class="js-log">
     <a style="position:absolute;top:1px;right:1px;z-index:999;" id="J_close" href="#">显示调试窗口</a>
   </div>
+  <script type="text/template" id="J_tocTemplate">
+
+<a href="#toggle-toc" class="toggle-toc">-关闭-</a>
+<ul id="J_toc" bx-name="toc" bx-tmpl="toc" bx-datakey="tree">
+{{#tree}}
+  <li><a href="#{{id}}">{{text}}</a>
+    <ul>
+    {{#children}}
+    <li><a href="#{{id}}">{{text}}</a>
+      <ul>
+      {{#children}}
+      <li><a href="#{{id}}">{{text}}</a>
+      {{/children}}
+      </ul>
+    </li>
+    {{/children}}
+    </ul>
+  </li>
+{{/tree}}
+</ul>
+
+  </script>
   <script src="/brix/assets/js/log4javascript.js"></script>
   <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
   <script src="/brix/assets/js/post.js"></script>

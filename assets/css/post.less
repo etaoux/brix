@@ -12,6 +12,7 @@ body {
 #site-nav .container {
   margin: 0;
   margin-left: 220px;
+  font-size: 14px;
 }
 #logo {
   a {
@@ -79,7 +80,7 @@ body {
     padding: 0 20px;
   }
   .title-bar {
-    padding: 16px 20px 6px;
+    padding: 20px 20px 6px;
     margin-bottom: 20px;
     line-height: 1;
     border-bottom: 1px solid #eee;
@@ -88,10 +89,11 @@ body {
       float: left;
       margin: 0;
       margin-right: 20px;
+      font-size: 26px;
     }
     .caption {
       float: left;
-      margin-top: 15px;
+      margin: 15px 0 0;
       color: #777;
     }
   }
@@ -101,7 +103,7 @@ body {
   h3 {
     font-size: 16px;
   }
-  p, ul, ol, hr.soften {
+  p, ul, ol, hr.soften, .bottom-nav {
     max-width: 800px;
   }
   code {
@@ -166,4 +168,39 @@ body {
 #footer {
   margin: 20px 0 30px;
   text-align: center;
+}
+
+.js-log {
+  position: fixed;
+  width: 88px;
+  height: 18px;
+  bottom: 0;
+  right: 2px;
+}
+.table-of-contents {
+  position: fixed;
+  top: 55px;
+  right: 20px;
+  border-radius: 2px;
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 5px 10px;
+  white-space: nowrap;
+
+  ul {
+    padding-left: 16px;
+  }
+  li {
+    list-style: circle;
+  }
+  .toggle-toc {
+    position: absolute;
+    bottom: -20px;
+    right: 10px;
+    font-size: 12px;
+  }
+  &.collapsed div {
+    height: 16px;
+    overflow: hidden;
+  }
 }

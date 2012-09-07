@@ -121,6 +121,33 @@
 </div>
   <footer id="footer">
   </footer>
+  <div id="J_tocBox" class="table-of-contents"></div>
+  <div id="J_log" class="js-log">
+    <a style="position:absolute;top:1px;right:1px;z-index:999;" id="J_close" href="#">显示调试窗口</a>
+  </div>
+  <script type="text/template" id="J_tocTemplate">
+
+<a href="#toggle-toc" class="toggle-toc">-关闭-</a>
+<ul id="J_toc" bx-name="toc" bx-tmpl="toc" bx-datakey="tree">
+{{#tree}}
+  <li><a href="#{{id}}">{{text}}</a>
+    <ul>
+    {{#children}}
+    <li><a href="#{{id}}">{{text}}</a>
+      <ul>
+      {{#children}}
+      <li><a href="#{{id}}">{{text}}</a>
+      {{/children}}
+      </ul>
+    </li>
+    {{/children}}
+    </ul>
+  </li>
+{{/tree}}
+</ul>
+
+  </script>
+  <script src="/brix/assets/js/log4javascript.js"></script>
   <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
   <script src="/brix/assets/js/post.js"></script>
 </body>

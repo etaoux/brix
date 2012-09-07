@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>单选按钮 - Brix Style</title>
+    <!--[if lt IE 9]> <script src="demo/assets/html5.js"></script> <![endif]-->
+    <link rel="stylesheet" href="../../dist/brix-min.css">
+    <link rel="stylesheet" href="../../dist/gallery/form/form-min.css">
+    <link rel="stylesheet" href="../assets/doc.css">
+</head>
+<body>
+<div class="container">
+    <h2>单选按钮</h2>
+    <form class="well">
+        <fieldset>
+            <label class="control-label">单选按钮 - 原生:</label>
+            <div class="controls">
+                <label class="radio inline" for="optionsRadio01">
+                    <input type="radio" name="optionsRadios1" id="optionsRadio01" value="option01" checked />选项一
+                </label>
+                <label class="radio inline" for="optionsRadio02">
+                    <input type="radio" name="optionsRadios1" id="optionsRadio02" value="option02" />选项二
+                </label>
+            </div>
+            <label class="control-label">单选按钮 - Brix样式:</label>
+            <div bx-name="form" class="controls">
+                <label class="radio inline" for="optionsRadio03">
+                    <input type="radio" name="optionsRadios2" id="optionsRadio03" value="option03" checked />选项一
+                </label>
+                <label class="radio inline" for="optionsRadio04">
+                    <input type="radio" name="optionsRadios2" id="optionsRadio04" value="option04" />选项二
+                </label>
+            </div>
+            <label class="control-label">单选按钮 Disabled - Brix 样式:</label>
+            <div bx-name="form" class="controls">
+                <label class="radio inline disabled" for="optionsRadio06">
+                    <input type="radio" name="optionsRadios4" id="optionsRadio06" value="option06" disabled />已禁用选项一
+                </label>
+                <label class="radio inline checked-disabled" for="optionsRadio07">
+                    <input type="radio" name="optionsRadios4" id="optionsRadio07" value="option07" checked disabled />已禁用选项二
+                </label>
+            </div>
+        </fieldset>
+    </form>
+
+</div>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+<script>
+KISSY.config({
+    packages: [{
+        name: "brix",
+        tag: "20120419",
+        path: "../../../",//这里可以配置cdn的路径
+        charset: "utf-8"
+    }]
+});
+
+KISSY.config({
+    map: [
+        [/(.+brix)\/(.+?)(?:-min)?.js(\?[^?]+)?$/, "$1/src/$2.js$3"],
+        [/(.+brix)\/(.+?)(?:-min)?.css(\?[^?]+)?$/, "$1/src/$2.css$3"]
+    ]
+});
+</script>
+<script>
+    KISSY.use('brix/core/pagelet', function(S, Pagelet) {
+        var pagelet = new Pagelet({
+            tmpl: '.container' // 模板(容器节点)
+        });
+
+        pagelet.addBehavior();
+        pagelet.ready(function() {
+            pagelet.render();
+        });
+    });
+</script>
+</body>
+</html>

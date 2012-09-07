@@ -7,12 +7,10 @@
         <link rel="stylesheet" href="../../../src/gallery/dropdown/dropdown.css">
         <link rel="stylesheet" href="../../../src/gallery/pagination/pagination.css">
         <link rel="stylesheet" href="../../../src/gallery/loading/loading.css">
+        <link rel="stylesheet" href="../../assets/doc.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
         <script src="../../config.js"></script>
         <style type="text/css">
-        #brick2{padding:10px}
-        #brick2 img{vertical-align: top}
-        #brick2 span{padding:0 4px;line-height: 16px;}
         .section {width:990px;margin:0 auto;margin-top:15px;}
         .section p em{padding-left:15px;}
         .loading-desc{color:#ddd;line-height:18px;vertical-align: top}
@@ -22,66 +20,68 @@
         #J_Loading1.btn-loading .btn-desc{display:none;}
         </style>
     </head>
-    <body style="margin:0px;padding-top:40px">
-        <div class="section">
-            <p>
-                <strong>1、loading默认有四种动画形式：</strong>
-            </p>
-        </div>
-        <div class="section">
-            <p>a、<em>淘宝版本1</em></p>
-            <span class="loading loading-color"></span>
-            <p>b、<em>淘宝版本2</em></p>
-            <span class="loading loading-color-mini"></span>
-            <p>c、<em>轻型版本1</em></p>
-            <span class="loading loading-grey-border"></span>
-            <p>d、<em>轻型版本2</em></p>
-            <span class="loading loading-grey"></span>
-        </div>
-        <div class="section">
-            <p>
-                <strong>2、loading配合文字使用：</strong>
-            </p>
-            <span class="loading loading-color-mini"></span>
-            <span>加载中...</span>
-        </div>
-        <div class="section">
-            <p>
-                <strong>3、按钮中的loading：</strong>
-            </p>
-            <div style="height:18px;padding:10px;text-align:left">
-                <a href="#" class="btn btn-blue">
-                    <span class="loading loading-grey"></span>
-                </a>
-                <a href="#" style="padding-left:10px;font-size:12px;color:#606060">忘记密码？</a>
+    <body>
+        <div class="container">
+            <div class="section">
+                <p>
+                    <strong>1、loading默认有四种动画形式：</strong>
+                </p>
             </div>
-        </div>
-        <div class="section">
-            <p>
-                <strong>4、按钮激活后的loading：</strong>
-            </p>
-            <div style="height:18px;padding:10px;text-align:left">
-                <a id="J_Loading1" href="#" class="btn btn-blue">
-                    <span class="loading loading-grey"></span><span class="btn-desc">点击我</span>
-                </a>
-            </div>
-        </div>
-        <div class="section" id="J_container">
-            <p>
-                <strong>5、翻页触发的loading</strong>
-            </p>
-            <div style="height:28px;text-align:center">
-                <span id="J_P1_Loading" class="loading loading-grey hidden"></span>
-            </div>
-            <div id="J_P1" bx-name="pagination" class="pagination clearfix" bx-config="{pageSizeName:false,statistics:true,sizeChange:true,jump:true,goTo:false}"></div>
-        </div>
-        <div class="section">
-            <p>
-                <strong>6、普通的状态栏loading：</strong>
-            </p>
-            <div style="height:18px;padding:10px;background:#555;text-align:center">
+            <div class="section">
+                <p>a、<em>淘宝版本1</em></p>
+                <span class="loading loading-color"></span>
+                <p>b、<em>淘宝版本2</em></p>
+                <span class="loading loading-color-mini"></span>
+                <p>c、<em>轻型版本1</em></p>
+                <span class="loading loading-grey-border"></span>
+                <p>d、<em>轻型版本2</em></p>
                 <span class="loading loading-grey"></span>
-                <span class="loading-desc">一淘带您去京东商城，请稍等...</span>  
+            </div>
+            <div class="section">
+                <p>
+                    <strong>2、loading配合文字使用：</strong>
+                </p>
+                <span class="loading loading-color-mini"></span>
+                <span>加载中...</span>
+            </div>
+            <div class="section">
+                <p>
+                    <strong>3、按钮中的loading：</strong>
+                </p>
+                <div style="height:18px;padding:10px;text-align:left">
+                    <a href="#" class="btn btn-blue">
+                        <span class="loading loading-grey"></span>
+                    </a>
+                    <a href="#" style="padding-left:10px;font-size:12px;color:#606060">忘记密码？</a>
+                </div>
+            </div>
+            <div class="section">
+                <p>
+                    <strong>4、按钮激活后的loading：</strong>
+                </p>
+                <div style="height:18px;padding:10px;text-align:left">
+                    <a id="J_Loading1" href="#" class="btn btn-blue">
+                        <span class="loading loading-grey"></span><span class="btn-desc">点击我</span>
+                    </a>
+                </div>
+            </div>
+            <div class="section" id="J_container">
+                <p>
+                    <strong>5、翻页触发的loading</strong>
+                </p>
+                <div style="height:28px;text-align:center">
+                    <span id="J_P1_Loading" class="loading loading-grey hidden"></span>
+                </div>
+                <div id="J_P1" bx-name="pagination" class="pagination clearfix" bx-config="{pageSizeName:false,statistics:true,sizeChange:true,jump:true,goTo:false}"></div>
+            </div>
+            <div class="section">
+                <p>
+                    <strong>6、普通的状态栏loading：</strong>
+                </p>
+                <div style="height:18px;padding:10px;background:#555;text-align:center">
+                    <span class="loading loading-grey"></span>
+                    <span class="loading-desc">一淘带您去京东商城，请稍等...</span>  
+                </div>
             </div>
         </div>
         <script>

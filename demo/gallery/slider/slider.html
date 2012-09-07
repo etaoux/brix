@@ -5,17 +5,17 @@
         <title>Brix slider Demo</title>
         <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
         <link rel="stylesheet" href="../../../src/gallery/slider/slider.css">
+        <link rel="stylesheet" href="../../assets/doc.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
         <script src="../../config.js"></script>
     </head>
-    <body style="margin:0px;padding:40px">
-        <div id="J_container">
-            <h1>slider</h1>
+    <body>
+        <div id="J_container" class="container">
             <h3>slider1</h3>
             <div class="slider-container slider-container-left clearfix">
                 <span class="slider-desc">缩放</span>
-                <span class="slider-start">10%</span>
-                <div id="slider1" bx-name="slider" bx-config='{current: 20, startStep: 10 }' class="slider clearfix">
+                <span class="slider-start">0%</span>
+                <div id="slider1" bx-name="slider" bx-config='{current: 20, startStep: 0 }' class="slider clearfix">
                     <span class="slider-bar"></span>
                     <span class="slider-knob"></span>
                 </div>
@@ -23,10 +23,11 @@
 
                 <span style="float:left;margin-left:50px;" id="slider1_txt"></span>
             </div>
+            <p>普通滑块 0~100， 当前值 current:20</p>
             <br> <br>
             <h3>slider2</h3>
             <div class="slider-container slider-container-up clearfix">
-                <span class="slider-desc">缩放</span>
+                <span class="slider-desc">缩放:</span>
                 <div class="clearfix">
                 <span class="slider-start">小小小</span>
                 <span class="slider-end">大大大</span>
@@ -38,6 +39,7 @@
 
                 <div id="slider2_txt"></div>
             </div>
+            <p>普通滑块 以数组的方式：range: ["小小小","小小","小", "中","大","大大","大大大"]</p>
 
             <br> <br>
             <h3>slider3</h3>
@@ -62,6 +64,7 @@
                 <div id="slider3_txt"></div>
 
             </div>
+            <p>滑块区间 同时区间值是以10的倍数， integerStep:10</p>
 
             <br> <br>
             <h3>slider4</h3>
@@ -87,6 +90,7 @@
                 <div id="slider4_txt"></div>
 
             </div>
+            <p>滑块区间 拖动时展现值</p>
 
             <br> <br>
 
@@ -99,6 +103,8 @@
             </div>
             <div id="slider5_txt"></div>
             </div>
+            <p>垂直滑块 </p>
+            <h3>slider6</h3>
             <div style="height:300px;padding:10px 20px;">
             <div id="slider6" bx-name="slider" bx-config='{mode: "vertical", current:[10,70]}' class="slider slider-vertical clearfix">
                 <span class="slider-bar"></span>
@@ -107,6 +113,7 @@
             </div>
             <div id="slider6_txt"></div>
             </div>
+            <p>垂直滑块区间 </p>
 
          </div>
         <script>

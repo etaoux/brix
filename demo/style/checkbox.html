@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>多选按钮 - Brix Style</title>
+    <!--[if lt IE 9]> <script src="demo/assets/html5.js"></script> <![endif]-->
+    <link rel="stylesheet" href="../../dist/brix-min.css">
+    <link rel="stylesheet" href="../../dist/gallery/form/form-min.css">
+    <link rel="stylesheet" href="../assets/doc.css">
+</head>
+<body>
+<div class="container">
+    <h2>多选按钮</h2>
+    <form class="well">
+        <fieldset>
+            <label class="control-label">多选按钮 - 原生:</label>
+            <div class="controls">
+                <label class="checkbox inline" for="optionsCheckbox01">
+                    <input type="checkbox" name="optionsCheckbox1" id="optionsCheckbox01" value="option01" checked />选项一
+                </label>
+                <label class="checkbox inline" for="optionsCheckbox02">
+                    <input type="checkbox" name="optionsCheckbox1" id="optionsCheckbox02" value="option02" />选项二
+                </label>
+            </div>
+            <label class="control-label">多选按钮 - Brix:</label>
+            <div bx-name="form" class="controls">
+                <label class="checkbox inline" for="optionsCheckbox05">
+                    <input type="checkbox" name="optionsCheckbox3" id="optionsCheckbox05" value="option03" />选项一
+                </label>
+                <label class="checkbox inline" for="optionsCheckbox06">
+                    <input type="checkbox" name="optionsCheckbox3" id="optionsCheckbox06" value="option04" checked />选项二
+                </label>
+            </div>
+            <label class="control-label">多选按钮 Disabled - Brix:</label>
+            <div bx-name="form" class="controls">
+                <label class="checkbox inline disabled" for="optionsCheckbox03">
+                    <input type="checkbox" name="optionsCheckbox2" id="optionsCheckbox03" value="option03" disabled />选项一
+                </label>
+                <label class="checkbox inline checked-disabled" for="optionsCheckbox04">
+                    <input type="checkbox" name="optionsCheckbox2" id="optionsCheckbox04" value="option04" checked disabled />选项二
+                </label>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+<script>
+KISSY.config({
+    packages: [{
+        name: "brix",
+        tag: "20120419",
+        path: "../../../",//这里可以配置cdn的路径
+        charset: "utf-8"
+    }]
+});
+
+KISSY.config({
+    map: [
+        [/(.+brix)\/(.+?)(?:-min)?.js(\?[^?]+)?$/, "$1/src/$2.js$3"],
+        [/(.+brix)\/(.+?)(?:-min)?.css(\?[^?]+)?$/, "$1/src/$2.css$3"]
+    ]
+});
+</script>
+<script>
+    KISSY.use('brix/core/pagelet', function(S, Pagelet) {
+        var pagelet = new Pagelet({
+            tmpl: '.container' // 模板(容器节点)
+        });
+
+        pagelet.addBehavior();
+        pagelet.ready(function() {
+            pagelet.render();
+        });
+    });
+</script>
+</body>
+</html>
