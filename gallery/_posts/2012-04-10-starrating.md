@@ -1,5 +1,5 @@
 ---
-layout: doc
+layout: post
 title: StarRating
 caption: 打分组件
 ---

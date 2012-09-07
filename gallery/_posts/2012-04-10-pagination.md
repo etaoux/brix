@@ -1,5 +1,5 @@
 ---
-layout: doc
+layout: post
 title: Pagination
 caption: 分页组件
 ---

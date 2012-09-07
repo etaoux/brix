@@ -1,5 +1,5 @@
 ---
-layout: doc
+layout: post
 title: ColorPicker
 caption: 颜色选择组件
 ---

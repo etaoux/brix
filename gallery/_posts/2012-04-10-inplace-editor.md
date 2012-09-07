@@ -1,5 +1,5 @@
 ---
-layout: doc
+layout: post
 title: InplaceEditor
 caption: 单行编辑
 ---

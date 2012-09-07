@@ -1,5 +1,5 @@
 ---
-layout: doc
+layout: post
 title: Breadcrumbs
 caption: 面包屑组件
 ---

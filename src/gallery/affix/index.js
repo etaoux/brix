@@ -74,6 +74,9 @@ KISSY.add("brix/gallery/affix/index", function(S, Brick) {
             node.all('a').each(function(a, i) {
                 var id = a.attr('href').split('#')[1];
 
+                if (!id) {
+                    return;
+                }
                 tabEdges.push({
                     id: id,
                     edge: $('#' + id).offset().top

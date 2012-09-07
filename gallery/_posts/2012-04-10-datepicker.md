@@ -1,5 +1,5 @@
 ---
-layout: doc
+layout: post
 title: DatePicker
 caption: 时间选择
 ---

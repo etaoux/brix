@@ -93,7 +93,7 @@ body {
     }
     .caption {
       float: left;
-      margin-top: 15px;
+      margin: 15px 0 0;
       color: #777;
     }
   }
@@ -103,7 +103,7 @@ body {
   h3 {
     font-size: 16px;
   }
-  p, ul, ol, hr.soften {
+  p, ul, ol, hr.soften, .bottom-nav {
     max-width: 800px;
   }
   code {
@@ -168,4 +168,39 @@ body {
 #footer {
   margin: 20px 0 30px;
   text-align: center;
+}
+
+.js-log {
+  position: fixed;
+  width: 88px;
+  height: 18px;
+  bottom: 0;
+  right: 2px;
+}
+.table-of-contents {
+  position: fixed;
+  top: 55px;
+  right: 20px;
+  border-radius: 2px;
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 5px 10px;
+  white-space: nowrap;
+
+  ul {
+    padding-left: 16px;
+  }
+  li {
+    list-style: circle;
+  }
+  .toggle-toc {
+    position: absolute;
+    bottom: -20px;
+    right: 10px;
+    font-size: 12px;
+  }
+  &.collapsed div {
+    height: 16px;
+    overflow: hidden;
+  }
 }

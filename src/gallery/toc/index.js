@@ -10,6 +10,28 @@ KISSY.add("brix/gallery/toc/index", function(S, Brick) {
         },
         emptyLabel: {
             value: '（空）'
+        },
+        collapsedClass: {
+            value: 'collapsed'
+        }
+    };
+
+    ToC.ATTACH = {
+        '.toggle-toc': {
+            click: function(e) {
+                var container = this.get('container'),
+                    collapsedClass=  this.get('collapsedClass')
+                    button = S.Node(e.currentTarget);
+
+                e.preventDefault();
+                container.toggleClass(collapsedClass);
+                if (container.hasClass(collapsedClass)) {
+                    button.text('+展开+');
+                }
+                else {
+                    button.text('-关闭-');
+                }
+            }
         }
     };
 
@@ -54,7 +76,9 @@ KISSY.add("brix/gallery/toc/index", function(S, Brick) {
                         h = hPrevs[levelPrev] = {
                             tag: 'h' + levelPrev,
                             text: emptyLabel,
-                            children: []
+                            children: [],
+                            level: levelPrev,
+                            id: getHID
                         };
                         hPrev.children.push(h);
                         hPrev = h;
@@ -79,11 +103,13 @@ KISSY.add("brix/gallery/toc/index", function(S, Brick) {
             }
 
             function getHID(h) {
-                var id = h.attr('id');
+                var id = h && h.attr('id');
 
                 if (!id) {
                     id = 'h' + (hIndex++);
-                    h.attr('id', id);
+                    if (h) {
+                        h.attr('id', id);
+                    }
                 }
 
                 return id;
