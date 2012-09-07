@@ -2,7 +2,7 @@
 * https://github.com/etaoux/brix
 * Copyright (c) 2012 etaoux; Licensed MIT */
 
-KISSY.config({packages:[{name: "brix",tag: "20120906",path: "http://a.tbcdn.cn/p/",charset: "utf-8"}]});
+KISSY.config({packages:[{name: "brix",tag: "20120907",path: "http://a.tbcdn.cn/p/",charset: "utf-8"}]});
 
 KISSY.add('brix/core/mustache', function(S) {
   /*!
