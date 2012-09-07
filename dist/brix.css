@@ -2634,6 +2634,8 @@ legend + .control-group {
   -webkit-border-radius: 28px;
   -moz-border-radius: 28px;
   border-radius: 28px;
+  width: 60px;
+  height: 60px;
 }
 .avatar .avatar-active {
   background-position: -78px 0px;
