@@ -182,14 +182,17 @@ body {
 }
 .table-of-contents {
   position: fixed;
-  top: 55px;
+  top: 74px;
   right: 20px;
   border-radius: 2px;
   background: #fff;
   border: 1px solid #eee;
-  padding: 5px 10px;
   white-space: nowrap;
+  font-size: 12px;
 
+  & > div {
+    padding: 5px 10px;
+  }
   ul {
     padding-left: 16px;
   }
@@ -202,8 +205,8 @@ body {
 
     b {
       position: absolute;
-      right: 10px;
-      top: 7px;
+      right: 0;
+      top: 6px;
       width: 0;
       height: 0;
       border-width: 4px 4px;
@@ -218,11 +221,12 @@ body {
     &:hover {
       b {
         border-color: #fff #fff #666;
+        top: 3px;
       }
     }
   }
   &.collapsed {
-    height: 16px;
+    height: 26px;
     overflow: hidden;
   }
 }
