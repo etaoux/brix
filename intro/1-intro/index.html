@@ -1,0 +1,368 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+<title>Brix &mdash; UX</title>
+<!--[if lt IE 9]>
+<script>
+  // html5
+  (function() {
+      var tags = [
+          'article', 'aside', 'details', 'figcaption',
+          'figure', 'footer', 'header', 'hgroup',
+          'menu', 'nav', 'section', 'summary',
+          'time', 'mark', 'audio', 'video'],
+              i = 0, len = tags.length;
+      for (; i < len; i++) document.createElement(tags[i]);
+  })();
+</script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/brix/dist/brix-min.css">
+<link rel="stylesheet" type="text/css" href="/brix/assets/css/post.css">
+</head>
+<body>
+  <div id="site-nav">
+  <nav class="container">
+    <a href="/brix/">首页 Home</a>
+    <a href="/brix/#tutorial">入门 Tutorials</a>
+    <a href="/brix/#doc">文档 Doc</a>
+    <a href="/brix/style">样式 Style</a>
+    <a href="/brix/#about">关于 About</a>
+  </nav>
+</div>
+  <aside id="aside">
+  <div id="logo">
+    <a href="/brix/">Brix</a>
+  </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <section>
+    <h3>Intro</h3>
+    
+    <ul class="entries">
+<li><a href="/brix/intro/1-intro">Brix Framework 简介</a></li>
+</ul>
+  </section>
+  
+  
+</aside>
+  <div id="page">
+  <div class="title-bar clearfix">
+    <h1>Brix Framework 简介</h1>
+    
+    <p class="caption">李牧</p>
+    
+  </div>
+  <article>
+    
+    <section class="content"><h2>问题是什么？</h2>
+
+<h3>参与网页开发同学有着两种角色：</h3>
+
+<ol>
+<li>前端开发</li>
+<li>后端开发</li>
+</ol>
+
+
+<h3>网页形成展现需要做三件事：</h3>
+
+<ol>
+<li>数据：准备将要展现的数据</li>
+<li>结构：将数据嵌入至HTML结构中形成展示</li>
+<li>行为：为HTML结构增加交互行</li>
+</ol>
+
+
+<p><img src="http://img02.taobaocdn.com/tps/i2/T1LkPLXcNgXXboY1wv-960-720.png" alt="brix intro 8" /></p>
+
+<h3>由谁负责“结构”输出这个问题，衍生出两种架构：</h3>
+
+<p>准备数据是后端开发的职责，丰富行为是前端开发的看家本领。而结构谁来负责？这个问题衍生出两种架构：</p>
+
+<ol>
+<li>传统Web开发模式：前端写Demo，结构与数据的整合输出（即套页面）由后端开发在服务器端完成。
+<img src="http://img03.taobaocdn.com/tps/i3/T173PHXoNpXXboY1wv-960-720.png" alt="brix intro 8" /></li>
+<li>WebAPP开发模式：前后端约定数据接口，结构与数据的整合有前端开发在浏览器中完成。
+<img src="http://img04.taobaocdn.com/tps/i4/T154_LXktgXXboY1wv-960-720.png" alt="brix intro 8" /></li>
+</ol>
+
+
+<h3>关于WebAPP</h3>
+
+<p>WebAPP开发模式是传统Web开发模式的一项变革，有如下好处：</p>
+
+<ol>
+<li>前后端数据接口协议明确，可以面向接口分别开发，后端不直接接触HTML，联调更高效。</li>
+<li>WebAPP多采取单页应用模式，页面变化由JS控制，网络中仅传递动态数据，速度快。</li>
+</ol>
+
+
+<p>但WebAPP模式也有它的问题，对于搜索引擎不够友好使得它前台展示型页面开发，所以两种架构会长期并存。</p>
+
+<p>而从架构上来看，WebAPP开发模式和传统Web开发模式都存在一个类似的问题。</p>
+
+<h2>问题是什么</h2>
+
+<h3>一个角色负责的两件事混在一起做</h3>
+
+<ol>
+<li>传统Web开发模式：各种后台架构都有着或多或少的MVC抽象，但业务逻辑依然经常混杂在构建HTML的过程中。
+<img src="http://img01.taobaocdn.com/tps/i1/T1WnYLXgVeXXboY1wv-960-720.png" alt="brix intro 8" /></li>
+<li>WebAPP开发模式：前台在渲染基础HTML结构的过程中常常不断穿插绑定交互事件等行为。甚至在先渲染出不能够完整表达信息的基础HTML后，再由JS将状态数据通过DOM方法二次同步至HTML中才形成最终展现。
+<img src="http://img02.taobaocdn.com/tps/i2/T1PHYLXihkXXboY1wv-960-720.png" alt="brix intro 8" /></li>
+</ol>
+
+
+<h3>两件事混做带来的问题</h3>
+
+<ol>
+<li>代码结构不清晰</li>
+<li>没有可重用的组件或组件无法在多项业务中通用</li>
+</ol>
+
+
+<p>一淘-UX Brix前端组件平台首要解决这个问题</p>
+
+<h2>Brix 前端Framework</h2>
+
+<h3>Brix关键任务</h3>
+
+<ol>
+<li>确保前台“结构”与“行为”分离，推动后台“数据”与“结构”更好的分离。</li>
+<li>采用统一模板引擎，并提供向各种语言的不同模板引擎的翻译器。</li>
+<li>统一“组件接口”、“组件间交互”、“组件拆装”和“组件管理”,降低组件使用的难度。</li>
+<li>提供多种布局生成工具，统一管理组件出现的位置。</li>
+</ol>
+
+
+<h3>Brix带来益处</h3>
+
+<ol>
+<li>提供同时适合前台展示类、后台管理类、移动类页面的统一组件平台。</li>
+<li>统一组件内、组件间数据交互，业务代码书写更加直白。</li>
+<li>无论前后台谁负责输出“结构”，其开发方法趋于一致，而组件即可以使用JS在浏览器渲染，也可以整合至任何现有后台技术中，从服务端渲染。</li>
+<li>“传统Web开发模式”的“数据”与“结构”的分离，让前后端并行开发、联调、测试像“WebAPP开发模式”一样容易。</li>
+</ol>
+
+
+<h3>Brix平台前后端角色改变</h3>
+
+<ol>
+<li>前端开发负责组件的开发、积累和升级维护。</li>
+<li>后端开发负责数据提供。</li>
+<li>使用布局工具和组件平台书写业务，搭建页面的任务做法简单且固定，前后端同学皆可胜任。
+<img src="http://img03.taobaocdn.com/tps/i3/T1oYLMXfpcXXboY1wv-960-720.png" alt="brix intro 8" /></li>
+</ol>
+
+
+<h3>Brix产出页面=组件+布局+输出方法</h3>
+
+<ul>
+<li>组件：统一的组件开发模式是基础</li>
+<li>布局：确定组件出现在哪里问题。除普通布局之外，Brix提供响应式布局和单页应用布局工具。</li>
+<li>输出：确定组件从哪里出来问题。Brix采用Mustache模板系统，Mustache本身具有所有主流语言的实现库。但为了平台顺利实施不冲击后台架构，Brix将逐步提供Mustache到当前一淘使用的各种后端模板系统的翻译器。</li>
+</ul>
+
+
+<p>下面是Brix与一淘UX各类主要业务关系
+<img src="http://img04.taobaocdn.com/tps/i4/T1F9HLXgxfXXboY1wv-960-720.png" alt="brix intro 8" /></p>
+
+<h2>Brix阶段总结和展望</h2>
+
+<h3>Brix主要任务和当前进展</h3>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 任务类型 </th>
+<th align="left"> 任务名称 </th>
+<th align="left"> 当前进展 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> 组件核心 </td>
+<td align="left"> 组件底层代码 </td>
+<td align="left"> 已完成 </td>
+</tr>
+<tr>
+<td align="left"> 组件核心 </td>
+<td align="left"> Brix Style 统一样式库 </td>
+<td align="left"> 已完成 </td>
+</tr>
+<tr>
+<td align="left"> 组件核心 </td>
+<td align="left"> Brix移动端实现核心框架MIX </td>
+<td align="left"> 已完成 </td>
+</tr>
+<tr>
+<td align="left"> 组件核心 </td>
+<td align="left"> Brix组件添加响应式行为的开发约定 </td>
+<td align="left"> 已完成 </td>
+</tr>
+<tr>
+<td align="left"> 布局工具 </td>
+<td align="left"> 面向前台展示类页面，提供响应式布局支持的布局工具 </td>
+<td align="left"> 已完成 </td>
+</tr>
+<tr>
+<td align="left"> 布局工具 </td>
+<td align="left"> 为响应式布局布局工具加入组件布局功能 </td>
+<td align="left"> 进行中 </td>
+</tr>
+<tr>
+<td align="left"> 布局工具 </td>
+<td align="left"> 面向后台管理类页面，与单页应用前端框架Magix整合 </td>
+<td align="left"> 进行中 </td>
+</tr>
+<tr>
+<td align="left"> 输出-模板翻译器 </td>
+<td align="left"> Brix模板 -> 淘宝TMS系统模板翻译器 </td>
+<td align="left"> 已完成 </td>
+</tr>
+<tr>
+<td align="left"> 输出-模板翻译器 </td>
+<td align="left"> Brix模板 -> PHP代码翻译器 及Brix与UX Demo库整合 </td>
+<td align="left"> 开发中 </td>
+</tr>
+<tr>
+<td align="left"> 输出-模板翻译器 </td>
+<td align="left"> Brix模板 -> Velocity代码翻译器 </td>
+<td align="left"> 规划中 </td>
+</tr>
+<tr>
+<td align="left"> 输出-模板翻译器 </td>
+<td align="left"> Brix模板 -> JSP代码翻译器 </td>
+<td align="left"> 规划中 </td>
+</tr>
+<tr>
+<td align="left"> 外围工具和文档建设 </td>
+<td align="left"> 主控件展示平台 </td>
+<td align="left"> 已完成 </td>
+</tr>
+<tr>
+<td align="left"> 外围工具和文档建设 </td>
+<td align="left"> Brix文档中心 </td>
+<td align="left"> 已完成 </td>
+</tr>
+<tr>
+<td align="left"> 外围工具和文档建设 </td>
+<td align="left"> Brix架构文档，核心API，组件开发Tutorial</td>
+<td align="left"> 已完成 </td>
+</tr>
+<tr>
+<td align="left"> 外围工具和文档建设 </td>
+<td align="left"> Brix组件使用Tutorial</td>
+<td align="left"> 规划中 </td>
+</tr>
+<tr>
+<td align="left"> 外围工具和文档建设 </td>
+<td align="left"> 组件版本管理和发布工具 </td>
+<td align="left"> 开发中 </td>
+</tr>
+<tr>
+<td align="left"> 外围工具和文档建设 </td>
+<td align="left"> BrixAPI文档自动生成工具 </td>
+<td align="left"> 规划中 </td>
+</tr>
+<tr>
+<td align="left"> 外围工具和文档建设 </td>
+<td align="left"> 业务组件管理平台 </td>
+<td align="left"> UI设计中 </td>
+</tr>
+<tr>
+<td align="left"> 组件池 </td>
+<td align="left"> 首期30个核心主控件 </td>
+<td align="left"> 已完成 </td>
+</tr>
+<tr>
+<td align="left"> 组件池 </td>
+<td align="left"> 第二期核心组件 </td>
+<td align="left"> UI设计中 </td>
+</tr>
+<tr>
+<td align="left"> 组件池 </td>
+<td align="left"> 移动端MIX组件库 </td>
+<td align="left"> 开发中 </td>
+</tr>
+<tr>
+<td align="left"> 组件池 </td>
+<td align="left"> 各业务子组件库 </td>
+<td align="left"> 开发中 </td>
+</tr>
+</tbody>
+</table>
+
+
+<p><strong>>>众多实施、规划中的平台落地项目不一一列举</strong></p>
+
+<h3>Brix下阶段工作重点：</h3>
+
+<ul>
+<li>各落地项目是Brix实施的关键，也是前端平台和一淘业务深度整合的舞台。</li>
+<li>其他当前正在规划中、设计中、开发中的任务里，以下重要且紧急：
+
+<ul>
+<li>组件版本管理和发布工具：当前组件还都是第一个版本，版本管理和发布的工具已经进行了一些开发，版本管理策略和组件扩展升级机制已在平台软着陆WorkShop中达成一致。</li>
+<li>业务组件管理平台：将各落地项目产生大量业务组件集中管理，从不同维度对组件进行分类展示，并提供源码和API文档。</li>
+</ul>
+</li>
+<li>其他当前正在规划中、设计中、开发中的任务里，以下比较重要：
+
+<ul>
+<li>为响应式布局布局工具加入组件布局功能：如果页面完全交给后台开发做搭建，需要布局工具更强大一点。</li>
+<li>各种模板翻译器：Brix2TMS翻译器实践中已经积累了不少经验，但这项工作很有挑战，需要很多编译原理知识，其他翻译器的实现是最可能遇到时间风险的任务，需提早开展。</li>
+</ul>
+</li>
+</ul>
+</section>
+  </article>
+</div>
+  <footer id="footer">
+  </footer>
+  <div id="J_tocBox" class="table-of-contents"></div>
+  <div id="J_log" class="js-log">
+    <a style="position:absolute;top:1px;right:1px;z-index:999;" id="J_close" href="#">显示调试窗口</a>
+  </div>
+  <script type="text/template" id="J_tocTemplate">
+
+<a href="#toggle-toc" class="toggle-toc">-关闭-</a>
+<ul id="J_toc" bx-name="toc" bx-tmpl="toc" bx-datakey="tree">
+{{#tree}}
+  <li><a href="#{{id}}">{{text}}</a>
+    <ul>
+    {{#children}}
+    <li><a href="#{{id}}">{{text}}</a>
+      <ul>
+      {{#children}}
+      <li><a href="#{{id}}">{{text}}</a>
+      {{/children}}
+      </ul>
+    </li>
+    {{/children}}
+    </ul>
+  </li>
+{{/tree}}
+</ul>
+
+  </script>
+  <script src="/brix/assets/js/log4javascript.js"></script>
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+  <script src="/brix/assets/js/post.js"></script>
+</body>
+</html>

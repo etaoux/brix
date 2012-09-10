@@ -11,7 +11,7 @@ KISSY.config({
     ]
 });
 
-KISSY.use('brix/core/pagelet', function(S, Pagelet) {
+KISSY.use('brix/core/pagelet,brix/gallery/affix/', function(S, Pagelet, Affix) {
     var pagelet = new Pagelet({
         tmpl: '#page' // 模板(容器节点)
     });
@@ -20,9 +20,7 @@ KISSY.use('brix/core/pagelet', function(S, Pagelet) {
     pagelet.ready(function() {
         pagelet.render();
     });
-});
 
-KISSY.use('brix/gallery/affix/', function(S, Affix) {
     new Affix({
         el: '#page-nav'
     });
