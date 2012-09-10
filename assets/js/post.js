@@ -73,9 +73,8 @@ KISSY.ready(function() {
             tmpl: S.one('#J_tocTemplate').html(),
             container: '#J_tocBox'
         });
-        toc.render();
         toc.setChunkData('tree', toc.parse());
-
+        toc.render();
         var affix = new Affix({
             el: '#J_toc',
             scrollOffset: 20,
