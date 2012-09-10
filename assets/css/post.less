@@ -106,6 +106,9 @@ body {
   p, ul, ol, hr.soften, .bottom-nav {
     max-width: 800px;
   }
+  img {
+    max-width: 100%;
+  }
   code {
     border: 1px solid #ddd;
     border-radius: 2px;
@@ -194,12 +197,31 @@ body {
     list-style: circle;
   }
   .toggle-toc {
-    position: absolute;
-    bottom: -20px;
-    right: 10px;
-    font-size: 12px;
+    position: relative;
+    display: block;
+
+    b {
+      position: absolute;
+      right: 10px;
+      top: 7px;
+      width: 0;
+      height: 0;
+      border-width: 4px 4px;
+      border-style: solid;
+      border-color: #666 #fff #fff;
+      font-size: 0;
+      line-height: 0;
+      -moz-transition: -moz-transform .2s ease-in;
+        -o-transition: -o-transform .2s ease-in;
+           transition: transform .2s ease-in;
+    }
+    &:hover {
+      b {
+        border-color: #fff #fff #666;
+      }
+    }
   }
-  &.collapsed div {
+  &.collapsed {
     height: 16px;
     overflow: hidden;
   }
