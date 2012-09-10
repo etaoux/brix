@@ -1,3 +1,7 @@
+/**
+ * 核心变量及mixin，会提供给gallery使用
+ *   思路：最小影响，最大适用范围
+ **/
 .inplaceeditor-popup {
   position: absolute;
   display: block;

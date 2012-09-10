@@ -4,11 +4,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Brix Breadcrumbs Demo</title>
         <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
-        <link rel="stylesheet" href="../../../src/gallery/dropdown/dropdown.css">
-        <link rel="stylesheet" href="../../../src/gallery/breadcrumbs/breadcrumbs.css">
         <link rel="stylesheet" href="../../assets/doc.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
-        <script src="../../config.js"></script>
+        <script src="../../../dist/core/seed-min.js"></script>
+        <script type="text/javascript">
+            Brix.config({fixed:'dist/'});//初始化Brix的配置
+        </script>
     </head>
     <body>
         <div class="container">
@@ -113,7 +114,7 @@
         </script>
         <script>
             KISSY.ready(function(S) {
-                KISSY.use("brix/core/pagelet", function(S, Pagelet) {
+                KISSY.use("brix/core/pagelet,brix/gallery/dropdown/dropdown.css,brix/gallery/breadcrumbs/breadcrumbs.css", function(S, Pagelet) {
                     var config = {
                         container:'#test_container',//容器节点
                         tmpl: S.one("#tmpl_script").html(),//需要的模板

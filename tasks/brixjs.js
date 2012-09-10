@@ -26,52 +26,34 @@ module.exports = function(grunt) {
     // TASKS
     // ==========================================================================
     grunt.registerMultiTask('brixjs', 'Compile Brix JS files.', function() {
-        var src = this.file.src;
-        var dest = this.file.dest;
-        var options = this.data.options || {};
-        if (options.compress) {
-            if (!options.min) {
-                options.min = '-min';
-            }
-        } else {
-            options.min = '';
+        var src = this.file.src,
+            dest = this.file.dest;
+        var max,min, 
+            files = ['seed.js', 'mustache.js', 'mu.js', 'tmpler.js', 'dataset.js', 'chunk.js', 'brick.js', 'pagelet.js'],
+            banner = grunt.task.directive('<banner:meta.banner>', function() { return null; });
+
+        if(!banner){
+            banner = '';
         }
-
-        if (!src) {
-            grunt.warn('Missing src property.');
-            return false;
-        }
-
-        if (!dest) {
-            grunt.warn('Missing dest property');
-            return false;
-        }
-
-        var self = this;
-        files = fs.readdirSync(src);
-        files.forEach(function(p) {
-            var srcFile = src + '/' + p + '/' + 'index.js';
-            var destFile = dest + '/' + p + '/index' + options.min + '.js'
-            if (fs.existsSync(srcFile)) {
-                var arr = [srcFile];
-                var tempArr = fs.readdirSync(src + '/' + p + '/');
-                tempArr.forEach(function(f) {
-                    if (path.extname(f) == '.js' && path.basename(f) != 'index.js') {
-                        arr.push(src + '/' + p + '/' + f);
-                    }
-                });
-
-                var max = grunt.helper('concat', arr, {
-                    separator: '\n'
-                });
-                var min;
-                if (options.compress) {
-                    min = grunt.helper('uglify', max, grunt.config('uglify'));
-                } else {
-                    min = max;
-                }
-                file.write(destFile, min);
-            }
+        files.forEach(function(f,i){
+            files[i] = [src+'core/'+f];
+            max = grunt.helper('concat',files[i] , {
+                separator: '\n'
+            });
+            max = max.replace('@DEBUG@','');
+            file.write(dest+'core/'+f, max);
+            min = grunt.helper('uglify', max, grunt.config('uglify'));
+            file.write(dest+'core/'+path.basename(f,'.js')+'-min.js', min);
         });
+
+        max = grunt.helper('concat', files, {
+            separator: '\n'
+        });
+        max = max.replace('@DEBUG@','');
+        file.write(dest+'brix.js', banner+max);
+
+        min = grunt.helper('uglify', max, grunt.config('uglify'));
+        file.write(dest+'brix-min.js', banner+min);
+
     });
 };

@@ -1,19 +1,7 @@
-.clearfix {
-  *zoom: 1;
-}
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-.clearfix:after {
-  clear: both;
-}
-.text-overflow {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+/**
+ * 核心变量及mixin，会提供给gallery使用
+ *   思路：最小影响，最大适用范围
+ **/
 .calendar {
   width: 197px;
   -webkit-border-radius: 2px;
@@ -33,23 +21,12 @@
 .calendar .calendar-pages {
   *zoom: 1;
 }
-.calendar .calendar-pages {
-  *zoom: 1;
-}
 .calendar .calendar-pages::before,
 .calendar .calendar-pages::after {
   display: table;
   content: "";
 }
 .calendar .calendar-pages::after {
-  clear: both;
-}
-.calendar .calendar-pages:before,
-.calendar .calendar-pages:after {
-  display: table;
-  content: "";
-}
-.calendar .calendar-pages:after {
   clear: both;
 }
 .calendar .calendar-pages .calendar-page {
@@ -158,7 +135,6 @@
 }
 .calendar .calendar-pages .calendar-page .calendar-page-dbd {
   width: 182px;
-  *zoom: 1;
 }
 .calendar .calendar-pages .calendar-page .calendar-page-dbd {
   *zoom: 1;
@@ -169,14 +145,6 @@
   content: "";
 }
 .calendar .calendar-pages .calendar-page .calendar-page-dbd::after {
-  clear: both;
-}
-.calendar .calendar-pages .calendar-page .calendar-page-dbd:before,
-.calendar .calendar-pages .calendar-page .calendar-page-dbd:after {
-  display: table;
-  content: "";
-}
-.calendar .calendar-pages .calendar-page .calendar-page-dbd:after {
   clear: both;
 }
 .calendar .calendar-pages .calendar-page .calendar-page-dbd a {

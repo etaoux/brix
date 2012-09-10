@@ -1,19 +1,7 @@
-.clearfix {
-  *zoom: 1;
-}
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-.clearfix:after {
-  clear: both;
-}
-.text-overflow {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+/**
+ * 核心变量及mixin，会提供给gallery使用
+ *   思路：最小影响，最大适用范围
+ **/
 .datepicker {
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -31,7 +19,6 @@
   -webkit-text-size-adjust: none;
 }
 .datepicker .datepicker-bd {
-  *zoom: 1;
   padding: 15px;
 }
 .datepicker .datepicker-bd {
@@ -43,14 +30,6 @@
   content: "";
 }
 .datepicker .datepicker-bd::after {
-  clear: both;
-}
-.datepicker .datepicker-bd:before,
-.datepicker .datepicker-bd:after {
-  display: table;
-  content: "";
-}
-.datepicker .datepicker-bd:after {
   clear: both;
 }
 .datepicker .datepicker-bd label {
@@ -70,7 +49,6 @@
   padding-right: 4px;
 }
 .datepicker .datepicker-bd ul.quick-list {
-  *zoom: 1;
   margin-bottom: 15px;
   margin-left: -8px;
 }
@@ -83,14 +61,6 @@
   content: "";
 }
 .datepicker .datepicker-bd ul.quick-list::after {
-  clear: both;
-}
-.datepicker .datepicker-bd ul.quick-list:before,
-.datepicker .datepicker-bd ul.quick-list:after {
-  display: table;
-  content: "";
-}
-.datepicker .datepicker-bd ul.quick-list:after {
   clear: both;
 }
 .datepicker .datepicker-bd ul.quick-list li {

@@ -5,39 +5,24 @@ module.exports = function(grunt) {
         pkg: '<json:package.json>',
         meta: {
             name: 'Brix',
-            banner: '/*! <%= meta.name %> - v<%= pkg.version %>\n' + '* <%= pkg.homepage %>\n' + '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' + ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */',
-            kspackage:'KISSY.config({packages:[{name: "brix",tag: "<%= grunt.template.today("yyyymmdd") %>",path: "http://a.tbcdn.cn/p/",charset: "utf-8"}]});'
+            banner: '/*! <%= meta.name %> - v<%= pkg.version %>\n' + '* <%= pkg.homepage %>\n' + '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' + ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
         },
         lint: {
             files: ['grunt.js']
         },
-        concat: {
-            brix_js: {
-                src: ['<banner:meta.banner>',"<banner:meta.kspackage>", "src/core/mustache.js", "src/core/mu.js", "src/core/tmpler.js", "src/core/dataset.js", "src/core/chunk.js", "src/core/brick.js", "src/core/pagelet.js"],
-                dest: 'dist/<%= pkg.name %>.js',
-                separator:'\n' //合并文件默认字符，替换window和mac系统的默认newline
-            }
-        },
-        min: {
-            brix: {
-                src: ['<banner:meta.banner>', 'dist/<%= pkg.name %>.js'],
-                dest: 'dist/<%= pkg.name %>-min.js'
-            }
-        },
-        less: {
-            brix: {
-                src: ['src/style/brix.less'],
-                dest: 'dist/<%= pkg.name %>.css'
-            },
-            brix_min: {
-                src: ['src/style/brix.less'],
-                dest: 'dist/<%= pkg.name %>-min.css',
-                options: {
-                  yuicompress: true
-                }
+        brixjs:{
+            brixjs:{
+                src:'src/',
+                dest:'dist/'
             }
         },
         brixless:{
+            brixless:{
+                src:'src/',
+                dest:'dist/'
+            }
+        },
+        galleryless:{
             gallerysrc:{
                 src:'src/gallery/',
                 dest:'src/gallery/'
@@ -54,7 +39,7 @@ module.exports = function(grunt) {
                 }
             }
         },
-        brixjs:{
+        galleryjs:{
             gallerysrc:{
                 src:'src/gallery/',
                 dest:'dist/gallery/'
@@ -68,17 +53,21 @@ module.exports = function(grunt) {
             }
         },
         watch: {
-            watchless:{
-                files: 'src/gallery/**/*.less',
-                tasks: 'brixless'
-            },
-            watchjs:{
-                files: 'src/gallery/**/index.js',
+            watchbrixjs:{
+                files: 'src/core/*.js',
                 tasks: 'brixjs'
+            },
+            watchgalleryless:{
+                files: 'src/gallery/**/*.less',
+                tasks: 'galleryless'
+            },
+            watchgalleryjs:{
+                files: 'src/gallery/**/index.js',
+                tasks: 'galleryjs'
             },
             watchcss:{
                 files: 'src/style/*.less',
-                tasks: 'less'
+                tasks: 'brixless'
             }
         },
         jshint: {
@@ -119,5 +108,5 @@ module.exports = function(grunt) {
     grunt.loadTasks('tasks');
 
     // Default task.
-    grunt.registerTask('default', 'lint concat min less brixless brixjs watch');
+    grunt.registerTask('default', 'lint brixjs brixless galleryless galleryjs watch');
 };
