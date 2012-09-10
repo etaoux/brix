@@ -38,15 +38,15 @@
   
   
   
-  
-  
   <section>
-    <h3>Gallery</h3>
+    <h3>Core</h3>
     
     <ul class="entries">
-<li><a href="/brix/gallery/breadcrumbs" class="">Breadcrumbs</a></li><li><a href="/brix/gallery/calendar" class="">Calendar</a></li><li><a href="/brix/gallery/colorpicker" class="">ColorPicker</a></li><li><a href="/brix/gallery/datepicker" class="">DatePicker</a></li><li><a href="/brix/gallery/dialog" class="">Dialog</a></li><li><a href="/brix/gallery/dropdown" class="">Dropdown</a></li><li><a href="/brix/gallery/inplace-editor" class="">InplaceEditor</a></li><li><a href="/brix/gallery/kwicks" class="">Kwicks</a></li><li><a href="/brix/gallery/loading" class="">Loading</a></li><li><a href="/brix/gallery/pagination" class="">Pagination</a></li><li><a href="/brix/gallery/slider" class="">Slider</a></li><li><a href="/brix/gallery/starrating" class="">StarRating</a></li><li><a href="/brix/gallery/switcher" class="">Switcher</a></li><li><a href="/brix/gallery/tips" class="">Tips</a></li><li><a href="/brix/gallery/sidenav" class="">SideNav</a></li><li><a href="/brix/gallery/timer" class="">Timer</a></li><li><a href="/brix/gallery/searchbox" class="">Searchbox</a></li>
+<li><a href="/brix/core/1-seed" class="">Seed</a></li><li><a href="/brix/core/2-chunk" class="">Chunk</a></li><li><a href="/brix/core/3-brick" class="">Brick</a></li><li><a href="/brix/core/4-pagelet" class="">Pagelet</a></li><li><a href="/brix/core/5-dataset" class="">Dataset</a></li><li><a href="/brix/core/6-tmpler" class="">Tmpler</a></li>
 </ul>
   </section>
+  
+  
   
   
   
@@ -62,43 +62,47 @@
 </aside>
   <div id="page">
   <div class="title-bar clearfix">
-    <h1>SideNav</h1>
+    <h1>Seed</h1>
     
-    <p class="caption">竖形菜单组件</p>
+    <p class="caption">Brxi组件框架入口类</p>
     
   </div>
   <article>
     
-    <section class="content"><div class='demo'><iframe src='/brix/demo/gallery/sidenav/sidenav.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
-
-
-<h2>配置</h2>
-
-<p>包含 <a href="/brix/core/brick">Brick</a> 的所有配置</p>
-
-<h3><code>index</code> {String}</h3>
-
-<p>默认的首页地址</p>
-
-<h3><code>duration</code> {Number}</h3>
-
-<p>可配置的导航动画持续时间</p>
+    <section class="content"><pre><code>设计思路:组件框架入口类，在调用Brix组件的时候可以配置cdn地址，组件版本号等
+</code></pre>
 
 <h2>方法</h2>
 
-<h3><code>clickSwitch(node)</code></h3>
-
-<p>提供一个切换到指定菜单打开状态的方法
-请传入模拟点击的node节点</p>
+<h3><code>config(options)</code></h3>
 
 <ul>
-<li>@param  {DOM} node DOM节点</li>
+<li>@param  {Object} options 配置对象</li>
 </ul>
 
 
-<h2>事件</h2>
+<div class="highlight"><pre><code class="js"><span class="p">{</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;../../../../&#39;</span><span class="p">,</span><span class="c1">//上线后为cdn路径</span>
+    <span class="nx">fixed</span><span class="o">:</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="c1">//路径修正，brix路劲下存在其他文件夹</span>
+    <span class="nx">gallery</span><span class="o">:</span><span class="p">{</span>
+        <span class="c1">//配置组件版本信息</span>
+        <span class="c1">//dropdown:&#39;1.0&#39;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<p>无</p>
+
+<p>配置组件的cdn路径，版本号等</p>
+
+<h2>代码示例</h2>
+
+<div class="highlight"><pre><code class="js"><span class="nx">Brix</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span><span class="nx">fixed</span><span class="o">:</span><span class="s1">&#39;src/&#39;</span><span class="p">});</span>
+</code></pre>
+</div>
+
+
+
 </section>
   </article>
 </div>
