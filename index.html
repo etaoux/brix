@@ -28,6 +28,9 @@ css: frontpage.css
       {% include entries.html %}
     </div>
     <div class="span16">
+      <h3>简介 Intro</h3>
+      {% assign posts = site.categories.intro %}
+      {% include entries.html %}
     </div>
   </section>
   <hr class="soften"/>
