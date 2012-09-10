@@ -206,13 +206,13 @@
 </div>
   <footer id="footer">
   </footer>
-  <div id="J_tocBox" class="table-of-contents"></div>
+  <div id="J_tocBox" class="table-of-contents collapsed"></div>
   <div id="J_log" class="js-log">
     <a style="position:absolute;top:1px;right:1px;z-index:999;" id="J_close" href="#">显示调试窗口</a>
   </div>
   <script type="text/template" id="J_tocTemplate">
 
-<a href="#toggle-toc" class="toggle-toc">-关闭-</a>
+<a href="javascript:void(0);" class="toggle-toc">目录<b></b></a>
 <ul id="J_toc" bx-name="toc" bx-tmpl="toc" bx-datakey="tree">
 {{#tree}}
   <li><a href="#{{id}}">{{text}}</a>

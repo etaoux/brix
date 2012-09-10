@@ -17,20 +17,18 @@ KISSY.add("brix/gallery/toc/index", function(S, Brick) {
     };
 
     ToC.ATTACH = {
-        '.toggle-toc': {
-            click: function(e) {
+        '': {
+            mouseenter: function(e) {
                 var container = this.get('container'),
-                    collapsedClass=  this.get('collapsedClass')
-                    button = S.Node(e.currentTarget);
+                    collapsedClass=  this.get('collapsedClass');
 
-                e.preventDefault();
-                container.toggleClass(collapsedClass);
-                if (container.hasClass(collapsedClass)) {
-                    button.text('+展开+');
-                }
-                else {
-                    button.text('-关闭-');
-                }
+                container.removeClass(collapsedClass);
+            },
+            mouseleave: function(e) {
+                var container = this.get('container'),
+                    collapsedClass=  this.get('collapsedClass');
+
+                container.addClass(collapsedClass);
             }
         }
     };

@@ -69,7 +69,7 @@
   </div>
   <article>
     
-    <section class="content"><h2>问题是什么？</h2>
+    <section class="content"><h2>我们现在的网页开发</h2>
 
 <h3>参与网页开发同学有着两种角色：</h3>
 
@@ -87,8 +87,6 @@
 <li>行为：为HTML结构增加交互行</li>
 </ol>
 
-
-<p><img src="http://img02.taobaocdn.com/tps/i2/T1LkPLXcNgXXboY1wv-960-720.png" alt="brix intro 8" /></p>
 
 <h3>由谁负责“结构”输出这个问题，衍生出两种架构：</h3>
 
@@ -335,13 +333,13 @@
 </div>
   <footer id="footer">
   </footer>
-  <div id="J_tocBox" class="table-of-contents"></div>
+  <div id="J_tocBox" class="table-of-contents collapsed"></div>
   <div id="J_log" class="js-log">
     <a style="position:absolute;top:1px;right:1px;z-index:999;" id="J_close" href="#">显示调试窗口</a>
   </div>
   <script type="text/template" id="J_tocTemplate">
 
-<a href="#toggle-toc" class="toggle-toc">-关闭-</a>
+<a href="javascript:void(0);" class="toggle-toc">目录<b></b></a>
 <ul id="J_toc" bx-name="toc" bx-tmpl="toc" bx-datakey="tree">
 {{#tree}}
   <li><a href="#{{id}}">{{text}}</a>
