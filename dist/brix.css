@@ -489,15 +489,7 @@ ol {
  *   思路：最小影响，最大适用范围
  **/
 /**
- * 核心变量及mixin，会提供给gallery使用
- *   思路：最小影响，最大适用范围
- **/
-/**
  * 栅格系统及页面布局
- **/
-/**
- * 核心变量及mixin，会提供给gallery使用
- *   思路：最小影响，最大适用范围
  **/
 .row {
   margin-left: -10px;
@@ -9604,10 +9596,6 @@ ol {
  * 基础CSS
  *   字体 及 UX控件
  **/
-/**
- * 核心变量及mixin，会提供给gallery使用
- *   思路：最小影响，最大适用范围
- **/
 body,
 button,
 input,
@@ -9669,10 +9657,6 @@ a:visited {
   font-style: normal;
   padding-left: 4px;
 }
-/**
- * 核心变量及mixin，会提供给gallery使用
- *   思路：最小影响，最大适用范围
- **/
 @font-face {
   font-family: "uxiconfont";
   src: url("http://ux.etao.com/assets/src_uxiconfont.eot");
@@ -9699,10 +9683,6 @@ a:visited {
 ::-webkit-scrollbar-thumb:hover {
   background: #488fcd;
 }
-/**
- * 核心变量及mixin，会提供给gallery使用
- *   思路：最小影响，最大适用范围
- **/
 form {
   margin: 0 0 18px;
 }
@@ -13098,10 +13078,6 @@ legend + .control-group {
 .form-horizontal .form-actions {
   padding-left: 160px;
 }
-/**
- * 核心变量及mixin，会提供给gallery使用
- *   思路：最小影响，最大适用范围
- **/
 .btn {
   box-sizing: content-box;
   display: inline-block;
@@ -14950,10 +14926,6 @@ legend + .control-group {
   line-height: 23px;
 }
 /**
- * 核心变量及mixin，会提供给gallery使用
- *   思路：最小影响，最大适用范围
- **/
-/**
  * table
  * author: chongzhi.ldq@taobao.com 崇志
  */
@@ -15435,10 +15407,6 @@ legend + .control-group {
   float: right;
   display: none;
 }
-/**
- * 核心变量及mixin，会提供给gallery使用
- *   思路：最小影响，最大适用范围
- **/
 .tags {
   font-size: 0;
   letter-spacing: -5px;
@@ -15549,10 +15517,6 @@ legend + .control-group {
   height: 18px;
   overflow: hidden;
 }
-/**
- * 核心变量及mixin，会提供给gallery使用
- *   思路：最小影响，最大适用范围
- **/
 .footer {
   border-top: 1px solid #CBCBCB;
   text-align: center;
@@ -15632,10 +15596,6 @@ legend + .control-group {
   _filter: progid:dximagetransform.microsoft.alphaimageloader(src='http://img03.taobaocdn.com/tps/i3/T15XvFXeNbXXX.NiPr-89-87.png', sizingMethod='crop');
   margin: 20px auto 0;
 }
-/**
- * 核心变量及mixin，会提供给gallery使用
- *   思路：最小影响，最大适用范围
- **/
 .avatar,
 .avatar-min,
 .avatar-point,
@@ -15774,11 +15734,7 @@ legend + .control-group {
   width: 32px;
   height: 32px;
 }
-/**
- * 核心变量及mixin，会提供给gallery使用
- *   思路：最小影响，最大适用范围
- **/
-/* չ�������Ĵ���  */
+/* 展开收起的代码  */
 .show-more {
   position: relative;
   top: -2px;
@@ -15825,10 +15781,6 @@ legend + .control-group {
   border-color: #666 white white;
   top: 5px;
 }
-/**
- * 核心变量及mixin，会提供给gallery使用
- *   思路：最小影响，最大适用范围
- **/
 .msg-box {
   display: inline-block;
   *display: inline;
@@ -15980,10 +15932,6 @@ legend + .control-group {
 .msg-box:hover .icon-del {
   visibility: visible;
 }
-/**
- * 核心变量及mixin，会提供给gallery使用
- *   思路：最小影响，最大适用范围
- **/
 .fs-item {
   float: left;
 }
