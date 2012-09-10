@@ -388,10 +388,6 @@ body {
 #page .entries {
   margin: 1em 0;
 }
-#page .entries a:link,
-#page .entries a:visited {
-  color: #505050;
-}
-#page .entries a:hover {
-  color: #0063DC;
+#page .entries a.hot {
+  color: #f50;
 }
