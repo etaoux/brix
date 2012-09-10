@@ -495,7 +495,7 @@ body {
   font-size: 12px;
 }
 .table-of-contents  > div {
-  padding: 5px 10px;
+  padding: 4px 10px;
 }
 .table-of-contents ul {
   padding-left: 16px;
@@ -506,6 +506,7 @@ body {
 .table-of-contents .toggle-toc {
   position: relative;
   display: block;
+  margin-bottom: 2px;
 }
 .table-of-contents .toggle-toc b {
   position: absolute;
@@ -527,6 +528,6 @@ body {
   top: 3px;
 }
 .table-of-contents.collapsed {
-  height: 26px;
+  height: 25px;
   overflow: hidden;
 }
