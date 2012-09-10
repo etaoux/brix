@@ -11,13 +11,13 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
             value:'data-tips'
         },
         closeable:{
-            value:true
+            value: true
         },
         length:{
 
         },
         'tmpl-tip':{
-            value:'<div id="{{id}}" class="bx-tips-show {{hide}}" style="display: none;position: absolute;top:0;left:0"><p class="bx-tips-msg">{{tips}}</p><i class="bx-tips-tri bx-tips-top"></i><span class="bx-tips-close">关闭</span></div>'
+            value:'<div id="{{id}}" class="bx-tips-show {{hide}}" style="display: none;position: absolute;top:0;left:0"><p class="bx-tips-msg">{{tips}}</p><a href="javascript:void(0);" class="bx-tips-iknow">我知道了</a><span class="tri"><i class="outer"></i><i class="inner"></i></span><span class="bx-tips-close">关闭</span></div>'
         },
         tips:{
             value:{}
@@ -28,13 +28,8 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
         prex:{
             value:'bx-tip-'
         },
-        trisize:{
-            value:{
-                width:16,
-                height:9,
-                paddingw:14,
-                paddingh:12
-            }
+        dis:{
+            value: 10
         },
         el:{
             value:'body'
@@ -63,6 +58,15 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
         },
         '.bx-tips-close':{
             click:function (e) {
+                var el = e.currentTarget;
+                var self = this;
+                var _tip = D.parent(el, '.bx-tips-show');
+                self.closeTips(_tip);
+            }
+        },
+        '.bx-tips-iknow': {
+            click:function (e) {
+                e.halt();
                 var el = e.currentTarget;
                 var self = this;
                 var _tip = D.parent(el, '.bx-tips-show');
@@ -164,11 +168,9 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
 
         },
         _testBR:function (el, tip, view) {
-            var trisize = this.get("trisize");
-            var adjust_left = trisize.width + trisize.paddingw * 2;
-            var adjust_top = trisize.height;
-            var x1 = el.x2 - adjust_left;
-            var y1 = el.y2 + adjust_top;
+            var dis = this.get("dis");
+            var x1 = el.x2 - dis;
+            var y1 = el.y2 + dis;
             var x2 = x1 + tip.w;
             var y2 = y1 + tip.h;
 
@@ -183,11 +185,9 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
             }
         },
         _testTL:function (el, tip, view) {
-            var trisize = this.get("trisize");
-            var adjust_left = trisize.width + trisize.paddingw * 2;
-            var adjust_top = trisize.height;
-            var x1 = el.x1 - tip.w + adjust_left;
-            var y1 = el.y1 - tip.h - adjust_top;
+            var dis = this.get("dis");
+            var x1 = el.x1 - tip.w + dis;
+            var y1 = el.y1 - tip.h - dis;
             var y2 = y1 + tip.h;
             if (x1 < view.x1 || y1 < view.y1 || y2 > view.y2) {
                 return false;
@@ -200,11 +200,9 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
             }
         },
         _testBL:function (el, tip, view) {
-            var trisize = this.get("trisize");
-            var adjust_left = trisize.width + trisize.paddingw * 2;
-            var adjust_top = trisize.height;
-            var x1 = el.x1 - tip.w + adjust_left;
-            var y1 = el.y2 + adjust_top;
+            var dis = this.get("dis");
+            var x1 = el.x1 - tip.w + dis;
+            var y1 = el.y2 + dis;
             var y2 = y1 + tip.h;
             if (x1 < view.x1 || y2 > view.y2 || y1 < view.y1) {
                 return false;
@@ -217,11 +215,9 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
             }
         },
         _testTR:function (el, tip, view) {
-            var trisize = this.get("trisize");
-            var adjust_left = trisize.width + trisize.paddingw * 2;
-            var adjust_top = trisize.height;
-            var x1 = el.x2 - adjust_left;
-            var y1 = el.y1 - tip.h - adjust_top;
+            var dis = this.get("dis");
+            var x1 = el.x2 - dis;
+            var y1 = el.y1 - tip.h - dis;
             var x2 = x1 + tip.w;
             var y2 = y1 + tip.h;
             if (x2 > view.x2 || y1 < view.y1 || y2 > view.y2) {
@@ -235,11 +231,9 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
             }
         },
         _testLT:function (el, tip, view) {
-            var trisize = this.get("trisize");
-            var adjust_left = trisize.height;
-            var adjust_top = trisize.width + trisize.paddingh * 2;
-            var x1 = el.x1 - tip.w - adjust_left;
-            var y1 = el.y1 - tip.h + adjust_top;
+            var dis = this.get("dis");
+            var x1 = el.x1 - tip.w - dis;
+            var y1 = el.y1 - tip.h + dis;
             var y2 = y1 + tip.h;
             if (x1 < view.x1 || y1 < view.y1 || y2 > view.y2) {
                 return false;
@@ -252,11 +246,9 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
             }
         },
         _testLB:function (el, tip, view) {
-            var trisize = this.get("trisize");
-            var adjust_left = trisize.height;
-            var adjust_top = trisize.width + trisize.paddingh * 2;
-            var x1 = el.x1 - tip.w - adjust_left;
-            var y1 = el.y2 - adjust_top;
+            var dis = this.get("dis");
+            var x1 = el.x1 - tip.w - dis;
+            var y1 = el.y2 - dis;
             var y2 = y1 + tip.h;
             if (x1 < view.x1 || y2 > view.y2 || y1 < view.y1) {
                 return false;
@@ -269,11 +261,9 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
             }
         },
         _testRT:function (el, tip, view) {
-            var trisize = this.get("trisize");
-            var adjust_left = trisize.height;
-            var adjust_top = trisize.width + trisize.paddingh * 2;
-            var x1 = el.x2 + adjust_left;
-            var y1 = el.y1 - tip.h + adjust_top;
+            var dis = this.get("dis");
+            var x1 = el.x2 + dis;
+            var y1 = el.y1 - tip.h + dis;
             var x2 = x1 + tip.w;
             var y2 = y1 + tip.h;
             if (x2 > view.x2 || y1 < view.y1 || y2 > view.y2) {
@@ -287,11 +277,9 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
             }
         },
         _testRB:function (el, tip, view) {
-            var trisize = this.get("trisize");
-            var adjust_left = trisize.height;
-            var adjust_top = trisize.width + trisize.paddingh * 2;
-            var x1 = el.x2 + adjust_left;
-            var y1 = el.y2 - adjust_top;
+            var dis = this.get("dis");
+            var x1 = el.x2 + dis;
+            var y1 = el.y2 - dis;
             var x2 = x1 + tip.w;
             var y2 = y1 + tip.h;
             if (x2 > view.x2 || y2 > view.y2 || y1 < view.y1) {
