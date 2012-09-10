@@ -1,9 +1,60 @@
 /*! Brix - v0.1.0
 * https://github.com/etaoux/brix
 * Copyright (c) 2012 etaoux; Licensed MIT */
-
-KISSY.config({packages:[{name: "brix",tag: "20120907",path: "http://a.tbcdn.cn/p/",charset: "utf-8"}]});
-
+Brix = window.Brix || {};
+Brix.config = function(options) {
+    var debug = '';//区分src还是dist版本
+    options = KISSY.merge({
+        path: '../../../../',
+        fixed:'',//路径修正，brix路劲下存在其他文件夹
+        gallery:{
+            //配置组件版本信息
+            //dropdown:'1.0'
+        }
+    },options);
+    KISSY.config({
+        packages: [{
+            name: "brix",
+            path:options.path,
+            //path: "http://a.tbcdn.cn/p/",
+            charset: "utf-8"
+        }]
+    });
+    KISSY.config({
+        map: [
+            [/(.+brix\/)(gallery\/)(.+?)(\/index(?:-min)?\.js)(\?[^?]+)?$/, function($0,$1,$2,$3,$4,$5){
+                var str = $1+options.fixed+$2+$3;
+                if(options.gallery[$3]){
+                    str += '/' + options.gallery[$3]
+                }
+                if(debug){
+                   $4 = $4.replace('-min','');
+                }
+                str += $4+($5?$5:'');
+                return str;
+            }],
+            [/(.+brix\/)(core.+?)((?:-min)?\.js)(\?[^?]+)?$/, function($0,$1,$2,$3,$4){
+                var str = $1+options.fixed;
+                if(debug){
+                   $3 = $3.replace('-min','');
+                }
+                str += $2+$3+($4?$4:'');
+                return str;
+            }],
+            [/(.+brix\/)(gallery\/)(.+?)(\/.+?(?:-min)?\.css)(\?[^?]+)?$/, function($0,$1,$2,$3,$4,$5){
+                var str = $1+options.fixed+$2+$3;
+                if(options.gallery[$3]){
+                    str += '/' + options.gallery[$3]
+                }
+                if(debug){
+                   $4 = $4.replace('-min','');
+                }
+                str += $4+($5?$5:'');
+                return str;
+            }]
+        ]
+    });
+}
 KISSY.add('brix/core/mustache', function(S) {
   /*!
    * mustache.js - Logic-less {{mustache}} templates with JavaScript
@@ -670,15 +721,6 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
         }
         return el.attr('id');
     }
-    /**
-     * 判断节点是否已经在dom中
-     * @param  {HTMLElement} el 检测节点
-     * @return {Boolen}      是否包含 el 节点
-     */
-
-    function _inDom(el) {
-        return el.parentNode && el.parentNode.nodeType!=11;
-    }
 
     /**
      * 复原替换的模板
@@ -729,14 +771,17 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
          * @param  {String} tmpl 模板字符串
          */
         _buildBricks: function(tmpl) {
-            var self = this,inDom = false,node = $(tmpl),tmplNode;
+            var self = this,inDom = false,node,tmplNode;
 
-            if(node.item(0)[0].tagName.toUpperCase()=='SCRIPT'){
-                //如果是script节点，则直接取html
-                tmpl= node.item(0).html()
-            }
-            else{
-                inDom = _inDom(node[0]);//判断是否已经添加到dom中
+            if(typeof tmpl === 'string'&&( tmpl.charAt(0)==='.'||tmpl.charAt(0)==='#'||tmpl==='body')){
+                node = $(tmpl);
+                if(node.item(0)[0].tagName.toUpperCase()=='SCRIPT'){
+                    //如果是script节点，则直接取html
+                    tmpl= node.item(0).html()
+                }
+                else{
+                    inDom = true;
+                }
             }
             if (!inDom) {
                 //牛逼的正则啊
@@ -1086,7 +1131,7 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
         _render: function(key, data) {
             var self = this,tmpler = self.get('tmpler');
             if(tmpler){
-               if (key.split('.').length > 1) {
+               if (key.split('.').length > 1&&self.get("rendered")) {
                     //部分数据更新
                     key = key.replace(/^data\./, '');
                     self._renderTmpl(tmpler.bricks, key, data);
