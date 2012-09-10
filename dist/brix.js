@@ -15,7 +15,6 @@ Brix.config = function(options) {
     KISSY.config({
         packages: [{
             name: "brix",
-            tag: "20120906",
             path:options.path,
             //path: "http://a.tbcdn.cn/p/",
             charset: "utf-8"
@@ -31,15 +30,15 @@ Brix.config = function(options) {
                 if(debug){
                    $4 = $4.replace('-min','');
                 }
-                str += $4+$5;
+                str += $4+($5?$5:'');
                 return str;
             }],
-            [/(.+brix\/)(core.+?)((?:-min)?\.js)(\?[^?]+)?$/, function($0,$1,$2,$3,$4,$5){
+            [/(.+brix\/)(core.+?)((?:-min)?\.js)(\?[^?]+)?$/, function($0,$1,$2,$3,$4){
                 var str = $1+options.fixed;
                 if(debug){
                    $3 = $3.replace('-min','');
                 }
-                str += $2+$3+$4;
+                str += $2+$3+($4?$4:'');
                 return str;
             }],
             [/(.+brix\/)(gallery\/)(.+?)(\/.+?(?:-min)?\.css)(\?[^?]+)?$/, function($0,$1,$2,$3,$4,$5){
@@ -50,7 +49,7 @@ Brix.config = function(options) {
                 if(debug){
                    $4 = $4.replace('-min','');
                 }
-                str += $4+$5;
+                str += $4+($5?$5:'');
                 return str;
             }]
         ]
