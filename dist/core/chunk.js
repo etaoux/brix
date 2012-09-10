@@ -151,10 +151,12 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
         _render: function(key, data) {
             var self = this,tmpler = self.get('tmpler');
             if(tmpler){
-               if (key.split('.').length > 1&&self.get("rendered")) {
-                    //部分数据更新
-                    key = key.replace(/^data\./, '');
-                    self._renderTmpl(tmpler.bricks, key, data);
+               if (key.split('.').length > 1) {
+                    if(self.get("rendered")){
+                        //已经渲染，才能局部刷新
+                        key = key.replace(/^data\./, '');
+                        self._renderTmpl(tmpler.bricks, key, data);
+                    }
                 } else {
                     if(!tmpler.inDom){
                         var container = self.get('container');
