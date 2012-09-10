@@ -2,8 +2,9 @@
 
 基于淘宝 [Kissy](http://kissyui.com) 框架和 [mustache](http://mustache.github.com) 模板引擎的一淘通用组件库。
 
-## 组件库的底层包含七个文件
+## 组件库的底层包含八个文件
 
+* brix.js : 框架的配置入口类
 * chunk.js : `brick.js` 和 `pagelet.js` 类的父类
 * tmpler.js : 模板解析类，用 `mustache` 渲染。
 * dataset.js : 数据管理类，数据变化时，通知模板引擎更新
@@ -14,7 +15,7 @@
 
 ## 类关系图
 
-![Brix 类关系图](http://img02.taobaocdn.com/tps/i2/T1ty_nXapdXXaFmrLb-907-733.png)
+![Brix 类关系图](http://img03.taobaocdn.com/tps/i3/T124PLXaVfXXbhgaZw-1075-770.png)
 
 ## 组件钩子
 
