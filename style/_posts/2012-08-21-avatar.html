@@ -4,105 +4,195 @@ demo: avatar
 layout: style
 ---
 
+<!--[if lt IE 9]>
+<script type="text/javascript">
+if (!document.namespaces['v']) {
+    document.namespaces.add('v', 'urn:schemas-microsoft-com:vml', '#default#VML');
+}
+</script>
+<![endif]-->
+
 {% highlight html %}
-<a href="#" class="avatar">
-  <span class="avatar-rim"></span>
-  <span class="avatar-pic">
-    <img src="{{ site.baseurl }}/demo/style/assets/avatar/gal.jpg" alt="avatar-default">
-  </span>
+<a href="#" onclick="return false" class="avatar">
+    <span class="avatar-rim"></span>
+    <span class="avatar-pic">
+        <img src="{{ site.baseurl }}/demo/assets/avatar_default_60x60.png" alt="avatar-default">
+        <!--[if lt IE 9]>
+        <v:oval stroked="f">
+            <v:fill strokeweight="0" src="{{ site.baseurl }}/demo/assets/avatar_default_60x60.png" type="frame" />
+        </v:oval>
+        <![endif]-->
+    </span>
 </a>
 {% endhighlight %}
 
 <div class="row avatar-showcase">
-  <div class="span16">
+  <div class="span12">
     <h3>普通尺寸头像</h3>
-    <div class="avatar-showcase-column">
-      <p>普通样式</p>
-      <a href="#" onclick="return false" class="avatar">
+    <p>普通样式</p>
+    <a href="#" onclick="return false" class="avatar">
         <span class="avatar-rim"></span>
         <span class="avatar-pic">
-          <img src="{{ site.baseurl }}/demo/style/assets/avatar/gal.jpg" alt="avatar-default">
+            <img src="{{ site.baseurl }}/demo/assets/avatar_default_60x60.png" alt="avatar-default">
+            <!--[if lt IE 9]>
+            <v:oval stroked="f">
+                <v:fill strokeweight="0" src="{{ site.baseurl }}/demo/assets/avatar_default_60x60.png" type="frame" />
+            </v:oval>
+            <![endif]-->
         </span>
-      </a>
-      <p>普通样式-高亮</p>
-      <a href="#" onclick="return false" class="avatar">
+    </a>
+    <p>普通样式-高亮</p>
+    <a href="#" onclick="return false" class="avatar">
         <span class="avatar-rim avatar-active"></span>
         <span class="avatar-pic">
-          <img src="{{ site.baseurl }}/demo/style/assets/avatar/gal.jpg" alt="avatar-default">
+            <img src="{{ site.baseurl }}/demo/assets/avatar_default_60x60.png" alt="avatar-default">
+            <!--[if lt IE 9]>
+            <v:oval stroked="f">
+                <v:fill src="{{ site.baseurl }}/demo/assets/avatar_default_60x60.png" type="frame" />
+            </v:oval>
+            <![endif]-->
         </span>
-      </a>
-      <p>带标签的普通头像</p>
-      <a href="#" onclick="return false" class="avatar avatar-has-label">
-        <span class="avatar-rim"></span>
-        <span class="avatar-pic">
-          <img src="{{ site.baseurl }}/demo/style/assets/avatar/gal.jpg" alt="avatar-default">
-        </span>
-      </a>
-      <p>带标签的普通头像-高亮</p>
-      <a href="#" onclick="return false" class="avatar avatar-has-label">
-        <span class="avatar-rim avatar-active"></span>
-        <span class="avatar-pic">
-          <img src="{{ site.baseurl }}/demo/style/assets/avatar/gal.jpg" alt="avatar-default">
-        </span>
-      </a>
-    </div>
+    </a>
+    <p>带标签的普通头像</p>
+          <a href="#" onclick="return false" class="avatar avatar-has-label">
+              <span class="avatar-rim"></span>
+              <span class="avatar-pic">
+                  <img src="{{ site.baseurl }}/demo/assets/avatar_default_60x60.png" alt="avatar-default">
+                  <!--[if lt IE 9]>
+                  <v:oval stroked="f">
+                      <v:fill src="{{ site.baseurl }}/demo/assets/avatar_default_60x60.png" type="frame" />
+                  </v:oval>
+                  <![endif]-->
+              </span>
+          </a>
+    <p>带标签的普通头像-高亮</p>
+          <a href="#" onclick="return false" class="avatar avatar-has-label">
+              <span class="avatar-rim avatar-active"></span>
+              <span class="avatar-pic">
+                  <img src="{{ site.baseurl }}/demo/assets/avatar_default_60x60.png" alt="avatar-default">
+                  <!--[if lt IE 9]>
+                  <v:oval stroked="f">
+                      <v:fill src="{{ site.baseurl }}/demo/assets/avatar_default_60x60.png" type="frame" />
+                  </v:oval>
+                  <![endif]-->
+              </span>
+          </a>
   </div>
-  <div class="span16 offset1">
+  <div class="span12 offset1">
     <h3>mini型头像</h3>
-    <div class="avatar-showcase-column">
-      <p>普通小头像</p>
-      <a href="#" onclick="return false" class="avatar-min">
+    <p>普通小头像</p>
+    <a href="#" onclick="return false" class="avatar-min">
         <span class="avatar-rim"></span>
         <span class="avatar-pic">
-          <img src="{{ site.baseurl }}/demo/style/assets/avatar/gal-min.png" alt="avatar-default">
+            <img src="{{ site.baseurl }}/demo/assets/avatar_default_30x30.png" alt="avatar-default">
+            <!--[if lt IE 9]>
+            <v:oval stroked="f">
+                <v:fill src="{{ site.baseurl }}/demo/assets/avatar_default_30x30.png" type="frame" />
+            </v:oval>
+            <![endif]-->
         </span>
-      </a>
-      <p>普通小头像-高亮</p>
-      <a href="#" onclick="return false" class="avatar-min">
+    </a>
+    <p>普通小头像-高亮</p>
+    <a href="#" onclick="return false" class="avatar-min">
         <span class="avatar-rim avatar-active"></span>
         <span class="avatar-pic">
-          <img src="{{ site.baseurl }}/demo/style/assets/avatar/gal-min.png" alt="avatar-default">
+            <img src="{{ site.baseurl }}/demo/assets/avatar_default_30x30.png" alt="avatar-default">
+            <!--[if lt IE 9]>
+            <v:oval stroked="f">
+                <v:fill src="{{ site.baseurl }}/demo/assets/avatar_default_30x30.png" type="frame" />
+            </v:oval>
+            <![endif]-->
         </span>
-      </a>
-      <p>带标签的小头像</p>
-      <a href="#" onclick="return false" class="avatar-min avatar-min-label">
+    </a>
+    <p>带标签的小头像</p>
+    <a href="#" onclick="return false" class="avatar-min avatar-min-label">
         <span class="avatar-rim"></span>
         <span class="avatar-pic">
-          <img src="{{ site.baseurl }}/demo/style/assets/avatar/gal-min.png" alt="avatar-default">
+            <img src="{{ site.baseurl }}/demo/assets/avatar_default_30x30.png" alt="avatar-default">
+            <!--[if lt IE 9]>
+            <v:oval stroked="f">
+                <v:fill src="{{ site.baseurl }}/demo/assets/avatar_default_30x30.png" type="frame" />
+            </v:oval>
+            <![endif]-->
         </span>
-      </a>
-      <p>带标签的小头像-高亮</p>
-      <a href="#" onclick="return false" class="avatar-min avatar-min-label">
+    </a>
+    <p>带标签的小头像-高亮</p>
+    <a href="#" onclick="return false" class="avatar-min avatar-min-label">
         <span class="avatar-rim avatar-active"></span>
         <span class="avatar-pic">
-          <img src="{{ site.baseurl }}/demo/style/assets/avatar/gal-min.png" alt="avatar-default">
+            <img src="{{ site.baseurl }}/demo/assets/avatar_default_30x30.png" alt="avatar-default">
+            <!--[if lt IE 9]>
+            <v:oval stroked="f">
+                <v:fill src="{{ site.baseurl }}/demo/assets/avatar_default_30x30.png" type="frame" />
+            </v:oval>
+            <![endif]-->
         </span>
-      </a>
-    </div>
+    </a>
   </div>
-  <div class="span16 offset1">
+  <div class="span12 offset1">
     <h3>坐标头像</h3>
-    <div class="avatar-showcase-column">
-      <a href="#" onclick="return false" class="avatar-point">
+    <p>默认</p>
+    <a href="#" onclick="return false" class="avatar-point">
+        <span class="avatar-rim avatar-active"></span>
+        <span class="avatar-pic">
+            <img src="{{ site.baseurl }}/demo/assets/avatar_default_60x60.png" alt="avatar-default">
+            <!--[if lt IE 9]>
+            <v:oval stroked="f">
+                <v:fill src="{{ site.baseurl }}/demo/assets/avatar_default_60x60.png" type="frame" />
+            </v:oval>
+            <![endif]-->
+        </span>
+    </a>
+  </div>
+  <div class="span11 offset1">
+    <h3>默认头像</h3>
+    <p>默认男</p>
+    <a href="#" onclick="return false" class="avatar">
         <span class="avatar-rim"></span>
         <span class="avatar-pic">
-          <img src="{{ site.baseurl }}/demo/style/assets/avatar/gal.jpg" alt="avatar-default">
+            <img src="{{ site.baseurl }}/demo/assets/avatar_default_man.png" alt="avatar-default">
+            <!--[if lt IE 9]>
+            <v:oval stroked="f">
+                <v:fill src="{{ site.baseurl }}/demo/assets/avatar_default_man.png" type="frame" />
+            </v:oval>
+            <![endif]-->
         </span>
-      </a>
-      <h3>默认男</h3>
-      <a href="#" onclick="return false" class="avatar">
+    </a>
+    <p>默认男-高亮</p>
+    <a href="#" onclick="return false" class="avatar">
         <span class="avatar-rim avatar-active"></span>
         <span class="avatar-pic">
-          <img src="{{ site.baseurl }}/demo/style/assets/avatar/default_man.png" alt="avatar-default">
+            <img src="{{ site.baseurl }}/demo/assets/avatar_default_man.png" alt="avatar-default">
+            <!--[if lt IE 9]>
+            <v:oval stroked="f">
+                <v:fill src="{{ site.baseurl }}/demo/assets/avatar_default_man.png" type="frame" />
+            </v:oval>
+            <![endif]-->
         </span>
-      </a>
-      <h3>默认女</h3>
-      <a href="#" onclick="return false" class="avatar">
+    </a>
+    <p>默认女</p>
+    <a href="#" onclick="return false" class="avatar">
+        <span class="avatar-rim"></span>
+        <span class="avatar-pic">
+            <img src="{{ site.baseurl }}/demo/assets/avatar_default_woman.png" alt="avatar-default">
+            <!--[if lt IE 9]>
+            <v:oval stroked="f">
+                <v:fill src="{{ site.baseurl }}/demo/assets/avatar_default_woman.png" type="frame" />
+            </v:oval>
+            <![endif]-->
+        </span>
+    </a>
+    <p>默认女-高亮</p>
+    <a href="#" onclick="return false" class="avatar">
         <span class="avatar-rim avatar-active"></span>
         <span class="avatar-pic">
-          <img src="{{ site.baseurl }}/demo/style/assets/avatar/default_woman.png" alt="avatar-default">
+            <img src="{{ site.baseurl }}/demo/assets/avatar_default_woman.png" alt="avatar-default">
+            <!--[if lt IE 9]>
+            <v:oval stroked="f">
+                <v:fill src="{{ site.baseurl }}/demo/assets/avatar_default_woman.png" type="frame" />
+            </v:oval>
+            <![endif]-->
         </span>
-      </a>
-    </div>
+    </a>
   </div>
 </div>

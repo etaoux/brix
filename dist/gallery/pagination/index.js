@@ -93,7 +93,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
         }
     };
 
-    Pagination.ATTACH = {
+    Pagination.EVENTS = {
         '.page-num': {
             keydown: function(e) {
                 if (e.keyCode === 13) {
@@ -128,7 +128,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
         }
     };
 
-    Pagination.METHOD = {
+    Pagination.METHODS = {
         /**
          * 页面跳转或者触发goToPage事件
          * @param  {Number} page 要跳转的页
@@ -533,7 +533,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             self.set('formatUrl', formatUrl);
         }
     });
-    S.augment(Pagination, Pagination.METHOD);
+    S.augment(Pagination, Pagination.METHODS);
     return Pagination;
 }, {
     requires: ["brix/core/brick"]

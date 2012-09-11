@@ -91,7 +91,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
         }
     };
 
-    Page.RENDERER = {
+    Page.RENDERERS = {
         da:{
             html:function(context){
                 var self = context,
@@ -168,7 +168,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
         }
     }
 
-    Page.ATTACH = {
+    Page.EVENTS = {
         '.calendar-prev-year':{
             click:function(e){
                 var self = this,
@@ -302,7 +302,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
         }
     };
 
-    Page.METHOD = {
+    Page.METHODS = {
 
     };
 
@@ -336,7 +336,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
         }
 
     });
-    S.augment(Page, Page.METHOD);
+    S.augment(Page, Page.METHODS);
     return Page;
 }, {
     requires: ["brix/core/brick","./time","./date"]

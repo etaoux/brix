@@ -16,7 +16,7 @@ KISSY.add("brix/gallery/toc/index", function(S, Brick) {
         }
     };
 
-    ToC.ATTACH = {
+    ToC.EVENTS = {
         '': {
             mouseenter: function(e) {
                 var container = this.get('container'),
@@ -33,7 +33,7 @@ KISSY.add("brix/gallery/toc/index", function(S, Brick) {
         }
     };
 
-    ToC.METHOD = {
+    ToC.METHODS = {
         parse: function() {
             var essay = S.one(this.get('essay')),
                 level = this.get('level'),
@@ -120,7 +120,7 @@ KISSY.add("brix/gallery/toc/index", function(S, Brick) {
         }
     });
 
-    S.augment(ToC, ToC.METHOD);
+    S.augment(ToC, ToC.METHODS);
 
     return ToC;
 }, {

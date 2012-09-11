@@ -10,7 +10,7 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
             value:'<div class="inplaceeditor-popup"><input type="text" value=""></div>'
         }
     };
-    InplaceEditor.ATTACH = {
+    InplaceEditor.EVENTS = {
         "input": {
             focusout: function(e) {
                 this.hide();
@@ -23,7 +23,7 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
         }
     };
 
-    InplaceEditor.METHOD = {
+    InplaceEditor.METHODS = {
         /**
          * 显示就地编辑
          * @param  {Number} x 显示的X坐标
@@ -75,7 +75,7 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
         
     });
 
-    S.augment(InplaceEditor,InplaceEditor.METHOD);
+    S.augment(InplaceEditor,InplaceEditor.METHODS);
     
     return InplaceEditor;
 }, {

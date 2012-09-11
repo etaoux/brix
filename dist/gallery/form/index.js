@@ -7,7 +7,7 @@ KISSY.add("brix/gallery/form/index", function(S, Brick) {
     function Form() {
         Form.superclass.constructor.apply(this, arguments);
     }
-    Form.ATTACH = {
+    Form.EVENTS = {
         '.checkbox, .radio': {
             'keyup': function (e) {
                 if (e.keyCode === KeyCodes.ENTER ||
