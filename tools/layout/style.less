@@ -21,7 +21,7 @@ html, body {
     top: 50px;
     overflow: hidden;
     width: 100%;
-    height: 30px;
+    height: 32px;
     line-height: 48px;
 }
 #r-resolution {
@@ -84,6 +84,7 @@ html, body {
     position: absolute;
     float: none;
     border-left: 1px solid #fff;
+    height: 30px;
     text-align: left;
     text-indent: 3px;
 }
@@ -173,9 +174,18 @@ html, body {
     left: 0;
     border-right: 1px dotted #666;
     width: 59px;
+    height: 60px;
     line-height: 56px;
     font-size: 40px;
     text-decoration: none;
+}
+.r-hided-div {
+    float: left;
+    box-size: border-box;
+    border: 3px dashed #ccc;
+    margin-right: -10px;
+    width: 10px;
+    height: 30px;
 }
 .r-div {
     overflow: hidden;
@@ -202,6 +212,19 @@ html, body {
     text-align: center;
     font-size: 2em;
 }
+.r-hide-div {
+    display: none;
+    position: absolute;
+    right: 28px;
+    width: 28px;
+    line-height: 26px;
+    height: 28px;
+    font-size: 24px;
+    text-indent: 6px;
+    color: #fff;
+    cursor: pointer;
+    background: #333;
+}
 .r-remove-div {
     display: none;
     position: absolute;
@@ -212,6 +235,7 @@ html, body {
     font-size: 24px;
     text-indent: 6px;
     color: #fff;
+    cursor: pointer;
     background: #333;
 }
 .r-div-size {
@@ -224,6 +248,8 @@ html, body {
 }
 .r-div:hover .r-div-size,
 .r-div.drag .r-div-size,
+.r-div:hover .r-hide-div,
+.r-div.drag .r-hide-div,
 .r-div:hover .r-remove-div,
 .r-div.drag .r-remove-div,
 .r-div:hover .ks-resizable-handler,
