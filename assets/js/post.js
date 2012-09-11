@@ -33,48 +33,61 @@ KISSY.all('.j-demo').on('load', function(e) {
 });
 
 KISSY.ready(function(S) {
-    if (!window.log4javascript) {
-        return;
-    }
-	var log = log4javascript.getLogger("main");
-	var appender = new log4javascript.InPageAppender('J_log',true);
-	var logdivNode = S.one('#J_log');
-	var closeNode = S.one('#J_close')
-	log.addAppender(appender);
-    closeNode.on('click',function (e) {
-        e.halt();
-        if(closeNode.html()!='显示调试窗口'){
-            log.info('隐藏调试窗口');
-        	logdivNode.animate({width:'88px',height:'18px'},0.3,'easeNone',function(){
-                appender.hide();
-                closeNode.html('显示调试窗口');
-            });
 
+    function initLog() {
+        if (!window.log4javascript) {
+            return;
         }
-        else{
-            log.info('显示调试窗口');
-            appender.show();
-            logdivNode.animate({width:'600px',height:'225px'},0.3,'easeNone',function(){
-                closeNode.html('隐藏调试窗口');
-            });
-        }
+        var log = log4javascript.getLogger("main");
+        var appender = new log4javascript.InPageAppender('J_log',true);
+        var logdivNode = S.one('#J_log');
+        var closeNode = S.one('#J_close')
+        log.addAppender(appender);
+        closeNode.on('click',function (e) {
+            e.halt();
+            if(closeNode.html()!='显示调试窗口'){
+                log.info('隐藏调试窗口');
+                logdivNode.animate({width:'88px',height:'18px'},0.3,'easeNone',function(){
+                    appender.hide();
+                    closeNode.html('显示调试窗口');
+                });
+
+            }
+            else{
+                log.info('显示调试窗口');
+                appender.show();
+                logdivNode.animate({width:'600px',height:'225px'},0.3,'easeNone',function(){
+                    closeNode.html('隐藏调试窗口');
+                });
+            }
+        });
+
+        console = window.console || {};
+        console.log = function() {
+            log.info.apply(log,arguments);
+        };
+    }
+
+    initLog();
+
+    KISSY.use('sizzle', function(S) {
+        var aside = S.one('#aside');
+
+        aside.delegate('click', 'section:not(.current)', function(e) {
+            var cat = S.Node(e.currentTarget);
+
+            cat.toggleClass('collapsed');
+        })
     });
 
-	console = window.console || {};
-	console.log = function() {
-        log.info.apply(log,arguments);
-    };
-});
-
-KISSY.ready(function() {
     KISSY.use('brix/gallery/toc/,brix/gallery/affix/', function(S, ToC, Affix) {
         var toc = new ToC({
             essay: '#page',
             tmpl: S.one('#J_tocTemplate').html(),
             container: '#J_tocBox'
         });
-        toc.render();
         toc.setChunkData('tree', toc.parse());
+        toc.render();
         var affix = new Affix({
             el: '#J_toc',
             scrollOffset: 20,

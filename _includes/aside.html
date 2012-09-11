@@ -4,11 +4,13 @@
   </div>
   {% for category in site.categories %}
   {% if page.categories contains category[0] %}
-  <section>
-    <h3>{{ category | first | capitalize }}</h3>
+  <section class="current">
+  {% else %}
+  <section class="collapsed">
+  {% endif %}
+    <h3>{{ category | first | capitalize }}<b class="arrow"></b></h3>
     {% assign posts = category[1] %}
     {% include entries.html %}
   </section>
-  {% endif %}
   {% endfor %}
 </aside>
