@@ -36,10 +36,19 @@
   </div>
   
   
+  <section class="collapsed">
+  
+    <h3>Core<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/core/1-brix" class="">Brix</a></li><li><a href="/brix/core/2-chunk" class="">Chunk</a></li><li><a href="/brix/core/3-brick" class="">Brick</a></li><li><a href="/brix/core/4-pagelet" class="">Pagelet</a></li><li><a href="/brix/core/5-dataset" class="">Dataset</a></li><li><a href="/brix/core/6-tmpler" class="">Tmpler</a></li>
+</ul>
+  </section>
   
   
-  <section>
-    <h3>Guide</h3>
+  <section class="current">
+  
+    <h3>Guide<b class="arrow"></b></h3>
     
     <ul class="entries">
 <li><a href="/brix/guide/1-helloworld" class="">Brix之旅开始</a></li><li><a href="/brix/guide/2-attrs" class="">ATTRS</a></li><li><a href="/brix/guide/3-attach" class="">ATTACH & DOCATTACH</a></li><li><a href="/brix/guide/4-method" class="">METHOD</a></li><li><a href="/brix/guide/5-fire" class="">fire</a></li><li><a href="/brix/guide/6-renderder" class="">RENDERDER</a></li><li><a href="/brix/guide/7-brixhook" class="">Hook</a></li><li><a href="/brix/guide/7-goodbye" class="">Brix之旅结束</a></li>
@@ -47,17 +56,64 @@
   </section>
   
   
+  <section class="collapsed">
+  
+    <h3>Gallery<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/gallery/breadcrumbs" class="">Breadcrumbs</a></li><li><a href="/brix/gallery/calendar" class="">Calendar</a></li><li><a href="/brix/gallery/colorpicker" class="">ColorPicker</a></li><li><a href="/brix/gallery/datepicker" class="">DatePicker</a></li><li><a href="/brix/gallery/dialog" class="">Dialog</a></li><li><a href="/brix/gallery/dropdown" class="">Dropdown</a></li><li><a href="/brix/gallery/inplace-editor" class="">InplaceEditor</a></li><li><a href="/brix/gallery/kwicks" class="">Kwicks</a></li><li><a href="/brix/gallery/loading" class="">Loading</a></li><li><a href="/brix/gallery/pagination" class="">Pagination</a></li><li><a href="/brix/gallery/slider" class="">Slider</a></li><li><a href="/brix/gallery/starrating" class="">StarRating</a></li><li><a href="/brix/gallery/switcher" class="">Switcher</a></li><li><a href="/brix/gallery/tips" class="">Tips</a></li><li><a href="/brix/gallery/sidenav" class="">SideNav</a></li><li><a href="/brix/gallery/timer" class="">Timer</a></li><li><a href="/brix/gallery/searchbox" class="">Searchbox</a></li>
+</ul>
+  </section>
   
   
+  <section class="collapsed">
+  
+    <h3>Meta<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/meta/gallery" class="">组件开发规范</a></li><li><a href="/brix/meta/gallery-doc-sample" class="">组件文档示例</a></li><li><a href="/brix/meta/style" class="">Brix Style 开发规范</a></li><li><a href="/brix/meta/style-doc" class="">Brix Style 文档规范</a></li>
+</ul>
+  </section>
   
   
+  <section class="collapsed">
+  
+    <h3>Arch<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/arch/1-goal" class="">Brix 组件架构（一）</a></li><li><a href="/brix/arch/2-reporting-system-modulization" class="">Brix 组件架构（二）</a></li><li><a href="/brix/arch/3-tab-and-tab-configer" class="">Brix 组件架构（三）</a></li><li><a href="/brix/arch/4-sub-modules-and-data-structure" class="">Brix 组件架构（四）</a></li>
+</ul>
+  </section>
   
   
+  <section class="collapsed">
+  
+    <h3>Style<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/style/scaffolding" class="">Scaffolding</a></li><li><a href="/brix/style/type" class="">Type</a></li><li><a href="/brix/style/grid" class="">Grid</a></li><li><a href="/brix/style/forms" class="">Forms</a></li><li><a href="/brix/style/buttons" class="">Buttons</a></li><li><a href="/brix/style/flowsteps" class="">flowsteps</a></li><li><a href="/brix/style/tables" class="">tables</a></li><li><a href="/brix/style/tags" class="">tags</a></li><li><a href="/brix/style/avatar" class="">Avatar</a></li><li><a href="/brix/style/footer" class="">footer</a></li><li><a href="/brix/style/msg-box" class="">msg-box</a></li>
+</ul>
+  </section>
   
   
+  <section class="collapsed">
+  
+    <h3>Tutorials<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/tutorials/style" class="">Brix Style开发指南</a></li>
+</ul>
+  </section>
   
   
+  <section class="collapsed">
   
+    <h3>Intro<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/intro/1-intro" class="hot">Brix Framework 简介</a></li>
+</ul>
+  </section>
   
 </aside>
   <div id="page">
@@ -317,7 +373,7 @@
   </div>
   <script type="text/template" id="J_tocTemplate">
 
-<a href="javascript:void(0);" class="toggle-toc">目录<b></b></a>
+<a href="javascript:void(0);" class="toggle-toc">目录<b class="arrow"></b></a>
 <ul id="J_toc" bx-name="toc" bx-tmpl="toc" bx-datakey="tree">
 {{#tree}}
   <li><a href="#{{id}}">{{text}}</a>
