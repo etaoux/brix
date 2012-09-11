@@ -69,7 +69,7 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             value: '#ffffff'
         }
     };
-    ColorPicker.DOCATTACH = {
+    ColorPicker.DOCEVENTS = {
         '': {
             click: function(e) {
                 var self = this,
@@ -82,7 +82,7 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             }
         }
     }
-    ColorPicker.ATTACH = {
+    ColorPicker.EVENTS = {
         '.picker': {
             click: function(e) {
                 var self = this,
@@ -174,7 +174,7 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
         hide: 'hide'
     };
 
-    ColorPicker.METHOD = {
+    ColorPicker.METHODS = {
         show: function() {
             var self = this;
             if(!self.get('rendered')){
@@ -531,7 +531,7 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             self.overlay.destroy();
         }
     });
-    S.augment(ColorPicker, ColorPicker.METHOD);
+    S.augment(ColorPicker, ColorPicker.METHODS);
     return ColorPicker;
 }, {
     requires: ["brix/core/brick", "overlay", "dd"]

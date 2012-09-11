@@ -1,0 +1,77 @@
+.fs-item {
+  float: left;
+}
+.flowsteps .fs-item {
+  position: relative;
+  margin-top: 8px;
+  margin-right: 30px;
+  color: #acacac;
+  font-size: 16px;
+}
+.flowsteps .fs-item b {
+  margin-right: 6px;
+  font-size: 18px;
+  position: relative;
+  top: 1px;
+  font-family: tahoma;
+  font-weight: 400;
+}
+.flowsteps .fs-item-current {
+  margin-top: 0;
+  font-size: 24px;
+  color: #101010;
+}
+.flowsteps .fs-item-current b {
+  font-size: 26px;
+}
+.flowsteps .fs-item-done {
+  color: #606060;
+}
+.flowsteps-small .fs-item {
+  float: left;
+  font-size: 12px;
+  position: relative;
+  margin: 30px 0 0 1px;
+}
+.flowsteps-small .fs-item i {
+  background: url(http://img01.taobaocdn.com/tps/i1/T1f9YKXblXXXaEiM6e-36-12.png) no-repeat -24px 0;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin: 0 1px 0 0;
+}
+.flowsteps-small .fs-item b {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  position: relative;
+  height: 0;
+  left: 0;
+  top: -5px;
+  _top: -8px;
+  border: 1px solid #eeeeee;
+  width: 100px;
+  _overflow: hidden;
+}
+.flowsteps-small .fs-item span {
+  position: absolute;
+  top: -25px;
+  left: 1px;
+  white-space: nowrap;
+  color: #acacac;
+}
+.flowsteps-small .fs-item-done i {
+  background-position: 0 0;
+}
+.flowsteps-small .fs-item-done b {
+  border-color: #ccc;
+}
+.flowsteps-small .fs-item-done span {
+  color: #606060;
+}
+.flowsteps-small .fs-item-current i {
+  background-position: -12px 0;
+}
+.flowsteps-small .fs-item-current span {
+  color: #606060;
+}

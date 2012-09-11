@@ -38,7 +38,7 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick, Node) {
 
     };
 
-    Searchbox.ATTACH = {
+    Searchbox.EVENTS = {
 
         '.searchbox-menu':{
             mouseenter:function (e) {
@@ -143,7 +143,7 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick, Node) {
 
     };
 
-    Searchbox.METHOD = {
+    Searchbox.METHODS = {
         _focusInput:function () {
             var self = this;
             var s = self.searchObj;
@@ -437,7 +437,7 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick, Node) {
         }
     });
 
-    S.augment(Searchbox, Searchbox.METHOD);
+    S.augment(Searchbox, Searchbox.METHODS);
     return Searchbox;
 
 

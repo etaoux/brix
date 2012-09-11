@@ -7,7 +7,7 @@ KISSY.add('helloworld', function(S, Brick) {
             value: 'World'
         }
     };
-    HelloWorld.ATTACH = {
+    HelloWorld.EVENTS = {
 		"":{
 			"click":function(){
 				top.console.log('节点被点击');
@@ -22,21 +22,21 @@ KISSY.add('helloworld', function(S, Brick) {
 		}
 	};
 
-	HelloWorld.DOCATTACH = {
+	HelloWorld.DOCEVENTS = {
 		"":{
 			"click":function(){
 				top.console.log('document被点击');
 			}
 		}
 	};
-    HelloWorld.RENDERER = {
+    HelloWorld.RENDERERS = {
         xx: {
             yy: function(context) {
                 return "xx_" + context.get('name') + "_yy"
             }
         }
     };
-	HelloWorld.METHOD = {
+	HelloWorld.METHODS = {
 		show:function () {
 			this.get('el').fadeIn();
 			this.fire('show',{data:'showdata'});
@@ -51,7 +51,7 @@ KISSY.add('helloworld', function(S, Brick) {
 
 	});
 
-	S.augment(HelloWorld,HelloWorld.METHOD);
+	S.augment(HelloWorld,HelloWorld.METHODS);
 	return HelloWorld;
 }, {
 	requires: ["brix/core/brick"]

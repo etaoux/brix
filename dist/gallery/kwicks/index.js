@@ -52,7 +52,7 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
             value: 3000
         }
     };
-    Kwicks.ATTACH = {
+    Kwicks.EVENTS = {
         '': {
             'mouseenter': function() {
                 var self = this,
@@ -91,7 +91,7 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
         }
     };
 
-    Kwicks.METHOD = {
+    Kwicks.METHODS = {
         /**
          *  切换到某个视图
          * @param  {Number} i 要切换的项
@@ -263,7 +263,7 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
             }
         }
     });
-    S.augment(Kwicks, Kwicks.METHOD);
+    S.augment(Kwicks, Kwicks.METHODS);
     return Kwicks;
 }, {
     requires: ["brix/core/brick"]

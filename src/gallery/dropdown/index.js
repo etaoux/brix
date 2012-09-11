@@ -8,7 +8,7 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
         }
     }
 
-    Dropdown.METHOD = {
+    Dropdown.METHODS = {
         focus: function() {
             var mode = this.get('mode'),
                 el = this.get('el');
@@ -28,7 +28,7 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
         }
     }
 
-    Dropdown.DOCATTACH = {
+    Dropdown.DOCEVENTS = {
         "":{//空选择器，表示将事件直接绑定在document上
             click:function(e){
                 var self = this;
@@ -41,7 +41,7 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
             }
         }
     }
-    Dropdown.ATTACH = {
+    Dropdown.EVENTS = {
         "":{
             mouseleave:function(){
                 var mode = this.get('mode');
@@ -113,7 +113,7 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
     S.extend(Dropdown, Brick, {
     });
 
-    S.augment(Dropdown,Dropdown.METHOD);
+    S.augment(Dropdown,Dropdown.METHODS);
     return Dropdown;
 }, {
     requires: ["brix/core/brick"]

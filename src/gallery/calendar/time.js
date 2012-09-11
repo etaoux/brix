@@ -46,7 +46,7 @@ KISSY.add('brix/gallery/calendar/time', function(S, Brick) {
         }
     };
 
-    Time.ATTACH = {
+    Time.EVENTS = {
         'span':{
             click:function(e){
                 var self = this, node = S.one(e.currentTarget);
@@ -119,7 +119,7 @@ KISSY.add('brix/gallery/calendar/time', function(S, Brick) {
         }
     };
 
-    Time.METHOD = {
+    Time.METHODS = {
 
     };
 
@@ -171,7 +171,7 @@ KISSY.add('brix/gallery/calendar/time', function(S, Brick) {
             self.overlay.destroy();
         }
     });
-    S.augment(Time, Time.METHOD);
+    S.augment(Time, Time.METHODS);
     return Time;
 }, {
     requires: ["brix/core/brick"]
