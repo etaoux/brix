@@ -42,7 +42,7 @@ KISSY.add('brix/gallery/starrating/index', function(S, Brick, Node,UA) {
         }
     };
 
-    StarRating.ATTACH = {
+    StarRating.EVENTS = {
         '.starrating-star': {
             mouseenter: function(e) {
                 if (!this.get('readOnly')) {
@@ -81,7 +81,7 @@ KISSY.add('brix/gallery/starrating/index', function(S, Brick, Node,UA) {
         }
     };
 
-    StarRating.METHOD = {
+    StarRating.METHODS = {
         select: function(node) {
             var self = this;
             if (typeof node == 'number') {
@@ -261,7 +261,7 @@ KISSY.add('brix/gallery/starrating/index', function(S, Brick, Node,UA) {
             
         }
     });
-    S.augment(StarRating, StarRating.METHOD);
+    S.augment(StarRating, StarRating.METHODS);
     return StarRating;
 }, {
     requires: ["brix/core/brick", "node","ua"]

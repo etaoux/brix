@@ -19,7 +19,7 @@ KISSY.add("brix/gallery/affix/index", function(S, Brick) {
         }
     };
 
-    Affix.DOCATTACH = {
+    Affix.DOCEVENTS = {
         '': { // listen on the document event
             'scroll': function() {
                 this.check();
@@ -27,7 +27,7 @@ KISSY.add("brix/gallery/affix/index", function(S, Brick) {
         }
     };
 
-    Affix.METHOD = {
+    Affix.METHODS = {
         check: function() {
             var body = S.one(window),
                 el = this.get('el'),
@@ -90,7 +90,7 @@ KISSY.add("brix/gallery/affix/index", function(S, Brick) {
         }
     });
 
-    S.augment(Affix, Affix.METHOD);
+    S.augment(Affix, Affix.METHODS);
 
     return Affix;
 }, {
