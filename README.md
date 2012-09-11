@@ -2,7 +2,31 @@
 
 基于淘宝 [Kissy](http://kissyui.com) 框架和 [mustache](http://mustache.github.com) 模板引擎的一淘通用组件库。
 
-## 组件库的底层包含八个文件
+##如何使用
+
+
+	<script type="text/javascript" src="kissy.js"></script>
+	<script type="text/javascript" src="brix.js"></script>
+	<script type="text/javascript">
+		var options = {
+	        path: '../../../../',//组件路径
+	        fixed:'',//路径修正，brix路劲下存在其他文件夹
+	        gallery:{
+	            //配置组件版本信息
+	            //dropdown:'1.0'
+	    }
+
+		//初始化Brix的配置
+		Brix.config(options);
+
+		//业务代码
+		KISSY.use('brix/core/pagelet',function(S,Pagelet){
+			new Pagelet({tmpl:'body'});
+		});
+	</script>
+
+
+## 组件库核心
 
 * brix.js : 框架的配置入口类
 * chunk.js : `brick.js` 和 `pagelet.js` 类的父类
@@ -53,9 +77,12 @@ grunt
 * tasks : 存放打包脚本目录
 * tools : 辅助工具目录
 
-### 说明
+## 说明
 * 组件开发使用一般使用到src, demo两个目录， src是组件的源代码目录，进入目录后，再选择gallery还是style，同时开发时的demo文件存放在demo目录，对应gallery或style。这两个目录是直接提交到master分支。
 * 文档是在gh-pages-source分支，主要是操作_post目录，gallery组件直接放在_post/gallery目录下; style放在_post/style目录下。
 * gh-pages-source分支下不要去修改src与demo目录，提交也是无效的。
 * 组件中使用到的图片，都传到tps中，项目中直接使用链接地址。
+
+
+
 
