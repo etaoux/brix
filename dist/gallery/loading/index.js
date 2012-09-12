@@ -9,7 +9,7 @@ KISSY.add('brix/gallery/loading/index', function(S, Brick) {
         }
     };
     
-    Loading.METHOD = {
+    Loading.METHODS = {
         show: function() {
             var self = this;
                 el = self.get('el');
@@ -54,7 +54,7 @@ KISSY.add('brix/gallery/loading/index', function(S, Brick) {
         }
     });
 
-    S.augment(Loading, Loading.METHOD);
+    S.augment(Loading, Loading.METHODS);
     return Loading;
 }, {
     requires: ["brix/core/brick"]

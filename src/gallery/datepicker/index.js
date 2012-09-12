@@ -146,7 +146,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
             }
         }
     };
-    DatePicker.RENDERER = {
+    DatePicker.RENDERERS = {
         quick:{
             html:function(context){
                 var quickDates = context.get('quickDates');
@@ -159,7 +159,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
             }
         }
     };
-    DatePicker.DOCATTACH = {
+    DatePicker.DOCEVENTS = {
         '': {
             click: function(e) {
                 var self = this,
@@ -172,7 +172,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
             }
         }
     };
-    DatePicker.ATTACH = {
+    DatePicker.EVENTS = {
         'input':{
             click:function(e){
                 var self = this,
@@ -258,7 +258,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
         }
     };
 
-    DatePicker.METHOD = {
+    DatePicker.METHODS = {
         show: function() {
             var self = this;
             if(!self.get('rendered')){
@@ -327,7 +327,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
         }
                 
     });
-    S.augment(DatePicker, DatePicker.METHOD);
+    S.augment(DatePicker, DatePicker.METHODS);
     return DatePicker;
 }, {
     requires: ["brix/core/brick", "overlay","../calendar/index"]

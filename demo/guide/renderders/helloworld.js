@@ -7,7 +7,7 @@ KISSY.add('helloworld', function(S, Brick) {
             value: 'World'
         }
     };
-    HelloWorld.RENDERER = {
+    HelloWorld.RENDERERS = {
         xx: {
             yy: function(context) {
                 return "xx_" + context.get('name') + "_yy"

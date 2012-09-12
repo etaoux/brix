@@ -8,7 +8,7 @@ KISSY.add('helloworld', function(S, Brick) {
 		}
 	};
 
-	HelloWorld.ATTACH = {
+	HelloWorld.EVENTS = {
 		"":{
 			"click":function(){
 				top.console.log('节点click');
@@ -22,7 +22,7 @@ KISSY.add('helloworld', function(S, Brick) {
 		}
 	};
 
-	HelloWorld.DOCATTACH = {
+	HelloWorld.DOCEVENTS = {
 		"":{
 			"click":function(){
 				top.console.log('document:click');
@@ -31,7 +31,13 @@ KISSY.add('helloworld', function(S, Brick) {
 	};
 
 	S.extend(HelloWorld, Brick, {
-
+		events:{
+			click:{
+				helloworld:function(){
+					top.console.log('bx:click');
+				}
+			}
+		}
 	});
 
 	return HelloWorld;

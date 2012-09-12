@@ -126,7 +126,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
         show: 'show',
         hide: 'hide'
     };
-    Calendar.RENDERER = {
+    Calendar.RENDERERS = {
         op: {
             html: function(context) {
                 var self = context,
@@ -145,7 +145,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
             }
         }
     }
-    Calendar.DOCATTACH = {
+    Calendar.DOCEVENTS = {
         '': {
             click: function(e) {
                 var self = this,
@@ -158,7 +158,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
             }
         }
     };
-    Calendar.ATTACH = {
+    Calendar.EVENTS = {
         ".btn-calendar-confirm": {
             click: function(e) {
                 var self = this,
@@ -211,7 +211,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
         }
     };
 
-    Calendar.METHOD = {
+    Calendar.METHODS = {
         show: function() {
             var self = this;
             if(!self.get('rendered')){
@@ -429,7 +429,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     range.end = t;
                 }
                 self.set('range', range);
-                self.fire('rangeSelect', range);
+                self.fire(Calendar.FIRES.rangeSelect, range);
                 var popup = self.get('popup'),
                     closable = self.get('closable');
                 if (popup && closable) {
@@ -472,7 +472,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
             }
         }
     });
-    S.augment(Calendar, Calendar.METHOD);
+    S.augment(Calendar, Calendar.METHODS);
     return Calendar;
 }, {
     requires: ["brix/core/brick", "overlay", "./page", "./date"]

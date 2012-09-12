@@ -32,19 +32,46 @@ module.exports = function(grunt) {
         var done = this.async();
         var count = files.length;
         files.forEach(function(f,i) {
-            if(path.extname(f) == '.less'){
+            // if(path.extname(f) == '.less'){
+            //     grunt.helper('less', [src+'style/'+f], {yuicompress: true}, function(err, css) {
+            //         if (err) {
+            //             grunt.warn(err);
+            //             done(false);
+            //             return;
+            //         }
+            //         if(path.basename(f) == 'brix.less'){
+            //             file.write(dest+'/brix-min.css', css);
+            //         }
+            //         else{
+            //             file.write(dest+'style/'+path.basename(f,'.less')+'-min.css', css);
+            //         }
+            //     });
+            //     grunt.helper('less', [src+'style/'+f], {}, function(err, css) {
+            //         if (err) {
+            //             grunt.warn(err);
+            //             done(false);
+            //             return;
+            //         }
+            //         if(path.basename(f) == 'brix.less'){
+            //             file.write(dest+'brix.css', css);
+            //         }
+            //         else{
+            //             file.write(dest+'style/'+path.basename(f,'.less')+'.css', css);
+            //         }
+            //         count--;
+            //         if(count==0){
+            //             done();
+            //         }
+            //     });
+            // }
+            if(path.extname(f) == '.less'&&path.basename(f) == 'brix.less'){
                 grunt.helper('less', [src+'style/'+f], {yuicompress: true}, function(err, css) {
                     if (err) {
                         grunt.warn(err);
                         done(false);
                         return;
                     }
-                    if(path.basename(f) == 'brix.less'){
-                        file.write(dest+'/brix-min.css', css);
-                    }
-                    else{
-                        file.write(dest+'style/'+path.basename(f,'.less')+'-min.css', css);
-                    }
+                    file.write(dest+'/brix-min.css', css);
                 });
                 grunt.helper('less', [src+'style/'+f], {}, function(err, css) {
                     if (err) {
@@ -52,12 +79,7 @@ module.exports = function(grunt) {
                         done(false);
                         return;
                     }
-                    if(path.basename(f) == 'brix.less'){
-                        file.write(dest+'brix.css', css);
-                    }
-                    else{
-                        file.write(dest+'style/'+path.basename(f,'.less')+'.css', css);
-                    }
+                    file.write(dest+'brix.css', css);
                     count--;
                     if(count==0){
                         done();

@@ -772,9 +772,16 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
          */
         _buildBricks: function(tmpl) {
             var self = this,inDom = false,node,tmplNode;
+            if(typeof tmpl === 'string'){
+                if(tmpl.charAt(0)==='.'||tmpl.charAt(0)==='#'||tmpl==='body'){
+                    node = $(tmpl);
+                }
+            }
+            else{
+                node = tmpl;
+            }
 
-            if(typeof tmpl === 'string'&&( tmpl.charAt(0)==='.'||tmpl.charAt(0)==='#'||tmpl==='body')){
-                node = $(tmpl);
+            if(node){
                 if(node.item(0)[0].tagName.toUpperCase()=='SCRIPT'){
                     //如果是script节点，则直接取html
                     tmpl= node.item(0).html()
@@ -783,6 +790,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
                     inDom = true;
                 }
             }
+            
             if (!inDom) {
                 //牛逼的正则啊
                 var reg = /(\{{2,3}\#(.+?)\}{2,3})\s*([\s\S]*)?\s*((\{{2,3})\/\2(\}{2,3}))/g;
@@ -1198,10 +1206,10 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
 
         var id = self.get('id'),
             tmpler = self.get('tmpler'),
-            renderer = self.constructor.RENDERER;
-        if (renderer) {
+            renderers = self.constructor.RENDERERS;
+        if (renderers) {
             var context = self.pagelet?self.pagelet:self;
-            context.get('dataset').setRenderer(renderer, self, id);
+            context.get('dataset').setRenderer(renderers, self, id);
         }
 
         self.on('rendered', function() {
@@ -1225,20 +1233,20 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
             }
         }
     }
-    Brick.ATTACH = {
-        //组件内部的事件代理，
-        /*"selector":{
-            enventtype:function(e){
-                //e：事件对象
-                //this:指向当前实例
-            }
-        }*/
-    };
-    Brick.ATTRS = {
-        events: {
-            //此事件代理是KISSY选择器的事件的代理
-        }
-    };
+    // Brick.ATTACH = {
+    //     //组件内部的事件代理，
+    //     // "selector":{
+    //     //     enventtype:function(e){
+    //     //         e：事件对象
+    //     //         this:指向当前实例
+    //     //     }
+    //     // }
+    // };
+    // Brick.ATTRS = {
+    //     events: {
+    //         //此事件代理是KISSY选择器的事件的代理
+    //     }
+    // };
 
     S.extend(Brick, Chunk, {
         //初始化方法，提供子类覆盖
@@ -1254,11 +1262,11 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
          */
         _detachEvent: function() {
             var self = this;
-            var defaultEvents = self.constructor.ATTACH;
+            var defaultEvents = self.constructor.EVENTS;
             if (defaultEvents) {
                 self._removeEvents(defaultEvents);
             }
-            var defaultDocEvents = self.constructor.DOCATTACH;
+            var defaultDocEvents = self.constructor.DOCEVENTS;
             if (defaultDocEvents) {
                 self._removeEvents(defaultDocEvents, S.one(document));
             }
@@ -1277,12 +1285,12 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
             var self = this;
             //组件默认事件代理
             //方式一
-            var defaultEvents = self.constructor.ATTACH;
+            var defaultEvents = self.constructor.EVENTS;
             if (defaultEvents) {
                 this._addEvents(defaultEvents);
             }
             //代理在全局的页面上
-            var defaultDocEvents = self.constructor.DOCATTACH;
+            var defaultDocEvents = self.constructor.DOCEVENTS;
             if (defaultDocEvents) {
                 this._addEvents(defaultDocEvents, S.one(document));
             }
@@ -1296,12 +1304,12 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
                 this._addEvents(events);
             }
         },
-        events: {
-            //此事件代理是原生的页面bxclick等事件的代理
-        },
+        // events: {
+        //     //此事件代理是原生的页面bxclick等事件的代理
+        // },
         /**
          * 移除事件代理
-         * @param  {object} events 事件对象，参见ATTACH属性
+         * @param  {object} events 事件对象，参见EVENTS属性
          */
         _removeEvents: function(events, el) {
             el = el || this.get("el");
@@ -1319,7 +1327,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         },
         /**
          * 添加事件代理绑定
-         * @param  {object} events 事件对象，参见ATTACH属性
+         * @param  {object} events 事件对象，参见EVENTS属性
          */
         _addEvents: function(events, el) {
             el = el || this.get("el");
@@ -1430,8 +1438,8 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         var self = this;
         //初始化属性
         self.isReady = false;
-        self.brickCount = 0;
         self.readyList = [];
+        self.brickList = [];
         self.isAddBehavior = false;
         //如果是自动渲染，或者已经在dom中，则触发rendered事件
         if (self.get('autoRender')||self.get('tmpler').inDom) {
@@ -1474,44 +1482,57 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          * 给组件添加行为
          */
         addBehavior: function() {
-            if (!this.isAddBehavior) {
-                this._addBehavior(this.get('tmpler').bricks);
-                this.isAddBehavior = true;
+            var self = this,tmpler = self.get('tmpler');
+            if (!self.isAddBehavior) {
+                self.isAddBehavior = true;
+                if(tmpler){
+                    self._buildBricks(tmpler.bricks);//构建当前pagelet包含的所有brick
+                    if(self.brickList.length>0){
+                        S.use(self.brickList.join(','),function(S){
+                            self._addBehavior(tmpler.bricks,arguments);
+                            self._fireReady();
+                        });
+                        return;
+                    }
+                }
+                self._fireReady();
             }
         },
         /**
          * 分层次的渲染brick
          * @param {Object} bricks 需要渲染的brick集合
+         * @param {Array} brickClassList use回调的参数集合
          */
-        _addBehavior: function(bricks) {
+        _addBehavior: function(bricks,brickClassList) {
             var self = this;
-            var foo = function(o,k){
-                self.brickCount++;
+            S.each(bricks, function(o, k) {
+                var config = S.merge({
+                    container:'#'+k,
+                    id: k,
+                    el: '#' + k,
+                    pagelet: self
+                }, o.config);
+                var TheBrick = brickClassList[S.indexOf(o.path, self.brickList)+1];
+                var myBrick = new TheBrick(config);
+                o.brick = myBrick;
+                self._addBehavior(o.bricks,brickClassList);
+            });
+        },
+        /**
+         * 构建页面所有bricks，提供给use使用
+         * @param  {[type]} bricks 
+         */
+        _buildBricks:function(bricks){
+            var self = this;
+            S.each(bricks, function(o, key) {
                 if(!o.path){
                     o.path = 'brix/gallery/'+o.name+'/';
                 }
-                S.use(o.path, function(S, TheBrick) {
-                    var config = S.merge({
-                        container:'#'+k,
-                        id: k,
-                        el: '#' + k,
-                        pagelet: self
-                    }, o.config);
-                    var myBrick = new TheBrick(config);
-                    o.brick = myBrick;
-                    self._addBehavior(o.bricks);
-                    self.brickCount--;
-                    if (self.brickCount === 0) {
-                        self._fireReady();
-                    }
-                });
-            };
-            S.each(bricks, function(brick, key) {
-                foo(brick, key);
+                if(!S.inArray(self.brickList,o.path)){
+                    self.brickList.push(o.path);
+                }
+                self._buildBricks(o.bricks);
             });
-            if (self.brickCount === 0) {
-                self._fireReady();
-            }
         },
         /**
          * pagelet 渲染完成后需要执行的函数

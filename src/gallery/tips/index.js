@@ -43,7 +43,7 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
 
     };
 
-    Tips.DOCATTACH = {
+    Tips.DOCEVENTS = {
 
         '.bx-tips':{
             mouseenter:function (e) {
@@ -76,7 +76,7 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
 
     };
 
-    Tips.METHOD = {
+    Tips.METHODS = {
         showTips:function (el) {
             var self = this;
             var _id = self._getTipId(el);
@@ -320,7 +320,7 @@ KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
         }
     });
 
-    S.augment(Tips, Tips.METHOD);
+    S.augment(Tips, Tips.METHODS);
     return Tips;
 
 

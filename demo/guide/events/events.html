@@ -2,7 +2,7 @@
 <html lang="en-US">
 <head>
 	<meta charset="UTF-8">
-	<title>Brix之旅 - RENDERER</title>
+	<title>Brix之旅 - EVENTS&DOCEVENTS</title>
 	<link type="text/css" rel="stylesheet" href="../../../dist/brix.css" charset="utf-8">
 	<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
     <script src="../../config.js"></script>
@@ -15,19 +15,15 @@
 </head>
 <body>
 	<div id="container1">
-
-	</div>
-	<script type="text/template" id="tmpl_helloword1">
+		<div>点击我会触发document的click</div>
 		<div id="helloworld1">
-			<span>Hello 
-				<span>{{helloworld1_xx_yy}}</span>
-			</span>
+			<span>Hello <span bxclick="helloworld" id="spanName">点击我</span></span>
 		</div>
-	</script>
+	</div>
 	<script type="text/javascript">
 		KISSY.use('helloworld',function(S,HelloWorld){
-		    var helloworld = new HelloWorld({container:'#container1',tmpl:S.one('#tmpl_helloword1').html()});
-			helloworld.render();
+		    var config = {name:'World',tmpl:'#helloworld1'}
+		    var helloworld = new HelloWorld(config);
 		});
 	</script>
 </body>

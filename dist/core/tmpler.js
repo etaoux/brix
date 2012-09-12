@@ -66,9 +66,16 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
          */
         _buildBricks: function(tmpl) {
             var self = this,inDom = false,node,tmplNode;
+            if(typeof tmpl === 'string'){
+                if(tmpl.charAt(0)==='.'||tmpl.charAt(0)==='#'||tmpl==='body'){
+                    node = $(tmpl);
+                }
+            }
+            else{
+                node = tmpl;
+            }
 
-            if(typeof tmpl === 'string'&&( tmpl.charAt(0)==='.'||tmpl.charAt(0)==='#'||tmpl==='body')){
-                node = $(tmpl);
+            if(node){
                 if(node.item(0)[0].tagName.toUpperCase()=='SCRIPT'){
                     //如果是script节点，则直接取html
                     tmpl= node.item(0).html()
@@ -77,6 +84,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
                     inDom = true;
                 }
             }
+            
             if (!inDom) {
                 //牛逼的正则啊
                 var reg = /(\{{2,3}\#(.+?)\}{2,3})\s*([\s\S]*)?\s*((\{{2,3})\/\2(\}{2,3}))/g;
