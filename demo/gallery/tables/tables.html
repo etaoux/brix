@@ -6,10 +6,16 @@
   <title>表格 - Brix Style</title>
     <!--[if lt IE 9]> <script src="demo/assets/html5.js"></script> <![endif]-->
     <link rel="stylesheet" href="../../../dist/brix-min.css">
-    <link rel="stylesheet" href="../../assets/doc.css">
+    <link rel="stylesheet" href="../../../src/gallery/tables/tables.css">
 </head>
 <body>
-
+   <div class="tips" style="background-color:#f6f6f6;padding:10px 20px; border-radius: 10px; color:black;margin:10px;">
+      <h4>说明：</h4>
+        <p>- 表格中提供.left .right .center的class供内容对齐</p>
+        <p>- 选中行请给该行tr加上class="selected"</p>
+        <p>- 排序的列请在该td/th上加class="sort"</p>
+        <p>- 高亮的行请在该tr上加class="hover"</p>
+      </div>
   <div style="padding:0 30px;">
     <div class="table-container">
       <ul class="table-title clearfix">
@@ -61,12 +67,7 @@
         </li>
       </ul>
 
-      <div class="tips">
-        <p>- 表格中提供.left .right .center的class供内容对齐</p>
-        <p>- 选中行请给该行tr加上class="selected"</p>
-        <p>- 排序的列请在该td/th上加class="sort"</p>
-        <p>- 高亮的行请在该tr上加class="hover"</p>
-      </div>
+
 
       <div class="toolbar clearfix">
         <a href="#" class="btn btn-size25 table-settings">
@@ -86,7 +87,7 @@
         </span>
 
       </div>
-      <table class="table">
+      <table class="table" bx-name="tables" id="tables">
         <thead>
           <tr>
             <th width="20"></th>
@@ -112,7 +113,7 @@
             <td>
               <div bx-name="form" class="controls">
                 <label class="checkbox">
-                  <input type="checkbox" name="optionsRadios2" id="optionsRadio03" value="option03" checked />
+                  <input type="checkbox" name="optionsRadios2" class="selectLine" id="" value="option03"  />
                 </label>
               </div>
             </td>
@@ -211,11 +212,11 @@
           </tr>
 
           <!-- 行分隔 -->
-          <tr class="selected">
+          <tr class="">
             <td>
               <div bx-name="form" class="controls">
                 <label class="checkbox">
-                  <input type="checkbox" name="optionsRadios2" id="optionsRadio03" value="option03" checked />
+                  <input type="checkbox" name="optionsRadios2" class="selectLine" id="" value="option03"  />
                 </label>
               </div>
             </td>
@@ -317,7 +318,7 @@
             <td>
               <div bx-name="form" class="controls">
                 <label class="checkbox">
-                  <input type="checkbox" name="optionsRadios2" id="optionsRadio03" value="option03" checked />
+                  <input type="checkbox" name="optionsRadios2" class="selectLine" id="" value="option03"  />
                 </label>
               </div>
             </td>
@@ -420,7 +421,7 @@
             <td>
               <div bx-name="form" class="controls">
                 <label class="checkbox">
-                  <input type="checkbox" name="optionsRadios2" id="optionsRadio03" value="option03" checked />
+                  <input type="checkbox" name="optionsRadios2" class="selectLine" id="" value="option03"  />
                 </label>
               </div>
             </td>
@@ -509,7 +510,7 @@
             <td>
               <div bx-name="form" class="controls">
                 <label class="checkbox">
-                  <input type="checkbox" name="optionsRadios2" id="optionsRadio03" value="option03" checked />
+                  <input type="checkbox" name="optionsRadios2" class="selectLine" id="" value="option03"  />
                 </label>
               </div>
             </td>
@@ -620,86 +621,11 @@
     </div>
   </div>
   <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+    <script src="../../config.js"></script>
   <script type="text/javascript">
-    var S = KISSY;
-    var $ = S.all;
-
-    S.config({
-      packages: [{
-        name: "brix",
-        tag: "20120419",
-        path: "../../../",//这里可以配置cdn的路径
-        charset: "utf-8"
-      }]
+    KISSY.use('brix/gallery/tables/', function(S, Tables) {
+        var tables = new Tables({tmpl: '#tables', cb: null});
     });
-
-    S.config({
-      map: [
-        [/(.+brix)\/(.+?)(?:-min)?.js(\?[^?]+)?$/, "$1/src/$2.js$3"],
-        [/(.+brix)\/(.+?)(?:-min)?.css(\?[^?]+)?$/, "$1/src/$2.css$3"]
-      ]
-    });
-
-
-    S.use('brix/core/pagelet', function(S, Pagelet) {
-      var pagelet = new Pagelet({
-        tmpl: '.table-container' // 模板(容器节点)
-      });
-
-      pagelet.addBehavior();
-      pagelet.ready(function() {
-          pagelet.render();
-      });
-    });
-
-
-    S.use('sizzle', function() {
-        //可操作栏
-        $('.table-handle').on('mouseover', function() {
-        $(this).css('z-index', 9996).all('.table-change').show();
-        });
-
-        $('.table-handle').on('mouseout', function() {
-        $(this).css('z-index', '').all('.table-change').hide();
-        });
-
-        $('.table-more').on('mouseover', function() {
-        $(this).css('z-index', 9996).all('.table-info').show();
-        });
-
-        $('.table-more').on('mouseout', function() {
-        $(this).css('z-index', '').all('.table-info').hide();
-        });
-
-        //鼠标经过高亮的行
-        var trs = $('.table > tbody > tr');
-        var curTr = trs.item(0);
-        trs.each(function (n) {
-            if (!n.hasClass('table-child-tr') && !n.hasClass('none')) {
-                n.on('mouseover', function () {
-                    curTr.removeClass('hover');
-                    n.addClass('hover');
-                    curTr = n;
-                });
-            }
-        })
-
-        //打开关闭子table
-        $('.J_expendCollapse').on('click', function () {
-            var child = $(this).parent('tr').next('.table-child-tr');
-
-            if ($(this).hasClass('icon-expend')) {
-                $(this).replaceClass('icon-expend', 'icon-collapse');
-                child.hide();
-            } else {
-                $(this).replaceClass('icon-collapse', 'icon-expend');
-                child.show();
-            }
-        })
-
-    });
-
-
 </script>
 </body>
 </html>
