@@ -77,6 +77,10 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
                     inDom = true;
                 }
             }
+            else{
+                node = tmpl;
+                inDom = true;
+            }
             if (!inDom) {
                 //牛逼的正则啊
                 var reg = /(\{{2,3}\#(.+?)\}{2,3})\s*([\s\S]*)?\s*((\{{2,3})\/\2(\}{2,3}))/g;
@@ -122,7 +126,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
             } else {
                 tmplNode = node;
             }
-            this.id = _stamp(node);
+            this.id = _stamp(tmplNode);
             var tmplTargetNodes = tmplNode.all('[bx-tmpl-source]');
             tmplTargetNodes.each(function(node) {
                 var selector = node.attr('bx-tmpl-source'),
