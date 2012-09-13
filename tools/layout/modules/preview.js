@@ -1,5 +1,5 @@
-KISSY.add('modules/preview', function (S, Utils) {
-    function page() {
+KISSY.add('modules/preview', function (S, Brick, Utils) {
+    function _page() {
         var html = new Blob(['<!doctype html>\n',
                 '<meta charset="utf-8">\n',
                 '<title>page title</title>\n',
@@ -13,12 +13,21 @@ KISSY.add('modules/preview', function (S, Utils) {
 
         return html;
     }
-    return function () {
-        S.one('#r-preview').on('click', function(e) {
-            this.href = webkitURL.createObjectURL(page());
-            //window.open('data:text/html;charset=utf-8,' + encodeURIComponent(html()));
-        });
+
+    function Preview() {
+        Preview.superclass.constructor.apply(this, arguments);
+    }
+    Preview.ATTACH = {
+        '': {
+            'click': function(e) {
+                e.currentTarget.href = webkitURL.createObjectURL(_page());
+                //window.open('data:text/html;charset=utf-8,' + encodeURIComponent(html()));
+            }
+        }
     };
+
+    S.extend(Preview, Brick);
+    return Preview;
 }, {
-    requires: ['modules/utils']
+    requires: ['brix/core/brick', 'modules/utils']
 });

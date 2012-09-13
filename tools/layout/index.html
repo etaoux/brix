@@ -7,10 +7,10 @@
 <div id="r-topbar">
     <h1>Responsive Layout Generator</h1>
     <div class="r-btn-group">
-        <a bx-path="modules/config" id="r-config"><span class="iconfont">&#355</span>配置</a>
-        <a bx-path="modules/preview" id="r-preview" target="_blank"><span class="iconfont">&#348</span>预览</a>
-        <a bx-path="modules/save" id="r-save"><span class="iconfont">&#342</span>保存</a>
-        <a bx-path="modules/output" id="r-output"><span class="iconfont">&#288</span>输出</a>
+        <a bx-name="config" id="r-config"><span class="iconfont">&#355</span>配置</a>
+        <a bx-name="preview" id="r-preview" target="_blank"><span class="iconfont">&#348</span>预览</a>
+        <a bx-name="save" id="r-save"><span class="iconfont">&#342</span>保存</a>
+        <a bx-name="output" id="r-output"><span class="iconfont">&#288</span>输出</a>
     </div>
 </div>
 <div id="r-ruler">
@@ -27,8 +27,8 @@
     <span style="width: 240px">宽屏电脑</span>
     <span class="split" style="left: 1780px">1680px</span>
 </div>
-<div bx-path="" id="r-resolution"></div>
-<div bx-path="" id="r-content">
+<div bx-name="resolution" id="r-resolution"></div>
+<div bx-name="content" id="r-content">
     <a id="r-add-section"><s class="plus">+</s>添加区域</a>
 </div>
 
@@ -88,6 +88,12 @@ KISSY.use('modules/boot, brix/core/pagelet', function(S, Boot, Pagelet) {
 
     var pagelet = new Pagelet({
         tmpl: 'body'
+    });
+
+    S.each(pagelet.get('tmpler').bricks, function (o, k) {
+        if (!o.path) {
+            o.path = 'modules/' + o.name;
+        }
     });
 
     pagelet.addBehavior();

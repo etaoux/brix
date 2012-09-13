@@ -1,12 +1,11 @@
-KISSY.add('modules/save', function (S, E) {
-    function save() {
+KISSY.add('modules/save', function (S, Brick) {
+    function _save() {
         var data = {
             struct: [],
             grid: App.grid,
             resolution: App.resolution,
             appVer: App.appVer
         };
-
         S.all('.r-section').each(function(section) {
             var cols = [];
             section.all('.r-div').each(function(div) {
@@ -32,11 +31,19 @@ KISSY.add('modules/save', function (S, E) {
         return data;
     }
 
-    return function () {
-        E.delegate(document, 'click', '#r-save', function(e) {
-            e.currentTarget.href = '#' + JSON.stringify(save());
-        });
+    function Save() {
+        Save.superclass.constructor.apply(this, arguments);
+    }
+    Save.ATTACH = {
+        '': {
+            'click': function(e) {
+                e.currentTarget.href = '#' + JSON.stringify(_save());
+            }
+        }
     };
+
+    S.extend(Save, Brick);
+    return Save;
 }, {
-    requires: ['event']
+    requires: ['brix/core/brick']
 });
