@@ -393,6 +393,9 @@ body {
   top: 12px;
   border-color: #666 #f4f5f5 #f4f5f5;
 }
+#aside .current .arrow {
+  display: none;
+}
 #page {
   margin-left: 200px;
   padding-bottom: 20px;
@@ -532,6 +535,7 @@ body {
 }
 .table-of-contents.collapsed {
   height: 25px;
+  width: 60px;
   overflow: hidden;
 }
 .collapsed .arrow {

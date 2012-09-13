@@ -1,16 +1,13 @@
 ---
 layout: post
-title: RENDERDER
-caption: 自定义事件
+title: RENDERDERS
+caption: 自定义模板辅助方法
 ---
-
-
-## RENDERDER
 
 为组件模板渲染提供增强方法
 
 {% highlight js %}
-HelloWorld.RENDERER = {
+HelloWorld.RENDERERS = {
     xx: {
         yy: function(context) {
             //参数context 当前实例
@@ -19,7 +16,6 @@ HelloWorld.RENDERER = {
     }
 };
 {% endhighlight %}
-
 
 ### html代码:
 
@@ -50,6 +46,6 @@ KISSY.use('helloworld',function(S,HelloWorld){
 
 ### demo：
 
-{% demo guide/renderder %}
+{% demo guide/renderders %}
 
 
