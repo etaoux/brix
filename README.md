@@ -39,7 +39,7 @@
 
 ## 类关系图
 
-![Brix 类关系图](http://img03.taobaocdn.com/tps/i3/T124PLXaVfXXbhgaZw-1075-770.png)
+![Brix 类关系图](http://img01.taobaocdn.com/tps/i1/T1JbnIXb8pXXcHVbgw-1075-831.png)
 
 ## 组件钩子
 
