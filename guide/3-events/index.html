@@ -51,7 +51,7 @@
     <h3>Guide<b class="arrow"></b></h3>
     
     <ul class="entries">
-<li><a href="/brix/guide/1-helloworld" class="">Brix之旅开始</a></li><li><a href="/brix/guide/2-attrs" class="">ATTRS</a></li><li><a href="/brix/guide/3-attach" class="">ATTACH & DOCATTACH</a></li><li><a href="/brix/guide/4-method" class="">METHOD</a></li><li><a href="/brix/guide/5-fire" class="">fire</a></li><li><a href="/brix/guide/6-renderder" class="">RENDERDER</a></li><li><a href="/brix/guide/7-brixhook" class="">Hook</a></li><li><a href="/brix/guide/7-goodbye" class="">Brix之旅结束</a></li>
+<li><a href="/brix/guide/1-intro" class="">Brix 组件初探</a></li><li><a href="/brix/guide/2-attrs" class="">ATTRS：配置项</a></li><li><a href="/brix/guide/3-events" class="">EVENTS：事件绑定机制</a></li><li><a href="/brix/guide/4-methods" class="">METHODS：公共方法</a></li><li><a href="/brix/guide/5-fires" class="">FIRES：自定义事件</a></li><li><a href="/brix/guide/6-renderders" class="">RENDERDERS</a></li><li><a href="/brix/guide/7-hooks" class="">Brix 钩子</a></li><li><a href="/brix/guide/8-usage" class="">模板与局部刷新</a></li><li><a href="/brix/guide/9-goodbye" class="">总结</a></li>
 </ul>
   </section>
   
@@ -118,20 +118,20 @@
 </aside>
   <div id="page">
   <div class="title-bar clearfix">
-    <h1>ATTACH & DOCATTACH</h1>
+    <h1>EVENTS：事件绑定机制</h1>
     
-    <p class="caption">这里为大家介绍 ATTACH 和 DOCATTACH 的使用</p>
+    <p class="caption">还有 DOCEVENTS 哦亲</p>
     
   </div>
   <article>
     
-    <section class="content"><h2>ATTRS</h2>
+    <section class="content"><h2>EVENTS</h2>
 
 <p>给HelloWorld增加dom事件，el节点事件，以及子元素的代理事件</p>
 
-<div class="highlight"><pre><code class="js"><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">ATTACH</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;&quot;</span><span class="o">:</span><span class="p">{</span><span class="c1">//空表示事件直接绑定在el上</span>
-        <span class="s2">&quot;click&quot;</span><span class="o">:</span><span class="kd">function</span><span class="p">(){</span>
+<div class="highlight"><pre><code class="js"><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">EVENTS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;&quot;</span><span class="o">:</span> <span class="p">{</span> <span class="c1">// 空表示事件直接绑定在el上</span>
+        <span class="s2">&quot;click&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
             <span class="nx">top</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;节点被点击&#39;</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">},</span>
@@ -143,11 +143,16 @@
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">};</span>
+</code></pre>
+</div>
 
-<span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">DOCATTACH</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;&quot;</span><span class="o">:</span><span class="p">{</span><span class="c1">//空表示事件直接绑定在document上</span>
-        <span class="s2">&quot;click&quot;</span><span class="o">:</span><span class="kd">function</span><span class="p">(){</span>
-            <span class="nx">top</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;document被点击&#39;</span><span class="p">);</span>
+
+<h2>DOCEVENTS</h2>
+
+<div class="highlight"><pre><code class="js"><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">DOCEVENTS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;&quot;</span><span class="o">:</span> <span class="p">{</span> <span class="c1">// 空表示事件直接绑定在document上</span>
+        <span class="s2">&quot;click&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">top</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;document 被点击&#39;</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">};</span>
@@ -160,9 +165,7 @@
 <div class="tips">事件代理中的当前上下文（this）是当前组件的实例对象</div>
 
 
-<h3>html代码:</h3>
-
-<p>点击组件外层的“点击我”会触发组件绑定在document上的事件，
+<p>点击组件外层的“点击我”会触发组件绑定在 document 上的事件，
 点组件内部的“点击我”会触发代理事件。</p>
 
 <div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container1&quot;</span><span class="nt">&gt;</span>
@@ -175,7 +178,7 @@
 </div>
 
 
-<h3>js代码:</h3>
+
 
 <div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">){</span>
     <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span><span class="nx">name</span><span class="o">:</span><span class="s1">&#39;World&#39;</span><span class="p">,</span><span class="nx">tmpl</span><span class="o">:</span><span class="s1">&#39;#helloworld1&#39;</span><span class="p">}</span>
@@ -185,18 +188,17 @@
 </div>
 
 
-<h3>demo：</h3>
-
-<div class='demo'><iframe src='/brix/demo/guide/attach/attach.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
 
 
-<h2>events</h2>
+<div class='demo'><iframe src='/brix/demo/guide/events/events.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
 
-<p>如果组件内部提供的代理事件不能满足业务需求，那么，我们提供了一个配置项events来满足特殊的需求（当然，我们建议修改组件内部，来满足业务需求）,他的写法同ATTACH的写法</p>
 
-<p>紧急情况下，看看我们能怎么做</p>
+<h3>events</h3>
 
-<h3>js代码:</h3>
+<p>如果组件内部提供的代理事件不能满足业务需求，那么，我们提供了一个配置项 events 来满足特殊的需求
+（当然，我们建议修改组件内部，来满足业务需求），他的写法同 EVENTS 的写法。</p>
+
+<p>紧急情况下，我们可以这么做：</p>
 
 <div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">){</span>
     <span class="kd">var</span> <span class="nx">events</span> <span class="o">=</span> <span class="p">{</span>
@@ -213,11 +215,9 @@
 </div>
 
 
-<h3>demo：</h3>
-
-<div class='demo'><iframe src='/brix/demo/guide/attach/attachevents.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
 
 
+<div class='demo'><iframe src='/brix/demo/guide/events/argumentevents.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
 
 </section>
   </article>

@@ -51,7 +51,7 @@
     <h3>Guide<b class="arrow"></b></h3>
     
     <ul class="entries">
-<li><a href="/brix/guide/1-helloworld" class="">Brix之旅开始</a></li><li><a href="/brix/guide/2-attrs" class="">ATTRS</a></li><li><a href="/brix/guide/3-attach" class="">ATTACH & DOCATTACH</a></li><li><a href="/brix/guide/4-method" class="">METHOD</a></li><li><a href="/brix/guide/5-fire" class="">fire</a></li><li><a href="/brix/guide/6-renderder" class="">RENDERDER</a></li><li><a href="/brix/guide/7-brixhook" class="">Hook</a></li><li><a href="/brix/guide/7-goodbye" class="">Brix之旅结束</a></li>
+<li><a href="/brix/guide/1-intro" class="">Brix 组件初探</a></li><li><a href="/brix/guide/2-attrs" class="">ATTRS：配置项</a></li><li><a href="/brix/guide/3-events" class="">EVENTS：事件绑定机制</a></li><li><a href="/brix/guide/4-methods" class="">METHODS：公共方法</a></li><li><a href="/brix/guide/5-fires" class="">FIRES：自定义事件</a></li><li><a href="/brix/guide/6-renderders" class="">RENDERDERS</a></li><li><a href="/brix/guide/7-hooks" class="">Brix 钩子</a></li><li><a href="/brix/guide/8-usage" class="">模板与局部刷新</a></li><li><a href="/brix/guide/9-goodbye" class="">总结</a></li>
 </ul>
   </section>
   
@@ -118,27 +118,60 @@
 </aside>
   <div id="page">
   <div class="title-bar clearfix">
-    <h1>ATTRS</h1>
+    <h1>ATTRS：配置项</h1>
     
     <p class="caption">这里为大家介绍 ATTRS 的使用</p>
     
   </div>
   <article>
     
-    <section class="content"><h2>ATTRS</h2>
+    <section class="content"><p>Brick 的配置项，利用了
+<a href="http://docs.kissyui.com/docs/html/api/core/base/base.html">KISSY Base</a> 的实现，
+所以它的用法与 KISSY 的 Base 是相同的，都从 <code>.ATTRS</code> 配置开始。</p>
 
-<p>给HelloWorld增加一个配置“name”</p>
+<p>引入 Base 的好处在于，我们可以很方便地对配置项做管理：</p>
 
-<div class="highlight"><pre><code class="js"><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">ATTRS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">name</span><span class="o">:</span><span class="p">{</span>
-        <span class="nx">value</span><span class="o">:</span><span class="s1">&#39;World&#39;</span>
+<ul>
+<li>提供默认值</li>
+<li>提供获取属性值时的函数封装（getter）</li>
+<li>提供设定属性值时的函数封装（setter）</li>
+</ul>
+
+
+<p>在 ECMAScript 5 中，<a href="https://developer.mozilla.org/en-US/docs/JavaScript/Guide/Working_with_Objects#Defining_Getters_and_Setters">原生支持</a>；
+但与其临渊羡鱼，不如退而结网，所幸我们已经有了 KISSY Base。因此把 Keystone 的动画颜色弄成可配置的：</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">Keystone</span><span class="p">.</span><span class="nx">ATTRS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">backgroundColor</span><span class="o">:</span> <span class="p">{</span>
+        <span class="c1">// 默认值</span>
+        <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;#F50&#39;</span><span class="p">,</span>
+        <span class="c1">// this.set(&#39;backgroundColor&#39;, &#39;#ddd&#39;); 的时候会调用的方法</span>
+        <span class="nx">setter</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="sr">/^\#[0-9a-f]{6}$/i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="o">||</span> <span class="sr">/^\#[0-9a-f]{3}/i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">v</span><span class="p">))</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nx">v</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="s1">&#39;#F50&#39;</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="c1">// this.get(&#39;backgroundColor&#39;) 时会调用的方法</span>
+        <span class="nx">getter</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">v</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="s1">&#39;#&#39;</span> <span class="o">+</span> <span class="nx">v</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\w/ig</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="nx">c</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">()</span> <span class="o">+</span> <span class="nx">c</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">();</span>
+                <span class="p">})</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nx">v</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">();</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">};</span>
 </code></pre>
 </div>
 
 
-<p>同样，我们来看看，它是怎么用的</p>
+<p>通过这种封装，我们可以很容易地在 1）设定属性值时过滤输入的值；2）获取属性值时取得符合规则的格式。</p>
 
 <h3>html代码:</h3>
 

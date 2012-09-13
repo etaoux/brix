@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Brix Keystone Demo</title>
+  <link rel="stylesheet" type="text/css" href="../../../dist/brix.css">
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+  <script src="../../config.js"></script>
+  <style type="text/css">
+body {
+  text-align: center;
+}
+.container {
+  margin: 0 auto;
+  text-align: left;
+}
+p {
+  background: #fff;
+}
+  </style>
+</head>
+<body>
+  <!-- 组件相关的 HTML 代码 -->
+  <div class="container">
+    <div id="myEssay">
+      <p>《达芬奇密码》</p>
+      <p>推荐你看看这本书哦，很有趣。</p>
+    </div>
+  </div>
+  <script type="text/javascript">
+KISSY.ready(function(S) {
+    KISSY.use('brix/gallery/keystone/', function(S, Keystone) {
+        var keystone = new Keystone({
+            el: '#myEssay'
+        });
+    });
+});
+  </script>
+</body>
+</html>

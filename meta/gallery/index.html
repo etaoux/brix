@@ -51,7 +51,7 @@
     <h3>Guide<b class="arrow"></b></h3>
     
     <ul class="entries">
-<li><a href="/brix/guide/1-helloworld" class="">Brix之旅开始</a></li><li><a href="/brix/guide/2-attrs" class="">ATTRS</a></li><li><a href="/brix/guide/3-attach" class="">ATTACH & DOCATTACH</a></li><li><a href="/brix/guide/4-method" class="">METHOD</a></li><li><a href="/brix/guide/5-fire" class="">fire</a></li><li><a href="/brix/guide/6-renderder" class="">RENDERDER</a></li><li><a href="/brix/guide/7-brixhook" class="">Hook</a></li><li><a href="/brix/guide/7-goodbye" class="">Brix之旅结束</a></li>
+<li><a href="/brix/guide/1-intro" class="">Brix 组件初探</a></li><li><a href="/brix/guide/2-attrs" class="">ATTRS：配置项</a></li><li><a href="/brix/guide/3-events" class="">EVENTS：事件绑定机制</a></li><li><a href="/brix/guide/4-methods" class="">METHODS：公共方法</a></li><li><a href="/brix/guide/5-fires" class="">FIRES：自定义事件</a></li><li><a href="/brix/guide/6-renderders" class="">RENDERDERS</a></li><li><a href="/brix/guide/7-hooks" class="">Brix 钩子</a></li><li><a href="/brix/guide/8-usage" class="">模板与局部刷新</a></li><li><a href="/brix/guide/9-goodbye" class="">总结</a></li>
 </ul>
   </section>
   
@@ -125,56 +125,121 @@
   </div>
   <article>
     
-    <section class="content"><h2>继承自 Brick</h2>
+    <section class="content"><h2>基本要求</h2>
 
-<div class="highlight"><pre><code class="js"><span class="c1">//KISSY的模块书写规范</span>
-<span class="nx">KISSY</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s2">&quot;brix/gallery/dropdown/&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="nx">Brick</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">function</span> <span class="nx">Dropdown</span><span class="p">()</span> <span class="p">{</span>
-        <span class="nx">Dropdown</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="nx">S</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">Dropdown</span><span class="p">,</span> <span class="nx">Brick</span><span class="p">,</span> <span class="p">{</span>
-        <span class="c1">//这里写私有方法</span>
-        <span class="p">});</span><span class="c1">//继承</span>
-    <span class="k">return</span> <span class="nx">Dropdown</span><span class="p">;</span>
-<span class="p">},</span> <span class="p">{</span>
-    <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;brix/brick&quot;</span><span class="p">,</span><span class="s2">&quot;./dropdown.css&quot;</span><span class="p">]</span>
+<p>本文列出 Brix 组件的开发约定，并对一些设计决定作解释。更简易的开发入门，请看
+<a href="/brix/guide/">Brix 组件入门</a>。</p>
+
+<p>粗略地说，一个合个的 Brix 组件需要符合一下要求：</p>
+
+<ul>
+<li>使用 <code>KISSY.add</code> 方式声明模块</li>
+<li>继承自 <code>Brick</code></li>
+</ul>
+
+
+<h3>KISSY 模块</h3>
+
+<p>在 PC 端，Brix 采用 KISSY 作为基础框架，并将组件代码以
+<a href="http://docs.kissyui.com/docs/html/api/seed/loader/">KISSY Loader</a> 所规范的模块形式划分。
+因此，Brix 组件代码需要遵从以下范式：</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;brix/gallery/my-brick/&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 组件构造函数</span>
+    <span class="kd">function</span> <span class="nx">MyBrick</span><span class="p">()</span> <span class="p">{}</span>
+
+    <span class="c1">// 输出构造函数</span>
+    <span class="k">return</span> <span class="nx">MyBrick</span><span class="p">;</span>
 <span class="p">});</span>
 </code></pre>
 </div>
 
 
-<h2>配置</h2>
+<h3>继承自 Brick</h3>
 
-<div class="highlight"><pre><code class="js"><span class="nx">Dropdown</span><span class="p">.</span><span class="nx">ATTRS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="c1">// 同 KISSY 的 Base 写法</span>
-<span class="p">}</span>
+<p><code>Brick</code> 提供了 Brix 中组件的生命周期、事件代理等机制，因此，符合 Brix 组件规范的 JavaScript 组件，应继承自此类。</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s2">&quot;brix/gallery/dropdown/&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="nx">Brick</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">function</span> <span class="nx">Dropdown</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// 调用父类的构造函数</span>
+        <span class="nx">Dropdown</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="c1">// 继承</span>
+    <span class="nx">S</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">Dropdown</span><span class="p">,</span> <span class="nx">Brick</span><span class="p">,</span> <span class="p">{</span>
+        <span class="c1">// 这里写私有方法</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="nx">Dropdown</span><span class="p">;</span>
+<span class="p">},</span> <span class="p">{</span>
+    <span class="c1">// 依赖 brix/brick</span>
+    <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;brix/brick&quot;</span><span class="p">]</span>
+<span class="p">});</span>
 </code></pre>
 </div>
 
 
-<h2>模板渲染扩展方法</h2>
+<p>在余下的文档中，为了简略起见，省去了外层的模块封装代码：</p>
 
-<div class="highlight"><pre><code class="js"><span class="nx">Dropdown</span><span class="p">.</span><span class="nx">RENDERDER</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">xx</span><span class="o">:</span><span class="p">{</span>
-        <span class="nx">yy</span><span class="o">:</span><span class="kd">function</span><span class="p">(){</span>
-            <span class="k">return</span> <span class="s2">&quot;string&quot;</span>
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;my-brick&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="nx">Brick</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 模块代码</span>
+<span class="p">},</span> <span class="p">{</span>
+    <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;brix/brick&#39;</span><span class="p">]</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+
+<p>请各位注意。</p>
+
+<h2>ATTRS：配置项</h2>
+
+<p>我们在 <code>Brick</code> 中引入了 KISSY 的
+<a href="http://fed.ued.taobao.net/kissy-team/kissyteam/docs/html/api/core/base/base.html">Base</a> 做配置项管理。
+如果你的 Brix 组件需要提供配置项，则可以很方便地使用 <code>MyBrick.ATTRS</code> 来定义属性、默认值以及它们的 <code>getter</code>、<code>setter</code> 等。</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">MyBrick</span><span class="p">.</span><span class="nx">ATTRS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1">// 同 KISSY 的 Base 写法</span>
+    <span class="nx">passphrase</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">value</span><span class="o">:</span> <span class="s2">&quot;my precious...&quot;</span><span class="p">,</span>
+        <span class="nx">setter</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">v</span> <span class="o">&amp;&amp;</span> <span class="nx">v</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;=</span> <span class="mi">6</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nx">v</span><span class="p">;</span>
+            <span class="p">}</span>
         <span class="p">}</span>
     <span class="p">}</span>
-<span class="p">}</span>
+<span class="p">};</span>
+
+<span class="nx">S</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">MyBrick</span><span class="p">,</span> <span class="nx">Brick</span><span class="p">,</span> <span class="p">{</span>
+    <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// 使用 this.get 来获取属性值</span>
+        <span class="kd">var</span> <span class="nx">passphrase</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;passphrase&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
 </code></pre>
 </div>
 
 
-<h2>组件行为赋予</h2>
+<h2>RENDERERS：模板渲染扩展方法</h2>
 
-<h3>代理在 document 上的事件行为</h3>
+<div class="highlight"><pre><code class="js"><span class="nx">MyBrick</span><span class="p">.</span><span class="nx">RENDERDERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">currency</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">dollar</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="s2">&quot;$&quot;</span> <span class="o">+</span> <span class="nx">num</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre>
+</div>
 
-<p>如果选择器为空，则直接绑定事件在document上</p>
 
-<div class="highlight"><pre><code class="js"><span class="nx">Dropdown</span><span class="p">.</span><span class="nx">DOCATTACH</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;body&quot;</span><span class="o">:</span><span class="p">{</span>
-        <span class="nx">click</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+<h2>DOCEVENTS：代理在 document 上的事件行为</h2>
+
+<p>如果选择器为空，则直接绑定事件在 document 上</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">Dropdown</span><span class="p">.</span><span class="nx">DOCEVENTS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;body&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">click</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
             <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+
             <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">self</span><span class="p">.</span><span class="nx">__show</span><span class="p">)</span> <span class="p">{</span>
                 <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;el&#39;</span><span class="p">);</span>
                 <span class="nx">el</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="s1">&#39;.dropdown-list&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;display&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">);</span>
@@ -188,11 +253,11 @@
 </div>
 
 
-<h3>代理在组件节点上的事件行为</h3>
+<h2>EVENTS：代理在组件节点上的事件行为</h2>
 
 <p>如果选择器为空，则直接绑定事件在节点上</p>
 
-<div class="highlight"><pre><code class="js"><span class="nx">Dropdown</span><span class="p">.</span><span class="nx">ATTACH</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="js"><span class="nx">Dropdown</span><span class="p">.</span><span class="nx">EVENTS</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;.dropdown-a&quot;</span><span class="o">:</span> <span class="p">{</span>
         <span class="nx">click</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
             <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;el&#39;</span><span class="p">).</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;.dropdown-list&#39;</span><span class="p">);</span>
@@ -217,9 +282,9 @@
 </div>
 
 
-<h2>扩展对外方法</h2>
+<h2>METHODS：扩展对外方法</h2>
 
-<div class="highlight"><pre><code class="js"><span class="nx">Dropdown</span><span class="p">.</span><span class="nx">METHOD</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="js"><span class="nx">Dropdown</span><span class="p">.</span><span class="nx">METHODS</span> <span class="o">=</span> <span class="p">{</span>
     <span class="nx">focus</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
         <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;el&#39;</span><span class="p">);</span>
         <span class="nx">el</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;.dropdown-list&#39;</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;display&#39;</span><span class="p">,</span> <span class="s1">&#39;block&#39;</span><span class="p">);</span>
@@ -231,20 +296,32 @@
         <span class="nx">el</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;.dropdown-a&#39;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;dropdown-aactive&#39;</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
-<span class="nx">S</span><span class="p">.</span><span class="nx">augment</span><span class="p">(</span><span class="nx">Dropdown</span><span class="p">,</span><span class="nx">Dropdown</span><span class="p">.</span><span class="nx">METHOD</span><span class="p">);</span>
+<span class="nx">S</span><span class="p">.</span><span class="nx">augment</span><span class="p">(</span><span class="nx">Dropdown</span><span class="p">,</span> <span class="nx">Dropdown</span><span class="p">.</span><span class="nx">METHODS</span><span class="p">);</span>
 </code></pre>
 </div>
 
 
-<h2>对外自定义事件</h2>
+<h2>FIRES：触发自定义事件</h2>
 
-<div class="highlight"><pre><code class="js"><span class="c1">//这个不做限制，但是写组件的同学一定要在组件文档中描述清晰</span>
-<span class="k">this</span><span class="p">.</span><span class="nx">fire</span><span class="p">(</span><span class="s1">&#39;selected&#39;</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+<p>使用 KISSY 自有的事件触发方式：</p>
+
+<div class="highlight"><pre><code class="js"><span class="k">this</span><span class="p">.</span><span class="nx">fire</span><span class="p">(</span><span class="s1">&#39;selected&#39;</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
 </code></pre>
 </div>
 
 
+<p>Brix 对组件触发的自定义事件名称、个数不做限制，但是写组件的同学一定要在组件相关文档中描述清晰。
+同时，也可以在组件代码中声明 <code>FIRES</code> 对象来声明组件会触发的自定义事件列表：</p>
 
+<div class="highlight"><pre><code class="js"><span class="nx">MyBrick</span><span class="p">.</span><span class="nx">FIRES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">hovered</span><span class="o">:</span> <span class="s1">&#39;hovered&#39;</span><span class="p">,</span>
+    <span class="nx">activated</span><span class="o">:</span> <span class="s1">&#39;activated&#39;</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+
+<p>但这个对象不是必须的，并无实际作用。</p>
 </section>
   </article>
 </div>

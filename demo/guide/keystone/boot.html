@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Brix Keystone Demo</title>
+  <link rel="stylesheet" type="text/css" href="../../../dist/brix.css">
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+  <script src="../../config.js"></script>
+  <style type="text/css">
+body {
+  text-align: center;
+}
+.container {
+  margin: 0 auto;
+  text-align: left;
+}
+p {
+  background: #fff;
+}
+  </style>
+</head>
+<body>
+  <!-- 组件相关的 HTML 代码 -->
+  <div class="container">
+    <div class="row">
+      <div class="span25">
+        <div id="keystone1">
+          <p>Hello <span>World</span></p>
+        </div>
+      </div>
+      <div class="span25">
+        <div id="container2">
+          <div id="keystone2" bx-name="keystone">
+            <p>Hello <span>World</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+KISSY.ready(function(S) {
+    KISSY.use('brix/gallery/keystone/', function(S, Keystone){
+        new Keystone({
+            el: '#keystone1'
+        });
+    });
+    KISSY.use('brix/core/pagelet', function(S, Pagelet){
+        var pagelet = new Pagelet({
+            tmpl: '#container2'
+        });
+
+        pagelet.addBehavior();
+    });
+});
+  </script>
+</body>
+</html>

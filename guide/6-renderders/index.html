@@ -46,7 +46,7 @@
   </section>
   
   
-  <section class="collapsed">
+  <section class="current">
   
     <h3>Guide<b class="arrow"></b></h3>
     
@@ -76,7 +76,7 @@
   </section>
   
   
-  <section class="current">
+  <section class="collapsed">
   
     <h3>Arch<b class="arrow"></b></h3>
     
@@ -118,101 +118,59 @@
 </aside>
   <div id="page">
   <div class="title-bar clearfix">
-    <h1>Brix 组件架构（二）</h1>
+    <h1>RENDERDERS</h1>
+    
+    <p class="caption">自定义模板辅助方法</p>
     
   </div>
   <article>
     
-    <section class="content"><h2>复杂报表展示系统组件化分析</h2>
+    <section class="content"><p>为组件模板渲染提供增强方法</p>
 
-<blockquote><p>通过复杂报表组件化的过程，整理组件实现中的细节。</p></blockquote>
-
-<p><img src="/brix/assets/img/brix-arch/2/1.png" alt="1" /></p>
-
-<p>上图是 subway 报表系统的核心列表页面。
-<strong>基于具体业务进行组件拆解工作。</strong></p>
-
-<p><img src="/brix/assets/img/brix-arch/2/2.png" alt="2" /></p>
-
-<p><strong>报表系统将被分解为8个组件</strong>，如上图：</p>
-
-<ol>
-<li>Tab：Tab导航</li>
-<li>TabConfiger：Tab导航配置</li>
-<li>SchBox：搜索框</li>
-<li>ComplectDropDown：复杂过滤条件</li>
-<li>SimpleDropDown：简单过滤条件</li>
-<li>ViewConfiger：视图定义</li>
-<li>ListTable：列表
-
-<ol>
-<li>PageInfo1：分页信息区1 隶属于列表组件</li>
-<li>PageInfo2：分页信息区2 隶属于列表组件</li>
-</ol>
-</li>
-<li>ViewSelect：视图选择区</li>
-</ol>
-
-
-<p><img src="/brix/assets/img/brix-arch/2/3.jpg" alt="2" /></p>
-
-<p><strong>组件分析的若干维度：</strong></p>
-
-<ul>
-<li>基础模板</li>
-<li>承载数据、状态数据</li>
-<li>属性、方法、事件</li>
-<li>子组件、父组件</li>
-<li>结合具体业务进行数据流分析</li>
-</ul>
-
-
-<p>数据为特殊的属性，但我们需要对数据表示特别的关注
-对于 Tab 组件而言，数据包含两部分：TabList 和 CurrentTabID</p>
-
-<p><img src="/brix/assets/img/brix-arch/2/4.jpg" alt="2" /></p>
-
-<p>为使组件模板中可以通过添加html节点，随意嵌入其他外部组件，引入子模板机制：</p>
-
-<ol>
-<li>将关键数据区域标识出来</li>
-<li>建立 数据 与 子模板 与 渲染方法 的一一对应，支持局部依照变化了的数据和子模板重新渲染</li>
-<li>所有子模板承载数据之和>所有数据，校验数据完整性</li>
-</ol>
-
-
-<p><em>这解决了 Magix 中 View 过大，整个 View 重刷带价过大的问题。</em></p>
-
-<p><em>子模板机制保障了 Tab 和 TabConfiger 两个组件，虽然 DOM 结构上存在父子关系，但是是两个独立的组件，可以按照组件间交互模式交互</em></p>
-
-<p><img src="/brix/assets/img/brix-arch/2/5.jpg" alt="2" /></p>
-
-<p>改变组件渲染的生命周期：</p>
-
-<ol>
-<li>获取数据</li>
-<li>获取模板</li>
-<li>输出模板渲染后的 HTML</li>
-<li>将其他组件行为附加到 HTML 上</li>
-</ol>
-
-
-<p>结合用 expando 标识 events 信息以及在模板内的完成状态渲染逻辑，将 YUI Widget 组件初始化的 SyncUI，BindUI 工作转移至模板中。</p>
-
-<p>其中步骤1、2、3可以在后台执行，也可以在前台执行。
-当组件凭空创建时，也需要遵照1、2、3顺序。</p>
-
-<p><em>组件生命周期的1、2、3步骤，天然可以转移至NodeJS在后台执行</em></p>
-
-<p><img src="/brix/assets/img/brix-arch/2/6.jpg" alt="2" /></p>
-
-<p>采用约定管理任务的执行顺序，管理任务是否可以并行，管理任务间的依赖。
-这样按照之前约定对任务的描述，每个任务可以以异步方式执行，同样可以以同步方式执行。可以并行的任务依然可以串行执行。</p>
-
-<div class="bottom-nav">
-    <a rel="previous" href="/brix/arch/1-goal">&larr; 上一篇</a>
-    <a rel="next" href="/brix/arch/3-tab-and-tab-configer">下一篇 &rarr;</a>
+<div class="highlight"><pre><code class="js"><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">RENDERERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">xx</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">yy</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">context</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">//参数context 当前实例</span>
+            <span class="k">return</span> <span class="s2">&quot;xx_&quot;</span> <span class="o">+</span> <span class="nx">context</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_yy&quot;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre>
 </div>
+
+
+<h3>html代码:</h3>
+
+<p>模板中对应的渲染增加方法为"{{id_xx_yy}}"</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container1&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;tmpl_helloword1&quot;</span><span class="nt">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;helloworld1&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span>
+            <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">helloworld1_xx_yy</span><span class="p">}}</span><span class="o">&lt;</span><span class="err">/span&gt;</span>
+        <span class="o">&lt;</span><span class="err">/span&gt;</span>
+    <span class="o">&lt;</span><span class="err">/div&gt;</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre>
+</div>
+
+
+<h3>js代码:</h3>
+
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HelloWorld</span><span class="p">({</span><span class="nx">container</span><span class="o">:</span><span class="s1">&#39;#container1&#39;</span><span class="p">,</span><span class="nx">tmpl</span><span class="o">:</span><span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#tmpl_helloword1&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">()});</span>
+    <span class="nx">helloworld</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+
+<h3>demo：</h3>
+
+<div class='demo'><iframe src='/brix/demo/guide/renderders/renderders.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
+
+
 
 </section>
   </article>

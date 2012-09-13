@@ -1,0 +1,362 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+<title>Brix &mdash; UX</title>
+<!--[if lt IE 9]>
+<script>
+  // html5
+  (function() {
+      var tags = [
+          'article', 'aside', 'details', 'figcaption',
+          'figure', 'footer', 'header', 'hgroup',
+          'menu', 'nav', 'section', 'summary',
+          'time', 'mark', 'audio', 'video'],
+              i = 0, len = tags.length;
+      for (; i < len; i++) document.createElement(tags[i]);
+  })();
+</script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/brix/dist/brix-min.css">
+<link rel="stylesheet" type="text/css" href="/brix/assets/css/post.css">
+</head>
+<body>
+  <div id="site-nav">
+  <nav class="container">
+    <a href="/brix/">首页 Home</a>
+    <a href="/brix/#tutorial">入门 Tutorials</a>
+    <a href="/brix/#doc">文档 Doc</a>
+    <a href="/brix/style">样式 Style</a>
+    <a href="/brix/#about">关于 About</a>
+  </nav>
+</div>
+  <aside id="aside">
+  <div id="logo">
+    <a href="/brix/">Brix</a>
+  </div>
+  
+  
+  <section class="collapsed">
+  
+    <h3>Core<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/core/1-brix" class="">Brix</a></li><li><a href="/brix/core/2-chunk" class="">Chunk</a></li><li><a href="/brix/core/3-brick" class="">Brick</a></li><li><a href="/brix/core/4-pagelet" class="">Pagelet</a></li><li><a href="/brix/core/5-dataset" class="">Dataset</a></li><li><a href="/brix/core/6-tmpler" class="">Tmpler</a></li>
+</ul>
+  </section>
+  
+  
+  <section class="current">
+  
+    <h3>Guide<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/guide/1-intro" class="">Brix 组件初探</a></li><li><a href="/brix/guide/2-attrs" class="">ATTRS：配置项</a></li><li><a href="/brix/guide/3-events" class="">EVENTS：事件绑定机制</a></li><li><a href="/brix/guide/4-methods" class="">METHODS：公共方法</a></li><li><a href="/brix/guide/5-fires" class="">FIRES：自定义事件</a></li><li><a href="/brix/guide/6-renderders" class="">RENDERDERS</a></li><li><a href="/brix/guide/7-hooks" class="">Brix 钩子</a></li><li><a href="/brix/guide/8-usage" class="">模板与局部刷新</a></li><li><a href="/brix/guide/9-goodbye" class="">总结</a></li>
+</ul>
+  </section>
+  
+  
+  <section class="collapsed">
+  
+    <h3>Gallery<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/gallery/breadcrumbs" class="">Breadcrumbs</a></li><li><a href="/brix/gallery/calendar" class="">Calendar</a></li><li><a href="/brix/gallery/colorpicker" class="">ColorPicker</a></li><li><a href="/brix/gallery/datepicker" class="">DatePicker</a></li><li><a href="/brix/gallery/dialog" class="">Dialog</a></li><li><a href="/brix/gallery/dropdown" class="">Dropdown</a></li><li><a href="/brix/gallery/inplace-editor" class="">InplaceEditor</a></li><li><a href="/brix/gallery/kwicks" class="">Kwicks</a></li><li><a href="/brix/gallery/loading" class="">Loading</a></li><li><a href="/brix/gallery/pagination" class="">Pagination</a></li><li><a href="/brix/gallery/slider" class="">Slider</a></li><li><a href="/brix/gallery/starrating" class="">StarRating</a></li><li><a href="/brix/gallery/switcher" class="">Switcher</a></li><li><a href="/brix/gallery/tips" class="">Tips</a></li><li><a href="/brix/gallery/sidenav" class="">SideNav</a></li><li><a href="/brix/gallery/timer" class="">Timer</a></li><li><a href="/brix/gallery/searchbox" class="">Searchbox</a></li>
+</ul>
+  </section>
+  
+  
+  <section class="collapsed">
+  
+    <h3>Meta<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/meta/gallery" class="">组件开发规范</a></li><li><a href="/brix/meta/gallery-doc-sample" class="">组件文档示例</a></li><li><a href="/brix/meta/style" class="">Brix Style 开发规范</a></li><li><a href="/brix/meta/style-doc" class="">Brix Style 文档规范</a></li>
+</ul>
+  </section>
+  
+  
+  <section class="collapsed">
+  
+    <h3>Arch<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/arch/1-goal" class="">Brix 组件架构（一）</a></li><li><a href="/brix/arch/2-reporting-system-modulization" class="">Brix 组件架构（二）</a></li><li><a href="/brix/arch/3-tab-and-tab-configer" class="">Brix 组件架构（三）</a></li><li><a href="/brix/arch/4-sub-modules-and-data-structure" class="">Brix 组件架构（四）</a></li>
+</ul>
+  </section>
+  
+  
+  <section class="collapsed">
+  
+    <h3>Style<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/style/scaffolding" class="">Scaffolding</a></li><li><a href="/brix/style/type" class="">Type</a></li><li><a href="/brix/style/grid" class="">Grid</a></li><li><a href="/brix/style/forms" class="">Forms</a></li><li><a href="/brix/style/buttons" class="">Buttons</a></li><li><a href="/brix/style/flowsteps" class="">flowsteps</a></li><li><a href="/brix/style/tables" class="">tables</a></li><li><a href="/brix/style/tags" class="">tags</a></li><li><a href="/brix/style/avatar" class="">Avatar</a></li><li><a href="/brix/style/footer" class="">footer</a></li><li><a href="/brix/style/msg-box" class="">msg-box</a></li>
+</ul>
+  </section>
+  
+  
+  <section class="collapsed">
+  
+    <h3>Tutorials<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/tutorials/style" class="">Brix Style开发指南</a></li>
+</ul>
+  </section>
+  
+  
+  <section class="collapsed">
+  
+    <h3>Intro<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/intro/1-intro" class="hot">Brix Framework 简介</a></li>
+</ul>
+  </section>
+  
+</aside>
+  <div id="page">
+  <div class="title-bar clearfix">
+    <h1>Brix 组件初探</h1>
+    
+    <p class="caption">板砖是怎样炼成的</p>
+    
+  </div>
+  <article>
+    
+    <section class="content"><p>如 <a href="/brix/#about">首页 Brix 介绍</a> 所言，Brix 是一淘 UX 部门将前端工作平台化的努力成果，
+<a href="/brix/intro/1-intro/#h11">它的目的</a> 是让后端能够快速扩展组件模板代码来完成实际项目需求，
+而前端工程师只需要完成通用组件、提供组件 DOM 结构模板即可。详细的技术思想，请看
+<a href="/brix/intro/1-intro">Brix Framework 简介</a>。</p>
+
+<p>本文的目的是，让前端工程师能够快速上手，开发 Brix 组件；告诉你，一块板砖（Brick）是如何炼成的。</p>
+
+<p>Brix 框架中，在 PC 端与移动端所采用的技术结构有所不同。PC 端网络限制较小，浏览器也更宽容，性能差别也更大，
+因此选择了 KISSY 作为基础框架；而移动端的选择则是 SeaJS 与修改过的 ZeptoJS。
+本文目前仅讨论 KISSY 部分。</p>
+
+<h2>模块与继承</h2>
+
+<p>一个合格的组件必须是 KISSY 模块。我们使用 KISSY 1.2 作为基础，它提供了类似 RequireJS、SeaJS
+等的模块加载机制。详情可以看 <a href="http://docs.KISSYui.com/docs/html/api/seed/loader/">KISSY Loader</a>
+文档，在这里我们只做简要说明。简要的模块封装代码如下：</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;module-name&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="nx">Dependency1</span><span class="p">,</span> <span class="nx">Dependency2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">function</span> <span class="nx">Module</span><span class="p">()</span> <span class="p">{}</span>
+
+    <span class="c1">// 暴露出模块，一个构造函数</span>
+    <span class="k">return</span> <span class="nx">Module</span><span class="p">;</span>
+<span class="p">},</span> <span class="p">{</span>
+    <span class="c1">// 模块的依赖，会作为工厂函数的参数传递进去</span>
+    <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;module-dependency1&#39;</span><span class="p">,</span> <span class="s1">&#39;module-dependency2&#39;</span><span class="p">]</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+
+<h3>文件组织</h3>
+
+<p>首先要搞清楚的是模块名。假设你的组件名叫做
+<a href="http://en.wikipedia.org/wiki/Keystone_(architecture)">Keystone</a>，
+在 Brix 中，它的代码应该这么放：</p>
+
+<div class="highlight"><pre><code class="bash">brix
+├── demo
+│   └── gallery
+│       └── keystone
+│           ├── keystone.html
+│           └── keystone.less
+└── src
+    └── gallery
+        └── keystone
+            └── index.js
+</code></pre>
+</div>
+
+
+<p><code>demo/gallery/keystone/</code> 目录，用来放置你的组件的演示文件，以及相关的样式。样式不强制用 LESS 来写。
+<code>src/gallery/keystone/</code> 目录则用来放置组件相关的代码，入口是 <code>index.js</code>，其他模块酌情添加。</p>
+
+<h3>demo</h3>
+
+<p><code>demo/gallery/keystone/keystone.html</code> 的应该长这样：</p>
+
+<div class="highlight"><pre><code class="html"><span class="cp">&lt;!DOCTYPE HTML&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;title&gt;</span>Brix Keystone Demo<span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;../../../dist/brix.css&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;../../config.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+  <span class="c">&lt;!-- 组件相关的 HTML 代码 --&gt;</span>
+  <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+<span class="nx">KISSY</span><span class="p">.</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;brix/gallery/keystone/&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="nx">Keystone</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">keystone</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Keystone</span><span class="p">({</span>
+            <span class="c1">// config</span>
+        <span class="p">});</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+  <span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+</div>
+
+
+<h3>继承自 Brick</h3>
+
+<p>所有的 Brix 组件都继承自 <a href="/brix/core/3-brick">core/brick</a>，
+拱顶石（Keystone）虽然是建筑设计里最重要的板砖（Brick），但毕竟还是板砖。所以，它要继承 <code>Brick</code>：</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;brix/gallery/keystone/&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="nx">Brick</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">function</span> <span class="nx">Keystone</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">Keystone</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">constructer</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="nx">S</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">Keystone</span><span class="p">,</span> <span class="nx">Brick</span><span class="p">,</span> <span class="p">{</span>
+        <span class="c1">// 此处定义 keystone 自己的方法</span>
+    <span class="p">});</span>
+<span class="p">},</span> <span class="p">{</span>
+    <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;brix/core/brick&#39;</span><span class="p">]</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+
+<h2>使用组件的方式</h2>
+
+<p>我们先给 Keystone 加点功能，既然它叫做拱顶石，那我们就用它来玩 Brix logo：</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;brix/gallery/keystone/index&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="nx">Brick</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kd">function</span> <span class="nx">Keystone</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">Keystone</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 在组件加载、渲染完毕之后，对组件节点内的 p 做动画。</span>
+    <span class="nx">S</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">Keystone</span><span class="p">,</span> <span class="nx">Brick</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;el&#39;</span><span class="p">),</span>
+                <span class="nx">cfg</span><span class="p">;</span>
+
+            <span class="nx">cfg</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="nx">duration</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="nx">queue</span><span class="o">:</span> <span class="s1">&#39;keystone&#39;</span>
+            <span class="p">};</span>
+            <span class="nx">el</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">).</span><span class="nx">animate</span><span class="p">({</span>
+                <span class="nx">backgroundColor</span><span class="o">:</span> <span class="s1">&#39;#f50&#39;</span>
+            <span class="p">},</span> <span class="nx">cfg</span><span class="p">).</span><span class="nx">animate</span><span class="p">({</span>
+                <span class="nx">backgroundColor</span><span class="o">:</span> <span class="s1">&#39;#fff&#39;</span>
+            <span class="p">},</span> <span class="nx">cfg</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+
+    <span class="k">return</span> <span class="nx">Keystone</span><span class="p">;</span>
+<span class="p">},</span> <span class="p">{</span>
+    <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;brix/core/brick&quot;</span><span class="p">]</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+
+<p>它的功能很简单，给组件节点里的每个 <code>&lt;p&gt;</code> 进行动画，背景色变橙再变白。要怎么用这个组件呢？</p>
+
+<h3>方式一：直接构建</h3>
+
+<p>HTML 代码如下：</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;keystone1&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;p&gt;</span>Hello <span class="nt">&lt;span&gt;</span>World<span class="nt">&lt;/span&gt;&lt;/p&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre>
+</div>
+
+
+<p>我们可以直接 <code>new Keystone</code> 来初始化这个组件：</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;brix/gallery/keystone/&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="nx">Keystone</span><span class="p">){</span>
+    <span class="k">new</span> <span class="nx">Keystone</span><span class="p">({</span>
+        <span class="nx">el</span><span class="o">:</span> <span class="s1">&#39;#keystone1&#39;</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+
+<h3>方式二：让 Pagelet 代劳</h3>
+
+<p>HTML 代码如下：</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container2&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;keystone2&quot;</span> <span class="na">bx-name=</span><span class="s">&quot;keystone&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;span&gt;</span>Hello <span class="nt">&lt;span&gt;</span>World<span class="nt">&lt;/span&gt;&lt;/span&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre>
+</div>
+
+
+<p>将整个 <code>#container2</code> 节点作为一个页面，让 Pagelet 去解析节点树中引用了 Brix 组件的节点，
+并在加载好相应的 Brix 组件模块代码之后，将这些节点作为源节点交给相应的组件初始化。</p>
+
+<p>在此例中，Pagelet 通过 <code>bx-name</code> 参数找到 <code>helloworld</code> 同时根据其 <code>path</code> 设定，加载 <code>helloword</code>。</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;brix/core/pagelet&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">Pagelet</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">pagelet</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Pagelet</span><span class="p">({</span>
+        <span class="nx">tmpl</span><span class="o">:</span> <span class="s1">&#39;#container2&#39;</span>
+    <span class="p">});</span>
+    <span class="nx">pagelet</span><span class="p">.</span><span class="nx">addBehavior</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+
+<h3>两种加载方式的实际效果：</h3>
+
+<div class='demo'><iframe src='/brix/demo/guide/keystone/boot.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
+
+
+<h2>小结</h2>
+
+<p>现在你应该知道该如何动手写并使用自己的 Brix 组件了。接下来，我们通过逐步完善 Keystone，
+来了解 Brix 都提供了哪些方便组件开发与使用的特性。</p>
+</section>
+  </article>
+</div>
+  <footer id="footer">
+  </footer>
+  <div id="J_tocBox" class="table-of-contents collapsed"></div>
+  <div id="J_log" class="js-log">
+    <a style="position:absolute;top:1px;right:1px;z-index:999;" id="J_close" href="#">显示调试窗口</a>
+  </div>
+  <script type="text/template" id="J_tocTemplate">
+
+<a href="javascript:void(0);" class="toggle-toc">目录<b class="arrow"></b></a>
+<ul id="J_toc" bx-name="toc" bx-tmpl="toc" bx-datakey="tree">
+{{#tree}}
+  <li><a href="#{{id}}">{{text}}</a>
+    <ul>
+    {{#children}}
+    <li><a href="#{{id}}">{{text}}</a>
+      <ul>
+      {{#children}}
+      <li><a href="#{{id}}">{{text}}</a>
+      {{/children}}
+      </ul>
+    </li>
+    {{/children}}
+    </ul>
+  </li>
+{{/tree}}
+</ul>
+
+  </script>
+  <script src="/brix/assets/js/log4javascript.js"></script>
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+  <script src="/brix/assets/js/post.js"></script>
+</body>
+</html>

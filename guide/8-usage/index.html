@@ -51,7 +51,7 @@
     <h3>Guide<b class="arrow"></b></h3>
     
     <ul class="entries">
-<li><a href="/brix/guide/1-helloworld" class="">Brix之旅开始</a></li><li><a href="/brix/guide/2-attrs" class="">ATTRS</a></li><li><a href="/brix/guide/3-attach" class="">ATTACH & DOCATTACH</a></li><li><a href="/brix/guide/4-method" class="">METHOD</a></li><li><a href="/brix/guide/5-fire" class="">fire</a></li><li><a href="/brix/guide/6-renderder" class="">RENDERDER</a></li><li><a href="/brix/guide/7-brixhook" class="">Hook</a></li><li><a href="/brix/guide/7-goodbye" class="">Brix之旅结束</a></li>
+<li><a href="/brix/guide/1-intro" class="">Brix 组件初探</a></li><li><a href="/brix/guide/2-attrs" class="">ATTRS：配置项</a></li><li><a href="/brix/guide/3-events" class="">EVENTS：事件绑定机制</a></li><li><a href="/brix/guide/4-methods" class="">METHODS：公共方法</a></li><li><a href="/brix/guide/5-fires" class="">FIRES：自定义事件</a></li><li><a href="/brix/guide/6-renderders" class="">RENDERDERS</a></li><li><a href="/brix/guide/7-hooks" class="">Brix 钩子</a></li><li><a href="/brix/guide/8-usage" class="">模板与局部刷新</a></li><li><a href="/brix/guide/9-goodbye" class="">总结</a></li>
 </ul>
   </section>
   
@@ -118,99 +118,26 @@
 </aside>
   <div id="page">
   <div class="title-bar clearfix">
-    <h1>Brix之旅开始</h1>
+    <h1>模板与局部刷新</h1>
     
-    <p class="caption">还记得当年学一门语言的时候的 helloworld 吗，今天，让我们看看 Brix 框架的 helloworld 吧。</p>
+    <p class="caption">更多组件加载、使用的方式</p>
     
   </div>
   <article>
     
-    <section class="content"><p>我们先写个 helloworld 组件，怎么写？<a href="/brix/meta/gallery">看这里</a></p>
+    <section class="content"><p>在开篇 <a href="/brix/guide/1-intro">Brix 组件初探</a> 中，我们介绍了两种加载组件的方式：</p>
 
-<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="nx">Brick</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">function</span> <span class="nx">HelloWorld</span><span class="p">()</span> <span class="p">{</span>
-        <span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">ATTRS</span> <span class="o">=</span> <span class="p">{</span>
-
-    <span class="p">};</span>
-    <span class="nx">S</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">HelloWorld</span><span class="p">,</span> <span class="nx">Brick</span><span class="p">,</span> <span class="p">{</span>
-
-    <span class="p">});</span>
-
-    <span class="k">return</span> <span class="nx">HelloWorld</span><span class="p">;</span>
-<span class="p">},</span> <span class="p">{</span>
-    <span class="nx">requires</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;brix/core/brick&quot;</span><span class="p">]</span>
-<span class="p">});</span>
-</code></pre>
-</div>
+<ul>
+<li>直接 <code>new Keystone</code></li>
+<li>使用 <code>new Pagelet</code> 让它代劳</li>
+</ul>
 
 
-<p>他其实什么都没有，一个空组件。没错，他已经能用了，brix框架已经给他某些能力了。</p>
+<p>这本文中，我们将介绍 Brix 组件中的模板机制，和这样做能取得的好处 —— 局部刷新。</p>
 
-<p>有了组件，如何用，让我们进入birx之旅</p>
+<h2>方式三：模板与容器</h2>
 
-<h2>方式一</h2>
-
-<p>直接在已有的dom结构上new helloworld</p>
-
-<h3>html代码:</h3>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;helloworld1&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;span&gt;</span>Hello <span class="nt">&lt;span&gt;</span>World<span class="nt">&lt;/span&gt;&lt;/span&gt;</span>
-<span class="nt">&lt;/div&gt;</span>
-</code></pre>
-</div>
-
-
-<h3>js代码:</h3>
-
-<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">){</span>
-    <span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HelloWorld</span><span class="p">({</span><span class="nx">tmpl</span><span class="o">:</span><span class="s1">&#39;#helloworld1&#39;</span><span class="p">});</span>
-<span class="p">});</span>
-</code></pre>
-</div>
-
-
-<h3>demo：</h3>
-
-<div class='demo'><iframe src='/brix/demo/guide/helloworld/helloworld1.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
-
-
-<h2>方式二</h2>
-
-<p>直接在已有的dom结构上new pagelet</p>
-
-<h3>html代码:</h3>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container2&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;helloworld2&quot;</span> <span class="na">bx-name=</span><span class="s">&quot;helloworld&quot;</span> <span class="na">path=</span><span class="s">&quot;helloworld&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;span&gt;</span>Hello <span class="nt">&lt;span&gt;</span>World<span class="nt">&lt;/span&gt;&lt;/span&gt;</span>
-    <span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;/div&gt;</span>
-</code></pre>
-</div>
-
-
-<h3>js代码:</h3>
-
-<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;brix/core/pagelet&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">Pagelet</span><span class="p">){</span>
-    <span class="kd">var</span> <span class="nx">pagelet</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Pagelet</span><span class="p">({</span><span class="nx">tmpl</span><span class="o">:</span><span class="s1">&#39;#container2&#39;</span><span class="p">});</span>
-<span class="p">});</span>
-</code></pre>
-</div>
-
-
-<h3>demo：</h3>
-
-<div class='demo'><iframe src='/brix/demo/guide/helloworld/helloworld2.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
-
-
-<h2>方式三</h2>
-
-<p>用模板和容器的方式new helloworld</p>
-
-<h3>html代码:</h3>
+<h3>用模板和容器的方式 <code>new Helloworld</code></h3>
 
 <div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container3&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
@@ -223,7 +150,7 @@
 </div>
 
 
-<h3>js代码:</h3>
+
 
 <div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">){</span>
     <span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HelloWorld</span><span class="p">({</span><span class="nx">container</span><span class="o">:</span><span class="s1">&#39;#container3&#39;</span><span class="p">,</span><span class="nx">tmpl</span><span class="o">:</span><span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#tmpl_helloword1&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">()});</span>
@@ -233,16 +160,12 @@
 </div>
 
 
-<h3>demo：</h3>
+
 
 <div class='demo'><iframe src='/brix/demo/guide/helloworld/helloworld3.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
 
 
-<h2>方式四</h2>
-
-<p>用模板和容器的方式new pagelet</p>
-
-<h3>html代码:</h3>
+<h3>用模板和容器的方式new pagelet</h3>
 
 <div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container4&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
@@ -255,7 +178,7 @@
 </div>
 
 
-<h3>js代码:</h3>
+
 
 <div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;brix/core/pagelet&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">Pagelet</span><span class="p">){</span>
     <span class="kd">var</span> <span class="nx">pagelet</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Pagelet</span><span class="p">({</span><span class="nx">container</span><span class="o">:</span><span class="s1">&#39;#container4&#39;</span><span class="p">,</span><span class="nx">tmpl</span><span class="o">:</span><span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#tmpl_helloword1&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">()});</span>
@@ -265,7 +188,7 @@
 </div>
 
 
-<h3>demo：</h3>
+
 
 <div class='demo'><iframe src='/brix/demo/guide/helloworld/helloworld4.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
 
@@ -360,8 +283,6 @@
 
 <div class='demo'><iframe src='/brix/demo/guide/helloworld/helloworld6.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
 
-
-<p>helloworld之旅到此结束，你应该对brix有了一个初步的认识了,接下来，我们会逐步的完善helloworld，同时了解看看brix还有什么其他的特性。</p>
 </section>
   </article>
 </div>

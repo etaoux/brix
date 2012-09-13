@@ -51,7 +51,7 @@
     <h3>Guide<b class="arrow"></b></h3>
     
     <ul class="entries">
-<li><a href="/brix/guide/1-helloworld" class="">Brix之旅开始</a></li><li><a href="/brix/guide/2-attrs" class="">ATTRS</a></li><li><a href="/brix/guide/3-attach" class="">ATTACH & DOCATTACH</a></li><li><a href="/brix/guide/4-method" class="">METHOD</a></li><li><a href="/brix/guide/5-fire" class="">fire</a></li><li><a href="/brix/guide/6-renderder" class="">RENDERDER</a></li><li><a href="/brix/guide/7-brixhook" class="">Hook</a></li><li><a href="/brix/guide/7-goodbye" class="">Brix之旅结束</a></li>
+<li><a href="/brix/guide/1-intro" class="">Brix 组件初探</a></li><li><a href="/brix/guide/2-attrs" class="">ATTRS：配置项</a></li><li><a href="/brix/guide/3-events" class="">EVENTS：事件绑定机制</a></li><li><a href="/brix/guide/4-methods" class="">METHODS：公共方法</a></li><li><a href="/brix/guide/5-fires" class="">FIRES：自定义事件</a></li><li><a href="/brix/guide/6-renderders" class="">RENDERDERS</a></li><li><a href="/brix/guide/7-hooks" class="">Brix 钩子</a></li><li><a href="/brix/guide/8-usage" class="">模板与局部刷新</a></li><li><a href="/brix/guide/9-goodbye" class="">总结</a></li>
 </ul>
   </section>
   
@@ -118,61 +118,71 @@
 </aside>
   <div id="page">
   <div class="title-bar clearfix">
-    <h1>RENDERDER</h1>
+    <h1>总结</h1>
     
-    <p class="caption">自定义事件</p>
+    <p class="caption">整个 Brix 的教程到此结束，我们总结一下。</p>
     
   </div>
   <article>
     
-    <section class="content"><h2>RENDERDER</h2>
+    <section class="content"><p>采用 KISSY 加载方式 new Pagelet</p>
 
-<p>为组件模板渲染提供增强方法</p>
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;brix/core/pagelet&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="nx">Pagelet</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">pagelet</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Pagelet</span><span class="p">({</span>
+        <span class="nx">container</span><span class="o">:</span> <span class="s1">&#39;#container1&#39;</span><span class="p">,</span>
+        <span class="nx">tmpl</span><span class="o">:</span> <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#tmpl_helloword2&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(),</span>
+        <span class="nx">data</span><span class="o">:</span> <span class="nx">data</span>
+    <span class="p">});</span>
 
-<div class="highlight"><pre><code class="js"><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">RENDERER</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="nx">xx</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">yy</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">context</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">//参数context 当前实例</span>
-            <span class="k">return</span> <span class="s2">&quot;xx_&quot;</span> <span class="o">+</span> <span class="nx">context</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_yy&quot;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">};</span>
+    <span class="c1">// Pagelet 实例化完后，需要给 Pagelet 中组件附加行为，</span>
+    <span class="c1">// addBehavior 会层次化的加载所有 pagelet 中用钩子（bx-name）标识的组件。</span>
+    <span class="nx">pagelet</span><span class="p">.</span><span class="nx">addBehavior</span><span class="p">();</span>
 </code></pre>
 </div>
 
 
-<h3>html代码:</h3>
+<p>所有组件加载完成后，会调用ready注册的方法</p>
 
-<p>模板中对应的渲染增加方法为"{{id_xx_yy}}"</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container1&quot;</span><span class="nt">&gt;</span>
-<span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;tmpl_helloword1&quot;</span><span class="nt">&gt;</span>
-    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;helloworld1&quot;</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span>
-            <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">helloworld1_xx_yy</span><span class="p">}}</span><span class="o">&lt;</span><span class="err">/span&gt;</span>
-        <span class="o">&lt;</span><span class="err">/span&gt;</span>
-    <span class="o">&lt;</span><span class="err">/div&gt;</span>
-<span class="nt">&lt;/script&gt;</span>
-</code></pre>
-</div>
-
-
-<h3>js代码:</h3>
-
-<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">){</span>
-    <span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HelloWorld</span><span class="p">({</span><span class="nx">container</span><span class="o">:</span><span class="s1">&#39;#container1&#39;</span><span class="p">,</span><span class="nx">tmpl</span><span class="o">:</span><span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#tmpl_helloword1&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">()});</span>
-    <span class="nx">helloworld</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+<div class="highlight"><pre><code class="js"><span class="nx">pagelet</span><span class="p">.</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//将模板和数据渲染到页面</span>
+    <span class="nx">pagelet</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
 <span class="p">});</span>
 </code></pre>
 </div>
 
 
-<h3>demo：</h3>
+<p>拿到helloworld组件，对其进行对应的属性、方法、事件的调用</p>
 
-<div class='demo'><iframe src='/brix/demo/guide/renderder/renderder.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
+<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="nx">pagelet</span><span class="p">.</span><span class="nx">getBrick</span><span class="p">(</span><span class="s1">&#39;helloworld1&#39;</span><span class="p">);</span>
+</code></pre>
+</div>
 
 
+<p>完整的代码</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;brix/core/pagelet&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="nx">Pagelet</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">name</span><span class="o">:</span><span class="s1">&#39;ZuoMo&#39;</span>
+    <span class="p">};</span>
+    <span class="kd">var</span> <span class="nx">pagelet</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Pagelet</span><span class="p">({</span>
+        <span class="nx">container</span><span class="o">:</span> <span class="s1">&#39;#container1&#39;</span><span class="p">,</span>
+        <span class="nx">tmpl</span><span class="o">:</span> <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#tmpl_helloword2&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(),</span>
+        <span class="nx">data</span><span class="o">:</span> <span class="nx">data</span>
+    <span class="p">});</span>
+    <span class="nx">pagelet</span><span class="p">.</span><span class="nx">addBehavior</span><span class="p">();</span>
+    <span class="nx">pagelet</span><span class="p">.</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">pagelet</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+        <span class="c1">//拿到helloworld组件的实例</span>
+        <span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="nx">pagelet</span><span class="p">.</span><span class="nx">getBrick</span><span class="p">(</span><span class="s1">&#39;helloworld1&#39;</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+
+<p>完整的 demo：</p>
+
+<div class='demo'><iframe src='/brix/demo/guide/goodbye/goodbye.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
 
 </section>
   </article>
