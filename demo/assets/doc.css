@@ -15,9 +15,9 @@
     color: #fff;
 }
 .container {
-    margin-left: 30px;
-    margin-top: 30px;
-    width:auto;
+    margin: 30px auto 0;
+    width: auto;
+    max-width: 990px;
 }
 
 
