@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Brix Keystone Demo</title>
+  <link rel="stylesheet" type="text/css" href="../../../dist/brix.css">
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+  <script src="../../config.js"></script>
+  <style type="text/css">
+body {
+  text-align: center;
+  padding: 20px 0;
+}
+.container {
+  margin: 0 auto;
+  text-align: left;
+}
+p {
+  background: #fff;
+}
+  </style>
+</head>
+<body>
+  <!-- 组件相关的 HTML 代码 -->
+  <div class="container">
+    <div class="row">
+      <div class="span25">
+        <button data-init="brick" class="J_setBtn btn btn-taobao btn-size-large">加深背景色</button>
+        <div id="keystone1">
+          <p>Hello <span>World</span></p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+KISSY.ready(function(S) {
+
+    KISSY.use('brix/gallery/keystone/', function(S, Keystone){
+        var stone = new Keystone({
+            el: '#keystone1',
+            backgroundColor: '#ddd'
+        });
+
+        S.one('.J_setBtn').on('click', function() {
+            setBackgroundColor();
+        });
+
+        function setBackgroundColor() {
+            var color = stone.get('backgroundColor');
+
+            color = parseInt(color.replace(/^#/, ''), 16);
+            color -= parseInt('111111', 16);
+            if (color <= 0) {
+                color = Math.floor(Math.random() * parseInt('FFFFFF', 16));
+            }
+
+            stone.set('backgroundColor', '#' + color.toString(16));
+            stone.anim();
+        }
+    });
+
+});
+  </script>
+</body>
+</html>

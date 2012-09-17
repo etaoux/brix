@@ -494,6 +494,13 @@ body {
   border-radius: 2px;
   box-shadow: 0 0 5px rgba(198, 198, 198, 0.4);
   overflow: auto;
+  margin: 10px 0;
+}
+#page .demo iframe {
+  width: 100%;
+}
+#page .highlight {
+  margin: 10px 0;
 }
 #footer {
   margin: 20px 0 30px;
