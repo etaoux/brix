@@ -127,18 +127,19 @@
     
     <section class="content"><h2>EVENTS</h2>
 
-<p>给HelloWorld增加dom事件，el节点事件，以及子元素的代理事件</p>
+<p>我们可以用 <code>.EVENTS</code> 给 HelloWorld 的 el 节点绑定事件，也可以在 el 节点上代理其子节点的事件：</p>
 
 <div class="highlight"><pre><code class="js"><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">EVENTS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;&quot;</span><span class="o">:</span> <span class="p">{</span> <span class="c1">// 空表示事件直接绑定在el上</span>
-        <span class="s2">&quot;click&quot;</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="s2">&quot;&quot;</span><span class="o">:</span> <span class="p">{</span> <span class="c1">// 空表示事件直接绑定在 el 上</span>
+        <span class="nx">click</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="c1">// 这里的 this 指向当前组件实例，即 new HelloWorld 所返回的值</span>
             <span class="nx">top</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;节点被点击&#39;</span><span class="p">);</span>
         <span class="p">}</span>
     <span class="p">},</span>
-    <span class="s2">&quot;#spanName&quot;</span><span class="o">:</span><span class="p">{</span>
-        <span class="s2">&quot;click&quot;</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
-            <span class="nx">e</span><span class="p">.</span><span class="nx">halt</span><span class="p">();</span><span class="c1">//阻止冒泡</span>
-            <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;I\&#39;m Click&#39;</span><span class="p">)</span>
+    <span class="s2">&quot;#spanName&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">click</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+            <span class="nx">e</span><span class="p">.</span><span class="nx">halt</span><span class="p">();</span>   <span class="c1">// 阻止冒泡</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s2">&quot;I&#39;m Clicked&quot;</span><span class="p">);</span>
             <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">currentTarget</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">));</span>
         <span class="p">}</span>
     <span class="p">}</span>
@@ -147,7 +148,19 @@
 </div>
 
 
+<p>如果属性为空，则直接绑定到 el 节点上。</p>
+
+<p>其他属性，例如上例中的 <code>#spanName</code>，则作为 KISSY Event 中 <code>.delegate</code> 方法的第二个参数，
+同时遍历 <code>#spanName</code> 属性所指的对象，将这些事件代理到 el 节点上：</p>
+
+<div class="highlight"><pre><code class="js"><span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;el&#39;</span><span class="p">).</span><span class="nx">delegate</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="s1">&#39;#spanName&#39;</span><span class="p">,</span> <span class="nx">fn</span><span class="p">);</span>
+</code></pre>
+</div>
+
+
 <h2>DOCEVENTS</h2>
+
+<p>如果事件需要直接绑定到 <code>document</code>，或者在 <code>document</code> 上代理，则请使用 <code>.DOCEVENTS</code>。</p>
 
 <div class="highlight"><pre><code class="js"><span class="nx">HelloWorld</span><span class="p">.</span><span class="nx">DOCEVENTS</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;&quot;</span><span class="o">:</span> <span class="p">{</span> <span class="c1">// 空表示事件直接绑定在document上</span>
@@ -160,7 +173,7 @@
 </div>
 
 
-
+<p>它的逻辑与 EVENTS 是一致的，区别只是事件所绑定的节点不同。</p>
 
 <div class="tips">事件代理中的当前上下文（this）是当前组件的实例对象</div>
 
@@ -180,8 +193,11 @@
 
 
 
-<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">){</span>
-    <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span><span class="nx">name</span><span class="o">:</span><span class="s1">&#39;World&#39;</span><span class="p">,</span><span class="nx">tmpl</span><span class="o">:</span><span class="s1">&#39;#helloworld1&#39;</span><span class="p">}</span>
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="nx">HelloWorld</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;World&#39;</span><span class="p">,</span>
+        <span class="nx">tmpl</span><span class="o">:</span><span class="s1">&#39;#helloworld1&#39;</span>
+    <span class="p">}</span>
     <span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HelloWorld</span><span class="p">(</span><span class="nx">config</span><span class="p">);</span>
 <span class="p">});</span>
 </code></pre>
@@ -200,15 +216,18 @@
 
 <p>紧急情况下，我们可以这么做：</p>
 
-<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">){</span>
+<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="nx">HelloWorld</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">events</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;#spanName&quot;</span><span class="o">:</span><span class="p">{</span>
-            <span class="s2">&quot;click&quot;</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+            <span class="nx">click</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
                 <span class="nx">top</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;我是自定义点击&#39;</span><span class="p">);</span>
             <span class="p">}</span>
         <span class="p">}};</span>
-    <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span><span class="nx">name</span><span class="o">:</span><span class="s1">&#39;World&#39;</span><span class="p">,</span><span class="nx">tmpl</span><span class="o">:</span><span class="s1">&#39;#helloworld1&#39;</span><span class="p">};</span>
-    <span class="nx">congfig</span><span class="p">.</span><span class="nx">events</span> <span class="o">=</span> <span class="nx">events</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;World&#39;</span><span class="p">,</span>
+        <span class="nx">tmpl</span><span class="o">:</span> <span class="s1">&#39;#helloworld1&#39;</span><span class="p">,</span>
+        <span class="nx">events</span><span class="o">:</span> <span class="nx">events</span>
+    <span class="p">};</span>
     <span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HelloWorld</span><span class="p">(</span><span class="nx">config</span><span class="p">);</span>
 <span class="p">});</span>
 </code></pre>

@@ -125,7 +125,9 @@
   </div>
   <article>
     
-    <section class="content"><p>Brick 的配置项，利用了
+    <section class="content"><h2>来自 KISSY Base</h2>
+
+<p>Brick 的配置项，利用了
 <a href="http://docs.kissyui.com/docs/html/api/core/base/base.html">KISSY Base</a> 的实现，
 所以它的用法与 KISSY 的 Base 是相同的，都从 <code>.ATTRS</code> 配置开始。</p>
 
@@ -173,54 +175,39 @@
 
 <p>通过这种封装，我们可以很容易地在 1）设定属性值时过滤输入的值；2）获取属性值时取得符合规则的格式。</p>
 
-<h3>html代码:</h3>
+<h3>Demo</h3>
 
-<p>在页面上多个按钮，分别用来给组件设置和获取“name”配置</p>
+<p>我们可以在初始化 Keystone 的时候就告诉它该用什么颜色高亮段落：</p>
 
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container1&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">&quot;btnsetzuomo&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-taobao btn-size30&quot;</span><span class="nt">&gt;</span>
-        set name zuomo
-    <span class="nt">&lt;/button&gt;</span>
-    <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">&quot;btnsetworld&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-shopping-cart btn-size30&quot;</span><span class="nt">&gt;</span>
-        set name world
-    <span class="nt">&lt;/button&gt;</span>
-    <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">&quot;btnget&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-taobao btn-size30&quot;</span><span class="nt">&gt;</span>
-        get name
-    <span class="nt">&lt;/button&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;helloworld1&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;span&gt;</span>Hello <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">&quot;spanName&quot;</span><span class="nt">&gt;</span>World<span class="nt">&lt;/span&gt;&lt;/span&gt;</span>
-    <span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;/div&gt;</span>
-</code></pre>
-</div>
-
-
-<h3>js代码:</h3>
-
-<p>get方法获取属性值，set方法设置属性值</p>
-
-<div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">){</span>
-    <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span><span class="nx">name</span><span class="o">:</span><span class="s1">&#39;World&#39;</span><span class="p">,</span><span class="nx">tmpl</span><span class="o">:</span><span class="s1">&#39;#helloworld1&#39;</span><span class="p">}</span>
-    <span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HelloWorld</span><span class="p">(</span><span class="nx">config</span><span class="p">);</span>
-    <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#btnsetzuomo&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
-        <span class="nx">helloworld</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;zuomo&#39;</span><span class="p">);</span>
-    <span class="p">});</span>
-    <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#btnsetworld&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
-        <span class="nx">helloworld</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="s1">&#39;world&#39;</span><span class="p">);</span>
-    <span class="p">});</span>
-    <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#btnget&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
-        <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#spanName&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">helloworld</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">));</span>
-    <span class="p">});</span>
+<div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">stone</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Brick</span><span class="p">({</span>
+    <span class="nx">el</span><span class="o">:</span> <span class="s1">&#39;#keystone1&#39;</span><span class="p">,</span>
+    <span class="nx">backgroundColor</span><span class="o">:</span> <span class="s1">&#39;#ddd&#39;</span>
 <span class="p">});</span>
 </code></pre>
 </div>
 
 
-<h3>demo：</h3>
+<p>也可以在初始化完成之后再去修改它：</p>
 
-<div class='demo'><iframe src='/brix/demo/guide/attrs/attrs.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
+<div class="highlight"><pre><code class="js"><span class="c1">// 获取当前颜色</span>
+<span class="kd">var</span> <span class="nx">color</span> <span class="o">=</span> <span class="nx">stone</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;backgroundColor&#39;</span><span class="p">);</span>
+
+<span class="nx">color</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">color</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^#/</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span> <span class="mi">16</span><span class="p">);</span>
+<span class="nx">color</span> <span class="o">-=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="s1">&#39;111111&#39;</span><span class="p">,</span> <span class="mi">16</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">color</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">color</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="nb">parseInt</span><span class="p">(</span><span class="s1">&#39;FFFFFF&#39;</span><span class="p">,</span> <span class="mi">16</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="c1">// 经过业务逻辑处理之后，赋值回去</span>
+<span class="nx">stone</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;backgroundColor&#39;</span><span class="p">,</span> <span class="nx">color</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="mi">16</span><span class="p">));</span>
+</code></pre>
+</div>
 
 
+<p>在此例中，我们通过 <code>.get</code> 获取到高亮时的背景色，并将它稍作处理（加深，如果它已经变黑色了，就随机一个颜色），
+再 <code>.set</code> 回去。</p>
+
+<div class='demo'><iframe src='/brix/demo/guide/keystone/attrs.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
 
 </section>
   </article>

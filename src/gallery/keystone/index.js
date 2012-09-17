@@ -13,9 +13,6 @@ KISSY.add('brix/gallery/keystone/index', function(S, Brick) {
                 if (/^\#[0-9a-f]{6}$/i.test(v) || /^\#[0-9a-f]{3}/i.test(v)) {
                     return v;
                 }
-                else {
-                    return '#F50';
-                }
             },
             // this.get('backgroundColor') 时会调用的方法
             getter: function(v) {
@@ -31,22 +28,31 @@ KISSY.add('brix/gallery/keystone/index', function(S, Brick) {
         }
     };
 
-    S.extend(Keystone, Brick, {
-        initialize: function() {
+    Keystone.METHODS = {
+        anim: function() {
             var el = this.get('el'),
+                color = this.get('backgroundColor'),
                 cfg;
 
             cfg = {
-                duration: 2,
+                duration: 1,
                 queue: 'keystone' + this.get('id')
             };
-            el.all('p').animate({
-                backgroundColor: '#f50'
+            el.all('p').stop(true).animate({
+                backgroundColor: color
             }, cfg).animate({
                 backgroundColor: '#fff'
             }, cfg);
         }
+    }
+
+    S.extend(Keystone, Brick, {
+        initialize: function() {
+            this.anim();
+        }
     });
+
+    S.augment(Keystone, Keystone.METHODS);
 
     return Keystone;
 }, {

@@ -16,20 +16,10 @@ KISSY.all('.j-demo').on('load', function(e) {
     var iframe = e.currentTarget,
         win = iframe.contentWindow,
         doc = win.document;
-    var height = DOM.height(doc);
+    var height = DOM.outerHeight(doc);
 
-    iframe.height = height < 450 ? 450 : height;
+    iframe.height = height;
     iframe.width ='100%';
-
-    //监听变化，动态修改iframe变化
-    (function(frame){
-        setInterval(function(){
-            var height = DOM.outerHeight(frame.contentWindow.document.body);
-
-            iframe.height = height < 450 ? 450 : height;
-        }, 300);
-    })(iframe);
-
 });
 
 KISSY.ready(function(S) {
