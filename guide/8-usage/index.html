@@ -137,7 +137,7 @@
 
 <h2>方式三：模板与容器</h2>
 
-<h3>用模板和容器的方式 <code>new Helloworld</code></h3>
+<h3>用模板和容器的方式 <code>new HelloWorld</code></h3>
 
 <div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container3&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
@@ -153,7 +153,10 @@
 
 
 <div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;helloworld&#39;</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span><span class="nx">HelloWorld</span><span class="p">){</span>
-    <span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HelloWorld</span><span class="p">({</span><span class="nx">container</span><span class="o">:</span><span class="s1">&#39;#container3&#39;</span><span class="p">,</span><span class="nx">tmpl</span><span class="o">:</span><span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#tmpl_helloword1&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">()});</span>
+    <span class="kd">var</span> <span class="nx">helloworld</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HelloWorld</span><span class="p">({</span>
+        <span class="nx">container</span><span class="o">:</span> <span class="s1">&#39;#container3&#39;</span><span class="p">,</span>
+        <span class="nx">tmpl</span><span class="o">:</span> <span class="nx">S</span><span class="p">.</span><span class="nx">one</span><span class="p">(</span><span class="s1">&#39;#tmpl_helloword1&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">()</span>
+    <span class="p">});</span>
     <span class="nx">helloworld</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
 <span class="p">});</span>
 </code></pre>
@@ -165,7 +168,7 @@
 <div class='demo'><iframe src='/brix/demo/guide/helloworld/helloworld3.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
 
 
-<h3>用模板和容器的方式new pagelet</h3>
+<h3>用模板和容器的方式 <code>new Pagelet</code></h3>
 
 <div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container4&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
@@ -193,11 +196,13 @@
 <div class='demo'><iframe src='/brix/demo/guide/helloworld/helloworld4.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
 
 
-<h2>方式五</h2>
+<h2>方式四：局部刷新</h2>
 
-<p>用模板、容器、数据的方式new helloworld，实现局部刷新</p>
+<h3>局部刷新 <code>new HelloWorld</code></h3>
 
-<h3>html代码:</h3>
+<p>用模板、容器、数据的方式 <code>new HelloWorld</code>，实现局部刷新</p>
+
+<h4>html代码:</h4>
 
 <div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container5&quot;</span><span class="nt">&gt;</span>
     <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">&quot;btn5&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-taobao btn-size30&quot;</span><span class="nt">&gt;</span>
@@ -215,7 +220,7 @@
 </div>
 
 
-<h3>js代码:</h3>
+<h4>js代码:</h4>
 
 <div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
     <span class="nx">name</span><span class="o">:</span><span class="s1">&#39;ZuoMo&#39;</span>
@@ -233,16 +238,16 @@
 </div>
 
 
-<h3>demo：</h3>
+<h4>demo：</h4>
 
 <div class='demo'><iframe src='/brix/demo/guide/helloworld/helloworld5.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
 
 
-<h2>方式六</h2>
+<h3>局部刷新 <code>new Pagelet</code></h3>
 
-<p>用模板、容器、数据的方式new pagelet，实现局部刷新</p>
+<p>用模板、容器、数据的方式 new Pagelet，实现局部刷新</p>
 
-<h3>html代码:</h3>
+<h4>html代码:</h4>
 
 <div class="highlight"><pre><code class="html"><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;container6&quot;</span><span class="nt">&gt;</span>
     <span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">&quot;btn6&quot;</span> <span class="na">class=</span><span class="s">&quot;btn btn-taobao btn-size30&quot;</span><span class="nt">&gt;</span>
@@ -260,7 +265,7 @@
 </div>
 
 
-<h3>js代码:</h3>
+<h4>js代码:</h4>
 
 <div class="highlight"><pre><code class="js"><span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
     <span class="nx">name</span><span class="o">:</span><span class="s1">&#39;ZuoMo&#39;</span>
@@ -279,7 +284,7 @@
 </div>
 
 
-<h3>demo：</h3>
+<h4>demo：</h4>
 
 <div class='demo'><iframe src='/brix/demo/guide/helloworld/helloworld6.html' frameborder='0' scrolling='no' class='j-demo'></iframe></div>
 
