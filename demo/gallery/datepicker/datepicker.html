@@ -10,7 +10,7 @@
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
         <script src="../../config.js"></script>
     </head>
-    <body>
+    <body style="min-height: 240px;">
         <div class="container">
             <a id="test1" class="btn" href="#">时间段</a>
             <a id="test2" class="btn" href="#">比较</a>
@@ -18,7 +18,7 @@
             <a id="test3" class="btn" href="#">测试3</a>
             <a style="float:right;margin-right:5px;" id="test4" class="btn" href="#">测试4</a>
         </div>
-        
+
         <script>
             KISSY.ready(function(S) {
                 KISSY.use("brix/gallery/datepicker/", function(S, DatePicker) {
@@ -39,12 +39,12 @@
                     datepicker2.on('selected',function(e){
                         S.one('#test2').html(Brix_Date.format(e.start,'isoDate') + '至' +Brix_Date.format(e.end,'isoDate'));
                     });
-                    
+
                     S.one('#update').on('click',function(e){
                         e.halt();
                         datepicker2.set('compareText','过去14天')
                     });
-                    
+
 
                     var datepicker3 = new DatePicker({
                         trigger: '#test3',
@@ -56,7 +56,7 @@
                     });
 
 
-                    
+
 
                     var datepicker4 = new DatePicker({
                         trigger: '#test4',
