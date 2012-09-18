@@ -433,6 +433,9 @@ body {
 #page h3 {
   font-size: 16px;
 }
+#page h4 {
+  font-size: 14px;
+}
 #page p,
 #page ul,
 #page ol,
