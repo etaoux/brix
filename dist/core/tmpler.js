@@ -122,7 +122,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
                     return "{{#"+name+"}}"  ;
                 });
 
-                node = $(tmpl);
+                node = new Node(tmpl);
                 if (node.length > 1) { //如果是多个节点，则创建容器节点
                     node = $('<div></div>').append(node);
                 }
