@@ -47,9 +47,9 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
     Dropdown.DOCEVENTS = {
         "":{//空选择器，表示将事件直接绑定在document上
             click:function(e){
-                var self = this;
-                if (!self.__show) {
-                    var el = self.get('el');
+                var self = this,
+                    el = self.get('el');
+                if (!self.__show&&!el.contains(e.target)) {
                     el.all('.dropdown-list').css('display', 'none');
                     el.all('.dropdown-hd').removeClass("dropdown-hd-active");
                 }
