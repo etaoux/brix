@@ -1,0 +1,1 @@
+KISSY.add("brix/gallery/dropdown/ext/dropdownext/index",function(a,b){function c(){c.superclass.constructor.apply(this,arguments)}return c.ATTRS={extattr:{value:123}},c.EVENTS={"":{click:function(){console.log(this.get("extattr"))}}},a.extend(c,b,{}),c},{requires:["../../index"]});

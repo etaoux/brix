@@ -828,7 +828,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
                     return "{{#"+name+"}}"  ;
                 });
 
-                node = $(tmpl);
+                node = new Node(tmpl);
                 if (node.length > 1) { //如果是多个节点，则创建容器节点
                     node = $('<div></div>').append(node);
                 }
@@ -869,7 +869,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
                 name = el.attr('bx-name'),
                 path = el.attr('bx-path'),
                 config = el.attr('bx-config'),
-                tmplNodes = container.all('[bx-tmpl=' + name + ']');
+                tmplNodes = el.all('[bx-tmpl=' + name + ']');
             if (el.hasAttr('bx-tmpl')) {
                 tmplNodes = tmplNodes.add(el[0]);
             }
@@ -1205,15 +1205,32 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         Brick.superclass.constructor.apply(this, arguments);
 
         var id = self.get('id'),
-            tmpler = self.get('tmpler'),
-            renderers = self.constructor.RENDERERS;
-        if (renderers) {
-            var context = self.pagelet?self.pagelet:self;
-            context.get('dataset').setRenderer(renderers, self, id);
+            tmpler = self.get('tmpler');
+        var constt = self.constructor;
+
+        while(constt.NAME!='Brick'){
+            var renderers = constt.RENDERERS;
+            if (renderers) {
+                var context = self.pagelet?self.pagelet:self;
+                context.get('dataset').setRenderer(renderers, self, id);
+            }
+            constt = constt.superclass.constructor;
         }
+         
 
         self.on('rendered', function() {
-            self.initialize();
+            var main,extChains = [];
+            constt = self.constructor;
+            while(constt.NAME!='Brick'){
+                if (constt.prototype.hasOwnProperty('initialize') && (main = constt.prototype['initialize'])) {
+                    extChains.push(main);
+                }
+                constt = constt.superclass.constructor;
+            }
+            for (var i = extChains.length - 1; i >= 0; i--) {
+                extChains[i] && extChains[i].call(self);
+            }
+
             self._bindEvent();
         });
 
@@ -1233,20 +1250,9 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
             }
         }
     }
-    // Brick.ATTACH = {
-    //     //组件内部的事件代理，
-    //     // "selector":{
-    //     //     enventtype:function(e){
-    //     //         e：事件对象
-    //     //         this:指向当前实例
-    //     //     }
-    //     // }
-    // };
-    // Brick.ATTRS = {
-    //     events: {
-    //         //此事件代理是KISSY选择器的事件的代理
-    //     }
-    // };
+
+    Brick.NAME = 'Brick';//用来表示brick，事件
+
 
     S.extend(Brick, Chunk, {
         //初始化方法，提供子类覆盖
@@ -1262,13 +1268,18 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
          */
         _detachEvent: function() {
             var self = this;
-            var defaultEvents = self.constructor.EVENTS;
-            if (defaultEvents) {
-                self._removeEvents(defaultEvents);
-            }
-            var defaultDocEvents = self.constructor.DOCEVENTS;
-            if (defaultDocEvents) {
-                self._removeEvents(defaultDocEvents, S.one(document));
+            var constt = self.constructor;
+
+            while(constt.NAME!='Brick'){
+                var defaultEvents = constt.EVENTS;
+                if (defaultEvents) {
+                    self._removeEvents(defaultEvents);
+                }
+                var defaultDocEvents = constt.DOCEVENTS;
+                if (defaultDocEvents) {
+                    self._removeEvents(defaultDocEvents, S.one(document));
+                }
+                constt = constt.superclass.constructor;
             }
 
             self._undelegateEvents();
@@ -1276,23 +1287,34 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
             if (events) {
                 this._removeEvents(events);
             }
-            self.destructor();
+
+            constt = self.constructor;
+            while(constt.NAME!='Brick'){
+                if(constt.prototype.hasOwnProperty('destructor')){
+                    constt.prototype.destructor.apply(self);
+                }
+                constt = constt.superclass.constructor;
+            }
         },
         /**
          * 绑定代理事件
          */
         _bindEvent: function() {
             var self = this;
-            //组件默认事件代理
-            //方式一
-            var defaultEvents = self.constructor.EVENTS;
-            if (defaultEvents) {
-                this._addEvents(defaultEvents);
-            }
-            //代理在全局的页面上
-            var defaultDocEvents = self.constructor.DOCEVENTS;
-            if (defaultDocEvents) {
-                this._addEvents(defaultDocEvents, S.one(document));
+            var constt = self.constructor;
+            while(constt.NAME!='Brick'){
+                //组件默认事件代理
+                //方式一
+                var defaultEvents = constt.EVENTS;
+                if (defaultEvents) {
+                    this._addEvents(defaultEvents);
+                }
+                //代理在全局的页面上
+                var defaultDocEvents = constt.DOCEVENTS;
+                if (defaultDocEvents) {
+                    this._addEvents(defaultDocEvents, S.one(document));
+                }
+                constt = constt.superclass.constructor;
             }
 
             //方式二

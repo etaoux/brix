@@ -122,7 +122,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
                     return "{{#"+name+"}}"  ;
                 });
 
-                node = $(tmpl);
+                node = new Node(tmpl);
                 if (node.length > 1) { //如果是多个节点，则创建容器节点
                     node = $('<div></div>').append(node);
                 }
@@ -163,7 +163,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
                 name = el.attr('bx-name'),
                 path = el.attr('bx-path'),
                 config = el.attr('bx-config'),
-                tmplNodes = container.all('[bx-tmpl=' + name + ']');
+                tmplNodes = el.all('[bx-tmpl=' + name + ']');
             if (el.hasAttr('bx-tmpl')) {
                 tmplNodes = tmplNodes.add(el[0]);
             }

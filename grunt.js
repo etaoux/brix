@@ -62,7 +62,7 @@ module.exports = function(grunt) {
                 tasks: 'galleryless'
             },
             watchgalleryjs:{
-                files: 'src/gallery/**/index.js',
+                files: 'src/gallery/**/*.js',
                 tasks: 'galleryjs'
             },
             watchcss:{

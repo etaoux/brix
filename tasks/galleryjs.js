@@ -48,16 +48,17 @@ module.exports = function(grunt) {
         }
 
         var self = this;
-        files = fs.readdirSync(src);
-        files.forEach(function(p) {
-            var srcFile = src + '/' + p + '/' + 'index.js';
-            var destFile = dest + '/' + p + '/index' + options.min + '.js'
+        var files = fs.readdirSync(src);
+
+        function foo(srcPath,destPath){
+            var srcFile =  srcPath + 'index.js';
+            var destFile = destPath + 'index' + options.min + '.js'
             if (fs.existsSync(srcFile)) {
                 var arr = [srcFile];
-                var tempArr = fs.readdirSync(src + '/' + p + '/');
+                var tempArr = fs.readdirSync(srcPath);
                 tempArr.forEach(function(f) {
                     if (path.extname(f) == '.js' && path.basename(f) != 'index.js') {
-                        arr.push(src + '/' + p + '/' + f);
+                        arr.push(srcPath + f);
                     }
                 });
 
@@ -71,6 +72,21 @@ module.exports = function(grunt) {
                     min = max;
                 }
                 file.write(destFile, min);
+            }
+
+        }
+
+        files.forEach(function(p){
+            var srcPath = src  + p +'/',
+                destPath = dest + p + '/';
+            foo(srcPath,destPath);
+
+            var extPath = srcPath+'ext/';
+            if(fs.existsSync(extPath)){
+                var extFiles = fs.readdirSync(extPath);
+                extFiles.forEach(function(p){
+                   foo(extPath+p+'/',destPath+'ext/'+p+'/'); 
+                })
             }
         });
     });

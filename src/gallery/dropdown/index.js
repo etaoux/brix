@@ -5,35 +5,51 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
     Dropdown.ATTRS = {
         mode:{
             value:1
+        },
+        autoResize:{
+            value:true
         }
     }
-
+    Dropdown.FIRES = {
+        beforeFocus:'beforeFocus',
+        focus:'focus',
+        beforeBlur:'beforeBlur',
+        blur:'blur',
+        selected:'selected'
+    }
     Dropdown.METHODS = {
         focus: function() {
             var mode = this.get('mode'),
                 el = this.get('el');
-            var w = el.one('.dropdown-hd').outerWidth();
+            this.fire(Dropdown.FIRES.beforeFocus);
             if(mode==1){
                 el.one('.dropdown-hd').addClass("dropdown-hd-active");
             }
-            el.one('.dropdown-list').css({'display':'block',width:w+'px'});
+            el.one('.dropdown-list').css({'display':'block'});
+            if(this.get('autoResize')){
+                var w = el.one('.dropdown-hd').outerWidth();
+                el.one('.dropdown-list').css({width:w+'px'});  
+            }
+            this.fire(Dropdown.FIRES.focus);
         },
         blur: function() {
             var mode = this.get('mode'),
                 el = this.get('el');
+            this.fire(Dropdown.FIRES.beforeBlur);
             if(mode==1){
                 el.one('.dropdown-hd').removeClass("dropdown-hd-active");
             }
             el.one('.dropdown-list').css('display', 'none');
+            this.fire(Dropdown.FIRES.blur);
         }
     }
 
     Dropdown.DOCEVENTS = {
         "":{//空选择器，表示将事件直接绑定在document上
             click:function(e){
-                var self = this;
-                if (!self.__show) {
-                    var el = self.get('el');
+                var self = this,
+                    el = self.get('el');
+                if (!self.__show&&!el.contains(e.target)) {
                     el.all('.dropdown-list').css('display', 'none');
                     el.all('.dropdown-hd').removeClass("dropdown-hd-active");
                 }
@@ -77,7 +93,6 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                 var el = this.get('el');
                 var currentTarget = S.one(e.currentTarget);
                 if(currentTarget.hasClass('dropdown-itemselected')){
-                    console.log('selected');
                     return;
                 }
                 el.all('.dropdown-itemselected').removeClass('dropdown-itemselected');
@@ -97,7 +112,7 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                 }
                 dropdownTextNode.attr('value', data.value);
                 dropdownTextNode.text(data.text);
-                this.fire('selected', data);
+                this.fire(Dropdown.FIRES.selected, data);
             },
             mouseenter: function(e) {
                 var currentTarget = S.one(e.currentTarget);
