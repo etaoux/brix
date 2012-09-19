@@ -16,11 +16,19 @@ KISSY.ready(function(S) {
     function adjustHeight(iframe) {
         var DOM = KISSY.DOM,
             win = iframe.contentWindow,
-            doc = win.document;
-            height = DOM.outerHeight(doc);
+            doc = win.document,
+            height;
 
-        iframe.height = height;
-        iframe.width ='100%';
+        try {
+            height = DOM.outerHeight(doc, true);
+            iframe.height = height;
+            iframe.width ='100%';
+        }
+        catch (e) {
+            if (window.console && console.log) {
+                console.log(e.message);
+            }
+        }
     }
 
     var demos = KISSY.all('.j-demo');
