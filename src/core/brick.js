@@ -26,7 +26,18 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
          
 
         self.on('rendered', function() {
-            self.initialize();
+            var main,extChains = [];
+            constt = self.constructor;
+            while(constt.NAME!='Brick'){
+                if (constt.prototype.hasOwnProperty('initialize') && (main = constt.prototype['initialize'])) {
+                    extChains.push(main);
+                }
+                constt = constt.superclass.constructor;
+            }
+            for (var i = extChains.length - 1; i >= 0; i--) {
+                extChains[i] && extChains[i].call(self);
+            }
+
             self._bindEvent();
         });
 
@@ -83,7 +94,14 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
             if (events) {
                 this._removeEvents(events);
             }
-            self.destructor();
+
+            var constt = self.constructor;
+            while(constt.NAME!='Brick'){
+                if(constt.prototype.hasOwnProperty('destructor')){
+                    constt.prototype.destructor.apply(self);
+                }
+                constt = constt.superclass.constructor;
+            }
         },
         /**
          * 绑定代理事件

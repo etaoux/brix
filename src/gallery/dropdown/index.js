@@ -6,7 +6,7 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
         mode:{
             value:1
         },
-        autoReize:{
+        autoResize:{
             value:true
         }
     }
@@ -26,7 +26,7 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                 el.one('.dropdown-hd').addClass("dropdown-hd-active");
             }
             el.one('.dropdown-list').css({'display':'block'});
-            if(this.get('autoReize')){
+            if(this.get('autoResize')){
                 var w = el.one('.dropdown-hd').outerWidth();
                 el.one('.dropdown-list').css({width:w+'px'});  
             }
