@@ -11,18 +11,34 @@ KISSY.config({
     ]
 });
 
-KISSY.all('.j-demo').on('load', function(e) {
-    var DOM = KISSY.DOM;
-    var iframe = e.currentTarget,
-        win = iframe.contentWindow,
-        doc = win.document;
-    var height = DOM.outerHeight(doc);
-
-    iframe.height = height;
-    iframe.width ='100%';
-});
-
 KISSY.ready(function(S) {
+
+    function adjustHeight(iframe) {
+        var DOM = KISSY.DOM,
+            win = iframe.contentWindow,
+            doc = win.document,
+            height;
+
+        try {
+            height = DOM.outerHeight(doc, true);
+            iframe.height = height;
+            iframe.width ='100%';
+        }
+        catch (e) {
+            if (window.console && console.log) {
+                console.log(e.message);
+            }
+        }
+    }
+
+    var demos = KISSY.all('.j-demo');
+
+    demos.each(function(iframe) {
+        adjustHeight(iframe[0]);
+    });
+    demos.on('load', function(e) {
+        adjustHeight(e.currentTarget);
+    });
 
     function initLog() {
         if (!window.log4javascript) {
