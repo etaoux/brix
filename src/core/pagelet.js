@@ -13,8 +13,28 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 self.render();
             });
         }
-    }
 
+        //增加参数回调
+        var callback = self.get('callback');
+        if(callback&&typeof callback === 'function'){
+            self.ready(callback);
+        }
+
+        //自动添加行为渲染
+        if(self.get('behavior')){
+            self.addBehavior();
+        }
+    }
+    Pagelet.ATTRS = {
+        behavior:{
+            //自动添加组件行为
+            value:true 
+        },
+        callback:{
+            //行为添加完成后的回调方法
+            value:null
+        }
+    }
     S.extend(Pagelet, Chunk, {
         /**
          * 获取brick的实例
@@ -48,9 +68,10 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          * 给组件添加行为
          */
         addBehavior: function() {
-            var self = this,tmpler = self.get('tmpler');
+            var self = this;
             if (!self.isAddBehavior) {
                 self.isAddBehavior = true;
+                var tmpler = self.get('tmpler');
                 if(tmpler){
                     self._buildBricks(tmpler.bricks);//构建当前pagelet包含的所有brick
                     if(self.brickList.length>0){
