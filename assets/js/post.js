@@ -21,8 +21,10 @@ KISSY.ready(function(S) {
 
         try {
             height = DOM.outerHeight(doc, true);
-            iframe.height = height;
-            iframe.width ='100%';
+            if (iframe.height !== height) {
+                iframe.height = height;
+                iframe.width ='100%';
+            }
         }
         catch (e) {
             if (window.console && console.log) {
@@ -31,14 +33,26 @@ KISSY.ready(function(S) {
         }
     }
 
-    var demos = KISSY.all('.j-demo');
+    (function() {
+        var demos = S.all('.j-demo');
 
-    demos.each(function(iframe) {
-        adjustHeight(iframe[0]);
-    });
-    demos.on('load', function(e) {
-        adjustHeight(e.currentTarget);
-    });
+        demos.each(function(iframe) {
+            adjustHeight(iframe[0]);
+        });
+        demos.on('load', function(e) {
+            adjustHeight(e.currentTarget);
+        });
+        demos = null;
+
+        var timer = setInterval(function() {
+            S.all('.j-demo').each(function(iframe) {
+                adjustHeight(iframe[0]);
+            });
+        }, 200);
+        window.onbeforeunload = function() {
+            clearInterval(timer);
+        }
+    })();
 
     function initLog() {
         if (!window.log4javascript) {
