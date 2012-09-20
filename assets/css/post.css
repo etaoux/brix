@@ -446,10 +446,24 @@ body {
 #page img {
   max-width: 100%;
 }
-#page code,
-#page kbd,
-#page pre,
-#page samp {
+#page p code,
+#page h1 code,
+#page h2 code,
+#page h3 code,
+#page h4 code,
+#page .content > pre code,
+#page p kbd,
+#page h1 kbd,
+#page h2 kbd,
+#page h3 kbd,
+#page h4 kbd,
+#page .content > pre kbd,
+#page p samp,
+#page h1 samp,
+#page h2 samp,
+#page h3 samp,
+#page h4 samp,
+#page .content > pre samp {
   border: 1px solid #ddd;
   border-radius: 2px;
   display: inline-block;
