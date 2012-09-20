@@ -44,25 +44,6 @@ KISSY.add("brix/gallery/toc/index", function(S, Brick) {
                 hIndex = 0,
                 emptyLabel = this.get('emptyLabel');
 
-            for (i = 0; i < level; i++) {
-                hs[i] = 'h' + (i + 1);
-            }
-            essay.all(hs.join(',')).each(function(h) {
-                var hData = getH(h);
-
-                if (hData.tag === 'h1') {
-                    tree.push(hData);
-                }
-                else {
-                    parent = getParentH(hData);
-                    parent.children.push(hData);
-                }
-                hPrev = hData;
-                hPrevs[hData.level] = hData;
-            });
-
-            return tree;
-
             function getParentH(hCurrent) {
                 var levelPrev = hPrev ? hPrev.level : 0,
                     levelCurrent = hCurrent.level,
@@ -112,6 +93,26 @@ KISSY.add("brix/gallery/toc/index", function(S, Brick) {
 
                 return id;
             }
+
+            for (i = 0; i < level; i++) {
+                hs[i] = 'h' + (i + 1);
+            }
+            essay.all(hs.join(',')).each(function(h) {
+                var hData = getH(h),
+                    parent;
+
+                if (hData.tag === 'h1') {
+                    tree.push(hData);
+                }
+                else {
+                    parent = getParentH(hData);
+                    parent.children.push(hData);
+                }
+                hPrev = hData;
+                hPrevs[hData.level] = hData;
+            });
+
+            return tree;
         }
     };
 
