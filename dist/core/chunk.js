@@ -42,9 +42,9 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
         rendered: {
             value: false
         },
-        //是否自动渲染
+        //是否自动渲染,默认改成true
         autoRender: {
-            value: false
+            value: true 
         },
         data:{
             value:false

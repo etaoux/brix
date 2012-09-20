@@ -6,13 +6,19 @@
         <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
         <link rel="stylesheet" href="../../../src/gallery/dropdown/dropdown.css">
         <link rel="stylesheet" href="../../assets/doc.css">
-        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
-        <script src="../../config.js"></script>
+        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+        <script src="../../../dist/brix-min.js"></script>
+        <script type="text/javascript">
+            Brix.config({
+                fixed:'src/'
+            }); //初始化Brix的配置
+        </script>
     </head>
-    <body style="height:200px;">
+    <body style="min-height:200px;">
         <div class="container">
             <table>
                 <tr>
+                    <td id="test_containerext"></td>
                     <td id="test_container"></td>
                     <td>
                         <div bx-name="dropdown" style="width:200px" class="dropdown dropdown-arrow" id="brick_14">
@@ -104,9 +110,32 @@
                 {{/dropdown_list}}
             </div>
         </script>
+
+        <script type="text/template" id="tmpl_dropdownext">
+            dropdownext
+            <div style="width:200px" id="brick15" bx-name="dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" bx-path="brix/gallery/dropdown/ext/dropdownext/" class="dropdown">
+                {{#dropdown_list}}
+                {{#selected}}
+                <span class="dropdown-hd">
+                <span class="dropdown-text" value="{{value}}">{{text}}</span>
+                </span>
+                {{/selected}}
+                {{/dropdown_list}}
+                <ul class="dropdown-list dropdown-list-noicon">
+                    {{#dropdown_list}}
+                    <li class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}"><span value="{{value}}">{{text}}</span></li>
+                    {{/dropdown_list}}
+                </ul>
+                {{#dropdown_list}}
+                {{#selected}}
+                <input value="{{value}}" type="hidden" />
+                {{/selected}}
+                {{/dropdown_list}}
+            </div>
+        </script>
         <script>
             KISSY.ready(function(S) {
-                KISSY.use("brix/gallery/dropdown/", function(S, DropdownBrick) {
+                KISSY.use("brix/core/pagelet,brix/gallery/dropdown/", function(S,Pagelet, DropdownBrick) {
                     var config = {
                         container:'#test_container',//容器节点
                         tmpl: '#tmpl_dropdown',//需要的模板
@@ -156,6 +185,12 @@
                     new DropdownBrick({tmpl:'#brick_14',mode:2});
                     new DropdownBrick({tmpl:'#brick_15'});
                     new DropdownBrick({tmpl:'#brix_brick_16'});
+
+
+                    var pagelet = new Pagelet({container:'#test_containerext',tmpl:'#tmpl_dropdownext',data: dropdown_data});
+                    pagelet.render();
+                    pagelet.addBehavior();
+
                 });
             });
         </script>

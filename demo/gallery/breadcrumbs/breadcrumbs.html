@@ -5,33 +5,34 @@
         <title>Brix Breadcrumbs Demo</title>
         <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
         <link rel="stylesheet" href="../../assets/doc.css">
-        <script src="http://a.tbcdn.cn/s/kissy/1.3.0rc/seed-min.js"></script>
+        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
         <script src="../../../src/core/brix.js"></script>
         <script type="text/javascript">
             Brix.config({
-                path: 'http://a.tbcdn.cn/p/'
+                //path: 'http://a.tbcdn.cn/p/'
+                fixed:'src/'
             }); //初始化Brix的配置
-            KISSY.config('combine', true);
-            KISSY.config('modules', {
-                'brix/core/pagelet': {
-                    requires: ['brix/core/chunk']
-                },
-                'brix/core/brick': {
-                    requires: ['brix/core/chunk']
-                },
-                'brix/core/chunk': {
-                    requires: ['node','base', 'brix/core/dataset','brix/core/tmpler']
-                },
-                'brix/core/tmpler': {
-                    requires: ['brix/core/mu','node','ua', 'sizzle']
-                },
-                'brix/core/mu': {
-                    requires: ['brix/core/mustache']
-                }
-            });
+            //KISSY.config('combine', true);
+            // KISSY.config('modules', {
+            //     'brix/core/pagelet': {
+            //         requires: ['brix/core/chunk']
+            //     },
+            //     'brix/core/brick': {
+            //         requires: ['brix/core/chunk']
+            //     },
+            //     'brix/core/chunk': {
+            //         requires: ['node','base', 'brix/core/dataset','brix/core/tmpler']
+            //     },
+            //     'brix/core/tmpler': {
+            //         requires: ['brix/core/mu','node','ua', 'sizzle']
+            //     },
+            //     'brix/core/mu': {
+            //         requires: ['brix/core/mustache']
+            //     }
+            // }); 
         </script>
     </head>
-    <body style="height:200px;">
+    <body>
         <div class="container">
             <h2>带下拉</h2>
             <div style="padding-left:50px"  id="test_container">
@@ -138,13 +139,17 @@
                     var config = {
                         container:'#test_container',//容器节点
                         tmpl: S.one("#tmpl_script").html(),//需要的模板
-                        data: breadcrumbs_data
+                        data: breadcrumbs_data,
+                        callback:function(){
+                            S.log('auto behavior');
+                        }
                     };
                     //删除节点，有用吗？
-                    S.one("#tmpl_script").remove();
+                    //S.one("#tmpl_script").remove();
                     var pagelet = new Pagelet(config);
-                    pagelet.render();
-                    pagelet.addBehavior();
+
+                    //pagelet.render();
+                    //pagelet.addBehavior();
                 });
             });
         </script>

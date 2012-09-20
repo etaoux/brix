@@ -4,8 +4,8 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         var self = this;
         //初始化属性
         self.isReady = false;
-        self.brickCount = 0;
         self.readyList = [];
+        self.brickList = [];
         self.isAddBehavior = false;
         //如果是自动渲染，或者已经在dom中，则触发rendered事件
         if (self.get('autoRender')||self.get('tmpler').inDom) {
@@ -13,8 +13,28 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 self.render();
             });
         }
-    }
 
+        //增加参数回调
+        var callback = self.get('callback');
+        if(callback&&typeof callback === 'function'){
+            self.ready(callback);
+        }
+
+        //自动添加行为渲染
+        if(self.get('behavior')){
+            self.addBehavior();
+        }
+    }
+    Pagelet.ATTRS = {
+        behavior:{
+            //自动添加组件行为
+            value:true 
+        },
+        callback:{
+            //行为添加完成后的回调方法
+            value:null
+        }
+    }
     S.extend(Pagelet, Chunk, {
         /**
          * 获取brick的实例
@@ -48,44 +68,58 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          * 给组件添加行为
          */
         addBehavior: function() {
-            if (!this.isAddBehavior) {
-                this._addBehavior(this.get('tmpler').bricks);
-                this.isAddBehavior = true;
+            var self = this;
+            if (!self.isAddBehavior) {
+                self.isAddBehavior = true;
+                var tmpler = self.get('tmpler');
+                if(tmpler){
+                    self._buildBricks(tmpler.bricks);//构建当前pagelet包含的所有brick
+                    if(self.brickList.length>0){
+                        S.use(self.brickList.join(','),function(S){
+                            self._addBehavior(tmpler.bricks,arguments);
+                            self._fireReady();
+                        });
+                        return;
+                    }
+                }
+                self._fireReady();
             }
         },
         /**
          * 分层次的渲染brick
          * @param {Object} bricks 需要渲染的brick集合
+         * @param {Array} brickClassList use回调的参数集合
          */
-        _addBehavior: function(bricks) {
+        _addBehavior: function(bricks,brickClassList) {
             var self = this;
-            var foo = function(o,k){
-                self.brickCount++;
+            S.each(bricks, function(o, k) {
+                var config = S.merge({
+                    container:'#'+k,
+                    id: k,
+                    el: '#' + k,
+                    pagelet: self
+                }, o.config);
+                var TheBrick = brickClassList[S.indexOf(o.path, self.brickList)+1];
+                var myBrick = new TheBrick(config);
+                o.brick = myBrick;
+                self._addBehavior(o.bricks,brickClassList);
+            });
+        },
+        /**
+         * 构建页面所有bricks，提供给use使用
+         * @param  {[type]} bricks 
+         */
+        _buildBricks:function(bricks){
+            var self = this;
+            S.each(bricks, function(o, key) {
                 if(!o.path){
                     o.path = 'brix/gallery/'+o.name+'/';
                 }
-                S.use(o.path, function(S, TheBrick) {
-                    var config = S.merge({
-                        container:'#'+k,
-                        id: k,
-                        el: '#' + k,
-                        pagelet: self
-                    }, o.config);
-                    var myBrick = new TheBrick(config);
-                    o.brick = myBrick;
-                    self._addBehavior(o.bricks);
-                    self.brickCount--;
-                    if (self.brickCount === 0) {
-                        self._fireReady();
-                    }
-                });
-            };
-            S.each(bricks, function(brick, key) {
-                foo(brick, key);
+                if(!S.inArray(self.brickList,o.path)){
+                    self.brickList.push(o.path);
+                }
+                self._buildBricks(o.bricks);
             });
-            if (self.brickCount === 0) {
-                self._fireReady();
-            }
         },
         /**
          * pagelet 渲染完成后需要执行的函数

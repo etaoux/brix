@@ -204,10 +204,10 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
             // pre calculate left or top values for all kwicks but the first and last
             // i = index of currently hovered kwick, j = index of kwick we're calculating
             var preCalcLoTs = self.preCalcLoTs = []; // preCalcLoTs = pre-calculated Left or Top's
-            for (i = 0; i < length; i++) {
+            for (var i = 0; i < length; i++) {
                 preCalcLoTs[i] = [];
                 // don't need to calculate values for first or last kwick
-                for (j = 1; j < length - 1; j++) {
+                for (var j = 1; j < length - 1; j++) {
                     if (i == j) {
                         preCalcLoTs[i][j] = isVertical ? j * min + (j * spacing) : j * min + (j * spacing);
                     } else {
