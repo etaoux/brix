@@ -66,9 +66,16 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
          */
         _buildBricks: function(tmpl) {
             var self = this,inDom = false,node,tmplNode;
+            if(typeof tmpl === 'string'){
+                if(tmpl.charAt(0)==='.'||tmpl.charAt(0)==='#'||tmpl==='body'){
+                    node = $(tmpl);
+                }
+            }
+            else{
+                node = tmpl;
+            }
 
-            if(typeof tmpl === 'string'&&( tmpl.charAt(0)==='.'||tmpl.charAt(0)==='#'||tmpl==='body')){
-                node = $(tmpl);
+            if(node){
                 if(node.item(0)[0].tagName.toUpperCase()=='SCRIPT'){
                     //如果是script节点，则直接取html
                     tmpl= node.item(0).html()
@@ -77,6 +84,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
                     inDom = true;
                 }
             }
+            
             if (!inDom) {
                 //牛逼的正则啊
                 var reg = /(\{{2,3}\#(.+?)\}{2,3})\s*([\s\S]*)?\s*((\{{2,3})\/\2(\}{2,3}))/g;
@@ -114,7 +122,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
                     return "{{#"+name+"}}"  ;
                 });
 
-                node = $(tmpl);
+                node = new Node(tmpl);
                 if (node.length > 1) { //如果是多个节点，则创建容器节点
                     node = $('<div></div>').append(node);
                 }
@@ -155,7 +163,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
                 name = el.attr('bx-name'),
                 path = el.attr('bx-path'),
                 config = el.attr('bx-config'),
-                tmplNodes = container.all('[bx-tmpl=' + name + ']');
+                tmplNodes = el.all('[bx-tmpl=' + name + ']');
             if (el.hasAttr('bx-tmpl')) {
                 tmplNodes = tmplNodes.add(el[0]);
             }
