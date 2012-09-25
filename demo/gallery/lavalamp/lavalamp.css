@@ -1,0 +1,57 @@
+.med-lavaLamp{
+        position: relative;
+        padding: 15px 15px 22px;
+        margin: 10px 0;
+		border-bottom:1px solid red
+        }
+.med-lavaLamp li{
+         float: left; 
+         list-style: none;
+         }
+.med-lavaLamp li.back{
+         border-bottom: 5px solid red;
+         width: 9px; 
+         height: 20px; 
+         z-index: 1; 
+         position: absolute; 
+         }
+.med-lavaLamp li a{
+		 color:#000;
+         z-index: 2; 
+		 font-variant:small-caps;
+		 text-decoration:none;
+         position: relative;
+         margin: auto 10px;
+         }
+
+		 
+		 
+.med-lavaLamp2{
+            position: relative;
+            background-color: white;
+			        padding: 15px 15px 22px;
+        margin: 10px 0;
+        }
+.med-lavaLamp2 li{
+         float: left;
+         list-style: none;
+		 line-height:30px
+         }
+.med-lavaLamp2 li.back{
+		 background:#ff9966;
+		 -moz-border-radius:5px;
+         -webkit-border-radius:5px;
+		 line-height:2;
+         width: 9px; 
+         height: 30px;
+         z-index: 1; 
+         position: absolute; 
+         }
+.med-lavaLamp2 li a{
+		 color:#000;
+         z-index: 2; 
+		 font-variant:small-caps;
+		 text-decoration:none;
+         position: relative;
+         margin: auto 10px;
+         }
