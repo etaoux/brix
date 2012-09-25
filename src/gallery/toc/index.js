@@ -13,6 +13,9 @@ KISSY.add("brix/gallery/toc/index", function(S, Brick) {
         },
         collapsedClass: {
             value: 'collapsed'
+        },
+        offsetTop: {
+            value: 0
         }
     };
 
@@ -29,6 +32,33 @@ KISSY.add("brix/gallery/toc/index", function(S, Brick) {
                     collapsedClass=  this.get('collapsedClass');
 
                 container.addClass(collapsedClass);
+            }
+        },
+        '.j-entry': {
+            click: function(e) {
+                var targetId = S.Node(e.currentTarget).attr('href'),
+                    target = S.one(targetId),
+                    body = S.one('body'),
+                    top,
+                    timer,
+                    step;
+
+                e.preventDefault();
+                if (!target) {
+                    return;
+                }
+                top = target.offset().top - this.get('offsetTop');
+                step = (top - body.scrollTop()) / 10;
+                timer = setInterval(function() {
+                    var stepTop = body.scrollTop() + step;
+
+                    body.scrollTop( stepTop );
+                    if (Math.abs(stepTop - top) < 50) {
+                        S.one('body').scrollTop(top);
+                        clearInterval(timer);
+                        target = body = timer = null;
+                    }
+                }, 20);
             }
         }
     };

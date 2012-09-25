@@ -138,7 +138,9 @@
 
 
 <div class="highlight"><pre><code class="js"><span class="p">{</span>
-    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;../../../../&#39;</span><span class="p">,</span><span class="c1">//上线后为cdn路径</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;../../../../&#39;</span><span class="p">,</span><span class="c1">//核心组件的包路径，不配置默认是当前引用路径</span>
+    <span class="nx">componentsPath</span><span class="o">:</span><span class="s1">&#39;./&#39;</span><span class="p">,</span> <span class="c1">//项目组件包路径</span>
+    <span class="nx">importsPath</span><span class="o">:</span><span class="s1">&#39;./&#39;</span><span class="p">,</span> <span class="c1">//引用其他项目组件路径</span>
     <span class="nx">fixed</span><span class="o">:</span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="c1">//路径修正，brix路劲下存在其他文件夹</span>
     <span class="nx">gallery</span><span class="o">:</span><span class="p">{</span>
         <span class="c1">//配置组件版本信息</span>
@@ -153,7 +155,20 @@
 
 <h2>代码示例</h2>
 
-<div class="highlight"><pre><code class="js"><span class="nx">Brix</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span><span class="nx">fixed</span><span class="o">:</span><span class="s1">&#39;src/&#39;</span><span class="p">});</span>
+<p>代码配置</p>
+
+<div class="highlight"><pre><code class="js"><span class="nx">Brix</span><span class="p">.</span><span class="nx">config</span><span class="p">({</span>
+    <span class="nx">path</span><span class="o">:</span> <span class="s1">&#39;../../../../&#39;</span><span class="p">,</span><span class="c1">//核心组件的包路径，不配置默认是当前引用路径</span>
+    <span class="nx">componentsPath</span><span class="o">:</span><span class="s1">&#39;./&#39;</span><span class="p">,</span> <span class="c1">//项目组件包路径</span>
+    <span class="nx">importsPath</span><span class="o">:</span><span class="s1">&#39;./&#39;</span> <span class="c1">//引用其他项目组件路径</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+
+<p>节点配置，autoConfig:true,自动运行上面的代码配置</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://a.tbcdn.cn/p/brix/brix.js&quot;</span> <span class="na">bx-config=</span><span class="s">&quot;{autoConfig:true,componentsPath:&#39;./&#39;,importsPath:&#39;./&#39;}&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
 </code></pre>
 </div>
 
@@ -173,13 +188,13 @@
 <a href="javascript:void(0);" class="toggle-toc">目录<b class="arrow"></b></a>
 <ul id="J_toc" bx-name="toc" bx-tmpl="toc" bx-datakey="tree">
 {{#tree}}
-  <li><a href="#{{id}}">{{text}}</a>
+  <li><a href="#{{id}}" class="j-entry">{{text}}</a>
     <ul>
     {{#children}}
-    <li><a href="#{{id}}">{{text}}</a>
+    <li><a href="#{{id}}" class="j-entry">{{text}}</a>
       <ul>
       {{#children}}
-      <li><a href="#{{id}}">{{text}}</a>
+      <li><a href="#{{id}}" class="j-entry">{{text}}</a>
       {{/children}}
       </ul>
     </li>

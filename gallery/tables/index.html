@@ -149,13 +149,13 @@
 <a href="javascript:void(0);" class="toggle-toc">目录<b class="arrow"></b></a>
 <ul id="J_toc" bx-name="toc" bx-tmpl="toc" bx-datakey="tree">
 {{#tree}}
-  <li><a href="#{{id}}">{{text}}</a>
+  <li><a href="#{{id}}" class="j-entry">{{text}}</a>
     <ul>
     {{#children}}
-    <li><a href="#{{id}}">{{text}}</a>
+    <li><a href="#{{id}}" class="j-entry">{{text}}</a>
       <ul>
       {{#children}}
-      <li><a href="#{{id}}">{{text}}</a>
+      <li><a href="#{{id}}" class="j-entry">{{text}}</a>
       {{/children}}
       </ul>
     </li>
