@@ -50,11 +50,13 @@ KISSY.add("brix/gallery/toc/index", function(S, Brick) {
                 top = target.offset().top - this.get('offsetTop');
                 step = (top - body.scrollTop()) / 10;
                 timer = setInterval(function() {
-                    var stepTop = body.scrollTop() + step;
+                    var stepTop = body.scrollTop() + step,
+                        scrollTopBefore = body.scrollTop();
 
                     body.scrollTop( stepTop );
-                    if (Math.abs(stepTop - top) < 50) {
-                        S.one('body').scrollTop(top);
+                    if (Math.abs(stepTop - top) < 50 ||
+                            body.scrollTop() === scrollTopBefore) {
+                        body.scrollTop(top);
                         clearInterval(timer);
                         target = body = timer = null;
                     }
