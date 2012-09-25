@@ -1,0 +1,52 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Brix Lavalamp Demo</title>
+    <link rel="stylesheet" href="../../../dist/brix-min.css"/>
+    <link rel="stylesheet" href="../../assets/doc.css">
+    <link rel="stylesheet" href="lavalamp.css">
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+    <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,fixed:'src/'}"></script>
+    <style>
+    .first,.second,#test{
+        margin:40px auto;
+        width:450px;
+    }
+    </style>
+</head>
+<body>
+    <div class="first"> 
+        <ul id="firstlavalamp" bx-name="lavalamp" bx-config="{fx: 'easeNone',speed: 0.2}" class="med-lavaLamp"> 
+            <li class="current"><a href="#">首页</a></li> 
+            <li><a href="#">分类</a></li> 
+            <li><a href="#">按月存档</a></li> 
+            <li><a href="#">KeyApril Blog | Kissy.com</a></li> 
+        </ul> 
+    </div>
+    <div id="test" bx-name="test" bx-path="components/test/">
+        <a href="#" class="btn">销毁</a>
+    </div> 
+    <div class="second"> 
+        <ul bx-name="lavalamp" bx-config="{triggered:'click',speed: 0.4}" class="med-lavaLamp2"> 
+            <li class="current"><a href="#">首页</a></li> 
+            <li><a href="#">分类</a></li> 
+            <li><a href="#">按月存档</a></li> 
+            <li><a href="#">KeyApril Blog | Kissy.com</a></li> 
+        </ul> 
+    </div> 
+    
+    <div style="width:450px;margin:120px auto;font-size:14px;display:block;line-height:2"> 
+        <ul> 
+            <li style="margin-bottom:20px"> 
+                以上两种效果的样式代码可以通过查看源文件获得。
+            </li> 
+        </ul> 
+    </div> 
+    <script type="text/javascript"> 
+        KISSY.use('brix/core/pagelet', function(S,Pagelet){
+            var pagelet = new Pagelet({'tmpl':'body'});
+        });
+    </script> 
+</body>
+</html>
