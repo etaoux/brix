@@ -104,7 +104,8 @@ KISSY.ready(function(S) {
         var toc = new ToC({
             essay: '#page',
             tmpl: S.one('#J_tocTemplate').html(),
-            container: '#J_tocBox'
+            container: '#J_tocBox',
+            offsetTop: S.one('#site-nav').outerHeight()
         });
         toc.setChunkData('tree', toc.parse());
         toc.render();

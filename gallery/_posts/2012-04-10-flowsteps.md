@@ -5,7 +5,7 @@ layout: post
 
 ### 步骤条一
 
-{% demo gallery/flowsteps/flowsteps2.html %}
+{% demo gallery/flowsteps/flowsteps.html %}
 
 {% highlight html %}
 <div class="flowsteps">
