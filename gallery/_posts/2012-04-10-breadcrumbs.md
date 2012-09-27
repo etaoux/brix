@@ -6,7 +6,7 @@ caption: 面包屑组件
 
 {% demo gallery/breadcrumbs %}
 
-## 配置;
+## 配置
 
 包含[Brick](/brix/core/brick)的所有配置
 

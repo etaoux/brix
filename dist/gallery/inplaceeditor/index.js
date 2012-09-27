@@ -1,13 +1,16 @@
 KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
     function InplaceEditor() {
         InplaceEditor.superclass.constructor.apply(this, arguments);
+        this._v = null; //记录编辑原始值
+        this._x = 0;
+        this._y = 0;
     }
     InplaceEditor.ATTRS = {
-        autoRender:{
-            value:true
+        autoRender: {
+            value: true
         },
-        tmpl:{
-            value:'<div class="inplaceeditor-popup"><input type="text" value=""></div>'
+        tmpl: {
+            value: '<div class="inplaceeditor-popup"><input type="text" value=""></div>'
         }
     };
     InplaceEditor.EVENTS = {
@@ -30,36 +33,54 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
          * @param  {Number} y 显示的Y坐标
          * @param  {String} v 文本框的值
          */
-        show: function(x, y, v,css) {
-            var el = this.get('el'),inputNode = el.one('input');
+        show: function(x, y, v, css) {
+            var el = this.get('el'),
+                inputNode = el.one('input');
             el.css({
-                visibility: 'visible',
-                left: x,
-                top: y
+                visibility: 'visible'
             });
-            this._v = v;
-            if(css){
+            if (x !== undefined) {
+                this._x = x;
+            }
+            if (y !== undefined) {
+                this._y = y;
+            }
+            el.css({
+                left: this._x,
+                top: this._y
+            });
+
+            if (css) {
                 inputNode.css(css);
             }
+
             inputNode[0].focus();
-            inputNode.val(v);
+            if (v) {
+                this._v = v;
+                inputNode.val(v);
+            }
         },
         /**
          *  隐藏就地编辑
          */
         hide: function() {
+            var v = this.getValue();
             var el = this.get('el');
+            if (this._v != v) { //值不相等时候触发valueChange事件
+                if (this.fire('valueChange', {
+                    value: v
+                }) === false) {
+                    S.later(function(){
+                        el.one('input')[0].focus();
+                    },50);
+                    return; //如果值验证不通过，则直接跳出
+                }
+            }
             el.css({
                 visibility: 'hidden',
                 left: '-9999px',
                 top: '-9999px'
             });
-            var v = this.getValue();
-            if (this._v != v) {//值不相等时候触发valueChange事件
-                this.fire('valueChange', {
-                    value: v
-                });
-            }
         },
         /**
          * 获取当前值
@@ -71,12 +92,11 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
     };
 
     S.extend(InplaceEditor, Brick, {
-        _v: null//记录编辑原始值
-        
+
     });
 
-    S.augment(InplaceEditor,InplaceEditor.METHODS);
-    
+    S.augment(InplaceEditor, InplaceEditor.METHODS);
+
     return InplaceEditor;
 }, {
     requires: ["brix/core/brick"]
