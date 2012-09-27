@@ -25,7 +25,12 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
             }
         }
     };
+    InplaceEditor.FIRES = {
+        show:'show',
+        hide:'hide',
+        valueChange:'valueChange'
 
+    }
     InplaceEditor.METHODS = {
         /**
          * 显示就地编辑
@@ -59,6 +64,7 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
                 this._v = v;
                 inputNode.val(v);
             }
+            this.fire(InplaceEditor.FIRES.show);
         },
         /**
          *  隐藏就地编辑
@@ -67,7 +73,7 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
             var v = this.getValue();
             var el = this.get('el');
             if (this._v != v) { //值不相等时候触发valueChange事件
-                if (this.fire('valueChange', {
+                if (this.fire(InplaceEditor.FIRES.valueChange, {
                     value: v
                 }) === false) {
                     S.later(function(){
@@ -81,6 +87,7 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
                 left: '-9999px',
                 top: '-9999px'
             });
+            this.fire(InplaceEditor.FIRES.hide);
         },
         /**
          * 获取当前值
