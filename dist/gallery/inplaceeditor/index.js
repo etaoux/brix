@@ -60,7 +60,7 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
             }
 
             inputNode[0].focus();
-            if (v) {
+            if (v !== undefined) {
                 this._v = v;
                 inputNode.val(v);
             }
