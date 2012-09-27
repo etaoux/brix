@@ -81,7 +81,7 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
                     kwicks.each(function(k, j) {
                         var animObj = {};
                         animObj[WoH] = normWoH;
-                        if (j < length - 1) {
+                        if (j < length) {
                             animObj[LoT] = (j * normWoH) + (j * spacing);
                         }
                         k.animate(animObj, duration, easing);
@@ -90,13 +90,19 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
             }
         }
     };
-
+    Kwicks.FIRES = {
+        'beforeSwitchTo':'beforeSwitch',
+        'switch':'switch'
+    }
     Kwicks.METHODS = {
         /**
          *  切换到某个视图
          * @param  {Number} i 要切换的项
          */
         switchTo: function(i) {
+            if(this.fire(Kwicks.FIRES.beforeSwitch,{toIndex:i})===false){
+                return;
+            }
             var self = this,
                 kwicks = self.kwicks,
                 length = kwicks.length,
@@ -118,21 +124,22 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
             var kwick = kwicks.item(i);
             kwicks.stop().removeClass(activeCls);
             kwick.addClass(activeCls);
+            var count = 0;
             kwicks.each(function(k, j) {
                 var animObj = {};
                 if (kwick[0] == k[0]) {
                     animObj[WoH] = max;
-                    if (j > 0 && j < length - 1) {
-                        animObj[LoT] = preCalcLoTs[i][j];
-                    }
                 } else {
                     animObj[WoH] = min;
-                    if (j > 0 && j < length - 1) {
-                        animObj[LoT] = preCalcLoTs[i][j];
-                    }
-
                 }
-                k.animate(animObj, duration, easing);
+                animObj[LoT] = preCalcLoTs[i][j];
+                k.animate(animObj, duration, easing,function(){
+                    count++;
+                    if(count==length){
+                        S.log('fire switch')
+                        self.fire(Kwicks.FIRES.switch,{currentIndex :i});
+                    }
+                });
             });
         },
         /**
@@ -207,11 +214,11 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
             for (var i = 0; i < length; i++) {
                 preCalcLoTs[i] = [];
                 // don't need to calculate values for first or last kwick
-                for (var j = 1; j < length - 1; j++) {
+                for (var j = 0; j < length; j++) {
                     if (i == j) {
                         preCalcLoTs[i][j] = isVertical ? j * min + (j * spacing) : j * min + (j * spacing);
                     } else {
-                        preCalcLoTs[i][j] = (j <= i ? (j * min) : (j - 1) * min + max) + (j * spacing);
+                        preCalcLoTs[i][j] = (j < i ? (j * min) : (j - 1) * min + max) + (j * spacing);
                     }
                 }
             }
@@ -220,21 +227,21 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
             kwicks.each(function(kwick, i) {
                 // set initial width or height and left or top values
                 // set first kwick
-                if (i === 0) {
-                    kwick.css(LoT, '0px');
-                }
-                // set last kwick
-                else if (i == length - 1) {
-                    kwick.css(isVertical ? 'bottom' : 'right', '0px');
-                }
+                // if (i === 0) {
+                //     kwick.css(LoT, '0px');
+                // }
+                // // set last kwick
+                // else if (i == length - 1) {
+                //     kwick.css(isVertical ? 'bottom' : 'right', '0px');
+                // }
                 // set all other kwicks
-                else {
+                // else {
                     if (sticky) {
                         kwick.css(LoT, preCalcLoTs[activeIndex][i]);
                     } else {
                         kwick.css(LoT, (i * normWoH) + (i * spacing));
                     }
-                }
+                // }
                 // correct size in sticky mode
                 if (sticky) {
                     if (activeIndex == i) {
