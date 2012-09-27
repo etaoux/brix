@@ -208,7 +208,7 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
                 });
             }
 
-            // pre calculate left or top values for all kwicks but the first and last
+            // pre calculate left or top values for all kwicks
             // i = index of currently hovered kwick, j = index of kwick we're calculating
             var preCalcLoTs = self.preCalcLoTs = []; // preCalcLoTs = pre-calculated Left or Top's
             for (var i = 0; i < length; i++) {
@@ -225,23 +225,11 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
 
             // loop through all kwick elements
             kwicks.each(function(kwick, i) {
-                // set initial width or height and left or top values
-                // set first kwick
-                // if (i === 0) {
-                //     kwick.css(LoT, '0px');
-                // }
-                // // set last kwick
-                // else if (i == length - 1) {
-                //     kwick.css(isVertical ? 'bottom' : 'right', '0px');
-                // }
-                // set all other kwicks
-                // else {
-                    if (sticky) {
-                        kwick.css(LoT, preCalcLoTs[activeIndex][i]);
-                    } else {
-                        kwick.css(LoT, (i * normWoH) + (i * spacing));
-                    }
-                // }
+                if (sticky) {
+                    kwick.css(LoT, preCalcLoTs[activeIndex][i]);
+                } else {
+                    kwick.css(LoT, (i * normWoH) + (i * spacing));
+                }
                 // correct size in sticky mode
                 if (sticky) {
                     if (activeIndex == i) {
