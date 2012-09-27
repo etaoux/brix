@@ -137,7 +137,7 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
                     count++;
                     if(count==length){
                         S.log('fire switch')
-                        self.fire(Kwicks.FIRES.switch,{currentIndex :i});
+                        self.fire(Kwicks.FIRES['switch'],{currentIndex :i});
                     }
                 });
             });
