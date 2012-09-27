@@ -76,8 +76,16 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
                 if (this.fire(InplaceEditor.FIRES.valueChange, {
                     value: v
                 }) === false) {
+                    this._v = v;
                     S.later(function(){
-                        el.one('input')[0].focus();
+                        try{
+                            //防止input隐藏
+                            el.one('input')[0].focus();
+                        }
+                        catch(e){
+                            
+                        }
+                        
                     },50);
                     return; //如果值验证不通过，则直接跳出
                 }
