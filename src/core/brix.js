@@ -131,7 +131,7 @@
             });
             KISSY.config({
                 map: [
-                    [/(.+brix\/)(gallery\/)(.+?)(\/index(?:-min)?\.js)(\?[^?]+)?$/, function($0, $1, $2, $3, $4, $5) {
+                    [/(.+brix\/)(gallery\/)(.+?)(\/.+?(?:-min)?\.(?:js|css))(\?[^?]+)?$/, function($0, $1, $2, $3, $4, $5) {
                         var str = $1 + options.fixed + $2 + $3;
                         if (options.gallery[$3]) {
                             str += '/' + options.gallery[$3]
@@ -148,17 +148,6 @@
                             $3 = $3.replace('-min', '');
                         }
                         str += $2 + $3 + ($4 ? $4 : '');
-                        return str;
-                    }],
-                    [/(.+brix\/)(gallery\/)(.+?)(\/.+?(?:-min)?\.css)(\?[^?]+)?$/, function($0, $1, $2, $3, $4, $5) {
-                        var str = $1 + options.fixed + $2 + $3;
-                        if (options.gallery[$3]) {
-                            str += '/' + options.gallery[$3]
-                        }
-                        if (debug) {
-                            $4 = $4.replace('-min', '');
-                        }
-                        str += $4 + ($5 ? $5 : '');
                         return str;
                     }]
                 ]
