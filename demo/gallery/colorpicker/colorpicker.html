@@ -18,7 +18,12 @@
             KISSY.ready(function(S) {
                 KISSY.use("brix/gallery/colorpicker/", function(S, ColorPicker) {
                     var colorpicker= new ColorPicker({
-                        trigger:'#test1'
+                        trigger:'#test1',
+                        align:{
+                            node: '#test1',
+                            points: ['bl', 'tl'],
+                            offset: [0, 0]
+                        }
                     });
                     colorpicker.on('selected',function(e){
                         top.console.log(e.hex);
