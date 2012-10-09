@@ -41,7 +41,7 @@
 
             //非ie6退出
             if (!this.isIE6()) {
-                // return;
+                return;
             }
 
             //cookie检测
