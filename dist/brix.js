@@ -1,6 +1,10 @@
 /*! Brix - v0.1.0
 * https://github.com/etaoux/brix
 * Copyright (c) 2012 etaoux; Licensed MIT */
+/**
+ * Brix配置类 组件框架入口类，在调用Brix组件的时候可以配置cdn地址，组件版本号等
+ * @class Brix.Brix
+ */
 (function(S, Brix) {
     var win = window,
         loc = win.location,
@@ -12,6 +16,7 @@
     /**
      * 相对路径文件名转换为绝对路径
      * @param path
+     * @ignore
      */
 
     function absoluteFilePath(path) {
@@ -25,6 +30,7 @@
         /**
          * 一定要正则化，防止出现 ../ 等相对路径
          * 考虑本地路径
+         * @ignore
          */
         if (!path.match(/^(http(s)?)|(file):/i) && !startsWith(path, "/")) {
             path = __pagePath + path;
@@ -104,6 +110,10 @@
     var debug = ''; //区分src还是dist版本
     var isConfig = false; //是否已经配置过
     S.mix(Brix, {
+        /**
+         * 配置路径
+         * @param  {Object} options [配置对象]
+         */
         config: function(options) {
             if (isConfig) {
                 return;
@@ -163,9 +173,10 @@
     }
 })(KISSY, 'Brix');
 KISSY.add('brix/core/mustache', function(S) {
-  /*!
+  /**
    * mustache.js - Logic-less {{mustache}} templates with JavaScript
    * http://github.com/janl/mustache.js
+   * @class Mustache
    */
   var Mustache = (typeof module !== "undefined" && module.exports) || {};
 
@@ -686,12 +697,7 @@ KISSY.add('brix/core/mustache', function(S) {
   return Mustache;
 });
 /**
- * Magix扩展的Mustache
- * @module mu
- * @require mustache
- */
-/**
- * 扩展的Mustache类<br/>
+ * Brix扩展的Mustache类<br/>
  * 支持简单的条件判断 如:
 <pre>
 {{#list}}
@@ -701,9 +707,10 @@ KISSY.add('brix/core/mustache', function(S) {
 {{/list}}
 </pre>
  * 对于数组对象可以通过{{__index__}}访问数组下标
- * @class Mu
- * @namespace libs.magix
- * @static*/
+ * @class Brix.Mu
+ * @extend Mustache
+ * @static
+ */
 KISSY.add("brix/core/mu", function(S, Mustache) {
     function addFns(template, data) {
         var ifs = getConditions(template);
@@ -818,7 +825,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
      * @method _stamp
      * @param el
      * @return {string}
-     * @private
+     * @ignore
      */
 
     function _stamp(el, prefix) {
@@ -834,6 +841,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
      * @param  {string} html 原html
      * @param  {Array} arr  保存数据的数组
      * @return {string}      替换后的html
+     * @ignore
      */
 
     function _recovery(html, arr) {
@@ -855,9 +863,11 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
     }
 
     /**
-     * 模板解析器
+     * 模板解析器，对传入的模板通过钩子进行分析，结合 Mustache 和数据给出 html 片段。
+     * @class Brix.Tmpler
      * @param {String}  tmpl    模板字符串
      * @param {Boolean} isParse 是否需要对模板进行解析
+     * @requires Brix.Mu
      */
 
     function Tmpler(tmpl, isParse) {
@@ -870,12 +880,18 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
     }
 
     S.extend(Tmpler, Object, {
+        /**
+         * 解析模板
+         * @param  {String} tmpl 模板字符串
+         * @private
+         */
         _praseTmpl: function(tmpl) {
             this._buildBricks(tmpl);
         },
         /**
          * 对模板中的brick的解析
          * @param  {String} tmpl 模板字符串
+         * @private
          */
         _buildBricks: function(tmpl) {
             var self = this,inDom = false,node,tmplNode;
@@ -1008,9 +1024,9 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
 
         /**
          * 给brick添加模板
-         * @param {string} id  brick的id
-         * @param {array} arr 模板数组
-         * @return {Boolen} 是否添加成功
+         * @param {String} id  brick的id
+         * @param {Array} arr 模板数组
+         * @return {Boolean} 是否添加成功
          */
         addTmpl: function(id, arr) {
             var self = this,
@@ -1055,10 +1071,19 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
 });
 
 KISSY.add("brix/core/dataset", function(S, Base) {
+    /**
+     * Brix Dataset 提供数据管理；为所有组件提供基于数据事件的编程
+     * @extends KISSY.Base
+     * @class Brix.Dataset
+     */
     function Dataset() {
         Dataset.superclass.constructor.apply(this, arguments);
     }
     Dataset.ATTRS = {
+        /**
+         * 数据对象
+         * @cfg {Object}
+         */
         data: {}
     };
     S.extend(Dataset, Base, {
@@ -1095,21 +1120,55 @@ KISSY.add("brix/core/dataset", function(S, Base) {
 });
 KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
     var $ = Node.all;
-    /**
-     * brick和pagelet类的基类
+     /**
+     * Brix Chunk,Brick和Pagelet类的基类,
+     * 作为组件底层，完成渲染、数据更新、销毁操作，是模板解析器（Tmpler）和数据管理器（Dataset）的调度者。
+     * @extends KISSY.Base
+     * @class Brix.Chunk
      */
-
     function Chunk() {
         Chunk.superclass.constructor.apply(this, arguments);
         this._buildTmpler();
     }
 
+    /**
+     * The default set of attributes which will be available for instances of this class, and
+     * their configuration
+     *
+     * By default if the value is an object literal or an array it will be 'shallow' cloned, to
+     * protect the default value.
+     *
+     *      for example:
+     *      @example
+     *      {
+     *          x:{
+     *              value: // default value
+     *              valueFn: // default function to get value
+     *              getter: // getter function
+     *              setter: // setter function
+     *          }
+     *      }
+     * see:
+     * <a href="http://docs.kissyui.com/kissy/docs/#!/api/KISSY.Base">http://docs.kissyui.com/kissy/docs/#!/api/KISSY.Base</a>
+     *
+     * @property ATTRS
+     * @member KISSY.Base
+     * @static
+     * @type {Object}
+     */
+
     Chunk.ATTRS = {
-        /*当前pagelet或者brick的唯一标识*/
+        /**
+         * 当前pagelet或者brick的唯一标识
+         * @cfg {String}
+         */
         id:{
             value:false
         },
-        //组件节点
+        /**
+         * 组件节点
+         * @cfg {String}
+         */
         el: {
             getter: function(s) {
                 if (S.isString(s)) {
@@ -1118,7 +1177,10 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 return s;
             }
         },
-        //容器节点
+        /**
+         * 容器节点
+         * @cfg {String}
+         */
         container: {
             value: 'body',
             getter: function(s) {
@@ -1128,23 +1190,45 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 return s;
             }
         },
-        tmpl: { //模板代码，如果是已经渲染的html元素，则提供渲染html容器节点选择器
+        /**
+         * 模板代码，如果是已经渲染的html元素，则提供渲染html容器节点选择器
+         * @cfg {String}
+         */
+        tmpl: {
             value: false
         },
+        /**
+         * 解析后的模板对象
+         * @type {Brix.Tmpler}
+         */
         tmpler:{
             value:false
         },
+        /**
+         * 是否已经渲染
+         * @type {Boolean}
+         */
         rendered: {
             value: false
         },
-        //是否自动渲染,默认改成true
+        /**
+         * 是否自动渲染
+         * @cfg {Boolean}
+         */
         autoRender: {
             value: true 
         },
+        /**
+         * 模板数据
+         * @cfg {Object}
+         */
         data:{
             value:false
         },
-        //如果提供dataset，则忽略data
+        /**
+         * 解析后的数据对象
+         * @type {Brix.Dataset}
+         */
         dataset:{
             value:false
         }
@@ -1153,6 +1237,7 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
     S.extend(Chunk, Base, {
         /**
          * 构建模板解析器
+         * @private
          */
         _buildTmpler: function() {
             var self = this,
@@ -1178,6 +1263,7 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
         },
         /**
          * 构建数据管理器
+         * @private
          */
         _buildDataset: function() {
             var self = this;
@@ -1197,9 +1283,9 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
 
         /**
          * 给brick添加模板
-         * @param {string} id  brick的id
-         * @param {array} arr 模板数组
-         * @return {Boolen} 是否添加成功
+         * @param {String} id  brick的id
+         * @param {Array} arr 模板数组
+         * @return {Boolean} 是否添加成功
          */
         addTmpl: function(id, arr) {
             var self =  this,tmpler = self.get('tmpler');
@@ -1213,8 +1299,8 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
 
         /**
          * 设置数据，并刷新模板数据
-         * @param {string} datakey 需要更新的数据对象key
-         * @param {object} data    数据对象
+         * @param {String} datakey 需要更新的数据对象key
+         * @param {Object} data    数据对象
          */
         setChunkData: function(datakey, data) {
             var self = this,
@@ -1240,8 +1326,9 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
         },
         /**
          * 将模板渲染到页面
-         * @param  {string} key     更新的数据对象key
-         * @param  {object} data 数据
+         * @param  {String} key  更新的数据对象key
+         * @param  {Object} data 数据
+         * @private
          */
         _render: function(key, data) {
             var self = this,tmpler = self.get('tmpler');
@@ -1262,9 +1349,10 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
         },
         /**
          * 渲染模板
-         * @param  {object} bricks  brick对象集合
-         * @param  {string} key     更新的数据对象key
-         * @param  {object} data 数据
+         * @param  {Object} bricks  brick对象集合
+         * @param  {String} key     更新的数据对象key
+         * @param  {Object} data 数据
+         * @private
          */
         _renderTmpl: function(bricks, key, data) {
             S.each(bricks, function(b) {
@@ -1305,7 +1393,12 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         }
         return f;
     }
-
+    /**
+     * Brix Brick 组件基类，完成组件渲染后的事件代理（既行为）。
+     * initialize是组件在渲染后的初始化方法，destructor是析构方法
+     * @extends Brix.Chunk
+     * @class Brix.Brick
+     */
     function Brick() {
         var self = this;
         self.pagelet = arguments[0] ? arguments[0].pagelet : null; //pagelet的引用
@@ -1358,20 +1451,115 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         }
     }
 
-    Brick.NAME = 'Brick';//用来表示brick，事件
+    /**
+     * 用来标识Brick
+     * @property NAME
+     * @static
+     * @type {String}
+     */
+    Brick.NAME = 'Brick';
 
+    /**
+     * 对外方法配置
+     * 
+     *
+     *      Brick.METHODS = {
+     *          method1:function(){
+     *                  
+     *          }
+     *      }
+     *      S.augment(Brick, Brick.METHODS)
+     *      
+     *
+     * @property METHODS
+     * @static
+     * @type {Object}
+     */
+    
+    /**
+     * 节点代理事件
+     * 
+     *
+     *      Brick.EVENTS = {
+     *          'selector':{
+     *              'eventtype':function(){
+     *                  
+     *               }
+     *           }
+     *      }
+     *      
+     *
+     * @property EVENTS
+     * @static
+     * @type {Object}
+     */
+    
+    /**
+     * DOCUMENT节点代理事件
+     *
+     *
+     *      Brick.DOCEVENTS = {
+     *          'selector':{
+     *              'eventtype':function(){
+     *                  
+     *               }
+     *           }
+     *      }
+     *      
+     *
+     * @property DOCEVENTS
+     * @static
+     * @type {Object}
+     */
+    
+    /**
+     * 对外事件申明
+     *
+     *
+     *      Brick.FIRES = {
+     *          'selector':'selector'
+     *      }
+     *      
+     *
+     * @property FIRES
+     * @static
+     * @type {Object}
+     */
+    
+    /**
+     * 模板数据渲染扩展
+     *
+     *
+     *      Brick.RENDERERS = {
+     *          'xx':{
+     *              'yy'function(){
+     *              
+     *              }
+     *          }
+     *      }
+     *      
+     *
+     * @property RENDERERS
+     * @static
+     * @type {Object}
+     */
 
     S.extend(Brick, Chunk, {
-        //初始化方法，提供子类覆盖
+        /**
+         * 初始化方法，提供子类覆盖
+         */
         initialize: function() {
 
         },
-        //析构函数，用来销毁时候的操作,提供子类覆盖
+        /**
+         * 析构函数，用来销毁时候的操作,提供子类覆盖
+         */
         destructor:function(){
 
         },
         /**
          * 移除代理事件
+         * @private
          */
         _detachEvent: function() {
             var self = this;
@@ -1405,6 +1593,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         },
         /**
          * 绑定代理事件
+         * @private
          */
         _bindEvent: function() {
             var self = this;
@@ -1438,7 +1627,8 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         // },
         /**
          * 移除事件代理
-         * @param  {object} events 事件对象，参见EVENTS属性
+         * @param  {Object} events 事件对象，参见EVENTS属性
+         * @private
          */
         _removeEvents: function(events, el) {
             el = el || this.get("el");
@@ -1456,7 +1646,8 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         },
         /**
          * 添加事件代理绑定
-         * @param  {object} events 事件对象，参见EVENTS属性
+         * @param  {Object} events 事件对象，参见EVENTS属性
+         * @private
          */
         _addEvents: function(events, el) {
             el = el || this.get("el");
@@ -1474,6 +1665,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         },
         /**
          * 原生事件代理
+         * @private
          */
         _delegateEvents: function() {
             var events = this.events;
@@ -1522,6 +1714,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         },
         /**
          * 取消原生事件代理
+         * @private
          */
         _undelegateEvents: function() {
             var events = this.events;
@@ -1562,6 +1755,13 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
     requires: ["./chunk"]
 });
 KISSY.add("brix/core/pagelet", function(S, Chunk) {
+    /**
+     * Brix Pagelet 是组件的管理器，实现组件的层次化渲染。
+     * 一个页面由多个组件和非组件的HTML片段组成，实际创建过程中需要一个个动态创建，
+     * 基于约定为大的原则，采用“钩子”和Mustache，自动化的完成组件渲染和行为附加
+     * @extends Brix.Chunk
+     * @class Brix.Pagelet
+     */
     function Pagelet() {
         Pagelet.superclass.constructor.apply(this, arguments);
         var self = this;
@@ -1589,12 +1789,18 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         }
     }
     Pagelet.ATTRS = {
+        /**
+         * 自动添加组件行为
+         * @cfg {Boolean}
+         */
         behavior:{
-            //自动添加组件行为
             value:true 
         },
+        /**
+         * 行为添加完成后的回调方法
+         * @cfg {Function}
+         */
         callback:{
-            //行为添加完成后的回调方法
             value:null
         }
     }
@@ -1613,6 +1819,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          * @param  {String} id     brick的id
          * @param  {Object} bricks 需要渲染的brick集合
          * @return {Object}        组件实例
+         * @private
          */
         _getBrick: function(id, bricks) {
             var self = this,
@@ -1652,6 +1859,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          * 分层次的渲染brick
          * @param {Object} bricks 需要渲染的brick集合
          * @param {Array} brickClassList use回调的参数集合
+         * @private
          */
         _addBehavior: function(bricks,brickClassList) {
             var self = this;
@@ -1670,7 +1878,8 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         },
         /**
          * 构建页面所有bricks，提供给use使用
-         * @param  {[type]} bricks 
+         * @param  {Object} bricks 
+         * @private
          */
         _buildBricks:function(bricks){
             var self = this;
@@ -1685,7 +1894,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
             });
         },
         /**
-         * pagelet 渲染完成后需要执行的函数
+         * 渲染完成后需要执行的函数
          * @param {Function} fn 执行的函数
          */
         ready: function(fn) {
@@ -1694,10 +1903,10 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
             } else {
                 this.readyList.push(fn);
             }
-            return this;
         },
         /**
          * 触发ready添加的方法
+         * @private
          */
         _fireReady: function() {
             var self = this;
@@ -1729,7 +1938,8 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
 
         /**
          * 销毁brick引用
-         * @param  {object} bricks 需要销毁的对象集合
+         * @param  {Object} bricks 需要销毁的对象集合
+         * @private
          */
         _destroyBricks: function(bricks,id) {
             var self = this;
@@ -1752,7 +1962,8 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         },
         /**
          * 销毁brick引用
-         * @param  {object} o 需要销毁的对象
+         * @param  {Object} o 需要销毁的对象
+         * @private
          */
         _destroyBrick: function(o) {
             var self = this;

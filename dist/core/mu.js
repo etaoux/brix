@@ -1,10 +1,5 @@
 /**
- * Magix扩展的Mustache
- * @module mu
- * @require mustache
- */
-/**
- * 扩展的Mustache类<br/>
+ * Brix扩展的Mustache类<br/>
  * 支持简单的条件判断 如:
 <pre>
 {{#list}}
@@ -14,9 +9,10 @@
 {{/list}}
 </pre>
  * 对于数组对象可以通过{{__index__}}访问数组下标
- * @class Mu
- * @namespace libs.magix
- * @static*/
+ * @class Brix.Mu
+ * @extend Mustache
+ * @static
+ */
 KISSY.add("brix/core/mu", function(S, Mustache) {
     function addFns(template, data) {
         var ifs = getConditions(template);

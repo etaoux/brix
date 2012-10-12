@@ -5,7 +5,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
      * @method _stamp
      * @param el
      * @return {string}
-     * @private
+     * @ignore
      */
 
     function _stamp(el, prefix) {
@@ -21,6 +21,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
      * @param  {string} html 原html
      * @param  {Array} arr  保存数据的数组
      * @return {string}      替换后的html
+     * @ignore
      */
 
     function _recovery(html, arr) {
@@ -42,9 +43,11 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
     }
 
     /**
-     * 模板解析器
+     * 模板解析器，对传入的模板通过钩子进行分析，结合 Mustache 和数据给出 html 片段。
+     * @class Brix.Tmpler
      * @param {String}  tmpl    模板字符串
      * @param {Boolean} isParse 是否需要对模板进行解析
+     * @requires Brix.Mu
      */
 
     function Tmpler(tmpl, isParse) {
@@ -57,12 +60,18 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
     }
 
     S.extend(Tmpler, Object, {
+        /**
+         * 解析模板
+         * @param  {String} tmpl 模板字符串
+         * @private
+         */
         _praseTmpl: function(tmpl) {
             this._buildBricks(tmpl);
         },
         /**
          * 对模板中的brick的解析
          * @param  {String} tmpl 模板字符串
+         * @private
          */
         _buildBricks: function(tmpl) {
             var self = this,inDom = false,node,tmplNode;
@@ -195,9 +204,9 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
 
         /**
          * 给brick添加模板
-         * @param {string} id  brick的id
-         * @param {array} arr 模板数组
-         * @return {Boolen} 是否添加成功
+         * @param {String} id  brick的id
+         * @param {Array} arr 模板数组
+         * @return {Boolean} 是否添加成功
          */
         addTmpl: function(id, arr) {
             var self = this,
