@@ -180,7 +180,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             if (config.index || config.size || config.max || config.hascount || config.step || config.mode) {
                 if (config.size && config.size != size) {
                     self.fire('sizeChange', {
-                        size: size
+                        size: config.size
                     });
                 }
                 self._destroyDropdown();
