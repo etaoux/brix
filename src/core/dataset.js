@@ -1,8 +1,17 @@
 KISSY.add("brix/core/dataset", function(S, Base) {
+    /**
+     * Brix Dataset 提供数据管理；为所有组件提供基于数据事件的编程
+     * @extends KISSY.Base
+     * @class Brix.Dataset
+     */
     function Dataset() {
         Dataset.superclass.constructor.apply(this, arguments);
     }
     Dataset.ATTRS = {
+        /**
+         * 数据对象
+         * @cfg {Object}
+         */
         data: {}
     };
     S.extend(Dataset, Base, {

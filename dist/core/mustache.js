@@ -1,7 +1,8 @@
 KISSY.add('brix/core/mustache', function(S) {
-  /*!
+  /**
    * mustache.js - Logic-less {{mustache}} templates with JavaScript
    * http://github.com/janl/mustache.js
+   * @class Mustache
    */
   var Mustache = (typeof module !== "undefined" && module.exports) || {};
 

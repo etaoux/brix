@@ -161,6 +161,9 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             self.fire('goToPage', {
                 index: page
             });
+            self.fire('gotoPage', {
+                index: page
+            });
         },
         /**
          * 配置重置

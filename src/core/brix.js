@@ -1,3 +1,7 @@
+/**
+ * Brix配置类 组件框架入口类，在调用Brix组件的时候可以配置cdn地址，组件版本号等
+ * @class Brix.Brix
+ */
 (function(S, Brix) {
     var win = window,
         loc = win.location,
@@ -9,6 +13,7 @@
     /**
      * 相对路径文件名转换为绝对路径
      * @param path
+     * @ignore
      */
 
     function absoluteFilePath(path) {
@@ -22,6 +27,7 @@
         /**
          * 一定要正则化，防止出现 ../ 等相对路径
          * 考虑本地路径
+         * @ignore
          */
         if (!path.match(/^(http(s)?)|(file):/i) && !startsWith(path, "/")) {
             path = __pagePath + path;
@@ -101,6 +107,10 @@
     var debug = '@DEBUG@'; //区分src还是dist版本
     var isConfig = false; //是否已经配置过
     S.mix(Brix, {
+        /**
+         * 配置路径
+         * @param  {Object} options [配置对象]
+         */
         config: function(options) {
             if (isConfig) {
                 return;
