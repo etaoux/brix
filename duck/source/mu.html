@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Brix-Mu'>/**
+</span> * Brix扩展的Mustache类&lt;br/&gt;
+ * 支持简单的条件判断 如:
+&lt;pre&gt;
+{{#list}}
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;{{#if(status==P)}}ID:{{id}},status:&amp;lt;b style='color:green'&gt;通过&amp;lt;/b&gt;{{/if(status==P)}}
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;{{#if(status==W)}}ID:{{id}},status:等待{{/if(status==W)}}
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;{{#if(status==R)}}ID:{{id}},status&amp;lt;b style='color:red'&gt;拒绝&amp;lt;/b&gt;{{/if(status==R)}}
+{{/list}}
+&lt;/pre&gt;
+ * 对于数组对象可以通过{{__index__}}访问数组下标
+ * @class Brix.Mu
+ * @extend Mustache
+ * @static
+ */
+KISSY.add(&quot;brix/core/mu&quot;, function(S, Mustache) {
+    function addFns(template, data) {
+        var ifs = getConditions(template);
+        var key = &quot;&quot;;
+        for (var i = 0; i &lt; ifs.length; i++) {
+            key = &quot;if(&quot; + ifs[i] + &quot;)&quot;;
+            if (data[key]) {
+                continue;
+            } else {
+                data[key] = buildFn(ifs[i]);
+            }
+        }
+    }
+
+    function getConditions(template) {
+        var ifregexp_ig = /\{{2,3}[\^#]?if\((.*?)\)\}{2,3}?/ig;
+        var ifregexp_i = /\{{2,3}[\^#]?if\((.*?)\)\}{2,3}?/i;
+        var gx = template.match(ifregexp_ig);
+        var ret = [];
+        if (gx) {
+            for (var i = 0; i &lt; gx.length; i++) {
+                ret.push(gx[i].match(ifregexp_i)[1]);
+            }
+        }
+        return ret;
+    }
+
+    function buildFn(key) {
+        key = key.split(&quot;==&quot;);
+        var res = function() {
+                var ns = key[0].split(&quot;.&quot;),
+                    value = key[1],
+                    curData = this;
+                for (var i = ns.length - 1; i &gt; -1; i--) {
+                    var cns = ns.slice(i);
+                    var d = curData;
+                    try {
+                        for (var j = 0; j &lt; cns.length - 1; j++) {
+                            d = d[cns[j]];
+                        }
+                        if (cns[cns.length - 1] in d) {
+                            if (d[cns[cns.length - 1]].toString() === value) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    } catch (err) {}
+                }
+                return false;
+            };
+        return res;
+    }
+
+    function findArray(o, depth) {
+        var k, v;
+        for (k in o) {
+            v = o[k];
+            if (v instanceof Array) {
+                addArrayIndex(v);
+            } else if (typeof(v) === &quot;object&quot; &amp;&amp; depth &lt; 5) {
+                findArray(v, depth + 1);
+            }
+        }
+    }
+
+    function addArrayIndex(v) {
+        for (var i = 0; i &lt; v.length; i++) {
+            var o = v[i];
+            if (typeof(o) === &quot;object&quot;) {
+                if (i === 0) {
+                    o.__first__ = true;
+                } else if (i === (v.length - 1)) {
+                    o.__last__ = true;
+                } else {
+                    o.__mid__ = true;
+                }
+                o.__index__ = i;
+            }
+        }
+    }
+    return {
+<span id='Brix-Mu-method-to_html'>        /**
+</span>         * 输出模板和数据,返回渲染后结果字符串,接口与Mustache完全一致
+         * @method to_html
+         * @param {String} template 模板字符串
+         * @param {Object} data 数据Object
+         * @return {String}
+         */
+        to_html: function(template, data) {
+            if (typeof(data) === &quot;object&quot;) {
+                findArray(data, 0);
+            }
+            addFns(template, data);
+            return Mustache.to_html.apply(this, arguments);
+        },
+        name: Mustache.name,
+        version: Mustache.version,
+        tags: Mustache.tags,
+        parse: Mustache.parse,
+        compile: Mustache.compile,
+        render: Mustache.render,
+        clearCache: Mustache.clearCache
+    };
+}, {
+    requires: [&quot;./mustache&quot;]
+});</pre>
+</body>
+</html>
