@@ -1,4 +1,11 @@
 KISSY.add("brix/core/pagelet", function(S, Chunk) {
+    /**
+     * Brix Pagelet 是组件的管理器，实现组件的层次化渲染。
+     * 一个页面由多个组件和非组件的HTML片段组成，实际创建过程中需要一个个动态创建，
+     * 基于约定为大的原则，采用“钩子”和Mustache，自动化的完成组件渲染和行为附加
+     * @extends Brix.Chunk
+     * @class Brix.Pagelet
+     */
     function Pagelet() {
         Pagelet.superclass.constructor.apply(this, arguments);
         var self = this;
@@ -26,12 +33,18 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         }
     }
     Pagelet.ATTRS = {
+        /**
+         * 自动添加组件行为
+         * @cfg {Boolean}
+         */
         behavior:{
-            //自动添加组件行为
             value:true 
         },
+        /**
+         * 行为添加完成后的回调方法
+         * @cfg {Function}
+         */
         callback:{
-            //行为添加完成后的回调方法
             value:null
         }
     }
@@ -50,6 +63,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          * @param  {String} id     brick的id
          * @param  {Object} bricks 需要渲染的brick集合
          * @return {Object}        组件实例
+         * @private
          */
         _getBrick: function(id, bricks) {
             var self = this,
@@ -89,6 +103,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          * 分层次的渲染brick
          * @param {Object} bricks 需要渲染的brick集合
          * @param {Array} brickClassList use回调的参数集合
+         * @private
          */
         _addBehavior: function(bricks,brickClassList) {
             var self = this;
@@ -107,7 +122,8 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         },
         /**
          * 构建页面所有bricks，提供给use使用
-         * @param  {[type]} bricks 
+         * @param  {Object} bricks 
+         * @private
          */
         _buildBricks:function(bricks){
             var self = this;
@@ -122,7 +138,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
             });
         },
         /**
-         * pagelet 渲染完成后需要执行的函数
+         * 渲染完成后需要执行的函数
          * @param {Function} fn 执行的函数
          */
         ready: function(fn) {
@@ -131,10 +147,10 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
             } else {
                 this.readyList.push(fn);
             }
-            return this;
         },
         /**
          * 触发ready添加的方法
+         * @private
          */
         _fireReady: function() {
             var self = this;
@@ -166,7 +182,8 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
 
         /**
          * 销毁brick引用
-         * @param  {object} bricks 需要销毁的对象集合
+         * @param  {Object} bricks 需要销毁的对象集合
+         * @private
          */
         _destroyBricks: function(bricks,id) {
             var self = this;
@@ -189,7 +206,8 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         },
         /**
          * 销毁brick引用
-         * @param  {object} o 需要销毁的对象
+         * @param  {Object} o 需要销毁的对象
+         * @private
          */
         _destroyBrick: function(o) {
             var self = this;

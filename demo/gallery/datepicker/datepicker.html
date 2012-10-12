@@ -4,8 +4,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Brix DatePicker Demo</title>
         <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
-        <link rel="stylesheet" href="../../../src/gallery/calendar/calendar.css">
-        <link rel="stylesheet" href="../../../src/gallery/datepicker/datepicker.css">
         <link rel="stylesheet" href="../../assets/doc.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
         <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,fixed:'src/'}"></script>
@@ -21,7 +19,7 @@
 
         <script>
             KISSY.ready(function(S) {
-                KISSY.use("brix/gallery/datepicker/", function(S, DatePicker) {
+                KISSY.use("brix/gallery/datepicker/,brix/gallery/calendar/calendar.css,brix/gallery/datepicker/datepicker.css", function(S, DatePicker) {
                     var Brix_Date = DatePicker.Date;
                     var datepicker = new DatePicker({
                         trigger: '#test1'

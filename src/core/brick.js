@@ -5,7 +5,12 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         }
         return f;
     }
-
+    /**
+     * Brix Brick 组件基类，完成组件渲染后的事件代理（既行为）。
+     * initialize是组件在渲染后的初始化方法，destructor是析构方法
+     * @extends Brix.Chunk
+     * @class Brix.Brick
+     */
     function Brick() {
         var self = this;
         self.pagelet = arguments[0] ? arguments[0].pagelet : null; //pagelet的引用
@@ -58,20 +63,115 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         }
     }
 
-    Brick.NAME = 'Brick';//用来表示brick，事件
+    /**
+     * 用来标识Brick
+     * @property NAME
+     * @static
+     * @type {String}
+     */
+    Brick.NAME = 'Brick';
 
+    /**
+     * 对外方法配置
+     * 
+     *
+     *      Brick.METHODS = {
+     *          method1:function(){
+     *                  
+     *          }
+     *      }
+     *      S.augment(Brick, Brick.METHODS)
+     *      
+     *
+     * @property METHODS
+     * @static
+     * @type {Object}
+     */
+    
+    /**
+     * 节点代理事件
+     * 
+     *
+     *      Brick.EVENTS = {
+     *          'selector':{
+     *              'eventtype':function(){
+     *                  
+     *               }
+     *           }
+     *      }
+     *      
+     *
+     * @property EVENTS
+     * @static
+     * @type {Object}
+     */
+    
+    /**
+     * DOCUMENT节点代理事件
+     *
+     *
+     *      Brick.DOCEVENTS = {
+     *          'selector':{
+     *              'eventtype':function(){
+     *                  
+     *               }
+     *           }
+     *      }
+     *      
+     *
+     * @property DOCEVENTS
+     * @static
+     * @type {Object}
+     */
+    
+    /**
+     * 对外事件申明
+     *
+     *
+     *      Brick.FIRES = {
+     *          'selector':'selector'
+     *      }
+     *      
+     *
+     * @property FIRES
+     * @static
+     * @type {Object}
+     */
+    
+    /**
+     * 模板数据渲染扩展
+     *
+     *
+     *      Brick.RENDERERS = {
+     *          'xx':{
+     *              'yy'function(){
+     *              
+     *              }
+     *          }
+     *      }
+     *      
+     *
+     * @property RENDERERS
+     * @static
+     * @type {Object}
+     */
 
     S.extend(Brick, Chunk, {
-        //初始化方法，提供子类覆盖
+        /**
+         * 初始化方法，提供子类覆盖
+         */
         initialize: function() {
 
         },
-        //析构函数，用来销毁时候的操作,提供子类覆盖
+        /**
+         * 析构函数，用来销毁时候的操作,提供子类覆盖
+         */
         destructor:function(){
 
         },
         /**
          * 移除代理事件
+         * @private
          */
         _detachEvent: function() {
             var self = this;
@@ -105,6 +205,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         },
         /**
          * 绑定代理事件
+         * @private
          */
         _bindEvent: function() {
             var self = this;
@@ -138,7 +239,8 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         // },
         /**
          * 移除事件代理
-         * @param  {object} events 事件对象，参见EVENTS属性
+         * @param  {Object} events 事件对象，参见EVENTS属性
+         * @private
          */
         _removeEvents: function(events, el) {
             el = el || this.get("el");
@@ -156,7 +258,8 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         },
         /**
          * 添加事件代理绑定
-         * @param  {object} events 事件对象，参见EVENTS属性
+         * @param  {Object} events 事件对象，参见EVENTS属性
+         * @private
          */
         _addEvents: function(events, el) {
             el = el || this.get("el");
@@ -174,6 +277,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         },
         /**
          * 原生事件代理
+         * @private
          */
         _delegateEvents: function() {
             var events = this.events;
@@ -222,6 +326,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         },
         /**
          * 取消原生事件代理
+         * @private
          */
         _undelegateEvents: function() {
             var events = this.events;

@@ -224,7 +224,9 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                 dates.start = Calendar.Date.parse(inputs.item(0).val());
                 dates.end = Calendar.Date.parse(inputs.item(1).val());
                 S.log(dates);
-                self.fire(DatePicker.FIRES.selected,dates);
+                if(self.fire(DatePicker.FIRES.selected,dates)===false){
+                    return;
+                }
                 self.hide();
             }
         },

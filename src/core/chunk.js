@@ -1,20 +1,54 @@
 KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
     var $ = Node.all;
-    /**
-     * brick和pagelet类的基类
+     /**
+     * Brix Chunk,Brick和Pagelet类的基类,
+     * 作为组件底层，完成渲染、数据更新、销毁操作，是模板解析器（Tmpler）和数据管理器（Dataset）的调度者。
+     * @extends KISSY.Base
+     * @class Brix.Chunk
      */
-
     function Chunk() {
         Chunk.superclass.constructor.apply(this, arguments);
         this._buildTmpler();
     }
 
+    /**
+     * The default set of attributes which will be available for instances of this class, and
+     * their configuration
+     *
+     * By default if the value is an object literal or an array it will be 'shallow' cloned, to
+     * protect the default value.
+     *
+     *      for example:
+     *      @example
+     *      {
+     *          x:{
+     *              value: // default value
+     *              valueFn: // default function to get value
+     *              getter: // getter function
+     *              setter: // setter function
+     *          }
+     *      }
+     * see:
+     * <a href="http://docs.kissyui.com/kissy/docs/#!/api/KISSY.Base">http://docs.kissyui.com/kissy/docs/#!/api/KISSY.Base</a>
+     *
+     * @property ATTRS
+     * @member KISSY.Base
+     * @static
+     * @type {Object}
+     */
+
     Chunk.ATTRS = {
-        /*当前pagelet或者brick的唯一标识*/
+        /**
+         * 当前pagelet或者brick的唯一标识
+         * @cfg {String}
+         */
         id:{
             value:false
         },
-        //组件节点
+        /**
+         * 组件节点
+         * @cfg {String}
+         */
         el: {
             getter: function(s) {
                 if (S.isString(s)) {
@@ -23,7 +57,10 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 return s;
             }
         },
-        //容器节点
+        /**
+         * 容器节点
+         * @cfg {String}
+         */
         container: {
             value: 'body',
             getter: function(s) {
@@ -33,23 +70,45 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 return s;
             }
         },
-        tmpl: { //模板代码，如果是已经渲染的html元素，则提供渲染html容器节点选择器
+        /**
+         * 模板代码，如果是已经渲染的html元素，则提供渲染html容器节点选择器
+         * @cfg {String}
+         */
+        tmpl: {
             value: false
         },
+        /**
+         * 解析后的模板对象
+         * @type {Brix.Tmpler}
+         */
         tmpler:{
             value:false
         },
+        /**
+         * 是否已经渲染
+         * @type {Boolean}
+         */
         rendered: {
             value: false
         },
-        //是否自动渲染,默认改成true
+        /**
+         * 是否自动渲染
+         * @cfg {Boolean}
+         */
         autoRender: {
             value: true 
         },
+        /**
+         * 模板数据
+         * @cfg {Object}
+         */
         data:{
             value:false
         },
-        //如果提供dataset，则忽略data
+        /**
+         * 解析后的数据对象
+         * @type {Brix.Dataset}
+         */
         dataset:{
             value:false
         }
@@ -58,6 +117,7 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
     S.extend(Chunk, Base, {
         /**
          * 构建模板解析器
+         * @private
          */
         _buildTmpler: function() {
             var self = this,
@@ -83,6 +143,7 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
         },
         /**
          * 构建数据管理器
+         * @private
          */
         _buildDataset: function() {
             var self = this;
@@ -102,9 +163,9 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
 
         /**
          * 给brick添加模板
-         * @param {string} id  brick的id
-         * @param {array} arr 模板数组
-         * @return {Boolen} 是否添加成功
+         * @param {String} id  brick的id
+         * @param {Array} arr 模板数组
+         * @return {Boolean} 是否添加成功
          */
         addTmpl: function(id, arr) {
             var self =  this,tmpler = self.get('tmpler');
@@ -118,8 +179,8 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
 
         /**
          * 设置数据，并刷新模板数据
-         * @param {string} datakey 需要更新的数据对象key
-         * @param {object} data    数据对象
+         * @param {String} datakey 需要更新的数据对象key
+         * @param {Object} data    数据对象
          */
         setChunkData: function(datakey, data) {
             var self = this,
@@ -145,8 +206,9 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
         },
         /**
          * 将模板渲染到页面
-         * @param  {string} key     更新的数据对象key
-         * @param  {object} data 数据
+         * @param  {String} key  更新的数据对象key
+         * @param  {Object} data 数据
+         * @private
          */
         _render: function(key, data) {
             var self = this,tmpler = self.get('tmpler');
@@ -167,9 +229,10 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
         },
         /**
          * 渲染模板
-         * @param  {object} bricks  brick对象集合
-         * @param  {string} key     更新的数据对象key
-         * @param  {object} data 数据
+         * @param  {Object} bricks  brick对象集合
+         * @param  {String} key     更新的数据对象key
+         * @param  {Object} data 数据
+         * @private
          */
         _renderTmpl: function(bricks, key, data) {
             S.each(bricks, function(b) {

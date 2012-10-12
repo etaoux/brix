@@ -205,6 +205,24 @@
 
 <h2>事件</h2>
 
+<h3><code>beforeSwitch(ev)</code></h3>
+
+<p>切换前触发，当该事件的函数处理器返回 false, 则会阻止切换动作.</p>
+
+<ul>
+<li>ev.toIndex {Number} 即将切换到的tab的索引号</li>
+</ul>
+
+
+<h3><code>switch(ev)</code></h3>
+
+<p>切换后触发</p>
+
+<ul>
+<li>ev.currentIndex  {Number} 当前切换到的tab的索引号</li>
+</ul>
+
+
 <h2>代码示例</h2>
 
 <div class="highlight"><pre><code class="js"><span class="nx">KISSY</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s2">&quot;brix/gallery/kwicks/&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="nx">Kwicks</span><span class="p">)</span> <span class="p">{</span>
