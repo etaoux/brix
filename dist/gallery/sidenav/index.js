@@ -71,6 +71,10 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
             this.localStorage = window.localStorage;
             this.isFullSubNav = this.localStorage && this.localStorage.isFullSubNav || '1';
 
+            if (this.isFullSubNav === '0') {
+                this.subNavHandle.replaceClass('icon-expand', 'icon-collapse');
+            }
+
             //可配置的两个参数 duration index
             this.index = this.get('index'); //默认的首页地址
             this.duration = this.get('duration'); //导航动画持续时间，可配置
