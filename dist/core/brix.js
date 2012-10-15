@@ -167,5 +167,14 @@
     if (defaultOptions.autoConfig) {
         //自动配置
         Brix.config({});
+        //自动实例化pagelet
+        //外部调用的S.ready注册的方法中可以直接用Brix.pagelet实例书写业务逻辑
+        if (defaultOptions.autoPagelet) {
+            S.use('brix/core/pagelet',function(S,Pagelet){
+                S.ready(function(){
+                    Brix.pagelet = new Pagelet({tmpl:'body'});
+                });
+            })
+        }
     }
 })(KISSY, 'Brix');
