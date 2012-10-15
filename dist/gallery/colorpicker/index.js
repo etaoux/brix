@@ -3,6 +3,7 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
 
     /**
      * Create SVG element.
+     * @ignore
      */
 
     function $C(el, attrs, children) {
@@ -17,7 +18,11 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
         return el;
     }
 
-
+    /**
+     * 颜色选择器
+     * @class Brix.Gallery.ColorPicker
+     * @extends Brix.Brick
+     */
     function ColorPicker() {
         ColorPicker.superclass.constructor.apply(this, arguments);
         //绑定触发事件

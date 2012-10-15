@@ -30,6 +30,11 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
         };
     var NOTLIMITEDTEXT = '不限';
         
+    /**
+     * 时间段选择器
+     * @class Brix.Gallery.DatePicker
+     * @extends Brix.Brick
+     */
     function DatePicker() {
         DatePicker.superclass.constructor.apply(this, arguments);
         //绑定触发事件

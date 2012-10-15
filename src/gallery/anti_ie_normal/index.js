@@ -1,4 +1,11 @@
-﻿;(function(doc, undefined) {
+﻿/**
+ * ie升级提示（手绘版本）
+ * @class Brix.Gallery.Anti_ie6_normal
+ * @example
+ *        
+ *        <!--[if lt IE 7]> <script type="text/javascript" src="../../../src/gallery/anti_ie6_normal/index.js"></script> <![endif]-->
+ */
+;(function(doc, undefined) {
 
     var anti_ie6 = {
 

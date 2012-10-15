@@ -1,6 +1,6 @@
 /**
  * Brix配置类 组件框架入口类，在调用Brix组件的时候可以配置cdn地址，组件版本号等
- * @class Brix.Brix
+ * @class Brix
  */
 (function(S, Brix) {
     var win = window,
