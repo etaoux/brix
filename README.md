@@ -12,7 +12,7 @@
 	        path: '../../../../',//标准组件包路径
 	        componentsPath:'./', // 项目组件包路径
 	        importsPath:'./', //其他项目组件包路径
-	        fixed:'',//路径修正，brix路劲下存在其他文件夹
+	        fixed:'',//路径修正，brix路径下存在其他文件夹
 	        gallery:{
 	            //配置组件版本信息
 	            //dropdown:'1.0'
