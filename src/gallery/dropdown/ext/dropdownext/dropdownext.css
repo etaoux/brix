@@ -27,10 +27,6 @@
   height: 0;
   clear: both;
 }
-.dropdown * {
-  -moz-user-select: none;
-  -webkit-user-select: none;
-}
 .dropdown .icon-arrow-down {
   font-size: 8px;
   position: absolute;
@@ -55,6 +51,8 @@
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8f8f8', endColorstr='#eeeeee', GradientType=0);
   cursor: default;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 .dropdown-arrow .dropdown-hd {
   padding-right: 20px;
@@ -100,6 +98,8 @@
   position: relative;
   padding-right: 20px;
   cursor: default;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 .dropdown .dropdown-list-noicon .dropdown-item {
   padding-right: 0px;
