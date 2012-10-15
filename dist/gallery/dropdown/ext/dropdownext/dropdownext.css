@@ -96,6 +96,8 @@
   position: relative;
   padding-right: 20px;
   cursor: default;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 .dropdown .dropdown-list-noicon .dropdown-item {
   padding-right: 0px;
