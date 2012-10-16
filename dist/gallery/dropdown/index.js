@@ -1,23 +1,62 @@
 KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
+    /**
+     * 下拉选择
+     * @class Brix.Gallery.Dropdown
+     * @extends Brix.Brick
+     */
     function Dropdown() {
         Dropdown.superclass.constructor.apply(this, arguments);
     }
     Dropdown.ATTRS = {
+        /**
+         * 触发模式，默认是1，点击触发，面包屑用2或其他
+         * @cfg {Number}
+         */
         mode:{
             value:1
         },
+        /**
+         * 是否自动修改.dropdown-list的宽度
+         * @type {Boolean}
+         */
         autoResize:{
             value:true
         }
     }
     Dropdown.FIRES = {
+        /**
+         * @event beforeFocus
+         * 显示前触发
+         */
         beforeFocus:'beforeFocus',
+        /**
+         * @event focus
+         * 显示触发
+         */
         focus:'focus',
+        /**
+         * @event beforeBlur
+         * 隐藏前触发
+         */
         beforeBlur:'beforeBlur',
+        /**
+         * @event blur
+         * 隐藏触发
+         */
         blur:'blur',
+        /**
+         * @event selected
+         * 选择触发
+         * @param {Object} e 
+         * @param {String} e.value 值
+         * @param {String} e.text 文本
+         */
         selected:'selected'
     }
     Dropdown.METHODS = {
+        /**
+         * 显示
+         */
         focus: function() {
             var mode = this.get('mode'),
                 el = this.get('el');
@@ -32,6 +71,9 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
             }
             this.fire(Dropdown.FIRES.focus);
         },
+        /**
+         * 隐藏
+         */
         blur: function() {
             var mode = this.get('mode'),
                 el = this.get('el');

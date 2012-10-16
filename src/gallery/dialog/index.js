@@ -1,4 +1,13 @@
 KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
+    /**
+     * 弹出层组件
+     * @class Brix.Gallery.Dialog
+     * @extends KISSY.Overlay
+     *
+     * see:
+     * <a href="http://docs.kissyui.com/docs/html/api/component/overlay/overlay.html">http://docs.kissyui.com/docs/html/api/component/overlay/overlay.html</a>
+     *
+     */
     function Dialog(config) {
         var self = this;
         Dialog.superclass.constructor.apply(this, arguments);
@@ -16,12 +25,28 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
         }
     }
     Dialog.ATTRS = {
+        /**
+         * 触发日历的对象
+         * @cfg {Element}
+         */
         trigger:{
             value:false
         },
+        /**
+         * 触发弹出日历的事件类型, 
+         * 例如：[‘click’,’focus’],也可以直接传入’focus’, 默认为[‘click’]
+         * @cfg {String|Array}
+         */
         triggerType:{
             value:['click']
         },
+        /**
+         * 显示的开始位置信息
+         * @cfg {Object} start
+         * @cfg {Number} start.left left值
+         * @cfg {Number} start.top   top值
+         * @cfg {Number} start.opacity  opacity值 
+         */
         start: {
             value: {
                 left: 600,
@@ -29,6 +54,13 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
                 opacity: 0
             }
         },
+        /**
+         * 显示的结束位置信息
+         * @cfg {Object} end
+         * @cfg {Number} end.left left值
+         * @cfg {Number} end.top   top值
+         * @cfg {Number} end.opacity  opacity值 
+         */
         end: {
             value: {
                 left: 100,

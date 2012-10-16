@@ -59,30 +59,92 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
     }
     DatePicker.Date = Calendar.Date;
     DatePicker.ATTRS = {
+        /**
+         * 触发日历的对象
+         * @cfg {Element}
+         */
         trigger:{
             value: false
         },
+        /**
+         * 触发弹出日历的事件类型, 
+         * 例如：[‘click’,’focus’],也可以直接传入’focus’, 默认为[‘click’]
+         * @cfg {String|Array}
+         */
         triggerType:{
             value:['click']
         },
+        /**
+         * 快捷日期组
+         * @cfg {Object}
+         *
+         * @example
+         *     {
+         *          'today': {
+         *               text: '今天',
+         *               dateRange: [date, date]
+         *           },
+         *           'yestoday': {
+         *               text: '昨天',
+         *               dateRange: [yestoday, yestoday]
+         *           },
+         *           'days7before': {
+         *               text: '过去7天',
+         *               dateRange: [getRecentlyDate(-7), yestoday]
+         *           },
+         *           'days14before': {
+         *               text: '过去15天',
+         *               dateRange: [getRecentlyDate(-15), yestoday]
+         *           }
+         *       };
+         *  
+         */
         quickDates:{
                 value:quickDates //快捷日期
         },
+        /**
+         * 已选择的时间段
+         * @cfg {Object} dates
+         * @cfg {Date} dates.start 开始时间
+         * @cfg {Date} dates.end   结束时间
+         *
+         * 
+         *      {start:new Date(),end:new Date(2014,11,26)}
+         */
         dates:{
             value:{
                 start:null,//开始日期
                 end:null//结束日期
             }
         },
+        /**
+         * 是否快捷日期
+         * @cfg {Boolean}
+         */
         isQuick:{
             value:true
         },
+        /**
+         * 是否是比较
+         * @cfg {Boolean}
+         */
         isCompare:{
             value:false
         },
+        /**
+         * 比较的日期
+         * @cfg {String}
+         */
         compareText:{
             value:'过去7天'
         },
+        /**
+         * 对齐方式
+         * @cfg {Object} align
+         * @cfg {Element} align.node 对其的节点
+         * @cfg {Array} align.points   对其方式
+         * @cfg {Array} align.offset   对其偏移量
+         */
         align:{
             value:{
                 node:false,
@@ -90,11 +152,66 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                 offset : [0, 0]
             } //设置对其方式
         },
+        /**
+         * 是否出现不限的按钮
+         * @cfg {Boolean}
+         */
         notLimited:{
             value:false
         },
+        /**
+         * 日历的页数, 默认为2
+         * @cfg {Number}
+         */
         pages:{
             value:2
+        },
+        /**
+         * 日历开始可选择的最小日期
+         * @cfg {Date}
+         */
+        minDateStart: {
+            value: false
+        },
+        /**
+         * 日历结束可选择的最小日期
+         * @cfg {Date}
+         */
+        minDateEnd: {
+            value: false
+        },
+
+        /**
+         * 日历开始可选择的最大日期
+         * @cfg {Date}
+         */
+        maxDateStart: {
+            value: false
+        },
+        /**
+         * 日历结束可选择的最大日期
+         * @cfg {Date}
+         */
+        maxDateEnd: {
+            value: false
+        },
+        /**
+         * 开始禁止点击的日期数组
+         * @cfg {Array}
+         *
+         *      [new Date(),new Date(2011,11,26)]
+         */
+        disabledStart: {
+            value: false
+        },
+        /**
+         * 结束禁止点击的日期数组
+         * @cfg {Array}
+         *
+         *      [new Date(),new Date(2011,11,26)]
+         */
+        disabledEnd: {
+            value: false
         },
         tmpl:{
             valueFn:function(){
@@ -105,9 +222,9 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                                 '{{^isCompare}}'+
                                 '<label>日期范围：</label>'+
                                 '<div class="range">'+
-                                    '<input value="{{start}}">'+
+                                    '<input input_type="Start" value="{{start}}">'+
                                     '<span class="input-split">-</span>'+
-                                    '<input value="{{end}}">'+
+                                    '<input input_type="End" value="{{end}}">'+
                                 '</div>'+
                                 '{{/isCompare}}'+
                                 '{{#isCompare}}'+
@@ -116,9 +233,9 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                                 '</div>'+
                                 '<label>与其他日期比较：(须同样天数)</label>'+
                                 '<div class="range">'+
-                                    '<input value="{{start}}">'+
+                                    '<input input_type="Start" value="{{start}}">'+
                                     '<span class="input-split">-</span>'+
-                                    '<input value="{{end}}">'+
+                                    '<input input_type="End" value="{{end}}">'+
                                 '</div>'+
                                 '{{/isCompare}}'+
                                 '{{#isQuick}}'+
@@ -210,6 +327,11 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                 self.calendar.set('selected',selected); 
                 self.calendar.set('trigger',node);
                 self.calendar.set('align',align);
+                var input_type = node.attr('input_type');
+                self.calendar.set('minDate',self.get('minDate'+input_type));
+                self.calendar.set('maxDate',self.get('maxDate'+input_type));
+                self.calendar.set('disabled',self.get('disabled'+input_type));
+                self.fire(DatePicker.FIRES.inputClick,{type:input_type});
                 self.calendar.show();
             }
         },
@@ -266,6 +388,9 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
     };
 
     DatePicker.METHODS = {
+        /**
+         * 显示日历
+         */
         show: function() {
             var self = this;
             if(!self.get('rendered')){
@@ -282,6 +407,9 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
             }
 
         },
+        /**
+         * 隐藏日历
+         */
         hide: function() {
             var self = this;
             if (self.overlay) {
@@ -289,6 +417,9 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                 self.fire(DatePicker.FIRES.hide);
             }
         },
+        /**
+         * 显示隐藏切换
+         */
         toggle: function() {
             var self = this;
             if (self.overlay) {
@@ -306,11 +437,31 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
 
     DatePicker.FIRES = {
         /**
-         * selected 事件，在点击确定后触发
-         * @type {String}
+         * @event selected
+         * 日期选择触发
+         * @param {Object} e 
+         * @param {Boolean} e.isQuick 是否快捷日期
+         * @param {Object} e.quickDate 如果是快捷日期，则返回快捷日期对象
+         * @param {Date} e.start 开始日期
+         * @param {Date} e.end 开始日期
          */
         selected:'selected',
+        /**
+         * @event inputClick
+         * 日期选择触发
+         * @param {Object} e 
+         * @param {String} e.type 点击的是那个input：Start|End
+         */
+        inputClick:'inputClick',
+        /**
+         * @event show
+         * 显示
+         */
         show: 'show',
+        /**
+         * @event hide
+         * 隐藏
+         */
         hide: 'hide'
     };
     S.extend(DatePicker, Brick, {
