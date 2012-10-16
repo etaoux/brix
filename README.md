@@ -6,25 +6,18 @@
 
 
 	<script type="text/javascript" src="kissy.js"></script>
-	<script type="text/javascript" src="brix.js"></script>
+	<script type="text/javascript" src="brix.js" bx-config="{autoConfig:true,autoPagelet:true}"></script>
 	<script type="text/javascript">
-		var options = {
-	        path: '../../../../',//标准组件包路径
-	        componentsPath:'./', // 项目组件包路径
-	        importsPath:'./', //其他项目组件包路径
-	        fixed:'',//路径修正，brix路径下存在其他文件夹
-	        gallery:{
-	            //配置组件版本信息
-	            //dropdown:'1.0'
-            }
-	    }
-
-		//初始化Brix的配置
-		Brix.config(options);
-
 		//业务代码
-		KISSY.use('brix/core/pagelet',function(S,Pagelet){
-			new Pagelet({tmpl:'body'});
+		KISSY.ready(function(S){
+			//pagelet自动构建完成
+			Brix.ready(function(){
+				//pagelet的实例
+				Brix.pagelet.ready(function(){
+					//拿到组件实例
+					var brick = Brix.pagelet.getBrick('#id');
+				});
+			});
 		});
 	</script>
 
