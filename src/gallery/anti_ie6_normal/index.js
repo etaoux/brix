@@ -1,11 +1,4 @@
-﻿/**
- * ie升级提示（手绘版本）
- * @class Brix.Gallery.Anti_ie6_normal
- * @example
- *        
- *        <!--[if lt IE 7]> <script type="text/javascript" src="../../../src/gallery/anti_ie6_normal/index.js"></script> <![endif]-->
- */
-;(function(doc, undefined) {
+﻿;(function(doc, undefined) {
 
     var anti_ie6 = {
 
@@ -23,11 +16,11 @@
                     '<ul id="fieUpdates">',
                         '<li style="margin-right: 35px;"><a target="_blank" href="http://windows.microsoft.com/zh-CN/internet-explorer/downloads/ie"><i class="b-ie"></i>升级IE</a>',
                         '</li>',
-                        '<li><a target="_blank" href="http://www.google.cn/intl/zh-CN/chrome/browser/"><i class="b-chrome"></i>下载chrome</a>',
-                        '</li>',
                         '<li><a href="http://download.taobaocdn.com/client/browser/download.php?pid=0080_2010"><i class="b-taobao"></i>下载淘宝浏览器</a>',
                         '</li>',
-                        '<li><a target="_blank"  href="http://www.firefox.com.cn/download/"><i class="b-firefox"></i>下载firefox</a>',
+                        '<li><a target="_blank" href="http://www.google.cn/intl/zh-CN/chrome/browser/"><i class="b-chrome"></i>下载chrome</a>',
+                        '</li>',
+                        '<li><a target="_blank"  href="http://chrome.360.cn/"><i class="b-browser360"></i>下载360浏览器</a>',
                         '</li>',
 
                     '</ul>',
@@ -36,13 +29,13 @@
                 '<a href="javascript:;" class="fuck-ie6-close" id="fieClose" title="close"></a>'].join(''),
 
         //css
-        style: ".fuck-ie6-close,.fuck-ie6-update li a i{background:url(http://img03.taobaocdn.com/tps/i3/T1lQ2TXiFeXXc8DhIo-320-101.png) no-repeat 0 0}.fuck-ie6{background-position:0 -1262px;position:absolute;border:1px solid #d9d9d9;background-color:#fafafa;width:576px;height:376px;top:100px;left:25%;overflow:hidden;font-size:14px;z-index:999999}.fuck-ie6-close{position:absolute;top:25px;right:25px;width:21px;height:21px;background-position:0 0;cursor:pointer}.fuck-ie6-close:hover{background-position:-21px 0}.fuck-ie6-info{position:absolute;width:520px;height:150px;left:30px;top:20px;overflow:hidden}.fuck-ie6-container{width:1040px;position:relative}.fuck-ie6-container a{text-decoration:none}.fuck-ie6-container a:hover{text-decoration:underline}.fuck-ie6-why,.fuck-ie6-show{float:left;width:520px;height:150px;cursor:pointer;position:relative}.fuck-ie6-why .sp1{font-size:26px;display:block;padding-top:50px}.fuck-ie6-why .sp2{position:absolute;right:0;top:100px;font-weight:bold;color:#06c}.fuck-ie6-show .sp1{font-size:18px;display:block;padding-top:30px;line-height:1.7;padding-bottom:10px}.fuck-ie6-show .sp2{display:block;color:#06c;font-weight:bold}.fuck-ie6-update{position:absolute;top:200px;left:30px}.fuck-ie6-update ul{padding:0;list-style:none;overflow:hidden;zoom:1;margin:0}.fuck-ie6-update li{float:left;padding:0;list-style:none}.fuck-ie6-update li a{display:block;text-align:center;width:120px;height:110px;color:#06c;font-weight:bold;text-decoration:none;font-size:13px}.fuck-ie6-update li a:hover{text-decoration:underline}.fuck-ie6-update li a i{display:block;width:80px;height:80px;margin:0 auto;background-position:0 -21px}.fuck-ie6-update li a i.b-taobao{background-position:-160px -21px}.fuck-ie6-update li a i.b-chrome{background-position:-80px -21px}.fuck-ie6-update li a i.b-firefox{background-position:-240px -21px}.fuck-ie6-keep{padding-top:15px}.fuck-ie6-keep a{color:black;font-weight:bold}.fuck-ie6-keep a:hover{color:#06c}",
+        style: ".fuck-ie6-close,.fuck-ie6-update li a i{background:url(http://img04.taobaocdn.com/tps/i4/T1yTvUXbFlXXc8DhIo-320-101.png) no-repeat 0 0}.fuck-ie6{background-position:0 -1262px;position:absolute;border:1px solid #d9d9d9;background-color:#fafafa;width:576px;height:376px;top:100px;left:25%;overflow:hidden;font-size:14px;z-index:999999}.fuck-ie6-close{position:absolute;top:25px;right:25px;width:21px;height:21px;background-position:0 0;cursor:pointer}.fuck-ie6-close:hover{background-position:-21px 0}.fuck-ie6-info{position:absolute;width:520px;height:150px;left:30px;top:20px;overflow:hidden}.fuck-ie6-container{width:1040px;position:relative}.fuck-ie6-container a{text-decoration:none}.fuck-ie6-container a:hover{text-decoration:underline}.fuck-ie6-why,.fuck-ie6-show{float:left;width:520px;height:150px;cursor:pointer;position:relative}.fuck-ie6-why .sp1{font-size:26px;display:block;padding-top:50px}.fuck-ie6-why .sp2{position:absolute;right:0;top:100px;font-weight:bold;color:#06c}.fuck-ie6-show .sp1{font-size:18px;display:block;padding-top:30px;line-height:1.7;padding-bottom:10px}.fuck-ie6-show .sp2{display:block;color:#06c;font-weight:bold}.fuck-ie6-update{position:absolute;top:200px;left:30px}.fuck-ie6-update ul{padding:0;list-style:none;overflow:hidden;zoom:1;margin:0}.fuck-ie6-update li{float:left;padding:0;list-style:none}.fuck-ie6-update li a{display:block;text-align:center;width:120px;height:110px;color:#06c;font-weight:bold;text-decoration:none;font-size:13px}.fuck-ie6-update li a:hover{text-decoration:underline}.fuck-ie6-update li a i{display:block;width:80px;height:80px;margin:0 auto;background-position:0 -21px}.fuck-ie6-update li a i.b-taobao{background-position:-160px -21px}.fuck-ie6-update li a i.b-chrome{background-position:-80px -21px}.fuck-ie6-update li a i.b-browser360{background-position:-240px -21px}.fuck-ie6-keep{padding-top:15px}.fuck-ie6-keep a{color:black;font-weight:bold}.fuck-ie6-keep a:hover{color:#06c}",
 
         init: function() {
 
             //非ie6退出
             if (!this.isIE6()) {
-                return;
+                // return;
             }
 
             //cookie检测
