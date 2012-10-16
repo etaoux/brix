@@ -29,7 +29,7 @@ module.exports = function(grunt) {
         var src = this.file.src,
             dest = this.file.dest;
         var max,min, 
-            files = ['brix.js', 'mustache.js', 'mu.js', 'tmpler.js', 'dataset.js', 'chunk.js', 'brick.js', 'pagelet.js'],
+            files = ['mustache.js', 'mu.js', 'tmpler.js', 'dataset.js', 'chunk.js', 'brick.js', 'pagelet.js','brix.js'],
             banner = grunt.task.directive('<banner:meta.banner>', function() { return null; });
 
         if(!banner){

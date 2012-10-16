@@ -100,7 +100,7 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                 var dropdownTextNode = el.one('.dropdown-text');
                 var selectNode = currentTarget.one('span');
                 var data = {
-                    value: selectNode.attr('value'),
+                    value: selectNode.attr('value')||'',
                     text: selectNode.text()
                 }
 
