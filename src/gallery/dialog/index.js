@@ -48,11 +48,6 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
          * @cfg {Number} start.opacity  opacity值 
          */
         start: {
-            value: {
-                left: 600,
-                top: 100,
-                opacity: 0
-            }
         },
         /**
          * 显示的结束位置信息
@@ -62,11 +57,6 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
          * @cfg {Number} end.opacity  opacity值 
          */
         end: {
-            value: {
-                left: 100,
-                top: 100,
-                opacity: 1
-            }
         },
         elCls:{
             value:'dialog'
@@ -77,12 +67,18 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
         x: {
             getter: function() {
                 var self = this;
+                if(!self.get('start')){
+                    return false
+                }
                 return self.get('start').left;
             }
         },
         y: {
             getter: function() {
                 var self = this;
+                if(!self.get('start')){
+                    return false
+                }
                 return self.get('start').top;
             }
         },
@@ -177,7 +173,11 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
         },
         bindUI:function(){
             var self = this,el = self.get('el');
+            
             self.on('beforeVisibleChange', function(ev) {
+                if(!self.get('start')){
+                    return true;
+                }
                 var v = ev.newVal,dir = self.get('dir');
                 el.removeClass('dialog-left').removeClass('dialog-right').removeClass('dialog-up').removeClass('dialog-down');
                 if(dir){
@@ -194,6 +194,9 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
 
             });
             self.on('afterVisibleChange', function(ev) {
+                if(!self.get('start')){
+                    return true;
+                }
                 var v = ev.newVal;
                 if(v){
                     self._visibilityChange(v);

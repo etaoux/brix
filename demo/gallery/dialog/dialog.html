@@ -94,6 +94,23 @@
                         width:300
                     }
                     var dialog = new Dialog(config);
+
+                    var config1 = {
+                        data:dropdown_data,
+                        tmpl:S.one("#tmpl_dropdown").html(),
+                        align:{
+                            node:false,
+                            points:['cc','cc'],
+                            offset:[0,0]
+                        },
+                        elStyle:{
+                            position: S.UA.ie == 6 ? "absolute" : "fixed"
+                        },
+                        width:300,
+                        mask:true
+                    }
+                    var dialog1 = new Dialog(config1);
+
                     //dialog.on('hide',function(){console.log('hide')});
                     //dialog.on('show',function(){console.log('show')});
 
@@ -173,18 +190,14 @@
                     S.one('#btnShow').on('click',function(e){
                         e.halt();
                         dialog.hide();
-                        dialog.set('start',{
-                            left:300,
-                            top:100,
-                            opacity:0
-                        });
-
-                        dialog.set('end',{
-                            left:300,
-                            top:100,
-                            opacity:1
-                        });
-                        dialog.show();
+                        dialog1.center(); 
+                        dialog1.show();
+                        
+                        /*dialog.on('show',function(){
+                            debugger;
+                           
+                       });*/
+                        
                     });
                 });
             });
