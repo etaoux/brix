@@ -17,7 +17,7 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
         },
         /**
          * 是否自动修改.dropdown-list的宽度
-         * @type {Boolean}
+         * @cfg {Boolean}
          */
         autoResize:{
             value:true

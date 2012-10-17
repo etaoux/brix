@@ -108,8 +108,7 @@ KISSY.add('brix/gallery/starrating/index', function(S, Brick, Node,UA) {
     StarRating.METHODS = {
         /**
          * 选中
-         * @param  {String|Number} node [description]
-         * @return {[type]}      [description]
+         * @param  {String|Number} node 选中的值
          */
         select: function(node) {
             var self = this;

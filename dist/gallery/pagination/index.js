@@ -300,7 +300,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
          */
         parseUrl: function(url) {
             var a = document.createElement('a');
-            a.href = url.toLowerCase();
+            a.href = url;
             return {
                 source: url,
                 protocol: a.protocol.replace(':', ''),

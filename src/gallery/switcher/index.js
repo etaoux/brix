@@ -1,4 +1,9 @@
 KISSY.add("brix/gallery/switcher/index", function(S, Brick) {
+    /**
+     * Switcher
+     * @class Brix.Gallery.Switcher
+     * @extends Brix.Brick
+     */
     function Switcher() {
         Switcher.superclass.constructor.apply(this, arguments);
     }
