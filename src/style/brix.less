@@ -1,15 +1,8 @@
 /**
- * CSS Reset
- *   借鉴normalize成果，同时做些向前兼容
+ * CSS Base
+ *   继承KISSY Reset，减少推广阻力。同时做些更新
  **/
-@import "normalize.less";
-@import "reset-patch.less";
-
-/**
- * 小工具类
- *   可以在页面直接输出的mixin
- **/
-@import "utilities.less";
+@import "base.less";
 
 /**
  * 核心变量及mixin，会提供给gallery使用
@@ -30,8 +23,10 @@
  **/
 @import "type.less";
 @import "icons.less";
-@import "scrollbar.less";
-@import "forms.less";
 @import "buttons.less";
-@import "tags.less";
-@import "avatar.less";
+
+/**
+ * 小工具类
+ *   可以在页面直接输出的mixin
+ **/
+@import "utilities.less";
