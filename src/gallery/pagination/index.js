@@ -136,6 +136,13 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             value: false
         },
         /**
+         * 参数值为数组时, 参数键是否加 [] 即 %5B%5D , 默认 false
+         * @cfg {Boolean}
+         */
+        paramsArr:{
+            value:false
+        },
+        /**
          * 是否用默认UI,多在seo中采用
          * @cfg {Boolean}
          */
@@ -307,20 +314,8 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 host: a.hostname,
                 port: a.port,
                 query: a.search,
-                params: (function() {
-                    var ret = {},
-                        seg = a.search.replace(/^\?/, '').split('&'),
-                        len = seg.length,
-                        i = 0,
-                        s;
-                    for (; i < len; i++) {
-                        if (!seg[i]) {
-                            continue;
-                        }
-                        s = seg[i].split('=');
-                        ret[s[0]] = s[1];
-                    }
-                    return ret;
+                params: (function() { 
+                    return S.unparam(a.search.replace(/^\?/, ''));
                 })(),
                 file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
                 hash: a.hash.replace('#', ''),
@@ -362,11 +357,8 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             }
             returnUrl += urlInfo.path + '?';
 
-            var temp = [];
-            for (var param in urlInfo.params) {
-                temp[temp.length] = param + '=' + urlInfo.params[param];
-            }
-            returnUrl += temp.join('&');
+
+            returnUrl += S.param(urlInfo.params,'&','=',self.get('paramsArr'));
             if (urlInfo.hash != '') {
                 returnUrl += '#' + urlInfo.hash;
             }
@@ -583,6 +575,22 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             //合并外部参数
             if (params) {
                 S.each(params, function(v, k) {
+                    /*if(urlInfo.params[k]){
+                        if(!urlInfo.params[k] instanceof Array){
+                            urlInfo.params[k] = [urlInfo.params[k]];
+                        }
+                        if(v instanceof Array){
+                            S.each(v,function(d){
+                                urlInfo.params[k].push(d);
+                            });
+                        }
+                        else{
+                            urlInfo.params[k].push(v);
+                        }
+                    }
+                    else{
+                        urlInfo.params[k] = v;
+                    }*/
                     urlInfo.params[k] = v;
                 });
             }
