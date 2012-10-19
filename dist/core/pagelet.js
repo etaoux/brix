@@ -51,31 +51,22 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
     S.extend(Pagelet, Chunk, {
         /**
          * 获取brick的实例
-         * @param  {String} id brick的id
-         * @return {Object} 组件实例
-         */
-        getBrick: function(id) {
-            return this._getBrick(id, this.get('tmpler').bricks);
-        },
-
-        /**
-         * 获取brick的实例
          * @param  {String} id     brick的id
-         * @param  {Object} bricks 需要渲染的brick集合
          * @return {Object}        组件实例
          * @private
          */
-        _getBrick: function(id, bricks) {
+        getBrick: function(id, bricks) {
             var self = this,
+                tmpler = self.get('tmpler'),
                 brick;
-            S.each(bricks, function(b, k) {
-                if (k === id) {
-                    brick = b.brick;
-                    return false;
-                } else {
-                    brick = self._getBrick(id, b.bricks);
-                }
-            });
+            if(tmpler){
+                S.each(tmpler.bricks, function(b) {
+                    if (b.id === id) {
+                        brick = b.brick;
+                        return false;
+                    }
+                });
+            }
             return brick || null;
         },
         /**
@@ -87,10 +78,11 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 self.isAddBehavior = true;
                 var tmpler = self.get('tmpler');
                 if(tmpler){
-                    self._buildBricks(tmpler.bricks);//构建当前pagelet包含的所有brick
+                    var bricks = tmpler.bricks;
+                    self._buildBricks(bricks);//构建当前pagelet包含的所有brick
                     if(self.brickList.length>0){
                         S.use(self.brickList.join(','),function(S){
-                            self._addBehavior(tmpler.bricks,arguments);
+                            self._addBehavior(bricks,arguments);
                             self._fireReady();
                         });
                         return;
@@ -107,17 +99,17 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          */
         _addBehavior: function(bricks,brickClassList) {
             var self = this;
-            S.each(bricks, function(o, k) {
+            S.each(bricks, function(o) {
+                var id = o.id;
                 var config = S.merge({
-                    container:'#'+k,
-                    id: k,
-                    el: '#' + k,
+                    container:'#'+id,
+                    id: id,
+                    el: '#' + id,
                     pagelet: self
                 }, o.config);
                 var TheBrick = brickClassList[S.indexOf(o.path, self.brickList)+1];
                 var myBrick = new TheBrick(config);
                 o.brick = myBrick;
-                self._addBehavior(o.bricks,brickClassList);
             });
         },
         /**
@@ -127,14 +119,13 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          */
         _buildBricks:function(bricks){
             var self = this;
-            S.each(bricks, function(o, key) {
+            S.each(bricks, function(o) {
                 if(!o.path){
                     o.path = 'brix/gallery/'+o.name+'/';
                 }
                 if(!S.inArray(self.brickList,o.path)){
                     self.brickList.push(o.path);
                 }
-                self._buildBricks(o.bricks);
             });
         },
         /**
@@ -171,13 +162,18 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          * @param  {String} id 组件id,如果带了id，销毁组件
          */
         destroy: function(id) {
-            var self = this,el = self.get('el'),tmpler = self.get('tmpler');
-            if (tmpler && !S.isEmptyObject(tmpler.bricks)) {
+            var self = this,
+                el = self.get('el'),
+                tmpler = self.get('tmpler');
+            if (tmpler) {
                 self._destroyBricks(tmpler.bricks,id);
             }
             if(!id){
+                tmpler.tmpls = null;
+                tmpler.bricks = null;
                 el.remove();
             }
+            el = null;
         },
 
         /**
@@ -187,20 +183,15 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          */
         _destroyBricks: function(bricks,id) {
             var self = this;
-            S.each(bricks, function(o,k) {
+            S.each(bricks, function(o,i) {
                 if(id){
-                    if(id===k){
+                    if(id===o.id){
                         self._destroyBrick(o);
-                        delete bricks[k];
                         return false;
-                    }
-                    else{
-                        self._destroyBricks(o.bricks);
                     }
                 }
                 else{
                     self._destroyBrick(o);
-                    delete bricks[k];
                 }
             });
         },
@@ -212,13 +203,8 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         _destroyBrick: function(o) {
             var self = this;
             if (o.brick) {
-                o.brick._detachEvent();
-                //递归调用
-                self._destroyBricks(o.bricks);
-                o.brick.get('el').remove();
-                o.brick.pagelet = null;
+                o.brick.destroy();
                 o.brick = null;
-                delete o;
             }
         }
     });

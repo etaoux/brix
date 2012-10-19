@@ -72,6 +72,13 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
     Brick.NAME = 'Brick';
 
     /**
+     * pagelet的实例
+     * @property pagelet
+     * @type {Object}
+     */
+
+
+    /**
      * 对外方法配置
      * 
      *
@@ -345,21 +352,17 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         destroy:function(){
             var self = this, 
                 tmpler = self.get('tmpler');
-            if (tmpler && !S.isEmptyObject(tmpler.bricks)) {
-                S.each(tmpler.bricks, function(b, k) {
-                    tmpler.bricks[k].brick = null;
-                    delete tmpler.bricks[k];
+            if (tmpler) {
+                S.each(tmpler.bricks, function(b) {
+                    b.brick = null;
                 });
+                self.set('tmpler',null);
             }
+            self._detachEvent();
+            self.get("el").remove();
             if(self.pagelet){
-                var id = self.get('id');
-                self.pagelet.destroy(id);
+                delete self.pagelet;
             }
-            else{
-                self._detachEvent();
-                self.get("el").remove();
-            }
-            
         }
     });
     return Brick;

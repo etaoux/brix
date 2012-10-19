@@ -191,7 +191,11 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
             valueFn: function() {
                 var self = this,
                     id = self.get('id') || 'brix_calendar_' + S.guid();
-                return '<div id="' + id + '" bx-name="calendar" class="calendar">' + '<div class="calendar-pages"></div>' + '<div bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,' + id + '_op_html" class="calendar-operator">{{{' + id + '_op_html}}}</div>' + '</div>'
+                var html = '<div class="calendar-pages"></div>' + '<div bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,' + id + '_op_html" class="calendar-operator">{{{' + id + '_op_html}}}</div>'
+                if(!self.get('id')){
+                    html = '<div id="' + id + '" bx-name="calendar" class="calendar">' +html+ '</div>'
+                }
+                return  html; 
             }
         },
         autoRender:{
@@ -424,6 +428,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                 (function(i) {
                     var pageBrick = new Page({
                         id: self.get('id') + 'page' + i,
+                        el: '#'+self.get('id') + 'page' + i,
                         index: i,
                         prev: prev,
                         next: next,
@@ -489,10 +494,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
             var self = this;
             if (self.overlay) {
                 self.overlay.destroy();
-            } else {
-                S.one(self.get('trigger')).empty();
             }
-
         },
         _bindDataChange: function(key, upperCaseKey) {
             var self = this,
