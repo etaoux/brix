@@ -143,6 +143,7 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                     el = self.get('el');
                 switch (e.keyCode) {
                     case 9:
+                    case 27:
                         self.blur();
                         break;
                     case 13:
