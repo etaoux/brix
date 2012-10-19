@@ -33,12 +33,14 @@
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
+  text-decoration: none;
 }
 .pagination-page a.page:hover {
   padding: 0px 8px;
   border: 1px solid #eee;
   background-color: #eee;
-  color: #666666;
+  color: #666;
+  text-decoration: none;
 }
 .pagination-page .page-simply {
   float: left;
@@ -74,6 +76,11 @@
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
+  text-decoration: none;
+}
+.pagination-page .page-prev .iconfont,
+.pagination-page .page-next .iconfont {
+  cursor: pointer;
 }
 .pagination-page .page-prev:hover,
 .pagination-page .page-next:hover {
@@ -81,7 +88,8 @@
   color: #ff8400;
   border: 1px solid #eee;
   background-color: #eee;
-  color: #666666;
+  color: #666;
+  text-decoration: none;
 }
 .pagination-page .page-prev i,
 .pagination-page .page-next i {
@@ -113,4 +121,8 @@
 .pagination .btn {
   margin-left: 5px;
   cursor: pointer;
+  text-decoration: none;
+}
+.pagination .btn:hover {
+  text-decoration: none;
 }

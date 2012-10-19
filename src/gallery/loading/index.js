@@ -1,4 +1,9 @@
 KISSY.add('brix/gallery/loading/index', function(S, Brick) {
+    /**
+     * Loading
+     * @class Brix.Gallery.Loading
+     * @extends Brix.Brick
+     */
     function Loading() {
         Loading.superclass.constructor.apply(this, arguments);
     }

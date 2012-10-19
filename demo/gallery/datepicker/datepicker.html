@@ -32,7 +32,9 @@
                     var datepicker2 = new DatePicker({
                         trigger: '#test2',
                         isCompare:true,
-                        isQuick :false
+                        isQuick :false,
+                        minDateStart:'2012-10-13',
+                        disabledStart:['2012-10-17']
                     });
                     datepicker2.on('selected',function(e){
                         S.one('#test2').html(Brix_Date.format(e.start,'isoDate') + '至' +Brix_Date.format(e.end,'isoDate'));

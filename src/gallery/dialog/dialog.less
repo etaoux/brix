@@ -2,19 +2,24 @@
 @import "../../style/variables.less";
 @import "../../style/mixins.less";
 
-
+.dialog-ext-mask {
+    background-color: #000;
+    opacity: 0.3;
+    filter: alpha(opacity=15);
+}
 .dialog{
     position: absolute;
     left:-99999px;
     top:-99999px;
+
 
     .dialog-contentbox{
         padding: 30px;
         .border-radius(2px);
         .box-shadow(0 0 10px rgba(0, 0, 0, 0.1));
         border: 1px solid #ddd;
+        background-color: #fff;
     }
-
     .dialog-ext-close {
         position: absolute;
         top: 24px;

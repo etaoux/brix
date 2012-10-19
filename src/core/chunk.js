@@ -132,9 +132,9 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
                         self.set('id',tmpler.id);
                         self.set('el','#'+tmpler.id);
                     }
-                    else{
+                    /*else{
                         self.set('el','#'+id);
-                    }
+                    }*/
                 }
             }
             if(tmpler){
@@ -163,14 +163,13 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
 
         /**
          * 给brick添加模板
-         * @param {String} id  brick的id
          * @param {Array} arr 模板数组
          * @return {Boolean} 是否添加成功
          */
         addTmpl: function(id, arr) {
             var self =  this,tmpler = self.get('tmpler');
             if(tmpler){
-                return tmpler.addTmpl(id, arr);
+                return tmpler.addTmpl(arr);
             }
             else{
                 return false;
@@ -217,48 +216,50 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
                     if(self.get("rendered")){
                         //已经渲染，才能局部刷新
                         key = key.replace(/^data\./, '');
-                        self._renderTmpl(tmpler.bricks, key, data);
+                        self._renderTmpl(tmpler.tmpls,key, data);
                     }
                 } else {
                     if(!tmpler.inDom){
                         var container = self.get('container');
-                        container.append(tmpler.to_html(data));
+                        var el = self.get('el');
+                        var node = new Node(tmpler.to_html(data));
+                        if((!el||el.length==0)&&node.length>1){
+                            node = $('<div id="'+tmpler.id+'"></div>').append(node);
+                        }
+                        container.append(node);
                     }
                 } 
             }
         },
         /**
          * 渲染模板
-         * @param  {Object} bricks  brick对象集合
-         * @param  {String} key     更新的数据对象key
+         * @param  {Array} tmpls  tmpls集合
+         * @param  {String} key   更新的数据对象key
          * @param  {Object} data 数据
          * @private
          */
-        _renderTmpl: function(bricks, key, data) {
-            S.each(bricks, function(b) {
-                S.each(b.tmpls, function(o, id) {
-                    var node = S.one('#' + o.id);
-                    if (node&&S.inArray(key, o.datakey)) {
-                        //这里数据是否需要拼装，还是传入完整的数据，待考虑
-                        var newData = {};
-                        S.each(o.datakey, function(item) {
-                            var tempdata = data,
-                                temparr = item.split('.'),
-                                length = temparr.length,
-                                i = 0;
-                            while (i !== length) {
-                                tempdata = tempdata[temparr[i]];
-                                i++;
-                            }
-                            newData[temparr[length - 1]] = tempdata;
-                            tempdata = null;
-                        });
-                        node.html(o.tmpler.to_html(newData));
-                        newData = null;
-                    }
-                });
-                this._renderTmpl(b.bricks, key, data);
-            }, this);
+        _renderTmpl: function(tmpls, key, data) {
+            S.each(tmpls, function(o) {
+                var node = S.one('#' + o.id);
+                if (node&&S.inArray(key, o.datakey)) {
+                    //这里数据是否需要拼装，还是传入完整的数据，待考虑
+                    var newData = {};
+                    S.each(o.datakey, function(item) {
+                        var tempdata = data,
+                            temparr = item.split('.'),
+                            length = temparr.length,
+                            i = 0;
+                        while (i !== length) {
+                            tempdata = tempdata[temparr[i]];
+                            i++;
+                        }
+                        newData[temparr[length - 1]] = tempdata;
+                        tempdata = null;
+                    });
+                    node.html(o.tmpler.to_html(newData));
+                    newData = null;
+                }
+            });
         }
     });
     return Chunk;

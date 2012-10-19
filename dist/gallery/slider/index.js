@@ -1,5 +1,9 @@
 KISSY.add('brix/gallery/slider/index', function(S, Brick, UA, Node, DD) {
-
+    /**
+     * Slider 滑块
+     * @class Brix.Gallery.Slider
+     * @extends Brix.Brick
+     */
     function Slider() {
         Slider.superclass.constructor.apply(this, arguments);
     }

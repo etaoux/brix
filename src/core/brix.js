@@ -1,9 +1,11 @@
 /**
  * Brix配置类 组件框架入口类，在调用Brix组件的时候可以配置cdn地址，组件版本号等
- * @class Brix.Brix
+ * @class Brix
  */
 (function(S, Brix) {
-    var win = window,
+    var isReady = false,
+        readyList = [],
+        win = window,
         loc = win.location,
         startsWith = S.startsWith, 
         __pagePath = loc.href.replace(loc.hash, "").replace(/[^/]*$/i, "");
@@ -162,10 +164,50 @@
                     }]
                 ]
             });
-        }
+        },
+        /**
+         * 渲染完成后需要执行的函数
+         * @param {Function} fn 执行的函数
+         */
+        ready: function(fn) {
+            if (isReady) {
+                fn.call(Brix);
+            } else {
+                readyList.push(fn);
+            }
+        },
+        /**
+         * 触发ready添加的方法
+         * @private
+         */
+        _fireReady: function() {
+            if (isReady) {
+                return;
+            }
+            isReady = true;
+            if (readyList) {
+                var fn, i = 0;
+                while (fn = readyList[i++]) {
+                    fn.call(Brix);
+                }
+                readyList = null;
+            }
+        },
     });
     if (defaultOptions.autoConfig) {
         //自动配置
         Brix.config({});
+        //自动实例化pagelet
+        //外部调用的S.ready注册的方法中可以直接用Brix.pagelet实例书写业务逻辑
+        if (defaultOptions.autoPagelet) {
+            S.use('brix/core/pagelet',function(S,Pagelet){
+                S.ready(function(){
+                    Brix.pagelet = new Pagelet({tmpl:'body'});
+                    Brix._fireReady();
+                });
+            });
+            return;
+        }
     }
+    Brix._fireReady();
 })(KISSY, 'Brix');

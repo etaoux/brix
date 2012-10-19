@@ -1,17 +1,38 @@
 KISSY.add("brix/gallery/lavalamp/index", function(S, Brick, Anim, Node) {
+    /**
+     * Lavalamp 滑动菜单
+     * @class Brix.Gallery.Lavalamp
+     * @extends Brix.Brick
+     */
     function Lavalamp() {
         Lavalamp.superclass.constructor.apply(this, arguments);
     }
     Lavalamp.ATTRS = {
+        /**
+         * 动画效果
+         * @cfg {String}
+         */
         fx: {
-            value: 'bounceOut' //动画效果
+            value: 'bounceOut'
         },
+        /**
+         * 动画时间
+         * @cfg {Number}
+         */
         speed: {
-            value: 0.4 //动画时间
+            value: 0.4
         },
+        /**
+         * 触发方式“click”，“mouseover”
+         * @cfg {String}
+         */
         triggered: {
-            value: 'mouseover' //触发方式“click”，“mouseover”
+            value: 'mouseover' 
         },
+        /**
+         * 点击的回调方法
+         * @cfg {Function}
+         */
         click: {
             value: function() {
 

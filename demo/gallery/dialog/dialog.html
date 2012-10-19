@@ -48,7 +48,7 @@
         </script>
         <script type="text/template" id="tmpl_dropdown">
             <div style="margin-top:-10px">
-            <h2 style="margin:0">标题</h2>
+            <h2 class="h2" style="margin:0">标题</h2>
             没有共产党就没有新中国，没有共产党就没有新中国。
             <!--<div id="brick13" bx-name="dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown" style="width:200px">
                 {{#dropdown_list}}
@@ -94,6 +94,23 @@
                         width:300
                     }
                     var dialog = new Dialog(config);
+
+                    var config1 = {
+                        data:dropdown_data,
+                        tmpl:S.one("#tmpl_dropdown").html(),
+                        align:{
+                            node:false,
+                            points:['cc','cc'],
+                            offset:[0,0]
+                        },
+                        elStyle:{
+                            position: S.UA.ie == 6 ? "absolute" : "fixed"
+                        },
+                        width:300,
+                        mask:true
+                    }
+                    var dialog1 = new Dialog(config1);
+
                     //dialog.on('hide',function(){console.log('hide')});
                     //dialog.on('show',function(){console.log('show')});
 
@@ -173,18 +190,14 @@
                     S.one('#btnShow').on('click',function(e){
                         e.halt();
                         dialog.hide();
-                        dialog.set('start',{
-                            left:300,
-                            top:100,
-                            opacity:0
-                        });
-
-                        dialog.set('end',{
-                            left:300,
-                            top:100,
-                            opacity:1
-                        });
-                        dialog.show();
+                        dialog1.center(); 
+                        dialog1.show();
+                        
+                        /*dialog.on('show',function(){
+                            debugger;
+                           
+                       });*/
+                        
                     });
                 });
             });

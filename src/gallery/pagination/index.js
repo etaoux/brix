@@ -1,85 +1,158 @@
 KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
+    /**
+     * Pagination 分页
+     * @class Brix.Gallery.Pagination
+     * @extends Brix.Brick
+     */
     function Pagination() {
         Pagination.superclass.constructor.apply(this, arguments);
     }
     Pagination.ATTRS = {
-        //模式，传统的第几页，还是记录条数
+        /**
+         * 模式，传统的第几页，还是记录条数,
+         * 分为p 和s，p是传统模式，s是size总和模式
+         * @cfg {Object}
+         */
         mode: {
-            value: 'p' //分为p 和s，p是传统模式，s是size总和模式
+            value: 'p'
         },
-        //是否精简模式
+        /**
+         * 是否精简模式
+         * @cfg {Boolean}
+         */
         simplify: {
             value: false
         },
-        //步长
+        /**
+         * 步长
+         * @cfg {Number}
+         */
         step: {
             value: 7
         },
-        //第几页
+        /**
+         * 第几页
+         * @cfg {Number}
+         */
         index: {
             value: 1
         },
-        //每页的记录数
+        /**
+         * 每页的记录数
+         * @cfg {Number}
+         */
         size: {
             value: 15
         },
-        //是否可以修改每页记录数
+        /**
+         * 是否可以修改每页记录数
+         * @cfg {Boolean}
+         */
         sizeChange: {
             value: false
         },
-        //总记录数
+        /**
+         * 总记录数
+         * @cfg {Number}
+         */
         count: {
             value: 350
         },
-        //是否有总记录数
+        /**
+         * 是否有总记录数
+         * @cfg {Boolean}
+         */
         hascount: {
             value: true
         },
-        //最多页数
+        /**
+         * 最多页数
+         * @cfg {Number}
+         */
         max: {
             value: false
         },
-        //是否认为限定最多页数
+        /**
+         * 是否认为限定最多页数
+         * @cfg {Boolean}
+         */
         hasmax: {
             value: false
         },
-        //统计信息
+        /**
+         * 是否显示统计信息
+         * @cfg {Boolean}
+         */
         statistics: {
             value: false
         },
-        //是否显示总页数
+        /**
+         * 是否显示总页数
+         * @cfg {Boolean}
+         */
         pageCount: {
             value: true
         },
-        //是否有跳转
+        /**
+         * 是否有跳转
+         * @cfg {Boolean}
+         */
         jump: {
             value: false
         },
-        //是否直接跳转
+        /**
+         * 是否直接跳转
+         * @cfg {Boolean}
+         */
         goTo: {
             value: true
         },
-        //跳转URL
+        /**
+         * 跳转URL
+         * @cfg {String}
+         */
         goToUrl: {
             value: null
         },
-        //分页参数名
+        /**
+         * 分页参数名
+         * @cfg {String}
+         */
         pageName: {
             value: 'page'
         },
-        //每页记录数参数名
+        /**
+         * 每页记录数参数名
+         * @cfg {String}
+         */
         pageSizeName: {
             value: 'pagesize'
         },
-        //连接跳转的参数
+        /**
+         * 连接跳转的额外参数
+         * @cfg {Object}
+         */
         params: {
             value: false
         },
-        //是否用默认UI
+        /**
+         * 参数值为数组时, 参数键是否加 [] 即 %5B%5D , 默认 false
+         * @cfg {Boolean}
+         */
+        paramsArr:{
+            value:false
+        },
+        /**
+         * 是否用默认UI,多在seo中采用
+         * @cfg {Boolean}
+         */
         defaultUI: {
             value: true
         },
-        //每页记录数集合
+        /**
+         * 每页记录数集合
+         * @cfg {Array}
+         */
         sizes: {
             value: [10, 15, 20, 25, 30]
         },
@@ -126,6 +199,41 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 }
             }
         }
+    };
+    Pagination.FIRES = {
+        /**
+         * @event beforeGotoPage
+         * 跳转前触发 return false 阻止跳转
+         * @param {Object} e 
+         * @param {Number} e.newIndex 新的页数
+         * @param {Number} e.prevIndex 原页数
+         * @type {String}
+         */
+        beforeGotoPage:'beforeGotoPage',
+        /**
+         * @event goToPage
+         * 跳转触发
+         * @param {Object} e 
+         * @param {Number} e.index 新的页数
+         * @type {String}
+         */
+        goToPage:'goToPage',
+        /**
+         * @event gotoPage
+         * 跳转触发
+         * @param {Object} e 
+         * @param {Number} e.index 新的页数
+         * @type {String}
+         */
+        gotoPage:'gotoPage',
+        /**
+         * @event sizeChange
+         * 每页显示记录数改变 
+         * @param {Object} e 
+         * @param {Number} e.size 记录数
+         * @type {String}
+         */
+        sizeChange:'sizeChange'
     };
 
     Pagination.METHODS = {
@@ -199,27 +307,15 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
          */
         parseUrl: function(url) {
             var a = document.createElement('a');
-            a.href = url.toLowerCase();
+            a.href = url;
             return {
                 source: url,
                 protocol: a.protocol.replace(':', ''),
                 host: a.hostname,
                 port: a.port,
                 query: a.search,
-                params: (function() {
-                    var ret = {},
-                        seg = a.search.replace(/^\?/, '').split('&'),
-                        len = seg.length,
-                        i = 0,
-                        s;
-                    for (; i < len; i++) {
-                        if (!seg[i]) {
-                            continue;
-                        }
-                        s = seg[i].split('=');
-                        ret[s[0]] = s[1];
-                    }
-                    return ret;
+                params: (function() { 
+                    return S.unparam(a.search.replace(/^\?/, ''));
                 })(),
                 file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
                 hash: a.hash.replace('#', ''),
@@ -261,11 +357,8 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             }
             returnUrl += urlInfo.path + '?';
 
-            var temp = [];
-            for (var param in urlInfo.params) {
-                temp[temp.length] = param + '=' + urlInfo.params[param];
-            }
-            returnUrl += temp.join('&');
+
+            returnUrl += S.param(urlInfo.params,'&','=',self.get('paramsArr'));
             if (urlInfo.hash != '') {
                 returnUrl += '#' + urlInfo.hash;
             }
@@ -450,6 +543,10 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 self.dropdown = null;
             }
         },
+        /**
+         * 跳转
+         * @private
+         */
         _jumpPage: function() {
             var self = this,
                 pageNumNode = this.get('el').one('.page-num'),
@@ -464,6 +561,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
         },
         /**
          * 设置urlInfo
+         * @private
          */
         _setUrlInfo: function() {
             var self = this,
@@ -477,6 +575,22 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             //合并外部参数
             if (params) {
                 S.each(params, function(v, k) {
+                    /*if(urlInfo.params[k]){
+                        if(!urlInfo.params[k] instanceof Array){
+                            urlInfo.params[k] = [urlInfo.params[k]];
+                        }
+                        if(v instanceof Array){
+                            S.each(v,function(d){
+                                urlInfo.params[k].push(d);
+                            });
+                        }
+                        else{
+                            urlInfo.params[k].push(v);
+                        }
+                    }
+                    else{
+                        urlInfo.params[k] = v;
+                    }*/
                     urlInfo.params[k] = v;
                 });
             }
@@ -485,6 +599,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
         },
         /**
          * 配置纠错，对传入的配置进行容错处理
+         * @private
          */
         _resizeConfig: function() {
             var self = this,
