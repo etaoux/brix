@@ -1,53 +1,94 @@
 KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
+    /**
+     * Kwicks 轮播组件
+     * @class Brix.Gallery.Kwicks
+     * @extends Brix.Brick
+     */
     function Kwicks() {
         Kwicks.superclass.constructor.apply(this, arguments);
     }
     Kwicks.ATTRS = {
-        //默认横向
+        /**
+         * 默认横向
+         * @cfg {Boolean}
+         */
         isVertical: {
             value: false
         },
-        //是否始终激活一个
+        /**
+         * 是否始终激活一个
+         * @cfg {Boolean}
+         */
         sticky: {
             value: false
         },
-        //默认激活的位置，只有当sticky为true时有效
+        /**
+         * 默认激活的位置，只有当sticky为true时有效
+         * @cfg {Number}
+         */
         activeIndex: {
             value: 0
         },
-        //事件类型
+        /**
+         * 事件类型
+         * @cfg {String}
+         */
         triggerType: {
             value: 'mouseenter'
         },
-        //激活样式
+        /**
+         * 激活样式
+         * @cfg {String}
+         */
         activeCls: {
             value: 'active'
         },
-        //间距
+        /**
+         * 间距
+         * @cfg {Number}
+         */
         spacing: {
             value: 0
         },
-        //动画持续时间
+        /**
+         * 动画持续时间
+         * @cfg {Number}
+         */
         duration: {
             value: 0.3
         },
-        //动画效果
+        /**
+         * 动画效果
+         * @cfg {String}
+         */
         easing: {
             value: 'easeNone'
         },
-        //最大值
+        /**
+         * 最大值
+         * @cfg {Number}
+         */
         max: {
-
+            value:false
         },
-        //最小值
+        /**
+         * 最小值
+         * @cfg {Number}
+         */
         min: {
-
+            value:false
         },
-        //自动播放
+        /**
+         * 自动播放
+         * @cfg {Boolean}
+         */
         autoplay: {
             value: false
         },
-        //自动播放间隔
+        /**
+         * 自动播放间隔
+         * @cfg {Number}
+         */
         interval: {
             value: 3000
         }
@@ -91,12 +132,24 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
         }
     };
     Kwicks.FIRES = {
+        /**
+         * @event beforeSwitchTo
+         * 切换前触发，return false 阻止切换
+         * @param {Object} e 
+         * @param {Number} e.toIndex 将要切换的项
+         */
         'beforeSwitchTo':'beforeSwitch',
+        /**
+         * @event switch
+         * 切换前触发
+         * @param {Object} e 
+         * @param {Number} e.currentIndex 当前项
+         */
         'switch':'switch'
     }
     Kwicks.METHODS = {
         /**
-         *  切换到某个视图
+         * 切换到某个视图
          * @param  {Number} i 要切换的项
          */
         switchTo: function(i) {

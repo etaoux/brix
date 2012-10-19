@@ -1,6 +1,10 @@
 KISSY.add('brix/gallery/tables/index', function(S, Brick) {
     var $ = S.all;
-
+    /**
+     * Tables
+     * @class Brix.Gallery.Tables
+     * @extends Brix.Brick
+     */
     function Tables() {
         Tables.superclass.constructor.apply(this, arguments);
     }

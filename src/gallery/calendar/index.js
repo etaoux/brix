@@ -131,7 +131,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
             value:false
         },
         /**
-         * 弹出状态下, 触发弹出日历的事件, 
+         * 弹出状态下, 触发弹出日历的事件类型, 
          * 例如：[‘click’,’focus’],也可以直接传入’focus’, 默认为[‘click’]
          * @cfg {String|Array}
          */
@@ -168,7 +168,10 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
         },
         /**
          * 对齐方式
-         * @cfg {Object}
+         * @cfg {Object} align
+         * @cfg {Element} align.node 对其的节点
+         * @cfg {Array} align.points   对其方式
+         * @cfg {Array} align.offset   对其偏移量
          */
         align: {
             value: {
@@ -190,6 +193,9 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     id = self.get('id') || 'brix_calendar_' + S.guid();
                 return '<div id="' + id + '" bx-name="calendar" class="calendar">' + '<div class="calendar-pages"></div>' + '<div bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,' + id + '_op_html" class="calendar-operator">{{{' + id + '_op_html}}}</div>' + '</div>'
             }
+        },
+        autoRender:{
+            value:false
         }
     };
 

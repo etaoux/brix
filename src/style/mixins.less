@@ -221,17 +221,9 @@
         clear: both;
       }
     }
-/*
-    [class*="span"] {
-      float: left;
-      margin-left: @gridGutterWidth;
-    }
-    */
 
     // Set the container width, and override it for fixed navbars in media queries
-    .container,
-    .navbar-fixed-top .container,
-    .navbar-fixed-bottom .container { .span(@gridColumns); }
+    .grid { .span(@gridColumns); }
 
     // generate .spanX and .offsetX
     .spanX (@gridColumns);
@@ -284,28 +276,4 @@
     }
 
   }
-
-  .input(@gridColumnWidth, @gridGutterWidth) {
-
-    .spanX (@index) when (@index > 0) {
-      (~"input.span@{index}, textarea.span@{index}, .uneditable-input.span@{index}") { .span(@index); }
-      .spanX(@index - 1);
-    }
-    .spanX (0) {}
-
-    .span(@columns) {
-      width: ((@gridColumnWidth) * @columns) + (@gridGutterWidth * (@columns - 1)) - 10;
-    }
-
-    input,
-    textarea,
-    .uneditable-input {
-      margin-left: 0; // override margin-left from core grid system
-    }
-
-    // generate .spanX
-    .spanX (@gridColumns);
-
-  }
-
 }
