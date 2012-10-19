@@ -21,6 +21,13 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
          */
         autoResize:{
             value:true
+        },
+        /**
+         * 是否初始化的时候设置默认值
+         * @cfg {Boolean}
+         */
+        setDefault:{
+            value:false
         }
     }
     Dropdown.FIRES = {
@@ -236,10 +243,12 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
             var self = this,
                 el = this.get('el');
             el.attr('tabindex',0);
-            var selectedItem = el.one('.dropdown-itemselected')||el.one('.dropdown-item');
-            self._select(selectedItem);
+            if(self.get('setDefault')){
+                var selectedItem = el.one('.dropdown-itemselected')||el.one('.dropdown-item');
+                self._select(selectedItem,true);
+            }
         },
-        _select:function(selectedItem){
+        _select:function(selectedItem,flg){
             var self = this,
                 el = this.get('el');
             el.all('.dropdown-item').removeClass('.dropdown-itemover').removeClass('dropdown-itemselected');
@@ -254,9 +263,15 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
             if(inputNode){
                 inputNode.val(data.value);
             }
+            var v = dropdownTextNode.attr('value') || '';
+            if(v==data.value){
+                return;
+            }
             dropdownTextNode.attr('value', data.value);
             dropdownTextNode.text(data.text);
-            self.fire(Dropdown.FIRES.selected, data);
+            if(!flg){
+               self.fire(Dropdown.FIRES.selected, data); 
+            }
         },
         _hover:function(item,isScroll){
             var self = this,
