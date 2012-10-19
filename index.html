@@ -33,6 +33,8 @@ css: frontpage.css
       <h3>线上地址 CDN</h3>
       <p><a href="http://a.tbcdn.cn/apps/e/brix/brix-min.css">Brix Style</a><br>
         <a href="http://a.tbcdn.cn/apps/e/brix/brix-min.js">Brix Core</a></p>
+      <h3>文档 API</h3>
+      <p><a href="{{ site.baseurl }}/duck/">API</a></p>
     </div>
   </section>
   <hr class="soften"/>
@@ -68,11 +70,13 @@ css: frontpage.css
     </div>
     <div class="span16 offset1">
       <h3>核心 Core</h3>
+      <p>请以 <a href="{{ site.baseurl }}/duck">API 文档</a> 为准。</p>
       {% assign posts = site.categories.core %}
       {% include entries.html %}
     </div>
     <div class="span16">
       <h3>组件库 Gallery</h3>
+      <p>请以 <a href="{{ site.baseurl }}/duck">API 文档</a> 为准。</p>
       {% assign posts = site.categories.gallery %}
       {% include entries.html %}
     </div>
