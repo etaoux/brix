@@ -52,7 +52,8 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
 
     function Tmpler(tmpl, isParse) {
         if (tmpl && (isParse !== false)) {
-            this.bricks = {};
+            this.bricks = [];
+            this.tmpls = [];
             this._praseTmpl(tmpl);
         } else {
             this.tmpl = tmpl;
@@ -66,14 +67,6 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
          * @private
          */
         _praseTmpl: function(tmpl) {
-            this._buildBricks(tmpl);
-        },
-        /**
-         * 对模板中的brick的解析
-         * @param  {String} tmpl 模板字符串
-         * @private
-         */
-        _buildBricks: function(tmpl) {
             var self = this,inDom = false,node,tmplNode;
             if(typeof tmpl === 'string'){
                 if(tmpl.charAt(0)==='.'||tmpl.charAt(0)==='#'||tmpl==='body'){
@@ -132,14 +125,20 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
                 });
 
                 node = new Node(tmpl);
-                if (node.length > 1) { //如果是多个节点，则创建容器节点
-                    node = $('<div></div>').append(node);
-                }
+
                 tmplNode = $('<div></div>').append(node);
+                if(node.length>1){
+                    this.id = _stamp(tmplNode);
+                }
+                else{
+                    this.id = _stamp(node);
+                }
+                
             } else {
                 tmplNode = node;
+                this.id = _stamp(tmplNode);
             }
-            this.id = _stamp(node);
+            
             var tmplTargetNodes = tmplNode.all('[bx-tmpl-source]');
             tmplTargetNodes.each(function(node) {
                 var selector = node.attr('bx-tmpl-source'),
@@ -151,10 +150,8 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
                 temptmplNode.attr('id',id);
             });
 
-            var bks = tmplNode.all('[bx-name]:not([bx-parent])');
-            bks.each(function(el) {
-                self._buildBrick(el, tmplNode, self.bricks, arr);
-            });
+            self._buildBricks(tmplNode);
+            self._buildTmpls(tmplNode,arr);
 
             if (!inDom) {
                 self.tmpl = _recovery(tmplNode.html(), arr);
@@ -165,66 +162,72 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
             node = null;
             this.inDom = inDom;
         },
-
-        _buildBrick: function(el, container, bricks, arr) {
+        /**
+         * 对节点中的bx-name解析，构建组件配置
+         * @param  {Node} el 容器节点
+         * @private
+         */
+        _buildBricks: function(el) {
             var self = this,
-                id = _stamp(el),
-                name = el.attr('bx-name'),
-                path = el.attr('bx-path'),
-                config = el.attr('bx-config'),
-                tmplNodes = el.all('[bx-tmpl=' + name + ']');
+                brickNodes = el.all('[bx-name]');
+            if (el.hasAttr('bx-name')) {
+                brickNodes = brickNodes.add(el[0]);
+            }
+            brickNodes.each(function(brickNode){
+                var id = _stamp(brickNode),
+                    name = brickNode.attr('bx-name'),
+                    path = brickNode.attr('bx-path'),
+                    config = brickNode.attr('bx-config');
+                config = config ? eval("config=" + config) : {};
+                self.bricks.push({
+                    id :id,
+                    name:name,
+                    path: path,
+                    config: config
+                });
+            });
+                
+        },
+        /**
+         * 对节点中的bx-tmpl解析，构建模板和数据配置
+         * @param  {Node} el 容器节点
+         * @param {Array} arr 存储替换模板的集合
+         * @private
+         */
+        _buildTmpls:function(el,arr){
+            var self = this,
+                tmplNodes = el.all('[bx-tmpl]');
             if (el.hasAttr('bx-tmpl')) {
                 tmplNodes = tmplNodes.add(el[0]);
             }
-            config = config ? eval("config=" + config) : {};
-            bricks[id] = {
-                name:name,
-                path: path,
-                config: config,
-                tmpls: [],
-                bricks: {}
-            };
-            var tmpls = bricks[id].tmpls;
             tmplNodes.each(function(tmplNode) {
                 var tmplId = _stamp(tmplNode, 'tmpl_'),
                     datakey = tmplNode.attr('bx-datakey'),
                     tmpl = _recovery(tmplNode.html(), arr);
-                tmpls.push({
+                self.tmpls.push({
                     id: tmplId,
                     datakey: datakey ? datakey.split(',') : [],
                     tmpler: new Tmpler(tmpl, false)
                 });
             });
             tmplNodes = null;
-            //递归调用获取子brick
-            container.all('[bx-parent=' + name + ']').each(function(subBrick) {
-                self._buildBrick(subBrick, container, bricks[id].bricks);
-            });
         },
 
         /**
          * 给brick添加模板
-         * @param {String} id  brick的id
          * @param {Array} arr 模板数组
          * @return {Boolean} 是否添加成功
          */
-        addTmpl: function(id, arr) {
-            var self = this,
-                ret = false;
-            S.each(self.bricks, function(b, k) {
-                if (k === id) {
-                    S.each(arr, function(m) {
-                        b.tmpls.push({
-                            id: m.id,
-                            datakey: m.datakey.split(','),
-                            tmpler: new Tmpler(m.tmpl, false)
-                        });
-                    });
-                    ret = true;
-                    return false;
-                }
+        addTmpl: function(arr) {
+            var self = this;
+            S.each(arr, function(m) {
+                self.tmpls.push({
+                    id: m.id,
+                    datakey: m.datakey.split(','),
+                    tmpler: new Tmpler(m.tmpl, false)
+                });
             });
-            return ret;
+            return true;
         },
 
         /**

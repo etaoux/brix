@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">KISSY.add('brix/gallery/tables/index', function(S, Brick) {
+    var $ = S.all;
+<span id='Brix-Gallery-Tables'>    /**
+</span>     * Tables
+     * @class Brix.Gallery.Tables
+     * @extends Brix.Brick
+     */
+    function Tables() {
+        Tables.superclass.constructor.apply(this, arguments);
+    }
+    Tables.ATTRS = {
+        // cb: {
+        //     value: '.checkbox'
+        // }
+    };
+
+    Tables.EVENTS = {
+        '.selectLine': {
+            click: function(e) {
+                var _this = $(e.currentTarget);
+                var _tr = _this.parent('tr');
+
+                _this.prop('checked') ? _tr.addClass('selected') : _tr.removeClass('selected');
+            }
+        },
+        '.J_expendCollapse': {
+            click: function(e) {
+                var _this = e.target;
+                var child = $(_this).parent('tr').next('.table-child-tr');
+
+                if ($(_this).hasClass('icon-expend')) {
+                    $(_this).replaceClass('icon-expend', 'icon-collapse');
+                    child.hide();
+                } else {
+                    $(_this).replaceClass('icon-collapse', 'icon-expend');
+                    child.show();
+                }
+            }
+        },
+        '.table-handle': {
+            mouseenter: function(e) {
+                $(e.currentTarget).css('z-index', 9996).all('.table-change').show();
+            },
+
+            mouseleave: function(e) {
+                $(e.currentTarget).css('z-index', '').all('.table-change').hide();
+            }
+        },
+        '.table-more': {
+            mouseenter: function(e) {
+                $(e.currentTarget).css('z-index', 9996).all('.table-info').show();
+            },
+
+            mouseleave: function(e) {
+                $(e.currentTarget).css('z-index', '').all('.table-info').hide();
+            }
+        },
+        'tbody &gt; tr': {
+            mouseenter: function(e) {
+                var t = $(e.currentTarget);
+
+                if (!t.hasClass('table-child-tr') &amp;&amp; !t.hasClass('none')) {
+                    this.curTr.removeClass('hover');
+                    t.addClass('hover');
+                    this.curTr = t;
+                }
+            }
+        }
+
+    };
+
+
+    S.extend(Tables, Brick, {
+        initialize: function() {
+            //默认第一个tr高亮
+            this.curTr = this.get('el').all('tbody &gt; tr:first');
+        }
+    });
+
+    return Tables;
+}, {
+    requires: [&quot;brix/core/brick&quot;]
+});</pre>
+</body>
+</html>

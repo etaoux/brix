@@ -13,7 +13,11 @@
         <div class="container">
             <table>
                 <tr>
-                    <td id="test_containerext"></td>
+                    <td id="test_containerext">
+                        dropdownext
+                    <div style="width:200px" id="brick15" bx-name="dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" bx-path="brix/gallery/dropdown/ext/dropdownext/" class="dropdown" bx-config="{tmpl:'#tmpl_dropdownext',data:dropdown_data}">
+                    </div>
+                    </td>
                     <td id="test_container"></td>
                     <td>
                         <div bx-name="dropdown" style="width:200px" class="dropdown dropdown-arrow" id="brick_14">
@@ -51,15 +55,21 @@
                     <td>
                         <div class="dropdown" id="brix_brick_16">
                             <span class="dropdown-hd">
-                                <span class="dropdown-text" value="-1">30</span>
+                                <span class="dropdown-text">10</span>
                             </span>
                             <ul class="dropdown-list dropdown-list-noicon" style="display: none; ">
                                 <li class="dropdown-item"><span value="0">10</span></li><li class="dropdown-item"><span value="1">15</span></li><li class="dropdown-item"><span value="2">20</span></li><li class="dropdown-item"><span value="3">25</span></li><li class="dropdown-item dropdown-itemselected"><span value="4">30</span></li>
                             </ul>
+                            <input name="testInput" type="hidden">
                         </div>
                     </td>
                 </tr>
             </table>
+        </div>
+
+
+        <div class="container" id="area">
+            
         </div>
 		<!--brix begin-->
         <script>
@@ -107,14 +117,14 @@
         </script>
 
         <script type="text/template" id="tmpl_dropdownext">
-            dropdownext
-            <div style="width:200px" id="brick15" bx-name="dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" bx-path="brix/gallery/dropdown/ext/dropdownext/" class="dropdown">
                 {{#dropdown_list}}
+                
+                <span class="dropdown-hd" bx-tmpl="dropdown" bx-datakey="dropdown_list.selected">
                 {{#selected}}
-                <span class="dropdown-hd">
                 <span class="dropdown-text" value="{{value}}">{{text}}</span>
-                </span>
                 {{/selected}}
+                </span>
+                
                 {{/dropdown_list}}
                 <ul class="dropdown-list dropdown-list-noicon">
                     {{#dropdown_list}}
@@ -126,11 +136,10 @@
                 <input value="{{value}}" type="hidden" />
                 {{/selected}}
                 {{/dropdown_list}}
-            </div>
         </script>
         <script>
             KISSY.ready(function(S) {
-                KISSY.use("brix/core/pagelet,brix/gallery/dropdown/", function(S,Pagelet, DropdownBrick) {
+                KISSY.use("brix/core/pagelet,brix/gallery/dropdown/,components/area/", function(S,Pagelet, DropdownBrick,AreaBrick) {
                     var config = {
                         container:'#test_container',//容器节点
                         tmpl: '#tmpl_dropdown',//需要的模板
@@ -179,12 +188,25 @@
 
                     new DropdownBrick({tmpl:'#brick_14',mode:2});
                     new DropdownBrick({tmpl:'#brick_15'});
-                    new DropdownBrick({tmpl:'#brix_brick_16'});
+                    var brix_brick_16 = new DropdownBrick({tmpl:'#brix_brick_16'});
+
+                    S.later(function(){
+                        brix_brick_16.select('2');
+                    },1000);
 
 
-                    var pagelet = new Pagelet({container:'#test_containerext',tmpl:'#tmpl_dropdownext',data: dropdown_data});
-                    pagelet.render();
-                    pagelet.addBehavior();
+
+                    var pagelet = new Pagelet({tmpl:'#test_containerext'});
+                    pagelet.ready(function(){
+                        var d = pagelet.getBrick('brick15');
+                        S.later(function(){
+                            d.setChunkData('dropdown_list.selected',{value:'324',text:'测试啊'});
+                        },3000);
+                    });
+
+
+                    //联动Demo
+                    var area = new AreaBrick({container:'#area'});
 
                 });
             });

@@ -203,6 +203,19 @@
 .highlight .il {
   color: #40a070;
 }
+.container {
+  margin: 0 auto;
+  width: 990px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+pre {
+  margin: 1em 0;
+}
 body {
   background: #f0f0f0 url(../img/bg.png);
   text-align: center;

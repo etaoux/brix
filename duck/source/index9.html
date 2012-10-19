@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">KISSY.add(&quot;brix/gallery/dropdown/ext/dropdownext/index&quot;, function(S, Dropdown) {
+
+	function Dropdownext(){
+		//这里可以做一些hack操作，不确定
+		Dropdownext.superclass.constructor.apply(this, arguments);
+	}
+
+	Dropdownext.ATTRS={
+		extattr:{
+			value:123
+		}
+	}
+
+	Dropdownext.EVENTS = {
+		'':{
+			click:function(){
+				console.log(this.get('extattr'));
+			}
+		}
+	}
+	S.extend(Dropdownext, Dropdown, {
+
+    });
+    return Dropdownext;
+
+}, {
+    requires: [&quot;../../index&quot;]
+});
+
+
+
+
+
+// //项目组件
+// KISSY.add(&quot;components/dropdown/ext/dropdownext/index&quot;, function(S, Brick) {
+
+
+
+// }, {
+//     requires: [&quot;../../&quot;]
+// });
+
+
+// //export 命名空间的转换
+
+
+
+// //inports组件
+// KISSY.add(&quot;imports/namespace/dropdown/ext/dropdownext/index&quot;, function(S, Brick) {
+
+
+
+// });
+
+
+</pre>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">KISSY.add(&quot;brix/gallery/switchable/index&quot;, function(S,Brick,KSSwitchable) {
+<span id='Brix-Gallery-Switchable'>    /**
+</span>     * kissy switchable 组件的封装。
+     * @extends Brix.Brick
+     * @class  Brix.Gallery.Switchable
+     * &lt;a href=&quot;http://docs.kissyui.com/docs/html/api/component/switchable/&quot;&gt;其他配置、方法、事件请参考KISSY API&lt;/a&gt;
+     * @param {Object} config 配置信息
+     */
+    function Switchable(config) {
+        this.config = config;
+        Switchable.superclass.constructor.apply(this, arguments);
+    }
+    
+<span id='Brix-Gallery-Switchable-cfg-switchType'>    /**
+</span>     * Switchable 实例对象类型Tabs|Slide|Carousel|Accordion。
+     * @cfg switchType
+     */
+    
+
+<span id='Brix-Gallery-Switchable-property-switchable'>    /**
+</span>     * @property {Object} switchable KISSY switchable实例化后的对象
+     */
+
+    S.extend(Switchable, Brick, {
+        initialize:function(){
+            var self = this,
+                config = self.config;
+            if(config.switchType){
+                var switchType = config.switchType;
+                delete config.switchType;
+                self.switchable = new KSSwitchable[switchType](self.get('el'),config);
+            }
+            else{
+                self.switchable = new KSSwitchable(self.get('el'),config);
+            }
+            config = null;
+            delete self.config;
+        },
+        destructor:function(){
+            var self = this;
+            if(self.switchable&amp;&amp;self.switchable.destroy){
+                self.switchable.destroy();
+            }
+        }
+    });
+    return Switchable;
+}, {
+    requires: [&quot;brix/core/brick&quot;,'switchable']
+});
+</pre>
+</body>
+</html>

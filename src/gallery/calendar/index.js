@@ -1,5 +1,9 @@
 KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_Date) {
-
+    /**
+     * 日历
+     * @class Brix.Gallery.Calendar
+     * @extends Brix.Brick
+     */
     function Calendar() {
         Calendar.superclass.constructor.apply(this, arguments);
         var self = this,
@@ -17,43 +21,76 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
     }
     Calendar.Date = Brix_Date;
     Calendar.ATTRS = {
-        //该日期所在月份, 默认为当天
+        /**
+         * 该日期所在月份, 默认为当天
+         * @cfg {Date}
+         */
         date: {
             value: new Date()
         },
-        //当前选中的日期
+        /**
+         * 当前选中的日期
+         * @cfg {Object}
+         */
         selected: {
             value: null
         },
-        //日历显示星期x为起始日期, 取值范围为0到6, 默认为0,从星期日开始,若取值为1, 则从星期一开始, 若取值为7, 则从周日开始
+        /**
+         * 日历显示星期x为起始日期, 取值范围为0到6, 默认为0,
+         * 从星期日开始,若取值为1, 则从星期一开始, 若取值为7, 则从周日开始
+         * @cfg {Number}
+         */
         startDay: {
             value: 0
         },
-        //日历的页数, 默认为1, 包含一页日历
+        /**
+         * 日历的页数, 默认为1, 包含一页日历
+         * @cfg {Number}
+         */
         pages: {
             value: 1
         },
-        //在弹出情况下, 点选日期后是否关闭日历, 默认为false
+        /**
+         * 在弹出情况下, 点选日期后是否关闭日历, 默认为false
+         * @cfg {Boolean}
+         */
         closable: {
             value: false
         },
-        //是否支持时间段选择，只有开启时候才会触发rangeSelect事件
+        /**
+         * 是否支持时间段选择，只有开启时候才会触发rangeSelect事件
+         * @cfg {Boolean}
+         */
         rangeSelect: {
             value: false
         },
-        //日历可选择的最小日期
+        /**
+         * 日历可选择的最小日期
+         * @cfg {Date}
+         */
         minDate: {
             value: false
         },
-        //日历可选择的最大日期
+        /**
+         * 日历可选择的最大日期
+         * @cfg {Date}
+         */
         maxDate: {
             value: false
         },
-        //是否支持多选
+        /**
+         * 是否支持多选
+         * @cfg {Boolean}
+         */
         multiSelect: {
             value: false
         },
-        //多选的日期数组
+        /**
+         * 多选的日期数组
+         * @cfg {Object}
+         *
+         *      [new Date(),'2012-10-09']
+         */
         multi: {
             value: null,
             setter: function(v) {
@@ -65,38 +102,77 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                 return v;
             }
         },
-        //是否可以通过点击导航输入日期,默认开启
+        /**
+         * 是否可以通过点击导航输入日期,默认开启
+         * @cfg {Boolean}
+         */
         navigator: {
             value: true
         },
-        //日历是否为弹出,默认为false
+        /**
+         * 日历是否为弹出,默认为true
+         * @cfg {Boolean}
+         */
         popup: {
             value: true
         },
-        //是否显示时间的选择,默认为false
+        /**
+         * 是否显示时间的选择,默认为false
+         * @cfg {Boolean}
+         */
         showTime: {
             value: false
         },
+        /**
+         * 触发日历的对象
+         * @cfg {Element}
+         */
         trigger:{
             value:false
         },
-        //弹出状态下, 触发弹出日历的事件, 例如：[‘click’,’focus’],也可以直接传入’focus’, 默认为[‘click’]
+        /**
+         * 弹出状态下, 触发弹出日历的事件类型, 
+         * 例如：[‘click’,’focus’],也可以直接传入’focus’, 默认为[‘click’]
+         * @cfg {String|Array}
+         */
         triggerType: {
             value: ['click']
         },
-        //禁止点击的日期数组[new Date(),new Date(2011,11,26)]
+        /**
+         * 禁止点击的日期数组
+         * @cfg {Array}
+         *
+         *      [new Date(),new Date(2011,11,26)]
+         */
         disabled: {
             value: false
         },
-        //已选择的时间段{start:null,end:null}
+        /**
+         * 已选择的时间段
+         * @cfg {Object} range
+         * @cfg {Date} range.start 开始时间
+         * @cfg {Date} range.end   结束时间
+         *
+         * 
+         *      {start:new Date(),end:new Date(2014,11,26)}
+         */
         range: {
             value: false
         },
-        //多个日历是否联动
+        /**
+         * 多个日历是否联动
+         * @cfg {Boolean}
+         */
         rangeLinkage: {
             value: true
         },
-        //对齐方式
+        /**
+         * 对齐方式
+         * @cfg {Object} align
+         * @cfg {Element} align.node 对其的节点
+         * @cfg {Array} align.points   对其方式
+         * @cfg {Array} align.offset   对其偏移量
+         */
         align: {
             value: {
                 node:false,
@@ -104,7 +180,10 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                 offset: [0, 0]
             }
         },
-        // 是否出现不限的按钮
+        /**
+         * 是否出现不限的按钮
+         * @cfg {Boolean}
+         */
         notLimited: {
             value: false
         },
@@ -112,18 +191,65 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
             valueFn: function() {
                 var self = this,
                     id = self.get('id') || 'brix_calendar_' + S.guid();
-                return '<div id="' + id + '" bx-name="calendar" class="calendar">' + '<div class="calendar-pages"></div>' + '<div bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,' + id + '_op_html" class="calendar-operator">{{{' + id + '_op_html}}}</div>' + '</div>'
+                var html = '<div class="calendar-pages"></div>' + '<div bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,' + id + '_op_html" class="calendar-operator">{{{' + id + '_op_html}}}</div>'
+                if(!self.get('id')){
+                    html = '<div id="' + id + '" bx-name="calendar" class="calendar">' +html+ '</div>'
+                }
+                return  html; 
             }
+        },
+        autoRender:{
+            value:false
         }
     };
 
     Calendar.FIRES = {
+        /**
+         * @event select
+         * 日期选择触发
+         * @param {Object} e 
+         * @param {Date} e.date 选择的时间
+         */
         select: 'select',
+        /**
+         * @event monthChange
+         * 年月变化触发
+         * @param {Object} e 
+         * @param {Date} e.date 选择的时间
+         */
         monthChange: 'monthChange',
+        /**
+         * @event timeSelect
+         * 时间选择触发
+         * @param {Object} e 
+         * @param {Date} e.date 选择的时间
+         */
         timeSelect: 'timeSelect',
+        /**
+         * @event rangeSelect
+         * 时间选择触发
+         * @param {Object} e 
+         * @param {Object} e.range
+         * @param {Date} e.range.end 选择的时间段
+         * @param {Date} e.range.start 选择的时间
+         */
         rangeSelect: 'rangeSelect',
+        /**
+         * @event multiSelect
+         * 多选时间触发
+         * @param {Object} e 
+         * @param {Array} e.multi  时间数组,已经按照时间排序
+         */
         multiSelect: 'multiSelect',
+        /**
+         * @event show
+         * 显示
+         */
         show: 'show',
+        /**
+         * @event hide
+         * 隐藏
+         */
         hide: 'hide'
     };
     Calendar.RENDERERS = {
@@ -212,6 +338,9 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
     };
 
     Calendar.METHODS = {
+        /**
+         * 显示日历
+         */
         show: function() {
             var self = this;
             if(!self.get('rendered')){
@@ -228,6 +357,9 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
             }
 
         },
+        /**
+         * 隐藏日历
+         */
         hide: function() {
             var self = this;
             if (self.overlay) {
@@ -235,6 +367,9 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                 self.fire(Calendar.FIRES.hide);
             }
         },
+        /**
+         * 显示隐藏切换
+         */
         toggle: function() {
             var self = this;
             if (self.overlay) {
@@ -293,6 +428,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                 (function(i) {
                     var pageBrick = new Page({
                         id: self.get('id') + 'page' + i,
+                        el: '#'+self.get('id') + 'page' + i,
                         index: i,
                         prev: prev,
                         next: next,
@@ -358,10 +494,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
             var self = this;
             if (self.overlay) {
                 self.overlay.destroy();
-            } else {
-                S.one(self.get('trigger')).empty();
             }
-
         },
         _bindDataChange: function(key, upperCaseKey) {
             var self = this,

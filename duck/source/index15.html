@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">KISSY.add(&quot;brix/gallery/lavalamp/index&quot;, function(S, Brick, Anim, Node) {
+<span id='Brix-Gallery-Lavalamp'>    /**
+</span>     * Lavalamp 滑动菜单
+     * @class Brix.Gallery.Lavalamp
+     * @extends Brix.Brick
+     */
+    function Lavalamp() {
+        Lavalamp.superclass.constructor.apply(this, arguments);
+    }
+    Lavalamp.ATTRS = {
+<span id='Brix-Gallery-Lavalamp-cfg-fx'>        /**
+</span>         * 动画效果
+         * @cfg {String}
+         */
+        fx: {
+            value: 'bounceOut'
+        },
+<span id='Brix-Gallery-Lavalamp-cfg-speed'>        /**
+</span>         * 动画时间
+         * @cfg {Number}
+         */
+        speed: {
+            value: 0.4
+        },
+<span id='Brix-Gallery-Lavalamp-cfg-triggered'>        /**
+</span>         * 触发方式“click”，“mouseover”
+         * @cfg {String}
+         */
+        triggered: {
+            value: 'mouseover' 
+        },
+<span id='Brix-Gallery-Lavalamp-cfg-click'>        /**
+</span>         * 点击的回调方法
+         * @cfg {Function}
+         */
+        click: {
+            value: function() {
+
+            }
+        }
+    };
+
+
+    S.extend(Lavalamp, Brick, {
+        initialize: function() {
+            var self = this,
+                trigger = self.get('el');
+            var anim, backNode = new Node('&lt;li class=&quot;back&quot;&gt;&lt;/li&gt;'),
+                liNodeList = trigger.all('li'),
+                currendNode = (trigger.one('.current') || liNodeList[0].addClass('current'))[0];
+
+            trigger.append(backNode);
+            liNodeList.each(function(el) {
+
+                if (self.get('triggered') == 'mouseover') {
+                    el.on('mouseenter', function() {
+                        move(el[0]);
+                    });
+                    el.on('click', function(e) {
+                        setCurr(el[0]);
+                        return self.get('click').apply(self, [e]);
+                    });
+                } else {
+                    el.on('click', function(e) {
+                        move(el[0]);
+                        setCurr(el[0]);
+                        return self.get('click').apply(self, [e]);
+                    });
+                }
+            });
+            trigger.on('mouseleave', function() {
+                move(currendNode);
+            })
+
+            setCurr(currendNode);
+
+            function setCurr(el) {
+                backNode.css({
+                    &quot;left&quot;: el.offsetLeft + &quot;px&quot;,
+                    &quot;width&quot;: el.offsetWidth + &quot;px&quot;
+                });
+                currendNode = el;
+            };
+
+            function move(el) {
+                if (anim) {
+                    //anim = null;
+                    anim.stop();
+                }
+                anim = new Anim(backNode[0], {
+                    width: el.offsetWidth + 'px',
+                    left: el.offsetLeft + 'px'
+                }, self.get('speed'), self.get('fx'));
+                anim.run();
+            };
+        },
+        destructor: function() {
+
+        }
+    });
+    return Lavalamp;
+}, {
+    requires: [&quot;brix/core/brick&quot;, &quot;anim&quot;, &quot;node&quot;]
+});</pre>
+</body>
+</html>

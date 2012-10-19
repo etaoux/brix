@@ -1,4 +1,9 @@
 KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
+    /**
+     * 就地编辑
+     * @class Brix.Gallery.InplaceEditor
+     * @extends Brix.Brick
+     */
     function InplaceEditor() {
         InplaceEditor.superclass.constructor.apply(this, arguments);
         this._v = null; //记录编辑原始值
@@ -26,17 +31,32 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
         }
     };
     InplaceEditor.FIRES = {
+        /**
+         * @event show
+         * 显示
+         */
         show:'show',
+        /**
+         * @event hide
+         * 隐藏
+         */
         hide:'hide',
+        /**
+         * @event valueChange
+         * 选择触发
+         * @param {Object} e 
+         * @param {String} e.value 值
+         */
         valueChange:'valueChange'
 
     }
     InplaceEditor.METHODS = {
         /**
          * 显示就地编辑
-         * @param  {Number} x 显示的X坐标
-         * @param  {Number} y 显示的Y坐标
-         * @param  {String} v 文本框的值
+         * @param {Number} x 显示的X坐标
+         * @param {Number} y 显示的Y坐标
+         * @param {String} v 文本框的值
+         * @param {String} css 文本框的样式
          */
         show: function(x, y, v, css) {
             var el = this.get('el'),
