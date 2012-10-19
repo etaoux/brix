@@ -80,7 +80,7 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
          */
         blur: function() {
             var mode = this.get('mode'),
-                el = this.get('el');
+                el = this.get('el'),
                 ul = el.one('.dropdown-list');
             if(ul.css('display')==='none'){
                 return;
@@ -151,11 +151,12 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                         if(!selectedItem||selectedItem.hasClass('dropdown-itemselected')){
                             return;
                         }
-                        self._select(selectedItem);
                         self.blur();
+                        self._select(selectedItem);
                         break;
                     case 38:
                         //up
+                        e.halt();
                         self.focus();
                         var item = el.one('.dropdown-itemover')||el.one('.dropdown-itemselected')||el.one('.dropdown-item');
                         var hoverItem;
@@ -170,6 +171,7 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                         break;
                     case 40:
                         //down
+                        e.halt();
                         self.focus();
                         var item = el.one('.dropdown-itemover')||el.one('.dropdown-itemselected')||el.one('.dropdown-item');
                         var hoverItem;
@@ -214,9 +216,8 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                 if(selectedItem.hasClass('dropdown-itemselected')){
                     return;
                 }
-                self._select(selectedItem);
                 self.blur();
-                
+                self._select(selectedItem);
             },
             mouseenter: function(e) {
                 var currentTarget = S.one(e.currentTarget);
