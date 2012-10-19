@@ -165,6 +165,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
         /**
          * 对节点中的bx-name解析，构建组件配置
          * @param  {Node} el 容器节点
+         * @private
          */
         _buildBricks: function(el) {
             var self = this,
@@ -191,6 +192,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
          * 对节点中的bx-tmpl解析，构建模板和数据配置
          * @param  {Node} el 容器节点
          * @param {Array} arr 存储替换模板的集合
+         * @private
          */
         _buildTmpls:function(el,arr){
             var self = this,

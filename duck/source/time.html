@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">KISSY.add('brix/gallery/calendar/time', function(S, Brick) {
+    var LIST = {
+        h: ['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23'],
+        m: ['00','10','20','30','40','50'],
+        s: ['00','10','20','30','40','50']
+    }
+    function Time() {
+        Time.superclass.constructor.apply(this, arguments);
+    }
+    Time.ATTRS = {
+        time:{
+            value:new Date()
+        },
+        status:{
+            value:'s'
+        },
+        autoRender:{
+            value:true
+        },
+        tmpl:{
+            value : '&lt;div bx-name=&quot;time&quot;&gt;'+
+                        '&lt;div class=&quot;calendar-time&quot;&gt;'+
+                            '时间：&lt;span class=&quot;h&quot;&gt;{{h}}&lt;/span&gt;:&lt;span class=&quot;m&quot;&gt;{{m}}&lt;/span&gt;:&lt;span class=&quot;s&quot;&gt;{{s}}&lt;/span&gt;'+
+                            '&lt;div class=&quot;calendar-time-updown&quot;&gt;'+
+                                '&lt;i class=&quot;iconfont u&quot;&gt;&amp;#456&lt;/i&gt;&lt;i class=&quot;iconfont d&quot;&gt;&amp;#459&lt;/i&gt;'+
+                            '&lt;/div&gt;'+
+                        '&lt;/div&gt;'+
+                        '&lt;div class=&quot;calendar-time-popup&quot;&gt;'+
+                            '&lt;div bx-tmpl=&quot;time&quot; bx-datakey=&quot;list&quot; class=&quot;calendar-time-popup-bd&quot;&gt;'+
+                                '{{#list}}'+
+                                '&lt;a class=&quot;item&quot;&gt;{{.}}&lt;/a&gt;'+
+                                '{{/list}}'+
+                            '&lt;/div&gt;'+
+                            '&lt;i class=&quot;iconfont icon-close&quot;&gt;&amp;#223&lt;/i&gt;'+
+                        '&lt;/div&gt;'+
+                    '&lt;/div&gt;'
+        },
+        data:{
+            valueFn: function() {
+                var self = this,
+                    date = self.get('time');
+                return {
+                    h: date.getHours(),
+                    m:date.getMinutes(),
+                    s:date.getSeconds()
+                };
+            }
+        }
+    };
+
+    Time.EVENTS = {
+        'span':{
+            click:function(e){
+                var self = this, node = S.one(e.currentTarget);
+                node.parent().all('span').removeClass('on');
+                node.addClass('on');
+                if(node.hasClass('h')){
+                    self.set('status','h');
+                }
+                else if(node.hasClass('m')){
+                    self.set('status','m');
+                }
+                else{
+                    self.set('status','s');
+                }
+                var status = self.get('status');
+                self.setChunkData('list',LIST[status]);
+                self.get('el').one('.calendar-time-popup').css({display:'block'});
+            }
+        },
+        '.icon-close':{
+            click:function(e){
+                var self = this;
+                self._hideTimePopup();
+            }
+        },
+        '.item':{
+            click:function(e){
+                var self = this, 
+                    node = S.one(e.currentTarget),
+                    status = self.get('status');
+                self._setTime(status,node.html());
+                self._hideTimePopup();
+            }
+        },
+        '.u':{
+            click:function(e){
+                var self = this, 
+                    status = self.get('status'),
+                    v = self._getTime(status);
+                v++;
+                self._setTime(status,v);
+            }
+        },
+        '.d':{
+            click:function(e){
+                var self = this, 
+                    status = self.get('status'),
+                    v = self._getTime(status);
+                v--;
+                self._setTime(status,v);
+            }
+        },
+        '':{
+            keyup:function(e){
+                var self = this, 
+                    status = self.get('status'),
+                    v = self._getTime(status);
+                if (e.keyCode == 38 || e.keyCode == 37) {//up or left
+                        e.preventDefault();
+                        v++;
+                        self._setTime(status,v);
+                    }
+                    if (e.keyCode == 40 || e.keyCode == 39) {//down or right
+                        //e.stopPropagation();
+                        e.preventDefault();
+                        v--;
+                        self._setTime(status,v);
+                    }
+            }
+        }
+    };
+
+    Time.METHODS = {
+
+    };
+
+    Time.FIRES = {
+        timeSelect: 'timeSelect'
+    };
+    S.extend(Time, Brick, {
+        initialize: function() {
+            var self = this;
+        },
+
+        _setTime : function(status, v) {
+            var self = this,
+                time = self.get('time'),el = self.get('el');
+            v = Number(v);
+            switch (status) {
+                case 'h':
+                    time.setHours(v);
+                    break;
+                case 'm':
+                    time.setMinutes(v);
+                    break;
+                case 's':
+                    time.setSeconds(v);
+                    break;
+            }
+            el.one('.h').html(time.getHours());
+            el.one('.m').html(time.getMinutes());
+            el.one('.s').html(time.getSeconds());
+        },
+        _getTime:function(status){
+            var self = this,
+                time = self.get('time');
+                switch (status) {
+                    case 'h':
+                        return time.getHours();
+                    case 'm':
+                        return time.getMinutes();
+                    case 's':
+                        return time.getSeconds();
+                }
+        },
+        _hideTimePopup:function(){
+            var self = this,el = self.get('el');
+            el.one('.calendar-time-popup').css({display:'none'});
+        },
+        destructor: function() {
+            var self = this;
+            self.overlay.destroy();
+        }
+    });
+    S.augment(Time, Time.METHODS);
+    return Time;
+}, {
+    requires: [&quot;brix/core/brick&quot;]
+});</pre>
+</body>
+</html>

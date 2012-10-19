@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">/*
+ * Date Format 1.2.3
+ * (c) 2007-2009 Steven Levithan &lt;stevenlevithan.com&gt;
+ * MIT license
+ *
+ * Includes enhancements by Scott Trenda &lt;scott.trenda.net&gt;
+ * and Kris Kowal &lt;cixar.com/~kris.kowal/&gt;
+ *
+ * Accepts a date, a mask, or a date and a mask.
+ * Returns a formatted version of the given date.
+ * The date defaults to the current date/time.
+ * The mask defaults to dateFormat.masks.default.
+ *
+ * Last modified by jayli 拔赤 2010-09-09
+ * - 增加中文的支持
+ * - 简单的本地化，对w（星期x）的支持
+ */
+KISSY.add('brix/gallery/calendar/date', function(S) {
+
+    function dateParse(data,s) {
+
+        var date = null;
+        s = s || '-';
+        //Convert to date
+        if (!(data instanceof Date)) {
+            date = new Date(data);
+        }
+        else {
+            return data;
+        }
+
+        // Validate
+        if (date instanceof Date &amp;&amp; (date != &quot;Invalid Date&quot;) &amp;&amp; !isNaN(date)) {
+            return date;
+        }
+        else {
+            var arr = data.toString().split(s);
+            if(arr.length==3){
+                date = new Date(arr[0], (parseInt(arr[1], 10) - 1), arr[2]);
+                if (date instanceof Date &amp;&amp; (date != &quot;Invalid Date&quot;) &amp;&amp; !isNaN(date)) {
+                    return date;
+                }
+            }
+        }
+        return null;
+    }
+
+
+    var dateFormat = function () {
+        var token = /w{1}|d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|&quot;[^&quot;]*&quot;|'[^']*'/g,
+            timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
+            timezoneClip = /[^-+\dA-Z]/g,
+            pad = function (val, len) {
+                val = String(val);
+                len = len || 2;
+                while (val.length &lt; len) {
+                    val = &quot;0&quot; + val;
+                }
+                return val;
+            },
+            // Some common format strings
+            masks = {
+                &quot;default&quot;:      &quot;ddd mmm dd yyyy HH:MM:ss&quot;,
+                shortDate:      &quot;m/d/yy&quot;,
+                //mediumDate:     &quot;mmm d, yyyy&quot;,
+                longDate:       &quot;mmmm d, yyyy&quot;,
+                fullDate:       &quot;dddd, mmmm d, yyyy&quot;,
+                shortTime:      &quot;h:MM TT&quot;,
+                //mediumTime:     &quot;h:MM:ss TT&quot;,
+                longTime:       &quot;h:MM:ss TT Z&quot;,
+                isoDate:        &quot;yyyy-mm-dd&quot;,
+                isoTime:        &quot;HH:MM:ss&quot;,
+                isoDateTime:    &quot;yyyy-mm-dd'T'HH:MM:ss&quot;,
+                isoUTCDateTime: &quot;UTC:yyyy-mm-dd'T'HH:MM:ss'Z'&quot;,
+
+                //added by jayli
+                localShortDate:    &quot;yy年mm月dd日&quot;,
+                localShortDateTime:&quot;yy年mm月dd日 hh:MM:ss TT&quot;,
+                localLongDate:    &quot;yyyy年mm月dd日&quot;,
+                localLongDateTime:&quot;yyyy年mm月dd日 hh:MM:ss TT&quot;,
+                localFullDate:    &quot;yyyy年mm月dd日 w&quot;,
+                localFullDateTime:&quot;yyyy年mm月dd日 w hh:MM:ss TT&quot;
+
+            },
+
+            // Internationalization strings
+            i18n = {
+                dayNames: [
+                    &quot;Sun&quot;, &quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;,
+                    &quot;Sunday&quot;, &quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday&quot;, &quot;Saturday&quot;,
+                    &quot;星期日&quot;,&quot;星期一&quot;,&quot;星期二&quot;,&quot;星期三&quot;,&quot;星期四&quot;,&quot;星期五&quot;,&quot;星期六&quot;
+                ],
+                monthNames: [
+                    &quot;Jan&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Apr&quot;, &quot;May&quot;, &quot;Jun&quot;, &quot;Jul&quot;, &quot;Aug&quot;, &quot;Sep&quot;, &quot;Oct&quot;, &quot;Nov&quot;, &quot;Dec&quot;,
+                    &quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;, &quot;May&quot;, &quot;June&quot;, &quot;July&quot;, &quot;August&quot;, &quot;September&quot;, &quot;October&quot;, &quot;November&quot;, &quot;December&quot;
+                ]
+            };
+
+        // Regexes and supporting functions are cached through closure
+        return function (date, mask, utc) {
+
+            // You can't provide utc if you skip other args (use the &quot;UTC:&quot; mask prefix)
+            if (arguments.length == 1 &amp;&amp; Object.prototype.toString.call(date) == &quot;[object String]&quot; &amp;&amp; !/\d/.test(date)) {
+                mask = date;
+                date = undefined;
+            }
+
+            // Passing date through Date applies Date.parse, if necessary
+            date = date ? dateParse(date) : new Date();
+            if (isNaN(date)) {
+                throw SyntaxError(&quot;invalid date&quot;);
+            }
+
+            mask = String(masks[mask] || mask || masks[&quot;default&quot;]);
+
+            // Allow setting the utc argument via the mask
+            if (mask.slice(0, 4) == &quot;UTC:&quot;) {
+                mask = mask.slice(4);
+                utc = true;
+            }
+
+            var _ = utc ? &quot;getUTC&quot; : &quot;get&quot;,
+                d = date[_ + &quot;Date&quot;](),
+                D = date[_ + &quot;Day&quot;](),
+                m = date[_ + &quot;Month&quot;](),
+                y = date[_ + &quot;FullYear&quot;](),
+                H = date[_ + &quot;Hours&quot;](),
+                M = date[_ + &quot;Minutes&quot;](),
+                s = date[_ + &quot;Seconds&quot;](),
+                L = date[_ + &quot;Milliseconds&quot;](),
+                o = utc ? 0 : date.getTimezoneOffset(),
+                flags = {
+                    d:    d,
+                    dd:   pad(d, undefined),
+                    ddd:  i18n.dayNames[D],
+                    dddd: i18n.dayNames[D + 7],
+                    w:     i18n.dayNames[D + 14],
+                    m:    m + 1,
+                    mm:   pad(m + 1, undefined),
+                    mmm:  i18n.monthNames[m],
+                    mmmm: i18n.monthNames[m + 12],
+                    yy:   String(y).slice(2),
+                    yyyy: y,
+                    h:    H % 12 || 12,
+                    hh:   pad(H % 12 || 12, undefined),
+                    H:    H,
+                    HH:   pad(H, undefined),
+                    M:    M,
+                    MM:   pad(M, undefined),
+                    s:    s,
+                    ss:   pad(s, undefined),
+                    l:    pad(L, 3),
+                    L:    pad(L &gt; 99 ? Math.round(L / 10) : L, undefined),
+                    t:    H &lt; 12 ? &quot;a&quot; : &quot;p&quot;,
+                    tt:   H &lt; 12 ? &quot;am&quot; : &quot;pm&quot;,
+                    T:    H &lt; 12 ? &quot;A&quot; : &quot;P&quot;,
+                    TT:   H &lt; 12 ? &quot;AM&quot; : &quot;PM&quot;,
+                    Z:    utc ? &quot;UTC&quot; : (String(date).match(timezone) || [&quot;&quot;]).pop().replace(timezoneClip, &quot;&quot;),
+                    o:    (o &gt; 0 ? &quot;-&quot; : &quot;+&quot;) + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+                    S:    [&quot;th&quot;, &quot;st&quot;, &quot;nd&quot;, &quot;rd&quot;][d % 10 &gt; 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
+                };
+
+            return mask.replace(token, function ($0) {
+                return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
+            });
+        };
+    }();
+
+    return {
+        format: function(date, mask, utc) {
+            return dateFormat(date, mask, utc);
+        },
+        parse: function(date,s) {
+            return dateParse(date,s);
+        },
+        isMinMax:function(minDate,maxDate,date){
+            date = dateFormat(date,'isoDate');
+            if(minDate){
+                minDate = Brix_Date.format(minDate,'isoDate');
+                if(minDate&gt;date){
+                    return false;
+                }
+            }
+            if(maxDate){
+                maxDate = Brix_Date.format(maxDate,'isoDate');
+                if(maxDate&lt;date){
+                    return false;
+                }
+            }
+            return true;
+        },
+        isDisabled:function(disabled,date){
+            date = dateFormat(date,'isoDate');
+            //是否需要提供正则
+            if(disabled){
+                for(var i=0;i&lt;disabled.length;i++){
+                    if(dateFormat(disabled[i],'isoDate')==date){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        },
+        isInMulit:function (mulit,date){
+            date = dateFormat(date,'isoDate');
+            if(mulit){
+                for(var i=0;i&lt;mulit.length;i++){
+                    if(dateFormat(mulit[i],'isoDate')==date){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        },
+        isInRang:function(range,date){
+            date = dateFormat(date,'isoDate');
+            if(range){
+                if(range.start&amp;&amp;range.end){
+                    if(date&gt;=dateFormat(range.start,'isoDate')&amp;&amp;date&lt;=dateFormat(range.end,'isoDate')){
+                        return true;
+                    }
+                }
+                else if(range.start&amp;&amp;date==dateFormat(range.start,'isoDate')){
+                    return true;
+                }
+            }
+            return false;
+        },
+        isYear : function(n) {
+            if (!/^\d+$/i.test(n)) {
+                return false;
+            }
+            n = Number(n);
+            return !(n &lt; 100 || n &gt; 10000);
+
+        }
+    };
+});</pre>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">KISSY.add(&quot;brix/gallery/affix/index&quot;, function(S, Brick) {
+
+    function Affix() {
+        Affix.superclass.constructor.apply(this, arguments);
+    }
+
+    Affix.ATTRS = {
+        scrollOffset: {
+            value: 0
+        },
+        edge: {
+            value: 0
+        },
+        countHeight: {
+            value: true
+        },
+        tabEdges: {
+            value: []
+        }
+    };
+
+    Affix.DOCEVENTS = {
+        '': { // listen on the document event
+            'scroll': function() {
+                this.check();
+            }
+        }
+    };
+
+    Affix.METHODS = {
+        check: function() {
+            var body = S.one(window),
+                el = this.get('el'),
+                edge = this.get('edge'),
+                tabEdges = this.get('tabEdges'),
+                scrollTop = body.scrollTop(),
+                scrollOffset = this.get('scrollOffset'),
+                countHeight = this.get('countHeight'),
+                tab,
+                matched = false;
+
+            if (scrollTop + scrollOffset &gt;= edge) {
+                el.addClass('affix');
+            }
+            else {
+                el.removeClass('affix');
+            }
+            if (countHeight) {
+                scrollTop += el.outerHeight();
+            }
+            for (var i = tabEdges.length - 1; i &gt;= 0; i--) {
+                tab = tabEdges[i];
+                if (scrollTop + 1 &gt;= tab.edge) {    // some offset().top might differs in less than 1.
+                    el.all('a').removeClass('current');
+                    el.all('a[href=&quot;#' + tab.id + '&quot;]').addClass('current');
+                    matched = true;
+                    break;
+                }
+            }
+            if (!matched) {
+                el.all('a').removeClass('current');
+            }
+        }
+    };
+
+    S.extend(Affix, Brick, {
+        initialize: function() {
+            var node = this.get('el'),
+                offset = node.offset(),
+                tabEdges = [],
+                Node = S.Node,
+                $ = Node.all;
+
+            node.all('a').each(function(a, i) {
+                var id = a.attr('href').split('#')[1];
+
+                if (!id || $('#' + id).length === 0) {
+                    return;
+                }
+                tabEdges.push({
+                    id: id,
+                    edge: $('#' + id).offset().top
+                });
+            });
+            this.set('edge', offset.top);
+            this.set('tabEdges', tabEdges);
+
+            // might have scrolled already
+            this.check();
+        }
+    });
+
+    S.augment(Affix, Affix.METHODS);
+
+    return Affix;
+}, {
+    requires: ['brix/core/brick']
+});</pre>
+</body>
+</html>
