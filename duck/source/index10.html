@@ -38,6 +38,13 @@
          */
         autoResize:{
             value:true
+        },
+<span id='Brix-Gallery-Dropdown-cfg-setDefault'>        /**
+</span>         * 是否初始化的时候设置默认值
+         * @cfg {Boolean}
+         */
+        setDefault:{
+            value:false
         }
     }
     Dropdown.FIRES = {
@@ -97,7 +104,7 @@
          */
         blur: function() {
             var mode = this.get('mode'),
-                el = this.get('el');
+                el = this.get('el'),
                 ul = el.one('.dropdown-list');
             if(ul.css('display')==='none'){
                 return;
@@ -160,6 +167,7 @@
                     el = self.get('el');
                 switch (e.keyCode) {
                     case 9:
+                    case 27:
                         self.blur();
                         break;
                     case 13:
@@ -168,11 +176,12 @@
                         if(!selectedItem||selectedItem.hasClass('dropdown-itemselected')){
                             return;
                         }
-                        self._select(selectedItem);
                         self.blur();
+                        self._select(selectedItem);
                         break;
                     case 38:
                         //up
+                        e.halt();
                         self.focus();
                         var item = el.one('.dropdown-itemover')||el.one('.dropdown-itemselected')||el.one('.dropdown-item');
                         var hoverItem;
@@ -187,6 +196,7 @@
                         break;
                     case 40:
                         //down
+                        e.halt();
                         self.focus();
                         var item = el.one('.dropdown-itemover')||el.one('.dropdown-itemselected')||el.one('.dropdown-item');
                         var hoverItem;
@@ -231,9 +241,8 @@
                 if(selectedItem.hasClass('dropdown-itemselected')){
                     return;
                 }
-                self._select(selectedItem);
                 self.blur();
-                
+                self._select(selectedItem);
             },
             mouseenter: function(e) {
                 var currentTarget = S.one(e.currentTarget);
@@ -251,10 +260,12 @@
             var self = this,
                 el = this.get('el');
             el.attr('tabindex',0);
-            var selectedItem = el.one('.dropdown-itemselected')||el.one('.dropdown-item');
-            self._select(selectedItem);
+            if(self.get('setDefault')){
+                var selectedItem = el.one('.dropdown-itemselected')||el.one('.dropdown-item');
+                self._select(selectedItem,true);
+            }
         },
-        _select:function(selectedItem){
+        _select:function(selectedItem,flg){
             var self = this,
                 el = this.get('el');
             el.all('.dropdown-item').removeClass('.dropdown-itemover').removeClass('dropdown-itemselected');
@@ -269,9 +280,15 @@
             if(inputNode){
                 inputNode.val(data.value);
             }
+            var v = dropdownTextNode.attr('value') || '';
+            if(v==data.value){
+                return;
+            }
             dropdownTextNode.attr('value', data.value);
             dropdownTextNode.text(data.text);
-            self.fire(Dropdown.FIRES.selected, data);
+            if(!flg){
+               self.fire(Dropdown.FIRES.selected, data); 
+            }
         },
         _hover:function(item,isScroll){
             var self = this,
