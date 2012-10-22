@@ -300,13 +300,14 @@
 
             var r = R * 255,
                 g = G * 255,
-                b = B * 255;
+                b = B * 255;         
             return {
                 r: r,
                 g: g,
                 b: b,
                 hex: &quot;#&quot; + (16777216 | b | (g &lt;&lt; 8) | (r &lt;&lt; 16)).toString(16).slice(1)
             };
+
         },
 <span id='Brix-Gallery-ColorPicker-method-rgb2hsv'>        /**
 </span>         * Convert RGB representation to HSV.
@@ -530,14 +531,14 @@
                     height = pickerNode.height();
                 var left = ev.left - offset.left,
                     top = ev.top - offset.top;
-                if (left &gt; width) {
+                if (left+5 &gt; width) {
                     left = width;
                 } else if (left &lt; 0) {
                     left = 0;
                 } else {
                     left += 5;
                 }
-                if (top &gt; height) {
+                if (top+5 &gt; height) {
                     top = height;
                 } else if (top &lt; 0) {
                     top = 0;
