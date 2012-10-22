@@ -283,13 +283,14 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
 
             var r = R * 255,
                 g = G * 255,
-                b = B * 255;
+                b = B * 255;         
             return {
                 r: r,
                 g: g,
                 b: b,
                 hex: "#" + (16777216 | b | (g << 8) | (r << 16)).toString(16).slice(1)
             };
+
         },
         /**
          * Convert RGB representation to HSV.
@@ -513,14 +514,14 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
                     height = pickerNode.height();
                 var left = ev.left - offset.left,
                     top = ev.top - offset.top;
-                if (left > width) {
+                if (left+5 > width) {
                     left = width;
                 } else if (left < 0) {
                     left = 0;
                 } else {
                     left += 5;
                 }
-                if (top > height) {
+                if (top+5 > height) {
                     top = height;
                 } else if (top < 0) {
                     top = 0;
