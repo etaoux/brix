@@ -222,9 +222,9 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                                 '{{^isCompare}}'+
                                 '<label>日期范围：</label>'+
                                 '<div class="range">'+
-                                    '<input input_type="Start" value="{{start}}">'+
+                                    '<input class="input" input_type="Start" value="{{start}}">'+
                                     '<span class="input-split">-</span>'+
-                                    '<input input_type="End" value="{{end}}">'+
+                                    '<input class="input" input_type="End" value="{{end}}">'+
                                 '</div>'+
                                 '{{/isCompare}}'+
                                 '{{#isCompare}}'+
@@ -233,9 +233,9 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                                 '</div>'+
                                 '<label>与其他日期比较：(须同样天数)</label>'+
                                 '<div class="range">'+
-                                    '<input input_type="Start" value="{{start}}">'+
+                                    '<input class="input" input_type="Start" value="{{start}}">'+
                                     '<span class="input-split">-</span>'+
-                                    '<input input_type="End" value="{{end}}">'+
+                                    '<input class="input" input_type="End" value="{{end}}">'+
                                 '</div>'+
                                 '{{/isCompare}}'+
                                 '{{#isQuick}}'+

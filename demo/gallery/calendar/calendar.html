@@ -4,6 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Brix Calendar Demo</title>
         <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+        <link rel="stylesheet" href="../../../src/gallery/form/form.css">
         <link rel="stylesheet" href="../../../src/gallery/calendar/calendar.css">
         <link rel="stylesheet" href="../../assets/doc.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
@@ -51,22 +52,22 @@
             <div id="J_AllEvents"></div>
             <hr size=1/>
             <h3 class="h3">Popup日历，默认点击触发，点击空白处关闭</h3>
-            <input type="text" id="J_Popup" style="margin-left:50px;"/>
+            <input class="input" id="J_Popup" style="margin-left:50px;"/>
             <hr size=1/>
             <h3 class="h3">Popup日历，默认点击触发，选择范围</h3>
-            <input type="text" id="J_Popup2" style="margin-left:50px;"/>
+            <input class="input" id="J_Popup2" style="margin-left:50px;"/>
             <hr size=1/>
             <h3 class="h3">Popup日历，默认点击触发，选择范围但是日历不联动</h3>
-            <input type="text" id="J_Popup22" style="margin-left:50px;"/>
+            <input class="input" id="J_Popup22" style="margin-left:50px;"/>
             <hr size=1/>
             <h3 class="h3">Popup日历，默认点击触发，多选范围</h3>
-            <input type="text" id="J_Popup23" style="margin-left:50px;"/>
+            <input class="input" id="J_Popup23" style="margin-left:50px;"/>
             <hr size=1/>
             <h3 class="h3">Popup日历，单击文档关闭，focus事件触发时弹出日历</h3>
             <a href="javascript:void(0);" id="J_PopupClosable" style="margin-left:50px;" tabindex="0">click here!</a>
             <hr size=1/>
             <h3 class="h3">Popup日历，对齐方式配置</h3>
-            <input type="text" id="J_PopupAlign" style="margin-left:200px;"/>
+            <input class="input" id="J_PopupAlign" style="margin-left:200px;"/>
             <hr size=1/>
             <h3 class="h3">日历可操作范围</h3>
 
@@ -91,7 +92,7 @@
             <div id="J_CustomDay"></div>
             <hr size=1/>
             <h3 class="h3">更多定制</h3>
-            <input type="text" value="" class="ks-select-calendar" id="J_SelectResult" name="">
+            <input class="input" value="" class="ks-select-calendar" id="J_SelectResult" name="">
             <hr size=1/>
             <h3 class="h3">日期格式的自定义</h3>
             日期格式的自定义是在一个单独的模块中date-format，和Calendar无关,这里只是一个示例
@@ -118,7 +119,7 @@
                 <option value="localFullDate">localFullDate</option>
                 <option value="localFullDateTime">localFullDateTime</option>
             </select>
-            custom自定义格式 <input type=text value="yyyy/mm/dd HH:MM:ss" id="J_CustomType"/>
+            custom自定义格式 <input class="input" value="yyyy/mm/dd HH:MM:ss" id="J_CustomType"/>
             <div id="J_DateFormat"></div>
         </div>
         <script>
