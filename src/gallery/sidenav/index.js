@@ -198,6 +198,27 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
                 // self._fixedStatic();
             });
 
+
+            //三级导航点击标题收缩扩展子菜单
+            self.subNav.delegate('click', '.sub-title', function(e) {
+                var _this = $(e.currentTarget);
+                var _sub = _this.next('.sub-nav-third');
+
+                if (_sub.css('height') === '0px') {
+                    var h = _sub.css('height', 'auto').height();
+                    _sub.css('height', 0);
+                    _sub.animate({
+                        'height': h
+                    }, self.duration, 'easeOut');
+
+                } else {
+                    _sub.animate({
+                        'height': 0
+                    }, self.duration, 'easeOut');
+                }
+
+            });
+
             //子导航扩展收缩
             self.subNavHandle.on('click', function() {
                 self.isHandleClick = true;
