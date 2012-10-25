@@ -39,6 +39,9 @@
   margin-left: -100%;
   display: inline;
 }
+.sidebar a:hover {
+    text-decoration: none;
+}
 .mr8 {
   margin-right: 8px;
 }
