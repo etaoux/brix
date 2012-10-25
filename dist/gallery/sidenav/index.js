@@ -11,7 +11,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
     var $ = S.all;
     var Sidenav = function() {
         Sidenav.superclass.constructor.apply(this, arguments);
-        this.init();
+        // this.init();
     };
 
     //默认配置
@@ -44,7 +44,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
     };
 
     S.extend(Sidenav, Brix, {
-        init: function() {
+        initialize: function() {
             /**
              * 配置
              * @type {[type]}
