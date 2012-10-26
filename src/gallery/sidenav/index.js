@@ -93,13 +93,23 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
             S.one(node).fire('click');
         },
 
+        //模拟queryModel对hash的pathname进行解析
+        getPathname: function() {
+            var pathname;
+            var pathnameMatch = /^#!(\/.+)\/.*$/.exec(location.hash); //返回pathname目录
+            pathname = pathnameMatch && pathnameMatch[1] || '';
+            return pathname;
+
+        },
+
         //根据pathname来确定sidebar的状态
         _pathname2sidebar: function() {
-            // var h = ('#!' + Router.queryModel.get('pathname') + '/') || this.index;
+            var pathname = this.getPathname();
+            var h = pathname && ('#!' + pathname + '/') || this.index;
 
             //回收站特例
             // var trashParam = Router.queryModel.get('board.archivestatus');
-            var h, trashParam;
+            // var h, trashParam;
 
             //将map中的地址映射成相应的导航
             S.each(this.pathMap, function(v, k) {
@@ -119,12 +129,12 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
             this.sidebar.all('a').each(function(n){
                 var origin_href = n.attr('href');
 
-                if (trashParam) {
-                    if (origin_href.indexOf('board.archivestatus') > -1) {
-                        n.fire('click');
-                        return false;
-                    }
-                } else {
+                // if (trashParam) {
+                //     if (origin_href.indexOf('board.archivestatus') > -1) {
+                //         n.fire('click');
+                //         return false;
+                //     }
+                // } else {
                     var _href = origin_href.match(/.*\//);
                     if (!_href) return false;
 
@@ -133,7 +143,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
                         n.fire('click');
                         return false;
                     }
-                }
+                // }
             });
             this.isNavClick = false;
         },
