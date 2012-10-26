@@ -727,7 +727,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
             }
 
             if(node){
-                if(node.item(0)[0].tagName.toUpperCase()=='SCRIPT'){
+                if(node.item(0)[0].nodeName.toUpperCase()=='SCRIPT'){
                     //如果是script节点，则直接取html
                     tmpl= node.item(0).html()
                 }
@@ -740,7 +740,8 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
                 //牛逼的正则啊
                 var reg = /(\{{2,3}\#(.+?)\}{2,3})\s*([\s\S]*)?\s*((\{{2,3})\/\2(\}{2,3}))/g;
                 while (reg.test(tmpl)) {
-                    tmpl = tmpl.replace(reg, ' $1$3$5~$2$6 ');
+                    //这里为什么要前后加空格
+                    tmpl = tmpl.replace(reg, '$1$3$5~$2$6');
                     //console.log(reg.lastIndex);
                     //不重置位置，我了个去，ie7，8有问题
                     reg.lastIndex = 0;
