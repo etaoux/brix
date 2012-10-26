@@ -20,7 +20,7 @@
                         '</li>',
                         '<li><a target="_blank" href="http://www.google.cn/intl/zh-CN/chrome/browser/"><i class="b-chrome"></i>下载chrome</a>',
                         '</li>',
-                        '<li><a target="_blank"  href="http://chrome.360.cn/"><i class="b-browser360"></i>下载360浏览器</a>',
+                        '<li><a target="_blank"  href="http://dl.360safe.com/se/360se_taobao.exe"><i class="b-browser360"></i>下载360浏览器</a>',
                         '</li>',
 
                     '</ul>',
