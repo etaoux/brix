@@ -1,4 +1,4 @@
-KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
+KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
     var $ = Node.all;
      /**
      * Brix Chunk,Brick和Pagelet类的基类,
@@ -222,11 +222,28 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
                     if(!tmpler.inDom){
                         var container = self.get('container');
                         var el = self.get('el');
-                        var node = new Node(tmpler.to_html(data));
-                        if((!el||el.length==0)&&node.length>1){
-                            node = $('<div id="'+tmpler.id+'"></div>').append(node);
+                        var html = tmpler.to_html(data);
+                        if((!el||el.length==0)){
+                            var node = new Node(html);
+                            if(node.length>1){
+                                html = '<div id="'+tmpler.id+'">'+html+'</div>';
+                            }
+                            node.remove();
+                            node = null;
                         }
-                        container.append(node);
+                        if(UA.ie<=8){
+                            var node = new Node('<div />');
+                            container.append(node);
+                            node.html(html);
+                            while(node[0].childNodes.length>0){
+                                container[0].appendChild(node[0].childNodes[0]);
+                            }
+                            node.remove();
+                        }
+                        else{
+                            container.append(html);
+                        }
+                        
                     }
                 } 
             }
@@ -264,5 +281,5 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
     });
     return Chunk;
 }, {
-    requires: ["node", "base", "./dataset", "./tmpler"]
+    requires: ["node",'ua', "base", "./dataset", "./tmpler"]
 });
