@@ -15,8 +15,7 @@
                 <tr>
                     <td id="test_containerext">
                         dropdownext
-                    <div style="width:200px" id="brick15" bx-name="dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" bx-path="brix/gallery/dropdown/ext/dropdownext/" class="dropdown" bx-config="{tmpl:'#tmpl_dropdownext',data:dropdown_data}">
-                    </div>
+                    
                     </td>
                     <td id="test_container"></td>
                     <td>
@@ -117,6 +116,8 @@
         </script>
 
         <script type="text/template" id="tmpl_dropdownext">
+        <div style="width:200px" id="brick15" bx-name="dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" bx-path="brix/gallery/dropdown/ext/dropdownext/" class="dropdown">
+            {{brick15_xx_yy}}
                 {{#dropdown_list}}
                 
                 <span class="dropdown-hd" bx-tmpl="dropdown" bx-datakey="dropdown_list.selected">
@@ -136,6 +137,7 @@
                 <input value="{{value}}" type="hidden" />
                 {{/selected}}
                 {{/dropdown_list}}
+          </div>
         </script>
         <script>
             KISSY.ready(function(S) {
@@ -196,7 +198,7 @@
 
 
 
-                    var pagelet = new Pagelet({tmpl:'#test_containerext'});
+                    var pagelet = new Pagelet({id:'#test_containerext',tmpl:'#tmpl_dropdownext',data:dropdown_data});
                     pagelet.ready(function(){
                         var d = pagelet.getBrick('brick15');
                         S.later(function(){
