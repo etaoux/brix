@@ -192,7 +192,7 @@
                 }
                 readyList = null;
             }
-        },
+        }
     });
     if (defaultOptions.autoConfig) {
         //自动配置

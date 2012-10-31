@@ -2,12 +2,22 @@ KISSY.add("brix/gallery/dropdown/ext/dropdownext/index", function(S, Dropdown) {
 
 	function Dropdownext(){
 		//这里可以做一些hack操作，不确定
+		debugger
 		Dropdownext.superclass.constructor.apply(this, arguments);
 	}
 
 	Dropdownext.ATTRS={
 		extattr:{
 			value:123
+		}
+	}
+
+
+	Dropdownext.RENDERERS = {
+		xx:{
+			yy:function(){
+				return "xx_yy";
+			}
 		}
 	}
 

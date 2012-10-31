@@ -25,7 +25,7 @@
                             '<i class="b-chrome"></i>',
                             '<span>下载chrome</span>',
                         '</li>',
-                        '<li><a target="_blank"  href="http://chrome.360.cn/"></a>',
+                        '<li><a target="_blank"  href="http://dl.360safe.com/se/360se_taobao.exe"></a>',
                             '<i class="b-browser360"></i>',
                             '<span>下载360浏览器</span>',
                         '</li>',

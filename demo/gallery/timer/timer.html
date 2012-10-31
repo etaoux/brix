@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="../../../src/gallery/timer/timer.css">
         <link rel="stylesheet" href="../../assets/doc.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
-        <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,fixed:'src/'}"></script>
+        <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,autoPagelet:true,fixed:'src/'}"></script>
         <style>
             .wrap {
                 width:700px; 
@@ -17,117 +17,82 @@
             }
             .downshow {
                 float: left;
-                width: 200px;
+                width: 280px;
             }
             .upshow {
                 float: left;
-                width: 180px;
-            }
-            .alone-config {
-                float: left;
-                width: 200px;
+                width: 280px;
             }
         </style>
 </head>
 <body>
     <div class="wrap container" id="J_container" >
         <div class="downshow">
-            <div id="timer_1_1" bx-name="timer" 
-               class="timer" 
-               bx-config="{mode:'down',  timeEnd:'10000'}">
+            <div bx-name="timer" class="timer" bx-config="{tmpl:'#timer_tmpl_down',units:'s',interval:100}">
+                
             </div>
-            <div id="timer_1" bx-name="timer" 
-               class="timer" 
-               bx-config="{mode:'down',  timeLeft:'60000'}">
+            <div bx-name="timer" class="timer" bx-config="{tmpl:'#timer_tmpl_down',updateTime:3600000,units:'m',interval:100}">
+                
             </div>
-            <div id="timer0" bx-name="timer" 
-               class="timer" 
-               bx-config="{mode:'down',  timeLeft:'3600000' ,bold:true}">
+            <div bx-name="timer" class="timer" bx-config="{tmpl:'#timer_tmpl_down_hb',updateTime:36000000,units:'h',interval:100}">
+                
             </div>
-            <div id="timer_2" bx-name="timer" 
-               class="timer" 
-               bx-config="{mode:'down',  timeLeft:'36000000',highlight:true }">
+            <div bx-name="timer" class="timer" bx-config="{tmpl:'#timer_tmpl_downsimple',updateTime:36000000,units:'h',interval:100}">
             </div>
-            <div id="timer1" bx-name="timer" class="timer" 
-               bx-config="{mode:'down',  timeLeft:'259200000',bold:true,highlight:true }">
+            <div id="divbtn" bx-name="timer" class="timer" bx-config="{tmpl:'#timer_tmpl_downbtn',updateTime:10000,units:'s',interval:100}">
             </div>
-           
         </div>
         <div class="upshow">
-             <div id="timerdown1" bx-name="timer" 
-               class="timer" 
-               bx-config="{mode:'down', timeLeft:'60000', style:'simple'}">
+            <div bx-name="timer" bx-config="{tmpl:'#timer_tmpl_up',ajusted:true,updateTime:1351066127392,mode:'up',units:'d'}" class="timer">
+                
             </div>
-            <div id="timerdown2" bx-name="timer" 
-               class="timer" 
-               bx-config="{mode:'down', timeLeft:'3600000', style:'simple',bold:true}">
+            <div bx-name="timer" bx-config="{tmpl:'#timer_tmpl_up1',ajusted:true,updateTime:1251066127392,mode:'up',units:'y'}" class="timer">
+                
             </div>
-            <div id="timerdown3" bx-name="timer" 
-               class="timer" 
-               bx-config="{mode:'down', timeLeft:'36000000', style:'simple',highlight:true }">
+
+            <div bx-name="timer" bx-config="{tmpl:'#timer_tmpl_up1',ajusted:true,updateTime:1351066127392,mode:'up',units:'d'}" class="timer">
+                
             </div>
-            <div id="timerdown4" bx-name="timer" 
-               class="timer" 
-               bx-config="{mode:'down', timeLeft:'360000000', style:'simple',bold:true, highlight:true }">
-            </div>
-        </div>
-        <div class="alone-config">
-            
-            <div id="timerup1" bx-name="timer" class="timer"></div> 
-            <div id="timerup2" bx-name="timer" class="timer"></div>
-            <div id="timerup3" bx-name="timer" class="timer"></div>
-            <div id="timerup4" bx-name="timer" class="timer"></div>
-            <div id="timerup" bx-name="timer" 
-               class="timer" 
-               bx-config="{mode:'up', updateTime: '1344578945098'}">
-            </div> 
-            <div id="timerup5" bx-name="timer" class="timer"></div>
         </div>
     </div>
-            <script>
-             KISSY.ready(function(S) {
-                KISSY.use("brix/core/pagelet", function(S, Pagelet) {
-                    var config = {
-                        tmpl:'#J_container'
-                    }
-                    var p = new Pagelet(config);
-                    p.addBehavior();
-                });
-                KISSY.use("brix/gallery/timer/", function(S, TimerManager) {
-                    var cfg = {
-                        container:'#timerup1',
-                        type: 'up',
-                        updateTime: (new Date).getTime()
-                    }
-                    TimerManager.create(cfg);
-                    cfg = {
-                        container:'#timerup2',
-                        type: 'up',
-                        updateTime: (new Date).getTime()-60*1000
-                    }                     
-                    TimerManager.create(cfg);
-                    cfg = {
-                        container:'#timerup3',
-                        type: 'up',
-                        updateTime: (new Date).getTime()-3600*1000
-                    }
-                    TimerManager.create(cfg);
-                    cfg = {
-                        container:'#timerup4',
-                        type: 'up',
-                        updateTime: (new Date).getTime()-3*24*3600*1000
-                    }
-                    TimerManager.create(cfg);
-                    cfg = {
-                        container:'#timerup5',
-                        type: 'up',
-                        updateTime: (new Date).getTime()-3*365*24*3600*1000
-                    }
-                    TimerManager.create(cfg);
-                });
+    <script type="text/tmpl" id="timer_tmpl_downbtn">
+    <button disabled bx-tmpl="timer" bx-datakey="s">{{s}}</button>
+    </script>
+
+    <script type="text/tmpl" id="timer_tmpl_down">
+    <span class="timer-title">剩余：</span>
+    {{#y}}<span bx-tmpl="timer" bx-datakey="y" class="timer-days timer-num">{{y}}</span>年{{/y}}{{#M}}<span bx-tmpl="timer" bx-datakey="M" class="timer-days timer-num">{{M}}</span>月{{/M}}{{#d}}<span bx-tmpl="timer" bx-datakey="d" class="timer-days timer-num">{{d}}</span>天{{/d}}{{#h}}<span bx-tmpl="timer" bx-datakey="h" class="timer-hours timer-num">{{h}}</span>时{{/h}}{{#m}}<span bx-tmpl="timer" bx-datakey="m" class="timer-mins timer-num">{{m}}</span>分{{/m}}{{#s}}<span bx-tmpl="timer" bx-datakey="s" class="timer-secs timer-num">{{s}}</span>{{#hs}}.<span bx-tmpl="timer" bx-datakey="hs" class="timer-hsecs timer-num">{{hs}}</span>{{/hs}}秒{{/s}}
+    </script>
+    <script type="text/tmpl" id="timer_tmpl_down_hb">
+    <span class="timer-bold timer-highlight ">
+    <span class="timer-title">剩余：</span>
+    {{#y}}<span bx-tmpl="timer" bx-datakey="y" class="timer-days timer-num">{{y}}</span>年{{/y}}{{#M}}<span bx-tmpl="timer" bx-datakey="M" class="timer-days timer-num">{{M}}</span>月{{/M}}{{#d}}<span bx-tmpl="timer" bx-datakey="d" class="timer-days timer-num">{{d}}</span>天{{/d}}{{#h}}<span bx-tmpl="timer" bx-datakey="h" class="timer-hours timer-num">{{h}}</span>时{{/h}}{{#m}}<span bx-tmpl="timer" bx-datakey="m" class="timer-mins timer-num">{{m}}</span>分{{/m}}{{#s}}<span bx-tmpl="timer" bx-datakey="s" class="timer-secs timer-num">{{s}}</span>{{#hs}}.<span bx-tmpl="timer" bx-datakey="hs" class="timer-hsecs timer-num">{{hs}}</span>{{/hs}}秒{{/s}}
+    <span>
+    </script>
+    <script type="text/tmpl" id="timer_tmpl_downsimple">
+    <span class="timer-title">剩余：</span>
+    {{#h}}<span bx-tmpl="timer" bx-datakey="h" class="timer-hours timer-num">{{h}}</span>:{{/h}}{{#m}}<span bx-tmpl="timer" bx-datakey="m" class="timer-mins timer-num">{{m}}</span>:{{/m}}{{#s}}<span bx-tmpl="timer" bx-datakey="s" class="timer-secs timer-num">{{s}}</span>{{/s}}
+    </script>
+    <script type="text/tmpl" id="timer_tmpl_up">
+    <span class="timer-title">已经过了:</span>
+    {{#y}}<span bx-tmpl="timer" bx-datakey="y" class="timer-days timer-num">{{y}}</span>年{{/y}}{{#M}}<span bx-tmpl="timer" bx-datakey="M" class="timer-days timer-num">{{M}}</span>月{{/M}}{{#d}}<span bx-tmpl="timer" bx-datakey="d" class="timer-days timer-num">{{d}}</span>天{{/d}}{{#h}}<span bx-tmpl="timer" bx-datakey="h" class="timer-hours timer-num">{{h}}</span>时{{/h}}{{#m}}<span bx-tmpl="timer" bx-datakey="m" class="timer-mins timer-num">{{m}}</span>分{{/m}}{{#s}}<span bx-tmpl="timer" bx-datakey="s" class="timer-secs timer-num">{{s}}</span>{{#hs}}.<span bx-tmpl="timer" bx-datakey="hs" class="timer-hsecs timer-num">{{hs}}</span>{{/hs}}秒{{/s}}
+    </script>
+
+    <script type="text/tmpl" id="timer_tmpl_up1">
+    {{#y}}<span bx-tmpl="timer" bx-datakey="y" class="timer-days timer-num">{{y}}</span>年{{/y}}{{#M}}<span bx-tmpl="timer" bx-datakey="M" class="timer-days timer-num">{{M}}</span>月{{/M}}{{#d}}<span bx-tmpl="timer" bx-datakey="d" class="timer-days timer-num">{{d}}</span>天{{/d}}{{#h}}<span bx-tmpl="timer" bx-datakey="h" class="timer-hours timer-num">{{h}}</span>时{{/h}}{{#m}}<span bx-tmpl="timer" bx-datakey="m" class="timer-mins timer-num">{{m}}</span>分{{/m}}{{#s}}<span bx-tmpl="timer" bx-datakey="s" class="timer-secs timer-num">{{s}}</span>{{#hs}}.<span bx-tmpl="timer" bx-datakey="hs" class="timer-hsecs timer-num">{{hs}}</span>{{/hs}}秒{{/s}}前降价
+    </script>
+    <script type="text/javascript">
+    Brix.ready(function () {
+        Brix.pagelet.ready(function(){
+            var brick = Brix.pagelet.getBrick('divbtn');
+            brick.on('notify',function(){
+                var btn = brick.get('el').one('button');
+                btn.html('可以点击了');
+                btn.removeAttr('disabled');
             });
-            
-        </script>
+        });
+    });
+    </script>
 </body>
 </html>
 
