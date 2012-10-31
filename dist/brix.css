@@ -1068,7 +1068,7 @@ button,
 input,
 select,
 textarea {
-  font: 12px/1.5 tahoma, "\5fae\8f6f\96c5\9ed1";
+  font: 12px/1.5 "microsoft yahei", "\5FAE\8F6F\96C5\9ED1", tahoma, sans-serif;
   color: #606060;
 }
 h1,
