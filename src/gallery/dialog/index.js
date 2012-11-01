@@ -131,11 +131,9 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
                 if (self.get('tmpl')) {
                     self.pagelet = new Pagelet({
                         container: self.get('contentEl'),
-                        autoRender: true,
                         tmpl: self.get('tmpl'),
                         data: self.get('data')
                     });
-                    self.pagelet.addBehavior();
                 }
             });
         },

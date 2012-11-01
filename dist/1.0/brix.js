@@ -836,6 +836,9 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
     function Chunk() {
         Chunk.superclass.constructor.apply(this, arguments);
         this._buildTmpler();
+        if(!this.get('id')){
+            this.set('id','brix_'+S.guid());
+        }
     }
 
     /**

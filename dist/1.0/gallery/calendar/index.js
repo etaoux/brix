@@ -933,9 +933,9 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
                         '<!--bx-tmpl="pagewbd"-->'+
                         '</div>'+
                         '<div bx-tmpl="pagedbd" bx-datakey="startDay,year,month,selected,range,multi,disabled,minDate,maxDate,'+id+'_da_html" class="calendar-page-dbd">'+
-                        '<!-- bx-tmpl="pagedbd" bx-datakey="startDay,year,month,selected,range,multi,disabled,minDate,maxDate,'+id+'_da_html"-->'+
+                        '<!--bx-tmpl="pagedbd" bx-datakey="startDay,year,month,selected,range,multi,disabled,minDate,maxDate,'+id+'_da_html"-->'+
                            '{{{'+id+'_da_html}}}'+
-                        '<!-- bx-tmpl="pagedbd"-->'+
+                        '<!--bx-tmpl="pagedbd"-->'+
                         '</div>'+
                         '<div class="calendar-page-fd">'+
                             

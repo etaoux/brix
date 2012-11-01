@@ -122,15 +122,13 @@
         </script>
 
         <script type="text/template" id="tmpl_dropdownext">
-            {{#dropdown_list}}
             <span class="dropdown-hd" bx-tmpl="dropdown" bx-datakey="dropdown_list.selected">
-            <!--bx-tmpl="dropdown" bx-datakey="dropdown_list.selected"-->
+            {{#dropdown_list}}
             {{#selected}}
             <span class="dropdown-text" value="{{value}}">{{text}}</span>{{brick15_xx_yy}}
             {{/selected}}
-            <!--bx-tmpl="dropdown"-->
-            </span>
             {{/dropdown_list}}
+            </span>
             <ul class="dropdown-list dropdown-list-noicon">
                 {{#dropdown_list}}
                 <li class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}"><span value="{{value}}">{{text}}</span></li>
@@ -202,12 +200,6 @@
 
 
                     var pagelet = new Pagelet({tmpl:'#test_containerext'});
-                    pagelet.ready(function(){
-                        var d = pagelet.getBrick('brick15');
-                        S.later(function(){
-                            d.setChunkData('dropdown_list.selected',{value:'324',text:'测试啊'});
-                        },3000);
-                    });
 
 
                     //联动Demo
