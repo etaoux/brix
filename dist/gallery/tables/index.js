@@ -76,6 +76,7 @@ KISSY.add('brix/gallery/tables/index', function(S, Brick) {
         initialize: function() {
             //默认第一个tr高亮
             this.curTr = this.get('el').all('tbody > tr:first');
+            this.curTr.addClass('hover');
         }
     });
 
