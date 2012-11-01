@@ -59,6 +59,15 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
     }
     DatePicker.Date = Calendar.Date;
     DatePicker.ATTRS = {
+        id:{
+            getter:function(v){
+                if(!v){
+                    v = 'brix_datepicker_' + S.guid();
+                    this.__set('id',v);
+                }
+                return v
+            }
+        },
         /**
          * 触发日历的对象
          * @cfg {Element}
@@ -216,9 +225,8 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
         tmpl:{
             valueFn:function(){
                 var self = this,
-                    id = self.get('id') || 'brix_datepicker_' + S.guid();
-                return '<div id="'+id+'" bx-name="datepicker" class="datepicker">'+
-                            '<div class="datepicker-bd">'+
+                    id = self.get('id');
+                var html ='<div class="datepicker-bd">'+
                                 '{{^isCompare}}'+
                                 '<label>日期范围：</label>'+
                                 '<div class="range">'+
@@ -244,8 +252,11 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                                 '<div class="operator">'+
                                     '<a class="btn btn-size25 btn-confirm" href="#">确定</a><a class="btn-cancel" href="#">取消</a>'+
                                 '</div>'+
-                            '</div>'+
-                        '</div>';
+                            '</div>';
+                if(!self.get('el')){
+                    html = '<div id="'+id+'" class="datepicker">' +html+ '</div>';
+                }
+                return html;
             }
         },
         data:{
@@ -264,8 +275,10 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                     isCompare:isCompare,
                     compareText:compareText
                 }
-
             }
+        },
+        autoRender:{
+            value:false
         }
     };
     DatePicker.RENDERERS = {
@@ -288,7 +301,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                     el = self.get('el'),
                     node = S.one(e.target),
                     trigger = S.one(self.get('trigger'));
-                if (!el.contains(node) && trigger && node[0] != trigger[0]&&(!self.calendar || !self.calendar.get('el').contains(node))) {
+                if (!el.equals(node)&&!el.contains(node) && trigger && node[0] != trigger[0]&&(!self.calendar || !self.calendar.get('el').contains(node))) {
                     self.hide();
                 }
             }
@@ -468,7 +481,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
         initialize: function() {
             var self = this;
             self.overlay = new Overlay({
-                srcNode: '#' + self.get('id')
+                srcNode: self.get('el')
             });
             self.overlay.render();
         },

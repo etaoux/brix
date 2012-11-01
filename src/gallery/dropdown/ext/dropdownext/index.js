@@ -2,7 +2,6 @@ KISSY.add("brix/gallery/dropdown/ext/dropdownext/index", function(S, Dropdown) {
 
 	function Dropdownext(){
 		//这里可以做一些hack操作，不确定
-		debugger
 		Dropdownext.superclass.constructor.apply(this, arguments);
 	}
 
@@ -24,7 +23,7 @@ KISSY.add("brix/gallery/dropdown/ext/dropdownext/index", function(S, Dropdown) {
 	Dropdownext.EVENTS = {
 		'':{
 			click:function(){
-				console.log(this.get('extattr'));
+				S.log(this.get('extattr'));
 			}
 		}
 	}

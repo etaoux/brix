@@ -1,5 +1,20 @@
 KISSY.add("brix/core/pagelet", function(S, Chunk) {
     /**
+     * 用以给brick打上id的标记,brick有id则返回
+     * @method _stamp
+     * @param el
+     * @return {string}
+     * @ignore
+     */
+
+    function _stamp(el, prefix) {
+        prefix = prefix || 'brick_';
+        if (!el.attr('id')) {
+            el.attr('id', S.guid('brix_' + prefix));
+        }
+        return el.attr('id');
+    }
+    /**
      * Brix Pagelet 是组件的管理器，实现组件的层次化渲染。
      * 一个页面由多个组件和非组件的HTML片段组成，实际创建过程中需要一个个动态创建，
      * 基于约定为大的原则，采用“钩子”和Mustache，自动化的完成组件渲染和行为附加
@@ -12,24 +27,22 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         //初始化属性
         self.isReady = false;
         self.readyList = [];
-        self.brickList = [];
+        self.bricks = [];
         self.isAddBehavior = false;
         //如果是自动渲染，或者已经在dom中，则触发rendered事件
         if (self.get('autoRender')||self.get('tmpler').inDom) {
-            self.ready(function(){
-                self.render();
+            self.on('rendered',function(){
+                //增加参数回调
+                var callback = self.get('callback');
+                if(callback&&typeof callback === 'function'){
+                    self.ready(callback);
+                }
+                //自动添加行为渲染
+                if(self.get('behavior')){
+                    self.addBehavior();
+                }
             });
-        }
-
-        //增加参数回调
-        var callback = self.get('callback');
-        if(callback&&typeof callback === 'function'){
-            self.ready(callback);
-        }
-
-        //自动添加行为渲染
-        if(self.get('behavior')){
-            self.addBehavior();
+            self.render();
         }
     }
     Pagelet.ATTRS = {
@@ -57,16 +70,13 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          */
         getBrick: function(id, bricks) {
             var self = this,
-                tmpler = self.get('tmpler'),
                 brick;
-            if(tmpler){
-                S.each(tmpler.bricks, function(b) {
-                    if (b.id === id) {
-                        brick = b.brick;
-                        return false;
-                    }
-                });
-            }
+            S.each(self.bricks, function(b) {
+                if (b.id === id) {
+                    brick = b.brick;
+                    return false;
+                }
+            });
             return brick || null;
         },
         /**
@@ -74,59 +84,63 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          */
         addBehavior: function() {
             var self = this;
-            if (!self.isAddBehavior) {
+            if (self.get('rendered')&&!self.isAddBehavior) {
                 self.isAddBehavior = true;
-                var tmpler = self.get('tmpler');
-                if(tmpler){
-                    var bricks = tmpler.bricks;
-                    self._buildBricks(bricks);//构建当前pagelet包含的所有brick
-                    if(self.brickList.length>0){
-                        S.use(self.brickList.join(','),function(S){
-                            self._addBehavior(bricks,arguments);
-                            self._fireReady();
+                var el = self.get('el');
+                //构建pagelet所有的brick组件
+                var bricks = self.bricks = [];
+                var brickNodes = el.all('[bx-name]');
+                if (el.hasAttr('bx-name')) {
+                    brickNodes = brickNodes.add(el[0]);
+                }
+                brickNodes.each(function(brickNode){
+                    var id = _stamp(brickNode),
+                        name = brickNode.attr('bx-name'),
+                        path = brickNode.attr('bx-path'),
+                        config = brickNode.attr('bx-config');
+                    config = config ? eval("config=" + config) : {};
+                    bricks.push({
+                        id :id,
+                        name:name,
+                        path: path,
+                        config: config
+                    });
+                });
+
+                //构建pagelet需要引用组件js
+                if(bricks.length>0){
+                    var useList = [];
+                    S.each(bricks, function(o) {
+                        if(!o.path){
+                            o.path = 'brix/gallery/'+o.name+'/';
+                        }
+                        if(!S.inArray(useList,o.path)){
+                            useList.push(o.path);
+                        }
+                    });
+                    //实例化pagelet所有组件
+                    S.use(useList.join(','),function(S){
+                        var useClassList = arguments;
+                        S.each(bricks, function(o) {
+                            var id = o.id;
+                            var config = S.merge({
+                                container:'#'+id,
+                                id: id,
+                                el: '#' + id,
+                                pagelet: self
+                            }, o.config);
+                            var TheBrick = useClassList[S.indexOf(o.path, useList)+1];
+                            var myBrick = new TheBrick(config);
+                            o.brick = myBrick;
                         });
-                        return;
-                    }
+                        useClassList = null;
+                        self._fireReady();
+                    });
                 }
-                self._fireReady();
+                else{
+                    self._fireReady();
+                }
             }
-        },
-        /**
-         * 分层次的渲染brick
-         * @param {Object} bricks 需要渲染的brick集合
-         * @param {Array} brickClassList use回调的参数集合
-         * @private
-         */
-        _addBehavior: function(bricks,brickClassList) {
-            var self = this;
-            S.each(bricks, function(o) {
-                var id = o.id;
-                var config = S.merge({
-                    container:'#'+id,
-                    id: id,
-                    el: '#' + id,
-                    pagelet: self
-                }, o.config);
-                var TheBrick = brickClassList[S.indexOf(o.path, self.brickList)+1];
-                var myBrick = new TheBrick(config);
-                o.brick = myBrick;
-            });
-        },
-        /**
-         * 构建页面所有bricks，提供给use使用
-         * @param  {Object} bricks 
-         * @private
-         */
-        _buildBricks:function(bricks){
-            var self = this;
-            S.each(bricks, function(o) {
-                if(!o.path){
-                    o.path = 'brix/gallery/'+o.name+'/';
-                }
-                if(!S.inArray(self.brickList,o.path)){
-                    self.brickList.push(o.path);
-                }
-            });
         },
         /**
          * 渲染完成后需要执行的函数
@@ -165,35 +179,28 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
             var self = this,
                 el = self.get('el'),
                 tmpler = self.get('tmpler');
-            if (tmpler) {
-                self._destroyBricks(tmpler.bricks,id);
-            }
-            if(!id){
-                tmpler.tmpls = null;
-                tmpler.bricks = null;
-                el.remove();
-            }
-            el = null;
-        },
-
-        /**
-         * 销毁brick引用
-         * @param  {Object} bricks 需要销毁的对象集合
-         * @private
-         */
-        _destroyBricks: function(bricks,id) {
-            var self = this;
-            S.each(bricks, function(o,i) {
-                if(id){
+            if(id){
+                for (var i = 0; i < self.bricks.length; i++) {
+                    var o = self.bricks[i];
                     if(id===o.id){
                         self._destroyBrick(o);
+                        self.bricks.splice(i,1);
                         return false;
                     }
-                }
-                else{
+                };
+            }
+            else{
+                S.each(self.bricks, function(o,i) {
                     self._destroyBrick(o);
+                    self.bricks = null;
+                });
+                if(tmpler){
+                     tmpler.tmpls = null;
                 }
-            });
+                el.remove();
+            }
+
+            el = null;
         },
         /**
          * 销毁brick引用
@@ -201,7 +208,6 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          * @private
          */
         _destroyBrick: function(o) {
-            var self = this;
             if (o.brick) {
                 o.brick.destroy();
                 o.brick = null;

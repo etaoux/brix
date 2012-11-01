@@ -9,6 +9,9 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
     function Chunk() {
         Chunk.superclass.constructor.apply(this, arguments);
         this._buildTmpler();
+        if(!this.get('id')){
+            this.set('id','brix_'+S.guid());
+        }
     }
 
     /**
@@ -127,17 +130,12 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                 if(tmpl){
                     tmpler = new Tmpler(tmpl);
                     self.set('tmpler',tmpler);
-                    var id = self.get('id');
-                    if(!id){
-                        self.set('id',tmpler.id);
-                        self.set('el','#'+tmpler.id);
+                    if(tmpler.inDom){
+                        self.set('el',tmpl);
                     }
-                    /*else{
-                        self.set('el','#'+id);
-                    }*/
                 }
             }
-            if(tmpler){
+            if(tmpler&&!tmpler.inDom){
                 self._buildDataset();
             }
         },
@@ -166,7 +164,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
          * @param {Array} arr 模板数组
          * @return {Boolean} 是否添加成功
          */
-        addTmpl: function(id, arr) {
+        addTmpl: function(arr) {
             var self =  this,tmpler = self.get('tmpler');
             if(tmpler){
                 return tmpler.addTmpl(arr);
@@ -224,26 +222,51 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                         var el = self.get('el');
                         var html = tmpler.to_html(data);
                         if((!el||el.length==0)){
-                            var node = new Node(html);
-                            if(node.length>1){
-                                html = '<div id="'+tmpler.id+'">'+html+'</div>';
+                            var elID = self.get('id');
+                            if(UA.ie<=8){
+                                var node = new Node('<div />');
+                                container.append(node);
+                                node.html(html);
+                                var childs = node[0].childNodes;
+                                if(childs.length>1){
+                                    node.attr('id',elID);
+                                }
+                                else{
+                                    elID = childs[0].id || elID;
+                                    childs[0].id = elID;
+                                    while(childs.length>0){
+                                        container[0].appendChild(childs[0]);
+                                    }
+                                    node.remove();
+                                }
                             }
-                            node.remove();
-                            node = null;
-                        }
-                        if(UA.ie<=8){
-                            var node = new Node('<div />');
-                            container.append(node);
-                            node.html(html);
-                            while(node[0].childNodes.length>0){
-                                container[0].appendChild(node[0].childNodes[0]);
+                            else{
+                                var node = new Node(html);
+                                if(node.length>1){
+                                    node = $('<div id="'+elID+'">'+html+'</div>').append(node);
+                                }
+                                else{
+                                    elID = node.attr('id') || elID;
+                                    node.attr('id',elID);
+                                }
+                                container.append(node);
                             }
-                            node.remove();
+                            self.set('el','#'+elID);
                         }
                         else{
-                            container.append(html);
+                            if(UA.ie<=8){
+                                var node = new Node('<div />');
+                                container.append(node);
+                                node.html(html);
+                                while(node[0].childNodes.length>0){
+                                    container[0].appendChild(node[0].childNodes[0]);
+                                }
+                                node.remove();
+                            }
+                            else{
+                                container.append(html);
+                            }
                         }
-                        
                     }
                 } 
             }
