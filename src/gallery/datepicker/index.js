@@ -237,7 +237,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                                 '{{/isCompare}}'+
                                 '{{#isCompare}}'+
                                 '<label>当前日期：</label>'+
-                                '<div bx-tmpl="datepicker" bx-datakey="compareText" class="range">{{compareText}}'+
+                                '<div bx-tmpl="datepicker" bx-datakey="compareText" class="range"><!--bx-tmpl="datepicker" bx-datakey="compareText"-->{{compareText}}<!--bx-tmpl="datepicker"-->'+
                                 '</div>'+
                                 '<label>与其他日期比较：(须同样天数)</label>'+
                                 '<div class="range">'+

@@ -111,6 +111,7 @@ KISSY.add("components/area/index", function(S, Brick, DropdownBrick, Zone) {
             var self = this;
             var tpl = [
                 '<div bx-name="dropdown" bx-tmpl="dropdown" bx-datakey="datalist" class="dropdown" id="'+id+'" style="text-class:left;width:'+width+'px;height: 24px;line-height: 24px;left:'+left+'px">',
+                    '<!--bx-tmpl="dropdown" bx-datakey="datalist"-->',
                     '<span class="dropdown-hd">',
                         '{{#datalist}}',
                             '{{#def}}',
@@ -133,6 +134,7 @@ KISSY.add("components/area/index", function(S, Brick, DropdownBrick, Zone) {
                         '{{/datalist}}',
                     '</ul>',
                     '<input value="" name="'+self.get('name')+'" type="hidden" />',
+                    '<!--bx-tmpl="dropdown"-->',
                 '</div>'].join('');
             return tpl;
         },

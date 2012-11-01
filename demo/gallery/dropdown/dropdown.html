@@ -98,7 +98,8 @@
             }
         </script>
         <script type="text/template" id="tmpl_dropdown">
-            <div style="width:200px" id="brick13" bx-name="dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown">
+            <div style="width:200px" id="brick13" bx-name="dropdown" bx-tmpl="dropdown" bx-datakey="dropdown_list" class="dropdown">
+            <!--bx-tmpl="dropdown" bx-datakey="dropdown_list"-->
                 {{#dropdown_list}}
                 {{#selected}}
                 <span class="dropdown-hd">
@@ -116,15 +117,18 @@
                 <input value="{{value}}" type="hidden" />
                 {{/selected}}
                 {{/dropdown_list}}
+            <!--bx-tmpl="dropdown"-->
             </div>
         </script>
 
         <script type="text/template" id="tmpl_dropdownext">
             {{#dropdown_list}}
             <span class="dropdown-hd" bx-tmpl="dropdown" bx-datakey="dropdown_list.selected">
+            <!--bx-tmpl="dropdown" bx-datakey="dropdown_list.selected"-->
             {{#selected}}
             <span class="dropdown-text" value="{{value}}">{{text}}</span>{{brick15_xx_yy}}
             {{/selected}}
+            <!--bx-tmpl="dropdown"-->
             </span>
             {{/dropdown_list}}
             <ul class="dropdown-list dropdown-list-noicon">

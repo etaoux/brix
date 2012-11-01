@@ -58,7 +58,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache,Node) {
          */
         _buildTmpls: function(tmpl) {
             var self = this;
-            var r = /<!--bx-tmpl="(.*)?".*?bx-datakey="(.+)?"-->(\s*([\s\S]*)?\s*)<!--bx-tmpl="\1"-->/ig,
+            var r = /<!--bx-tmpl="(.*)?".*?bx-datakey="(.+)?"-->(\s*([\s\S]*)?\s*)<!--bx-tmpl="\1"-->/g,
                 m;
             while((m = r.exec(tmpl)) !== null) {
                 self.tmpls.push({
@@ -76,7 +76,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache,Node) {
          */
         _replaceTmpl: function(tmpl) {
             //return tmpl;
-            var r = /<!--bx-tmpl="(.*)?".*?bx-datakey="(.+)?"-->(\s*([\s\S]*)?\s*)<!--bx-tmpl="\1"-->/ig,
+            var r = /<!--bx-tmpl="(.*)?".*?bx-datakey="(.+)?"-->(\s*([\s\S]*)?\s*)<!--bx-tmpl="\1"-->/g,
                 m;
             while(r.test(tmpl)) {
                 tmpl = tmpl.replace(r, function(i, j, k, l) {
