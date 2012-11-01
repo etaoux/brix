@@ -243,7 +243,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                             else{
                                 var node = new Node(html);
                                 if(node.length>1){
-                                    node = $('<div id="'+elID+'">'+html+'</div>').append(node);
+                                    node = $('<div id="'+elID+'"></div>').append(node);
                                 }
                                 else{
                                     elID = node.attr('id') || elID;
