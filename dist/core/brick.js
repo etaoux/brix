@@ -20,16 +20,15 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
             tmpler = self.get('tmpler');
         var constt = self.constructor;
 
-        while(constt.NAME!='Brick'){
-            var renderers = constt.RENDERERS;
-            if (renderers) {
-                var context = self.pagelet?self.pagelet:self;
-                context.get('dataset').setRenderer(renderers, self, id);
+        if(tmpler&&!tmpler.inDom){
+            while(constt.NAME!='Brick'){
+                var renderers = constt.RENDERERS;
+                if (renderers) {
+                    self.get('dataset').setRenderer(renderers, self, id);
+                }
+                constt = constt.superclass.constructor;
             }
-            constt = constt.superclass.constructor;
         }
-         
-
         self.on('rendered', function() {
             var main,extChains = [];
             constt = self.constructor;
@@ -42,24 +41,11 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
             for (var i = extChains.length - 1; i >= 0; i--) {
                 extChains[i] && extChains[i].call(self);
             }
-
             self._bindEvent();
         });
 
-        if(self.pagelet){
-            if(self.pagelet.get('rendered')){
-                self.render();
-            }
-            else{
-                self.pagelet.on('rendered', function() {
-                    self.render();
-                }); 
-            }
-        }
-        else{
-            if (self.get('autoRender')||!tmpler||tmpler.inDom) {
-                self.render();
-            }
+        if (self.get('autoRender')||!tmpler||tmpler.inDom){
+            self.render();
         }
     }
 
@@ -353,10 +339,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
             var self = this, 
                 tmpler = self.get('tmpler');
             if (tmpler) {
-                S.each(tmpler.bricks, function(b) {
-                    b.brick = null;
-                });
-                self.set('tmpler',null);
+                tmpler.tmpls = null;
             }
             self._detachEvent();
             self.get("el").remove();

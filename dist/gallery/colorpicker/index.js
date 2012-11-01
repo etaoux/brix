@@ -100,6 +100,9 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
          */
         color: {
             value: '#ffffff'
+        },
+        autoRender:{
+            value:false
         }
     };
     ColorPicker.DOCEVENTS = {
@@ -109,7 +112,7 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
                     el = self.get('el'),
                     node = S.one(e.target),
                     trigger = S.one(self.get('trigger'));
-                if (!el.contains(node) && trigger && node[0] != trigger[0]) {
+                if (!el.equals(node)&&!el.contains(node) && trigger && node[0] != trigger[0]) {
                     self.hide();
                 }
             }
@@ -379,7 +382,7 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             this.s = this.v = 1;
             var align = self.get('align');
             self.overlay = new Overlay({
-                srcNode: '#' + self.get('id'),
+                srcNode: self.get('el'),
                 align: align
             });
             self.overlay.render();

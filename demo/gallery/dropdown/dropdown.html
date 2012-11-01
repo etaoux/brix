@@ -15,7 +15,8 @@
                 <tr>
                     <td id="test_containerext">
                         dropdownext
-                    
+                        <div style="width:200px" id="brick15" bx-name="dropdown" bx-config="{tmpl:'#tmpl_dropdownext',data:dropdown_data}" bx-path="brix/gallery/dropdown/ext/dropdownext/" class="dropdown">
+                        </div>
                     </td>
                     <td id="test_container"></td>
                     <td>
@@ -76,7 +77,8 @@
                 dropdown_list:[{
                         value: "1",
                         text: "计划列表",
-                        selected:true
+                        selected:true,
+                        color:'red'
                     },
                     {
                         value: "2",
@@ -85,11 +87,13 @@
                     },
                     {
                         value: "3",
-                        text: "计划列表3"
+                        text: "计划列表3",
+                        color:'red'
                     },
                     {
                         value: "4",
-                        text: "计划列表4"
+                        text: "计划列表4",
+                        color:'red'
                     }]
             }
         </script>
@@ -98,7 +102,7 @@
                 {{#dropdown_list}}
                 {{#selected}}
                 <span class="dropdown-hd">
-                <span class="dropdown-text" value="{{value}}">{{text}}</span>
+                <span style="{{#if(color==red)}}color:{{color}}{{/if(color==red)}}" class="dropdown-text" value="{{value}}">{{text}}</span>
                 </span>
                 {{/selected}}
                 {{/dropdown_list}}
@@ -116,28 +120,23 @@
         </script>
 
         <script type="text/template" id="tmpl_dropdownext">
-        <div style="width:200px" id="brick15" bx-name="dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" bx-path="brix/gallery/dropdown/ext/dropdownext/" class="dropdown">
-            {{brick15_xx_yy}}
+            {{#dropdown_list}}
+            <span class="dropdown-hd" bx-tmpl="dropdown" bx-datakey="dropdown_list.selected">
+            {{#selected}}
+            <span class="dropdown-text" value="{{value}}">{{text}}</span>{{brick15_xx_yy}}
+            {{/selected}}
+            </span>
+            {{/dropdown_list}}
+            <ul class="dropdown-list dropdown-list-noicon">
                 {{#dropdown_list}}
-                
-                <span class="dropdown-hd" bx-tmpl="dropdown" bx-datakey="dropdown_list.selected">
-                {{#selected}}
-                <span class="dropdown-text" value="{{value}}">{{text}}</span>
-                {{/selected}}
-                </span>
-                
+                <li class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}"><span value="{{value}}">{{text}}</span></li>
                 {{/dropdown_list}}
-                <ul class="dropdown-list dropdown-list-noicon">
-                    {{#dropdown_list}}
-                    <li class="dropdown-item{{#selected}} dropdown-itemselected{{/selected}}"><span value="{{value}}">{{text}}</span></li>
-                    {{/dropdown_list}}
-                </ul>
-                {{#dropdown_list}}
-                {{#selected}}
-                <input value="{{value}}" type="hidden" />
-                {{/selected}}
-                {{/dropdown_list}}
-          </div>
+            </ul>
+            {{#dropdown_list}}
+            {{#selected}}
+            <input value="{{value}}" type="hidden" />
+            {{/selected}}
+            {{/dropdown_list}}
         </script>
         <script>
             KISSY.ready(function(S) {
@@ -198,7 +197,7 @@
 
 
 
-                    var pagelet = new Pagelet({id:'#test_containerext',tmpl:'#tmpl_dropdownext',data:dropdown_data});
+                    var pagelet = new Pagelet({tmpl:'#test_containerext'});
                     pagelet.ready(function(){
                         var d = pagelet.getBrick('brick15');
                         S.later(function(){
