@@ -26,6 +26,7 @@ module.exports = function(grunt) {
     // TASKS
     // ==========================================================================
     grunt.registerMultiTask('brixjs', 'Compile Brix JS files.', function() {
+        var pkg = file.readJSON('package.json');
         var src = this.file.src,
             dest = this.file.dest;
         var max,min, 
@@ -40,7 +41,7 @@ module.exports = function(grunt) {
             max = grunt.helper('concat',files[i] , {
                 separator: '\n'
             });
-            max = max.replace('@DEBUG@','');
+            max = max.replace('@DEBUG@','').replace('@VERSION@',pkg.version).replace('@TAG@',pkg.tag);
             file.write(dest+'core/'+f, max);
             min = grunt.helper('uglify', max, grunt.config('uglify'));
             file.write(dest+'core/'+path.basename(f,'.js')+'-min.js', min);
@@ -49,7 +50,7 @@ module.exports = function(grunt) {
         max = grunt.helper('concat', files, {
             separator: '\n'
         });
-        max = max.replace('@DEBUG@','');
+        max = max.replace('@DEBUG@','').replace('@VERSION@',pkg.version).replace('@TAG@',pkg.tag);
         file.write(dest+'brix.js', banner+max);
 
         min = grunt.helper('uglify', max, grunt.config('uglify'));

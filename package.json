@@ -1,7 +1,8 @@
 {
   "name": "brix",
   "description": "Brix",
-  "version": "0.1.0",
+  "version": "1.0",
+  "tag":"20121111",
   "homepage": "https://github.com/etaoux/brix",
   "author": {
     "name": "etaoux",

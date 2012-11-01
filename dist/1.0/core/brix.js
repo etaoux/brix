@@ -106,9 +106,9 @@
         }, pathInfo);
     }
     var defaultOptions = getBaseInfo();
-    var debug = '@DEBUG@'; //区分src还是dist版本
-    var tag = '@TAG@'; //KISSY包时间戳
-    var version = '@VERSION@'; //版本号
+    var debug = ''; //区分src还是dist版本
+    var tag = '20121111'; //KISSY包时间戳
+    var version = '1.0'; //版本号
     var isConfig = false; //是否已经配置过
     S.mix(Brix, {
         /**
