@@ -26,14 +26,14 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
     }
     Dialog.ATTRS = {
         /**
-         * 触发日历的对象
+         * 触发Dialog的对象
          * @cfg {Element}
          */
         trigger:{
             value:false
         },
         /**
-         * 触发弹出日历的事件类型, 
+         * 触发弹出Dialog的事件类型, 
          * 例如：[‘click’,’focus’],也可以直接传入’focus’, 默认为[‘click’]
          * @cfg {String|Array}
          */

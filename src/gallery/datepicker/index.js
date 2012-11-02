@@ -69,14 +69,14 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
             }
         },
         /**
-         * 触发日历的对象
+         * 触发时间选择的对象
          * @cfg {Element}
          */
         trigger:{
             value: false
         },
         /**
-         * 触发弹出日历的事件类型, 
+         * 触发弹出时间选择的事件类型, 
          * 例如：[‘click’,’focus’],也可以直接传入’focus’, 默认为[‘click’]
          * @cfg {String|Array}
          */
