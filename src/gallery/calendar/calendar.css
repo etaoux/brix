@@ -59,6 +59,7 @@
   float: left;
   font-size: 12px;
   line-height: 12px;
+  cursor: pointer;
 }
 .calendar .calendar-pages .calendar-page .calendar-page-hd .calendar-prev-year {
   left: 3px;
