@@ -1068,7 +1068,7 @@ button,
 input,
 select,
 textarea {
-  font: 12px/1.5 "microsoft yahei", "\5FAE\8F6F\96C5\9ED1", tahoma, sans-serif;
+  font: 12px/1.5 tahoma, "\5FAE\8F6F\96C5\9ED1";
   color: #606060;
 }
 h1,
@@ -1112,7 +1112,7 @@ a:hover {
   color: #ff8400;
 }
 a:visited {
-  color: #810080;
+  color: #0066dd;
 }
 .rmb {
   font-size: .75em;
