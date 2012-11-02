@@ -120,8 +120,7 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
             if(selectedItem){
                 self._select(selectedItem);
             }
-        },
-
+        }
     }
 
     Dropdown.DOCEVENTS = {

@@ -1,4 +1,4 @@
-KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
+KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
     var $ = Node.all;
      /**
      * Brix Chunk,Brick和Pagelet类的基类,
@@ -9,6 +9,9 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
     function Chunk() {
         Chunk.superclass.constructor.apply(this, arguments);
         this._buildTmpler();
+        if(!this.get('id')){
+            this.set('id','brix_'+S.guid());
+        }
     }
 
     /**
@@ -127,17 +130,12 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
                 if(tmpl){
                     tmpler = new Tmpler(tmpl);
                     self.set('tmpler',tmpler);
-                    var id = self.get('id');
-                    if(!id){
-                        self.set('id',tmpler.id);
-                        self.set('el','#'+tmpler.id);
+                    if(tmpler.inDom){
+                        self.set('el',tmpl);
                     }
-                    /*else{
-                        self.set('el','#'+id);
-                    }*/
                 }
             }
-            if(tmpler){
+            if(tmpler&&!tmpler.inDom){
                 self._buildDataset();
             }
         },
@@ -166,7 +164,7 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
          * @param {Array} arr 模板数组
          * @return {Boolean} 是否添加成功
          */
-        addTmpl: function(id, arr) {
+        addTmpl: function(arr) {
             var self =  this,tmpler = self.get('tmpler');
             if(tmpler){
                 return tmpler.addTmpl(arr);
@@ -222,11 +220,53 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
                     if(!tmpler.inDom){
                         var container = self.get('container');
                         var el = self.get('el');
-                        var node = new Node(tmpler.to_html(data));
-                        if((!el||el.length==0)&&node.length>1){
-                            node = $('<div id="'+tmpler.id+'"></div>').append(node);
+                        var html = tmpler.to_html(data);
+                        if((!el||el.length==0)){
+                            var elID = self.get('id');
+                            if(UA.ie<=8){
+                                var node = new Node('<div />');
+                                container.append(node);
+                                node.html(html);
+                                var childs = node[0].childNodes;
+                                if(childs.length>1){
+                                    node.attr('id',elID);
+                                }
+                                else{
+                                    elID = childs[0].id || elID;
+                                    childs[0].id = elID;
+                                    while(childs.length>0){
+                                        container[0].appendChild(childs[0]);
+                                    }
+                                    node.remove();
+                                }
+                            }
+                            else{
+                                var node = new Node(html);
+                                if(node.length>1){
+                                    node = $('<div id="'+elID+'"></div>').append(node);
+                                }
+                                else{
+                                    elID = node.attr('id') || elID;
+                                    node.attr('id',elID);
+                                }
+                                container.append(node);
+                            }
+                            self.set('el','#'+elID);
                         }
-                        container.append(node);
+                        else{
+                            if(UA.ie<=8){
+                                var node = new Node('<div />');
+                                container.append(node);
+                                node.html(html);
+                                while(node[0].childNodes.length>0){
+                                    container[0].appendChild(node[0].childNodes[0]);
+                                }
+                                node.remove();
+                            }
+                            else{
+                                container.append(html);
+                            }
+                        }
                     }
                 } 
             }
@@ -264,5 +304,5 @@ KISSY.add("brix/core/chunk", function(S, Node, Base, Dataset, Tmpler) {
     });
     return Chunk;
 }, {
-    requires: ["node", "base", "./dataset", "./tmpler"]
+    requires: ["node",'ua', "base", "./dataset", "./tmpler"]
 });

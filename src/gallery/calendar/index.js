@@ -21,6 +21,15 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
     }
     Calendar.Date = Brix_Date;
     Calendar.ATTRS = {
+        id:{
+            getter:function(v){
+                if(!v){
+                    v = 'brix_calendar_' + S.guid();
+                    this.__set('id',v);
+                }
+                return v
+            }
+        },
         /**
          * 该日期所在月份, 默认为当天
          * @cfg {Date}
@@ -188,14 +197,17 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
             value: false
         },
         tmpl: {
-            valueFn: function() {
-                var self = this,
-                    id = self.get('id') || 'brix_calendar_' + S.guid();
-                var html = '<div class="calendar-pages"></div>' + '<div bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,' + id + '_op_html" class="calendar-operator">{{{' + id + '_op_html}}}</div>'
-                if(!self.get('id')){
-                    html = '<div id="' + id + '" bx-name="calendar" class="calendar">' +html+ '</div>'
+            getter: function(v) {
+                if(!v){
+                    var self = this,
+                        id = self.get('id');
+                    v = '<div class="calendar-pages"></div>' + '<div bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,' + id + '_op_html" class="calendar-operator"><!--bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,' + id + '_op_html"-->{{{' + id + '_op_html}}}<!--bx-tmpl="calendar"--></div>'
+                    if(!self.get('el')){
+                        v = '<div id="' + id + '" class="calendar">' +v+ '</div>'
+                    }
+                    this.__set('tmpl',v);
                 }
-                return  html; 
+                return v;
             }
         },
         autoRender:{
@@ -278,7 +290,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     el = self.get('el'),
                     node = S.one(e.target),
                     trigger = S.one(self.get('trigger'));
-                if (!el.contains(node) && trigger && node[0] != trigger[0]) {
+                if (!el.equals(node)&&!el.contains(node) && trigger && node[0] != trigger[0]) {
                     self.hide();
                 }
             }
@@ -403,7 +415,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     align.node = trigger;
                 }
                 self.overlay = new Overlay({
-                    srcNode: '#' + self.get('id'),
+                    srcNode: self.get('el'),
                     align: align
                 });
                 self.overlay.render();

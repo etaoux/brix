@@ -21,6 +21,15 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
     }
     Calendar.Date = Brix_Date;
     Calendar.ATTRS = {
+        id:{
+            getter:function(v){
+                if(!v){
+                    v = 'brix_calendar_' + S.guid();
+                    this.__set('id',v);
+                }
+                return v
+            }
+        },
         /**
          * 该日期所在月份, 默认为当天
          * @cfg {Date}
@@ -190,12 +199,12 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
         tmpl: {
             valueFn: function() {
                 var self = this,
-                    id = self.get('id') || 'brix_calendar_' + S.guid();
+                    id = self.get('id');
                 var html = '<div class="calendar-pages"></div>' + '<div bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,' + id + '_op_html" class="calendar-operator">{{{' + id + '_op_html}}}</div>'
-                if(!self.get('id')){
-                    html = '<div id="' + id + '" bx-name="calendar" class="calendar">' +html+ '</div>'
+                if(!self.get('el')){
+                    html = '<div id="' + id + '" class="calendar">' +html+ '</div>'
                 }
-                return  html; 
+                return html; 
             }
         },
         autoRender:{
@@ -278,7 +287,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     el = self.get('el'),
                     node = S.one(e.target),
                     trigger = S.one(self.get('trigger'));
-                if (!el.contains(node) && trigger && node[0] != trigger[0]) {
+                if (!el.equals(node)&&!el.contains(node) && trigger && node[0] != trigger[0]) {
                     self.hide();
                 }
             }
@@ -403,7 +412,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     align.node = trigger;
                 }
                 self.overlay = new Overlay({
-                    srcNode: '#' + self.get('id'),
+                    srcNode: self.get('el'),
                     align: align
                 });
                 self.overlay.render();

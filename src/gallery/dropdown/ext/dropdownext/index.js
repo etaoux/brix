@@ -11,10 +11,19 @@ KISSY.add("brix/gallery/dropdown/ext/dropdownext/index", function(S, Dropdown) {
 		}
 	}
 
+
+	Dropdownext.RENDERERS = {
+		xx:{
+			yy:function(){
+				return "xx_yy";
+			}
+		}
+	}
+
 	Dropdownext.EVENTS = {
 		'':{
 			click:function(){
-				console.log(this.get('extattr'));
+				S.log(this.get('extattr'));
 			}
 		}
 	}

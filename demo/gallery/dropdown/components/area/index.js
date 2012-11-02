@@ -110,8 +110,9 @@ KISSY.add("components/area/index", function(S, Brick, DropdownBrick, Zone) {
         _getCityTmpl : function(id,width,left){
             var self = this;
             var tpl = [
-                '<div bx-name="dropdown" bx-tmpl="dropdown" bx-datakey="datalist" class="dropdown" id="'+id+'" style="text-class:left;width:'+width+'px;height: 24px;line-height: 24px;left:'+left+'px">',
-                    '<span class="dropdown-hd">',
+                '<div bx-name="dropdown" class="dropdown" id="'+id+'" style="text-class:left;width:'+width+'px;height: 24px;line-height: 24px;left:'+left+'px">',
+                    '<span bx-tmpl="dropdownhd" bx-datakey="datalist" class="dropdown-hd">',
+                    '<!--bx-tmpl="dropdownhd" bx-datakey="datalist"-->',
                         '{{#datalist}}',
                             '{{#def}}',
                                 '<span class="dropdown-text" value="{{value}}">{{text}}</span>',
@@ -122,8 +123,10 @@ KISSY.add("components/area/index", function(S, Brick, DropdownBrick, Zone) {
                                 '{{/selected}}',
                             '{{/def}}',
                         '{{/datalist}}',
+                        '<!--bx-tmpl="dropdownhd"-->',
                     '</span>', 
-                    '<ul bx-tmpl="dropdown" bx-datakey="datalist" class="dropdown-list dropdown-list-noicon" style="height:140px">',
+                    '<ul bx-tmpl="dropdownlist" bx-datakey="datalist" class="dropdown-list dropdown-list-noicon" style="height:140px">',
+                    '<!--bx-tmpl="dropdownlist" bx-datakey="datalist"-->',
                         '{{#datalist}}',
                             '{{^def}}',
                             '<li class="dropdown-item {{#selected}}dropdown-itemselected{{/selected}}">',
@@ -132,6 +135,7 @@ KISSY.add("components/area/index", function(S, Brick, DropdownBrick, Zone) {
                             '{{/def}}',
                         '{{/datalist}}',
                     '</ul>',
+                    '<!--bx-tmpl="dropdownlist"-->',
                     '<input value="" name="'+self.get('name')+'" type="hidden" />',
                 '</div>'].join('');
             return tpl;
