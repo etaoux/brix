@@ -88,11 +88,6 @@ KISSY.add("brix/core/tmpler", function(S, Mustache,Node) {
         },
 
         /**
-         * 给brick添加模板
-         * @param {Array} arr 模板数组
-         * @return {Boolean} 是否添加成功
-         */
-        /**
          * 添加子模板
          * @param {String} name    模板名称
          * @param {String} datakey 模板对应的数据key
