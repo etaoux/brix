@@ -17,6 +17,24 @@
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js"><span id='Brix'>/**
 </span> * Brix配置类 组件框架入口类，在调用Brix组件的时候可以配置cdn地址，组件版本号等
+ * &lt;br&gt;
+ * 引用：
+ *     
+ *     &lt;script type=&quot;text/javascript&quot; src=&quot;brix.js&quot; bx-config=&quot;{autoConfig:true,autoPagelet:true}&quot;&gt;&lt;/script&gt;
+ *
+ * bx-config节点说明：&lt;br&gt;
+ *     autoConfig：自动配置包和map
+ *     autoPagelet：自动渲染body节点下的所有bx-name组件
+ *     componentsPath：项目组件包路径
+ *     componentsTag：项目组件时间戳
+ *     importsPath：项目公用组件包路径
+ *     importsTag：项目公用组件时间戳
+ *     gallery：组件版本配置
+ *     tag：核心组件的时间戳
+ *     debug:是否启用非压缩版本
+ *
+ * bx-config高级配置：&lt;br&gt;
+ *     fixed：对包路径的重写（不清楚的不要配）
  * @class Brix
  */
 (function(S, Brix) {
@@ -130,7 +148,7 @@
     S.mix(Brix, {
 <span id='Brix-method-config'>        /**
 </span>         * 配置路径
-         * @param  {Object} options [配置对象]
+         * @param  {Object} options 配置对象，详见bx-config配置节点
          */
         config: function(options) {
             if(isConfig) {
@@ -138,6 +156,7 @@
             }
             isConfig = true;
             options = KISSY.merge({
+                debug:debug=='@DEBUG@'?true:false,
                 tag: tag == '@TAG@' ? '' : tag,
                 fixed: version == '@VERSION@' ? '' : version + '/',
                 //路径修正，brix路劲下存在其他文件夹
@@ -174,7 +193,7 @@
                         if(options.gallery[$3]) {
                             str += '/' + options.gallery[$3]
                         }
-                        if(debug) {
+                        if(options.debug) {
                             $4 = $4.replace('-min', '');
                         }
                         str += $4 + ($5 ? $5 : '');
@@ -182,7 +201,7 @@
                     }],
                     [/(.+brix\/)(core.+?)((?:-min)?\.js)(\?[^?]+)?$/, function($0, $1, $2, $3, $4) {
                         var str = $1 + options.fixed;
-                        if(debug) {
+                        if(options.debug) {
                             $3 = $3.replace('-min', '');
                         }
                         str += $2 + $3 + ($4 ? $4 : '');
