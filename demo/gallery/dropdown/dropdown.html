@@ -154,7 +154,8 @@
                                     alert(1);*/
                                 }
                             }
-                    }
+                        },
+                        isRemoveEl:false
                     };
 
                     var dropdownBrick = new DropdownBrick(config);
@@ -178,7 +179,7 @@
 
 
                     S.later(function(){
-                        //dropdownBrick.destroy();
+                        dropdownBrick.destroy();
                     },8000);
 
                     //方法调用
