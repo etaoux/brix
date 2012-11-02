@@ -76,6 +76,15 @@
     }
     DatePicker.Date = Calendar.Date;
     DatePicker.ATTRS = {
+        id:{
+            getter:function(v){
+                if(!v){
+                    v = 'brix_datepicker_' + S.guid();
+                    this.__set('id',v);
+                }
+                return v
+            }
+        },
 <span id='Brix-Gallery-DatePicker-cfg-trigger'>        /**
 </span>         * 触发日历的对象
          * @cfg {Element}
@@ -233,26 +242,25 @@
         tmpl:{
             valueFn:function(){
                 var self = this,
-                    id = self.get('id') || 'brix_datepicker_' + S.guid();
-                return '&lt;div id=&quot;'+id+'&quot; bx-name=&quot;datepicker&quot; class=&quot;datepicker&quot;&gt;'+
-                            '&lt;div class=&quot;datepicker-bd&quot;&gt;'+
+                    id = self.get('id');
+                var html ='&lt;div class=&quot;datepicker-bd&quot;&gt;'+
                                 '{{^isCompare}}'+
                                 '&lt;label&gt;日期范围：&lt;/label&gt;'+
                                 '&lt;div class=&quot;range&quot;&gt;'+
-                                    '&lt;input input_type=&quot;Start&quot; value=&quot;{{start}}&quot;&gt;'+
+                                    '&lt;input class=&quot;input&quot; input_type=&quot;Start&quot; value=&quot;{{start}}&quot;&gt;'+
                                     '&lt;span class=&quot;input-split&quot;&gt;-&lt;/span&gt;'+
-                                    '&lt;input input_type=&quot;End&quot; value=&quot;{{end}}&quot;&gt;'+
+                                    '&lt;input class=&quot;input&quot; input_type=&quot;End&quot; value=&quot;{{end}}&quot;&gt;'+
                                 '&lt;/div&gt;'+
                                 '{{/isCompare}}'+
                                 '{{#isCompare}}'+
                                 '&lt;label&gt;当前日期：&lt;/label&gt;'+
-                                '&lt;div bx-tmpl=&quot;datepicker&quot; bx-datakey=&quot;compareText&quot; class=&quot;range&quot;&gt;{{compareText}}'+
+                                '&lt;div bx-tmpl=&quot;datepicker&quot; bx-datakey=&quot;compareText&quot; class=&quot;range&quot;&gt;&lt;!--bx-tmpl=&quot;datepicker&quot; bx-datakey=&quot;compareText&quot;--&gt;{{compareText}}&lt;!--bx-tmpl=&quot;datepicker&quot;--&gt;'+
                                 '&lt;/div&gt;'+
                                 '&lt;label&gt;与其他日期比较：(须同样天数)&lt;/label&gt;'+
                                 '&lt;div class=&quot;range&quot;&gt;'+
-                                    '&lt;input input_type=&quot;Start&quot; value=&quot;{{start}}&quot;&gt;'+
+                                    '&lt;input class=&quot;input&quot; input_type=&quot;Start&quot; value=&quot;{{start}}&quot;&gt;'+
                                     '&lt;span class=&quot;input-split&quot;&gt;-&lt;/span&gt;'+
-                                    '&lt;input input_type=&quot;End&quot; value=&quot;{{end}}&quot;&gt;'+
+                                    '&lt;input class=&quot;input&quot; input_type=&quot;End&quot; value=&quot;{{end}}&quot;&gt;'+
                                 '&lt;/div&gt;'+
                                 '{{/isCompare}}'+
                                 '{{#isQuick}}'+
@@ -261,8 +269,11 @@
                                 '&lt;div class=&quot;operator&quot;&gt;'+
                                     '&lt;a class=&quot;btn btn-size25 btn-confirm&quot; href=&quot;#&quot;&gt;确定&lt;/a&gt;&lt;a class=&quot;btn-cancel&quot; href=&quot;#&quot;&gt;取消&lt;/a&gt;'+
                                 '&lt;/div&gt;'+
-                            '&lt;/div&gt;'+
-                        '&lt;/div&gt;';
+                            '&lt;/div&gt;';
+                if(!self.get('el')){
+                    html = '&lt;div id=&quot;'+id+'&quot; class=&quot;datepicker&quot;&gt;' +html+ '&lt;/div&gt;';
+                }
+                return html;
             }
         },
         data:{
@@ -281,8 +292,10 @@
                     isCompare:isCompare,
                     compareText:compareText
                 }
-
             }
+        },
+        autoRender:{
+            value:false
         }
     };
     DatePicker.RENDERERS = {
@@ -305,7 +318,7 @@
                     el = self.get('el'),
                     node = S.one(e.target),
                     trigger = S.one(self.get('trigger'));
-                if (!el.contains(node) &amp;&amp; trigger &amp;&amp; node[0] != trigger[0]&amp;&amp;(!self.calendar || !self.calendar.get('el').contains(node))) {
+                if (!el.equals(node)&amp;&amp;!el.contains(node) &amp;&amp; trigger &amp;&amp; node[0] != trigger[0]&amp;&amp;(!self.calendar || !self.calendar.get('el').contains(node))) {
                     self.hide();
                 }
             }
@@ -485,7 +498,7 @@
         initialize: function() {
             var self = this;
             self.overlay = new Overlay({
-                srcNode: '#' + self.get('id')
+                srcNode: self.get('el')
             });
             self.overlay.render();
         },
@@ -506,6 +519,7 @@
     return DatePicker;
 }, {
     requires: [&quot;brix/core/brick&quot;, &quot;overlay&quot;,&quot;../calendar/index&quot;]
-});</pre>
+});
+</pre>
 </body>
 </html>

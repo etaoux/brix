@@ -45,6 +45,8 @@
                 var _this = e.target;
                 var child = $(_this).parent('tr').next('.table-child-tr');
 
+                if (!child) return;
+
                 if ($(_this).hasClass('icon-expend')) {
                     $(_this).replaceClass('icon-expend', 'icon-collapse');
                     child.hide();
@@ -91,6 +93,7 @@
         initialize: function() {
             //默认第一个tr高亮
             this.curTr = this.get('el').all('tbody &gt; tr:first');
+            this.curTr.addClass('hover');
         }
     });
 

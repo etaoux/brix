@@ -35,7 +35,7 @@
             value:true
         },
         tmpl:{
-            value : '&lt;div bx-name=&quot;time&quot;&gt;'+
+            value : '&lt;div&gt;'+
                         '&lt;div class=&quot;calendar-time&quot;&gt;'+
                             '时间：&lt;span class=&quot;h&quot;&gt;{{h}}&lt;/span&gt;:&lt;span class=&quot;m&quot;&gt;{{m}}&lt;/span&gt;:&lt;span class=&quot;s&quot;&gt;{{s}}&lt;/span&gt;'+
                             '&lt;div class=&quot;calendar-time-updown&quot;&gt;'+
@@ -44,9 +44,11 @@
                         '&lt;/div&gt;'+
                         '&lt;div class=&quot;calendar-time-popup&quot;&gt;'+
                             '&lt;div bx-tmpl=&quot;time&quot; bx-datakey=&quot;list&quot; class=&quot;calendar-time-popup-bd&quot;&gt;'+
+                            '&lt;!--bx-tmpl=&quot;time&quot; bx-datakey=&quot;list&quot;--&gt;'+
                                 '{{#list}}'+
                                 '&lt;a class=&quot;item&quot;&gt;{{.}}&lt;/a&gt;'+
                                 '{{/list}}'+
+                            '&lt;!--bx-tmpl=&quot;time&quot;--&gt;'+
                             '&lt;/div&gt;'+
                             '&lt;i class=&quot;iconfont icon-close&quot;&gt;&amp;#223&lt;/i&gt;'+
                         '&lt;/div&gt;'+

@@ -109,7 +109,7 @@
             }
         },
         tmpl: {
-            value: '&lt;div class=&quot;colorpicker&quot;&gt;' + '&lt;div class=&quot;colorpicker-hd&quot;&gt;' + '&lt;ul&gt;' + '{{#colorList}}' + '&lt;li val=&quot;{{.}}&quot; style=&quot;background-color:{{.}};&quot;&gt;&lt;/li&gt;' + '{{/colorList}}' + '&lt;/ul&gt;' + '&lt;/div&gt;' + '&lt;div class=&quot;colorpicker-md&quot;&gt;' + '&lt;i class=&quot;iconfont icon-arrow {{^min}}icon-arrow-up{{/min}}&quot;&gt;{{#min}}&amp;#405{{/min}}{{^min}}&amp;#404{{/min}}&lt;/i&gt;' + '&lt;/div&gt;' + '&lt;div class=&quot;colorpicker-bd {{#min}}colorpicker-bd-min{{/min}}&quot;&gt;' + '&lt;div class=&quot;picker-wrapper&quot;&gt;' + '&lt;div class=&quot;picker&quot;&gt;&lt;/div&gt;' + '&lt;i class=&quot;iconfont icon-picker-indicator&quot;&gt;&amp;#470&lt;/i&gt;' + '&lt;/div&gt;' + '&lt;div class=&quot;slide-wrapper&quot;&gt;' + '&lt;div class=&quot;slide&quot;&gt;&lt;/div&gt;' + '&lt;i class=&quot;iconfont icon-slide-indicator&quot;&gt;&amp;#461&lt;/i&gt;' + '&lt;/div&gt;' + '&lt;/div&gt;' + '&lt;div class=&quot;colorpicker-fd&quot;&gt;' + '&lt;span class=&quot;bg&quot; style=&quot;background-color:{{color}}&quot;&gt;&lt;/span&gt;&lt;input type=&quot;text&quot; value=&quot;{{color}}&quot;&gt;&lt;a class=&quot;btn btn-size25 btn-confirm&quot;&gt;确定&lt;/a&gt;' + '&lt;/div&gt;' + '&lt;/div&gt;'
+            value: '&lt;div class=&quot;colorpicker&quot;&gt;' + '&lt;div class=&quot;colorpicker-hd&quot;&gt;' + '&lt;ul&gt;' + '{{#colorList}}' + '&lt;li val=&quot;{{.}}&quot; style=&quot;background-color:{{.}};&quot;&gt;&lt;/li&gt;' + '{{/colorList}}' + '&lt;/ul&gt;' + '&lt;/div&gt;' + '&lt;div class=&quot;colorpicker-md&quot;&gt;' + '&lt;i class=&quot;iconfont icon-arrow {{^min}}icon-arrow-up{{/min}}&quot;&gt;{{#min}}&amp;#405{{/min}}{{^min}}&amp;#404{{/min}}&lt;/i&gt;' + '&lt;/div&gt;' + '&lt;div class=&quot;colorpicker-bd {{#min}}colorpicker-bd-min{{/min}}&quot;&gt;' + '&lt;div class=&quot;picker-wrapper&quot;&gt;' + '&lt;div class=&quot;picker&quot;&gt;&lt;/div&gt;' + '&lt;i class=&quot;iconfont icon-picker-indicator&quot;&gt;&amp;#470&lt;/i&gt;' + '&lt;/div&gt;' + '&lt;div class=&quot;slide-wrapper&quot;&gt;' + '&lt;div class=&quot;slide&quot;&gt;&lt;/div&gt;' + '&lt;i class=&quot;iconfont icon-slide-indicator&quot;&gt;&amp;#461&lt;/i&gt;' + '&lt;/div&gt;' + '&lt;/div&gt;' + '&lt;div class=&quot;colorpicker-fd&quot;&gt;' + '&lt;span class=&quot;bg&quot; style=&quot;background-color:{{color}}&quot;&gt;&lt;/span&gt;&lt;input class=&quot;input&quot; value=&quot;{{color}}&quot;&gt;&lt;a class=&quot;btn btn-size25 btn-confirm&quot;&gt;确定&lt;/a&gt;' + '&lt;/div&gt;' + '&lt;/div&gt;'
         },
 <span id='Brix-Gallery-ColorPicker-cfg-color'>        /**
 </span>         * 默认选中颜色
@@ -117,6 +117,9 @@
          */
         color: {
             value: '#ffffff'
+        },
+        autoRender:{
+            value:false
         }
     };
     ColorPicker.DOCEVENTS = {
@@ -126,7 +129,7 @@
                     el = self.get('el'),
                     node = S.one(e.target),
                     trigger = S.one(self.get('trigger'));
-                if (!el.contains(node) &amp;&amp; trigger &amp;&amp; node[0] != trigger[0]) {
+                if (!el.equals(node)&amp;&amp;!el.contains(node) &amp;&amp; trigger &amp;&amp; node[0] != trigger[0]) {
                     self.hide();
                 }
             }
@@ -396,7 +399,7 @@
             this.s = this.v = 1;
             var align = self.get('align');
             self.overlay = new Overlay({
-                srcNode: '#' + self.get('id'),
+                srcNode: self.get('el'),
                 align: align
             });
             self.overlay.render();
@@ -607,6 +610,7 @@
     return ColorPicker;
 }, {
     requires: [&quot;brix/core/brick&quot;, &quot;overlay&quot;, &quot;dd&quot;]
-});</pre>
+});
+</pre>
 </body>
 </html>
