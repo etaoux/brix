@@ -66,9 +66,8 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          * 获取brick的实例
          * @param  {String} id     brick的id
          * @return {Object}        组件实例
-         * @private
          */
-        getBrick: function(id, bricks) {
+        getBrick: function(id) {
             var self = this,
                 brick;
             S.each(self.bricks, function(b) {
@@ -197,7 +196,13 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 if(tmpler){
                      tmpler.tmpls = null;
                 }
-                el.remove();
+                if(self.get('isRemoveEl')){
+                    el.remove();
+                }
+                else{
+                    el.empty();
+                }
+                
             }
 
             el = null;

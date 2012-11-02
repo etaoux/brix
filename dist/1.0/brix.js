@@ -722,6 +722,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache,Node) {
          * 移除子模板标签
          * @param  {String} tmpl 需要替换的模板
          * @return {String}      替换后的模板
+         * @private
          */
         _replaceTmpl: function(tmpl) {
             //return tmpl;
@@ -881,6 +882,13 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                 }
                 return s;
             }
+        },
+        /**
+         * 在销毁的时候是否移除本身，默认true
+         * @cfg {Object}
+         */
+        isRemoveEl:{
+            value:true
         },
         /**
          * 容器节点
@@ -1469,13 +1477,19 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
          * 销毁组件
          */
         destroy:function(){
-            var self = this, 
+            var self = this,
+                el = self.get('el'), 
                 tmpler = self.get('tmpler');
             if (tmpler) {
                 tmpler.tmpls = null;
             }
             self._detachEvent();
-            self.get("el").remove();
+            if(self.get('isRemoveEl')){
+                el.remove();
+            }
+            else{
+                el.empty();
+            }
             if(self.pagelet){
                 delete self.pagelet;
             }
@@ -1553,9 +1567,8 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          * 获取brick的实例
          * @param  {String} id     brick的id
          * @return {Object}        组件实例
-         * @private
          */
-        getBrick: function(id, bricks) {
+        getBrick: function(id) {
             var self = this,
                 brick;
             S.each(self.bricks, function(b) {
@@ -1684,7 +1697,13 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 if(tmpler){
                      tmpler.tmpls = null;
                 }
-                el.remove();
+                if(self.get('isRemoveEl')){
+                    el.remove();
+                }
+                else{
+                    el.empty();
+                }
+                
             }
 
             el = null;
@@ -1707,6 +1726,24 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
 });
 /**
  * Brix配置类 组件框架入口类，在调用Brix组件的时候可以配置cdn地址，组件版本号等
+ * <br>
+ * 引用：
+ *     
+ *     <script type="text/javascript" src="brix.js" bx-config="{autoConfig:true,autoPagelet:true}"></script>
+ *
+ * bx-config节点说明：<br>
+ *     autoConfig：自动配置包和map<br>
+ *     autoPagelet：自动渲染body节点下的所有bx-name组件<br>
+ *     componentsPath：项目组件包路径<br>
+ *     componentsTag：项目组件时间戳<br>
+ *     importsPath：项目公用组件包路径<br>
+ *     importsTag：项目公用组件时间戳<br>
+ *     gallery：组件版本配置<br>
+ *     tag：核心组件的时间戳<br>
+ *     debug:是否启用非压缩版本
+ *
+ * bx-config高级配置：<br>
+ *     fixed：对包路径的重写（不清楚的不要配）<br>
  * @class Brix
  */
 (function(S, Brix) {
@@ -1820,7 +1857,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
     S.mix(Brix, {
         /**
          * 配置路径
-         * @param  {Object} options [配置对象]
+         * @param  {Object} options 配置对象，详见bx-config配置节点
          */
         config: function(options) {
             if(isConfig) {
@@ -1828,6 +1865,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
             }
             isConfig = true;
             options = KISSY.merge({
+                debug:debug=='@DEBUG@'?true:false,
                 tag: tag == '@TAG@' ? '' : tag,
                 fixed: version == '@VERSION@' ? '' : version + '/',
                 //路径修正，brix路劲下存在其他文件夹
@@ -1864,7 +1902,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                         if(options.gallery[$3]) {
                             str += '/' + options.gallery[$3]
                         }
-                        if(debug) {
+                        if(options.debug) {
                             $4 = $4.replace('-min', '');
                         }
                         str += $4 + ($5 ? $5 : '');
@@ -1872,7 +1910,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                     }],
                     [/(.+brix\/)(core.+?)((?:-min)?\.js)(\?[^?]+)?$/, function($0, $1, $2, $3, $4) {
                         var str = $1 + options.fixed;
-                        if(debug) {
+                        if(options.debug) {
                             $3 = $3.replace('-min', '');
                         }
                         str += $2 + $3 + ($4 ? $4 : '');

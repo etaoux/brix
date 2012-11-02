@@ -336,13 +336,19 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
          * 销毁组件
          */
         destroy:function(){
-            var self = this, 
+            var self = this,
+                el = self.get('el'), 
                 tmpler = self.get('tmpler');
             if (tmpler) {
                 tmpler.tmpls = null;
             }
             self._detachEvent();
-            self.get("el").remove();
+            if(self.get('isRemoveEl')){
+                el.remove();
+            }
+            else{
+                el.empty();
+            }
             if(self.pagelet){
                 delete self.pagelet;
             }
