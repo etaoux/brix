@@ -196,7 +196,13 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 if(tmpler){
                      tmpler.tmpls = null;
                 }
-                el.remove();
+                if(self.get('isRemoveEl')){
+                    el.remove();
+                }
+                else{
+                    el.empty();
+                }
+                
             }
 
             el = null;

@@ -62,6 +62,13 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
             }
         },
         /**
+         * 在销毁的时候是否移除本身，默认true
+         * @cfg {Object}
+         */
+        isRemoveEl:{
+            value:true
+        },
+        /**
          * 容器节点
          * @cfg {String}
          */
