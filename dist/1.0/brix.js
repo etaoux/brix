@@ -745,7 +745,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache,Node) {
          * 添加子模板
          * @param {String} name    模板名称
          * @param {String} datakey 模板对应的数据key
-         * @param {[type]} tmpl    [description]
+         * @param {[type]} tmpl    子模板
          */
         addTmpl: function(name, datakey, tmpl) {
             var self = this;
@@ -987,17 +987,16 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
         },
 
         /**
-         * 给brick添加模板
-         * @param {Array} arr 模板数组
-         * @return {Boolean} 是否添加成功
+         * 添加子模板
+         * @param {String} name    模板名称
+         * @param {String} datakey 模板对应的数据key
+         * @param {[type]} tmpl    子模板
          */
-        addTmpl: function(arr) {
+        addTmpl: function(name,datakey,tmpl) {
             var self = this,
                 tmpler = self.get('tmpler');
             if(tmpler) {
-                return tmpler.addTmpl(arr);
-            } else {
-                return false;
+                tmpler.addTmpl(name,datakey,tmpl);
             }
         },
 
