@@ -229,7 +229,6 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
         show: function() {
             var self = this;
             if(!self.get('rendered')){
-                debugger;
                 self.render();
             }
             if (self.overlay) {
