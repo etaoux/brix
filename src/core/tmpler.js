@@ -73,7 +73,6 @@ KISSY.add("brix/core/tmpler", function(S, Mustache,Node) {
          * 移除子模板标签
          * @param  {String} tmpl 需要替换的模板
          * @return {String}      替换后的模板
-         * @private
          */
         _replaceTmpl: function(tmpl) {
             //return tmpl;

@@ -47,14 +47,14 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             value:false
         },
         /**
-         * 触发日历的对象
+         * 触发颜色选择器的对象
          * @cfg {Element}
          */
         trigger:{
             value:false
         },
         /**
-         * 触发弹出日历的事件类型, 
+         * 触发弹出颜色选择器的事件类型, 
          * 例如：[‘click’,’focus’],也可以直接传入’focus’, 默认为[‘click’]
          * @cfg {String|Array}
          */
