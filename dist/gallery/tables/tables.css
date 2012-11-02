@@ -20,7 +20,7 @@
 }
 .table-container .toolbar {
   padding: 8px 14px;
-  background-color: #f7f7f7;
+  background-color: #EBEBEB;
 }
 .table-container .btn {
   font-weight: normal;
@@ -69,7 +69,7 @@
   border: none;
 }
 .table th {
-  background-color: #f7f7f7;
+  background-color: #EBEBEB;
   font-weight: normal;
   padding: 7px 5px 6px;
   color: #999;
@@ -128,7 +128,7 @@
 .table tbody tr:hover td,
 .table tbody tr.hover td,
 .table tbody tr.current td {
-  background-color: #f7f7f7;
+  background-color: #EBEBEB;
 }
 .table tbody tr:hover td .operation,
 .table tbody tr.hover td .operation,
@@ -306,7 +306,7 @@
   border-bottom: 1px solid #ebebeb;
 }
 .table-child tbody tr:hover td {
-  background: #f7f7f7!important;
+  background: #EBEBEB!important;
 }
 .table-child tbody tr:hover .operation {
   visibility: visible!important;

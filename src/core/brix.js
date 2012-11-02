@@ -7,7 +7,7 @@
         readyList = [],
         win = window,
         loc = win.location,
-        startsWith = S.startsWith, 
+        startsWith = S.startsWith,
         __pagePath = loc.href.replace(loc.hash, "").replace(/[^/]*$/i, "");
     Brix = win[Brix] = win[Brix] || {};
 
@@ -22,7 +22,7 @@
         path = S.trim(path);
 
         // path 为空时，不能变成 "/"
-        if (path && path.charAt(path.length - 1) != '/') {
+        if(path && path.charAt(path.length - 1) != '/') {
             path += "/";
         }
 
@@ -31,20 +31,20 @@
          * 考虑本地路径
          * @ignore
          */
-        if (!path.match(/^(http(s)?)|(file):/i) && !startsWith(path, "/")) {
+        if(!path.match(/^(http(s)?)|(file):/i) && !startsWith(path, "/")) {
             path = __pagePath + path;
         }
 
-        if (startsWith(path, "/")) {
+        if(startsWith(path, "/")) {
             var loc = win.location;
             path = loc.protocol + "//" + loc.host + path;
         }
         var paths = path.split("/"),
             re = [],
             p;
-        for (var i = 0; i < paths.length; i++) {
+        for(var i = 0; i < paths.length; i++) {
             p = paths[i];
-            if (p == ".") {} else if (p == "..") {
+            if(p == ".") {} else if(p == "..") {
                 re.pop();
             } else {
                 re.push(p);
@@ -63,7 +63,7 @@
             script = scripts[scripts.length - 1],
             src = absoluteFilePath(script.src),
             pathInfo = script.getAttribute("bx-config");
-        if (pathInfo) {
+        if(pathInfo) {
             pathInfo = (new Function("return " + pathInfo))();
         } else {
             pathInfo = {};
@@ -78,20 +78,20 @@
             part01, index = part0.indexOf(comboPrefix);
 
         // no combo
-        if (index == -1) {
+        if(index == -1) {
             path = src.replace(pathReg, '$1');
         } else {
             path = part0.substring(0, index);
             part01 = part0.substring(index + 2, part0.length);
             // combo first
             // notice use match better than test
-            if (part01.match(pathTestReg)) {
+            if(part01.match(pathTestReg)) {
                 path += part01.replace(pathReg, '$1');
             }
             // combo after first
             else {
                 S.each(parts, function(part) {
-                    if (part.match(pathTestReg)) {
+                    if(part.match(pathTestReg)) {
                         path += part.replace(pathReg, '$1');
                         return false;
                     }
@@ -101,12 +101,14 @@
         path = path.substring(0, path.lastIndexOf('brix'));
         return S.mix({
             path: path,
-            componentsPath:'./',
-            importsPath:'./'
+            componentsPath: './',
+            importsPath: './'
         }, pathInfo);
     }
     var defaultOptions = getBaseInfo();
     var debug = '@DEBUG@'; //区分src还是dist版本
+    var tag = '@TAG@'; //KISSY包时间戳
+    var version = '@VERSION@'; //版本号
     var isConfig = false; //是否已经配置过
     S.mix(Brix, {
         /**
@@ -114,30 +116,37 @@
          * @param  {Object} options [配置对象]
          */
         config: function(options) {
-            if (isConfig) {
+            if(isConfig) {
                 return;
             }
             isConfig = true;
             options = KISSY.merge({
-                fixed: '',
+                tag: tag == '@TAG@' ? '' : tag,
+                fixed: version == '@VERSION@' ? '' : version + '/',
                 //路径修正，brix路劲下存在其他文件夹
                 gallery: {
                     //配置组件版本信息
                     //dropdown:'1.0'
                 }
             }, defaultOptions, options);
+            if(options.fixed == '@VERSION@') {
+                options.fixed = '';
+            }
             KISSY.config({
                 packages: [{
                     name: "brix",
                     path: options.path,
+                    tag: options.tag,
                     charset: "utf-8"
-                },{
+                }, {
                     name: "components",
                     path: options.componentsPath,
+                    tag: options.componentsTag || options.tag,
                     charset: "utf-8"
-                },{
+                }, {
                     name: "imports",
                     path: options.importsPath,
+                    tag: options.importsTag || options.tag,
                     charset: "utf-8"
                 }]
             });
@@ -145,10 +154,10 @@
                 map: [
                     [/(.+brix\/)(gallery\/)(.+?)(\/.+?(?:-min)?\.(?:js|css))(\?[^?]+)?$/, function($0, $1, $2, $3, $4, $5) {
                         var str = $1 + options.fixed + $2 + $3;
-                        if (options.gallery[$3]) {
+                        if(options.gallery[$3]) {
                             str += '/' + options.gallery[$3]
                         }
-                        if (debug) {
+                        if(debug) {
                             $4 = $4.replace('-min', '');
                         }
                         str += $4 + ($5 ? $5 : '');
@@ -156,7 +165,7 @@
                     }],
                     [/(.+brix\/)(core.+?)((?:-min)?\.js)(\?[^?]+)?$/, function($0, $1, $2, $3, $4) {
                         var str = $1 + options.fixed;
-                        if (debug) {
+                        if(debug) {
                             $3 = $3.replace('-min', '');
                         }
                         str += $2 + $3 + ($4 ? $4 : '');
@@ -170,7 +179,7 @@
          * @param {Function} fn 执行的函数
          */
         ready: function(fn) {
-            if (isReady) {
+            if(isReady) {
                 fn.call(Brix);
             } else {
                 readyList.push(fn);
@@ -181,28 +190,30 @@
          * @private
          */
         _fireReady: function() {
-            if (isReady) {
+            if(isReady) {
                 return;
             }
             isReady = true;
-            if (readyList) {
+            if(readyList) {
                 var fn, i = 0;
-                while (fn = readyList[i++]) {
+                while(fn = readyList[i++]) {
                     fn.call(Brix);
                 }
                 readyList = null;
             }
-        },
+        }
     });
-    if (defaultOptions.autoConfig) {
+    if(defaultOptions.autoConfig) {
         //自动配置
         Brix.config({});
         //自动实例化pagelet
         //外部调用的S.ready注册的方法中可以直接用Brix.pagelet实例书写业务逻辑
-        if (defaultOptions.autoPagelet) {
-            S.use('brix/core/pagelet',function(S,Pagelet){
-                S.ready(function(){
-                    Brix.pagelet = new Pagelet({tmpl:'body'});
+        if(defaultOptions.autoPagelet) {
+            S.use('brix/core/pagelet', function(S, Pagelet) {
+                S.ready(function() {
+                    Brix.pagelet = new Pagelet({
+                        tmpl: 'body'
+                    });
                     Brix._fireReady();
                 });
             });

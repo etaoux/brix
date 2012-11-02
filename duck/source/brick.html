@@ -37,16 +37,15 @@
             tmpler = self.get('tmpler');
         var constt = self.constructor;
 
-        while(constt.NAME!='Brick'){
-            var renderers = constt.RENDERERS;
-            if (renderers) {
-                var context = self.pagelet?self.pagelet:self;
-                context.get('dataset').setRenderer(renderers, self, id);
+        if(tmpler&amp;&amp;!tmpler.inDom){
+            while(constt.NAME!='Brick'){
+                var renderers = constt.RENDERERS;
+                if (renderers) {
+                    self.get('dataset').setRenderer(renderers, self, id);
+                }
+                constt = constt.superclass.constructor;
             }
-            constt = constt.superclass.constructor;
         }
-         
-
         self.on('rendered', function() {
             var main,extChains = [];
             constt = self.constructor;
@@ -59,24 +58,11 @@
             for (var i = extChains.length - 1; i &gt;= 0; i--) {
                 extChains[i] &amp;&amp; extChains[i].call(self);
             }
-
             self._bindEvent();
         });
 
-        if(self.pagelet){
-            if(self.pagelet.get('rendered')){
-                self.render();
-            }
-            else{
-                self.pagelet.on('rendered', function() {
-                    self.render();
-                }); 
-            }
-        }
-        else{
-            if (self.get('autoRender')||!tmpler||tmpler.inDom) {
-                self.render();
-            }
+        if (self.get('autoRender')||!tmpler||tmpler.inDom){
+            self.render();
         }
     }
 
@@ -370,10 +356,7 @@
             var self = this, 
                 tmpler = self.get('tmpler');
             if (tmpler) {
-                S.each(tmpler.bricks, function(b) {
-                    b.brick = null;
-                });
-                self.set('tmpler',null);
+                tmpler.tmpls = null;
             }
             self._detachEvent();
             self.get(&quot;el&quot;).remove();

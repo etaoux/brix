@@ -43,14 +43,14 @@
     }
     Dialog.ATTRS = {
 <span id='Brix-Gallery-Dialog-cfg-trigger'>        /**
-</span>         * 触发日历的对象
+</span>         * 触发Dialog的对象
          * @cfg {Element}
          */
         trigger:{
             value:false
         },
 <span id='Brix-Gallery-Dialog-cfg-triggerType'>        /**
-</span>         * 触发弹出日历的事件类型, 
+</span>         * 触发弹出Dialog的事件类型, 
          * 例如：[‘click’,’focus’],也可以直接传入’focus’, 默认为[‘click’]
          * @cfg {String|Array}
          */
@@ -148,11 +148,9 @@
                 if (self.get('tmpl')) {
                     self.pagelet = new Pagelet({
                         container: self.get('contentEl'),
-                        autoRender: true,
                         tmpl: self.get('tmpl'),
                         data: self.get('data')
                     });
-                    self.pagelet.addBehavior();
                 }
             });
         },

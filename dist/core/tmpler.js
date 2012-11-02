@@ -24,21 +24,25 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
      * @ignore
      */
 
-    function _recovery(html, arr) {
+    function _recovery(html) {
+        html = html.replace(/(?:<|&lt;)!--({{[^}]+}})--(?:>|&gt;)/g, '$1').replace(/\s(src|href)\s*=\s*(['"])(.*?\{.+?)\2/g,' data-templatable-$1=$2$3$2');
         //去掉attr=""
-        html = html.replace(/(\{{2,3}[\^#~](.+?)\}{2,3})\=\"\"/g, '$1');
+        /*html = html.replace(/(\{{2,3}[\^#~](.+?)\}{2,3})\=\"\"/g, '$1');
 
         //对if语句的还原处理
         html = html.replace(/(\{{2,3}[\^#~]?)iftmplbrick\_(\d+)(\}{2,3})/g, function(w, i, j, k) {
             return i + arr[parseInt(j,10)] + k;
-        });
+        });*/
         //对href和src语句的还原处理
-        html = html.replace(/(href|src|style)=("|')("|')/ig,"");
+        /*html = html.replace(/(href|src|style)=("|')("|')/ig,"");
         html = html.replace(/(\{{2,3}[\^#~]?)href\_src\_style\_tmplbrick\_(\d+)(\}{2,3})/g, function(w, i, j, k) {
             return arr[parseInt(j,10)];
-        });
+        });*/
         //将~符号替换回/，完美了。
-        html = html.replace(/(\{{2,3})~/g, '$1/');
+        //html = html.replace(/(\{{2,3})~/g, '$1/');
+
+
+        
         return html;
     }
 
@@ -52,7 +56,6 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
 
     function Tmpler(tmpl, isParse) {
         if (tmpl && (isParse !== false)) {
-            this.bricks = [];
             this.tmpls = [];
             this._praseTmpl(tmpl);
         } else {
@@ -78,7 +81,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
             }
 
             if(node){
-                if(node.item(0)[0].tagName.toUpperCase()=='SCRIPT'){
+                if(node.item(0)[0].nodeName.toUpperCase()=='SCRIPT'){
                     //如果是script节点，则直接取html
                     tmpl= node.item(0).html()
                 }
@@ -89,9 +92,10 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
             
             if (!inDom) {
                 //牛逼的正则啊
-                var reg = /(\{{2,3}\#(.+?)\}{2,3})\s*([\s\S]*)?\s*((\{{2,3})\/\2(\}{2,3}))/g;
+                /*var reg = /(\{{2,3}\#(.+?)\}{2,3})\s*([\s\S]*)?\s*((\{{2,3})\/\2(\}{2,3}))/g;
                 while (reg.test(tmpl)) {
-                    tmpl = tmpl.replace(reg, ' $1$3$5~$2$6 ');
+                    //这里为什么要前后加空格
+                    tmpl = tmpl.replace(reg, '$1$3$5~$2$6');
                     //console.log(reg.lastIndex);
                     //不重置位置，我了个去，ie7，8有问题
                     reg.lastIndex = 0;
@@ -108,11 +112,11 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
                         name += index;
                     }
                     return i + name + k;
-                });
+                });*/
 
 
                 //对href、src style的处理
-                tmpl = tmpl.replace(/((href|src|style)=("|')(.*?)("|'))/ig,function(w,i){
+                /*tmpl = tmpl.replace(/((href|src|style)=("|')(.*?)("|'))/ig,function(w,i){
                     var index = S.indexOf(i, arr),
                         name = 'href_src_style_tmplbrick_';
                     if (index < 0) {
@@ -122,7 +126,10 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
                         name += index;
                     }
                     return "{{#"+name+"}}"  ;
-                });
+                });*/
+
+
+                tmpl = tmpl.replace(/({[^}]+}})/g, '<!--$1-->').replace(/\s(src|href)\s*=\s*(['"])(.*?\{.+?)\2/g,' data-templatable-$1=$2$3$2');
 
                 node = new Node(tmpl);
 
@@ -149,12 +156,9 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
                 node.remove();
                 temptmplNode.attr('id',id);
             });
-
-            self._buildBricks(tmplNode);
-            self._buildTmpls(tmplNode,arr);
-
             if (!inDom) {
-                self.tmpl = _recovery(tmplNode.html(), arr);
+                self._buildTmpls(tmplNode);
+                self.tmpl = _recovery(tmplNode.html());
                 node.remove();
                 tmplNode.remove();
             }
@@ -163,38 +167,11 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
             this.inDom = inDom;
         },
         /**
-         * 对节点中的bx-name解析，构建组件配置
-         * @param  {Node} el 容器节点
-         * @private
-         */
-        _buildBricks: function(el) {
-            var self = this,
-                brickNodes = el.all('[bx-name]');
-            if (el.hasAttr('bx-name')) {
-                brickNodes = brickNodes.add(el[0]);
-            }
-            brickNodes.each(function(brickNode){
-                var id = _stamp(brickNode),
-                    name = brickNode.attr('bx-name'),
-                    path = brickNode.attr('bx-path'),
-                    config = brickNode.attr('bx-config');
-                config = config ? eval("config=" + config) : {};
-                self.bricks.push({
-                    id :id,
-                    name:name,
-                    path: path,
-                    config: config
-                });
-            });
-                
-        },
-        /**
          * 对节点中的bx-tmpl解析，构建模板和数据配置
          * @param  {Node} el 容器节点
-         * @param {Array} arr 存储替换模板的集合
          * @private
          */
-        _buildTmpls:function(el,arr){
+        _buildTmpls:function(el){
             var self = this,
                 tmplNodes = el.all('[bx-tmpl]');
             if (el.hasAttr('bx-tmpl')) {
@@ -203,7 +180,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
             tmplNodes.each(function(tmplNode) {
                 var tmplId = _stamp(tmplNode, 'tmpl_'),
                     datakey = tmplNode.attr('bx-datakey'),
-                    tmpl = _recovery(tmplNode.html(), arr);
+                    tmpl = _recovery(tmplNode.html());
                 self.tmpls.push({
                     id: tmplId,
                     datakey: datakey ? datakey.split(',') : [],

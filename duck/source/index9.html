@@ -28,10 +28,19 @@
 		}
 	}
 
+
+	Dropdownext.RENDERERS = {
+		xx:{
+			yy:function(){
+				return &quot;xx_yy&quot;;
+			}
+		}
+	}
+
 	Dropdownext.EVENTS = {
 		'':{
 			click:function(){
-				console.log(this.get('extattr'));
+				S.log(this.get('extattr'));
 			}
 		}
 	}

@@ -28,6 +28,8 @@ KISSY.add('brix/gallery/tables/index', function(S, Brick) {
                 var _this = e.target;
                 var child = $(_this).parent('tr').next('.table-child-tr');
 
+                if (!child) return;
+
                 if ($(_this).hasClass('icon-expend')) {
                     $(_this).replaceClass('icon-expend', 'icon-collapse');
                     child.hide();
@@ -74,6 +76,7 @@ KISSY.add('brix/gallery/tables/index', function(S, Brick) {
         initialize: function() {
             //默认第一个tr高亮
             this.curTr = this.get('el').all('tbody > tr:first');
+            this.curTr.addClass('hover');
         }
     });
 

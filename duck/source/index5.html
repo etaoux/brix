@@ -38,6 +38,15 @@
     }
     Calendar.Date = Brix_Date;
     Calendar.ATTRS = {
+        id:{
+            getter:function(v){
+                if(!v){
+                    v = 'brix_calendar_' + S.guid();
+                    this.__set('id',v);
+                }
+                return v
+            }
+        },
 <span id='Brix-Gallery-Calendar-cfg-date'>        /**
 </span>         * 该日期所在月份, 默认为当天
          * @cfg {Date}
@@ -205,14 +214,17 @@
             value: false
         },
         tmpl: {
-            valueFn: function() {
-                var self = this,
-                    id = self.get('id') || 'brix_calendar_' + S.guid();
-                var html = '&lt;div class=&quot;calendar-pages&quot;&gt;&lt;/div&gt;' + '&lt;div bx-tmpl=&quot;calendar&quot; bx-datakey=&quot;notLimited,multiSelect,showTime,' + id + '_op_html&quot; class=&quot;calendar-operator&quot;&gt;{{{' + id + '_op_html}}}&lt;/div&gt;'
-                if(!self.get('id')){
-                    html = '&lt;div id=&quot;' + id + '&quot; bx-name=&quot;calendar&quot; class=&quot;calendar&quot;&gt;' +html+ '&lt;/div&gt;'
+            getter: function(v) {
+                if(!v){
+                    var self = this,
+                        id = self.get('id');
+                    v = '&lt;div class=&quot;calendar-pages&quot;&gt;&lt;/div&gt;' + '&lt;div bx-tmpl=&quot;calendar&quot; bx-datakey=&quot;notLimited,multiSelect,showTime,' + id + '_op_html&quot; class=&quot;calendar-operator&quot;&gt;&lt;!--bx-tmpl=&quot;calendar&quot; bx-datakey=&quot;notLimited,multiSelect,showTime,' + id + '_op_html&quot;--&gt;{{{' + id + '_op_html}}}&lt;!--bx-tmpl=&quot;calendar&quot;--&gt;&lt;/div&gt;'
+                    if(!self.get('el')){
+                        v = '&lt;div id=&quot;' + id + '&quot; class=&quot;calendar&quot;&gt;' +v+ '&lt;/div&gt;'
+                    }
+                    this.__set('tmpl',v);
                 }
-                return  html; 
+                return v;
             }
         },
         autoRender:{
@@ -295,7 +307,7 @@
                     el = self.get('el'),
                     node = S.one(e.target),
                     trigger = S.one(self.get('trigger'));
-                if (!el.contains(node) &amp;&amp; trigger &amp;&amp; node[0] != trigger[0]) {
+                if (!el.equals(node)&amp;&amp;!el.contains(node) &amp;&amp; trigger &amp;&amp; node[0] != trigger[0]) {
                     self.hide();
                 }
             }
@@ -420,7 +432,7 @@
                     align.node = trigger;
                 }
                 self.overlay = new Overlay({
-                    srcNode: '#' + self.get('id'),
+                    srcNode: self.get('el'),
                     align: align
                 });
                 self.overlay.render();
