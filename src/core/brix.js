@@ -6,18 +6,18 @@
  *     <script type="text/javascript" src="brix.js" bx-config="{autoConfig:true,autoPagelet:true}"></script>
  *
  * bx-config节点说明：<br>
- *     autoConfig：自动配置包和map<br>
- *     autoPagelet：自动渲染body节点下的所有bx-name组件<br>
- *     componentsPath：项目组件包路径<br>
- *     componentsTag：项目组件时间戳<br>
- *     importsPath：项目公用组件包路径<br>
- *     importsTag：项目公用组件时间戳<br>
- *     gallery：组件版本配置<br>
- *     tag：核心组件的时间戳<br>
+ *     autoConfig：自动配置包和map
+ *     autoPagelet：自动渲染body节点下的所有bx-name组件
+ *     componentsPath：项目组件包路径
+ *     componentsTag：项目组件时间戳
+ *     importsPath：项目公用组件包路径
+ *     importsTag：项目公用组件时间戳
+ *     gallery：组件版本配置
+ *     tag：核心组件的时间戳
  *     debug:是否启用非压缩版本
  *
  * bx-config高级配置：<br>
- *     fixed：对包路径的重写（不清楚的不要配）<br>
+ *     fixed：对包路径的重写（不清楚的不要配）
  * @class Brix
  */
 (function(S, Brix) {
