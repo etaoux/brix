@@ -1144,7 +1144,10 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
                             d.setSeconds(time.getSeconds());
                         }
                     }
-                    self.fire(Page.FIRES.itemClick,{date:d});
+                    S.later(function(){
+                        //先触发document的click事件
+                        self.fire(Page.FIRES.itemClick,{date:d});
+                    },0);
                 }
             },
             mousedown:function(e){
