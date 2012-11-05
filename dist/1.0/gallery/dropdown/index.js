@@ -163,7 +163,7 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                         break;
                     case 38:
                         //up
-                        e.halt();
+                        e.preventDefault();
                         self.focus();
                         var item = el.one('.dropdown-itemover')||el.one('.dropdown-itemselected')||el.one('.dropdown-item');
                         var hoverItem;
@@ -178,7 +178,7 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                         break;
                     case 40:
                         //down
-                        e.halt();
+                        e.preventDefault();
                         self.focus();
                         var item = el.one('.dropdown-itemover')||el.one('.dropdown-itemselected')||el.one('.dropdown-item');
                         var hoverItem;

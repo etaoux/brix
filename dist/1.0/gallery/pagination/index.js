@@ -170,14 +170,14 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
         '.page-num': {
             keydown: function(e) {
                 if (e.keyCode === 13) {
-                    e.halt();
+                    e.preventDefault();
                     this._jumpPage();
                 }
             }
         },
         '.btn-jump': {
             click: function(e) {
-                e.halt();
+                e.preventDefault();
                 this._jumpPage();
             }
         },
@@ -186,14 +186,14 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 var self = this,
                     target = S.one(e.currentTarget);
                 if (target.hasClass('page')) {
-                    e.halt();
+                    e.preventDefault();
                     self.goToPage(parseInt(target.html(), 10));
                 } else if (target.hasClass('page-prev')) {
-                    e.halt();
+                    e.preventDefault();
                     var index = self.get('index');
                     self.goToPage(index - 1);
                 } else if (target.hasClass('page-next')) {
-                    e.halt();
+                    e.preventDefault();
                     var index = self.get('index');
                     self.goToPage(index + 1);
                 }

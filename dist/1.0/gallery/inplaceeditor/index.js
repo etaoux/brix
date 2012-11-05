@@ -15,7 +15,7 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
             value: true
         },
         tmpl: {
-            value: '<div class="inplaceeditor-popup"><input type="text" value=""></div>'
+            value: '<div class="inplaceeditor-popup"><input class="input" type="text" value=""></div>'
         }
     };
     InplaceEditor.EVENTS = {
