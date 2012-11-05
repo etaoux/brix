@@ -240,7 +240,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
         },
         '.btn-pupop-confirm':{
             click:function(e){
-                e.halt();
+                e.preventDefault();
                 var self = this,
                     index = self.get('index');
                     popupNode = self.get('el').one('.calendar-year-month-pupop'),
@@ -258,7 +258,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
         },
         '.btn-pupop-cancel':{
             click:function(e){
-                e.halt();
+                e.preventDefault();
                 var self = this,
                     popupNode = self.get('el').one('.calendar-year-month-pupop');
                 popupNode.hide();
@@ -266,7 +266,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
         },
         '.calendar-item':{
             click:function(e){
-                e.halt();
+                e.preventDefault();
                 var self = this,
                     node = S.one(e.currentTarget);
                 if(!node.hasClass('calendar-disabled')){
@@ -286,7 +286,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
                 }
             },
             mousedown:function(e){
-                e.halt();
+                e.preventDefault();
                 var self = this,
                     node = S.one(e.currentTarget);
                 if(!node.hasClass('calendar-disabled')){
@@ -297,7 +297,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
                 }
             },
             mouseup:function(e){
-                e.halt();
+                e.preventDefault();
                 var self = this,
                     node = S.one(e.currentTarget);
                 if(!node.hasClass('calendar-disabled')){
