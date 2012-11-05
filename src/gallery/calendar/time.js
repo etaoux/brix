@@ -18,7 +18,7 @@ KISSY.add('brix/gallery/calendar/time', function(S, Brick) {
             value:true
         },
         tmpl:{
-            value : '<div bx-name="time">'+
+            value : '<div>'+
                         '<div class="calendar-time">'+
                             '时间：<span class="h">{{h}}</span>:<span class="m">{{m}}</span>:<span class="s">{{s}}</span>'+
                             '<div class="calendar-time-updown">'+
@@ -27,9 +27,11 @@ KISSY.add('brix/gallery/calendar/time', function(S, Brick) {
                         '</div>'+
                         '<div class="calendar-time-popup">'+
                             '<div bx-tmpl="time" bx-datakey="list" class="calendar-time-popup-bd">'+
+                            '<!--bx-tmpl="time" bx-datakey="list"-->'+
                                 '{{#list}}'+
                                 '<a class="item">{{.}}</a>'+
                                 '{{/list}}'+
+                            '<!--bx-tmpl="time"-->'+
                             '</div>'+
                             '<i class="iconfont icon-close">&#223</i>'+
                         '</div>'+

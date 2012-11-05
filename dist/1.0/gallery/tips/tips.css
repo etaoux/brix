@@ -1,0 +1,278 @@
+.bx-tips-show {
+  position: relative;
+  max-width: 194px;
+  _width: 194px;
+  border: 1px solid #d0d0d0;
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 6px 18px 6px 8px;
+  *padding-right: 22px;
+  background-color: #fff;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -moz-box-shadow: 1px 2px 2px #ebebeb;
+  -webkit-box-shadow: 1px 2px 2px #ebebeb;
+  box-shadow: 1px 2px 2px #ebebeb;
+}
+.bx-tips-show p {
+  margin: 0;
+  padding: 0;
+}
+.bx-tips-show a {
+  text-decoration: none;
+  color: #0066dd;
+}
+.bx-tips-show .bx-tips-close {
+  background: url(http://img02.taobaocdn.com/tps/i2/T1dkHGXodpXXbRf1g.-12-24.png) no-repeat 0 0;
+  display: block;
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  overflow: hidden;
+  right: 5px;
+  top: 8px;
+  cursor: pointer;
+  text-indent: -9999em;
+}
+.bx-tips-show .bx-tips-close:hover,
+.bx-tips-show .bx-tips-close.hover {
+  background-position: 0 -12px;
+}
+.bx-tips-show .tri {
+  font-size: 0;
+}
+.bx-tips-uncloseable {
+  padding-right: 8px;
+}
+.bx-tips-uncloseable .bx-tips-close {
+  display: none;
+}
+.bx-tips-rb .tri {
+  position: absolute;
+  top: -1px;
+  left: -8px;
+  width: 12px;
+  height: 12px;
+  overflow: hidden;
+}
+.bx-tips-rb .tri i {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+}
+.bx-tips-rb .tri .outer {
+  border-width: 11px 6px;
+  border-style: solid solid dashed dashed;
+  border-color: #d0d0d0 #d0d0d0 transparent transparent;
+  box-shadow: 1px 2px 2px #ebebeb;
+}
+.bx-tips-rb .tri .inner {
+  left: 2px;
+  top: 1px;
+  border-width: 11px 6px;
+  border-style: solid solid dashed dashed;
+  border-color: #fff #fff transparent transparent;
+}
+.bx-tips-rt .tri {
+  position: absolute;
+  bottom: -1px;
+  left: -8px;
+  width: 12px;
+  height: 12px;
+  overflow: hidden;
+}
+.bx-tips-rt .tri i {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+}
+.bx-tips-rt .tri .outer {
+  bottom: 0;
+  border-width: 11px 6px;
+  border-style: dashed solid solid dashed;
+  border-color: transparent #d0d0d0 #d0d0d0 transparent;
+  box-shadow: 1px 2px 2px #ebebeb;
+}
+.bx-tips-rt .tri .inner {
+  left: 2px;
+  bottom: 1px;
+  border-width: 11px 6px;
+  border-style: dashed solid solid dashed;
+  border-color: transparent #fff #fff transparent;
+}
+.bx-tips-lb .tri {
+  position: absolute;
+  top: -1px;
+  right: -8px;
+  width: 12px;
+  height: 12px;
+  overflow: hidden;
+}
+.bx-tips-lb .tri i {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+}
+.bx-tips-lb .tri .outer {
+  right: 0;
+  border-width: 11px 6px;
+  border-style: solid dashed dashed solid;
+  border-color: #d0d0d0 transparent transparent #d0d0d0;
+  box-shadow: 1px 2px 2px #ebebeb;
+}
+.bx-tips-lb .tri .inner {
+  right: 2px;
+  top: 1px;
+  border-width: 11px 6px;
+  border-style: solid dashed dashed solid;
+  border-color: #fff transparent transparent #fff;
+}
+.bx-tips-lt .tri {
+  position: absolute;
+  bottom: -1px;
+  right: -8px;
+  width: 12px;
+  height: 12px;
+  overflow: hidden;
+}
+.bx-tips-lt .tri i {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+}
+.bx-tips-lt .tri .outer {
+  right: 0;
+  bottom: 0;
+  border-width: 11px 6px;
+  border-style: dashed dashed solid solid;
+  border-color: transparent transparent #d0d0d0 #d0d0d0;
+  box-shadow: 1px 2px 2px #ebebeb;
+}
+.bx-tips-lt .tri .inner {
+  right: 2px;
+  bottom: 1px;
+  border-width: 11px 6px;
+  border-style: dashed dashed solid solid;
+  border-color: transparent transparent #fff #fff;
+}
+.bx-tips-br .tri {
+  position: absolute;
+  left: -1px;
+  top: -8px;
+  width: 12px;
+  height: 12px;
+  overflow: hidden;
+}
+.bx-tips-br .tri i {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+}
+.bx-tips-br .tri .outer {
+  top: 0;
+  left: 0;
+  border-width: 6px 11px;
+  border-style: dashed dashed solid solid;
+  border-color: transparent transparent #d0d0d0 #d0d0d0;
+  box-shadow: 1px 2px 2px #ebebeb;
+}
+.bx-tips-br .tri .inner {
+  top: 2px;
+  left: 1px;
+  border-width: 6px 11px;
+  border-style: dashed dashed solid solid;
+  border-color: transparent transparent #fff #fff;
+}
+.bx-tips-bl .tri {
+  position: absolute;
+  right: -1px;
+  top: -8px;
+  width: 12px;
+  height: 12px;
+  overflow: hidden;
+}
+.bx-tips-bl .tri i {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+}
+.bx-tips-bl .tri .outer {
+  top: 0;
+  right: 0;
+  border-width: 6px 11px;
+  border-style: dashed solid solid dashed;
+  border-color: transparent #d0d0d0 #d0d0d0 transparent;
+  box-shadow: 1px 2px 2px #ebebeb;
+}
+.bx-tips-bl .tri .inner {
+  top: 2px;
+  right: 1px;
+  border-width: 6px 11px;
+  border-style: dashed solid solid dashed;
+  border-color: transparent #fff #fff transparent;
+}
+.bx-tips-tl .tri {
+  position: absolute;
+  right: -1px;
+  bottom: -8px;
+  width: 12px;
+  height: 12px;
+  overflow: hidden;
+}
+.bx-tips-tl .tri i {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+}
+.bx-tips-tl .tri .outer {
+  bottom: 0;
+  right: 0;
+  border-width: 6px 11px;
+  border-style: solid solid dashed dashed;
+  border-color: #d0d0d0 #d0d0d0 transparent transparent;
+  box-shadow: 1px 2px 2px #ebebeb;
+}
+.bx-tips-tl .tri .inner {
+  bottom: 2px;
+  right: 1px;
+  border-width: 6px 11px;
+  border-style: solid solid dashed dashed;
+  border-color: #fff #fff transparent transparent;
+}
+.bx-tips-tr .tri {
+  position: absolute;
+  left: -1px;
+  bottom: -8px;
+  width: 12px;
+  height: 12px;
+  overflow: hidden;
+}
+.bx-tips-tr .tri i {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+}
+.bx-tips-tr .tri .outer {
+  bottom: 0;
+  left: 0;
+  border-width: 6px 11px;
+  border-style: solid dashed dashed solid;
+  border-color: #d0d0d0 transparent transparent #d0d0d0;
+  box-shadow: 1px 2px 2px #ebebeb;
+}
+.bx-tips-tr .tri .inner {
+  bottom: 2px;
+  left: 1px;
+  border-width: 6px 11px;
+  border-style: solid dashed dashed solid;
+  border-color: #fff transparent transparent #fff;
+}

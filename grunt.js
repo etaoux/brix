@@ -13,13 +13,13 @@ module.exports = function(grunt) {
         brixjs:{
             brixjs:{
                 src:'src/',
-                dest:'dist/'
+                dest:'dist/<%= pkg.version %>/'
             }
         },
         brixless:{
             brixless:{
                 src:'src/',
-                dest:'dist/'
+                dest:'dist/<%= pkg.version %>/'
             }
         },
         galleryless:{
@@ -29,11 +29,11 @@ module.exports = function(grunt) {
             },
             gallerydes:{
                 src:'src/gallery/',
-                dest:'dist/gallery/'
+                dest:'dist/<%= pkg.version %>/gallery/'
             },
             gallerydes_min:{
                 src:'src/gallery/',
-                dest:'dist/gallery/',
+                dest:'dist/<%= pkg.version %>/gallery/',
                 options: {
                   yuicompress: true
                 }
@@ -42,11 +42,11 @@ module.exports = function(grunt) {
         galleryjs:{
             gallerysrc:{
                 src:'src/gallery/',
-                dest:'dist/gallery/'
+                dest:'dist/<%= pkg.version %>/gallery/'
             },
             gallerydes:{
                 src:'src/gallery/',
-                dest:'dist/gallery/',
+                dest:'dist/<%= pkg.version %>/gallery/',
                 options: {
                   compress: true
                 }
