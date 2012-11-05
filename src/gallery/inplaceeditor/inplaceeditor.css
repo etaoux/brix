@@ -22,4 +22,5 @@
 .inplaceeditor .icon-edit:hover,
 .inplaceeditor .icon-del:hover {
   color: #488fcd;
+  text-decoration: none;
 }
