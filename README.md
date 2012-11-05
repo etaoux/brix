@@ -39,11 +39,12 @@
 
 ## 组件钩子
 
-* bx-name : 组件名称，在同一个 `pagelet` 中唯一
-* bx-path : 组件地址，一般是包名 + 文件路径
+* bx-name : 组件名称
+* bx-path : 组件地址，一般是包名 + 文件路径,核心组件可以省略配置
 * bx-config : 组件配置，动态渲染时候的参数
-* bx-datakey : 组件数据对象 key 值，可以有多个 key，以 “,” 分割，且支持对象的子对象，如 “X.Y,Z.Y.X”
-* bx-tmpl : 组件模板 (值等于 `bx-name`)，这个钩子和 `bx-datakey` 组合使用，在数据更新时对模板重新渲染。
+* bx-tmpl : 组件模板，这个钩子和 `bx-datakey`组合使用，在数据更新时对模板重新渲染。具体写法详见![core/brix.html](https://github.com/etaoux/brix/blob/master/demo/core/brix.html)
+* bx-datakey : 组件数据对象 key 值，可以有多个 key，以 `,` 分割，且支持对象的子对象，如 “X.Y,Z.Y.X”
+
 
 ## 开发环境需求
 
