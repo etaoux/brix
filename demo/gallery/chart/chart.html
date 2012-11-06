@@ -1,0 +1,128 @@
+<html>
+<head>
+	<title>Brix Chart Demo</title>
+	<meta charset="utf-8" />
+	<!-- <link rel="stylesheet" type="text/css" href="test.css"> -->
+</head>
+<body>
+	<P>直方图</P>
+	<div id="J_wrapper1" class="wrapper1" style="width:720;height:400;"></div><br>
+	<P>综合图(直方、折线)</P>
+	<div id="J_wrapper2" class="wrapper2" style="width:720;height:400;"></div><br>
+	<P>折线图</P>
+	<div id="J_wrapper3" class="wrapper3" style="width:720;height:400;"></div><br>
+	<P>折线图(双日期)</P>
+	<div id="J_wrapper4" class="wrapper4" style="width:720;height:400;"></div><br>
+	<P>折线图(双指标)</P>
+	<div id="J_wrapper5" class="wrapper5" style="width:720;height:400;"></div><br>
+	<P>散点图</P>
+	<div id="J_wrapper6" class="wrapper6" style="width:720;height:400;"></div><br>
+	<P>饼图</P>
+	<div id="J_wrapper7" class="wrapper7" style="width:720;height:400;"></div><br>
+	<P>地图(中国)</P>
+	<div id="J_wrapper8" class="wrapper8" style="width:720;height:400;"></div><br>
+
+	<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+
+	<script type="text/javascript">
+		KISSY.config({
+		    packages:[
+		        {
+		            name:"charts", // 包名
+		            tag:"", // 动态加载包内的模块js文件时,
+		                            // 自动加上 ?t=20110323, 用于文件更新
+		            path:"http://a.tbcdn.cn/apps/med/" // 包对应路径, 相对路径指相对于当前页面路径
+		            // path:"http://localhost/" // 包对应路径, 相对路径指相对于当前页面路径
+		        }
+		    ],
+		    map:[
+		       [/(.+charts\/.+)-min.js(\?[^?]+)?$/, "$1.js$2"]
+		   	]
+		});
+		KISSY.use('charts/charts',function(S,Charts){
+			//直方图
+			new Charts({
+					parent_id:'J_wrapper1',
+
+					config:{
+						configData:'<chart v="1.0" type=""><data/></chart> ',
+						
+						chartData:'<chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,2,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,2.55" name="维度2: "><key indexs="3"/><start name="原点"/></indexAxis><sets name="维度1："><set values="201,1145,488,390,186,645,259,378,189,589,175,329,148,311,294,1478,441,794,376,1575,224,350,219,568,223,353,146,239,94,548,129,253,91,196,68,230,69,137,47,324,47,77,40,60,36,57,33,31,15,55,28"></set></sets></data></chart>'
+					}
+			});
+			//综合图(直方、折线)
+			new Charts({
+					parent_id:'J_wrapper2',
+
+					config:{
+						configData:'<?xml version="1.0"?><chart v="1.0" type="integrate"><data><line node="0"><colors normals="0x94CC5C" overs="0x78A64B"/></line></data></chart>',
+						
+						chartData:'<chart><data><indexAxis labels="3月8号,3月9号,3月10号,3月11号,3月12号,3月13号,3月14号" name=""></indexAxis><sets name="千次展现价格:"><set values="8300,8100,7700,7100,6800,17000,6800.909"></set></sets></data><data><indexAxis labels="3月1号,3月2号,3月3号,3月4号,3月5号,3月6号,3月7号" name=""/><sets name="展现次数:"><set values="4300,4100,3700,3100,2800,3000,2800"/></sets></data></chart>'
+					}
+			});
+			//折线图
+			new Charts({
+					parent_id:'J_wrapper3',
+
+					path:'',
+
+					config:{
+						configData:'<chart v="1.0" type="line"><data shape="0" node="1" area="0"/></chart>',
+						
+						chartData:'<chart><data><indexAxis labels="12月1号,12月2号,12月3号,12月4号,12月5号,12月6号,12月7号" name="维度2："/><sets name="维度1："><set values="83,81,77,71,68,70,68"></set></sets></data></chart>'
+					}
+			});
+			//折线图(双日期)
+			new Charts({
+					parent_id:'J_wrapper4',
+
+					config:{
+						configData:'<chart v="1.0" type="line2"><data shape="0" node="1" area="0"/></chart>',
+						
+						chartData:'<chart><data><indexAxis labels="3月8号,3月9号,3月10号,3月11号,3月12号,3月13号,3月14号" name=""></indexAxis><sets name="03月08号:,03月09号:,03月10号:,03月11号:,03月12号:,03月13号:,03月14号:"><set values="83,81,77,71,68,70,68"></set></sets></data><data><indexAxis labels="3月1号,3月2号,3月3号,3月4号,3月5号,3月6号,3月7号" name=""/><sets name="03月01号:,03月02号:,03月03号:,03月04号:,03月05号:,03月06号:,03月07号:"><set values="43,41,37,31,28,30,28"/></sets></data><info><content><title name="展现次数" color="0x666666"/></content></info></chart>'
+					}
+			});
+			//折线图(双指标)
+			new Charts({
+					parent_id:'J_wrapper5',
+
+					config:{
+						configData:'<chart v="1.0" type="line3"><data shape="" node="0" area="1"></data></chart>',
+						
+						chartData:'<chart><data><indexAxis labels="3月8号,3月9号,3月10号,3月11号,3月12号,3月13号,3月14号" name=""></indexAxis><sets name="千次展现价格:"><set values="8300,8100,7700,7100,6800,17000,6800.909"></set></sets></data><data><indexAxis labels="3月1号,3月2号,3月3号,3月4号,3月5号,3月6号,3月7号" name=""/><sets name="展现次数:"><set values="4300,4100,3700,3100,2800,3000,2800"/></sets></data></chart>'
+					}
+			});
+			//散点图
+			new Charts({
+					parent_id:'J_wrapper6',
+
+					config:{
+						configData:'<chart v="1.0" type="scatter"><data style="1"/></chart>',
+						
+						chartData:'<chart><data><indexAxis labels="1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,12000,13000,14000,15000,16000,17000,18000,19000,20000,21000,22000,23000,24000,25000,26000,27000,28000,29000,30000,31000,32000,33000,34000,36000,38000" name="维度2："><key indexs="5"/></indexAxis><sets name="维度1："><set values="256,10,432,379,1100,254,98,134,51,1,21,53,21,25,17,22,9,15,4,15,3,1,2,3,2,1,1,1,3,3,100,200,300,400,500,100"></set></sets></data></chart>'
+					}
+			});
+			//饼图
+			new Charts({
+					parent_id:'J_wrapper7',
+
+					config:{
+						configData:'<chart v="1.0" type="pie"><data/></chart>',
+						
+						chartData:'<chart><data><indexAxis/><sets><set values="1445,150,550,1023,130,200,300,400,500,600" names="名称1,名称2,名称3,名称4,名称5,名称6,名称7,名称8,名称9,名称10"></set></sets></data></chart>'
+					}
+			});
+			//地图(中国)
+			new Charts({
+					parent_id:'J_wrapper8',
+
+					config:{
+						configData:'<?xml version="1.0"?><chart v="1.0" type="map"><data><info contents="name,order,show" bolds="1,0,0" colors="0x1351BF,0x1351BF,0x1351BF" sizes="14,," f_c="0x1351BF"/><colors normals="0xD2E2FA,0xB5D0F5,0x8FB9F0,0x6AA1EB,0x458AE6,0x135EBF" over="0xF89D60"/></data></chart>',
+						
+						chartData:'<?xml version="1.0"?><chart><data><indexAxis labels=""><key indexs="1"/></indexAxis><sets><set index="34"><name name="安徽"/><order name="排名:" value="34"/><show name="展现:" value="3400"/><colors normal="5"/></set><set index="92"><name name="澳门"/><order name="排名:" value="92"/><show name="展现:" value="9200"/><colors normal="1"/></set><set index="11"><name name="北京"/><order name="排名:" value="11"/><show name="展现:" value="1100"/><colors normal="1"/></set><set index="50"><name name="重庆"/><order name="排名:" value="50"/><show name="展现:" value="5000"/><colors normal="3"/></set><set index="35"><name name="福建"/><order name="排名:" value="35"/><show name="展现:" value="3500"/><colors normal="2"/></set><set index="44"><name name="广东"/><order name="排名:" value="44"/><show name="展现:" value="4400"/><colors normal="5"/></set><set index="62"><name name="甘肃"/><order name="排名:" value="62"/><show name="展现:" value="6200"/><colors normal="2"/></set><set index="45"><name name="广西"/><order name="排名:" value="45"/><show name="展现:" value="4500"/><colors normal="2"/></set><set index="52"><name name="贵州"/><order name="排名:" value="52"/><show name="展现:" value="5200"/><colors normal="5"/></set><set index="13"><name name="河北"/><order name="排名:" value="13"/><show name="展现:" value="1300"/><colors normal="2"/></set><set index="42"><name name="湖北"/><order name="排名:" value="42"/><show name="展现:" value="4200"/><colors normal="5"/></set><set index="23"><name name="黑龙江"/><order name="排名:" value="23"/><show name="展现:" value="2300"/><colors normal="4"/></set><set index="46"><name name="海南"/><order name="排名:" value="46"/><show name="展现:" value="4600"/><colors normal="6"/></set><set index="41"><name name="河南"/><order name="排名:" value="41"/><show name="展现:" value="4100"/><colors normal="6"/></set><set index="43"><name name="湖南"/><order name="排名:" value="43"/><show name="展现:" value="4300"/><colors normal="5"/></set><set index="22"><name name="吉林"/><order name="排名:" value="22"/><show name="展现:" value="2200"/><colors normal="6"/></set><set index="32"><name name="江苏"/><order name="排名:" value="32"/><show name="展现:" value="3200"/><colors normal="5"/></set><set index="36"><name name="江西"/><order name="排名:" value="36"/><show name="展现:" value="3600"/><colors normal="6"/></set><set index="21"><name name="辽宁"/><order name="排名:" value="21"/><show name="展现:" value="2100"/><colors normal="6"/></set><set index="15"><name name="内蒙古"/><order name="排名:" value="15"/><show name="展现:" value="1500"/><colors normal="4"/></set><set index="64"><name name="宁夏"/><order name="排名:" value="64"/><show name="展现:" value="6400"/><colors normal="1"/></set><set index="63"><name name="青海"/><order name="排名:" value="63"/><show name="展现:" value="6300"/><colors normal="5"/></set><set index="51"><name name="四川"/><order name="排名:" value="51"/><show name="展现:" value="5100"/><colors normal="6"/></set><set index="37"><name name="山东"/><order name="排名:" value="37"/><show name="展现:" value="3700"/><colors normal="4"/></set><set index="31"><name name="上海"/><order name="排名:" value="31"/><show name="展现:" value="3100"/><colors normal="2"/></set><set index="14"><name name="山西"/><order name="排名:" value="14"/><show name="展现:" value="1400"/><colors normal="1"/></set><set index="61"><name name="陕西"/><order name="排名:" value="61"/><show name="展现:" value="6100"/><colors normal="4"/></set><set index="12"><name name="天津"/><order name="排名:" value="12"/><show name="展现:" value="1200"/><colors normal="3"/></set><set index="71"><name name="台湾"/><order name="排名:" value="71"/><show name="展现:" value="7100"/><colors normal="6"/></set><set index="91"><name name="香港"/><order name="排名:" value="91"/><show name="展现:" value="9100"/><colors normal="3"/></set><set index="65"><name name="新疆"/><order name="排名:" value="65"/><show name="展现:" value="6500"/><colors normal="1"/></set><set index="54"><name name="西藏"/><order name="排名:" value="54"/><show name="展现:" value="5400"/><colors normal="6"/></set><set index="53"><name name="云南"/><order name="排名:" value="53"/><show name="展现:" value="5300"/><colors normal="3"/></set><set index="33"><name name="浙江"/><order name="排名:" value="33"/><show name="展现:" value="3300"/><colors normal="5"/></set></sets></data></chart>'
+					}
+			});
+		})
+	</script>
+</body>
+</html>
