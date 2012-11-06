@@ -674,7 +674,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache, Node,UA) {
      */
 
     function _recovery(html) {
-        html = html.replace(/(?:<|&lt;)!--({{[^}]+}})--(?:>|&gt;)/g, '$1').replace(/\s(src|href)\s*=\s*(['"])(.*?\{.+?)\2/g,' data-templatable-$1=$2$3$2');
+        html = html.replace(/(?:<|&lt;)!--({{[^}]+}})--(?:>|&gt;)/g, '$1').replace(/data-templatable-/g,'');
         //去掉attr=""
         /*html = html.replace(/(\{{2,3}[\^#~](.+?)\}{2,3})\=\"\"/g, '$1');
 
