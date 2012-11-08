@@ -1,0 +1,199 @@
+
+@import "../../style/variables.less";
+@import "../../style/mixins.less";
+
+
+.tooltip {
+    position:relative;
+    border:solid 1px #d0d0d0;
+    margin-bottom: 50px;
+    background-color: #fff;
+    box-shadow: 1px 2px 2px #ebebeb;
+    .border-radius(4px);
+    .arrow, .arrow div {
+        border-width:10px;
+        position:absolute;
+        height:0;
+        width:0;
+        z-index:1;
+        line-height:0;
+        font-size: 0;
+    }
+
+        .arrow-tl-bl{
+        left:-1px; 
+        bottom:-11px;
+        border-style: dashed dashed dashed solid;
+        border-color: transparent transparent transparent #d0d0d0;
+    }
+
+    .arrow-tl-bl div{
+        bottom:-8px;
+        left:-9px;
+        border-style: dashed dashed dashed solid;
+        border-color: transparent transparent transparent #fff;
+    }
+
+
+
+    .arrow-tr-br{
+        right:-1px; 
+        bottom:-11px;
+        border-style: dashed solid dashed dashed;
+        border-color: transparent #d0d0d0 transparent transparent;
+        .box-shadow(1px -2px 2px #ebebeb);
+    }
+
+    .arrow-tr-br div{
+        right:-9px;
+        bottom:-8px;
+        border-style: dashed solid dashed dashed;
+        border-color: transparent #fff transparent transparent ;
+    }
+
+    .arrow-bl-tl{
+        left:-1px;
+        top:-11px;
+        border-style:dashed dashed dashed solid;
+        border-color: transparent transparent transparent #d0d0d0;
+    }
+
+    .arrow-bl-tl div{
+        top:-8px;
+        left:-9px;
+        border-style:dashed dashed dashed solid;
+        border-color: transparent transparent transparent #fff;
+    }
+
+    /**
+     * 
+     */
+    .arrow-br-tr{
+        right:-1px;
+        top:-11px;
+        border-style:dashed solid dashed dashed ;
+        border-color: transparent #d0d0d0 transparent transparent;
+        .box-shadow(1px 2px 2px #ebebeb);
+    }
+
+    .arrow-br-tr div{
+        top:-8px;
+        right:-9px;
+        border-style:dashed solid dashed dashed ;
+        border-color: transparent #fff transparent transparent;
+    }
+
+
+
+    /**
+     * 
+     */
+    .arrow-tr-tl{
+        left:-11px;
+        top:-1px;
+        border-style:solid dashed dashed dashed ;
+        border-color: #d0d0d0 transparent transparent transparent;
+    }
+
+    .arrow-tr-tl div{
+        top:-9px;
+        left:-8px;
+        border-style:solid dashed dashed dashed ;
+        border-color: #fff transparent transparent transparent;
+    }
+
+
+
+
+
+    /**
+     * 
+     */
+    .arrow-br-bl{
+        left:-11px; 
+        bottom:-1px;
+        border-style: dashed dashed solid dashed ;
+        border-color: transparent transparent #d0d0d0 transparent;
+        .box-shadow(1px 2px 2px #ebebeb);
+    }
+
+    .arrow-br-bl div{
+        left:-8px;
+        bottom:-9px;
+        border-style: dashed dashed solid dashed ;
+        border-color:  transparent transparent #fff transparent;
+    }
+
+    
+
+
+
+
+    .arrow-tl-tr{
+        right:-11px; 
+        top:-1px;
+        border-style: solid dashed dashed dashed;
+        border-color: #d0d0d0 transparent transparent transparent;
+    }
+
+    .arrow-tl-tr div{
+        right:-8px;
+        top:-9px;
+        border-style: solid dashed dashed dashed;
+        border-color: #fff transparent transparent transparent ;
+    }
+
+    .arrow-bl-br{
+        right:-11px; 
+        bottom:-1px;
+        border-style: dashed dashed solid dashed;
+        border-color: transparent transparent #d0d0d0 transparent;
+        .box-shadow(-1px 2px 2px #ebebeb);
+    }
+
+    .arrow-bl-br div{
+        right:-8px;
+        bottom:-9px;
+        border-style: dashed dashed solid dashed;
+        border-color: transparent transparent #fff transparent ;
+    }
+    .tooltip-contentbox{
+        position: relative;
+
+    }
+    .tooltip-bd{
+        background-color: #fff;
+        position: relative;
+        z-index: 2;
+        border-radius:4px;
+        zoom:1;
+        padding: 6px 18px 6px 8px;
+    }
+
+    .tooltip-ext-close {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        text-decoration:none;
+        text-align: center;
+        display: block;
+        right: 6px;
+        top:6px;
+        cursor: default;
+        z-index: 3;
+    }
+    .tooltip-ext-close:hover{
+        text-decoration:none;
+    }
+    .tooltip-ext-close:hover .tooltip-ext-close-x{
+        color: #488fcd;
+    }
+    .tooltip-ext-close-x {
+        font-family:"uxiconfont";
+        font-style:normal;
+        color:#ccc;
+        font-size: 12px;
+        line-height: 12px;
+        display: block;
+    }
+}
