@@ -1848,6 +1848,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         }
         path = path.substring(0, path.lastIndexOf('brix'));
         return S.mix({
+            autoConfig:true,
             path: path,
             componentsPath: './',
             importsPath: './'
