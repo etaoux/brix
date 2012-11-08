@@ -257,7 +257,7 @@
         },
         '.btn-pupop-confirm':{
             click:function(e){
-                e.halt();
+                e.preventDefault();
                 var self = this,
                     index = self.get('index');
                     popupNode = self.get('el').one('.calendar-year-month-pupop'),
@@ -275,7 +275,7 @@
         },
         '.btn-pupop-cancel':{
             click:function(e){
-                e.halt();
+                e.preventDefault();
                 var self = this,
                     popupNode = self.get('el').one('.calendar-year-month-pupop');
                 popupNode.hide();
@@ -283,7 +283,7 @@
         },
         '.calendar-item':{
             click:function(e){
-                e.halt();
+                e.preventDefault();
                 var self = this,
                     node = S.one(e.currentTarget);
                 if(!node.hasClass('calendar-disabled')){
@@ -299,11 +299,14 @@
                             d.setSeconds(time.getSeconds());
                         }
                     }
-                    self.fire(Page.FIRES.itemClick,{date:d});
+                    S.later(function(){
+                        //先触发document的click事件
+                        self.fire(Page.FIRES.itemClick,{date:d});
+                    },0);
                 }
             },
             mousedown:function(e){
-                e.halt();
+                e.preventDefault();
                 var self = this,
                     node = S.one(e.currentTarget);
                 if(!node.hasClass('calendar-disabled')){
@@ -314,7 +317,7 @@
                 }
             },
             mouseup:function(e){
-                e.halt();
+                e.preventDefault();
                 var self = this,
                     node = S.one(e.currentTarget);
                 if(!node.hasClass('calendar-disabled')){
