@@ -286,6 +286,10 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                 el = self.get('el');
             key = ',' + key + ','
             var nodes = el.all('[bx-tmpl]');
+            //如果el本身也是tmpl，则加上自己
+            if(el.attr('bx-tmpl')){
+                nodes = el.add(nodes);
+            }
             nodes.each(function(node) {
                 var datakey = ',' + node.attr('bx-datakey') + ',';
                 if(datakey.indexOf(key) >= 0) {
