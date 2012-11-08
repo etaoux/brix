@@ -6,7 +6,7 @@
 
 
 	<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
-	<script type="text/javascript" src="http://a.tbcdn.cn/apps/e/brix/brix-min.js" bx-config="{autoConfig:true,autoPagelet:true}"></script>
+	<script type="text/javascript" src="http://a.tbcdn.cn/apps/e/brix/1.0/brix-min.js" bx-config="{autoConfig:true,autoPagelet:true}"></script>
 	<script type="text/javascript">
 		//业务代码
 		KISSY.ready(function(S){
