@@ -37,6 +37,19 @@
         <h4 class="h4">自定义模板</h4>
         <input type="button" value="有content" bx-name="tooltip" bx-config="{triggerType:'click',mouseDelay:false,align:{node:false,points:['tl','bl']},effect:{effect:'fade',easing:'',duration:0.3},tmpl:'#tmpl',content:'',width:300}">
         <input type="button" value="无content" bx-name="tooltip" bx-config="{triggerType:'click',toggle:true,mouseDelay:false,effect:{effect:'fade',easing:'',duration:0.3},tmpl:'#tmpl',width:300}">
+        <h4 class="h4">更新内容</h4>
+        <input id="tooltip" type="button" value="tl_bl" bx-name="tooltip" bx-config="{triggerType:'click',toggle:true,align:{node:false,points:['tl','bl']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_tl_bl,如果还要toggle功能，那就加上toggle:true',width:400}">
+        <input type="button" id="btn" value="改变值">
+        <script type="text/javascript">
+        Brix.ready(function () {
+            Brix.pagelet.ready(function(){
+                KISSY.one('#btn').on('click',function(){
+                    Brix.pagelet.getBrick('tooltip').set('content','我是测试tooltip_tl_bl，改变啦')
+                });
+                    
+            });
+        });    
+        </script>
     </div>
 
     <div class="container">
