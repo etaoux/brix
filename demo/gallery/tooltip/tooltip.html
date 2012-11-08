@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Brix ToolTip Demo</title>
+    <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="../../../src/gallery/tooltip/tooltip.css" charset="utf-8">
+    <link rel="stylesheet" href="../../assets/doc.css">
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+    <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,autoPagelet:true,fixed:'src/'}"></script>
+    <style type="text/css">
+        input{
+            width: 80px;
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3 class="h3">click触发显示</h3>
+        <input type="button" value="tl_bl" bx-name="tooltip" bx-config="{triggerType:'click',align:{node:false,points:['tl','bl']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_tl_bl'}">
+        <input type="button" value="tr_br" bx-name="tooltip" bx-config="{triggerType:'click',align:{node:false,points:['tr','br']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_tr_br'}">
+        
+
+        <input type="button" value="bl_tl" bx-name="tooltip" bx-config="{triggerType:'click',align:{node:false,points:['bl','tl']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_bl_tl'}">
+        <input type="button" value="br_tr" bx-name="tooltip" bx-config="{triggerType:'click',align:{node:false,points:['br','tr']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_br_tr'}">
+        
+
+        <input type="button" value="tr_tl" bx-name="tooltip" bx-config="{triggerType:'click',align:{node:false,points:['tr','tl']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_tr_tl'}">
+        <input type="button" value="br_bl" bx-name="tooltip" bx-config="{triggerType:'click',align:{node:false,points:['br','bl']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_br_bl'}">
+        <input type="button" value="tl_tr" bx-name="tooltip" bx-config="{triggerType:'click',align:{node:false,points:['tl','tr']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_tl_tr'}">
+        <input type="button" value="bl_br" bx-name="tooltip" bx-config="{triggerType:'click',align:{node:false,points:['bl','br']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_bl_br'}">
+        <h4 class="h4">如果不需要自动隐藏，请加上mouseDelay:false</h4>
+        <input type="button" value="tl_bl" bx-name="tooltip" bx-config="{triggerType:'click',mouseDelay:false,align:{node:false,points:['tl','bl']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_tl_bl'}">
+        <h4 class="h4">如果还要toggle功能，那就加上toggle:true</h4>
+        <input type="button" value="tl_bl" bx-name="tooltip" bx-config="{triggerType:'click',toggle:true,align:{node:false,points:['tl','bl']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_tl_bl,如果还要toggle功能，那就加上toggle:true',width:400}">
+        <h4 class="h4">自定义模板</h4>
+        <input type="button" value="有content" bx-name="tooltip" bx-config="{triggerType:'click',mouseDelay:false,align:{node:false,points:['tl','bl']},effect:{effect:'fade',easing:'',duration:0.3},tmpl:'#tmpl',content:'',width:300}">
+        <input type="button" value="无content" bx-name="tooltip" bx-config="{triggerType:'click',toggle:true,mouseDelay:false,effect:{effect:'fade',easing:'',duration:0.3},tmpl:'#tmpl',width:300}">
+        <h4 class="h4">更新内容</h4>
+        <input id="tooltip" type="button" value="tl_bl" bx-name="tooltip" bx-config="{triggerType:'click',toggle:true,align:{node:false,points:['tl','bl']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_tl_bl,如果还要toggle功能，那就加上toggle:true',width:400}">
+        <input type="button" id="btn" value="改变值">
+        <script type="text/javascript">
+        Brix.ready(function () {
+            Brix.pagelet.ready(function(){
+                KISSY.one('#btn').on('click',function(){
+                    Brix.pagelet.getBrick('tooltip').set('content','我是测试tooltip_tl_bl，改变啦')
+                });
+                    
+            });
+        });    
+        </script>
+    </div>
+
+    <div class="container">
+        <h3 class="h3">mouseenter触发显示</h3>
+        <input type="button" value="tl_bl" bx-name="tooltip" bx-config="{align:{node:false,points:['tl','bl']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_tl_bl'}">
+        <input type="button" value="tr_br" bx-name="tooltip" bx-config="{align:{node:false,points:['tr','br']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_tr_br'}">
+        
+
+        <input type="button" value="bl_tl" bx-name="tooltip" bx-config="{align:{node:false,points:['bl','tl']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_bl_tl'}">
+        <input type="button" value="br_tr" bx-name="tooltip" bx-config="{align:{node:false,points:['br','tr']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_br_tr'}">
+        
+
+        <input type="button" value="tr_tl" bx-name="tooltip" bx-config="{align:{node:false,points:['tr','tl']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_tr_tl'}">
+        <input type="button" value="br_bl" bx-name="tooltip" bx-config="{align:{node:false,points:['br','bl']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_br_bl'}">
+
+
+
+        <input type="button" value="tl_tr" bx-name="tooltip" bx-config="{align:{node:false,points:['tl','tr']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_tl_tr'}">
+        <input type="button" value="bl_br" bx-name="tooltip" bx-config="{align:{node:false,points:['bl','br']},effect:{effect:'fade',easing:'',duration:0.3},content:'我是测试tooltip_bl_br'}">
+    </div>
+
+        <div class="container">
+        <h3 class="h3">无动画效果</h3>
+        <input type="button" value="tl_bl" bx-name="tooltip" bx-config="{align:{node:false,points:['tl','bl']},content:'我是测试tooltip_tl_bl'}">
+        <input type="button" value="tr_br" bx-name="tooltip" bx-config="{align:{node:false,points:['tr','br']},content:'我是测试tooltip_tr_br'}">
+        
+
+        <input type="button" value="bl_tl" bx-name="tooltip" bx-config="{align:{node:false,points:['bl','tl']},content:'我是测试tooltip_bl_tl'}">
+        <input type="button" value="br_tr" bx-name="tooltip" bx-config="{align:{node:false,points:['br','tr']},content:'我是测试tooltip_br_tr'}">
+        
+
+        <input type="button" value="tr_tl" bx-name="tooltip" bx-config="{align:{node:false,points:['tr','tl']},content:'我是测试tooltip_tr_tl'}">
+        <input type="button" value="br_bl" bx-name="tooltip" bx-config="{align:{node:false,points:['br','bl']},content:'我是测试tooltip_br_bl'}">
+
+
+
+        <input type="button" value="tl_tr" bx-name="tooltip" bx-config="{align:{node:false,points:['tl','tr']},content:'我是测试tooltip_tl_tr'}">
+        <input type="button" value="bl_br" bx-name="tooltip" bx-config="{align:{node:false,points:['bl','br']},content:'我是测试tooltip_bl_br'}">
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        <h3 class="h3">tooltip静态样式</h3>
+        <div class="tooltip">
+            <div class="tooltip-contentbox">
+                <div class="arrow arrow-tl-bl">
+                    <div></div>
+                </div>
+                <div class="tooltip-bd">
+                     我就是传说中的tooltip静态样式 
+                </div>
+            </div>
+        </div>
+
+        <div class="tooltip">
+            <div class="tooltip-contentbox">
+                <div class="arrow arrow-tr-br">
+                    <div></div>
+                </div>
+                <div class="tooltip-bd">
+                     我就是传说中的tooltip静态样式 
+                </div>
+            </div>
+        </div>
+
+        <div class="tooltip">
+            <div class="tooltip-contentbox">
+                <div class="arrow arrow-bl-tl">
+                    <div></div>
+                </div>
+                <div class="tooltip-bd">
+                     我就是传说中的tooltip静态样式 
+                </div>
+            </div>
+        </div>
+        <div class="tooltip">
+            <div class="tooltip-contentbox">
+                <div class="arrow arrow-br-tr">
+                    <div></div>
+                </div>
+                <div class="tooltip-bd">
+                     我就是传说中的tooltip静态样式 
+                </div>
+            </div>
+        </div>
+
+        <div class="tooltip">
+            <div class="tooltip-contentbox">
+                <div class="arrow arrow-tr-tl">
+                    <div></div>
+                </div>
+                <div class="tooltip-bd">
+                     我就是传说中的tooltip静态样式 
+                </div>
+            </div>
+        </div>
+
+        <div class="tooltip">
+            <div class="tooltip-contentbox">
+                <div class="arrow arrow-br-bl">
+                    <div></div>
+                </div>
+                <div class="tooltip-bd">
+                     我就是传说中的tooltip静态样式 
+                </div>
+            </div>
+        </div>
+
+
+        <div class="tooltip">
+            <div class="tooltip-contentbox">
+                <div class="arrow arrow-tl-tr">
+                    <div></div>
+                </div>
+                <div class="tooltip-bd">
+                     我就是传说中的tooltip静态样式 
+                </div>
+            </div>
+        </div>
+        <div class="tooltip">
+            <div class="tooltip-contentbox">
+                <div class="arrow arrow-bl-br">
+                    <div></div>
+                </div>
+                <div class="tooltip-bd">
+                     我就是传说中的tooltip静态样式 
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/brix" id="tmpl">
+        <div style="padding:10px">
+            <h2 class="h2" style="margin:0">共产党之歌</h2>
+            没有共产党就没有新中国，没有共产党就没有新中国。
+            <div style="margin-top:15px"><a class="btn">确定</a></div>
+            </div>
+    </script>
+
+</body>
+</html>
