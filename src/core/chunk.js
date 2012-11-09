@@ -295,22 +295,37 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                 if(datakey.indexOf(key) >= 0) {
                     S.each(tmpls, function(o) {
                         if(node.attr('bx-tmpl') == o.name && node.attr('bx-datakey') == o.datakey) {
-                            var arr = datakey.split(',');
-                            var newData = {};
-                            S.each(arr, function(item) {
-                                var tempdata = data,
-                                    temparr = item.split('.'),
-                                    length = temparr.length,
-                                    i = 0;
-                                while(i !== length) {
-                                    tempdata = tempdata[temparr[i]];
-                                    i++;
+                            //sizzle 有bug 所以要这么写
+                            node = el.all('[bx-tmpl='+o.name+']');
+                            node.each(function(n){
+                                if(n.attr('bx-datakey')==o.datakey){
+                                    node = n;
                                 }
-                                newData[temparr[length - 1]] = tempdata;
-                                tempdata = null;
                             });
-                            node.html(o.tmpler.to_html(newData));
-                            newData = null;
+                            //sizzle bug end
+                            if(node.length>0){
+                                var arr = datakey.split(',');
+                                var newData = {};
+                                S.each(arr, function(item) {
+                                    var tempdata = data,
+                                        temparr = item.split('.'),
+                                        length = temparr.length,
+                                        i = 0;
+                                    while(i !== length) {
+                                        tempdata = tempdata[temparr[i]];
+                                        i++;
+                                    }
+                                    newData[temparr[length - 1]] = tempdata;
+                                    tempdata = null;
+                                });
+                                //局部刷新前触发
+                                self.fire('beforeRefreshTmpl',{node:node});
+                                node.html(o.tmpler.to_html(newData));
+                                //局部刷新后触发
+                                self.fire('afterRefreshTmpl',{node:node});
+                                newData = null;
+                                node = null;
+                            }
                         }
                     });
                 }
