@@ -301,7 +301,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                     el = self.get('el'),
                     node = S.one(e.target),
                     trigger = S.one(self.get('trigger'));
-                if (!el.equals(node)&&!el.contains(node) && trigger && node[0] != trigger[0]&&(!self.calendar || !self.calendar.get('el').contains(node))) {
+                if (!el.equals(node)&&!el.contains(node) && trigger &&!trigger.contains(node) && node[0] != trigger[0]&&(!self.calendar || !self.calendar.get('el').contains(node))) {
                     self.hide();
                 }
             }
