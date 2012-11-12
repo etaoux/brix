@@ -292,9 +292,9 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
             }
             nodes.each(function(node) {
                 var datakey = ',' + node.attr('bx-datakey') + ',';
-                if(datakey.indexOf(key) >= 0) {
+                if(node&&datakey.indexOf(key) >= 0) {
                     S.each(tmpls, function(o) {
-                        if(node.attr('bx-tmpl') == o.name && node.attr('bx-datakey') == o.datakey) {
+                        if(node&&node.attr('bx-tmpl') == o.name && node.attr('bx-datakey') == o.datakey) {
                             //sizzle 有bug 所以要这么写
                             node = el.all('[bx-tmpl='+o.name+']');
                             node.each(function(n){
@@ -318,6 +318,11 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                                     newData[temparr[length - 1]] = tempdata;
                                     tempdata = null;
                                 });
+                                S.each(data,function(d,k){
+                                    if(S.isFunction(d)){
+                                        newData[k] = d;
+                                    }
+                                });
                                 //局部刷新前触发
                                 self.fire('beforeRefreshTmpl',{node:node});
                                 node.html(o.tmpler.to_html(newData));
@@ -325,6 +330,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                                 self.fire('afterRefreshTmpl',{node:node});
                                 newData = null;
                                 node = null;
+                                return false;
                             }
                         }
                     });

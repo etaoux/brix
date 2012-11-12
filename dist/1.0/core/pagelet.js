@@ -150,8 +150,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                             container:'#'+id,
                             id: id,
                             el: '#' + id,
-                            pagelet: self,
-                            autoRender:true
+                            pagelet: self
                         }, o.config);
                         var TheBrick = useClassList[S.indexOf(o.path, useList)+1];
                         var myBrick = new TheBrick(config);
