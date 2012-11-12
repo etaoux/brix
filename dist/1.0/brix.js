@@ -1007,13 +1007,15 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
          * 设置数据，并刷新模板数据
          * @param {String} datakey 需要更新的数据对象key
          * @param {Object} data    数据对象
+         * @param {Object} [opts]    控制对象，包括以下控制选项
+         * @param {Boolean} [opts.silent] 是否触发change事件
          */
-        setChunkData: function(datakey, data) {
+        setChunkData: function(datakey, data, opts) {
             var self = this,
                 dataset = self.get('dataset');
             if(dataset) {
                 data = S.clone(data);
-                dataset.set('data.' + datakey, data);
+                dataset.set('data.' + datakey, data,opts);
             }
         },
         /**
@@ -1106,56 +1108,42 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
         _renderTmpl: function(tmpls, key, data) {
             var self = this,
                 el = self.get('el');
-            key = ',' + key + ','
-            var nodes = el.all('[bx-tmpl]');
-            //如果el本身也是tmpl，则加上自己
-            if(el.attr('bx-tmpl')){
-                nodes = el.add(nodes);
-            }
-            nodes.each(function(node) {
-                var datakey = ',' + node.attr('bx-datakey') + ',';
-                if(node&&datakey.indexOf(key) >= 0) {
-                    S.each(tmpls, function(o) {
-                        if(node&&node.attr('bx-tmpl') == o.name && node.attr('bx-datakey') == o.datakey) {
-                            //sizzle 有bug 所以要这么写
-                            node = el.all('[bx-tmpl='+o.name+']');
-                            node.each(function(n){
-                                if(n.attr('bx-datakey')==o.datakey){
-                                    node = n;
+            S.each(tmpls, function(o) {
+                if((',' + o.datakey + ',').indexOf(',' + key + ',') >= 0){
+                    var nodes = el.all('[bx-tmpl='+o.name+']');
+                    //如果el本身也是tmpl，则加上自己
+                    if(el.attr('bx-tmpl')==o.name){
+                        nodes = el.add(nodes);
+                    }
+                    nodes.each(function(node) {
+                        if(node.attr('bx-datakey') == o.datakey){
+                            var newData = {};
+                            S.each(o.datakey.split(','), function(item) {
+                                var tempdata = data,
+                                    temparr = item.split('.'),
+                                    length = temparr.length,
+                                    i = 0;
+                                while(i !== length) {
+                                    tempdata = tempdata[temparr[i]];
+                                    i++;
+                                }
+                                newData[temparr[length - 1]] = tempdata;
+                                tempdata = null;
+                            });
+                            S.each(data,function(d,k){
+                                if(S.isFunction(d)){
+                                    newData[k] = d;
                                 }
                             });
-                            //sizzle bug end
-                            if(node.length>0){
-                                var arr = datakey.split(',');
-                                var newData = {};
-                                S.each(arr, function(item) {
-                                    var tempdata = data,
-                                        temparr = item.split('.'),
-                                        length = temparr.length,
-                                        i = 0;
-                                    while(i !== length) {
-                                        tempdata = tempdata[temparr[i]];
-                                        i++;
-                                    }
-                                    newData[temparr[length - 1]] = tempdata;
-                                    tempdata = null;
-                                });
-                                S.each(data,function(d,k){
-                                    if(S.isFunction(d)){
-                                        newData[k] = d;
-                                    }
-                                });
-                                //局部刷新前触发
-                                self.fire('beforeRefreshTmpl',{node:node});
-                                node.html(o.tmpler.to_html(newData));
-                                //局部刷新后触发
-                                self.fire('afterRefreshTmpl',{node:node});
-                                newData = null;
-                                node = null;
-                                return false;
-                            }
+                            //局部刷新前触发
+                            self.fire('beforeRefreshTmpl',{node:node});
+                            node.html(o.tmpler.to_html(newData));
+                            //局部刷新后触发
+                            self.fire('afterRefreshTmpl',{node:node});
+                            newData = null;
                         }
                     });
+                    nodes = null;
                 }
             });
         }
