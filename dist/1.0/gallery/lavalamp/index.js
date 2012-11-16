@@ -1,6 +1,7 @@
 KISSY.add("brix/gallery/lavalamp/index", function(S, Brick, Anim, Node) {
     /**
      * Lavalamp 滑动菜单
+     * <br><a href="../demo/gallery/lavalamp/lavalamp.html" target="_blank">Demo</a>
      * @class Brix.Gallery.Lavalamp
      * @extends Brix.Brick
      */

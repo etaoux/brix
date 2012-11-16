@@ -92,7 +92,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache,Node) {
          * 添加子模板
          * @param {String} name    模板名称
          * @param {String} datakey 模板对应的数据key
-         * @param {[type]} tmpl    子模板
+         * @param {String} tmpl    子模板
          */
         addTmpl: function(name, datakey, tmpl) {
             var self = this;

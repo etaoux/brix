@@ -741,7 +741,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache,Node) {
          * 添加子模板
          * @param {String} name    模板名称
          * @param {String} datakey 模板对应的数据key
-         * @param {[type]} tmpl    子模板
+         * @param {String} tmpl    子模板
          */
         addTmpl: function(name, datakey, tmpl) {
             var self = this;
@@ -993,7 +993,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
          * 添加子模板
          * @param {String} name    模板名称
          * @param {String} datakey 模板对应的数据key
-         * @param {[type]} tmpl    子模板
+         * @param {String} tmpl    子模板
          */
         addTmpl: function(name,datakey,tmpl) {
             var self = this,
@@ -1764,6 +1764,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
 });
 /**
  * Brix配置类 组件框架入口类，在调用Brix组件的时候可以配置cdn地址，组件版本号等
+ * <br><a href="../demo/core/brix.html" target="_blank">Demo</a>
  * <br>
  * 引用：
  *     

@@ -1,6 +1,7 @@
 KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
     /**
      * Pagination 分页
+     * <br><a href="../demo/gallery/pagination/pagination.html" target="_blank">Demo</a>
      * @class Brix.Gallery.Pagination
      * @extends Brix.Brick
      */

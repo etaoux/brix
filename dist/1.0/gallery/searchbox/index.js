@@ -6,6 +6,12 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick, Node) {
     //TODO:
     var count = 0;
 
+    /**
+     * 搜索框
+     * <br><a href="../demo/gallery/searchbox/searchbox.html" target="_blank">Demo</a>
+     * @class Brix.Gallery.Searchbox
+     * @extends Brix.Brick
+     */
     function Searchbox() {
         Searchbox.superclass.constructor.apply(this, arguments);
     }
@@ -370,6 +376,7 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick, Node) {
         },
         /**
          * 关键词后缀加粗显示
+         * @private
          */
         _keyword: function() {//{{{
             var self = this,

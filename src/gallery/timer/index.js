@@ -1,6 +1,7 @@
 KISSY.add('brix/gallery/timer/index', function(S, Brick, IO) {
     /**
      * 定时器
+     * <br><a href="../demo/gallery/timer/timer.html" target="_blank">Demo</a>
      * @extends Brix.Brick
      * @class Brix.Gallery.Timer
      */

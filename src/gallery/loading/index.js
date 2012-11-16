@@ -1,6 +1,7 @@
 KISSY.add('brix/gallery/loading/index', function(S, Brick) {
     /**
      * Loading
+     * <br><a href="../demo/gallery/loading/loading.html" target="_blank">Demo</a>
      * @class Brix.Gallery.Loading
      * @extends Brix.Brick
      */
@@ -9,12 +10,19 @@ KISSY.add('brix/gallery/loading/index', function(S, Brick) {
     }
     
     Loading.ATTRS = {
+        /**
+         * 样式配置，默认0
+         * @cfg {Number}
+         */
         loadingStyle: {
             value: 0
         }
     };
     
     Loading.METHODS = {
+        /**
+         * 显示
+         */
         show: function() {
             var self = this;
                 el = self.get('el');
@@ -22,6 +30,9 @@ KISSY.add('brix/gallery/loading/index', function(S, Brick) {
             el.css('display', 'block');
             self.fire(Loading.FIRES.show);
         },
+        /**
+         * 隐藏
+         */
         hide: function() {
             var self = this,
                 el = self.get('el');
@@ -32,7 +43,15 @@ KISSY.add('brix/gallery/loading/index', function(S, Brick) {
     };
 
     Loading.FIRES= {
+        /**
+         * @event show
+         * 显示
+         */
         show:'show', //显示loading
+        /**
+         * @event hide
+         * 隐藏
+         */
         hide:'hide' //隐藏loading
     };
 
