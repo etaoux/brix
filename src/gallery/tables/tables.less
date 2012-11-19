@@ -1,11 +1,6 @@
 @import "../../style/variables.less";
 @import "../../style/mixins.less";
 
-/**
- * table
- * author: chongzhi.ldq@taobao.com 崇志
- */
-
 .table-container {
   -webkit-text-size-adjust: none; /*允许缩小至12px以下*/
   -ms-text-size-adjust: none;
@@ -23,7 +18,7 @@
 
   .toolbar {
     padding: 8px 14px;
-    background-color: #f5f5f5;
+    background-color: #ebebeb;
   }
 
   .btn {
@@ -50,7 +45,7 @@
     font-weight: normal;
     padding: 7px 5px 6px;
     color: #999;
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px solid #e1e1e1;
 
     &:first-child {
       padding-left: 14px;
@@ -60,6 +55,9 @@
     }
     a {
       color: #999;
+      &:hover {
+        color: #666;
+      }
       &.sort {
         color: #666;
         .iconfont {
@@ -87,7 +85,7 @@
 
     tr {
       td {
-        border-bottom: 1px solid #ebebeb;
+        border-bottom: 1px solid #e1e1e1;
         padding: 10px 5px 9px;
 
         &:first-child {
@@ -97,7 +95,7 @@
           padding-right: 14px;
         }
         &.sort {
-          background-color: #f2f2f2;
+          background-color: #ebebeb;
         }
         &.table-child-td {
           padding: 0 40px;
@@ -113,7 +111,7 @@
       &:hover td,
       &.hover td,
       &.current td {
-        background-color: #f2f2f2;
+        background-color: #ebebeb;
         .operation {
           visibility: visible;
           a {
@@ -166,7 +164,7 @@
 
   tfoot td {
     background-color: #f7f7f7;
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px solid #e1e1e1;
     padding: 0 14px;
     height: 38px;
   }
@@ -261,7 +259,7 @@
 /* 用于在 table 标签之外实现 foot 的，这样就不用去计算 td 的 colspan 需要多少了  */
 .table-foot {
   background-color: #f7f7f7;
-  border-bottom: 1px solid #ebebeb;
+  border-bottom: 1px solid #e1e1e1;
   padding: 5px 14px;
 }
 
@@ -336,7 +334,7 @@
     th {
       border: 0;
       background: none;
-      border-bottom: 1px dashed #ccc;
+      border-bottom: 1px dashed #e1e1e1;
     }
   }
 
@@ -349,7 +347,7 @@
     tr {
       td {
         background: none!important;
-        border-bottom: 1px solid #ebebeb;
+        border-bottom: 1px solid #e1e1e1;
       }
 
       &:hover {

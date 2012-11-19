@@ -15,11 +15,7 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js"><span id='global-property-'>/**
-</span> * table
- * author: chongzhi.ldq@taobao.com 崇志
- */
-.table-container {
+  <pre class="prettyprint lang-js">.table-container {
   -webkit-text-size-adjust: none;
   /*允许缩小至12px以下*/
 
@@ -37,7 +33,7 @@
 }
 .table-container .toolbar {
   padding: 8px 14px;
-  background-color: #f5f5f5;
+  background-color: #ebebeb;
 }
 .table-container .btn {
   font-weight: normal;
@@ -90,7 +86,7 @@
   font-weight: normal;
   padding: 7px 5px 6px;
   color: #999;
-  border-bottom: 1px solid #ebebeb;
+  border-bottom: 1px solid #e1e1e1;
 }
 .table th:first-child {
   padding-left: 14px;
@@ -100,6 +96,9 @@
 }
 .table th a {
   color: #999;
+}
+.table th a:hover {
+  color: #666;
 }
 .table th a.sort {
   color: #666;
@@ -121,7 +120,7 @@
   color: #0859AC;
 }
 .table tbody tr td {
-  border-bottom: 1px solid #ebebeb;
+  border-bottom: 1px solid #e1e1e1;
   padding: 10px 5px 9px;
 }
 .table tbody tr td:first-child {
@@ -131,7 +130,7 @@
   padding-right: 14px;
 }
 .table tbody tr td.sort {
-  background-color: #f2f2f2;
+  background-color: #ebebeb;
 }
 .table tbody tr td.table-child-td {
   padding: 0 40px;
@@ -145,7 +144,7 @@
 .table tbody tr:hover td,
 .table tbody tr.hover td,
 .table tbody tr.current td {
-  background-color: #f2f2f2;
+  background-color: #ebebeb;
 }
 .table tbody tr:hover td .operation,
 .table tbody tr.hover td .operation,
@@ -189,7 +188,7 @@
 }
 .table tfoot td {
   background-color: #f7f7f7;
-  border-bottom: 1px solid #ebebeb;
+  border-bottom: 1px solid #e1e1e1;
   padding: 0 14px;
   height: 38px;
 }
@@ -251,7 +250,7 @@
 /* 用于在 table 标签之外实现 foot 的，这样就不用去计算 td 的 colspan 需要多少了  */
 .table-foot {
   background-color: #f7f7f7;
-  border-bottom: 1px solid #ebebeb;
+  border-bottom: 1px solid #e1e1e1;
   padding: 5px 14px;
 }
 .table-settings {
@@ -313,14 +312,14 @@
 .table-child thead th {
   border: 0;
   background: none;
-  border-bottom: 1px dashed #ccc;
+  border-bottom: 1px dashed #e1e1e1;
 }
 .table-child tbody td {
   border: 0;
 }
 .table-child tbody tr td {
   background: none!important;
-  border-bottom: 1px solid #ebebeb;
+  border-bottom: 1px solid #e1e1e1;
 }
 .table-child tbody tr:hover td {
   background: #EBEBEB!important;

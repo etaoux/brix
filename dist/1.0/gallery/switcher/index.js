@@ -1,6 +1,7 @@
 KISSY.add("brix/gallery/switcher/index", function(S, Brick) {
     /**
      * Switcher
+     * <br><a href="../demo/gallery/switcher/switcher.html" target="_blank">Demo</a>
      * @class Brix.Gallery.Switcher
      * @extends Brix.Brick
      */

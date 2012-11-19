@@ -2,6 +2,7 @@ KISSY.add('brix/gallery/tables/index', function(S, Brick) {
     var $ = S.all;
     /**
      * Tables
+     * <br><a href="../demo/gallery/tables/tables.html" target="_blank">Demo</a>
      * @class Brix.Gallery.Tables
      * @extends Brix.Brick
      */

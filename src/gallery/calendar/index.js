@@ -1,6 +1,7 @@
 KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_Date) {
     /**
      * 日历
+     * <br><a href="../demo/gallery/calendar/calendar.html" target="_blank">Demo</a>
      * @class Brix.Gallery.Calendar
      * @extends Brix.Brick
      */
@@ -290,7 +291,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     el = self.get('el'),
                     node = S.one(e.target),
                     trigger = S.one(self.get('trigger'));
-                if (!el.equals(node)&&!el.contains(node) && trigger && node[0] != trigger[0]) {
+                if (!el.equals(node)&&!el.contains(node) && trigger && !trigger.contains(node)&& node[0] != trigger[0]) {
                     self.hide();
                 }
             }

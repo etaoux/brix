@@ -6,6 +6,7 @@ KISSY.add('brix/gallery/starrating/index', function(S, Brick, Node,UA) {
     }
     /**
      * StarRating 评分
+     * <br><a href="../demo/gallery/starrating/starrating.html" target="_blank">Demo</a>
      * @class Brix.Gallery.StarRating
      * @extends Brix.Brick
      */

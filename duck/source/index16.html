@@ -18,6 +18,7 @@
   <pre class="prettyprint lang-js">KISSY.add('brix/gallery/loading/index', function(S, Brick) {
 <span id='Brix-Gallery-Loading'>    /**
 </span>     * Loading
+     * &lt;br&gt;&lt;a href=&quot;../demo/gallery/loading/loading.html&quot; target=&quot;_blank&quot;&gt;Demo&lt;/a&gt;
      * @class Brix.Gallery.Loading
      * @extends Brix.Brick
      */
@@ -26,12 +27,19 @@
     }
     
     Loading.ATTRS = {
+<span id='Brix-Gallery-Loading-cfg-loadingStyle'>        /**
+</span>         * 样式配置，默认0
+         * @cfg {Number}
+         */
         loadingStyle: {
             value: 0
         }
     };
     
     Loading.METHODS = {
+<span id='Brix-Gallery-Loading-method-show'>        /**
+</span>         * 显示
+         */
         show: function() {
             var self = this;
                 el = self.get('el');
@@ -39,6 +47,9 @@
             el.css('display', 'block');
             self.fire(Loading.FIRES.show);
         },
+<span id='Brix-Gallery-Loading-method-hide'>        /**
+</span>         * 隐藏
+         */
         hide: function() {
             var self = this,
                 el = self.get('el');
@@ -49,7 +60,15 @@
     };
 
     Loading.FIRES= {
+<span id='Brix-Gallery-Loading-event-show'>        /**
+</span>         * @event show
+         * 显示
+         */
         show:'show', //显示loading
+<span id='Brix-Gallery-Loading-event-hide'>        /**
+</span>         * @event hide
+         * 隐藏
+         */
         hide:'hide' //隐藏loading
     };
 

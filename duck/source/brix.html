@@ -17,6 +17,7 @@
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js"><span id='Brix'>/**
 </span> * Brix配置类 组件框架入口类，在调用Brix组件的时候可以配置cdn地址，组件版本号等
+ * &lt;br&gt;&lt;a href=&quot;../demo/core/brix.html&quot; target=&quot;_blank&quot;&gt;Demo&lt;/a&gt;
  * &lt;br&gt;
  * 引用：
  *     
@@ -135,6 +136,7 @@
         }
         path = path.substring(0, path.lastIndexOf('brix'));
         return S.mix({
+            autoConfig:true,
             path: path,
             componentsPath: './',
             importsPath: './'

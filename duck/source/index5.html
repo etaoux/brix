@@ -18,6 +18,7 @@
   <pre class="prettyprint lang-js">KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_Date) {
 <span id='Brix-Gallery-Calendar'>    /**
 </span>     * 日历
+     * &lt;br&gt;&lt;a href=&quot;../demo/gallery/calendar/calendar.html&quot; target=&quot;_blank&quot;&gt;Demo&lt;/a&gt;
      * @class Brix.Gallery.Calendar
      * @extends Brix.Brick
      */
@@ -307,7 +308,7 @@
                     el = self.get('el'),
                     node = S.one(e.target),
                     trigger = S.one(self.get('trigger'));
-                if (!el.equals(node)&amp;&amp;!el.contains(node) &amp;&amp; trigger &amp;&amp; node[0] != trigger[0]) {
+                if (!el.equals(node)&amp;&amp;!el.contains(node) &amp;&amp; trigger &amp;&amp; !trigger.contains(node)&amp;&amp; node[0] != trigger[0]) {
                     self.hide();
                 }
             }

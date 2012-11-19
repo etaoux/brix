@@ -44,7 +44,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
             self._bindEvent();
         });
 
-        if (self.get('autoRender')||!tmpler||tmpler.inDom){
+        if (self.pagelet || self.get('autoRender')||!tmpler||tmpler.inDom){
             self.render();
         }
     }

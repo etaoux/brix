@@ -1,6 +1,7 @@
 KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
     /**
      * 弹出层组件
+     * <br><a href="../demo/gallery/dialog/dialog.html" target="_blank">Demo</a>
      * @class Brix.Gallery.Dialog
      * @extends KISSY.Overlay
      *

@@ -15,39 +15,41 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">KISSY.add(&quot;brix/gallery/sidenav/index&quot;, function(S, Brix, Base) {
+  <pre class="prettyprint lang-js">KISSY.add(&quot;brix/gallery/sidenav/index&quot;, function(S, Brick) {
     // author: chongzhi.ldq@taobao.com 崇志
-<span id='global-property-S-'>    /**
-</span>     * 页面主导航切换
-     * cfg {object}
-     * cfg: {
-     *    index: 1, //默认的首页地址
-     *    duration: 0.25 // 导航动画持续时间，可配置
-     * }
-     */
     var $ = S.all;
+
+<span id='Brix-Gallery-Sidenav'>    /**
+</span>     * 页面主导航切换
+     * &lt;br&gt;&lt;a href=&quot;../demo/gallery/sidenav/sidenav.html&quot; target=&quot;_blank&quot;&gt;Demo&lt;/a&gt;
+     * @class Brix.Gallery.Sidenav
+     * @extends Brix.Brick
+     */
     var Sidenav = function() {
         Sidenav.superclass.constructor.apply(this, arguments);
-        // this.init();
     };
 
-    //默认配置
     Sidenav.ATTRS = {
-        el: {
-            value: ''
-        },
-
-        index: { //默认的首页地址
+<span id='Brix-Gallery-Sidenav-cfg-index'>        /**
+</span>         * 默认的首页地址
+         * @cfg {String}
+         */
+        index: { 
             value: '#!/home/'
         },
-
-        duration: { //导航动画持续时间，可配置
+<span id='Brix-Gallery-Sidenav-cfg-duration'>        /**
+</span>         * 导航动画持续时间，可配置
+         * @cfg {Number}
+         */
+        duration: { 
             value: 0.25
         },
 
-        //这里配置有的页面不是导航点击进来的，
-        //可以配置成相应的导航下面
-        //置空则不停在任何导航上
+<span id='Brix-Gallery-Sidenav-cfg-pathMap'>        /**
+</span>         * 这里配置有的页面不是导航点击进来的，可以配置成相应的导航下面,
+         * 置空则不停在任何导航上
+         * @cfg {Object}
+         */
         pathMap: {
             value: {
                 '#!/adzone/adzone_detail/': '#!/adzone/adzone/',
@@ -60,12 +62,8 @@
         }
     };
 
-    S.extend(Sidenav, Brix, {
+    S.extend(Sidenav, Brick, {
         initialize: function() {
-<span id='global-property-sidebar'>            /**
-</span>             * 配置
-             * @type {[type]}
-             */
             this.sidebar = S.one('#sidebar');
             this.main = S.one('#inmain');
             // this.sidebarFixed = S.one('#sidebarFixed');
@@ -99,19 +97,24 @@
             this.isHandleClick = false; //标识是否点击了扩展收缩按钮
             this.navTop = this.nav.offset().top; //导航的初始offset.top值
 
-            /* 初始化 */
+            //初始化
             this._bindUI();
             this._pathname2sidebar();
         },
 
-        //提供一个切换到指定菜单打开状态的api
-        //请传入模拟点击的node节点
+<span id='Brix-Gallery-Sidenav-method-clickSwitch'>        /**
+</span>         * 提供一个切换到指定菜单打开状态的api,请传入模拟点击的node节点
+         * @param  {Element} node 切换的节点
+         */
         clickSwitch: function(node) {
             S.one(node).fire('click');
         },
 
-        //模拟queryModel对hash的pathname进行解析
-        getPathname: function() {
+<span id='Brix-Gallery-Sidenav-method-_getPathname'>        /**
+</span>         * 模拟queryModel对hash的pathname进行解析
+         * @private
+         */
+        _getPathname: function() {
             var pathname;
             var pathnameMatch = /^#!(\/.+)\/.*$/.exec(location.hash); //返回pathname目录
             pathname = pathnameMatch &amp;&amp; pathnameMatch[1] || '';
@@ -119,9 +122,12 @@
 
         },
 
-        //根据pathname来确定sidebar的状态
+<span id='Brix-Gallery-Sidenav-method-_pathname2sidebar'>        /**
+</span>         * 根据pathname来确定sidebar的状态
+         * @private
+         */
         _pathname2sidebar: function() {
-            var pathname = this.getPathname();
+            var pathname = this._getPathname();
             var h = pathname &amp;&amp; ('#!' + pathname + '/') || this.index;
 
             //回收站特例
@@ -165,7 +171,10 @@
             this.isNavClick = false;
         },
 
-        //触发无选中导航状态
+<span id='Brix-Gallery-Sidenav-method-_setNoSelectedNav'>        /**
+</span>         * 触发无选中导航状态
+         * @private
+         */
         _setNoSelectedNav: function() {
             this.sidebar.all('a').removeClass('on');
             this._collapseNav();
@@ -284,8 +293,11 @@
             })
         },
 
-        //sidebar 的 fixed与static切换
-        _fixedStatic: function(attribute){
+<span id='Brix-Gallery-Sidenav-method-_fixedStatic'>        /**
+</span>         * sidebar 的 fixed与static切换
+         * @private
+         */
+        _fixedStatic: function(){
             var self = this;
             var st = Math.max(document.body.scrollTop, document.documentElement.scrollTop); //兼容ie
             var isFixed = st &gt; self.navTop; //滚动超过nav的offset top值时，变为fixed
@@ -311,13 +323,22 @@
             }
         },
 
-        //延迟器
+<span id='Brix-Gallery-Sidenav-method-_timer'>        /**
+</span>         * 延迟器
+         * @param  {Function} fn 方法
+         * @param  {Number}   t  时间
+         * @private
+         */
         _timer: function(fn, t) {
             clearTimeout(this.itv);
             this.itv = setTimeout(fn, t);
         },
 
-        //设置子菜单选中状态
+<span id='Brix-Gallery-Sidenav-method-_setSubNavOn'>        /**
+</span>         * 设置子菜单选中状态
+         * @param {Node} node 节点
+         * @private
+         */
         _setSubNavOn: function(node) {
             var thirdNav = node.closest('.sub-nav-third');
 
@@ -332,7 +353,11 @@
             }
         },
 
-        //传入当前的导航a节点，处理导航点击引起的子导航切换
+<span id='Brix-Gallery-Sidenav-method-_expandCollapseNav'>        /**
+</span>         * 传入当前的导航a节点，处理导航点击引起的子导航切换
+         * @param {Node} node 节点
+         * @private
+         */
         _expandCollapseNav: function(node) {
             var self = this;
             var dataSub = node.attr('data-sub'); //是否有子菜单
@@ -375,7 +400,11 @@
             node.addClass('on');
         },
 
-        //收缩导航按钮的切换
+        //
+<span id='Brix-Gallery-Sidenav-method-_switchTrigger'>        /**
+</span>         * 收缩导航按钮的切换
+         * @private
+         */
         _switchTrigger: function() {
             if (this.isFullSubNav === '1') {
                 this.subNavHandle.replaceClass('icon-collapse', 'icon-expand');
@@ -384,7 +413,10 @@
             }
         },
 
-        //子导航的扩展收缩
+<span id='Brix-Gallery-Sidenav-method-_expandCollapseSubNav'>        /**
+</span>         * 子导航的扩展收缩
+         * @private
+         */
         _expandCollapseSubNav: function() {
             var self = this;
             var curSubNav = self.currentSubNav;
@@ -428,14 +460,18 @@
 
         },
 
-        //子菜单收缩
+<span id='Brix-Gallery-Sidenav-method-_collapseSubNav'>        /**
+</span>         * 子菜单收缩
+         * @param  {Function} cb 回调函数
+         * @private
+         */
         _collapseSubNav: function(cb) {
             this.subNav.animate({
                 'width': '16px',
                 'padding-top': '42px'
             }, this.duration, 'easeOut', cb);
 
-<span id='global-property-'>            /**
+<span id='Brix-Gallery-Sidenav-property-'>            /**
 </span>             *main width setting
              */
 
@@ -447,14 +483,18 @@
             this._collapseThirdNav();
         },
 
-        //子菜单打开
+<span id='Brix-Gallery-Sidenav-method-_expandSubNav'>        /**
+</span>         * 子菜单打开
+         * @param  {Function} cb 回调函数
+         * @private
+         */
         _expandSubNav: function(cb) {
             this.subNav.animate({
                 'width': '140px',
                 'padding-top': '0px'
             }, this.duration, 'easeOut', cb);
 
-<span id='global-property-'>            /**
+<span id='Brix-Gallery-Sidenav-property-'>            /**
 </span>             *main width setting
              */
 
@@ -467,7 +507,11 @@
             this.subNavView.css('left', '-10000px');
         },
 
-        //打开三级菜单
+<span id='Brix-Gallery-Sidenav-method-_expandThirdNav'>        /**
+</span>         * 打开三级菜单
+         * @param  {Function} cb 回调函数
+         * @private
+         */
         _expandThirdNav: function(cb) {
             var self = this;
 
@@ -487,7 +531,11 @@
             }
         },
 
-        //关闭三级菜单
+<span id='Brix-Gallery-Sidenav-method-_collapseThirdNav'>        /**
+</span>         * 关闭三级菜单
+         * @param  {Function} cb 回调函数
+         * @private
+         */
         _collapseThirdNav: function(cb) {
             //直接slideToggle在chrome下有问题，故换成animate
             S.all('.sub-nav-third').animate({
@@ -495,8 +543,12 @@
             }, this.duration, 'easeOut', cb);
         },
 
-        //主导航切换控制的侧栏菜单打开
-        _expandNav: function(dataSub, cb) {
+<span id='Brix-Gallery-Sidenav-method-_expandNav'>        /**
+</span>         * 主导航切换控制的侧栏菜单打开
+         * @param  {Function} cb 回调函数
+         * @private
+         */
+        _expandNav: function(cb) {
             this.subNav.show();
             this.subNav.animate({
                 &quot;width&quot;: this.isFullSubNav === '1' ? '140px' : '16px',
@@ -508,7 +560,7 @@
             }, this.duration, 'easeOut', cb);
 
 
-<span id='global-property-'>            /**
+<span id='Brix-Gallery-Sidenav-property-'>            /**
 </span>             *main width setting
              */
 
@@ -524,8 +576,12 @@
             }
         },
 
-        //主导航切换控制的侧栏菜单收缩
-        _collapseNav: function(dataSub, cb) {
+<span id='Brix-Gallery-Sidenav-method-_collapseNav'>        /**
+</span>         * 主导航切换控制的侧栏菜单收缩
+         * @param  {Function} cb 回调函数
+         * @private
+         */
+        _collapseNav: function(cb) {
             var self = this;
 
             this.subNav.animate({
@@ -538,7 +594,7 @@
                 &quot;margin-left&quot;: this.isFullSubNav === '1' ? '-140px' : '-16px'
             }, this.duration, 'easeOut', cb);
 
-<span id='global-property-'>            /**
+<span id='Brix-Gallery-Sidenav-property-'>            /**
 </span>             *main width setting
              */
 
@@ -552,7 +608,7 @@
     return Sidenav;
 
 }, {
-    requires: ['brix/core/brick', 'base', 'sizzle']
+    requires: ['brix/core/brick']
 });
 </pre>
 </body>

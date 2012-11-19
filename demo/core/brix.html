@@ -6,16 +6,10 @@
     <link type="text/css" rel="stylesheet" href="../../dist/brix-min.css" charset="utf-8">
     <link rel="stylesheet" href="../assets/doc.css">
     <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
-    <script src="../../src/core/brix.js" bx-config="{autoConfig:true,fixed:'src/',autoPagelet:true}"></script>
+    <script src="../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>
 </head>
 <body>
     <div class="container">
-        <div id="brixtest" bx-name="brixtest" bx-path="brixtest/" bx-config="{tmpl:'#tmpl',data:list}">
-            <input id="input1" type="button" value="局部刷新a">
-            <input id="input2" type="button" value="局部刷新b">
-            <input id="input3" type="button" value="局部刷新d">
-            <input id="input4" type="button" value="局部刷新e">
-        </div>
     </div>
     <script type="text/javascript">
         KISSY.add("brixtest/index", function(S, Brick) {
@@ -26,19 +20,25 @@
                 '#input1': {
                     click: function(e) {
                         var self = this;
-                        self.pagelet.getBrick('brixtest').setChunkData('a', 'aaa'+S.guid());
+                        self.pagelet.setChunkData('a', 'aaa'+S.guid());
                     }
                 },
                 '#input2': {
                     click: function(e) {
                         var self = this;
-                        self.pagelet.getBrick('brixtest').setChunkData('b', 'bbb'+S.guid());
+                        self.pagelet.setChunkData('b', 'bbb'+S.guid());
                     }
                 },
                 '#input3': {
                     click: function(e) {
                         var self = this;
-                        self.pagelet.getBrick('brixtest').setChunkData('d', [{
+                        self.pagelet.setChunkData('c', 'ccc'+S.guid());
+                    }
+                },
+                '#input4': {
+                    click: function(e) {
+                        var self = this;
+                        self.pagelet.setChunkData('d', [{
                             d1: S.guid()
                         }, {
                             d1: S.guid()
@@ -47,10 +47,10 @@
                         }]);
                     }
                 },
-                '#input4': {
+                '#input5': {
                     click: function(e) {
                         var self = this;
-                        self.pagelet.getBrick('brixtest').setChunkData('e', 'eee'+S.guid());
+                        self.pagelet.setChunkData('e', 'eee'+S.guid());
                     }
                 }
             }
@@ -75,8 +75,19 @@
             }],
             e:'e'
         }
+    KISSY.ready(function(S){
+        S.use('brix/core/pagelet,brix/gallery/calendar/calendar.css',function(S,Pagelet){
+            var pagelet = new Pagelet({container:'.container',tmpl:'#tmpl',data:list});
+        });
+    })
     </script>
     <script type="text/tmpl" id="tmpl">
+    <div id="brixtest" bx-name="brixtest" bx-path="brixtest/">
+        <input id="input1" type="button" value="局部刷新a">
+        <input id="input2" type="button" value="局部刷新b">
+        <input id="input3" type="button" value="局部刷新c">
+        <input id="input4" type="button" value="局部刷新d">
+        <input id="input5" type="button" value="局部刷新e">
         <div bx-tmpl="a" bx-datakey="a,b">
         <!--我真的是注释-->
         <!--bx-tmpl="a" bx-datakey="a,b"-->
@@ -84,6 +95,9 @@
             <div bx-tmpl="b" bx-datakey="b">
             <!--bx-tmpl="b" bx-datakey="b"-->
                 <span>{{b}}</span>
+                <div id="J_CalendarTest" bx-name="calendar" class="calendar" bx-config="{popup:false}">
+                
+                </div>
             <!--bx-tmpl="b"-->
             </div>
         <!--bx-tmpl="a"-->
@@ -111,6 +125,7 @@
         <input type="text" value="{{e}}" />
         <!--bx-tmpl="e"-->
         </div>
+    </div>
     </script>
 </body>
 </html>
