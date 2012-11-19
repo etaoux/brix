@@ -1,6 +1,7 @@
 KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
     /**
      * Pagination 分页
+     * <br><a href="../demo/gallery/pagination/pagination.html" target="_blank">Demo</a>
      * @class Brix.Gallery.Pagination
      * @extends Brix.Brick
      */
@@ -256,15 +257,9 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
 
             self.set('index', page);
 
-            if (self.get('goTo')) {
-                var url = self.doUrl();
-                location.href = url;
+            if(self.setConfig({index:page})){
                 return;
             }
-            self._destroyDropdown();
-            self._resizeConfig();
-            self.renderUI();
-            self._getDropDown();
 
             self.fire('goToPage', {
                 index: page
@@ -276,6 +271,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
         /**
          * 配置重置
          * @param {Object} config 配置对象
+         * @return {Boolean} 是否跳转
          */
         setConfig: function(config) {
             var self = this,
@@ -288,17 +284,21 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             if (config.goToUrl) {
                 self._setUrlInfo();
             }
-            if (config.index || config.size || config.max || config.hascount || config.step || config.mode) {
-                if (config.size && config.size != size) {
-                    self.fire('sizeChange', {
-                        size: config.size
-                    });
-                }
-                self._destroyDropdown();
-                self._resizeConfig();
-                self.renderUI();
-                self._getDropDown();
+            if (self.get('goTo')) {
+                var url = self.doUrl();
+                location.href = url;
+                return true;
             }
+            if (config.size && config.size != size) {
+                self.fire('sizeChange', {
+                    size: config.size
+                });
+            }
+            self._destroyDropdown();
+            self._resizeConfig();
+            self.renderUI();
+            self._getDropDown();
+            return false;
         },
         /**
          * 解析url
@@ -506,11 +506,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                         self.pagelet.ready(function(){
                             self.dropdown = self.pagelet.getBrick(id);
                             if(self.dropdown){
-                                self.dropdown.on('selected', function(ev) {
-                                    self.setConfig({
-                                        size: ev.text
-                                    });
-                                });
+                                self._bindDropdownSizeChange();
                             }
                             else{
                                 self._createDropdown();
@@ -529,10 +525,15 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 self.dropdown = new Dropdown({
                     tmpl: self.get('el').one('.dropdown')
                 });
-                self.dropdown.on('selected', function(ev) {
-                    self.setConfig({
-                        size: ev.text
-                    });
+                self._bindDropdownSizeChange();
+            });
+        },
+        _bindDropdownSizeChange:function(){
+            var self = this;
+            self.dropdown.on('selected', function(ev) {
+                self.setConfig({
+                    index:1,
+                    size: ev.text
                 });
             });
         },

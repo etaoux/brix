@@ -49,6 +49,7 @@
         
 <span id='Brix-Gallery-DatePicker'>    /**
 </span>     * 时间段选择器
+     * &lt;br&gt;&lt;a href=&quot;../demo/gallery/datepicker/datepicker.html&quot; target=&quot;_blank&quot;&gt;Demo&lt;/a&gt;
      * @class Brix.Gallery.DatePicker
      * @extends Brix.Brick
      */
@@ -318,7 +319,7 @@
                     el = self.get('el'),
                     node = S.one(e.target),
                     trigger = S.one(self.get('trigger'));
-                if (!el.equals(node)&amp;&amp;!el.contains(node) &amp;&amp; trigger &amp;&amp; node[0] != trigger[0]&amp;&amp;(!self.calendar || !self.calendar.get('el').contains(node))) {
+                if (!el.equals(node)&amp;&amp;!el.contains(node) &amp;&amp; trigger &amp;&amp;!trigger.contains(node) &amp;&amp; node[0] != trigger[0]&amp;&amp;(!self.calendar || !self.calendar.get('el').contains(node))) {
                     self.hide();
                 }
             }

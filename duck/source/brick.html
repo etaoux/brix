@@ -61,7 +61,7 @@
             self._bindEvent();
         });
 
-        if (self.get('autoRender')||!tmpler||tmpler.inDom){
+        if (self.pagelet || self.get('autoRender')||!tmpler||tmpler.inDom){
             self.render();
         }
     }

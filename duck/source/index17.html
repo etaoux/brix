@@ -18,6 +18,7 @@
   <pre class="prettyprint lang-js">KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
 <span id='Brix-Gallery-Pagination'>    /**
 </span>     * Pagination 分页
+     * &lt;br&gt;&lt;a href=&quot;../demo/gallery/pagination/pagination.html&quot; target=&quot;_blank&quot;&gt;Demo&lt;/a&gt;
      * @class Brix.Gallery.Pagination
      * @extends Brix.Brick
      */
@@ -273,15 +274,9 @@
 
             self.set('index', page);
 
-            if (self.get('goTo')) {
-                var url = self.doUrl();
-                location.href = url;
+            if(self.setConfig({index:page})){
                 return;
             }
-            self._destroyDropdown();
-            self._resizeConfig();
-            self.renderUI();
-            self._getDropDown();
 
             self.fire('goToPage', {
                 index: page
@@ -293,6 +288,7 @@
 <span id='Brix-Gallery-Pagination-method-setConfig'>        /**
 </span>         * 配置重置
          * @param {Object} config 配置对象
+         * @return {Boolean} 是否跳转
          */
         setConfig: function(config) {
             var self = this,
@@ -305,17 +301,21 @@
             if (config.goToUrl) {
                 self._setUrlInfo();
             }
-            if (config.index || config.size || config.max || config.hascount || config.step || config.mode) {
-                if (config.size &amp;&amp; config.size != size) {
-                    self.fire('sizeChange', {
-                        size: config.size
-                    });
-                }
-                self._destroyDropdown();
-                self._resizeConfig();
-                self.renderUI();
-                self._getDropDown();
+            if (self.get('goTo')) {
+                var url = self.doUrl();
+                location.href = url;
+                return true;
             }
+            if (config.size &amp;&amp; config.size != size) {
+                self.fire('sizeChange', {
+                    size: config.size
+                });
+            }
+            self._destroyDropdown();
+            self._resizeConfig();
+            self.renderUI();
+            self._getDropDown();
+            return false;
         },
 <span id='Brix-Gallery-Pagination-method-parseUrl'>        /**
 </span>         * 解析url
@@ -523,11 +523,7 @@
                         self.pagelet.ready(function(){
                             self.dropdown = self.pagelet.getBrick(id);
                             if(self.dropdown){
-                                self.dropdown.on('selected', function(ev) {
-                                    self.setConfig({
-                                        size: ev.text
-                                    });
-                                });
+                                self._bindDropdownSizeChange();
                             }
                             else{
                                 self._createDropdown();
@@ -546,10 +542,15 @@
                 self.dropdown = new Dropdown({
                     tmpl: self.get('el').one('.dropdown')
                 });
-                self.dropdown.on('selected', function(ev) {
-                    self.setConfig({
-                        size: ev.text
-                    });
+                self._bindDropdownSizeChange();
+            });
+        },
+        _bindDropdownSizeChange:function(){
+            var self = this;
+            self.dropdown.on('selected', function(ev) {
+                self.setConfig({
+                    index:1,
+                    size: ev.text
                 });
             });
         },

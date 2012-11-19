@@ -306,6 +306,11 @@
     };
 
     //excute
-    anti_ie6.init();
+    //增加window onload之后才执行
+    if (window.attachEvent) {
+        window.attachEvent('onload', function() {
+            anti_ie6.init();
+        });
+    }
 
 })(document);

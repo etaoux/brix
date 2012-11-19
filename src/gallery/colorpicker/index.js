@@ -20,6 +20,7 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
 
     /**
      * 颜色选择器
+     * <br><a href="../demo/gallery/colorpicker/colorpicker.html" target="_blank">Demo</a>
      * @class Brix.Gallery.ColorPicker
      * @extends Brix.Brick
      */
@@ -112,7 +113,7 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
                     el = self.get('el'),
                     node = S.one(e.target),
                     trigger = S.one(self.get('trigger'));
-                if (!el.equals(node)&&!el.contains(node) && trigger && node[0] != trigger[0]) {
+                if (!el.equals(node)&&!el.contains(node) && trigger&&!trigger.contains(node) && node[0] != trigger[0]) {
                     self.hide();
                 }
             }
@@ -320,9 +321,9 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
         },
         /**
          * Sets color of the picker in hsv/rgb/hex format.
-         * @param {object} hsv Object of the form: { h: <hue>, s: <saturation>, v: <value> }.
-         * @param {object} rgb Object of the form: { r: <red>, g: <green>, b: <blue> }.
-         * @param {string} hex String of the form: #RRGGBB.
+         * @param {Object} hsv Object of the form: { h: <hue>, s: <saturation>, v: <value> }.
+         * @param {Object} rgb Object of the form: { r: <red>, g: <green>, b: <blue> }.
+         * @param {String} hex String of the form: #RRGGBB.
          */
         setColor: function(hsv, rgb, hex) {
             var self = this,el = self.get('el');

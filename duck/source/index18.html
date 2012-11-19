@@ -23,6 +23,12 @@
     //TODO:
     var count = 0;
 
+<span id='Brix-Gallery-Searchbox'>    /**
+</span>     * 搜索框
+     * &lt;br&gt;&lt;a href=&quot;../demo/gallery/searchbox/searchbox.html&quot; target=&quot;_blank&quot;&gt;Demo&lt;/a&gt;
+     * @class Brix.Gallery.Searchbox
+     * @extends Brix.Brick
+     */
     function Searchbox() {
         Searchbox.superclass.constructor.apply(this, arguments);
     }
@@ -385,8 +391,9 @@
                 }
             });//}}}
         },
-<span id='global-method-_keyword'>        /**
+<span id='Brix-Gallery-Searchbox-method-_keyword'>        /**
 </span>         * 关键词后缀加粗显示
+         * @private
          */
         _keyword: function() {//{{{
             var self = this,

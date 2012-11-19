@@ -1,6 +1,7 @@
 KISSY.add("brix/gallery/tooltip/index", function(S, Pagelet, Overlay) {
     /**
      * ToolTip组件
+     * <br><a href="../demo/gallery/tooltip/tooltip.html" target="_blank">Demo</a>
      * @class Brix.Gallery.ToolTip
      * @extends KISSY.Overlay
      *

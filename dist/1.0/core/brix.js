@@ -1,5 +1,6 @@
 /**
  * Brix配置类 组件框架入口类，在调用Brix组件的时候可以配置cdn地址，组件版本号等
+ * <br><a href="../demo/core/brix.html" target="_blank">Demo</a>
  * <br>
  * 引用：
  *     
@@ -118,6 +119,7 @@
         }
         path = path.substring(0, path.lastIndexOf('brix'));
         return S.mix({
+            autoConfig:true,
             path: path,
             componentsPath: './',
             importsPath: './'

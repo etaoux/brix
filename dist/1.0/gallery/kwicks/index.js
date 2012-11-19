@@ -1,6 +1,7 @@
 KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
     /**
      * Kwicks 轮播组件
+     * <br><a href="../demo/gallery/kwicks/kwicks.html" target="_blank">Demo</a>
      * @class Brix.Gallery.Kwicks
      * @extends Brix.Brick
      */
@@ -28,6 +29,13 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
          */
         activeIndex: {
             value: 0
+        },
+        /**
+         * 触发的元素选择器，默认li
+         * @cfg {String}
+         */
+        trigger:{
+            value:'li'
         },
         /**
          * 事件类型
@@ -240,7 +248,7 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
             var WoH = self.WoH = (isVertical ? 'height' : 'width'); // WoH = Width or Height
             var LoT = self.LoT = (isVertical ? 'top' : 'left'); // LoT = Left or Top
             var container = self.get('el');
-            var kwicks = self.kwicks = container.all('li');
+            var kwicks = self.kwicks = container.all(self.get('trigger'));
             var length = kwicks.length;
             var normWoH = self.normWoH = kwicks.item(0).css(WoH).replace(/px/, ''); // normWoH = Normal Width or Height
             if (!max) {

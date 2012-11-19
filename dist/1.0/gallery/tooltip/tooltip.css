@@ -7,18 +7,6 @@
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  /**
-     * 
-     */
-
-  /**
-     * 
-     */
-
-  /**
-     * 
-     */
-
 }
 .tooltip .arrow,
 .tooltip .arrow div {
@@ -174,4 +162,9 @@
   font-size: 12px;
   line-height: 12px;
   display: block;
+}
+.tooltip-overlay {
+  position: absolute;
+  left: -99999px;
+  top: -99999px;
 }
