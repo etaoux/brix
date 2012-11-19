@@ -1,6 +1,7 @@
 KISSY.add('brix/gallery/slider/index', function(S, Brick, UA, Node, DD) {
     /**
      * Slider 滑块
+     * <br><a href="../demo/gallery/slider/slider.html" target="_blank">Demo</a>
      * @class Brix.Gallery.Slider
      * @extends Brix.Brick
      */
@@ -9,9 +10,25 @@ KISSY.add('brix/gallery/slider/index', function(S, Brick, UA, Node, DD) {
     }
 
     Slider.FIRES = {
+        /**
+         * @event drag
+         * 拖拽
+         */
         drag : "drag",
+        /**
+         * @event dragstart
+         * 开始拖拽
+         */
         dragstart : "dragstart",
+        /**
+         * @event dragend
+         * 结束拖拽
+         */
         dragend : "dragend",
+        /**
+         * @event resize
+         * 重置大小
+         */
         resize : "resize"
     }
 
@@ -22,36 +39,55 @@ KISSY.add('brix/gallery/slider/index', function(S, Brick, UA, Node, DD) {
 
     Slider.ATTRS = {
 
-        // 支持数组滚动
+        /**
+         * 支持数组滚动
+         * @cfg {Boolean}
+         */
         range : {
             value : false
         },
-
-        // 展现的横竖方式， horizontal：横向， vertical：竖向
+        /**
+         * 展现的横竖方式， horizontal：横向， vertical：竖向
+         * @cfg {String}
+         */
         mode : {
             value : "horizontal"
         },
-
-        // 启始的开始值
+        /**
+         * 启始的开始值
+         * @cfg {Number}
+         */
         startStep : {
             value : 0
         },
-        // 结束值
+        /**
+         * 启始的结束值
+         * @cfg {Number}
+         */
         endStep : {
             value : 100
         },
 
-        //整数值，值是integerStep的倍数 integerStep 可以设置成0.5
+        /**
+         * 整数值，值是integerStep的倍数 integerStep 可以设置成0.5
+         * @cfg {Number}
+         */
         integerStep : {
             value : 1
         },
 
-        // 当前值
+        /**
+         * 当前值
+         * @cfg {Number}
+         */
         current : {
 
         },
 
-        // knob的居中偏移量，margin-left：-7px
+        /**
+         * knob的居中偏移量，margin-left：-7px
+         * @cfg {Number}
+         */
         knobOffset:{
             value : -7
         }

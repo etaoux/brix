@@ -1,6 +1,7 @@
 KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
     /**
      * 下拉选择
+     * <br><a href="../demo/gallery/dropdown/dropdown.html" target="_blank">Demo</a>
      * @class Brix.Gallery.Dropdown
      * @extends Brix.Brick
      */

@@ -1,6 +1,7 @@
 KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
     /**
      * 就地编辑
+     * <br><a href="../demo/gallery/inplaceeditor/inplaceeditor.html" target="_blank">Demo</a>
      * @class Brix.Gallery.InplaceEditor
      * @extends Brix.Brick
      */

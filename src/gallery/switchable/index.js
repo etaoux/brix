@@ -3,7 +3,7 @@ KISSY.add("brix/gallery/switchable/index", function(S,Brick,KSSwitchable) {
      * kissy switchable 组件的封装。
      * @extends Brix.Brick
      * @class  Brix.Gallery.Switchable
-     * <a href="http://docs.kissyui.com/docs/html/api/component/switchable/">其他配置、方法、事件请参考KISSY API</a>
+     * <a target="_blank" href="http://docs.kissyui.com/docs/html/api/component/switchable/">其他配置、方法、事件请参考KISSY API</a>
      * @param {Object} config 配置信息
      */
     function Switchable(config) {

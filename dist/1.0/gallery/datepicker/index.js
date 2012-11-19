@@ -32,6 +32,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
         
     /**
      * 时间段选择器
+     * <br><a href="../demo/gallery/datepicker/datepicker.html" target="_blank">Demo</a>
      * @class Brix.Gallery.DatePicker
      * @extends Brix.Brick
      */

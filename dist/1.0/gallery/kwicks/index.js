@@ -1,6 +1,7 @@
 KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
     /**
      * Kwicks 轮播组件
+     * <br><a href="../demo/gallery/kwicks/kwicks.html" target="_blank">Demo</a>
      * @class Brix.Gallery.Kwicks
      * @extends Brix.Brick
      */
