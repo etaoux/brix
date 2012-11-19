@@ -1,3 +1,7 @@
+/**
+ * table
+ * author: chongzhi.ldq@taobao.com 崇志
+ */
 .table-container {
   -webkit-text-size-adjust: none;
   /*允许缩小至12px以下*/
@@ -160,7 +164,7 @@
   font-size: 14px;
   text-align: center;
   color: #666;
-  /*background-color: #fafafa;*/
+  background: none;
 
 }
 .table tbody tr.none:hover td {
