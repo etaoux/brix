@@ -4,11 +4,11 @@
 
 ##如何使用
 
-
+	<link type="text/css" rel="stylesheet" href="http://a.tbcdn.cn/apps/e/brix/1.0/brix-min.css" charset="utf-8">
 	<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
-	<script type="text/javascript" src="http://a.tbcdn.cn/apps/e/brix/1.0/brix-min.js" bx-config="{autoConfig:true,autoPagelet:true}"></script>
+	<script type="text/javascript" src="http://a.tbcdn.cn/apps/e/brix/1.0/brix-min.js" bx-config="{autoPagelet:true}"></script>
 	<script type="text/javascript">
-		//业务代码
+		//业务代码,自动构建
 		KISSY.ready(function(S){
 			//pagelet自动构建完成
 			Brix.ready(function(){
@@ -19,6 +19,15 @@
 				});
 			});
 		});
+		//业务代码，手动构建
+		/*
+		KISSY.ready(function(S){
+			S.use('brix/core/pagelet',function(S,Pagelet){
+				var config = {tmpl:'body'};
+				var pagelet = new Pagelet(config);
+			});
+		});
+		*/
 	</script>
 
 
