@@ -160,8 +160,7 @@
   font-size: 14px;
   text-align: center;
   color: #666;
-  /*background-color: #fafafa;*/
-
+  background: none;
 }
 .table tbody tr.none:hover td {
   background: none;

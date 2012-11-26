@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>brix tmpl test</title>
     <link type="text/css" rel="stylesheet" href="../../dist/brix-min.css" charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="../../src/gallery/calendar/calendar.css" charset="utf-8">
     <link rel="stylesheet" href="../assets/doc.css">
     <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
     <script src="../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>
@@ -76,56 +77,46 @@
             e:'e'
         }
     KISSY.ready(function(S){
-        S.use('brix/core/pagelet,brix/gallery/calendar/calendar.css',function(S,Pagelet){
-            var pagelet = new Pagelet({container:'.container',tmpl:'#tmpl',data:list});
+        S.use('brix/core/pagelet',function(S,Pagelet){
+            window.pagelet = new Pagelet({container:'.container',tmpl:'#tmpl',data:list});
         });
     })
     </script>
     <script type="text/tmpl" id="tmpl">
-    <div id="brixtest" bx-name="brixtest" bx-path="brixtest/">
-        <input id="input1" type="button" value="局部刷新a">
-        <input id="input2" type="button" value="局部刷新b">
-        <input id="input3" type="button" value="局部刷新c">
-        <input id="input4" type="button" value="局部刷新d">
-        <input id="input5" type="button" value="局部刷新e">
-        <div bx-tmpl="a" bx-datakey="a,b">
-        <!--我真的是注释-->
-        <!--bx-tmpl="a" bx-datakey="a,b"-->
-            <span>{{a}}</span>
-            <div bx-tmpl="b" bx-datakey="b">
-            <!--bx-tmpl="b" bx-datakey="b"-->
-                <span>{{b}}</span>
-                <div id="J_CalendarTest" bx-name="calendar" class="calendar" bx-config="{popup:false}">
-                
+        <div id="brixtest" bx-name="brixtest" bx-path="brixtest/">
+            <input id="input1" type="button" value="局部刷新a">
+            <input id="input2" type="button" value="局部刷新b">
+            <input id="input3" type="button" value="局部刷新c">
+            <input id="input4" type="button" value="局部刷新d">
+            <input id="input5" type="button" value="局部刷新e">
+            <div id="xx" bx-tmpl="a" class="hahah" bx-datakey="a,b" name="xx">
+                <span>{{a}}</span>
+                <div bx-tmpl="b" bx-datakey="b">
+                    <span>{{b}}</span>
+                    <div id="J_CalendarTest" bx-name="calendar" class="calendar" bx-config="{popup:false}">
+                    </div>
+                    dd
                 </div>
-            <!--bx-tmpl="b"-->
+                sdaf
             </div>
-        <!--bx-tmpl="a"-->
+            <div bx-tmpl="c" bx-datakey="a,c">
+                <span>{{a}}-{{c}}</span>
+            </div>
+            <div bx-tmpl="d" bx-datakey="d">
+                <table>
+                    <tbody>
+                    {{#d}}
+                        <tr>
+                            <td>{{d1}}<td>
+                        </tr>
+                    {{/d}}
+                    </tbody>
+                </table>
+            </div>
+            <div bx-tmpl="e" bx-datakey="e" >
+            <input type="text" value="{{e}}" />
+            </div>
         </div>
-        <div bx-tmpl="c" bx-datakey="a,c">
-        <!--bx-tmpl="c" bx-datakey="a,c"-->
-            <span>{{a}}-{{c}}</span>
-        <!--bx-tmpl="c"-->
-        </div>
-        <div bx-tmpl="d" bx-datakey="d">
-        <!--bx-tmpl="d" bx-datakey="d"-->
-            <table>
-                <tbody>
-                {{#d}}
-                    <tr>
-                        <td>{{d1}}<td>
-                    </tr>
-                {{/d}}
-                </tbody>
-            </table>
-        <!--bx-tmpl="d"-->
-        </div>
-        <div bx-tmpl="e" bx-datakey="e" >
-        <!--bx-tmpl="e" bx-datakey="e"-->
-        <input type="text" value="{{e}}" />
-        <!--bx-tmpl="e"-->
-        </div>
-    </div>
     </script>
 </body>
 </html>

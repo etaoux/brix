@@ -191,6 +191,34 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                         }
                         self._hover(hoverItem,true);
                     break;
+                    default:
+                        var code = e.keyCode;
+                        if((code>=48&&code<=57)||(code>=65&&code<=90)){
+                            var c = String.fromCharCode(code).toLowerCase();
+                            e.preventDefault();
+                            self.focus();
+                            var hoverItem;
+                            var item = el.one('.dropdown-itemover')||el.one('.dropdown-itemselected');
+                            if(item&&item.one('span').text().charAt(0).toLowerCase()==c){
+                                item = item.next();
+                                if(item&&item.one('span').text().charAt(0).toLowerCase()==c){
+                                    hoverItem = item;
+                                }
+                            }
+                            if(!hoverItem){
+                                el.all('.dropdown-item').each(function(item){
+                                    if(item&&!item.hasClass('.dropdown-itemover')&&!item.hasClass('.dropdown-itemselected')
+&&item.one('span').text().charAt(0).toLowerCase()==c){
+                                        hoverItem = item;
+                                        return false;
+                                    }
+                                })
+                            }
+                            if(hoverItem){
+                                self._hover(hoverItem,true);
+                            }
+                        }
+                    break;
 
                 }
             }

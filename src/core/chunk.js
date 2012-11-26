@@ -122,6 +122,13 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
          */
         dataset: {
             value: false
+        },
+        /**
+         * 子模板解析的层级
+         * @cfg {Number}
+         */
+        level:{
+            value:3
         }
     };
 
@@ -136,7 +143,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
             if(!tmpler) {
                 var tmpl = self.get('tmpl');
                 if(tmpl) {
-                    tmpler = new Tmpler(tmpl);
+                    tmpler = new Tmpler(tmpl,self.get('level'));
                     self.set('tmpler', tmpler);
                     if(tmpler.inDom) {
                         self.set('el', tmpl);
@@ -153,18 +160,21 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
          */
         _buildDataset: function() {
             var self = this;
-            var dataset = self.get('dataset');
-            if(!dataset) {
-                var data = self.get('data') || {}; //原始数据
-                data = S.clone(data); //数据深度克隆
-                dataset = new Dataset({
-                    data: data
+            if(!self.get('isBuidDataset')){
+                self.set('isBuidDataset',true);
+                var dataset = self.get('dataset');
+                if(!dataset) {
+                    var data = self.get('data') || {}; //原始数据
+                    data = S.clone(data); //数据深度克隆
+                    dataset = new Dataset({
+                        data: data
+                    });
+                    self.set('dataset', dataset); //设置最新的数据集合
+                }
+                dataset.on('afterDataChange', function(e) {
+                    self._render(e.subAttrName, e.newVal);
                 });
-                self.set('dataset', dataset); //设置最新的数据集合
             }
-            dataset.on('afterDataChange', function(e) {
-                self._render(e.subAttrName, e.newVal);
-            });
         },
 
         /**
@@ -177,6 +187,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
             var self = this,
                 tmpler = self.get('tmpler');
             if(tmpler) {
+                self._buildDataset();
                 tmpler.addTmpl(name,datakey,tmpl);
             }
         },
