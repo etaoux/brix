@@ -201,7 +201,6 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          */
         destroy: function(id) {
             var self = this,
-                el = self.get('el'),
                 tmpler = self.get('tmpler');
             if(id){
                 for (var i = 0; i < self.bricks.length; i++) {
@@ -221,16 +220,18 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 if(tmpler){
                      tmpler.tmpls = null;
                 }
-                if(self.get('isRemoveEl')){
-                    el.remove();
+                if(self.get('rendered')){
+                    var el = self.get('el');
+                    if(self.get('isRemoveEl')){
+                        el.remove();
+                    }
+                    else{
+                        el.empty();
+                    }
+                    el = null;
                 }
-                else{
-                    el.empty();
-                }
-                
+                self.detach();
             }
-
-            el = null;
         },
         /**
          * 销毁brick引用

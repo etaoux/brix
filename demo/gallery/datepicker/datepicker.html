@@ -29,7 +29,9 @@
 
                     datepicker.on('selected',function(e){
                         S.one('#test1').html(Brix_Date.format(e.start,'isoDate') + '至' +Brix_Date.format(e.end,'isoDate'));
+                        datepicker.destroy();
                     });
+
 
                     var datepicker2 = new DatePicker({
                         trigger: '#test2',

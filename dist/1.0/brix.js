@@ -890,6 +890,13 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
             }
         },
         /**
+         * 在销毁的时候是否移除HTML，默认true
+         * @cfg {Object}
+         */
+        isRemoveHTML:{
+            value:true
+        },
+        /**
          * 在销毁的时候是否移除本身，默认true
          * @cfg {Object}
          */
@@ -1352,19 +1359,10 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
                 }
                 constt = constt.superclass.constructor;
             }
-
             self._undelegateEvents();
             var events = self.get("events");
             if (events) {
                 this._removeEvents(events);
-            }
-
-            constt = self.constructor;
-            while(constt.NAME!='Brick'){
-                if(constt.prototype.hasOwnProperty('destructor')){
-                    constt.prototype.destructor.apply(self);
-                }
-                constt = constt.superclass.constructor;
             }
         },
         /**
@@ -1508,21 +1506,36 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
          */
         destroy:function(){
             var self = this,
-                el = self.get('el'), 
                 tmpler = self.get('tmpler');
             if (tmpler) {
                 tmpler.tmpls = null;
             }
-            self._detachEvent();
-            if(self.get('isRemoveEl')){
-                el.remove();
+            
+            if(self.get('rendered')){
+                self._detachEvent();
             }
-            else{
-                el.empty();
+
+            var constt = self.constructor;
+            while(constt.NAME!='Brick'){
+                if(constt.prototype.hasOwnProperty('destructor')){
+                    constt.prototype.destructor.apply(self);
+                }
+                constt = constt.superclass.constructor;
+            }
+
+            if(self.get('rendered')&&self.get('isRemoveHTML')) {
+                var el = self.get('el');
+                if(self.get('isRemoveEl')){
+                    el.remove();
+                }
+                else{
+                    el.empty();
+                }
             }
             if(self.pagelet){
                 delete self.pagelet;
             }
+            self.detach();
         }
     });
     return Brick;
@@ -1732,7 +1745,6 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          */
         destroy: function(id) {
             var self = this,
-                el = self.get('el'),
                 tmpler = self.get('tmpler');
             if(id){
                 for (var i = 0; i < self.bricks.length; i++) {
@@ -1752,16 +1764,18 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 if(tmpler){
                      tmpler.tmpls = null;
                 }
-                if(self.get('isRemoveEl')){
-                    el.remove();
+                if(self.get('rendered')){
+                    var el = self.get('el');
+                    if(self.get('isRemoveEl')){
+                        el.remove();
+                    }
+                    else{
+                        el.empty();
+                    }
+                    el = null;
                 }
-                else{
-                    el.empty();
-                }
-                
+                self.detach();
             }
-
-            el = null;
         },
         /**
          * 销毁brick引用

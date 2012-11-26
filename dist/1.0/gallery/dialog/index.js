@@ -18,10 +18,7 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
         if(trigger){
             var triggerType = self.get('triggerType');
             S.each(triggerType, function(v) {
-                trigger.on(v, function(e) {
-                    e.preventDefault();
-                    self.toggle();
-                })
+                trigger.on(v, self.toggle,self);
             });
         }
     }
@@ -203,13 +200,28 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
             });
         },
         destructor:function(){
-            var self = this;
+            var self = this,
+            trigger = S.one(self.get('trigger'));
+            if(trigger){
+                var triggerType = self.get('triggerType');
+                S.each(triggerType, function(v) {
+                    trigger.detach(v, self.toggle,self);
+                });
+            }
             if(self.pagelet){
                 self.pagelet.destroy();
                 self.pagelet = null;
             }
         },
-        toggle: function() {
+        /**
+         * 显示隐藏切换
+         * @param {Event} e 事件
+         */
+        toggle: function(e) {
+            var self = this;
+            if(e){
+                e.preventDefault();
+            }
             var self = this,el = self.get('el');
             if(el){
                 if (el.css('visibility') == 'hidden') {

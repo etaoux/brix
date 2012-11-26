@@ -181,19 +181,10 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
                 }
                 constt = constt.superclass.constructor;
             }
-
             self._undelegateEvents();
             var events = self.get("events");
             if (events) {
                 this._removeEvents(events);
-            }
-
-            constt = self.constructor;
-            while(constt.NAME!='Brick'){
-                if(constt.prototype.hasOwnProperty('destructor')){
-                    constt.prototype.destructor.apply(self);
-                }
-                constt = constt.superclass.constructor;
             }
         },
         /**
@@ -337,21 +328,36 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
          */
         destroy:function(){
             var self = this,
-                el = self.get('el'), 
                 tmpler = self.get('tmpler');
             if (tmpler) {
                 tmpler.tmpls = null;
             }
-            self._detachEvent();
-            if(self.get('isRemoveEl')){
-                el.remove();
+            
+            if(self.get('rendered')){
+                self._detachEvent();
             }
-            else{
-                el.empty();
+
+            var constt = self.constructor;
+            while(constt.NAME!='Brick'){
+                if(constt.prototype.hasOwnProperty('destructor')){
+                    constt.prototype.destructor.apply(self);
+                }
+                constt = constt.superclass.constructor;
+            }
+
+            if(self.get('rendered')&&self.get('isRemoveHTML')) {
+                var el = self.get('el');
+                if(self.get('isRemoveEl')){
+                    el.remove();
+                }
+                else{
+                    el.empty();
+                }
             }
             if(self.pagelet){
                 delete self.pagelet;
             }
+            self.detach();
         }
     });
     return Brick;

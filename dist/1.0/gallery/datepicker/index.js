@@ -44,10 +44,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
         if(trigger){
             var triggerType = self.get('triggerType');
             S.each(triggerType, function(v) {
-                trigger.on(v, function(e) {
-                    e.preventDefault();
-                    self.toggle();
-                })
+                trigger.on(v, self.toggle,self);
             });
         }
 
@@ -433,9 +430,13 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
         },
         /**
          * 显示隐藏切换
+         * @param {Event} e 事件
          */
-        toggle: function() {
+        toggle: function(e) {
             var self = this;
+            if(e){
+                e.preventDefault();
+            }
             if (self.overlay) {
                 if (self.overlay.get('el').css('visibility') == 'hidden') {
                     self.show();
@@ -487,10 +488,17 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
             self.overlay.render();
         },
         destructor: function() {
-            var self = this;
-            if(self.calender){
-                self.calender.destroy();
-                self.calender = null;
+            var self = this,
+            trigger = S.one(self.get('trigger'));
+            if(trigger){
+                var triggerType = self.get('triggerType');
+                S.each(triggerType, function(v) {
+                    trigger.detach(v, self.toggle,self);
+                });
+            }
+            if(self.calendar){
+                self.calendar.destroy();
+                self.calendar = null;
             }
             if (self.overlay) {
                 self.overlay.destroy();
