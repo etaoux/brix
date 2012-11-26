@@ -208,6 +208,34 @@
                         }
                         self._hover(hoverItem,true);
                     break;
+                    default:
+                        var code = e.keyCode;
+                        if((code&gt;=48&amp;&amp;code&lt;=57)||(code&gt;=65&amp;&amp;code&lt;=90)){
+                            var c = String.fromCharCode(code).toLowerCase();
+                            e.preventDefault();
+                            self.focus();
+                            var hoverItem;
+                            var item = el.one('.dropdown-itemover')||el.one('.dropdown-itemselected');
+                            if(item&amp;&amp;item.one('span').text().charAt(0).toLowerCase()==c){
+                                item = item.next();
+                                if(item&amp;&amp;item.one('span').text().charAt(0).toLowerCase()==c){
+                                    hoverItem = item;
+                                }
+                            }
+                            if(!hoverItem){
+                                el.all('.dropdown-item').each(function(item){
+                                    if(item&amp;&amp;!item.hasClass('.dropdown-itemover')&amp;&amp;!item.hasClass('.dropdown-itemselected')
+&amp;&amp;item.one('span').text().charAt(0).toLowerCase()==c){
+                                        hoverItem = item;
+                                        return false;
+                                    }
+                                })
+                            }
+                            if(hoverItem){
+                                self._hover(hoverItem,true);
+                            }
+                        }
+                    break;
 
                 }
             }
