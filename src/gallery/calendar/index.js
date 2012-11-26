@@ -438,6 +438,8 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                         year: year,
                         month: month,
                         father: self,
+                        isRemoveHTML:self.get('isRemoveHTML'),
+                        isRemoveEl:self.get('isRemoveEl'),
                         container: container
                     });
                     self.pageBricks.push(pageBrick);
@@ -501,6 +503,12 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                 S.each(triggerType, function(v) {
                     trigger.detach(v, self.toggle,self);
                 });
+            }
+            if(self.pageBricks){
+                S.each(self.pageBricks, function(o,i) {
+                    o.destroy();
+                });
+                self.pageBricks = null;
             }
             if (self.overlay) {
                 self.overlay.destroy();

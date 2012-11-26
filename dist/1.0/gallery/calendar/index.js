@@ -438,6 +438,8 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                         year: year,
                         month: month,
                         father: self,
+                        isRemoveHTML:self.get('isRemoveHTML'),
+                        isRemoveEl:self.get('isRemoveEl'),
                         container: container
                     });
                     self.pageBricks.push(pageBrick);
@@ -501,6 +503,12 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                 S.each(triggerType, function(v) {
                     trigger.detach(v, self.toggle,self);
                 });
+            }
+            if(self.pageBricks){
+                S.each(self.pageBricks, function(o,i) {
+                    o.destroy();
+                });
+                self.pageBricks = null;
             }
             if (self.overlay) {
                 self.overlay.destroy();
@@ -1181,7 +1189,11 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
                 father = self.get('father'),
                 showTime = father.get('showTime');
             if(showTime){
-                self.timeBrick = new Time({container:el.one('.calendar-page-fd')});
+                self.timeBrick = new Time({
+                    isRemoveHTML:self.get('isRemoveHTML'),
+                    isRemoveEl:self.get('isRemoveEl'),
+                    container:el.one('.calendar-page-fd')
+                });
             }
             self.on('afterYearChange',function(){
                 self.setChunkData('year',self.get('year'));

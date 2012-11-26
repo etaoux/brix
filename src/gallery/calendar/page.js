@@ -321,7 +321,11 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
                 father = self.get('father'),
                 showTime = father.get('showTime');
             if(showTime){
-                self.timeBrick = new Time({container:el.one('.calendar-page-fd')});
+                self.timeBrick = new Time({
+                    isRemoveHTML:self.get('isRemoveHTML'),
+                    isRemoveEl:self.get('isRemoveEl'),
+                    container:el.one('.calendar-page-fd')
+                });
             }
             self.on('afterYearChange',function(){
                 self.setChunkData('year',self.get('year'));
