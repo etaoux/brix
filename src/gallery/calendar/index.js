@@ -19,15 +19,6 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
     }
     Calendar.Date = Brix_Date;
     Calendar.ATTRS = {
-        id:{
-            getter:function(v){
-                if(!v){
-                    v = 'brix_calendar_' + S.guid();
-                    this.__set('id',v);
-                }
-                return v
-            }
-        },
         /**
          * 该日期所在月份, 默认为当天
          * @cfg {Date}
@@ -197,11 +188,10 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
         tmpl: {
             getter: function(v) {
                 if(!v){
-                    var self = this,
-                        id = self.get('id');
-                    v = '<div class="calendar-pages"></div>' + '<div bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,' + id + '_op_html" class="calendar-operator"><!--bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,' + id + '_op_html"-->{{{' + id + '_op_html}}}<!--bx-tmpl="calendar"--></div>'
+                    var self = this;
+                    v = '<div class="calendar-pages"></div>' + '<div bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,op_html" class="calendar-operator">{{{op_html}}}</div>';
                     if(!self.get('el')){
-                        v = '<div id="' + id + '" class="calendar">' +v+ '</div>'
+                        v = '<div class="calendar">' +v+ '</div>'
                     }
                     this.__set('tmpl',v);
                 }
@@ -442,8 +432,6 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                 }
                 (function(i) {
                     var pageBrick = new Page({
-                        id: self.get('id') + 'page' + i,
-                        el: '#'+self.get('id') + 'page' + i,
                         index: i,
                         prev: prev,
                         next: next,

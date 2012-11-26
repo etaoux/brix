@@ -148,7 +148,6 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                         var id = o.id;
                         var config = S.merge({
                             container:'#'+id,
-                            id: id,
                             el: '#' + id,
                             pagelet: self
                         }, o.config);

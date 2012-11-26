@@ -19,15 +19,6 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
     }
     Calendar.Date = Brix_Date;
     Calendar.ATTRS = {
-        id:{
-            getter:function(v){
-                if(!v){
-                    v = 'brix_calendar_' + S.guid();
-                    this.__set('id',v);
-                }
-                return v
-            }
-        },
         /**
          * 该日期所在月份, 默认为当天
          * @cfg {Date}
@@ -197,11 +188,10 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
         tmpl: {
             getter: function(v) {
                 if(!v){
-                    var self = this,
-                        id = self.get('id');
-                    v = '<div class="calendar-pages"></div>' + '<div bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,' + id + '_op_html" class="calendar-operator"><!--bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,' + id + '_op_html"-->{{{' + id + '_op_html}}}<!--bx-tmpl="calendar"--></div>'
+                    var self = this;
+                    v = '<div class="calendar-pages"></div>' + '<div bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,op_html" class="calendar-operator">{{{op_html}}}</div>';
                     if(!self.get('el')){
-                        v = '<div id="' + id + '" class="calendar">' +v+ '</div>'
+                        v = '<div class="calendar">' +v+ '</div>'
                     }
                     this.__set('tmpl',v);
                 }
@@ -442,8 +432,6 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                 }
                 (function(i) {
                     var pageBrick = new Page({
-                        id: self.get('id') + 'page' + i,
-                        el: '#'+self.get('id') + 'page' + i,
                         index: i,
                         prev: prev,
                         next: next,
@@ -910,42 +898,33 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
         },
         tmpl:{
             valueFn:function(){
-                var self = this,
-                    id=self.get('id');
-                return '<div id="'+id+'" class="calendar-page">'+
+                var self = this;
+                return '<div  class="calendar-page">'+
                         '<div class="calendar-page-hd">'+
-                            '<div bx-tmpl="page" bx-datakey="prev">'+
-                            '<!--bx-tmpl="prev" bx-datakey="prev"-->'+
+                            '<div bx-mpl="page" bx-datakey="prev">'+
                             '{{#prev}}'+
                             '<a href="javascript:void(0);" class="calendar-prev-year"><i class="iconfont">&#403</i><i class="iconfont icon-yp">&#403</i></a>'+
                             '<a href="javascript:void(0);" class="calendar-prev-month"><i class="iconfont">&#403</i></a>'+
                             '{{/prev}}'+
-                            '<!--bx-tmpl="prev"-->'+
                             '</div>'+
-                            '<a bx-tmpl="yearmonth" bx-datakey="year,month" href="javascript:void(0);" class="calendar-year-month"><!--bx-tmpl="yearmonth" bx-datakey="year,month"-->{{year}}年{{month}}月<!--bx-tmpl="yearmonth"--></a>'+
+                            '<a bx-tmpl="yearmonth" bx-datakey="year,month" href="javascript:void(0);" class="calendar-year-month">{{year}}年{{month}}月</a>'+
                             '<div bx-tmpl="next" bx-datakey="next">'+
-                            '<!--bx-tmpl="next" bx-datakey="next"-->'+
                             '{{#next}}'+
                             '<a href="javascript:void(0);" class="calendar-next-month "><i class="iconfont">&#402</i></a>'+
                             '<a href="javascript:void(0);" class="calendar-next-year "><i class="iconfont icon-yn">&#402</i><i class="iconfont">&#402</i></a>'+
-                            '<!--bx-tmpl="next"-->'+
                             '{{/next}}'+
                             '</div>'+
                             '<div class="calendar-year-month-pupop" >'+
-                                '<p bx-tmpl="select" bx-datakey="month,'+id+'_select_html"><!--bx-tmpl="select" bx-datakey="month,'+id+'_select_html"-->{{{'+id+'_select_html}}}<!--bx-tmpl="select"--></p>'+
-                                '<p bx-tmpl="year" bx-datakey="year"><!--bx-tmpl="year" bx-datakey="year"-->年:<input type="text" value="{{year}}" onfocus="this.select()"><!--bx-tmpl="year"--></p>'+
+                                '<p bx-tmpl="select" bx-datakey="month,select_html">{{{select_html}}}</p>'+
+                                '<p bx-tmpl="year" bx-datakey="year">年:<input type="text" value="{{year}}" onfocus="this.select()"></p>'+
                                 '<p><a class="btn btn-size25 btn-pupop-confirm">确定</a><a class="btn-pupop-cancel" href="#">取消</a></p>'+
                             '</div>'+
                         '</div>'+
-                        '<div bx-tmpl="pagewbd" bx-datakey="startDay,'+id+'_days_html" class="calendar-page-wbd">'+
-                        '<!--bx-tmpl="pagewbd" bx-datakey="startDay,'+id+'_days_html"-->'+    
-                            '{{{'+id+'_days_html}}}'+
-                        '<!--bx-tmpl="pagewbd"-->'+
+                        '<div bx-tmpl="pagewbd" bx-datakey="startDay,days_html" class="calendar-page-wbd">'+    
+                            '{{{days_html}}}'+
                         '</div>'+
-                        '<div bx-tmpl="pagedbd" bx-datakey="startDay,year,month,selected,range,multi,disabled,minDate,maxDate,'+id+'_da_html" class="calendar-page-dbd">'+
-                        '<!--bx-tmpl="pagedbd" bx-datakey="startDay,year,month,selected,range,multi,disabled,minDate,maxDate,'+id+'_da_html"-->'+
-                           '{{{'+id+'_da_html}}}'+
-                        '<!--bx-tmpl="pagedbd"-->'+
+                        '<div bx-tmpl="pagedbd" bx-datakey="startDay,year,month,selected,range,multi,disabled,minDate,maxDate,da_html" class="calendar-page-dbd">'+
+                           '{{{da_html}}}'+
                         '</div>'+
                         '<div class="calendar-page-fd">'+
                             

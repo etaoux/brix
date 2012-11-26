@@ -838,9 +838,6 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
     function Chunk() {
         Chunk.superclass.constructor.apply(this, arguments);
         this._buildTmpler();
-        if(!this.get('id')){
-            this.set('id','brix_'+S.guid());
-        }
     }
 
     /**
@@ -870,13 +867,6 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
      */
 
     Chunk.ATTRS = {
-        /**
-         * 当前pagelet或者brick的唯一标识
-         * @cfg {String}
-         */
-        id: {
-            value: false
-        },
         /**
          * 组件节点
          * @cfg {String}
@@ -1078,7 +1068,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                         var el = self.get('el');
                         var html = tmpler.to_html(data);
                         if((!el || el.length == 0)) {
-                            var elID = self.get('id');
+                            var elID = 'brix_'+S.guid();
                             if(UA.ie <= 8) {
                                 var node = new Node('<div />');
                                 container.append(node);
@@ -1194,15 +1184,14 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         self.pagelet = arguments[0] ? arguments[0].pagelet : null; //pagelet的引用
         Brick.superclass.constructor.apply(this, arguments);
 
-        var id = self.get('id'),
-            tmpler = self.get('tmpler');
+        var tmpler = self.get('tmpler');
         var constt = self.constructor;
 
-        if(tmpler&&!tmpler.inDom){
+        if(tmpler){
             while(constt.NAME!='Brick'){
                 var renderers = constt.RENDERERS;
                 if (renderers) {
-                    self.get('dataset').setRenderer(renderers, self, id);
+                    self.get('dataset').setRenderer(renderers, self);
                 }
                 constt = constt.superclass.constructor;
             }
@@ -1692,7 +1681,6 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                         var id = o.id;
                         var config = S.merge({
                             container:'#'+id,
-                            id: id,
                             el: '#' + id,
                             pagelet: self
                         }, o.config);

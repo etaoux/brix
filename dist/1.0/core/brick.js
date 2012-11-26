@@ -16,15 +16,14 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         self.pagelet = arguments[0] ? arguments[0].pagelet : null; //pagelet的引用
         Brick.superclass.constructor.apply(this, arguments);
 
-        var id = self.get('id'),
-            tmpler = self.get('tmpler');
+        var tmpler = self.get('tmpler');
         var constt = self.constructor;
 
-        if(tmpler&&!tmpler.inDom){
+        if(tmpler){
             while(constt.NAME!='Brick'){
                 var renderers = constt.RENDERERS;
                 if (renderers) {
-                    self.get('dataset').setRenderer(renderers, self, id);
+                    self.get('dataset').setRenderer(renderers, self);
                 }
                 constt = constt.superclass.constructor;
             }

@@ -10,9 +10,6 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
     function Chunk() {
         Chunk.superclass.constructor.apply(this, arguments);
         this._buildTmpler();
-        if(!this.get('id')){
-            this.set('id','brix_'+S.guid());
-        }
     }
 
     /**
@@ -42,13 +39,6 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
      */
 
     Chunk.ATTRS = {
-        /**
-         * 当前pagelet或者brick的唯一标识
-         * @cfg {String}
-         */
-        id: {
-            value: false
-        },
         /**
          * 组件节点
          * @cfg {String}
@@ -250,7 +240,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                         var el = self.get('el');
                         var html = tmpler.to_html(data);
                         if((!el || el.length == 0)) {
-                            var elID = self.get('id');
+                            var elID = 'brix_'+S.guid();
                             if(UA.ie <= 8) {
                                 var node = new Node('<div />');
                                 container.append(node);

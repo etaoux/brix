@@ -107,7 +107,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
          *  
          */
         quickDates:{
-                value:quickDates //快捷日期
+            value:quickDates //快捷日期
         },
         /**
          * 已选择的时间段
@@ -222,8 +222,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
         },
         tmpl:{
             valueFn:function(){
-                var self = this,
-                    id = self.get('id');
+                var self = this;
                 var html ='<div class="datepicker-bd">'+
                                 '{{^isCompare}}'+
                                 '<label>日期范围：</label>'+
@@ -235,7 +234,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                                 '{{/isCompare}}'+
                                 '{{#isCompare}}'+
                                 '<label>当前日期：</label>'+
-                                '<div bx-tmpl="datepicker" bx-datakey="compareText" class="range"><!--bx-tmpl="datepicker" bx-datakey="compareText"-->{{compareText}}<!--bx-tmpl="datepicker"-->'+
+                                '<div bx-tmpl="datepicker" bx-datakey="compareText" class="range">{{compareText}}'+
                                 '</div>'+
                                 '<label>与其他日期比较：(须同样天数)</label>'+
                                 '<div class="range">'+
@@ -245,14 +244,14 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                                 '</div>'+
                                 '{{/isCompare}}'+
                                 '{{#isQuick}}'+
-                                '{{{'+id+'_quick_html}}}'+
+                                '{{{quick_html}}}'+
                                 '{{/isQuick}}'+
                                 '<div class="operator">'+
                                     '<a class="btn btn-size25 btn-confirm" href="#">确定</a><a class="btn-cancel" href="#">取消</a>'+
                                 '</div>'+
                             '</div>';
                 if(!self.get('el')){
-                    html = '<div id="'+id+'" class="datepicker">' +html+ '</div>';
+                    html = '<div class="datepicker">' +html+ '</div>';
                 }
                 return html;
             }
