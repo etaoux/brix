@@ -199,8 +199,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          * @param  {String} id 组件id,如果带了id，销毁组件
          */
         destroy: function(id) {
-            var self = this,
-                tmpler = self.get('tmpler');
+            var self = this;
             if(id){
                 for (var i = 0; i < self.bricks.length; i++) {
                     var o = self.bricks[i];
@@ -212,14 +211,12 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 };
             }
             else{
+                self._destroy();
                 S.each(self.bricks, function(o,i) {
                     self._destroyBrick(o);
                 });
                 self.bricks = null;
-                if(tmpler){
-                     tmpler.tmpls = null;
-                }
-                if(self.get('rendered')){
+                if(self.get('rendered')&&self.get('isRemoveHTML')){
                     var el = self.get('el');
                     if(self.get('isRemoveEl')){
                         el.remove();

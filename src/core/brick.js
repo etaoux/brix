@@ -326,12 +326,8 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
          * 销毁组件
          */
         destroy:function(){
-            var self = this,
-                tmpler = self.get('tmpler');
-            if (tmpler) {
-                tmpler.tmpls = null;
-            }
-            
+            var self = this;
+            self._destroy();
             if(self.get('rendered')){
                 self._detachEvent();
             }

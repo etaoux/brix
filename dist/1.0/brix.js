@@ -658,8 +658,8 @@ KISSY.add("brix/core/tmpler", function(S, Mustache,Node) {
      */
 
     function Tmpler(tmpl, level) {
+        this.tmpls = [];
         if(tmpl && (level !== false)) {
-            this.tmpls = [];
             this._praseTmpl(tmpl,level);
         } else {
             this.tmpl = tmpl;
@@ -701,7 +701,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache,Node) {
                 }
                 r = r.replace('@brix@','(?:[\\s\\S]*?)');
                 self.reg = r;
-                S.log(r);
+                //S.log(r);
                 self.tmpl = self._replaceTmpl(tmpl);
                 self._buildTmpls(self.tmpl);
             }
@@ -837,7 +837,18 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
 
     function Chunk() {
         Chunk.superclass.constructor.apply(this, arguments);
-        this._buildTmpler();
+        var self = this;
+        var tmpl = self.get('tmpl');
+        if(tmpl) {
+            self._buildTmpler(tmpl, self.get('level'));
+            var tmpler = self.get('tmpler');
+            if(tmpler) {
+                self._buildDataset(self.get('data'));
+                if(tmpler.inDom) {
+                    self.set('el', tmpl);
+                }
+            }
+        }
     }
 
     /**
@@ -883,15 +894,15 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
          * 在销毁的时候是否移除HTML，默认true
          * @cfg {Object}
          */
-        isRemoveHTML:{
-            value:true
+        isRemoveHTML: {
+            value: true
         },
         /**
          * 在销毁的时候是否移除本身，默认true
          * @cfg {Object}
          */
-        isRemoveEl:{
-            value:true
+        isRemoveEl: {
+            value: true
         },
         /**
          * 容器节点
@@ -952,53 +963,61 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
          * 子模板解析的层级
          * @cfg {Number}
          */
-        level:{
-            value:3
+        level: {
+            value: 3
         }
     };
 
     S.extend(Chunk, Base, {
         /**
          * 构建模板解析器
+         * @param {String} tmpl 模板字符串
+         * @param {Number} level 模板解析的层级
          * @private
          */
-        _buildTmpler: function() {
-            var self = this,
-                tmpler = self.get('tmpler');
-            if(!tmpler) {
-                var tmpl = self.get('tmpl');
-                if(tmpl) {
-                    tmpler = new Tmpler(tmpl,self.get('level'));
-                    self.set('tmpler', tmpler);
-                    if(tmpler.inDom) {
-                        self.set('el', tmpl);
-                    }
-                }
-            }
-            if(tmpler && !tmpler.inDom) {
-                self._buildDataset();
+        _buildTmpler: function(tmpl, level) {
+            var self = this;
+            if(!self.get('isBuidTmpler')) {
+                self.set('isBuidTmpler', true);
+                var tmpler = new Tmpler(tmpl, level);
+                self.set('tmpler', tmpler);
             }
         },
         /**
          * 构建数据管理器
+         * @param {Object} data 数据集合
          * @private
          */
-        _buildDataset: function() {
+        _buildDataset: function(data) {
             var self = this;
-            if(!self.get('isBuidDataset')){
-                self.set('isBuidDataset',true);
-                var dataset = self.get('dataset');
-                if(!dataset) {
-                    var data = self.get('data') || {}; //原始数据
-                    data = S.clone(data); //数据深度克隆
-                    dataset = new Dataset({
-                        data: data
-                    });
-                    self.set('dataset', dataset); //设置最新的数据集合
-                }
+            if(!self.get('isBuidDataset')) {
+                self.set('isBuidDataset', true);
+                data = data || {}; //原始数据
+                data = S.clone(data); //数据深度克隆
+                dataset = new Dataset({
+                    data: data
+                });
+                self.set('dataset', dataset); //设置最新的数据集合
                 dataset.on('afterDataChange', function(e) {
                     self._render(e.subAttrName, e.newVal);
                 });
+            }
+        },
+        /**
+         * 销毁tmpler和dataset
+         * @private
+         */
+        _destroy: function() {
+            var self = this,
+                tmpler = self.get('tmpler'),
+                dataset = self.get('dataset');
+            if(tmpler) {
+                self.set('tmpler', null);
+                delete tmpler.tmpls;
+            }
+            if(dataset) {
+                self.set('dataset', null);
+                dataset.detach();
             }
         },
 
@@ -1008,13 +1027,12 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
          * @param {String} datakey 模板对应的数据key
          * @param {String} tmpl    子模板
          */
-        addTmpl: function(name,datakey,tmpl) {
-            var self = this,
-                tmpler = self.get('tmpler');
-            if(tmpler) {
-                self._buildDataset();
-                tmpler.addTmpl(name,datakey,tmpl);
-            }
+        addTmpl: function(name, datakey, tmpl) {
+            var self = this;
+            self._buildTmpler('', false);
+            self._buildDataset();
+            var tmpler = self.get('tmpler');
+            tmpler.addTmpl(name, datakey, tmpl);
         },
 
         /**
@@ -1029,7 +1047,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                 dataset = self.get('dataset');
             if(dataset) {
                 data = S.clone(data);
-                dataset.set('data.' + datakey, data,opts);
+                dataset.set('data.' + datakey, data, opts);
             }
         },
         /**
@@ -1068,7 +1086,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                         var el = self.get('el');
                         var html = tmpler.to_html(data);
                         if((!el || el.length == 0)) {
-                            var elID = 'brix_'+S.guid();
+                            var elID = 'brix_' + S.guid();
                             if(UA.ie <= 8) {
                                 var node = new Node('<div />');
                                 container.append(node);
@@ -1123,14 +1141,14 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
             var self = this,
                 el = self.get('el');
             S.each(tmpls, function(o) {
-                if((',' + o.datakey + ',').indexOf(',' + key + ',') >= 0){
-                    var nodes = el.all('[bx-tmpl='+o.name+']');
+                if((',' + o.datakey + ',').indexOf(',' + key + ',') >= 0) {
+                    var nodes = el.all('[bx-tmpl=' + o.name + ']');
                     //如果el本身也是tmpl，则加上自己
-                    if(el.attr('bx-tmpl')==o.name){
+                    if(el.attr('bx-tmpl') == o.name) {
                         nodes = el.add(nodes);
                     }
                     nodes.each(function(node) {
-                        if(node.attr('bx-datakey') == o.datakey){
+                        if(node.attr('bx-datakey') == o.datakey) {
                             var newData = {};
                             S.each(o.datakey.split(','), function(item) {
                                 var tempdata = data,
@@ -1144,16 +1162,20 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                                 newData[temparr[length - 1]] = tempdata;
                                 tempdata = null;
                             });
-                            S.each(data,function(d,k){
-                                if(S.isFunction(d)){
+                            S.each(data, function(d, k) {
+                                if(S.isFunction(d)) {
                                     newData[k] = d;
                                 }
                             });
                             //局部刷新前触发
-                            self.fire('beforeRefreshTmpl',{node:node});
+                            self.fire('beforeRefreshTmpl', {
+                                node: node
+                            });
                             node.html(o.tmpler.to_html(newData));
                             //局部刷新后触发
-                            self.fire('afterRefreshTmpl',{node:node});
+                            self.fire('afterRefreshTmpl', {
+                                node: node
+                            });
                             newData = null;
                         }
                     });
@@ -1494,12 +1516,8 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
          * 销毁组件
          */
         destroy:function(){
-            var self = this,
-                tmpler = self.get('tmpler');
-            if (tmpler) {
-                tmpler.tmpls = null;
-            }
-            
+            var self = this;
+            self._destroy();
             if(self.get('rendered')){
                 self._detachEvent();
             }
@@ -1732,8 +1750,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          * @param  {String} id 组件id,如果带了id，销毁组件
          */
         destroy: function(id) {
-            var self = this,
-                tmpler = self.get('tmpler');
+            var self = this;
             if(id){
                 for (var i = 0; i < self.bricks.length; i++) {
                     var o = self.bricks[i];
@@ -1745,14 +1762,12 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 };
             }
             else{
+                self._destroy();
                 S.each(self.bricks, function(o,i) {
                     self._destroyBrick(o);
                 });
                 self.bricks = null;
-                if(tmpler){
-                     tmpler.tmpls = null;
-                }
-                if(self.get('rendered')){
+                if(self.get('rendered')&&self.get('isRemoveHTML')){
                     var el = self.get('el');
                     if(self.get('isRemoveEl')){
                         el.remove();
