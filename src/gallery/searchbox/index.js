@@ -469,7 +469,6 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick, Node) {
 
         }
     });
-
     S.augment(Searchbox, Searchbox.METHODS);
     return Searchbox;
 }, {
@@ -902,8 +901,6 @@ KISSY.add('searchTabBox', function(S, undefined) {
 
     S.mix(searchTabBox.prototype, S.EventTarget);
     S.searchTabBox = searchTabBox;
-});
-
 }, {
     requires:["brix/core/brick", "node"]
 });
