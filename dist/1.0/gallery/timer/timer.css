@@ -1,0 +1,22 @@
+.timer {
+  color: #666;
+  font-family: 'SimSun';
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+.timer .timer-title {
+  color: #999;
+}
+.timer .timer-days,
+.timer .timer-hours,
+.timer .timer-mins,
+.timer .timer-secs {
+  font-family: Tahoma;
+  letter-spacing: 1px;
+}
+.timer .timer-bold .timer-num {
+  font-weight: bold;
+}
+.timer .timer-highlight .timer-num {
+  color: #ff4444;
+}

@@ -7,7 +7,7 @@ KISSY.add("brix/gallery/form/index", function(S, Brick) {
     function Form() {
         Form.superclass.constructor.apply(this, arguments);
     }
-    Form.ATTACH = {
+    Form.EVENTS = {
         '.checkbox, .radio': {
             'keyup': function (e) {
                 if (e.keyCode === KeyCodes.ENTER ||
@@ -22,7 +22,7 @@ KISSY.add("brix/gallery/form/index", function(S, Brick) {
     };
 
     function handleStat(node, checkSiblings) {
-        var input = node.one('.input');
+        var input = node.one('.control');
         var _input = node.one('input');
         var isChecked = _input.prop('checked');
         var isDisabled = _input.prop('disabled');
@@ -32,7 +32,7 @@ KISSY.add("brix/gallery/form/index", function(S, Brick) {
             node.siblings('.radio').each(handleStat);
         }
 
-        var className = 'input' +
+        var className = 'control' +
                 (isChecked ? ' checked' : '') +
                 (isDisabled ? ' disabled' : '') +
                 (isChecked && isDisabled ? ' checked-disabled' : '');
@@ -70,5 +70,5 @@ KISSY.add("brix/gallery/form/index", function(S, Brick) {
     });
     return Form;
 }, {
-    requires: ["brix/core/brick", "./form.css"]
+    requires: ["brix/core/brick"]
 });

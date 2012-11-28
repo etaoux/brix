@@ -1,4 +1,13 @@
 KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
+    /**
+     * 弹出层组件
+     * @class Brix.Gallery.Dialog
+     * @extends KISSY.Overlay
+     *
+     * see:
+     * <a href="http://docs.kissyui.com/docs/html/api/component/overlay/overlay.html">http://docs.kissyui.com/docs/html/api/component/overlay/overlay.html</a>
+     *
+     */
     function Dialog(config) {
         var self = this;
         Dialog.superclass.constructor.apply(this, arguments);
@@ -16,35 +25,60 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
         }
     }
     Dialog.ATTRS = {
+        /**
+         * 触发日历的对象
+         * @cfg {Element}
+         */
         trigger:{
             value:false
         },
+        /**
+         * 触发弹出日历的事件类型, 
+         * 例如：[‘click’,’focus’],也可以直接传入’focus’, 默认为[‘click’]
+         * @cfg {String|Array}
+         */
         triggerType:{
             value:['click']
         },
+        /**
+         * 显示的开始位置信息
+         * @cfg {Object} start
+         * @cfg {Number} start.left left值
+         * @cfg {Number} start.top   top值
+         * @cfg {Number} start.opacity  opacity值 
+         */
         start: {
-            value: {
-                left: 600,
-                top: 100,
-                opacity: 0
-            }
         },
+        /**
+         * 显示的结束位置信息
+         * @cfg {Object} end
+         * @cfg {Number} end.left left值
+         * @cfg {Number} end.top   top值
+         * @cfg {Number} end.opacity  opacity值 
+         */
         end: {
-            value: {
-                left: 100,
-                top: 100,
-                opacity: 1
-            }
+        },
+        elCls:{
+            value:'dialog'
+        },
+        prefixCls: {
+            value: 'dialog-'
         },
         x: {
             getter: function() {
                 var self = this;
+                if(!self.get('start')){
+                    return false
+                }
                 return self.get('start').left;
             }
         },
         y: {
             getter: function() {
                 var self = this;
+                if(!self.get('start')){
+                    return false
+                }
                 return self.get('start').top;
             }
         },
@@ -60,12 +94,6 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
                 dir = start.left === end.left && (start.top < end.top ? 'down' : 'up') || start.top === end.top && (start.left < end.left ? 'right' : 'left') || 'left';
                 return dir;
             }
-        },
-        elCls:{
-            value:'dialog'
-        },
-        prefixCls: {
-            value: 'dialog-'
         },
         duration: {
             value: 0.3
@@ -145,7 +173,11 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
         },
         bindUI:function(){
             var self = this,el = self.get('el');
+            
             self.on('beforeVisibleChange', function(ev) {
+                if(!self.get('start')){
+                    return true;
+                }
                 var v = ev.newVal,dir = self.get('dir');
                 el.removeClass('dialog-left').removeClass('dialog-right').removeClass('dialog-up').removeClass('dialog-down');
                 if(dir){
@@ -162,6 +194,9 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
 
             });
             self.on('afterVisibleChange', function(ev) {
+                if(!self.get('start')){
+                    return true;
+                }
                 var v = ev.newVal;
                 if(v){
                     self._visibilityChange(v);
@@ -191,5 +226,5 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
     });
     return Dialog;
 }, {
-    requires: ["brix/core/pagelet", "overlay", "./dialog.css"]
+    requires: ["brix/core/pagelet", "overlay"]
 });

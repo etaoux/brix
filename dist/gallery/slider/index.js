@@ -1,5 +1,9 @@
 KISSY.add('brix/gallery/slider/index', function(S, Brick, UA, Node, DD) {
-
+    /**
+     * Slider 滑块
+     * @class Brix.Gallery.Slider
+     * @extends Brix.Brick
+     */
     function Slider() {
         Slider.superclass.constructor.apply(this, arguments);
     }
@@ -54,7 +58,7 @@ KISSY.add('brix/gallery/slider/index', function(S, Brick, UA, Node, DD) {
 
     };
 
-    Slider.METHOD = {
+    Slider.METHODS = {
         resize : function(){
             this.fire(Slider.FIRES.resize);
         },
@@ -275,8 +279,8 @@ KISSY.add('brix/gallery/slider/index', function(S, Brick, UA, Node, DD) {
     });
 
 
-    S.augment(Slider, Slider.METHOD);
+    S.augment(Slider, Slider.METHODS);
     return Slider;
 }, {
-    requires: ["brix/core/brick", "ua","node", "dd","./slider.css"]
+    requires: ["brix/core/brick", "ua","node", "dd"]
 });

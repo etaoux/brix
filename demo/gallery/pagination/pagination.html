@@ -3,15 +3,16 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Brix Pagination Demo</title>
-        <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+        <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
         <link rel="stylesheet" href="../../../src/gallery/dropdown/dropdown.css">
         <link rel="stylesheet" href="../../../src/gallery/pagination/pagination.css">
+        <link rel="stylesheet" href="../../assets/doc.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
-        <script src="../../config.js"></script>
+        <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,autoPagelet:true,fixed:'src/'}"></script>
     </head>
-    <body style="margin:0px;padding-top:40px">
-        <div id="J_container">
-            <h1>现有html结构</h1>
+    <body>
+        <div id="J_container" class="container">
+            <h2 class="h2">现有html结构</h2>
             <div bx-name="pagination" class="pagination" bx-config="{defaultUI:false,sizeChange:true,jump:true,statistics:true,goTo:false}">
                 <div class="pagination-info">
                     <span>当前</span><span class="b">1-30</span><span>条</span>
@@ -19,7 +20,7 @@
                     <span class="mr">每页展现</span>
                     <div bx-name="dropdown" class="dropdown">
                         <span class="dropdown-hd">
-                            <span class="dropdown-text" value="3">30</span>
+                            <span class="dropdown-text" value="3">20</span>
                           </span>
                         <ul class="dropdown-list">
                             <li class="dropdown-item"><span value="1">10</span></li>
@@ -48,49 +49,34 @@
                         <span>共</span><span class="b">36</span><span>页</span>
                     </div>
                     <div class="pagination-form">
-                            <span>向第</span><input class="page-num" name="page" type="text"><span>页</span><a class="btn-jump btn btn-size25">跳转</a>
+                            <span>向第</span><input class="page-num" name="page" type="text"><span>页</span><a tabIndex=0 class="btn-jump btn btn-size25">跳转</a>
                     </div>
                 </div>
             </div>
-            <h1>简易模式</h1>
-            <div bx-name="pagination" class="pagination" bx-config="{simplify:true}">
-
+            <h2 class="h2">简易模式</h2>
+            <div bx-name="pagination" class="pagination" bx-config="{simplify:true,pageName:'pagenum',params:{xx:45},paramsArr:true}">
             </div>
 
-            <h1>简易模式包含统计跳转</h1>
+            <h2 class="h2">简易模式包含统计跳转</h2>
             <div bx-name="pagination" class="pagination" bx-config="{simplify:true,statistics:true,sizeChange:true,jump:true,goTo:false}">
 
             </div>
 
-            <h1>默认模式</h1>
+            <h2 class="h2">默认模式</h2>
             <div bx-name="pagination" class="pagination">
             </div>
 
-            <h1>没有记录总数</h1>
+            <h2 class="h2">没有记录总数</h2>
             <div bx-name="pagination" class="pagination" bx-config="{hascount:false,jump:true}">
             </div>
 
-            <h1>完整模式</h1>
-            <div bx-name="pagination" class="pagination clearfix" bx-config="{pageSizeName:false,statistics:true,sizeChange:true,jump:true,goTo:false}">
+            <h2 class="h2">完整模式</h2>
+            <div bx-name="pagination" class="pagination clearfix" bx-config="{statistics:true,sizeChange:true,jump:true,goTo:true}">
             </div>
 
-            <h1>etao搜索模式</h1>
-            <div bx-name="pagination" class="pagination" bx-config="{mode:'s',pageName:'s',pageSizeName:false,jump:true,sizeChange:true,goTo:false}">
+            <h2 class="h2">etao搜索模式</h2>
+            <div bx-name="pagination" class="pagination" bx-config="{mode:'s',pageName:'s',pageSizeName:false,jump:true,sizeChange:true,goTo:true}">
             </div>
         </div>
-		<!--brix begin-->
-        <script>
-            KISSY.ready(function(S) {
-
-                KISSY.use("brix/core/pagelet", function(S, Pagelet) {
-                    var config = {
-                        tmpl:'#J_container'
-                    }
-                    var p = new Pagelet(config);
-                    p.addBehavior();
-                });
-            });
-        </script>
-        <!--brix end-->
     </body>
 </html>

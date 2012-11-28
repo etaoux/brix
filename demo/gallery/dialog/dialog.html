@@ -3,24 +3,26 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Brix Dialog Demo</title>
-        <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+        <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
         <link rel="stylesheet" href="../../../src/gallery/dropdown/dropdown.css">
         <link rel="stylesheet" href="../../../src/gallery/dialog/dialog.css">
+        <link rel="stylesheet" href="../../assets/doc.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
-        <script src="../../config.js"></script>
+        <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,fixed:'src/'}"></script>
     </head>
-    <body style="margin:0px;padding-top:40px">
-        <div>
-            <a href="#" id="btnShowleft">显示左</a>
-        <a href="#" id="btnShowright">显示右</a>
+    <body style="min-height:280px;">
+        <div class="container">
+            <a href="#" id="btnShowleft" class="btn">显示左</a>
 
-        <a href="#" id="btnShowup">显示上</a>
+            <a href="#" id="btnShowright" class="btn">显示右</a>
 
-        <a href="#" id="btnShowdown">显示下</a>
+            <a href="#" id="btnShowup" class="btn">显示上</a>
 
-        <a href="#" id="btnShow">显示</a>
+            <a href="#" id="btnShowdown" class="btn">显示下</a>
 
-        <a href="#" id="btnHide">隐藏</a>
+            <a href="#" id="btnShow" class="btn">显示</a>
+
+            <a href="#" id="btnHide" class="btn">隐藏</a>
         </div>
 		<!--brix begin-->
         <script>
@@ -46,14 +48,14 @@
         </script>
         <script type="text/template" id="tmpl_dropdown">
             <div style="margin-top:-10px">
-            <h2 style="margin:0">标题</h2>
+            <h2 class="h2" style="margin:0">标题</h2>
             没有共产党就没有新中国，没有共产党就没有新中国。
-            <div id="brick13" bx-name="dropdown" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown" style="width:200px">
+            <!--<div id="brick13" bx-name="dropdown" class="dropdown" style="width:200px">
                 {{#dropdown_list}}
                 {{#selected}}
                 <span class="dropdown-hd">
                 <span class="dropdown-text" value="{{value}}">{{text}}</span>
-                <i class="iconfont icon-arrow-down">&#405</i>
+                <i class="iconfont icon-arrow-down">&#459</i>
                 </span>
                 {{/selected}}
                 {{/dropdown_list}}
@@ -67,13 +69,15 @@
                 <input value="{{value}}" type="hidden" />
                 {{/selected}}
                 {{/dropdown_list}}
-            </div>
+            </div>-->
             <div style="margin-top:15px"><a class="btn">确定</a></div>
             </div>
         </script>
         <script>
             KISSY.ready(function(S) {
                 KISSY.use("brix/gallery/dialog/", function(S, Dialog) {
+                    var DOM = S.DOM;
+
                     var config = {
                         data:dropdown_data,
                         tmpl:S.one("#tmpl_dropdown").html(),
@@ -90,6 +94,23 @@
                         width:300
                     }
                     var dialog = new Dialog(config);
+
+                    var config1 = {
+                        data:dropdown_data,
+                        tmpl:S.one("#tmpl_dropdown").html(),
+                        align:{
+                            node:false,
+                            points:['cc','cc'],
+                            offset:[0,0]
+                        },
+                        elStyle:{
+                            position: S.UA.ie == 6 ? "absolute" : "fixed"
+                        },
+                        width:300,
+                        mask:true
+                    }
+                    var dialog1 = new Dialog(config1);
+
                     //dialog.on('hide',function(){console.log('hide')});
                     //dialog.on('show',function(){console.log('show')});
 
@@ -143,7 +164,7 @@
 
                         dialog.set('end',{
                             left:300,
-                            top:S.DOM.docHeight()-193,
+                            top:S.DOM.docHeight()-167,
                             opacity:1
                         });
                         dialog.show();
@@ -154,7 +175,7 @@
                         dialog.hide();
                         dialog.set('start',{
                             left:600,
-                            top:-193,
+                            top:-167,
                             opacity:0
                         });
 
@@ -169,18 +190,14 @@
                     S.one('#btnShow').on('click',function(e){
                         e.halt();
                         dialog.hide();
-                        dialog.set('start',{
-                            left:300,
-                            top:200,
-                            opacity:0
-                        });
-
-                        dialog.set('end',{
-                            left:300,
-                            top:200,
-                            opacity:1
-                        });
-                        dialog.show();
+                        dialog1.center(); 
+                        dialog1.show();
+                        
+                        /*dialog.on('show',function(){
+                            debugger;
+                           
+                       });*/
+                        
                     });
                 });
             });

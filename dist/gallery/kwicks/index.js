@@ -1,58 +1,99 @@
 KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
+    /**
+     * Kwicks 轮播组件
+     * @class Brix.Gallery.Kwicks
+     * @extends Brix.Brick
+     */
     function Kwicks() {
         Kwicks.superclass.constructor.apply(this, arguments);
     }
     Kwicks.ATTRS = {
-        //默认横向
+        /**
+         * 默认横向
+         * @cfg {Boolean}
+         */
         isVertical: {
             value: false
         },
-        //是否始终激活一个
+        /**
+         * 是否始终激活一个
+         * @cfg {Boolean}
+         */
         sticky: {
             value: false
         },
-        //默认激活的位置，只有当sticky为true时有效
+        /**
+         * 默认激活的位置，只有当sticky为true时有效
+         * @cfg {Number}
+         */
         activeIndex: {
             value: 0
         },
-        //事件类型
+        /**
+         * 事件类型
+         * @cfg {String}
+         */
         triggerType: {
             value: 'mouseenter'
         },
-        //激活样式
+        /**
+         * 激活样式
+         * @cfg {String}
+         */
         activeCls: {
             value: 'active'
         },
-        //间距
+        /**
+         * 间距
+         * @cfg {Number}
+         */
         spacing: {
             value: 0
         },
-        //动画持续时间
+        /**
+         * 动画持续时间
+         * @cfg {Number}
+         */
         duration: {
             value: 0.3
         },
-        //动画效果
+        /**
+         * 动画效果
+         * @cfg {String}
+         */
         easing: {
             value: 'easeNone'
         },
-        //最大值
+        /**
+         * 最大值
+         * @cfg {Number}
+         */
         max: {
-
+            value:false
         },
-        //最小值
+        /**
+         * 最小值
+         * @cfg {Number}
+         */
         min: {
-
+            value:false
         },
-        //自动播放
+        /**
+         * 自动播放
+         * @cfg {Boolean}
+         */
         autoplay: {
             value: false
         },
-        //自动播放间隔
+        /**
+         * 自动播放间隔
+         * @cfg {Number}
+         */
         interval: {
             value: 3000
         }
     };
-    Kwicks.ATTACH = {
+    Kwicks.EVENTS = {
         '': {
             'mouseenter': function() {
                 var self = this,
@@ -81,7 +122,7 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
                     kwicks.each(function(k, j) {
                         var animObj = {};
                         animObj[WoH] = normWoH;
-                        if (j < length - 1) {
+                        if (j < length) {
                             animObj[LoT] = (j * normWoH) + (j * spacing);
                         }
                         k.animate(animObj, duration, easing);
@@ -90,13 +131,31 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
             }
         }
     };
-
-    Kwicks.METHOD = {
+    Kwicks.FIRES = {
         /**
-         *  切换到某个视图
+         * @event beforeSwitchTo
+         * 切换前触发，return false 阻止切换
+         * @param {Object} e 
+         * @param {Number} e.toIndex 将要切换的项
+         */
+        'beforeSwitchTo':'beforeSwitch',
+        /**
+         * @event switch
+         * 切换前触发
+         * @param {Object} e 
+         * @param {Number} e.currentIndex 当前项
+         */
+        'switch':'switch'
+    }
+    Kwicks.METHODS = {
+        /**
+         * 切换到某个视图
          * @param  {Number} i 要切换的项
          */
         switchTo: function(i) {
+            if(this.fire(Kwicks.FIRES.beforeSwitch,{toIndex:i})===false){
+                return;
+            }
             var self = this,
                 kwicks = self.kwicks,
                 length = kwicks.length,
@@ -118,21 +177,22 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
             var kwick = kwicks.item(i);
             kwicks.stop().removeClass(activeCls);
             kwick.addClass(activeCls);
+            var count = 0;
             kwicks.each(function(k, j) {
                 var animObj = {};
                 if (kwick[0] == k[0]) {
                     animObj[WoH] = max;
-                    if (j > 0 && j < length - 1) {
-                        animObj[LoT] = preCalcLoTs[i][j];
-                    }
                 } else {
                     animObj[WoH] = min;
-                    if (j > 0 && j < length - 1) {
-                        animObj[LoT] = preCalcLoTs[i][j];
-                    }
-
                 }
-                k.animate(animObj, duration, easing);
+                animObj[LoT] = preCalcLoTs[i][j];
+                k.animate(animObj, duration, easing,function(){
+                    count++;
+                    if(count==length){
+                        S.log('fire switch')
+                        self.fire(Kwicks.FIRES['switch'],{currentIndex :i});
+                    }
+                });
             });
         },
         /**
@@ -201,39 +261,27 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
                 });
             }
 
-            // pre calculate left or top values for all kwicks but the first and last
+            // pre calculate left or top values for all kwicks
             // i = index of currently hovered kwick, j = index of kwick we're calculating
             var preCalcLoTs = self.preCalcLoTs = []; // preCalcLoTs = pre-calculated Left or Top's
-            for (i = 0; i < length; i++) {
+            for (var i = 0; i < length; i++) {
                 preCalcLoTs[i] = [];
                 // don't need to calculate values for first or last kwick
-                for (j = 1; j < length - 1; j++) {
+                for (var j = 0; j < length; j++) {
                     if (i == j) {
                         preCalcLoTs[i][j] = isVertical ? j * min + (j * spacing) : j * min + (j * spacing);
                     } else {
-                        preCalcLoTs[i][j] = (j <= i ? (j * min) : (j - 1) * min + max) + (j * spacing);
+                        preCalcLoTs[i][j] = (j < i ? (j * min) : (j - 1) * min + max) + (j * spacing);
                     }
                 }
             }
 
             // loop through all kwick elements
             kwicks.each(function(kwick, i) {
-                // set initial width or height and left or top values
-                // set first kwick
-                if (i === 0) {
-                    kwick.css(LoT, '0px');
-                }
-                // set last kwick
-                else if (i == length - 1) {
-                    kwick.css(isVertical ? 'bottom' : 'right', '0px');
-                }
-                // set all other kwicks
-                else {
-                    if (sticky) {
-                        kwick.css(LoT, preCalcLoTs[activeIndex][i]);
-                    } else {
-                        kwick.css(LoT, (i * normWoH) + (i * spacing));
-                    }
+                if (sticky) {
+                    kwick.css(LoT, preCalcLoTs[activeIndex][i]);
+                } else {
+                    kwick.css(LoT, (i * normWoH) + (i * spacing));
                 }
                 // correct size in sticky mode
                 if (sticky) {
@@ -263,7 +311,7 @@ KISSY.add("brix/gallery/kwicks/index", function(S, Brick) {
             }
         }
     });
-    S.augment(Kwicks, Kwicks.METHOD);
+    S.augment(Kwicks, Kwicks.METHODS);
     return Kwicks;
 }, {
     requires: ["brix/core/brick"]

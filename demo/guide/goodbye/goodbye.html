@@ -5,7 +5,7 @@
 	<title>Brix之旅 - 完整的实现</title>
 	<link type="text/css" rel="stylesheet" href="../../../dist/brix.css" charset="utf-8">
 	<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
-    <script src="../../config.js"></script>
+    <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,fixed:'src/'}"></script>
     <script src="helloworld.js"></script>
     <style type="text/css">
     body{
@@ -48,7 +48,7 @@
 	<script type="text/template" id="tmpl_helloword2">
 		<div id="helloworld1" bx-name="helloworld" bx-path="helloworld">
 			<span>Hello 
-				<span id="spanName" bx-tmpl="helloworld" bx-datakey="name,helloworld1_xx_yy">{{helloworld1_xx_yy}}</span>
+				<span id="spanName" bx-tmpl="helloworld" bx-datakey="name,helloworld1_xx_yy"><!--bx-tmpl="helloworld" bx-datakey="name,helloworld1_xx_yy"-->{{helloworld1_xx_yy}}<!--bx-tmpl="helloworld"--></span>
 			</span>
 		</div>
 	</script>

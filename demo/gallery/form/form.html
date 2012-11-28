@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>表单 - Brix Style</title>
+    <!--[if lt IE 9]> <script src="../../assets/html5.js"></script> <![endif]-->
+    <link rel="stylesheet" href="../../../src/style/brix-min.css">
+    <link rel="stylesheet" href="../../../src/gallery/form/form.css">
+    <link rel="stylesheet" href="../../assets/doc.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="span25">
+            <h3 class="h3">表单Demo</h3>
+            <form class="form">
+                <fieldset>
+                    <div class="control-group">
+                        <label class="control-label" for="input02">表单项名称:</label>
+                        <div class="controls">
+                            <input id="input02" class="input" placeholder="placeholder占位" />
+                            <p class="help-block">说明解释类提示</p>
+                        </div>
+                    </div>
+                    <div class="control-group error">
+                        <label class="control-label" for="input03">表单项名称:</label>
+                        <div class="controls">
+                            <input id="input03" class="input" placeholder="placeholder占位" value="妈妈说这样是不对的" />
+                            <!-- <p class="help-block">说明解释类提示</p> -->
+                        </div>
+                    </div>
+                    <div class="control-group disabled">
+                        <label class="control-label" for="input04">表单项名称:</label>
+                        <div class="controls">
+                            <input id="input04" class="input input-disabled" disabled placeholder="placeholder占位" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">单选按钮:</label>
+                        <div bx-name="form" class="controls">
+                            <label class="radio inline" for="optionsRadio08">
+                                <input type="radio" name="optionsRadios5" id="optionsRadio08" value="option08" checked />单点我
+                            </label>
+                            <label class="radio inline" for="optionsRadio09">
+                                <input type="radio" name="optionsRadios5" id="optionsRadio09" value="option09" />别点我
+                            </label>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">多选按钮:</label>
+                        <div bx-name="form" class="controls">
+                            <label class="checkbox inline" for="optionsCheckbox07">
+                                <input type="checkbox" name="optionsCheckbox4" id="optionsCheckbox07" value="option01" checked />1
+                            </label>
+                            <label class="checkbox inline" for="optionsCheckbox08">
+                                <input type="checkbox" name="optionsCheckbox4" id="optionsCheckbox08" value="option02" />2
+                            </label>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">单选按钮:</label>
+                        <div bx-name="form" class="controls">
+                            <label class="radio clearfix" for="optionsRadio10">
+                                <input type="radio" name="optionsRadios6" id="optionsRadio10" value="option08" checked />单点我
+                            </label>
+                            <label class="radio" for="optionsRadio11">
+                                <input type="radio" name="optionsRadios6" id="optionsRadio11" value="option09" />别点我
+                            </label>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">多选按钮:</label>
+                        <div bx-name="form" class="controls">
+                            <label class="checkbox clearfix" for="optionsCheckbox09">
+                                <input type="checkbox" name="optionsCheckbox5" id="optionsCheckbox09" value="option01" checked />1
+                            </label>
+                            <label class="checkbox" for="optionsCheckbox10">
+                                <input type="checkbox" name="optionsCheckbox5" id="optionsCheckbox10" value="option02" />2
+                            </label>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="textarea">文本框:</label>
+                        <div class="controls">
+                            <textarea class="textarea" rows="3" id="textarea"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+<script>
+KISSY.config({
+    packages: [{
+        name: "brix",
+        tag: "20120419",
+        path: "../../../../",//这里可以配置cdn的路径
+        charset: "utf-8"
+    }]
+});
+
+KISSY.config({
+    map: [
+        [/(.+brix)\/(.+?)(?:-min)?.js(\?[^?]+)?$/, "$1/src/$2.js$3"],
+        [/(.+brix)\/(.+?)(?:-min)?.css(\?[^?]+)?$/, "$1/src/$2.css$3"]
+    ]
+});
+</script>
+<script>
+    KISSY.use('brix/core/pagelet', function(S, Pagelet) {
+        var pagelet = new Pagelet({
+            tmpl: '.container' // 模板(容器节点)
+        });
+
+        pagelet.addBehavior();
+        pagelet.ready(function() {
+            pagelet.render();
+        });
+    });
+</script>
+</body>
+</html>

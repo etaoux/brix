@@ -3,34 +3,59 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Brix Breadcrumbs Demo</title>
-        <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
-        <link rel="stylesheet" href="../../../src/gallery/dropdown/dropdown.css">
-        <link rel="stylesheet" href="../../../src/gallery/breadcrumbs/breadcrumbs.css">
-        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
-        <script src="../../config.js"></script>
+        <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
+        <link rel="stylesheet" href="../../assets/doc.css">
+        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+        <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,fixed:'src/'}"></script>
+        <script type="text/javascript">
+            // Brix.config({
+            //     path: 'http://a.tbcdn.cn/p/'
+            //     //fixed:'src/'
+            // }); //初始化Brix的配置
+            //KISSY.config('combine', true);
+            // KISSY.config('modules', {
+            //     'brix/core/pagelet': {
+            //         requires: ['brix/core/chunk']
+            //     },
+            //     'brix/core/brick': {
+            //         requires: ['brix/core/chunk']
+            //     },
+            //     'brix/core/chunk': {
+            //         requires: ['node','base', 'brix/core/dataset','brix/core/tmpler']
+            //     },
+            //     'brix/core/tmpler': {
+            //         requires: ['brix/core/mu','node','ua', 'sizzle']
+            //     },
+            //     'brix/core/mu': {
+            //         requires: ['brix/core/mustache']
+            //     }
+            // }); 
+        </script>
     </head>
-    <body style="margin:0px;padding-top:40px">
-        <h2>带下拉</h2>
-        <div style="padding-left:50px"  id="test_container">
+    <body>
+        <div class="container">
+            <h2 class="h2">带下拉</h2>
+            <div style="padding-left:50px"  id="test_container">
+            </div>
+            <h2 class="h2">常规</h2>
+            <ul style="margin-left:50px" bx-name="breadcrumbs" class="breadcrumbs" id="brix_brick_12">
+                <li class="item first ">
+                        <a href="#1234">首页</a>
+                </li>
+                <li class="item split">
+                    <i class="iconfont">&#402</i>
+                </li>
+                <li class="item">
+                        <a href="#44">创意管理</a>
+                </li>
+                <li class="item split">
+                    <i class="iconfont">&#402</i>
+                </li>
+                <li class="item last">
+                    创意活动五
+                </li>
+            </ul>
         </div>
-        <h2>常规</h2>
-        <ul style="margin-left:50px" bx-name="breadcrumbs" class="breadcrumbs" id="brix_brick_12">
-            <li class="item first ">
-                    <a href="#1234">首页</a>
-            </li>
-            <li class="item split">
-                <i class="iconfont">ƒ</i>
-            </li>
-            <li class="item">
-                    <a href="#44">创意管理</a>
-            </li>
-            <li class="item split">
-                <i class="iconfont">ƒ</i>
-            </li>
-            <li class="item last">
-                创意活动五
-            </li>
-        </ul>
 		<!--brix begin-->
         <script>
 			var breadcrumbs_data ={
@@ -80,10 +105,10 @@
                         {{/last}}
                     {{/text}}
                     {{^text}}
-                    <div bx-name="dropdown" bx-path="brix/gallery/dropdown/" bx-datakey="dropdown_list" bx-tmpl="dropdown" class="dropdown dropdown-arrow" bx-config="{mode:2}">
+                    <div bx-name="dropdown" bx-path="brix/gallery/dropdown/" class="dropdown dropdown-arrow" bx-config="{mode:2}">
                         {{#dropdown_list}}
                         {{#selected}}
-                        <span class="dropdown-hd"><a href="#"><span>计划：</span><span value="{{value}}" class="dropdown-text">{{text}}</span></a><i class="iconfont icon-arrow-down">&#405</i></span>
+                        <span class="dropdown-hd"><a href="#"><span>计划：</span><span value="{{value}}" class="dropdown-text">{{text}}</span></a><i class="iconfont icon-arrow-down">&#459</i></span>
                         {{/selected}}
                         {{/dropdown_list}}
                         <ul class="dropdown-list">
@@ -110,17 +135,21 @@
         </script>
         <script>
             KISSY.ready(function(S) {
-                KISSY.use("brix/core/pagelet", function(S, Pagelet) {
+                KISSY.use("brix/core/pagelet,brix/gallery/dropdown/dropdown.css,brix/gallery/breadcrumbs/breadcrumbs.css", function(S, Pagelet) {
                     var config = {
                         container:'#test_container',//容器节点
                         tmpl: S.one("#tmpl_script").html(),//需要的模板
-                        data: breadcrumbs_data
+                        data: breadcrumbs_data,
+                        callback:function(){
+                            S.log('auto behavior');
+                        }
                     };
                     //删除节点，有用吗？
-                    S.one("#tmpl_script").remove();
+                    //S.one("#tmpl_script").remove();
                     var pagelet = new Pagelet(config);
-                    pagelet.render();
-                    pagelet.addBehavior();
+
+                    //pagelet.render();
+                    //pagelet.addBehavior();
                 });
             });
         </script>

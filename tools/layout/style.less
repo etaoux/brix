@@ -1,21 +1,38 @@
 @import '../../src/style/brix';
 
-html, body,
-#r-panel {
+html, body {
     height: 100%;
-    background: #bbb;
+    color: #fff;
+    background: #777;
 }
-#r-panel {
+#r-topbar,
+#r-ruler,
+#r-resolution {
     position: fixed;
-    border-right: 1px solid #666;
-    width: 90px;
-    background: #f7f7f7;
     z-index: 100;
+}
+#r-topbar {
+    top: 0;
+    width: 100%;
+    height: 50px;
+    background: #333;
+}
+#r-ruler {
+    top: 50px;
+    overflow: hidden;
+    width: 100%;
+    height: 32px;
+    line-height: 48px;
+}
+#r-resolution {
+    top: 100px;
+    width: 60px;
+    background: #333;
 }
 #r-content {
     position: relative;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
-    margin-left: 120px;
+    margin: 100px 0 0 100px;
     min-height: 100%;
     background: #fff;
 }
@@ -23,33 +40,77 @@ html, body,
     position: fixed;
     right: 10px;
     bottom: 0;
+    color: #999;
 }
 
-/******* r-panel *******/
-h6 {
-    padding: 0 12px;
+/******* r-topbar *******/
+#r-topbar h1 {
+    float: left;
+    margin: 0 30px;
+    width: 400px;
+    line-height: 50px;
+    font-size: 16px;
+    color: #fff;
 }
-#r-resolution .list {
-    border-top: 1px solid #666;
+#r-topbar .r-btn-group {
+    float: right;
+}
+#r-config,
+#r-preview,
+#r-save,
+#r-output {
+    display: block;
+    float: left;
+    margin: 0 30px;
+    line-height: 50px;
+    font-size: 14px;
+    color: #fff;
+    cursor: pointer;
+}
+#r-config .iconfont,
+#r-preview .iconfont,
+#r-save .iconfont,
+#r-output .iconfont {
+    padding-right: .3em;
+    font-size: 21px;
+}
+
+/******* r-ruler *******/
+#r-ruler span {
+    float: left;
+    text-align: center;
+}
+#r-ruler .split {
+    position: absolute;
+    float: none;
+    border-left: 1px solid #fff;
+    height: 30px;
+    text-align: left;
+    text-indent: 3px;
+}
+
+/******* r-resolution *******/
+#r-resolution {
+    font-size: 14px;
+    line-height: 60px;
+    cursor: pointer;
 }
 #r-resolution .tab {
     display: block;
-    line-height: 50px;
     border-bottom: 1px solid #666;
-    padding: 0 20px;
-    font-size: 14px;
-    cursor: pointer;
-    color: #333;
+    height: 59px;
+    color: #fff;
+    text-align: center;
 }
 #r-resolution .tab::after {
+    display: none;
     position: relative;
-    display: block;
     content: '';
     margin-top: -51px;
     height: 51px;
 }
 #r-resolution .split {
-    display: block;
+    display: none;
     margin: -11px 12px 0;
     border-bottom: 1px solid #f7f7f7;
     height: 10px;
@@ -58,30 +119,11 @@ h6 {
     color: #888;
 }
 #r-resolution .active {
-    width: 51px;
-    background: #bbb;
-}
-#r-config,
-#r-preview,
-#r-save,
-#r-output {
-    display: block;
-    margin: 10px;
-}
-#r-config .iconfont,
-#r-preview .iconfont,
-#r-save .iconfont,
-#r-output .iconfont {
-    padding-right: .3em;
-    font-size: 12px;
+    color: #333;
+    background: #fff;
 }
 
 /******* r-content *******/
-.r-section {
-    position: relative;
-    margin-bottom: 15px;
-    min-height: 100px;
-}
 .r-section-bg {
     overflow: hidden;
     position: absolute;
@@ -89,7 +131,13 @@ h6 {
 }
 .r-section-bg .span1 {
     height: 100%;
-    background: #eee;
+    background: #ffd9d9;
+}
+.r-section {
+    position: relative;
+    margin-bottom: 15px;
+    min-height: 120px;
+    background: rgba(90, 90, 90, .1);
 }
 .r-section-panel {
     position: absolute;
@@ -97,21 +145,64 @@ h6 {
     left: 100%;
     width: 90px;
 }
+.r-add-div,
+.r-remove-section {
+    display: block;
+    margin-bottom: 10px;
+    width: 30px;
+    line-height: 30px;
+    font-size: 24px;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    background: #333;
+}
+#r-add-section {
+    position: relative;
+    display: block;
+    padding-left: 60px;
+    width: 80px;
+    line-height: 60px;
+    font-size: 14px;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    background: #333;
+}
+#r-add-section .plus {
+    position: absolute;
+    left: 0;
+    border-right: 1px dotted #666;
+    width: 59px;
+    height: 60px;
+    line-height: 56px;
+    font-size: 40px;
+    text-decoration: none;
+}
+.r-hided-div {
+    float: left;
+    box-size: border-box;
+    border: 3px dashed #ccc;
+    margin-right: -10px;
+    width: 10px;
+    height: 30px;
+}
 .r-div {
     overflow: hidden;
     position: relative;
     box-sizing: border-box;
-    min-height: 100px;
-    color: #fff;
-    background: rgba(51, 51, 51, .6);
+    border: 1px solid #999;
+    min-height: 30px;
+    height: 120px;
+    color: #666;
+    background: #ddd;
     -webkit-transition: background .2s;
     transition: background .2s;
 }
 .r-div:hover,
 .r-div.drag {
-    border: 2px solid #333;
-    color: #999;
-    background: rgba(204, 204, 204, .1);
+    border: 1px solid #333;
+    color: #fff;
 }
 .r-div-name {
     position: absolute;
@@ -120,6 +211,19 @@ h6 {
     width: 100%;
     text-align: center;
     font-size: 2em;
+}
+.r-hide-div {
+    display: none;
+    position: absolute;
+    right: 28px;
+    width: 28px;
+    line-height: 26px;
+    height: 28px;
+    font-size: 24px;
+    text-indent: 6px;
+    color: #fff;
+    cursor: pointer;
+    background: #333;
 }
 .r-remove-div {
     display: none;
@@ -131,6 +235,7 @@ h6 {
     font-size: 24px;
     text-indent: 6px;
     color: #fff;
+    cursor: pointer;
     background: #333;
 }
 .r-div-size {
@@ -139,10 +244,12 @@ h6 {
     right: 38px;
     bottom: 0;
     font-size: 18px;
-    color: #333;
+    color: #666;
 }
 .r-div:hover .r-div-size,
 .r-div.drag .r-div-size,
+.r-div:hover .r-hide-div,
+.r-div.drag .r-hide-div,
 .r-div:hover .r-remove-div,
 .r-div.drag .r-remove-div,
 .r-div:hover .ks-resizable-handler,
@@ -169,8 +276,8 @@ h6 {
 }
 .ks-resizable-handler-bl, .ks-resizable-handler-br, .ks-resizable-handler-tl, .ks-resizable-handler-tr {
     position: absolute;
-    width: 28px;
-    height: 28px;
+    width: 29px;
+    height: 29px;
     background: #333;
     z-index: 2;
 }

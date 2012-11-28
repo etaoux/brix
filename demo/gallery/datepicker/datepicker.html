@@ -3,17 +3,22 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Brix DatePicker Demo</title>
-        <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+        <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
+        <link rel="stylesheet" href="../../assets/doc.css">
+        <link rel="stylesheet" href="../../../src/gallery/calendar/calendar.css">
         <link rel="stylesheet" href="../../../src/gallery/datepicker/datepicker.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
-        <script src="../../config.js"></script>
+        <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,fixed:'src/'}"></script>
     </head>
-    <body style="margin:0px;padding-top:40px">
-        <a id="test1" class="btn" href="#">时间段</a>
-        <a id="test2" class="btn" href="#">比较</a>
-        <a id="update" class="btn" href="#">修改比较时间</a>
-        <a id="test3" class="btn" href="#">测试3</a>
-        <a style="float:right;margin-right:5px;" id="test4" class="btn" href="#">测试4</a>
+    <body style="min-height: 240px;">
+        <div class="container">
+            <a id="test1" class="btn" href="#">时间段</a>
+            <a id="test2" class="btn" href="#">比较</a>
+            <a id="update" style="display:none" class="btn" href="#">修改比较时间</a>
+            <a id="test3" class="btn" href="#">测试3</a>
+            <a style="float:right;margin-right:5px;" id="test4" class="btn" href="#">测试4</a>
+        </div>
+
         <script>
             KISSY.ready(function(S) {
                 KISSY.use("brix/gallery/datepicker/", function(S, DatePicker) {
@@ -24,22 +29,26 @@
 
                     datepicker.on('selected',function(e){
                         S.one('#test1').html(Brix_Date.format(e.start,'isoDate') + '至' +Brix_Date.format(e.end,'isoDate'));
+                        datepicker.destroy();
                     });
+
 
                     var datepicker2 = new DatePicker({
                         trigger: '#test2',
                         isCompare:true,
-                        isQuick :false
+                        isQuick :false,
+                        minDateStart:'2012-10-13',
+                        disabledStart:['2012-10-17']
                     });
                     datepicker2.on('selected',function(e){
                         S.one('#test2').html(Brix_Date.format(e.start,'isoDate') + '至' +Brix_Date.format(e.end,'isoDate'));
                     });
-                    
+
                     S.one('#update').on('click',function(e){
                         e.halt();
                         datepicker2.set('compareText','过去14天')
                     });
-                    
+
 
                     var datepicker3 = new DatePicker({
                         trigger: '#test3',
@@ -51,7 +60,7 @@
                     });
 
 
-                    
+
 
                     var datepicker4 = new DatePicker({
                         trigger: '#test4',

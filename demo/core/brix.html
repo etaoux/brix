@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>brix tmpl test</title>
+    <link type="text/css" rel="stylesheet" href="../../src/style/brix-min.css" charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="../../src/gallery/calendar/calendar.css" charset="utf-8">
+    <link rel="stylesheet" href="../assets/doc.css">
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+    <script src="../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>
+</head>
+<body>
+    <div class="container">
+    </div>
+    <script type="text/javascript">
+        KISSY.add("brixtest/index", function(S, Brick) {
+            function BrixTest() {
+                BrixTest.superclass.constructor.apply(this, arguments);
+            }
+            BrixTest.EVENTS = {
+                '#input1': {
+                    click: function(e) {
+                        var self = this;
+                        self.pagelet.setChunkData('a', 'aaa'+S.guid());
+                    }
+                },
+                '#input2': {
+                    click: function(e) {
+                        var self = this;
+                        self.pagelet.setChunkData('b', 'bbb'+S.guid());
+                    }
+                },
+                '#input3': {
+                    click: function(e) {
+                        var self = this;
+                        self.pagelet.setChunkData('c', 'ccc'+S.guid());
+                    }
+                },
+                '#input4': {
+                    click: function(e) {
+                        var self = this;
+                        self.pagelet.setChunkData('d', [{
+                            d1: S.guid()
+                        }, {
+                            d1: S.guid()
+                        }, {
+                            d1: S.guid()
+                        }]);
+                    }
+                },
+                '#input5': {
+                    click: function(e) {
+                        var self = this;
+                        self.pagelet.setChunkData('e', 'eee'+S.guid());
+                    }
+                }
+            }
+            S.extend(BrixTest, Brick, {
+
+            });
+            return BrixTest;
+        }, {
+            requires: ["brix/core/brick"]
+        });
+
+        var list = {
+            a: 'a',
+            b: 'b',
+            c: 'c',
+            d: [{
+                d1: '1'
+            }, {
+                d1: '2'
+            }, {
+                d1: '3'
+            }],
+            e:'e'
+        }
+    KISSY.ready(function(S){
+        S.use('brix/core/pagelet',function(S,Pagelet){
+            window.pagelet = new Pagelet({container:'.container',tmpl:'#tmpl',data:list});
+        });
+    })
+    </script>
+    <script type="text/tmpl" id="tmpl">
+        <div id="brixtest" bx-name="brixtest" bx-path="brixtest/">
+            <input id="input1" type="button" value="局部刷新a">
+            <input id="input2" type="button" value="局部刷新b">
+            <input id="input3" type="button" value="局部刷新c">
+            <input id="input4" type="button" value="局部刷新d">
+            <input id="input5" type="button" value="局部刷新e">
+            <div id="xx" bx-tmpl="a" class="hahah" bx-datakey="a,b" name="xx">
+                <span>{{a}}</span>
+                <div bx-tmpl="b" bx-datakey="b">
+                    <span>{{b}}</span>
+                    <div id="J_CalendarTest" bx-name="calendar" class="calendar" bx-config="{popup:false,autoRender:true}">
+                    </div>
+                    dd
+                </div>
+                sdaf
+            </div>
+            <div bx-tmpl="c" bx-datakey="a,c">
+                <span>{{a}}-{{c}}</span>
+            </div>
+            <div bx-tmpl="d" bx-datakey="d">
+                <table>
+                    <tbody>
+                    {{#d}}
+                        <tr>
+                            <td>{{d1}}<td>
+                        </tr>
+                    {{/d}}
+                    </tbody>
+                </table>
+            </div>
+            <div bx-tmpl="e" bx-datakey="e" >
+            <input type="text" value="{{e}}" />
+            </div>
+        </div>
+    </script>
+</body>
+</html>

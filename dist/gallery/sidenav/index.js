@@ -11,7 +11,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
     var $ = S.all;
     var Sidenav = function() {
         Sidenav.superclass.constructor.apply(this, arguments);
-        this.init();
+        // this.init();
     };
 
     //默认配置
@@ -44,7 +44,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
     };
 
     S.extend(Sidenav, Brix, {
-        init: function() {
+        initialize: function() {
             /**
              * 配置
              * @type {[type]}
@@ -71,6 +71,10 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
             this.localStorage = window.localStorage;
             this.isFullSubNav = this.localStorage && this.localStorage.isFullSubNav || '1';
 
+            if (this.isFullSubNav === '0') {
+                this.subNavHandle.replaceClass('icon-expand', 'icon-collapse');
+            }
+
             //可配置的两个参数 duration index
             this.index = this.get('index'); //默认的首页地址
             this.duration = this.get('duration'); //导航动画持续时间，可配置
@@ -89,13 +93,23 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
             S.one(node).fire('click');
         },
 
+        //模拟queryModel对hash的pathname进行解析
+        getPathname: function() {
+            var pathname;
+            var pathnameMatch = /^#!(\/.+)\/.*$/.exec(location.hash); //返回pathname目录
+            pathname = pathnameMatch && pathnameMatch[1] || '';
+            return pathname;
+
+        },
+
         //根据pathname来确定sidebar的状态
         _pathname2sidebar: function() {
-            // var h = ('#!' + Router.queryModel.get('pathname') + '/') || this.index;
+            var pathname = this.getPathname();
+            var h = pathname && ('#!' + pathname + '/') || this.index;
 
             //回收站特例
             // var trashParam = Router.queryModel.get('board.archivestatus');
-            var h, trashParam;
+            // var h, trashParam;
 
             //将map中的地址映射成相应的导航
             S.each(this.pathMap, function(v, k) {
@@ -115,12 +129,12 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
             this.sidebar.all('a').each(function(n){
                 var origin_href = n.attr('href');
 
-                if (trashParam) {
-                    if (origin_href.indexOf('board.archivestatus') > -1) {
-                        n.fire('click');
-                        return false;
-                    }
-                } else {
+                // if (trashParam) {
+                //     if (origin_href.indexOf('board.archivestatus') > -1) {
+                //         n.fire('click');
+                //         return false;
+                //     }
+                // } else {
                     var _href = origin_href.match(/.*\//);
                     if (!_href) return false;
 
@@ -129,7 +143,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
                         n.fire('click');
                         return false;
                     }
-                }
+                // }
             });
             this.isNavClick = false;
         },
@@ -192,6 +206,27 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
                 self.isNavClick = true;
                 $(window).scrollTop(0);
                 // self._fixedStatic();
+            });
+
+
+            //三级导航点击标题收缩扩展子菜单
+            self.subNav.delegate('click', '.sub-title', function(e) {
+                var _this = $(e.currentTarget);
+                var _sub = _this.next('.sub-nav-third');
+
+                if (_sub.css('height') === '0px') {
+                    var h = _sub.css('height', 'auto').height();
+                    _sub.css('height', 0);
+                    _sub.animate({
+                        'height': h
+                    }, self.duration, 'easeOut');
+
+                } else {
+                    _sub.animate({
+                        'height': 0
+                    }, self.duration, 'easeOut');
+                }
+
             });
 
             //子导航扩展收缩
@@ -500,5 +535,5 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brix, Base) {
     return Sidenav;
 
 }, {
-    requires: ['brix/core/brick', 'base', 'sizzle', './sidenav.css']
+    requires: ['brix/core/brick', 'base', 'sizzle']
 });

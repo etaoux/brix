@@ -1,15 +1,8 @@
 /**
- * CSS Reset
- *   借鉴normalize成果，同时做些向前兼容
+ * CSS Base
+ *   继承KISSY Reset，减少推广阻力。同时做些更新
  **/
-@import "normalize.less";
-@import "reset-patch.less";
-
-/**
- * 小工具类
- *   可以在页面直接输出的mixin
- **/
-@import "utilities.less";
+@import "base.less";
 
 /**
  * 核心变量及mixin，会提供给gallery使用
@@ -30,35 +23,10 @@
  **/
 @import "type.less";
 @import "icons.less";
-@import "scrollbar.less";
-@import "forms.less";
 @import "buttons.less";
-@import "tables.less";
-@import "tags.less";
-@import "footer.less";
-@import "avatar.less";
-@import "fold.less";
-@import "msg-box.less";
-@import "flowsteps.less";
 
-/*@import "breadcrumbs.less";*/
-
-/*@import "code.less";*/
-/*@import "wells.less";*/
-/*@import "component-animations.less";*/
-/*@import "close.less";*/
-/*@import "button-groups.less";*/
-/*@import "alerts.less"; // Note: alerts share common CSS with buttons and thus have styles in buttons.less*/
-/*@import "navs.less";*/
-/*@import "navbar.less";*/
-/*@import "pagination.less";*/
-/*@import "pager.less";*/
-/*@import "modals.less";*/
-/*@import "tooltip.less";*/
-/*@import "popovers.less";*/
-/*@import "thumbnails.less";*/
-/*@import "labels-badges.less";*/
-/*@import "progress-bars.less";*/
-/*@import "accordion.less";*/
-/*@import "carousel.less";*/
-/*@import "hero-unit.less";*/
+/**
+ * 小工具类
+ *   可以在页面直接输出的mixin
+ **/
+@import "utilities.less";

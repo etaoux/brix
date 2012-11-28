@@ -3,6 +3,7 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
 
     /**
      * Create SVG element.
+     * @ignore
      */
 
     function $C(el, attrs, children) {
@@ -17,7 +18,11 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
         return el;
     }
 
-
+    /**
+     * 颜色选择器
+     * @class Brix.Gallery.ColorPicker
+     * @extends Brix.Brick
+     */
     function ColorPicker() {
         ColorPicker.superclass.constructor.apply(this, arguments);
         //绑定触发事件
@@ -34,15 +39,35 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
         }
     }
     ColorPicker.ATTRS = {
+        /**
+         * 是否缩小版本
+         * @cfg {Boolean}
+         */
         min:{
             value:false
         },
+        /**
+         * 触发日历的对象
+         * @cfg {Element}
+         */
         trigger:{
             value:false
         },
+        /**
+         * 触发弹出日历的事件类型, 
+         * 例如：[‘click’,’focus’],也可以直接传入’focus’, 默认为[‘click’]
+         * @cfg {String|Array}
+         */
         triggerType:{
             value:['click']
         },
+        /**
+         * 对齐方式
+         * @cfg {Object} align
+         * @cfg {Element} align.node 对其的节点
+         * @cfg {Array} align.points   对其方式
+         * @cfg {Array} align.offset   对其偏移量
+         */
         align: {
             value: {
                 node: false,
@@ -50,6 +75,10 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
                 offset: [0, 0]
             }
         },
+        /**
+         * 颜色数组
+         * @cfg {Array}
+         */
         colorList: {
             value: ['#d81e06', '#f4ea2a', '#1afa29', '#1296db', '#13227a', '#d4237a', '#ffffff', '#e6e6e6', '#dbdbdb', '#cdcdcd', '#bfbfbf', '#8a8a8a', '#707070', '#515151', '#2c2c2c', '#000000', '#ea986c', '#eeb174', '#f3ca7e', '#f9f28b', '#c8db8c', '#aad08f', '#87c38f', '#83c6c2', '#7dc5eb', '#87a7d6', '#8992c8', '#a686ba', '#bd8cbb', '#be8dbd', '#e89abe', '#e8989a', '#e16632', '#e98f36', '#efb336', '#f6ef37', '#afcd51', '#7cba59', '#36ab60', '#1baba8', '#17ace3', '#3f81c1', '#4f68b0', '#594d9c', '#82529d', '#a4579d', '#db649b', '#dd6572', '#d81e06', '#e0620d', '#ea9518', '#f4ea2a', '#8cbb1a', '#2ba515', '#0e932e', '#0c9890', '#1295db', '#0061b2', '#0061b0', '#004198', '#122179', '#88147f', '#d3227b', '#d6204b']
         },
@@ -63,26 +92,33 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             }
         },
         tmpl: {
-            value: '<div class="colorpicker">' + '<div class="colorpicker-hd">' + '<ul>' + '{{#colorList}}' + '<li val="{{.}}" style="background-color:{{.}};"></li>' + '{{/colorList}}' + '</ul>' + '</div>' + '<div class="colorpicker-md">' + '<i class="iconfont icon-arrow {{^min}}icon-arrow-up{{/min}}">{{#min}}&#405{{/min}}{{^min}}&#404{{/min}}</i>' + '</div>' + '<div class="colorpicker-bd {{#min}}colorpicker-bd-min{{/min}}">' + '<div class="picker-wrapper">' + '<div class="picker"></div>' + '<i class="iconfont icon-picker-indicator">&#470</i>' + '</div>' + '<div class="slide-wrapper">' + '<div class="slide"></div>' + '<i class="iconfont icon-slide-indicator">&#461</i>' + '</div>' + '</div>' + '<div class="colorpicker-fd">' + '<span class="bg" style="background-color:{{color}}"></span><input type="text" value="{{color}}"><a class="btn btn-size25 btn-confirm">确定</a>' + '</div>' + '</div>'
+            value: '<div class="colorpicker">' + '<div class="colorpicker-hd">' + '<ul>' + '{{#colorList}}' + '<li val="{{.}}" style="background-color:{{.}};"></li>' + '{{/colorList}}' + '</ul>' + '</div>' + '<div class="colorpicker-md">' + '<i class="iconfont icon-arrow {{^min}}icon-arrow-up{{/min}}">{{#min}}&#405{{/min}}{{^min}}&#404{{/min}}</i>' + '</div>' + '<div class="colorpicker-bd {{#min}}colorpicker-bd-min{{/min}}">' + '<div class="picker-wrapper">' + '<div class="picker"></div>' + '<i class="iconfont icon-picker-indicator">&#470</i>' + '</div>' + '<div class="slide-wrapper">' + '<div class="slide"></div>' + '<i class="iconfont icon-slide-indicator">&#461</i>' + '</div>' + '</div>' + '<div class="colorpicker-fd">' + '<span class="bg" style="background-color:{{color}}"></span><input class="input" value="{{color}}"><a class="btn btn-size25 btn-confirm">确定</a>' + '</div>' + '</div>'
         },
+        /**
+         * 默认选中颜色
+         * @cfg {String}
+         */
         color: {
             value: '#ffffff'
+        },
+        autoRender:{
+            value:false
         }
     };
-    ColorPicker.DOCATTACH = {
+    ColorPicker.DOCEVENTS = {
         '': {
             click: function(e) {
                 var self = this,
                     el = self.get('el'),
                     node = S.one(e.target),
                     trigger = S.one(self.get('trigger'));
-                if (!el.contains(node) && trigger && node[0] != trigger[0]) {
+                if (!el.equals(node)&&!el.contains(node) && trigger && node[0] != trigger[0]) {
                     self.hide();
                 }
             }
         }
     }
-    ColorPicker.ATTACH = {
+    ColorPicker.EVENTS = {
         '.picker': {
             click: function(e) {
                 var self = this,
@@ -166,15 +202,30 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
 
     ColorPicker.FIRES = {
         /**
-         * selected 事件，在点击确定后触发
-         * @type {String}
+         * @event selected
+         * 颜色选择事件
+         * @param {Object} e 
+         * @param {String} e.hex hex颜色值
+         * @param {Object} e.hsv hsv颜色值
+         * @param {Object} e.rgb rgb颜色值
          */
         selected:'selected',
+        /**
+         * @event show
+         * 显示
+         */
         show: 'show',
+        /**
+         * @event hide
+         * 隐藏
+         */
         hide: 'hide'
     };
 
-    ColorPicker.METHOD = {
+    ColorPicker.METHODS = {
+        /**
+         * 显示
+         */
         show: function() {
             var self = this;
             if(!self.get('rendered')){
@@ -191,6 +242,9 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             }
 
         },
+        /**
+         * 隐藏
+         */
         hide: function() {
             var self = this;
             if (self.overlay) {
@@ -198,6 +252,9 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
                 self.fire(ColorPicker.FIRES.hide);
             }
         },
+        /**
+         * 显示隐藏切换
+         */
         toggle: function() {
             var self = this;
             if (self.overlay) {
@@ -229,13 +286,14 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
 
             var r = R * 255,
                 g = G * 255,
-                b = B * 255;
+                b = B * 255;         
             return {
                 r: r,
                 g: g,
                 b: b,
                 hex: "#" + (16777216 | b | (g << 8) | (r << 16)).toString(16).slice(1)
             };
+
         },
         /**
          * Convert RGB representation to HSV.
@@ -324,7 +382,7 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             this.s = this.v = 1;
             var align = self.get('align');
             self.overlay = new Overlay({
-                srcNode: '#' + self.get('id'),
+                srcNode: self.get('el'),
                 align: align
             });
             self.overlay.render();
@@ -459,14 +517,14 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
                     height = pickerNode.height();
                 var left = ev.left - offset.left,
                     top = ev.top - offset.top;
-                if (left > width) {
+                if (left+5 > width) {
                     left = width;
                 } else if (left < 0) {
                     left = 0;
                 } else {
                     left += 5;
                 }
-                if (top > height) {
+                if (top+5 > height) {
                     top = height;
                 } else if (top < 0) {
                     top = 0;
@@ -531,8 +589,8 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             self.overlay.destroy();
         }
     });
-    S.augment(ColorPicker, ColorPicker.METHOD);
+    S.augment(ColorPicker, ColorPicker.METHODS);
     return ColorPicker;
 }, {
-    requires: ["brix/core/brick", "overlay", "dd","./colorpicker.css"]
+    requires: ["brix/core/brick", "overlay", "dd"]
 });

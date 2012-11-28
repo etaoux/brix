@@ -38,34 +38,33 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
         },
         tmpl:{
             valueFn:function(){
-                var self = this,
-                    id=self.get('id');
-                return '<div id="'+id+'" bx-name="page" class="calendar-page">'+
+                var self = this;
+                return '<div  class="calendar-page">'+
                         '<div class="calendar-page-hd">'+
-                            '<div bx-tmpl="page" bx-datakey="prev">'+
+                            '<div bx-mpl="page" bx-datakey="prev">'+
                             '{{#prev}}'+
                             '<a href="javascript:void(0);" class="calendar-prev-year"><i class="iconfont">&#403</i><i class="iconfont icon-yp">&#403</i></a>'+
                             '<a href="javascript:void(0);" class="calendar-prev-month"><i class="iconfont">&#403</i></a>'+
                             '{{/prev}}'+
                             '</div>'+
-                            '<a bx-tmpl="page" bx-datakey="year,month" href="javascript:void(0);" class="calendar-year-month">{{year}}年{{month}}月</a>'+
-                            '<div bx-tmpl="page" bx-datakey="next">'+
+                            '<a bx-tmpl="yearmonth" bx-datakey="year,month" href="javascript:void(0);" class="calendar-year-month">{{year}}年{{month}}月</a>'+
+                            '<div bx-tmpl="next" bx-datakey="next">'+
                             '{{#next}}'+
                             '<a href="javascript:void(0);" class="calendar-next-month "><i class="iconfont">&#402</i></a>'+
                             '<a href="javascript:void(0);" class="calendar-next-year "><i class="iconfont icon-yn">&#402</i><i class="iconfont">&#402</i></a>'+
                             '{{/next}}'+
                             '</div>'+
                             '<div class="calendar-year-month-pupop" >'+
-                                '<p bx-tmpl="page" bx-datakey="month,'+id+'_select_html">{{{'+id+'_select_html}}}</p>'+
-                                '<p bx-tmpl="page" bx-datakey="year">年:<input type="text" value="{{year}}" onfocus="this.select()"></p>'+
+                                '<p bx-tmpl="select" bx-datakey="month,select_html">{{{select_html}}}</p>'+
+                                '<p bx-tmpl="year" bx-datakey="year">年:<input type="text" value="{{year}}" onfocus="this.select()"></p>'+
                                 '<p><a class="btn btn-size25 btn-pupop-confirm">确定</a><a class="btn-pupop-cancel" href="#">取消</a></p>'+
                             '</div>'+
                         '</div>'+
-                        '<div bx-tmpl="page" bx-datakey="startDay,'+id+'_days_html" class="calendar-page-wbd">'+
-                            '{{{'+id+'_days_html}}}'+
+                        '<div bx-tmpl="pagewbd" bx-datakey="startDay,days_html" class="calendar-page-wbd">'+    
+                            '{{{days_html}}}'+
                         '</div>'+
-                        '<div class="calendar-page-dbd" bx-tmpl="page" bx-datakey="startDay,year,month,selected,range,multi,disabled,minDate,maxDate,'+id+'_da_html">'+
-                           '{{{'+id+'_da_html}}}'+
+                        '<div bx-tmpl="pagedbd" bx-datakey="startDay,year,month,selected,range,multi,disabled,minDate,maxDate,da_html" class="calendar-page-dbd">'+
+                           '{{{da_html}}}'+
                         '</div>'+
                         '<div class="calendar-page-fd">'+
                             
@@ -91,7 +90,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
         }
     };
 
-    Page.RENDERER = {
+    Page.RENDERERS = {
         da:{
             html:function(context){
                 var self = context,
@@ -168,7 +167,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
         }
     }
 
-    Page.ATTACH = {
+    Page.EVENTS = {
         '.calendar-prev-year':{
             click:function(e){
                 var self = this,
@@ -232,7 +231,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
         },
         '.btn-pupop-confirm':{
             click:function(e){
-                e.halt();
+                e.preventDefault();
                 var self = this,
                     index = self.get('index');
                     popupNode = self.get('el').one('.calendar-year-month-pupop'),
@@ -250,7 +249,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
         },
         '.btn-pupop-cancel':{
             click:function(e){
-                e.halt();
+                e.preventDefault();
                 var self = this,
                     popupNode = self.get('el').one('.calendar-year-month-pupop');
                 popupNode.hide();
@@ -258,7 +257,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
         },
         '.calendar-item':{
             click:function(e){
-                e.halt();
+                e.preventDefault();
                 var self = this,
                     node = S.one(e.currentTarget);
                 if(!node.hasClass('calendar-disabled')){
@@ -274,11 +273,14 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
                             d.setSeconds(time.getSeconds());
                         }
                     }
-                    self.fire(Page.FIRES.itemClick,{date:d});
+                    S.later(function(){
+                        //先触发document的click事件
+                        self.fire(Page.FIRES.itemClick,{date:d});
+                    },0);
                 }
             },
             mousedown:function(e){
-                e.halt();
+                e.preventDefault();
                 var self = this,
                     node = S.one(e.currentTarget);
                 if(!node.hasClass('calendar-disabled')){
@@ -289,7 +291,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
                 }
             },
             mouseup:function(e){
-                e.halt();
+                e.preventDefault();
                 var self = this,
                     node = S.one(e.currentTarget);
                 if(!node.hasClass('calendar-disabled')){
@@ -302,7 +304,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
         }
     };
 
-    Page.METHOD = {
+    Page.METHODS = {
 
     };
 
@@ -319,7 +321,11 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
                 father = self.get('father'),
                 showTime = father.get('showTime');
             if(showTime){
-                self.timeBrick = new Time({container:el.one('.calendar-page-fd')});
+                self.timeBrick = new Time({
+                    isRemoveHTML:self.get('isRemoveHTML'),
+                    isRemoveEl:self.get('isRemoveEl'),
+                    container:el.one('.calendar-page-fd')
+                });
             }
             self.on('afterYearChange',function(){
                 self.setChunkData('year',self.get('year'));
@@ -336,7 +342,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
         }
 
     });
-    S.augment(Page, Page.METHOD);
+    S.augment(Page, Page.METHODS);
     return Page;
 }, {
     requires: ["brix/core/brick","./time","./date"]

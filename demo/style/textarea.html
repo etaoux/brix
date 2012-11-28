@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>文本框 - Brix Style</title>
+    <!--[if lt IE 9]> <script src="../assets/html5.js"></script> <![endif]-->
+    <link rel="stylesheet" href="../../src/style/brix-min.css">
+    <link rel="stylesheet" href="../../dist/gallery/form/form-min.css">
+    <link rel="stylesheet" href="../assets/doc.css">
+    <style type="text/css">
+        textarea{
+            width: 300px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h2>文本框</h2>
+    <form class="form-horizontal">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label" for="input02">普通未输入状态:</label>
+                <div class="controls">
+                    <textarea id="input02" placeholder="未输入前提示文字"></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input03">普通已输入状态:</label>
+                <div class="controls">
+                    <textarea id="input03" placeholder="未输入前提示文字">输入的文字</textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="input03">焦点状态:</label>
+                <div class="controls">
+                    <textarea id="input03" class="focus">用户需要输入或编辑长字符；
+
+文本框的高度应该满足典型输入内容的要求；
+
+如有字数限制。应提供剩余字数提示，并且数字随着输入动态变化。
+
+不是：
+
+输入内容不超过文本框高度时，不显示滚动条；
+
+用户仅需要输入一行时，不要用文本框；
+
+用户如果需要编辑字符样式，应使用富文本编辑器；
+
+文本框宽度不要太宽，以免单行内容过长影响阅读。</textarea>
+                </div>
+            </div>
+            <div class="control-group error">
+                <label class="control-label" for="input03">输入错误状态:</label>
+                <div class="controls">
+                    <textarea id="input03" placeholder="未输入前提示文字">用户需要输入或编辑长字符；
+
+文本框的高度应该满足典型输入内容的要求；
+
+如有字数限制。应提供剩余字数提示，并且数字随着输入动态变化。
+
+不是：
+
+输入内容不超过文本框高度时，不显示滚动条；
+
+用户仅需要输入一行时，不要用文本框；
+
+用户如果需要编辑字符样式，应使用富文本编辑器；
+
+文本框宽度不要太宽，以免单行内容过长影响阅读。</textarea>
+                </div>
+            </div>
+            <div class="control-group disabled">
+                <label class="control-label" for="input04">Disabled 状态:</label>
+                <div class="controls">
+                    <textarea id="input04" class="disabled" disabled placeholder="未输入前提示文字" >输入的文字</textarea>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+</div>
+<script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+<script>
+KISSY.config({
+    packages: [{
+        name: "brix",
+        tag: "20120419",
+        path: "../../../",//这里可以配置cdn的路径
+        charset: "utf-8"
+    }]
+});
+
+KISSY.config({
+    map: [
+        [/(.+brix)\/(.+?)(?:-min)?.js(\?[^?]+)?$/, "$1/src/$2.js$3"],
+        [/(.+brix)\/(.+?)(?:-min)?.css(\?[^?]+)?$/, "$1/src/$2.css$3"]
+    ]
+});
+</script>
+<script>
+    KISSY.use('brix/core/pagelet', function(S, Pagelet) {
+        var pagelet = new Pagelet({
+            tmpl: '.container' // 模板(容器节点)
+        });
+
+        pagelet.addBehavior();
+        pagelet.ready(function() {
+            pagelet.render();
+        });
+    });
+</script>
+</body>
+</html>

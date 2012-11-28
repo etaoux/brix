@@ -18,19 +18,23 @@ KISSY.add('brix/gallery/calendar/time', function(S, Brick) {
             value:true
         },
         tmpl:{
-            value:'<div bx-name="time" class="calendar-time">'+
-                        '时间：<span class="h">{{h}}</span>:<span class="m">{{m}}</span>:<span class="s">{{s}}</span>'+
-                        '<div class="calendar-time-updown">'+
-                            '<i class="iconfont u">&#456</i><i class="iconfont d">&#459</i>'+
+            value : '<div>'+
+                        '<div class="calendar-time">'+
+                            '时间：<span class="h">{{h}}</span>:<span class="m">{{m}}</span>:<span class="s">{{s}}</span>'+
+                            '<div class="calendar-time-updown">'+
+                                '<i class="iconfont u">&#456</i><i class="iconfont d">&#459</i>'+
+                            '</div>'+
                         '</div>'+
-                    '</div>'+
-                    '<div class="calendar-time-popup">'+
-                        '<div bx-tmpl="time" bx-datakey="list" class="calendar-time-popup-bd">'+
-                            '{{#list}}'+
-                            '<a class="item">{{.}}</a>'+
-                            '{{/list}}'+
+                        '<div class="calendar-time-popup">'+
+                            '<div bx-tmpl="time" bx-datakey="list" class="calendar-time-popup-bd">'+
+                            '<!--bx-tmpl="time" bx-datakey="list"-->'+
+                                '{{#list}}'+
+                                '<a class="item">{{.}}</a>'+
+                                '{{/list}}'+
+                            '<!--bx-tmpl="time"-->'+
+                            '</div>'+
+                            '<i class="iconfont icon-close">&#223</i>'+
                         '</div>'+
-                        '<i class="iconfont icon-close">&#223</i>'+
                     '</div>'
         },
         data:{
@@ -46,7 +50,7 @@ KISSY.add('brix/gallery/calendar/time', function(S, Brick) {
         }
     };
 
-    Time.ATTACH = {
+    Time.EVENTS = {
         'span':{
             click:function(e){
                 var self = this, node = S.one(e.currentTarget);
@@ -119,7 +123,7 @@ KISSY.add('brix/gallery/calendar/time', function(S, Brick) {
         }
     };
 
-    Time.METHOD = {
+    Time.METHODS = {
 
     };
 
@@ -171,7 +175,7 @@ KISSY.add('brix/gallery/calendar/time', function(S, Brick) {
             self.overlay.destroy();
         }
     });
-    S.augment(Time, Time.METHOD);
+    S.augment(Time, Time.METHODS);
     return Time;
 }, {
     requires: ["brix/core/brick"]

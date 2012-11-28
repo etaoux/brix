@@ -1,4 +1,9 @@
 KISSY.add("brix/gallery/switcher/index", function(S, Brick) {
+    /**
+     * Switcher
+     * @class Brix.Gallery.Switcher
+     * @extends Brix.Brick
+     */
     function Switcher() {
         Switcher.superclass.constructor.apply(this, arguments);
     }
@@ -11,7 +16,7 @@ KISSY.add("brix/gallery/switcher/index", function(S, Brick) {
         }
     };
 
-    Switcher.METHOD = {
+    Switcher.METHODS = {
         switchTo: function(on) {
             var self = this;
             self._switchTo(on);
@@ -22,7 +27,7 @@ KISSY.add("brix/gallery/switcher/index", function(S, Brick) {
         switched: 'switched'
     };
 
-    Switcher.ATTACH = {
+    Switcher.EVENTS = {
         '': {
             click: function(e) {
                 var el = this.get('el');
@@ -67,8 +72,8 @@ KISSY.add("brix/gallery/switcher/index", function(S, Brick) {
         }
     });
 
-    S.augment(Switcher,Switcher.METHOD);
+    S.augment(Switcher,Switcher.METHODS);
     return Switcher;
 }, {
-    requires: ["brix/core/brick","./switcher.css"]
+    requires: ["brix/core/brick"]
 });

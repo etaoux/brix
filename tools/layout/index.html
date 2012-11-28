@@ -4,41 +4,58 @@
 <link rel="stylesheet" href="style-min.css">
 
 <p id="r-support">Chrome最新版测试通过</p>
-<div id="r-panel">
-    <div bx id="r-resolution">
-        <h6>页宽/分辨率</h6>
+<div id="r-topbar">
+    <h1>Responsive Layout Generator</h1>
+    <div class="r-btn-group">
+        <a bx-name="config" id="r-config"><span class="iconfont">&#355</span>配置</a>
+        <a bx-name="preview" id="r-preview" target="_blank"><span class="iconfont">&#348</span>预览</a>
+        <a bx-name="save" id="r-save"><span class="iconfont">&#342</span>保存</a>
+        <a bx-name="output" id="r-output"><span class="iconfont">&#288</span>输出</a>
     </div>
-    <a bx id="r-config" class="btn"><span class="iconfont">&#355</span>配置</a>
-    <a bx id="r-preview" class="btn" target="_blank"><span class="iconfont">&#348</span>预览</a>
-    <a bx id="r-save" class="btn btn-blue"><span class="iconfont">&#342</span>保存</a>
-    <a bx id="r-output" class="btn btn-orange"><span class="iconfont">&#288</span>输出</a>
 </div>
-<div bx id="r-content">
-    <a id="r-add-section" class="btn btn-size25"><s class="iconfont">&#410</s>新增区域</a>
+<div id="r-ruler">
+    <span style="width: 100px">适配尺寸</span>
+    <span class="split" style="left: 100px">0</span>
+    <span style="width: 720px">平板竖屏</span>
+    <span class="split" style="left: 820px">720px</span>
+    <span style="width: 240px">平板横屏</span>
+    <span class="split" style="left: 1060px">960px</span>
+    <span style="width: 240px">笔记本电脑</span>
+    <span class="split" style="left: 1300px">1200px</span>
+    <span style="width: 240px">桌面电脑</span>
+    <span class="split" style="left: 1540px">1440px</span>
+    <span style="width: 240px">宽屏电脑</span>
+    <span class="split" style="left: 1780px">1680px</span>
+</div>
+<div bx-name="resolution" id="r-resolution"></div>
+<div bx-name="content" id="r-content">
+    <a id="r-add-section"><s class="plus">+</s>添加区域</a>
 </div>
 
 <script id="r-tmpl-section" type="text/template">
+    <div class="r-section-bg row">{bgs}</div>
     <div class="r-section">
-        <div class="r-section-bg row">{bgs}</div>
         <div class="r-section-bd row">{divs}</div>
         <div class="r-section-panel">
-            <a class="r-add-div btn btn-size25"><span class="iconfont">&#410</span>新增区块</a>
-            <a class="r-clear-section btn btn-size25"><span class="iconfont">&#223</span>清除区域</a>
-            <a class="r-remove-section btn btn-size25"><span class="iconfont">&#356</span>删除区域</a>
+            <a class="r-add-div" title="添加区块">+</a>
+            <a class="r-remove-section">&times;</a>
         </div>
     </div>
 </script>
 <script id="r-tmpl-div" type="text/template">
     <div class="{cls}">
+        <a class="r-hide-div">H</a>
         <a class="r-remove-div">&times;</a>
         <span class="r-div-size" contenteditable>190x100</span>
         <p class="r-div-name" contenteditable>{id}</p>
     </div>
 </script>
 
-<script src="http://a.tbcdn.cn/s/kissy/1.3.0rc/kissy-min.js"></script>
+<!--<script src="libs/kissy-min.js"></script>-->
+<!--<script src="../../dist/brix.js"></script>-->
+<script src="http://a.tbcdn.cn/??s/kissy/1.3.0rc/kissy-min.js,s/kissy/1.3.0rc/sizzle-min.js,p/brix/brix-min.js"></script>
 <script>
-var TAG = '20120815';
+var TAG = '20120904';
 if ( -1 === location.search.indexOf('mode=dev') ) {
     document.write('<scr' + 'ipt src="modules-min.js?t=' + TAG + '"></scr' + 'ipt>');
 } else {
@@ -66,8 +83,22 @@ var App = {
     },
     struct: [[]],
 };
-KISSY.use('modules/boot, modules/pagelet', function(S, Boot, Pagelet) {
+KISSY.use('modules/boot, brix/core/pagelet', function(S, Boot, Pagelet) {
     Boot();
-    Pagelet.init();
+
+    var pagelet = new Pagelet({
+        tmpl: 'body'
+    });
+
+    S.each(pagelet.get('tmpler').bricks, function (o, k) {
+        if (!o.path) {
+            o.path = 'modules/' + o.name;
+        }
+    });
+
+    pagelet.addBehavior();
+    pagelet.ready(function() {
+        pagelet.render();
+    });
 });
 </script>

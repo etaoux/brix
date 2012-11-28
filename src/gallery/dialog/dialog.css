@@ -1,3 +1,8 @@
+.dialog-ext-mask {
+  background-color: #000;
+  opacity: 0.3;
+  filter: alpha(opacity=15);
+}
 .dialog {
   position: absolute;
   left: -99999px;
@@ -12,6 +17,7 @@
   -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border: 1px solid #ddd;
+  background-color: #fff;
 }
 .dialog .dialog-ext-close {
   position: absolute;

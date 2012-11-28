@@ -43,7 +43,7 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick, Node) {
     /**
      * 搜索框
      * <br><a href="../demo/gallery/searchbox/searchbox.html" target="_blank">Demo</a>
-     * @class components.Searchbox.index
+     * @class Brix.Gallery.Searchbox
      * @extends Brix.Brick
      */
     function Searchbox() {
@@ -478,7 +478,7 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick, Node) {
 
 /*
  * @module 搜索框组件
- * @description 内部封装了搜索框组件的基本行为
+ * @description 内部封装了搜索框组件的基本行为/
  *     1.点击各个tab是否直接跳转，由data-redirect属性决定
  *      1.1有query进入相应tab的href进行搜索
  *      1.2空query进入相应tab的data-empty-action页面,如果没有data-empty-action属性则只切换tab停留在页面中，如电影票tab希望空query进入电影票的首页,导购tab进入etao首页,空query商品只是切换tab
@@ -535,6 +535,7 @@ KISSY.add('searchTabBox', function(S, undefined) {
             var isInputEmpty = function() {
                 return self.searchInput.value === '';
             };
+
 
             //搜索框三要素（ 搜索切换tab、搜索输入框、搜索表单）暴露出去供外部直接使用
             self.searchForm = D.get(self.config.searchForm);
@@ -901,4 +902,8 @@ KISSY.add('searchTabBox', function(S, undefined) {
 
     S.mix(searchTabBox.prototype, S.EventTarget);
     S.searchTabBox = searchTabBox;
+});
+
+}, {
+    requires:["brix/core/brick", "node"]
 });

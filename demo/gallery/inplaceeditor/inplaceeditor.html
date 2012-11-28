@@ -3,23 +3,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Brix InplaceEditor Demo</title>
-        <link rel="stylesheet" href="../../../dist/brix-min.css"/>
-        <script>
-            // html5
-            if (!+[1,]) {
-                (function() {
-                    var tags = [
-                        'article', 'aside', 'details', 'figcaption',
-                        'figure', 'footer', 'header', 'hgroup',
-                        'menu', 'nav', 'section', 'summary',
-                        'time', 'mark', 'audio', 'video'],
-                            i = 0, len = tags.length;
-                    for (; i < len; i++) document.createElement(tags[i]);
-                })();
-            }
-        </script>
+        <link rel="stylesheet" href="../../../src/style/brix-min.css"/>
+        <link rel="stylesheet" href="../../../src/gallery/inplaceeditor/inplaceeditor.css">
+        <link rel="stylesheet" href="../../../src/gallery/form/form.css">
+        <link rel="stylesheet" href="../../assets/doc.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
-        <script src="../../config.js"></script>
+        <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,fixed:'src/'}"></script>
         <style type="text/css">
             .url_list_con{
                 zoom:1;
@@ -76,22 +65,24 @@
             }
         </style>
     </head>
-    <body style="margin:0px;padding-top:40px">
-        <h2>方式一</h2>
-        <div class="url_list_con">
-            <ul class="url_list ks-clear url_list_edit inplaceeditor">
+    <body>
+        <div class="container">
+            <h2 class="h2">方式一</h2>
+            <div class="url_list_con">
+                <ul class="url_list ks-clear url_list_edit inplaceeditor">
 
-            </ul>
-        </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+                </ul>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
 
-        <h2>方式二</h2>
-        <div style="padding:0px 20px 20px">
-            <a id="edittest" href="#">待编辑</a>
+            <h2 class="h2">方式二</h2>
+            <div style="padding:0px 20px 20px">
+                <a id="edittest" href="#">待编辑</a>
+            </div>
         </div>
 		<!--brix begin-->
         <script>
@@ -183,7 +174,7 @@
                         var offset = itemNode.offset();
                         var inputNode = inplaceeditor.get('el').one('input');
                         inputNode.attr('data-sid', itemNode.attr('data-sid'));
-                        inplaceeditor.show(offset.left-5,offset.top-2,currentNode.prev().one('span').html(),{width:currentNode.prev().one('span').width()});
+                        inplaceeditor.show(offset.left-5,offset.top-2,currentNode.prev().one('span').html(),{width:currentNode.prev().one('span').width()+40});
                     });
 
                     var editNode = S.one('#edittest');

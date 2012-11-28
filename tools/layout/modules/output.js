@@ -1,10 +1,20 @@
-KISSY.add('modules/output', function (S) {
-    var html = 'body{cursor: pointer}';
+KISSY.add('modules/output', function (S, Brick) {
+    var _html = 'body{cursor: pointer}';
 
-    return function () {
-        S.one('#r-output').on('click', function(e) {
-            this.download = 'a.html';
-            this.href = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
-        });
+    function Output() {
+        Output.superclass.constructor.apply(this, arguments);
+    }
+    Output.ATTACH = {
+        '': {
+            'click': function(e) {
+                e.currentTarget.download = 'a.html';
+                e.currentTarget.href = 'data:text/html;charset=utf-8,' + encodeURIComponent(_html);
+            }
+        }
     };
+
+    S.extend(Output, Brick);
+    return Output;
+}, {
+    requires: ['brix/core/brick']
 });

@@ -10,74 +10,68 @@ module.exports = function(grunt) {
         lint: {
             files: ['grunt.js']
         },
-        concat: {
-            brix_js: {
-                src: ['<banner:meta.banner>', "src/core/mustache.js", "src/core/mu.js", "src/core/tmpler.js", "src/core/dataset.js", "src/core/chunk.js", "src/core/brick.js", "src/core/pagelet.js"],
-                dest: 'dist/<%= pkg.name %>.js',
-                separator:'\n' //合并文件默认字符，替换window和mac系统的默认newline
-            }
-        },
-        min: {
-            brix: {
-                src: ['<banner:meta.banner>', 'dist/<%= pkg.name %>.js'],
-                dest: 'dist/<%= pkg.name %>-min.js'
-            }
-        },
-        less: {
-            brix: {
-                src: ['src/style/brix.less'],
-                dest: 'dist/<%= pkg.name %>.css'
-            },
-            brix_min: {
-                src: ['src/style/brix.less'],
-                dest: 'dist/<%= pkg.name %>-min.css',
-                options: {
-                  yuicompress: true
-                }
+        brixjs:{
+            brixjs:{
+                src:'src/',
+                dest:'dist/<%= pkg.version %>/'
             }
         },
         brixless:{
+            brixless:{
+                src:'src/',
+                dest:'dist/<%= pkg.version %>/'
+            },
+            brixsrcless:{
+                src:'src/',
+                dest:'src/style/'
+            }
+        },
+        galleryless:{
             gallerysrc:{
                 src:'src/gallery/',
                 dest:'src/gallery/'
             },
             gallerydes:{
                 src:'src/gallery/',
-                dest:'dist/gallery/'
+                dest:'dist/<%= pkg.version %>/gallery/'
             },
             gallerydes_min:{
                 src:'src/gallery/',
-                dest:'dist/gallery/',
+                dest:'dist/<%= pkg.version %>/gallery/',
                 options: {
                   yuicompress: true
                 }
             }
         },
-        brixjs:{
+        galleryjs:{
             gallerysrc:{
                 src:'src/gallery/',
-                dest:'dist/gallery/'
+                dest:'dist/<%= pkg.version %>/gallery/'
             },
             gallerydes:{
                 src:'src/gallery/',
-                dest:'dist/gallery/',
+                dest:'dist/<%= pkg.version %>/gallery/',
                 options: {
                   compress: true
                 }
             }
         },
         watch: {
-            watchless:{
-                files: 'src/gallery/**/*.less',
-                tasks: 'brixless'
-            },
-            watchjs:{
-                files: 'src/gallery/**/index.js',
+            watchbrixjs:{
+                files: 'src/core/*.js',
                 tasks: 'brixjs'
+            },
+            watchgalleryless:{
+                files: 'src/gallery/**/*.less',
+                tasks: 'galleryless'
+            },
+            watchgalleryjs:{
+                files: 'src/gallery/**/*.js',
+                tasks: 'galleryjs'
             },
             watchcss:{
                 files: 'src/style/*.less',
-                tasks: 'less'
+                tasks: 'brixless'
             }
         },
         jshint: {
@@ -118,5 +112,5 @@ module.exports = function(grunt) {
     grunt.loadTasks('tasks');
 
     // Default task.
-    grunt.registerTask('default', 'lint concat min less brixless brixjs watch');
+    grunt.registerTask('default', 'lint brixjs brixless galleryless galleryjs watch');
 };

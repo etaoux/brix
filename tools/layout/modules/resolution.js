@@ -1,6 +1,6 @@
 KISSY.add('modules/resolution', function(S, D, E, Node) {
     return function () {
-        var html = '<div class="list">';
+        var html = '';
         var all = App.resolution.all;
         for (var i=0; i<all.length; i++) {
             if (i % 2) {
@@ -14,7 +14,6 @@ KISSY.add('modules/resolution', function(S, D, E, Node) {
                 html += '<a class="tab">' + all[i] + 'px</a>';
             }
         }
-        html += '</div>';
         S.one('#r-resolution').append(html);
 
         S.one('#r-resolution').delegate('click', '.tab', function(e) {

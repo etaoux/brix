@@ -1,3 +1,4 @@
+@import "variables.less"; // Modify this for custom colors, font-sizes, etc
 // Mixins.less
 // Snippets of reusable CSS to develop faster and keep code readable
 // -----------------------------------------------------------------
@@ -220,90 +221,13 @@
         clear: both;
       }
     }
-/*
-    [class*="span"] {
-      float: left;
-      margin-left: @gridGutterWidth;
-    }
-    */
 
     // Set the container width, and override it for fixed navbars in media queries
-    .container,
-    .navbar-fixed-top .container,
-    .navbar-fixed-bottom .container { .span(@gridColumns); }
+    .grid { .span(@gridColumns); }
 
     // generate .spanX and .offsetX
     .spanX (@gridColumns);
     .offsetX (@gridColumns);
-
-  }
-
-  .fluid (@fluidGridColumnWidth, @fluidGridGutterWidth) {
-
-    .spanX (@index) when (@index > 0) {
-      (~".span@{index}") { .span(@index); }
-      .spanX(@index - 1);
-    }
-    .spanX (0) {}
-
-    .span (@columns) {
-      width: (@fluidGridColumnWidth * @columns) + (@fluidGridGutterWidth * (@columns - 1));
-      *width: (@fluidGridColumnWidth * @columns) + (@fluidGridGutterWidth * (@columns - 1)) - (.5 / @gridRowWidth * 100 * 1%);
-    }
-
-    .row-fluid {
-      width: 100%;
-      *zoom: 1;
-      &:before,
-      &:after {
-        display: table;
-        content: "";
-      }
-      &:after {
-        clear: both;
-      }
-      [class*="span"] {
-        display: block;
-        width: 100%;
-        min-height: 28px;        // Make inputs at least the height of their button counterpart
-        -webkit-box-sizing: border-box;
-           -moz-box-sizing: border-box;
-            -ms-box-sizing: border-box;
-                box-sizing: border-box; // Makes inputs behave like true block-level elements
-        float: left;
-        margin-left: @fluidGridGutterWidth;
-        *margin-left: @fluidGridGutterWidth - (.5 / @gridRowWidth * 100 * 1%);
-      }
-      [class*="span"]:first-child {
-        margin-left: 0;
-      }
-
-      // generate .spanX
-      .spanX (@gridColumns);
-    }
-
-  }
-
-  .input(@gridColumnWidth, @gridGutterWidth) {
-
-    .spanX (@index) when (@index > 0) {
-      (~"input.span@{index}, textarea.span@{index}, .uneditable-input.span@{index}") { .span(@index); }
-      .spanX(@index - 1);
-    }
-    .spanX (0) {}
-
-    .span(@columns) {
-      width: ((@gridColumnWidth) * @columns) + (@gridGutterWidth * (@columns - 1)) - 10;
-    }
-
-    input,
-    textarea,
-    .uneditable-input {
-      margin-left: 0; // override margin-left from core grid system
-    }
-
-    // generate .spanX
-    .spanX (@gridColumns);
 
   }
 

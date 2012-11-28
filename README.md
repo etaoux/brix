@@ -2,8 +2,38 @@
 
 基于淘宝 [Kissy](http://kissyui.com) 框架和 [mustache](http://mustache.github.com) 模板引擎的一淘通用组件库。
 
-## 组件库的底层包含七个文件
+##如何使用
 
+	<link type="text/css" rel="stylesheet" href="http://a.tbcdn.cn/apps/e/brix/1.0/brix-min.css" charset="utf-8">
+	<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+	<script type="text/javascript" src="http://a.tbcdn.cn/apps/e/brix/1.0/brix-min.js" bx-config="{autoPagelet:true}"></script>
+	<script type="text/javascript">
+		//业务代码,自动构建
+		KISSY.ready(function(S){
+			//pagelet自动构建完成
+			Brix.ready(function(){
+				//pagelet的实例
+				Brix.pagelet.ready(function(){
+					//拿到组件实例
+					var brick = Brix.pagelet.getBrick('#id');
+				});
+			});
+		});
+		//业务代码，手动构建
+		/*
+		KISSY.ready(function(S){
+			S.use('brix/core/pagelet',function(S,Pagelet){
+				var config = {tmpl:'body'};
+				var pagelet = new Pagelet(config);
+			});
+		});
+		*/
+	</script>
+
+
+## 组件库核心
+
+* brix.js : 框架的配置入口类
 * chunk.js : `brick.js` 和 `pagelet.js` 类的父类
 * tmpler.js : 模板解析类，用 `mustache` 渲染。
 * dataset.js : 数据管理类，数据变化时，通知模板引擎更新
@@ -14,17 +44,16 @@
 
 ## 类关系图
 
-![Brix 类关系图](http://img02.taobaocdn.com/tps/i2/T1ty_nXapdXXaFmrLb-907-733.png)
+![Brix 类关系图](http://img01.taobaocdn.com/tps/i1/T1JbnIXb8pXXcHVbgw-1075-831.png)
 
 ## 组件钩子
 
-* bx-name : 组件名称，在同一个 `pagelet` 中唯一
-* bx-path : 组件地址，一般是包名 + 文件路径
+* bx-name : 组件名称
+* bx-path : 组件地址，一般是包名 + 文件路径,核心组件可以省略配置
 * bx-config : 组件配置，动态渲染时候的参数
-* bx-datakey : 组件数据对象 key 值，可以有多个 key，以 “,” 分割，且支持对象的子对象，如 “X.Y,Z.Y.X”
-* bx-tmpl : 组件模板 (值等于 `bx-name`)，这个钩子和 `bx-datakey` 组合使用，在数据更新时对模板重新渲染。
-* bx-tmpl-source : 指定需要复用的源模板选择器
-* bx-parent : 指定当前组件的父组件 (值等于 `bx-name`)，在渲染时，实现层次化的渲染。
+* bx-tmpl : 组件模板，这个钩子和 `bx-datakey`组合使用，在数据更新时对模板重新渲染。具体写法详见: [core/brix.html](https://github.com/etaoux/brix/blob/master/demo/core/brix.html)
+* bx-datakey : 组件数据对象 key 值，可以有多个 key，以 `,` 分割，且支持对象的子对象，如 “X.Y,Z.Y.X”
+
 
 ## 开发环境需求
 
@@ -52,9 +81,12 @@ grunt
 * tasks : 存放打包脚本目录
 * tools : 辅助工具目录
 
-### 说明
+## 说明
 * 组件开发使用一般使用到src, demo两个目录， src是组件的源代码目录，进入目录后，再选择gallery还是style，同时开发时的demo文件存放在demo目录，对应gallery或style。这两个目录是直接提交到master分支。
 * 文档是在gh-pages-source分支，主要是操作_post目录，gallery组件直接放在_post/gallery目录下; style放在_post/style目录下。
 * gh-pages-source分支下不要去修改src与demo目录，提交也是无效的。
 * 组件中使用到的图片，都传到tps中，项目中直接使用链接地址。
+
+
+
 

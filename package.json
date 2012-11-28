@@ -1,7 +1,8 @@
 {
   "name": "brix",
   "description": "Brix",
-  "version": "0.1.0",
+  "version": "1.0",
+  "tag":"20121111",
   "homepage": "https://github.com/etaoux/brix",
   "author": {
     "name": "etaoux",
@@ -14,24 +15,17 @@
   "bugs": {
     "url": "https://github.com/etaoux/brix/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/etaoux/brix/blob/master/LICENSE.md"
-    }
-  ],
+  "licenses": [{
+    "type": "MIT",
+    "url": "https://github.com/etaoux/brix/blob/master/LICENSE.md"
+  }],
   "dependencies": {
-    "grunt-less":  ">=0.1.5"
+    "grunt-less": ">=0.1.5"
   },
   "devDependencies": {
     "grunt": "~0.3.11"
   },
-  "keywords": [
-    "brix",
-    "brick",
-    "tmpler",
-    "pagelet",    "chunk"
-  ],
+  "keywords": ["brix", "brick", "tmpler", "pagelet", "chunk"],
   "engines": {
     "node": "*"
   },

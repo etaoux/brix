@@ -4,30 +4,54 @@ KISSY.add('brix/gallery/starrating/index', function(S, Brick, Node,UA) {
     if(UA.ie==6){
         try { document.execCommand("BackgroundImageCache", false, true)} catch(e) { };
     }
+    /**
+     * StarRating 评分
+     * @class Brix.Gallery.StarRating
+     * @extends Brix.Brick
+     */
     function StarRating() {
         StarRating.superclass.constructor.apply(this, arguments);
     }
     StarRating.ATTRS = {
-        //每个星星分割成几个
+        /**
+         * 每个星星分割成几个
+         * @cfg {Number}
+         */
         split: {
             value: 2
         },
-        //最大值
+        /**
+         * 最大值
+         * @cfg {Number}
+         */
         maxValue:{
             value:5
         },
-        //份数
+        /**
+         * 分割成多少份数
+         * @cfg {Number}
+         */
         length:{
             value:10
         },
-        //默认值
+        /**
+         * 默认值
+         * @cfg {Number}
+         */
         defaultValue:{
             value:false
         },
-        //是否只读
+        /**
+         * 是否只读
+         * @cfg {Boolean}
+         */
         readOnly: {
             value: false
         },
+        /**
+         * 每个星星的宽度
+         * @cfg {Number}
+         */
         starWidth: {
             value: 18
         },
@@ -42,7 +66,7 @@ KISSY.add('brix/gallery/starrating/index', function(S, Brick, Node,UA) {
         }
     };
 
-    StarRating.ATTACH = {
+    StarRating.EVENTS = {
         '.starrating-star': {
             mouseenter: function(e) {
                 if (!this.get('readOnly')) {
@@ -81,7 +105,11 @@ KISSY.add('brix/gallery/starrating/index', function(S, Brick, Node,UA) {
         }
     };
 
-    StarRating.METHOD = {
+    StarRating.METHODS = {
+        /**
+         * 选中
+         * @param  {String|Number} node 选中的值
+         */
         select: function(node) {
             var self = this;
             if (typeof node == 'number') {
@@ -119,6 +147,11 @@ KISSY.add('brix/gallery/starrating/index', function(S, Brick, Node,UA) {
                 value: val
             });
         },
+        /**
+         * 设置为只读    
+         * @param  {Boolean} toggle  是否只读
+         * @param  {Boolean} disable 是否禁用
+         */
         readOnly: function(toggle, disable) {
             var self = this;
             self.set('readOnly', toggle || toggle == undefined ? true : false);
@@ -138,9 +171,15 @@ KISSY.add('brix/gallery/starrating/index', function(S, Brick, Node,UA) {
             }
             self._draw();
         },
+        /**
+         * 禁用
+         */
         disable: function() { 
             this.readOnly(true,true);
         },
+        /**
+         * 启用
+         */
         enable: function() { 
             this.readOnly(false,false);
         } 
@@ -261,8 +300,8 @@ KISSY.add('brix/gallery/starrating/index', function(S, Brick, Node,UA) {
             
         }
     });
-    S.augment(StarRating, StarRating.METHOD);
+    S.augment(StarRating, StarRating.METHODS);
     return StarRating;
 }, {
-    requires: ["brix/core/brick", "node","ua","./starrating.css"]
+    requires: ["brix/core/brick", "node","ua"]
 });

@@ -3,31 +3,13 @@
 <head>
     <meta charset="utf-8"/>
     <title>样式重置(Reset) - Brix Style</title>
-    <script>
-        // html5
-        if (!+[1,]) {
-            (function() {
-                var tags = [
-                    'article', 'aside', 'details', 'figcaption',
-                    'figure', 'footer', 'header', 'hgroup',
-                    'menu', 'nav', 'section', 'summary',
-                    'time', 'mark', 'audio', 'video'],
-                        i = 0, len = tags.length;
-                for (; i < len; i++) document.createElement(tags[i]);
-            })();
-        }
-    </script>
-    <link rel="stylesheet/less" href="../normalize.less"/>
-    <script src="less.js"></script>
-    <style>
-        body{padding:10px;}
-    </style>
+    <!--[if lt IE 9]> <script src="../assets/html5.js"></script> <![endif]-->
+    <link rel="stylesheet" href="../../src/style/brix-min.css">
+    <link rel="stylesheet" href="../assets/doc.css">
 </head>
 <body>
-    <div class="s-section">
-        <h1>CSS Reset Test</h1>
-        <hr />
 
+    <div class="container">
         <h2>推荐使用的元素</h2>
         <p>
         1. 结构元素：blockquote, body, br, div, h1 - h6, head, hr, html, p<br />
@@ -211,7 +193,7 @@
                 <br />
                 type=hidden: <input type="hidden" name="hdnCustId" />
                 <br />
-                type=image: <input type="image" src="assets/download-now.png" alt="Submit your details" />
+                type=image: <input type="image" src="../assets/download-now.png" alt="Submit your details" />
                 <br />
                 type=password: <input type="password" name="pin" id="pin" maxlength="4" size="6" />
                 <br />
@@ -259,17 +241,17 @@
               href="http://en.wikipedia.org/wiki/Australia's_Big_Things"
               alt="Australia's Big Things (on Wikipedia)"/>
         </map>
-        <img src="assets/australia-big-things-map.png" alt="The Giant Prawn at Ballina" border="0" usemap="#bigthings"/></p>
+        <img src="../assets/australia-big-things-map.png" alt="The Giant Prawn at Ballina" border="0" usemap="#bigthings"/></p>
         <br />
         <p>
             image:
             <br />
-            <a href="#"><img src="assets/big-banana.jpg" alt="The Big Banana" /></a>
+            <a href="#"><img src="../assets/big-banana.jpg" alt="The Big Banana" /></a>
         </p>
         <p>
             object / param:
             <br />
-            <object data="assets/flash.swf" type="application/x-shockwave-flash" width="500" height="200">
+            <object data="../assets/flash.swf" type="application/x-shockwave-flash" width="500" height="200">
                 <param name="movie" value="movie.swf">
                 <param name="wmode" value="opaque">
             </object>

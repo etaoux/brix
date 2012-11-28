@@ -1,4 +1,9 @@
 KISSY.add("brix/gallery/breadcrumbs/index", function(S, Brick) {
+	/**
+	 * 面包屑组件
+	 * @class Brix.Gallery.Breadcrumbs
+	 * @extends Brix.Brick
+	 */
     function Breadcrumbs() {
         Breadcrumbs.superclass.constructor.apply(this, arguments);
     }
@@ -10,5 +15,5 @@ KISSY.add("brix/gallery/breadcrumbs/index", function(S, Brick) {
     });
     return Breadcrumbs;
 }, {
-    requires: ["brix/core/brick","./breadcrumbs.css"]
+    requires: ["brix/core/brick"]
 });

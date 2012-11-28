@@ -22,8 +22,6 @@
 }
 .dropdown:after { content: '\20'; display: block; height: 0; clear: both; }
 
-.dropdown * {-moz-user-select:none;-webkit-user-select:none;}
-
 .dropdown .icon-arrow-down{
     font-size:8px;
     position: absolute;
@@ -77,11 +75,15 @@
     position: relative;
     padding-right: 20px;
     cursor: default;
+    -moz-user-select:none;-webkit-user-select:none;
 }
 .dropdown .dropdown-list-noicon .dropdown-item{
     padding-right: 0px;
 }
 .dropdown .dropdown-list .dropdown-item span{
+    height: 25px;
+    line-height: 25px;
+    overflow: hidden;
     display: block;
 }
 .dropdown .dropdown-list .dropdown-item .icon-ok{

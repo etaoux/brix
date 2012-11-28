@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Msg-Box - Brix Style</title>
+  <!--[if lt IE 9]> <script src="../../assets/html5.js"></script> <![endif]-->
+    <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
+  <link rel="stylesheet" href="../../../src/gallery/msgbox/msgbox.css">
+  <link rel="stylesheet" href="../../assets/doc.css">
+  <style>
+    body {
+      padding: 5px;
+    }
+    .span {
+      padding: 0 30px;
+    }
+    .msg-box {
+      margin: 10px 0;
+    }
+
+    .timeline {
+      width: 500px;
+      height: 600px;
+      background: url(../../assets/timeline_bg.png) no-repeat 0 0;
+      position: absolute;
+    }
+
+    .timeline .msg-box {
+      position: absolute;
+      width: 200px;
+    }
+
+    .timeline .msg-body {
+      padding-left: 40px;
+    }
+
+    #timeline-today {
+      left: 86px;
+      bottom: 505px;
+    }
+
+    #timeline-yesterday {
+      left: 86px;
+      bottom: 415px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="timeline">
+      <div id="timeline-today" class="msg-box msg-skin-orange">
+        <span class="msg-time">16:40</span>
+        <p class="msg-body">杭州市文三路给你扫描, 给你扫描, 给你扫描, 给你扫描!</p>
+        <span class="msg-arrow"><span></span></span>
+      </div>
+      <div id="timeline-yesterday" class="msg-box msg-skin-gray">
+        <span class="msg-time">16:40</span>
+        <p class="msg-body">杭州市文三路给你扫描, 再次给你扫描, 再次给你扫描, 再次给你扫描!</p>
+        <span class="msg-arrow"><span></span></span>
+      </div>
+    </div>
+  </div>
+</div>

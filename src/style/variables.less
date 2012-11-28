@@ -4,10 +4,10 @@
 // Grays
 // -------------------------
 @black:                 #000;
-@grayDark:              #333;
-@gray:                  #666;
-@grayLight:             #999;
-@grayLighter:           #ccc;
+@grayDark:              #101010;
+@gray:                  #606060;
+@grayLight:             #acacac;
+@grayLighter:           #d0d0d0;
 @white:                 #fff;
 
 // Accent colors
@@ -24,7 +24,7 @@
 // iconfont
 // -------------------------
 // TODO: publish this resources to TBCDN
-@iconfontpath: 'http://ux.etao.com/assets/src_uxiconfont';
+@iconfontpath: 'http://t.tbcdn.cn/apps/e/brix/fonts/uxiconfont';
 
 // Z-index master list
 // -------------------------
@@ -39,14 +39,26 @@
 
 // GRID
 // --------------------------------------------------
-// Default 940px grid
+// Max 1920px grid
 // -------------------------
-@gridColumns:             50;
+@gridColumns:             96;
 @gridColumnWidth:         10px;
 @gridGutterWidth:         10px;
 @gridRowWidth:            (@gridColumns * @gridColumnWidth) + (@gridGutterWidth * (@gridColumns - 1));
 
-// Fluid grid
-// -------------------------
-@fluidGridColumnWidth:    6.382978723%;
-@fluidGridGutterWidth:    2.127659574%;
+
+// type.less - vars
+// ----------------
+@titleColor:            @grayDark;
+@textColor:             @gray;
+
+@linkColor:             @blue;
+@linkColorHover:        @orange;
+@linkColorVisited:      @blue;
+
+@strongColor:           @red;
+@approvedColor:         @green;
+@moderatedColor:        @yellowDark;
+
+@baseFontSize:          12px;
+@baseLineHeight:        18px;

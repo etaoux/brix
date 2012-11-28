@@ -1,0 +1,410 @@
+/**
+ * table
+ * author: chongzhi.ldq@taobao.com 崇志
+ */
+.table-container {
+  -webkit-text-size-adjust: none;
+  /*允许缩小至12px以下*/
+
+  -ms-text-size-adjust: none;
+  color: #333;
+}
+.table-container .color-grey {
+  color: #999!important;
+}
+.table-container .color-smoke {
+  color: #CCC!important;
+}
+.table-container .color-blue {
+  color: #0859AC!important;
+}
+.table-container .toolbar {
+  padding: 8px 14px;
+  background-color: #EBEBEB;
+}
+.table-container .btn {
+  font-weight: normal;
+}
+.table-container .btn:hover {
+  color: #333;
+}
+.table {
+  width: 100%;
+  table-layout: auto;
+  /* 向下三角形小icon */
+
+  /* 斜下三角形小icon */
+
+  /*打开关闭按钮*/
+
+  /*.icon-expend-collapse {
+    font-style: normal;
+    border: 1px solid #777;
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    text-align: center;
+    line-height: 9px;
+    line-height: 8px\9;
+    border-radius: 2px;
+    box-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+    cursor: pointer;
+    background: white;
+    font-size: 10px;
+    color: black;
+    overflow: hidden;
+    font-family: simsun;
+  }
+
+  :root .icon-expend-collapse {
+    line-height: 10px\9;
+  }*/
+
+}
+.table input {
+  padding: 0;
+  margin: 0;
+  width: auto;
+  height: auto;
+  border: none;
+}
+.table th {
+  background-color: #EBEBEB;
+  font-weight: normal;
+  padding: 7px 5px 6px;
+  color: #999;
+  border-bottom: 1px solid #ebebeb;
+}
+.table th:first-child {
+  padding-left: 14px;
+}
+.table th:last-child {
+  padding-right: 14px;
+}
+.table th a {
+  color: #999;
+}
+.table th a.sort {
+  color: #666;
+}
+.table th a.sort .iconfont {
+  font-size: 10px;
+  vertical-align: 2px;
+}
+.table .no-data th {
+  color: #ccc;
+}
+.table .no-data th a {
+  color: #ccc;
+}
+.table tbody a {
+  color: #333;
+}
+.table tbody a:hover {
+  color: #0859AC;
+}
+.table tbody tr td {
+  border-bottom: 1px solid #ebebeb;
+  padding: 10px 5px 9px;
+}
+.table tbody tr td:first-child {
+  padding-left: 14px;
+}
+.table tbody tr td:last-child {
+  padding-right: 14px;
+}
+.table tbody tr td.sort {
+  background-color: #f2f2f2;
+}
+.table tbody tr td.table-child-td {
+  padding: 0 40px;
+}
+.table tbody tr td .operation {
+  visibility: hidden;
+}
+.table tbody tr td .operation a {
+  color: #0859AC;
+}
+.table tbody tr:hover td,
+.table tbody tr.hover td,
+.table tbody tr.current td {
+  background-color: #EBEBEB;
+}
+.table tbody tr:hover td .operation,
+.table tbody tr.hover td .operation,
+.table tbody tr.current td .operation {
+  visibility: visible;
+}
+.table tbody tr:hover td .operation a,
+.table tbody tr.hover td .operation a,
+.table tbody tr.current td .operation a {
+  color: #0859AC;
+}
+.table tbody tr:hover td.table-child-td {
+  background: none;
+}
+.table tbody tr .operation-list li {
+  padding: 3px 0;
+}
+.table tbody tr.none .create-btn {
+  padding-top: 15px;
+  display: inline-block;
+  position: relative;
+}
+.table tbody tr.none .create-btn .icon-point-to {
+  position: absolute;
+  right: -26px;
+  top: 0;
+}
+.table tbody tr.none td {
+  height: 131px;
+  font-size: 14px;
+  text-align: center;
+  color: #666;
+  /*background-color: #fafafa;*/
+
+}
+.table tbody tr.none:hover td {
+  background: none;
+}
+.table tbody tr.selected td {
+  background-color: #f2f2f2;
+}
+.table tfoot td {
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #ebebeb;
+  padding: 0 14px;
+  height: 38px;
+}
+.table td.left,
+.table th.left {
+  text-align: left;
+}
+.table td.center,
+.table th.center {
+  text-align: center;
+}
+.table td.right,
+.table th.right {
+  text-align: right;
+}
+.table .link {
+  color: #555;
+}
+.table .link :hover {
+  color: #000;
+}
+.table .url-overflow {
+  width: 250px;
+  overflow: hidden;
+  display: block;
+  white-space: nowrap;
+}
+.table .icon-horn,
+.table .icon-horn-tilt {
+  display: inline-block;
+  width: 0px;
+  height: 0px;
+  line-height: 0px;
+  font-size: 0px;
+  overflow: hidden;
+  border-style: solid;
+  border-width: 3px 3px 0 3px;
+  border-color: #999 transparent transparent transparent;
+  _border-color: #999 #FFFFFF #FFFFFF #FFFFFF;
+}
+.table .icon-horn-tilt {
+  border-width: 3px 3px 3px 3px;
+  border-color: transparent #999 #999 transparent;
+  _border-color: #FFFFFF #999 #999 #FFFFFF;
+}
+.table .icon-expend,
+.table .icon-collapse {
+  width: 11px;
+  display: inline-block;
+  cursor: pointer;
+  vertical-align: middle;
+  height: 11px;
+  font-size: 0;
+  background: url(http://img01.taobaocdn.com/tps/i1/T1o0jIXkNhXXaSrQza-22-11.png) no-repeat;
+}
+.table .icon-expend {
+  background-position: -11px 0;
+}
+/* 用于在 table 标签之外实现 foot 的，这样就不用去计算 td 的 colspan 需要多少了  */
+.table-foot {
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #ebebeb;
+  padding: 5px 14px;
+}
+.table-settings {
+  float: right;
+  padding: 0 6px!important;
+}
+.table-settings .iconfont {
+  color: #666;
+}
+/*title*/
+.table-title {
+  margin-bottom: 40px;
+}
+.table-title li {
+  float: left;
+  margin-right: 30px;
+}
+.table-title li.selected h2 a {
+  color: #333;
+  font-size: 32px;
+}
+.table-title h2 {
+  margin: 0;
+}
+.table-title h2 a {
+  color: #999;
+}
+.table-data {
+  margin: -20px 0 35px 14px;
+}
+.table-data .data-font {
+  font-size: 18px;
+  font-weight: bold;
+}
+.table-data li {
+  float: left;
+  width: 150px;
+}
+.table-more {
+  display: block;
+  position: relative;
+  zoom: 1;
+}
+.table-more .icon-horn-tilt {
+  position: absolute;
+  right: 0;
+  bottom: -5px;
+}
+.table-namewrap {
+  height: 18px;
+  overflow: hidden;
+  /*white-space: nowrap;*/
+
+}
+/* 子表格样式 */
+.table-child {
+  width: 100%;
+}
+.table-child thead th {
+  border: 0;
+  background: none;
+  border-bottom: 1px dashed #ccc;
+}
+.table-child tbody td {
+  border: 0;
+}
+.table-child tbody tr td {
+  background: none!important;
+  border-bottom: 1px solid #ebebeb;
+}
+.table-child tbody tr:hover td {
+  background: #EBEBEB!important;
+}
+.table-child tbody tr:hover .operation {
+  visibility: visible!important;
+}
+.table-child tbody tr:last-child td {
+  border-bottom: none;
+}
+.table-child tbody tr .operation {
+  visibility: hidden!important;
+  _visibility: visible;
+}
+.table-info,
+.table-change {
+  position: absolute;
+  /*width: 70px;*/
+
+  left: -5px;
+  top: -10px;
+  padding: 10px 12px 8px;
+  background-color: #FFF;
+  border: 1px solid #ccc\9;
+  text-align: left;
+  display: none;
+  line-height: 1.8;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-collapse: separate;
+  /*padding: 5px 0;*/
+
+  /*left: 6px;*/
+
+  width: 100px;
+}
+.table-info p,
+.table-change p {
+  margin: 0;
+}
+.table-info li,
+.table-change li {
+  height: 25px;
+  line-height: 25px;
+  padding: 2px 9px;
+  padding: 0px 7px 2px 8px\9;
+  cursor: pointer;
+}
+.table-info li:hover,
+.table-change li:hover {
+  background-color: #F0F0F0;
+}
+.table-info li.selected,
+.table-change li.selected {
+  cursor: default;
+}
+.table-info li.selected .table-cur,
+.table-change li.selected .table-cur {
+  display: block;
+}
+.table-change {
+  padding: 5px 0;
+}
+:root .table-info {
+  border: none;
+}
+:root .table-change {
+  border: none;
+}
+.table-handle,
+.table-icon {
+  width: 45px;
+  margin: 0 auto;
+  zoom: 1;
+  height: 18px;
+  line-height: 18px;
+  position: relative;
+  text-align: center;
+}
+/* 短图标时 */
+.table-icon-short {
+  width: 20px;
+  float: left;
+  margin: 0 3px;
+  display: inline;
+}
+.table-icon-short .table-info {
+  left: 20px;
+}
+.table-handle .icon-horn {
+  position: absolute;
+  top: 8px;
+  right: 0;
+}
+.table-cur {
+  color: #999;
+  font-size: 10px;
+  float: right;
+  display: none;
+}
