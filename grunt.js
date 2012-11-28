@@ -20,6 +20,10 @@ module.exports = function(grunt) {
             brixless:{
                 src:'src/',
                 dest:'dist/<%= pkg.version %>/'
+            },
+            brixsrcless:{
+                src:'src/',
+                dest:'src/style/'
             }
         },
         galleryless:{
