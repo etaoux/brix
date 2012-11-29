@@ -30,24 +30,12 @@
         if(popup&amp;&amp;trigger){
             var triggerType = self.get('triggerType');
             S.each(triggerType, function(v) {
-                trigger.on(v, function(e) {
-                    e.preventDefault();
-                    self.toggle();
-                });
+                trigger.on(v, self.toggle,self);
             });
         }
     }
     Calendar.Date = Brix_Date;
     Calendar.ATTRS = {
-        id:{
-            getter:function(v){
-                if(!v){
-                    v = 'brix_calendar_' + S.guid();
-                    this.__set('id',v);
-                }
-                return v
-            }
-        },
 <span id='Brix-Gallery-Calendar-cfg-date'>        /**
 </span>         * 该日期所在月份, 默认为当天
          * @cfg {Date}
@@ -217,11 +205,10 @@
         tmpl: {
             getter: function(v) {
                 if(!v){
-                    var self = this,
-                        id = self.get('id');
-                    v = '&lt;div class=&quot;calendar-pages&quot;&gt;&lt;/div&gt;' + '&lt;div bx-tmpl=&quot;calendar&quot; bx-datakey=&quot;notLimited,multiSelect,showTime,' + id + '_op_html&quot; class=&quot;calendar-operator&quot;&gt;&lt;!--bx-tmpl=&quot;calendar&quot; bx-datakey=&quot;notLimited,multiSelect,showTime,' + id + '_op_html&quot;--&gt;{{{' + id + '_op_html}}}&lt;!--bx-tmpl=&quot;calendar&quot;--&gt;&lt;/div&gt;'
+                    var self = this;
+                    v = '&lt;div class=&quot;calendar-pages&quot;&gt;&lt;/div&gt;' + '&lt;div bx-tmpl=&quot;calendar&quot; bx-datakey=&quot;notLimited,multiSelect,showTime,op_html&quot; class=&quot;calendar-operator&quot;&gt;{{{op_html}}}&lt;/div&gt;';
                     if(!self.get('el')){
-                        v = '&lt;div id=&quot;' + id + '&quot; class=&quot;calendar&quot;&gt;' +v+ '&lt;/div&gt;'
+                        v = '&lt;div class=&quot;calendar&quot;&gt;' +v+ '&lt;/div&gt;'
                     }
                     this.__set('tmpl',v);
                 }
@@ -399,8 +386,13 @@
         },
 <span id='Brix-Gallery-Calendar-method-toggle'>        /**
 </span>         * 显示隐藏切换
+         * @param {Event} e 事件
          */
-        toggle: function() {
+        toggle: function(e) {
+            var self = this;
+            if(e){
+                e.preventDefault();
+            }
             var self = this;
             if (self.overlay) {
                 if (self.overlay.get('el').css('visibility') == 'hidden') {
@@ -457,14 +449,14 @@
                 }
                 (function(i) {
                     var pageBrick = new Page({
-                        id: self.get('id') + 'page' + i,
-                        el: '#'+self.get('id') + 'page' + i,
                         index: i,
                         prev: prev,
                         next: next,
                         year: year,
                         month: month,
                         father: self,
+                        isRemoveHTML:self.get('isRemoveHTML'),
+                        isRemoveEl:self.get('isRemoveEl'),
                         container: container
                     });
                     self.pageBricks.push(pageBrick);
@@ -522,6 +514,19 @@
         },
         destructor: function() {
             var self = this;
+            trigger = S.one(self.get('trigger'));
+            if(self.get('popup')&amp;&amp;trigger){
+                var triggerType = self.get('triggerType');
+                S.each(triggerType, function(v) {
+                    trigger.detach(v, self.toggle,self);
+                });
+            }
+            if(self.pageBricks){
+                S.each(self.pageBricks, function(o,i) {
+                    o.destroy();
+                });
+                self.pageBricks = null;
+            }
             if (self.overlay) {
                 self.overlay.destroy();
             }

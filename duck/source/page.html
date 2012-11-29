@@ -55,42 +55,33 @@
         },
         tmpl:{
             valueFn:function(){
-                var self = this,
-                    id=self.get('id');
-                return '&lt;div id=&quot;'+id+'&quot; class=&quot;calendar-page&quot;&gt;'+
+                var self = this;
+                return '&lt;div  class=&quot;calendar-page&quot;&gt;'+
                         '&lt;div class=&quot;calendar-page-hd&quot;&gt;'+
-                            '&lt;div bx-tmpl=&quot;page&quot; bx-datakey=&quot;prev&quot;&gt;'+
-                            '&lt;!--bx-tmpl=&quot;prev&quot; bx-datakey=&quot;prev&quot;--&gt;'+
+                            '&lt;div bx-mpl=&quot;page&quot; bx-datakey=&quot;prev&quot;&gt;'+
                             '{{#prev}}'+
                             '&lt;a href=&quot;javascript:void(0);&quot; class=&quot;calendar-prev-year&quot;&gt;&lt;i class=&quot;iconfont&quot;&gt;&amp;#403&lt;/i&gt;&lt;i class=&quot;iconfont icon-yp&quot;&gt;&amp;#403&lt;/i&gt;&lt;/a&gt;'+
                             '&lt;a href=&quot;javascript:void(0);&quot; class=&quot;calendar-prev-month&quot;&gt;&lt;i class=&quot;iconfont&quot;&gt;&amp;#403&lt;/i&gt;&lt;/a&gt;'+
                             '{{/prev}}'+
-                            '&lt;!--bx-tmpl=&quot;prev&quot;--&gt;'+
                             '&lt;/div&gt;'+
-                            '&lt;a bx-tmpl=&quot;yearmonth&quot; bx-datakey=&quot;year,month&quot; href=&quot;javascript:void(0);&quot; class=&quot;calendar-year-month&quot;&gt;&lt;!--bx-tmpl=&quot;yearmonth&quot; bx-datakey=&quot;year,month&quot;--&gt;{{year}}年{{month}}月&lt;!--bx-tmpl=&quot;yearmonth&quot;--&gt;&lt;/a&gt;'+
+                            '&lt;a bx-tmpl=&quot;yearmonth&quot; bx-datakey=&quot;year,month&quot; href=&quot;javascript:void(0);&quot; class=&quot;calendar-year-month&quot;&gt;{{year}}年{{month}}月&lt;/a&gt;'+
                             '&lt;div bx-tmpl=&quot;next&quot; bx-datakey=&quot;next&quot;&gt;'+
-                            '&lt;!--bx-tmpl=&quot;next&quot; bx-datakey=&quot;next&quot;--&gt;'+
                             '{{#next}}'+
                             '&lt;a href=&quot;javascript:void(0);&quot; class=&quot;calendar-next-month &quot;&gt;&lt;i class=&quot;iconfont&quot;&gt;&amp;#402&lt;/i&gt;&lt;/a&gt;'+
                             '&lt;a href=&quot;javascript:void(0);&quot; class=&quot;calendar-next-year &quot;&gt;&lt;i class=&quot;iconfont icon-yn&quot;&gt;&amp;#402&lt;/i&gt;&lt;i class=&quot;iconfont&quot;&gt;&amp;#402&lt;/i&gt;&lt;/a&gt;'+
-                            '&lt;!--bx-tmpl=&quot;next&quot;--&gt;'+
                             '{{/next}}'+
                             '&lt;/div&gt;'+
                             '&lt;div class=&quot;calendar-year-month-pupop&quot; &gt;'+
-                                '&lt;p bx-tmpl=&quot;select&quot; bx-datakey=&quot;month,'+id+'_select_html&quot;&gt;&lt;!--bx-tmpl=&quot;select&quot; bx-datakey=&quot;month,'+id+'_select_html&quot;--&gt;{{{'+id+'_select_html}}}&lt;!--bx-tmpl=&quot;select&quot;--&gt;&lt;/p&gt;'+
-                                '&lt;p bx-tmpl=&quot;year&quot; bx-datakey=&quot;year&quot;&gt;&lt;!--bx-tmpl=&quot;year&quot; bx-datakey=&quot;year&quot;--&gt;年:&lt;input type=&quot;text&quot; value=&quot;{{year}}&quot; onfocus=&quot;this.select()&quot;&gt;&lt;!--bx-tmpl=&quot;year&quot;--&gt;&lt;/p&gt;'+
+                                '&lt;p bx-tmpl=&quot;select&quot; bx-datakey=&quot;month,select_html&quot;&gt;{{{select_html}}}&lt;/p&gt;'+
+                                '&lt;p bx-tmpl=&quot;year&quot; bx-datakey=&quot;year&quot;&gt;年:&lt;input type=&quot;text&quot; value=&quot;{{year}}&quot; onfocus=&quot;this.select()&quot;&gt;&lt;/p&gt;'+
                                 '&lt;p&gt;&lt;a class=&quot;btn btn-size25 btn-pupop-confirm&quot;&gt;确定&lt;/a&gt;&lt;a class=&quot;btn-pupop-cancel&quot; href=&quot;#&quot;&gt;取消&lt;/a&gt;&lt;/p&gt;'+
                             '&lt;/div&gt;'+
                         '&lt;/div&gt;'+
-                        '&lt;div bx-tmpl=&quot;pagewbd&quot; bx-datakey=&quot;startDay,'+id+'_days_html&quot; class=&quot;calendar-page-wbd&quot;&gt;'+
-                        '&lt;!--bx-tmpl=&quot;pagewbd&quot; bx-datakey=&quot;startDay,'+id+'_days_html&quot;--&gt;'+    
-                            '{{{'+id+'_days_html}}}'+
-                        '&lt;!--bx-tmpl=&quot;pagewbd&quot;--&gt;'+
+                        '&lt;div bx-tmpl=&quot;pagewbd&quot; bx-datakey=&quot;startDay,days_html&quot; class=&quot;calendar-page-wbd&quot;&gt;'+    
+                            '{{{days_html}}}'+
                         '&lt;/div&gt;'+
-                        '&lt;div bx-tmpl=&quot;pagedbd&quot; bx-datakey=&quot;startDay,year,month,selected,range,multi,disabled,minDate,maxDate,'+id+'_da_html&quot; class=&quot;calendar-page-dbd&quot;&gt;'+
-                        '&lt;!--bx-tmpl=&quot;pagedbd&quot; bx-datakey=&quot;startDay,year,month,selected,range,multi,disabled,minDate,maxDate,'+id+'_da_html&quot;--&gt;'+
-                           '{{{'+id+'_da_html}}}'+
-                        '&lt;!--bx-tmpl=&quot;pagedbd&quot;--&gt;'+
+                        '&lt;div bx-tmpl=&quot;pagedbd&quot; bx-datakey=&quot;startDay,year,month,selected,range,multi,disabled,minDate,maxDate,da_html&quot; class=&quot;calendar-page-dbd&quot;&gt;'+
+                           '{{{da_html}}}'+
                         '&lt;/div&gt;'+
                         '&lt;div class=&quot;calendar-page-fd&quot;&gt;'+
                             
@@ -347,7 +338,11 @@
                 father = self.get('father'),
                 showTime = father.get('showTime');
             if(showTime){
-                self.timeBrick = new Time({container:el.one('.calendar-page-fd')});
+                self.timeBrick = new Time({
+                    isRemoveHTML:self.get('isRemoveHTML'),
+                    isRemoveEl:self.get('isRemoveEl'),
+                    container:el.one('.calendar-page-fd')
+                });
             }
             self.on('afterYearChange',function(){
                 self.setChunkData('year',self.get('year'));

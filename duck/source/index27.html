@@ -15,166 +15,334 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">KISSY.add(&quot;brix/gallery/toc/index&quot;, function(S, Brick) {
+  <pre class="prettyprint lang-js">KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
+    var $ = Node.all, D = S.DOM, E = S.Event;
+    var count = 0;
 
-    function ToC() {
-        ToC.superclass.constructor.apply(this, arguments);
+    function Tips() {
+        Tips.superclass.constructor.apply(this, arguments);
     }
 
-    ToC.ATTRS = {
-        level: {
-            value: 3
+    Tips.ATTRS = {
+        dataAttrName:{
+            value:'data-tips'
         },
-        emptyLabel: {
-            value: '（空）'
+        closeable:{
+            value: true
         },
-        collapsedClass: {
-            value: 'collapsed'
+        length:{
+
         },
-        offsetTop: {
-            value: 0
+        'tmpl-tip':{
+            value:'&lt;div id=&quot;{{id}}&quot; class=&quot;bx-tips-show {{hide}}&quot; style=&quot;display: none;position: absolute;top:0;left:0&quot;&gt;&lt;p class=&quot;bx-tips-msg&quot;&gt;{{tips}}&lt;/p&gt;&lt;a href=&quot;javascript:void(0);&quot; class=&quot;bx-tips-iknow&quot;&gt;我知道了&lt;/a&gt;&lt;span class=&quot;tri&quot;&gt;&lt;i class=&quot;outer&quot;&gt;&lt;/i&gt;&lt;i class=&quot;inner&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;span class=&quot;bx-tips-close&quot;&gt;关闭&lt;/span&gt;&lt;/div&gt;'
+        },
+        tips:{
+            value:{}
+        },
+        timers:{
+            value:{}
+        },
+        prex:{
+            value:'bx-tip-'
+        },
+        dis:{
+            value: 10
+        },
+        el:{
+            value:'body'
+        },
+        order:{
+            value:['RB', 'BR', 'LB', 'LT', 'TL', 'TR', 'RT', 'BL']
+        },
+        timeout:{
+            value:3
         }
+
     };
 
-    ToC.EVENTS = {
-        '': {
-            mouseenter: function(e) {
-                var container = this.get('container'),
-                    collapsedClass=  this.get('collapsedClass');
+    Tips.DOCEVENTS = {
 
-                container.removeClass(collapsedClass);
+        '.bx-tips':{
+            mouseenter:function (e) {
+                var el = e.currentTarget;
+                this.showTips(el);
             },
-            mouseleave: function(e) {
-                var container = this.get('container'),
-                    collapsedClass=  this.get('collapsedClass');
+            mouseleave:function (e) {
+                var el = e.currentTarget;
+                this.hideTips(el);
+            }
 
-                container.addClass(collapsedClass);
+        },
+        '.bx-tips-close':{
+            click:function (e) {
+                var el = e.currentTarget;
+                var self = this;
+                var _tip = D.parent(el, '.bx-tips-show');
+                self.closeTips(_tip);
             }
         },
-        '.j-entry': {
-            click: function(e) {
-                var targetId = S.Node(e.currentTarget).attr('href'),
-                    target = S.one(targetId),
-                    body = S.one('body'),
-                    top,
-                    timer,
-                    step;
-
-                e.preventDefault();
-                if (!target) {
-                    return;
-                }
-                top = target.offset().top - this.get('offsetTop');
-                step = (top - body.scrollTop()) / 10;
-                timer = setInterval(function() {
-                    var stepTop = body.scrollTop() + step,
-                        scrollTopBefore = body.scrollTop();
-
-                    body.scrollTop( stepTop );
-                    if (Math.abs(stepTop - top) &lt; 50 ||
-                            body.scrollTop() === scrollTopBefore) {
-                        body.scrollTop(top);
-                        clearInterval(timer);
-                        target = body = timer = null;
-                    }
-                }, 20);
+        '.bx-tips-iknow': {
+            click:function (e) {
+                e.halt();
+                var el = e.currentTarget;
+                var self = this;
+                var _tip = D.parent(el, '.bx-tips-show');
+                self.closeTips(_tip);
             }
         }
+
     };
 
-    ToC.METHODS = {
-        parse: function() {
-            var essay = S.one(this.get('essay')),
-                level = this.get('level'),
-                hs = [], i,
-                tree = [],
-                hPrev,
-                hPrevs = [],
-                hIndex = 0,
-                emptyLabel = this.get('emptyLabel');
+    Tips.METHODS = {
+        showTips:function (el) {
+            var self = this;
+            var _id = self._getTipId(el);
+            var isCloseable = !D.hasClass(el, 'bx-uncloseable') &amp;&amp; self.get(&quot;closeable&quot;);
+            console.log(isCloseable);
+            if (!_id || !self.get(&quot;tips&quot;)[_id]) {
+                _id = self._createTipId();
+                var __tip = Template(self.get(&quot;tmpl-tip&quot;))
+                    .render({'id':_id, 'tips':D.attr(el, self.get(&quot;dataAttrName&quot;)), 'hide': isCloseable? '' : 'bx-tips-uncloseable'});
+                self.get(&quot;tips&quot;)[_id] = _id;
+                D.attr(el, &quot;data-tipid&quot;, _id);
+                $(__tip).appendTo('body');
+            }
+            self._posTip(el, D.get(&quot;#&quot; + _id));
 
-            function getParentH(hCurrent) {
-                var levelPrev = hPrev ? hPrev.level : 0,
-                    levelCurrent = hCurrent.level,
-                    h;
+        },
+        hideTips:function (el) {
+            var self = this;
+            var _id = self._getTipId(el);
+            var tip = D.get(&quot;#&quot; + _id);
+            var _timer = setTimeout(function () {
+                D.hide(tip);
+                D.css(tip, {left:'-9999px', top:'-9999px'});
+            }, self.get(&quot;timeout&quot;) * 1000);
+            self.get(&quot;timers&quot;)[_id] = _timer;
+        },
+        closeTips:function (tip) {
+            this._clearTimer(tip.id);
+            D.hide(tip);
+            D.css(tip, {left:'-9999px', top:'-9999px'});
+        },
+        _clearTimer:function (tipid) {
+            var _timer = this.get(&quot;timers&quot;)[tipid];
+            if (_timer) {
+                clearTimeout(_timer);
+                delete this.get(&quot;timers&quot;)[tipid];
+            }
+        },
+        _createTipId:function () {
+            return this.get('prex') + ++count;
+        },
 
-                if (levelCurrent - levelPrev &gt;= 1) {
-                    while (levelCurrent - levelPrev &gt; 1) {
-                        levelPrev += 1
-                        h = hPrevs[levelPrev] = {
-                            tag: 'h' + levelPrev,
-                            text: emptyLabel,
-                            children: [],
-                            level: levelPrev,
-                            id: getHID
-                        };
-                        hPrev.children.push(h);
-                        hPrev = h;
-                    }
-                    return hPrev;
-                }
-                else {
-                    return hPrevs[levelCurrent - 1];
+        _posTip:function (el, tip) {
+            var self = this;
+            var elOffset = D.offset(el);
+            var elX1 = elOffset.left;
+            var elY2 = elOffset.top;
+            var _el = {
+                x1:elX1,
+                y1:elY2,
+                x2:elX1 + D.innerWidth(el),
+                y2:elY2 + D.innerHeight(el)
+            };
+
+            var _viewW = D.viewportWidth();
+            var _viewH = D.viewportHeight();
+            var _left = D.scrollLeft(window);
+            var _top = D.scrollTop(window);
+            var _view = {
+                x1:_left,
+                y1:_top,
+                x2:_left + _viewW,
+                y2:_top + _viewH
+            }
+
+            self._clearTimer(self._getTipId(el));
+            D.show(tip);
+            var _tip = {
+                tip:tip,
+                w:D.outerWidth(tip),
+                h:D.outerHeight(tip)
+            };
+            var _offset;
+            var order = self.get(&quot;order&quot;);
+            var len = order.length;
+            for (var i = 0; i &lt; len; i++) {
+                _offset = self[&quot;_test&quot; + order[i]](_el, _tip, _view);
+                if (_offset) {
+                    break;
                 }
             }
 
-            function getH(h) {
-                var tag = h[0].tagName.toLowerCase();
+            var _tri = D.get('.bx-tips-tri', tip);
+            var isCloseable = !D.hasClass(el, 'bx-uncloseable') &amp;&amp; self.get(&quot;closeable&quot;);
+            D.attr(tip, &quot;class&quot;, isCloseable ? 'bx-tips-show' : &quot;bx-tips-show bx-tips-uncloseable&quot;);
+            D.addClass(tip, _offset.cls);
+            D.css(tip, {position:'absolute', left:_offset.left + 'px', top:_offset.top + 'px'});
 
+
+        },
+        _testBR:function (el, tip, view) {
+            var dis = this.get(&quot;dis&quot;);
+            var x1 = el.x2 - dis;
+            var y1 = el.y2 + dis;
+            var x2 = x1 + tip.w;
+            var y2 = y1 + tip.h;
+
+            if (x2 &gt; view.x2 || y2 &gt; view.y2 || y1 &lt; view.y1) {
+                return false;
+            } else {
                 return {
-                    tag: tag,
-                    id: getHID(h),
-                    level: parseInt(tag.substr(1), 10),
-                    text: h.text() || emptyLabel,
-                    children: []
+                    left:x1,
+                    top:y1,
+                    cls:'bx-tips-br'
                 };
             }
-
-            function getHID(h) {
-                var id = h &amp;&amp; h.attr('id');
-
-                if (!id) {
-                    id = 'h' + (hIndex++);
-                    if (h) {
-                        h.attr('id', id);
-                    }
-                }
-
-                return id;
+        },
+        _testTL:function (el, tip, view) {
+            var dis = this.get(&quot;dis&quot;);
+            var x1 = el.x1 - tip.w + dis;
+            var y1 = el.y1 - tip.h - dis;
+            var y2 = y1 + tip.h;
+            if (x1 &lt; view.x1 || y1 &lt; view.y1 || y2 &gt; view.y2) {
+                return false;
+            } else {
+                return {
+                    left:x1,
+                    top:y1,
+                    cls:'bx-tips-tl'
+                };
             }
-
-            for (i = 0; i &lt; level; i++) {
-                hs[i] = 'h' + (i + 1);
+        },
+        _testBL:function (el, tip, view) {
+            var dis = this.get(&quot;dis&quot;);
+            var x1 = el.x1 - tip.w + dis;
+            var y1 = el.y2 + dis;
+            var y2 = y1 + tip.h;
+            if (x1 &lt; view.x1 || y2 &gt; view.y2 || y1 &lt; view.y1) {
+                return false;
+            } else {
+                return {
+                    left:x1,
+                    top:y1,
+                    cls:'bx-tips-bl'
+                };
             }
-            essay.all(hs.join(',')).each(function(h) {
-                var hData = getH(h),
-                    parent;
-
-                if (hData.tag === 'h1') {
-                    tree.push(hData);
-                }
-                else {
-                    parent = getParentH(hData);
-                    parent.children.push(hData);
-                }
-                hPrev = hData;
-                hPrevs[hData.level] = hData;
-            });
-
-            return tree;
+        },
+        _testTR:function (el, tip, view) {
+            var dis = this.get(&quot;dis&quot;);
+            var x1 = el.x2 - dis;
+            var y1 = el.y1 - tip.h - dis;
+            var x2 = x1 + tip.w;
+            var y2 = y1 + tip.h;
+            if (x2 &gt; view.x2 || y1 &lt; view.y1 || y2 &gt; view.y2) {
+                return false;
+            } else {
+                return {
+                    left:x1,
+                    top:y1,
+                    cls:'bx-tips-tr'
+                };
+            }
+        },
+        _testLT:function (el, tip, view) {
+            var dis = this.get(&quot;dis&quot;);
+            var x1 = el.x1 - tip.w - dis;
+            var y1 = el.y1 - tip.h + dis;
+            var y2 = y1 + tip.h;
+            if (x1 &lt; view.x1 || y1 &lt; view.y1 || y2 &gt; view.y2) {
+                return false;
+            } else {
+                return {
+                    left:x1,
+                    top:y1,
+                    cls:'bx-tips-lt'
+                };
+            }
+        },
+        _testLB:function (el, tip, view) {
+            var dis = this.get(&quot;dis&quot;);
+            var x1 = el.x1 - tip.w - dis;
+            var y1 = el.y2 - dis;
+            var y2 = y1 + tip.h;
+            if (x1 &lt; view.x1 || y2 &gt; view.y2 || y1 &lt; view.y1) {
+                return false;
+            } else {
+                return {
+                    left:x1,
+                    top:y1,
+                    cls:'bx-tips-lb'
+                };
+            }
+        },
+        _testRT:function (el, tip, view) {
+            var dis = this.get(&quot;dis&quot;);
+            var x1 = el.x2 + dis;
+            var y1 = el.y1 - tip.h + dis;
+            var x2 = x1 + tip.w;
+            var y2 = y1 + tip.h;
+            if (x2 &gt; view.x2 || y1 &lt; view.y1 || y2 &gt; view.y2) {
+                return false;
+            } else {
+                return {
+                    left:x1,
+                    top:y1,
+                    cls:'bx-tips-rt'
+                };
+            }
+        },
+        _testRB:function (el, tip, view) {
+            var dis = this.get(&quot;dis&quot;);
+            var x1 = el.x2 + dis;
+            var y1 = el.y2 - dis;
+            var x2 = x1 + tip.w;
+            var y2 = y1 + tip.h;
+            if (x2 &gt; view.x2 || y2 &gt; view.y2 || y1 &lt; view.y1) {
+                return false;
+            } else {
+                return {
+                    left:x1,
+                    top:y1,
+                    cls:'bx-tips-rb'
+                };
+            }
+        },
+        _getTipId:function (el) {
+            return D.attr(el, &quot;data-tipid&quot;);
         }
     };
+    S.extend(Tips, Brick, {
+        initialize:function () {
+            var self = this;
+            window.onresize = function () {
+                var tips = self.get(&quot;tips&quot;);
+                S.each(tips, function (item) {
+                    self.closeTips(D.get(&quot;#&quot; + item));
+                });
+            };
+            if (S.UA.ie &amp;&amp; S.UA.ie == 6) {
+                E.delegate('html', 'mouseenter mouseleave', '.bx-tips-close', function (e) {
+                    if (e.type === 'mouseenter') {
+                        D.addClass(e.currentTarget, 'hover');
+                    } else {
+                        D.removeClass(e.currentTarget, 'hover');
+                    }
+                });
+            }
+        },
+        destructor:function () {
 
-    S.extend(ToC, Brick, {
-        initialize: function() {
         }
     });
 
-    S.augment(ToC, ToC.METHODS);
+    S.augment(Tips, Tips.METHODS);
+    return Tips;
 
-    return ToC;
+
 }, {
-    requires: ['brix/core/brick', 'sizzle']
+    requires:[&quot;brix/core/brick&quot;, &quot;node&quot;, &quot;template&quot;]
 });</pre>
 </body>
 </html>
