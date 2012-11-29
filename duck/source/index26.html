@@ -15,334 +15,301 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">KISSY.add('brix/gallery/tips/index', function (S, Brick, Node, Template) {
-    var $ = Node.all, D = S.DOM, E = S.Event;
-    var count = 0;
-
-    function Tips() {
-        Tips.superclass.constructor.apply(this, arguments);
+  <pre class="prettyprint lang-js">KISSY.add('brix/gallery/timer/index', function(S, Brick, IO) {
+<span id='Brix-Gallery-Timer'>    /**
+</span>     * 定时器
+     * &lt;br&gt;&lt;a href=&quot;../demo/gallery/timer/timer.html&quot; target=&quot;_blank&quot;&gt;Demo&lt;/a&gt;
+     * @extends Brix.Brick
+     * @class Brix.Gallery.Timer
+     */
+    function Timer() {
+        Timer.superclass.constructor.apply(this, arguments);
     }
-
-    Tips.ATTRS = {
-        dataAttrName:{
-            value:'data-tips'
+    Timer.ATTRS = {
+<span id='Brix-Gallery-Timer-cfg-mode'>        /**
+</span>         * 模式，down：倒计时，up：过去多少时间
+         * @cfg {String}
+         */
+        mode: {
+            value: 'down'
         },
-        closeable:{
-            value: true
+<span id='Brix-Gallery-Timer-cfg-updateTime'>        /**
+</span>         * 倒计时时间，或者更新时间，根据mode配置来，单位ms
+         * @cfg {Number}
+         */
+        updateTime: {
+            value: 10000
         },
-        length:{
-
+<span id='Brix-Gallery-Timer-cfg-units'>        /**
+</span>         * 格式时间类型，y/M/d/h/m/s/hs
+         * @cfg {String}
+         */
+        units: {
+            value: 's'
         },
-        'tmpl-tip':{
-            value:'&lt;div id=&quot;{{id}}&quot; class=&quot;bx-tips-show {{hide}}&quot; style=&quot;display: none;position: absolute;top:0;left:0&quot;&gt;&lt;p class=&quot;bx-tips-msg&quot;&gt;{{tips}}&lt;/p&gt;&lt;a href=&quot;javascript:void(0);&quot; class=&quot;bx-tips-iknow&quot;&gt;我知道了&lt;/a&gt;&lt;span class=&quot;tri&quot;&gt;&lt;i class=&quot;outer&quot;&gt;&lt;/i&gt;&lt;i class=&quot;inner&quot;&gt;&lt;/i&gt;&lt;/span&gt;&lt;span class=&quot;bx-tips-close&quot;&gt;关闭&lt;/span&gt;&lt;/div&gt;'
+<span id='Brix-Gallery-Timer-cfg-isServer'>        /**
+</span>         * 是否需要和服务器时间同步
+         * @cfg {Boolean}
+         */
+        isServer: {
+            value: false
         },
-        tips:{
-            value:{}
+<span id='Brix-Gallery-Timer-cfg-ajusted'>        /**
+</span>         * 是否需要计时器进行校正
+         * @cfg {Boolean}
+         */
+        ajusted: {
+            value: false
         },
-        timers:{
-            value:{}
+<span id='Brix-Gallery-Timer-cfg-ajustInterval'>        /**
+</span>         * 校验的时间间隔,单位ms
+         * @cfg {Number}
+         */
+        ajustInterval: {
+            value: 5000
         },
-        prex:{
-            value:'bx-tip-'
+<span id='Brix-Gallery-Timer-cfg-interval'>        /**
+</span>         * 定时器时间间隔,单位ms
+         * @cfg {Number}
+         */
+        interval: {
+            value: 100
         },
-        dis:{
-            value: 10
-        },
-        el:{
-            value:'body'
-        },
-        order:{
-            value:['RB', 'BR', 'LB', 'LT', 'TL', 'TR', 'RT', 'BL']
-        },
-        timeout:{
-            value:3
-        }
-
-    };
-
-    Tips.DOCEVENTS = {
-
-        '.bx-tips':{
-            mouseenter:function (e) {
-                var el = e.currentTarget;
-                this.showTips(el);
-            },
-            mouseleave:function (e) {
-                var el = e.currentTarget;
-                this.hideTips(el);
-            }
-
-        },
-        '.bx-tips-close':{
-            click:function (e) {
-                var el = e.currentTarget;
-                var self = this;
-                var _tip = D.parent(el, '.bx-tips-show');
-                self.closeTips(_tip);
-            }
-        },
-        '.bx-tips-iknow': {
-            click:function (e) {
-                e.halt();
-                var el = e.currentTarget;
-                var self = this;
-                var _tip = D.parent(el, '.bx-tips-show');
-                self.closeTips(_tip);
+        data: {
+            valueFn: function() {
+                //初始化时间
+                return this._getUnitsData(0);
             }
         }
-
     };
 
-    Tips.METHODS = {
-        showTips:function (el) {
+    Timer.FIRES = {
+<span id='Brix-Gallery-Timer-event-notify'>        /**
+</span>         * @event notify
+         * 类型为down，倒计时完成后的回调
+         * @param {Object} e 
+         * @param {Number} e.size 记录数
+         * @type {String}
+         */
+        notify:'notify'
+    };
+<span id='Brix-Gallery-Timer-static-method-getServerTime'>    /**
+</span>     * 获取服务器时间
+     * @param  {Function} fn       回调函数
+     * @param  {Boolean}  isServer 是否服务器时间
+     * @static
+     */
+    Timer.getServerTime = function(fn, isServer) {
+        if(isServer) {
+            var url = window.location.protocol + '//' + window.location.host + '?t=' + (+new Date());
+            IO({
+                type: 'head',
+                url: url,
+                success: function(data, textStatus, xhr) {
+                    var serverTime = new Date(xhr.getResponseHeader('Date')).getTime();
+                    fn(serverTime);
+                }
+            });
+        } else {
+            fn(S.now());
+        }
+    }
+    S.extend(Timer, Brick, {
+        initialize: function() {
             var self = this;
-            var _id = self._getTipId(el);
-            var isCloseable = !D.hasClass(el, 'bx-uncloseable') &amp;&amp; self.get(&quot;closeable&quot;);
-            console.log(isCloseable);
-            if (!_id || !self.get(&quot;tips&quot;)[_id]) {
-                _id = self._createTipId();
-                var __tip = Template(self.get(&quot;tmpl-tip&quot;))
-                    .render({'id':_id, 'tips':D.attr(el, self.get(&quot;dataAttrName&quot;)), 'hide': isCloseable? '' : 'bx-tips-uncloseable'});
-                self.get(&quot;tips&quot;)[_id] = _id;
-                D.attr(el, &quot;data-tipid&quot;, _id);
-                $(__tip).appendTo('body');
-            }
-            self._posTip(el, D.get(&quot;#&quot; + _id));
-
+            Timer.getServerTime(function(serverTime) {
+                self._start(serverTime);
+            }, self.get('isServer'));
         },
-        hideTips:function (el) {
+<span id='Brix-Gallery-Timer-method-_start'>        /**
+</span>         * 开始计时
+         * @param  {Number} serverTime 时间
+         * @private
+         */
+        _start: function(serverTime) {
+            var self = this,
+                mode = self.get('mode'),
+                interval = self.get('interval'),
+                ajustInterval = self.get('ajustInterval'),
+                updateTime = self.get('updateTime'),
+                _currentTime;
+            switch(mode) {
+            case 'up':
+                _currentTime = serverTime - updateTime;
+                break;
+            case 'down':
+                _currentTime = updateTime;
+                break;
+            }
+            self._currentTime = _currentTime;
+            self._startCurrentTime = _currentTime;
+            self._startBaseTime = serverTime;
+            self._diffTime = 0;
+            self._timerHandler = S.later(self._timerInterval, interval, false, self, [interval, mode]);
+            if(self.get('ajusted')) {
+                self._ajustHandler = S.later(self._ajustInterval, ajustInterval, false, self, [ajustInterval, mode]);
+            }
+        },
+<span id='Brix-Gallery-Timer-method-_ajustInterval'>        /**
+</span>         * 校验定时器
+         * @param  {Number} ajustInterval 时间间隔
+         * @param  {String} mode          类型
+         * @private
+         */
+        _ajustInterval: function(ajustInterval, mode) {
             var self = this;
-            var _id = self._getTipId(el);
-            var tip = D.get(&quot;#&quot; + _id);
-            var _timer = setTimeout(function () {
-                D.hide(tip);
-                D.css(tip, {left:'-9999px', top:'-9999px'});
-            }, self.get(&quot;timeout&quot;) * 1000);
-            self.get(&quot;timers&quot;)[_id] = _timer;
-        },
-        closeTips:function (tip) {
-            this._clearTimer(tip.id);
-            D.hide(tip);
-            D.css(tip, {left:'-9999px', top:'-9999px'});
-        },
-        _clearTimer:function (tipid) {
-            var _timer = this.get(&quot;timers&quot;)[tipid];
-            if (_timer) {
-                clearTimeout(_timer);
-                delete this.get(&quot;timers&quot;)[tipid];
-            }
-        },
-        _createTipId:function () {
-            return this.get('prex') + ++count;
-        },
-
-        _posTip:function (el, tip) {
-            var self = this;
-            var elOffset = D.offset(el);
-            var elX1 = elOffset.left;
-            var elY2 = elOffset.top;
-            var _el = {
-                x1:elX1,
-                y1:elY2,
-                x2:elX1 + D.innerWidth(el),
-                y2:elY2 + D.innerHeight(el)
-            };
-
-            var _viewW = D.viewportWidth();
-            var _viewH = D.viewportHeight();
-            var _left = D.scrollLeft(window);
-            var _top = D.scrollTop(window);
-            var _view = {
-                x1:_left,
-                y1:_top,
-                x2:_left + _viewW,
-                y2:_top + _viewH
-            }
-
-            self._clearTimer(self._getTipId(el));
-            D.show(tip);
-            var _tip = {
-                tip:tip,
-                w:D.outerWidth(tip),
-                h:D.outerHeight(tip)
-            };
-            var _offset;
-            var order = self.get(&quot;order&quot;);
-            var len = order.length;
-            for (var i = 0; i &lt; len; i++) {
-                _offset = self[&quot;_test&quot; + order[i]](_el, _tip, _view);
-                if (_offset) {
+            Timer.getServerTime(function(endBaseTime) {
+                self._diffTime = endBaseTime - self._startBaseTime;
+                switch(mode) {
+                case 'up':
+                    self._diffTime -= (self._currentTime - self._startCurrentTime);
+                    break;
+                case 'down':
+                    self._diffTime -= (self._startCurrentTime - self._currentTime);
                     break;
                 }
-            }
-
-            var _tri = D.get('.bx-tips-tri', tip);
-            var isCloseable = !D.hasClass(el, 'bx-uncloseable') &amp;&amp; self.get(&quot;closeable&quot;);
-            D.attr(tip, &quot;class&quot;, isCloseable ? 'bx-tips-show' : &quot;bx-tips-show bx-tips-uncloseable&quot;);
-            D.addClass(tip, _offset.cls);
-            D.css(tip, {position:'absolute', left:_offset.left + 'px', top:_offset.top + 'px'});
-
-
-        },
-        _testBR:function (el, tip, view) {
-            var dis = this.get(&quot;dis&quot;);
-            var x1 = el.x2 - dis;
-            var y1 = el.y2 + dis;
-            var x2 = x1 + tip.w;
-            var y2 = y1 + tip.h;
-
-            if (x2 &gt; view.x2 || y2 &gt; view.y2 || y1 &lt; view.y1) {
-                return false;
-            } else {
-                return {
-                    left:x1,
-                    top:y1,
-                    cls:'bx-tips-br'
-                };
-            }
-        },
-        _testTL:function (el, tip, view) {
-            var dis = this.get(&quot;dis&quot;);
-            var x1 = el.x1 - tip.w + dis;
-            var y1 = el.y1 - tip.h - dis;
-            var y2 = y1 + tip.h;
-            if (x1 &lt; view.x1 || y1 &lt; view.y1 || y2 &gt; view.y2) {
-                return false;
-            } else {
-                return {
-                    left:x1,
-                    top:y1,
-                    cls:'bx-tips-tl'
-                };
-            }
-        },
-        _testBL:function (el, tip, view) {
-            var dis = this.get(&quot;dis&quot;);
-            var x1 = el.x1 - tip.w + dis;
-            var y1 = el.y2 + dis;
-            var y2 = y1 + tip.h;
-            if (x1 &lt; view.x1 || y2 &gt; view.y2 || y1 &lt; view.y1) {
-                return false;
-            } else {
-                return {
-                    left:x1,
-                    top:y1,
-                    cls:'bx-tips-bl'
-                };
-            }
-        },
-        _testTR:function (el, tip, view) {
-            var dis = this.get(&quot;dis&quot;);
-            var x1 = el.x2 - dis;
-            var y1 = el.y1 - tip.h - dis;
-            var x2 = x1 + tip.w;
-            var y2 = y1 + tip.h;
-            if (x2 &gt; view.x2 || y1 &lt; view.y1 || y2 &gt; view.y2) {
-                return false;
-            } else {
-                return {
-                    left:x1,
-                    top:y1,
-                    cls:'bx-tips-tr'
-                };
-            }
-        },
-        _testLT:function (el, tip, view) {
-            var dis = this.get(&quot;dis&quot;);
-            var x1 = el.x1 - tip.w - dis;
-            var y1 = el.y1 - tip.h + dis;
-            var y2 = y1 + tip.h;
-            if (x1 &lt; view.x1 || y1 &lt; view.y1 || y2 &gt; view.y2) {
-                return false;
-            } else {
-                return {
-                    left:x1,
-                    top:y1,
-                    cls:'bx-tips-lt'
-                };
-            }
-        },
-        _testLB:function (el, tip, view) {
-            var dis = this.get(&quot;dis&quot;);
-            var x1 = el.x1 - tip.w - dis;
-            var y1 = el.y2 - dis;
-            var y2 = y1 + tip.h;
-            if (x1 &lt; view.x1 || y2 &gt; view.y2 || y1 &lt; view.y1) {
-                return false;
-            } else {
-                return {
-                    left:x1,
-                    top:y1,
-                    cls:'bx-tips-lb'
-                };
-            }
-        },
-        _testRT:function (el, tip, view) {
-            var dis = this.get(&quot;dis&quot;);
-            var x1 = el.x2 + dis;
-            var y1 = el.y1 - tip.h + dis;
-            var x2 = x1 + tip.w;
-            var y2 = y1 + tip.h;
-            if (x2 &gt; view.x2 || y1 &lt; view.y1 || y2 &gt; view.y2) {
-                return false;
-            } else {
-                return {
-                    left:x1,
-                    top:y1,
-                    cls:'bx-tips-rt'
-                };
-            }
-        },
-        _testRB:function (el, tip, view) {
-            var dis = this.get(&quot;dis&quot;);
-            var x1 = el.x2 + dis;
-            var y1 = el.y2 - dis;
-            var x2 = x1 + tip.w;
-            var y2 = y1 + tip.h;
-            if (x2 &gt; view.x2 || y2 &gt; view.y2 || y1 &lt; view.y1) {
-                return false;
-            } else {
-                return {
-                    left:x1,
-                    top:y1,
-                    cls:'bx-tips-rb'
-                };
-            }
-        },
-        _getTipId:function (el) {
-            return D.attr(el, &quot;data-tipid&quot;);
-        }
-    };
-    S.extend(Tips, Brick, {
-        initialize:function () {
-            var self = this;
-            window.onresize = function () {
-                var tips = self.get(&quot;tips&quot;);
-                S.each(tips, function (item) {
-                    self.closeTips(D.get(&quot;#&quot; + item));
-                });
-            };
-            if (S.UA.ie &amp;&amp; S.UA.ie == 6) {
-                E.delegate('html', 'mouseenter mouseleave', '.bx-tips-close', function (e) {
-                    if (e.type === 'mouseenter') {
-                        D.addClass(e.currentTarget, 'hover');
-                    } else {
-                        D.removeClass(e.currentTarget, 'hover');
+                if(self._diffTime &gt; 500) {
+                    switch(mode) {
+                    case 'up':
+                        self._currentTime += self._diffTime;
+                        break;
+                    case 'down':
+                        self._currentTime -= self._diffTime;
+                        if(self._currentTime &lt;= 0) {
+                            self._currentTime = interval;
+                        }
+                        break;
                     }
-                });
-            }
+                    self._diffTime = 0;
+                }
+                self._ajustHandler = S.later(self._ajustInterval, ajustInterval, false, self, [ajustInterval, mode]);
+            }, self.get('isServer'));
         },
-        destructor:function () {
+<span id='Brix-Gallery-Timer-method-_timerInterval'>        /**
+</span>         * 定时器
+         * @param  {Number} ajustInterval 时间间隔
+         * @param  {String} mode          类型
+         * @private
+         */
+        _timerInterval: function(interval, mode) {
+            var self = this,
+                _currentTime = self._currentTime;
+            switch(mode) {
+            case 'up':
+                _currentTime += interval;
+                break;
+            case 'down':
+                _currentTime -= interval;
+                break;
+            }
+            self._currentTime = _currentTime;
+            var obj = self._getUnitsData(_currentTime);
+            S.each(obj, function(d, k) {
+                self.setChunkData(k, d);
+            });
 
+            if(_currentTime &lt;= 0) {
+                if(self._ajustHandler) {
+                    self._ajustHandler.cancel();
+                }
+                self.fire(Timer.FIRES.notify);
+                return;
+            }
+            self._timerHandler = S.later(self._timerInterval, interval, false, self, [interval, mode]);
+        },
+<span id='Brix-Gallery-Timer-method-_getUnitsData'>        /**
+</span>         * 时间格式化
+         * @param  {Number} _currentTime 时间
+         * @private
+         */
+        _getUnitsData: function(_currentTime) {
+            var self = this,
+                obj = {};
+            switch(self.get('units')) {
+            case 'y':
+                obj = {
+                    y: Math.floor(_currentTime / (365 * 24 * 60 * 60 * 1000)),
+                    M: Math.floor(_currentTime / (30 * 24 * 60 * 60 * 1000)) % 12,
+                    d: Math.floor(_currentTime / (24 * 60 * 60 * 1000)) % 30,
+                    h: Math.floor(_currentTime / (60 * 60 * 1000)) % 24,
+                    m: Math.floor(_currentTime / (60 * 1000)) % 60,
+                    s: Math.floor(_currentTime / 1000) % 60,
+                    hs: Math.floor(_currentTime / 100) % 10
+                }
+                break;
+            case 'M':
+                obj = {
+                    M: Math.floor(_currentTime / (30 * 24 * 60 * 60 * 1000)),
+                    d: Math.floor(_currentTime / (24 * 60 * 60 * 1000)) % 30,
+                    h: Math.floor(_currentTime / (60 * 60 * 1000)) % 24,
+                    m: Math.floor(_currentTime / (60 * 1000)) % 60,
+                    s: Math.floor(_currentTime / 1000) % 60,
+                    hs: Math.floor(_currentTime / 100) % 10
+                }
+                break;
+            case 'd':
+                obj = {
+                    d: Math.floor(_currentTime / (24 * 60 * 60 * 1000)),
+                    h: Math.floor(_currentTime / (60 * 60 * 1000)) % 24,
+                    m: Math.floor(_currentTime / (60 * 1000)) % 60,
+                    s: Math.floor(_currentTime / 1000) % 60,
+                    hs: Math.floor(_currentTime / 100) % 10
+                }
+                break;
+            case 'h':
+                obj = {
+                    h: Math.floor(_currentTime / (60 * 60 * 1000)),
+                    m: Math.floor(_currentTime / (60 * 1000)) % 60,
+                    s: Math.floor(_currentTime / 1000) % 60,
+                    hs: Math.floor(_currentTime / 100) % 10
+                }
+                break;
+            case 'm':
+                var obj = {
+                    m: Math.floor(_currentTime / (60 * 1000)),
+                    s: Math.floor(_currentTime / 1000) % 60,
+                    hs: Math.floor(_currentTime / 100) % 10
+                }
+                break;
+            case 's':
+                obj = {
+                    s: Math.floor(_currentTime / 1000),
+                    hs: Math.floor(_currentTime / 100) % 10
+                }
+                break;
+            case 'hs':
+                obj = {
+                    hs: Math.floor(_currentTime / 100)
+                }
+                break;
+            }
+            S.each(obj, function(d, k) {
+                if(S.inArray(k, ['h', 'm', 's'])) {
+                    if(d &lt; 10) {
+                        obj[k] = ('0' + d).toString();
+                    }
+                }
+                obj[k] = obj[k].toString();
+            });
+            if(self.get('interval') &gt;= 1000) {
+                delete obj['hs'];
+            }
+            return obj;
+        },
+        destructor: function() {
+            if(this._ajustHandler){
+                this._ajustHandler.cancel();
+                this._ajustHandler = null;
+            }
+            if(this._timerHandler){
+                this._timerHandler.cancel();
+                this._timerHandler = null;
+            }
         }
     });
-
-    S.augment(Tips, Tips.METHODS);
-    return Tips;
-
-
+    return Timer;
 }, {
-    requires:[&quot;brix/core/brick&quot;, &quot;node&quot;, &quot;template&quot;]
+    requires: [&quot;brix/core/brick&quot;, 'ajax']
 });</pre>
 </body>
 </html>

@@ -32,10 +32,7 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
         if(trigger){
             var triggerType = self.get('triggerType');
             S.each(triggerType, function(v) {
-                trigger.on(v, function(e) {
-                    e.preventDefault();
-                    self.toggle();
-                })
+                trigger.on(v, self.toggle,self);
             });
         }
     }
@@ -255,9 +252,13 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
         },
         /**
          * 显示隐藏切换
+         * @param {Event} e 事件
          */
-        toggle: function() {
+        toggle: function(e) {
             var self = this;
+            if(e){
+                e.preventDefault();
+            }
             if (self.overlay) {
                 if (self.overlay.get('el').css('visibility') == 'hidden') {
                     self.show();
@@ -586,8 +587,18 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
             });
         },
         destructor: function() {
-            var self= this;
-            self.overlay.destroy();
+            var self= this,
+            trigger = S.one(self.get('trigger'));
+            if(trigger){
+                var triggerType = self.get('triggerType');
+                S.each(triggerType, function(v) {
+                    trigger.detach(v, self.toggle,self);
+                });
+            }
+            if (self.overlay) {
+                self.overlay.destroy();
+                self.overlay = null;
+            }
         }
     });
     S.augment(ColorPicker, ColorPicker.METHODS);

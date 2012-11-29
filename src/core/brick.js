@@ -16,15 +16,14 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         self.pagelet = arguments[0] ? arguments[0].pagelet : null; //pagelet的引用
         Brick.superclass.constructor.apply(this, arguments);
 
-        var id = self.get('id'),
-            tmpler = self.get('tmpler');
+        var tmpler = self.get('tmpler');
         var constt = self.constructor;
 
-        if(tmpler&&!tmpler.inDom){
+        if(tmpler){
             while(constt.NAME!='Brick'){
                 var renderers = constt.RENDERERS;
                 if (renderers) {
-                    self.get('dataset').setRenderer(renderers, self, id);
+                    self.get('dataset').setRenderer(renderers, self);
                 }
                 constt = constt.superclass.constructor;
             }
@@ -44,7 +43,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
             self._bindEvent();
         });
 
-        if (self.pagelet || self.get('autoRender')||!tmpler||tmpler.inDom){
+        if (self.get('autoRender')||!tmpler||tmpler.inDom){
             self.render();
         }
     }
@@ -181,19 +180,10 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
                 }
                 constt = constt.superclass.constructor;
             }
-
             self._undelegateEvents();
             var events = self.get("events");
             if (events) {
                 this._removeEvents(events);
-            }
-
-            constt = self.constructor;
-            while(constt.NAME!='Brick'){
-                if(constt.prototype.hasOwnProperty('destructor')){
-                    constt.prototype.destructor.apply(self);
-                }
-                constt = constt.superclass.constructor;
             }
         },
         /**
@@ -336,22 +326,33 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
          * 销毁组件
          */
         destroy:function(){
-            var self = this,
-                el = self.get('el'), 
-                tmpler = self.get('tmpler');
-            if (tmpler) {
-                tmpler.tmpls = null;
+            var self = this;
+            self._destroy();
+            if(self.get('rendered')){
+                self._detachEvent();
             }
-            self._detachEvent();
-            if(self.get('isRemoveEl')){
-                el.remove();
+
+            var constt = self.constructor;
+            while(constt.NAME!='Brick'){
+                if(constt.prototype.hasOwnProperty('destructor')){
+                    constt.prototype.destructor.apply(self);
+                }
+                constt = constt.superclass.constructor;
             }
-            else{
-                el.empty();
+
+            if(self.get('rendered')&&self.get('isRemoveHTML')) {
+                var el = self.get('el');
+                if(self.get('isRemoveEl')){
+                    el.remove();
+                }
+                else{
+                    el.empty();
+                }
             }
             if(self.pagelet){
                 delete self.pagelet;
             }
+            self.detach();
         }
     });
     return Brick;

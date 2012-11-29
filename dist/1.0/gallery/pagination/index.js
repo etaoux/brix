@@ -18,6 +18,13 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             value: 'p'
         },
         /**
+         * 页数显示偏移，默认0，
+         * @cfg {Number}
+         */
+        offset:{
+            value:0
+        },
+        /**
          * 是否精简模式
          * @cfg {Boolean}
          */
@@ -335,16 +342,8 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 size = self.get('size'),
                 pageName = self.get('pageName'),
                 pageSizeName = self.get('pageSizeName'),
-                mode = self.get('mode'),
                 returnUrl;
-            switch (mode) {
-            case 'p':
-                urlInfo.params[pageName] = index;
-                break;
-            case 's':
-                urlInfo.params[pageName] = index * size;
-                break;
-            }
+            urlInfo.params[pageName] = self._offset(index);
             if (pageSizeName) {
                 urlInfo.params[pageSizeName] = size;
             } else if (urlInfo.params[pageSizeName]) {
@@ -373,6 +372,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             //从url信息中初始配置参数
             var urlInfo = self.get('urlInfo');
             var mode = self.get('mode'),
+                offset = self.get('offset'),
                 pageName = self.get('pageName'),
                 pageSizeName = self.get('pageSizeName');
 
@@ -382,11 +382,11 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             if (urlInfo.params[pageName]) {
                 switch (mode) {
                 case 'p':
-                    self.set('index', parseInt(urlInfo.params[pageName], 10));
+                    self.set('index', parseInt(urlInfo.params[pageName], 10)-offset);
                     break;
                 case 's':
                     var size = self.get('size');
-                    self.set('index', parseInt(urlInfo.params[pageName], 10) / size);
+                    self.set('index', (parseInt(urlInfo.params[pageName], 10)-(offset*size)) / size);
                     break;
                 }
             }
@@ -413,16 +413,6 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 pageCount = self.get('pageCount');
             var arrHTML = [];
 
-            var seed = 1;
-            switch (mode) {
-            case 'p':
-                seed = 1;
-                break;
-            case 's':
-                seed = size;
-                break
-            }
-
             //render statistics
             if (self.get('statistics')) {
                 arrHTML.push('<div class="pagination-info"><span>当前</span><span class="b">' + (count == 0 ? 0 : ((index - 1) * size + 1)) + '-' + Math.min(index * size, count) + '</span><span>条</span><span class="mr">共</span><span class="b">' + count + '</span><span>条</span><span class="mr">每页展现</span>');
@@ -443,7 +433,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             arrHTML.push('<div class="pagination-pages"><div class="pagination-page">');
 
             if (index > 1) {
-                arrHTML.push('<a title="上一页" href="' + formatUrl.replace('{$p}', seed * (index - 1)) + '" class="page-prev"><i class="iconfont">&#403</i></a>');
+                arrHTML.push('<a title="上一页" href="' + formatUrl.replace('{$p}',  self._offset(index - 1)) + '" class="page-prev"><i class="iconfont">&#403</i></a>');
             }
             if (self.get('simplify')) {
                 arrHTML.push('<span class="page-simply">' + index + '/' + max + '</span>');
@@ -453,34 +443,34 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 start = Math.max(1, end - step + 1);
 
                 if (start >= 3) {
-                    arrHTML.push('<a class="page" href="' + formatUrl.replace('{$p}', seed * 1) + '" title="第1页">1</a>');
-                    arrHTML.push('<a class="page" href="' + formatUrl.replace('{$p}', seed * 2) + '" title="第2页">2</a>');
+                    arrHTML.push('<a class="page" href="' + formatUrl.replace('{$p}', self._offset(1)) + '" title="第1页">1</a>');
+                    arrHTML.push('<a class="page" href="' + formatUrl.replace('{$p}', self._offset(2)) + '" title="第2页">2</a>');
                     if (start > 3) {
                         arrHTML.push('<span class="page-split">...</span>');
                     }
                 } else if (start == 2) {
-                    arrHTML.push('<a class="page" href="' + formatUrl.replace('{$p}', seed * 1) + '" title="第1页">1</a>');
+                    arrHTML.push('<a class="page" href="' + formatUrl.replace('{$p}', self._offset(1)) + '" title="第1页">1</a>');
                 }
 
                 for (var i = start; i <= end; i++) {
                     if (i === index) {
                         arrHTML.push('<span class="page-cur">' + i + '</span>');
                     } else {
-                        arrHTML.push('<a class="page" href="' + formatUrl.replace('{$p}', seed * i) + '" title="第' + i + '页">' + i + '</a>');
+                        arrHTML.push('<a class="page" href="' + formatUrl.replace('{$p}', self._offset(i)) + '" title="第' + i + '页">' + i + '</a>');
                     }
                 }
                 if (end + 2 <= max) {
                     arrHTML.push('<span class="page-split">...</span>');
                     if (hascount) {
-                        arrHTML.push('<a class="page" href="' + formatUrl.replace('{$p}', seed * max) + '" title="第' + max + '页">' + max + '</a>');
+                        arrHTML.push('<a class="page" href="' + formatUrl.replace('{$p}', self._offset(max)) + '" title="第' + max + '页">' + max + '</a>');
                     }
                 } else if (end < max) {
-                    arrHTML.push('<a class="page" href="' + formatUrl.replace('{$p}', seed * max) + '" title="第' + max + '页">' + max + '</a>');
+                    arrHTML.push('<a class="page" href="' + formatUrl.replace('{$p}', self._offset(max)) + '" title="第' + max + '页">' + max + '</a>');
                 }
             }
 
             if (index != max) {
-                arrHTML.push('<a title="下一页" href="' + formatUrl.replace('{$p}', seed * (index + 1)) + '" class="page-next"><i class="iconfont">&#402</i></a>');
+                arrHTML.push('<a title="下一页" href="' + formatUrl.replace('{$p}', self._offset(index + 1)) + '" class="page-next"><i class="iconfont">&#402</i></a>');
             }
             arrHTML.push('</div>');
             if (hascount && pageCount) {
@@ -495,6 +485,26 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
 
             self.get('el').html(arrHTML.join(''));
 
+        },
+        /**
+         * 计算页数的偏移
+         * @param  {Number} index 页数
+         * @return {Number} 偏移后的值
+         * @private
+         */
+        _offset:function(index){
+            var self = this,
+                mode = self.get('mode'),
+                offset = self.get('offset');
+            switch(mode){
+                case 'p':
+                    return index+offset;
+                case 's':
+                    var size = self.get('size');
+                    return size*(index+offset);
+                default:
+                    return index+offset;
+            }
         },
         _getDropDown: function() {
             var self = this;

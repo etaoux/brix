@@ -61,10 +61,7 @@
         if(trigger){
             var triggerType = self.get('triggerType');
             S.each(triggerType, function(v) {
-                trigger.on(v, function(e) {
-                    e.preventDefault();
-                    self.toggle();
-                })
+                trigger.on(v, self.toggle,self);
             });
         }
 
@@ -127,7 +124,7 @@
          *  
          */
         quickDates:{
-                value:quickDates //快捷日期
+            value:quickDates //快捷日期
         },
 <span id='Brix-Gallery-DatePicker-cfg-dates'>        /**
 </span>         * 已选择的时间段
@@ -242,8 +239,7 @@
         },
         tmpl:{
             valueFn:function(){
-                var self = this,
-                    id = self.get('id');
+                var self = this;
                 var html ='&lt;div class=&quot;datepicker-bd&quot;&gt;'+
                                 '{{^isCompare}}'+
                                 '&lt;label&gt;日期范围：&lt;/label&gt;'+
@@ -255,7 +251,7 @@
                                 '{{/isCompare}}'+
                                 '{{#isCompare}}'+
                                 '&lt;label&gt;当前日期：&lt;/label&gt;'+
-                                '&lt;div bx-tmpl=&quot;datepicker&quot; bx-datakey=&quot;compareText&quot; class=&quot;range&quot;&gt;&lt;!--bx-tmpl=&quot;datepicker&quot; bx-datakey=&quot;compareText&quot;--&gt;{{compareText}}&lt;!--bx-tmpl=&quot;datepicker&quot;--&gt;'+
+                                '&lt;div bx-tmpl=&quot;datepicker&quot; bx-datakey=&quot;compareText&quot; class=&quot;range&quot;&gt;{{compareText}}'+
                                 '&lt;/div&gt;'+
                                 '&lt;label&gt;与其他日期比较：(须同样天数)&lt;/label&gt;'+
                                 '&lt;div class=&quot;range&quot;&gt;'+
@@ -265,14 +261,14 @@
                                 '&lt;/div&gt;'+
                                 '{{/isCompare}}'+
                                 '{{#isQuick}}'+
-                                '{{{'+id+'_quick_html}}}'+
+                                '{{{quick_html}}}'+
                                 '{{/isQuick}}'+
                                 '&lt;div class=&quot;operator&quot;&gt;'+
                                     '&lt;a class=&quot;btn btn-size25 btn-confirm&quot; href=&quot;#&quot;&gt;确定&lt;/a&gt;&lt;a class=&quot;btn-cancel&quot; href=&quot;#&quot;&gt;取消&lt;/a&gt;'+
                                 '&lt;/div&gt;'+
                             '&lt;/div&gt;';
                 if(!self.get('el')){
-                    html = '&lt;div id=&quot;'+id+'&quot; class=&quot;datepicker&quot;&gt;' +html+ '&lt;/div&gt;';
+                    html = '&lt;div class=&quot;datepicker&quot;&gt;' +html+ '&lt;/div&gt;';
                 }
                 return html;
             }
@@ -450,9 +446,13 @@
         },
 <span id='Brix-Gallery-DatePicker-method-toggle'>        /**
 </span>         * 显示隐藏切换
+         * @param {Event} e 事件
          */
-        toggle: function() {
+        toggle: function(e) {
             var self = this;
+            if(e){
+                e.preventDefault();
+            }
             if (self.overlay) {
                 if (self.overlay.get('el').css('visibility') == 'hidden') {
                     self.show();
@@ -504,10 +504,17 @@
             self.overlay.render();
         },
         destructor: function() {
-            var self = this;
-            if(self.calender){
-                self.calender.destroy();
-                self.calender = null;
+            var self = this,
+            trigger = S.one(self.get('trigger'));
+            if(trigger){
+                var triggerType = self.get('triggerType');
+                S.each(triggerType, function(v) {
+                    trigger.detach(v, self.toggle,self);
+                });
+            }
+            if(self.calendar){
+                self.calendar.destroy();
+                self.calendar = null;
             }
             if (self.overlay) {
                 self.overlay.destroy();

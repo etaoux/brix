@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Brix Pagination Demo</title>
-        <link type="text/css" rel="stylesheet" href="../../../dist/brix-min.css" charset="utf-8">
+        <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
         <link rel="stylesheet" href="../../../src/gallery/dropdown/dropdown.css">
         <link rel="stylesheet" href="../../../src/gallery/pagination/pagination.css">
         <link rel="stylesheet" href="../../assets/doc.css">
@@ -71,11 +71,11 @@
             </div>
 
             <h2 class="h2">完整模式</h2>
-            <div bx-name="pagination" class="pagination clearfix" bx-config="{statistics:true,sizeChange:true,jump:true,goTo:true}">
+            <div bx-name="pagination" class="pagination clearfix" bx-config="{statistics:true,sizeChange:true,jump:true,goTo:true,offset:0}">
             </div>
 
             <h2 class="h2">etao搜索模式</h2>
-            <div bx-name="pagination" class="pagination" bx-config="{mode:'s',pageName:'s',pageSizeName:false,jump:true,sizeChange:true,goTo:true}">
+            <div bx-name="pagination" class="pagination" bx-config="{mode:'s',offset:-1,pageName:'s',pageSizeName:false,jump:true,sizeChange:true,goTo:true}">
             </div>
         </div>
     </body>

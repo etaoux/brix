@@ -9,8 +9,8 @@ KISSY.add("brix/core/tmpler", function(S, Mustache,Node) {
      */
 
     function Tmpler(tmpl, level) {
+        this.tmpls = [];
         if(tmpl && (level !== false)) {
-            this.tmpls = [];
             this._praseTmpl(tmpl,level);
         } else {
             this.tmpl = tmpl;
@@ -52,7 +52,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache,Node) {
                 }
                 r = r.replace('@brix@','(?:[\\s\\S]*?)');
                 self.reg = r;
-                S.log(r);
+                //S.log(r);
                 self.tmpl = self._replaceTmpl(tmpl);
                 self._buildTmpls(self.tmpl);
             }
