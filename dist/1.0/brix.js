@@ -688,7 +688,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache,Node) {
             if(node) {
                 if(node.item(0)[0].nodeName.toUpperCase() == 'SCRIPT') {
                     //如果是script节点，则直接取html
-                    tmpl = node.item(0).html()
+                    tmpl = node.item(0).html();
                 } else {
                     inDom = true;
                 }
@@ -714,7 +714,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache,Node) {
          */
         _buildTmpls: function(tmpl) {
             var self = this;
-            var r = new RegExp(self.reg,"ig");
+            var r = new RegExp(self.reg,"ig"),m;
             while((m = r.exec(tmpl)) !== null) {
                 self.tmpls.push({
                     name: m[2],
@@ -734,10 +734,12 @@ KISSY.add("brix/core/tmpler", function(S, Mustache,Node) {
             //return tmpl;
             var r = /<!--bx-tmpl="([^"]+?)"\s+bx-datakey="([^"]+?)"-->(\s*([\s\S]*)?\s*)<!--bx-tmpl="\1"-->/g,
                 m;
+            var foo = function(i, j, k, l){
+                S.log(i+','+l);
+                return l;
+            };
             while(r.test(tmpl)) {
-                tmpl = tmpl.replace(r, function(i, j, k, l) {
-                    return l;
-                });
+                tmpl = tmpl.replace(r, foo);
                 r.lastIndex = 0;
             }
             return tmpl;
@@ -994,7 +996,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                 self.set('isBuidDataset', true);
                 data = data || {}; //原始数据
                 data = S.clone(data); //数据深度克隆
-                dataset = new Dataset({
+                var dataset = new Dataset({
                     data: data
                 });
                 self.set('dataset', dataset); //设置最新的数据集合
@@ -1085,10 +1087,11 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                         var container = self.get('container');
                         var el = self.get('el');
                         var html = tmpler.to_html(data);
-                        if((!el || el.length == 0)) {
+                        var node;
+                        if((!el || el.length === 0)) {
                             var elID = 'brix_' + S.guid();
                             if(UA.ie <= 8) {
-                                var node = new Node('<div />');
+                                node = new Node('<div />');
                                 container.append(node);
                                 node.html(html);
                                 var childs = node[0].childNodes;
@@ -1101,9 +1104,10 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                                         container[0].appendChild(childs[0]);
                                     }
                                     node.remove();
+                                    node = null;
                                 }
                             } else {
-                                var node = new Node(html);
+                                node = new Node(html);
                                 if(node.length > 1) {
                                     node = $('<div id="' + elID + '"></div>').append(node);
                                 } else {
@@ -1115,13 +1119,14 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                             self.set('el', '#' + elID);
                         } else {
                             if(UA.ie <= 8) {
-                                var node = new Node('<div />');
+                                node = new Node('<div />');
                                 container.append(node);
                                 node.html(html);
                                 while(node[0].childNodes.length > 0) {
                                     container[0].appendChild(node[0].childNodes[0]);
                                 }
                                 node.remove();
+                                node = null;
                             } else {
                                 container.append(html);
                             }
@@ -1456,10 +1461,8 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
             var events = this.events;
             var node = this.get("el")[0];
             var that = this;
-            for (var _type in events) {
-                (function() {
-                    var type = _type;
-                    node["on" + type] = function() {
+            var foo = function(type){
+                node["on" + type] = function() {
                         var event = arguments[0] || window.event;
                         var target = event.target || event.srcElement;
                         if (target.nodeType !== 1) {
@@ -1494,7 +1497,9 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
                         }
                         target = null;
                     };
-                })();
+            };
+            for (var _type in events) {
+                foo(_type);
             }
         },
         /**
@@ -1505,11 +1510,11 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
             var events = this.events;
             var node = this.get("el")[0];
             var that = this;
+            var foo = function(type){
+                node["on" + type] = null;
+            };
             for (var _type in events) {
-                (function() {
-                    var type = _type;
-                    node["on" + type] = null;
-                })();
+                foo(_type);
             }
         },
         /**
@@ -1611,7 +1616,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         callback:{
             value:null
         }
-    }
+    };
     S.extend(Pagelet, Chunk, {
         /**
          * 获取brick的实例
@@ -1759,7 +1764,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                         self.bricks.splice(i,1);
                         return false;
                     }
-                };
+                }
             }
             else{
                 self._destroy();
@@ -1825,7 +1830,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         win = window,
         loc = win.location,
         startsWith = S.startsWith,
-        __pagePath = loc.href.replace(loc.hash, "").replace(/[^/]*$/i, "");
+        __pagePath = loc.href.replace(loc.hash, "").replace(/[^\/]*$/i, "");
     Brix = win[Brix] = win[Brix] || {};
 
     //从KISSY源代码提取并改动适合brix的
@@ -1869,12 +1874,12 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         }
         path = re.join("/");
         return path.substring(0, path.length - 1);
-    };
+    }
 
     function getBaseInfo() {
         // get path from current script file path
         // notice: timestamp
-        var pathReg = /^(.*)brix(-min)?\.js[^/]*/i,
+        var pathReg = /^(.*)brix(-min)?\.js[^\/]*/i,
             pathTestReg = /brix(-min)?\.js/i,
             scripts = win.document.getElementsByTagName('script'),
             script = scripts[scripts.length - 1],
@@ -1974,7 +1979,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                     [/(.+brix\/)(gallery\/)(.+?)(\/.+?(?:-min)?\.(?:js|css))(\?[^?]+)?$/, function($0, $1, $2, $3, $4, $5) {
                         var str = $1 + options.fixed + $2 + $3;
                         if(options.gallery[$3]) {
-                            str += '/' + options.gallery[$3]
+                            str += '/' + options.gallery[$3];
                         }
                         if(options.debug) {
                             $4 = $4.replace('-min', '');
@@ -2039,5 +2044,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
             return;
         }
     }
-    Brix._fireReady();
-})(KISSY, 'Brix');
+    S.ready(function() {
+        Brix._fireReady();
+    });
+}(KISSY, 'Brix'));

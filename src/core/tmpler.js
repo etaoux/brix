@@ -39,7 +39,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache,Node) {
             if(node) {
                 if(node.item(0)[0].nodeName.toUpperCase() == 'SCRIPT') {
                     //如果是script节点，则直接取html
-                    tmpl = node.item(0).html()
+                    tmpl = node.item(0).html();
                 } else {
                     inDom = true;
                 }
@@ -65,7 +65,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache,Node) {
          */
         _buildTmpls: function(tmpl) {
             var self = this;
-            var r = new RegExp(self.reg,"ig");
+            var r = new RegExp(self.reg,"ig"),m;
             while((m = r.exec(tmpl)) !== null) {
                 self.tmpls.push({
                     name: m[2],
@@ -85,10 +85,12 @@ KISSY.add("brix/core/tmpler", function(S, Mustache,Node) {
             //return tmpl;
             var r = /<!--bx-tmpl="([^"]+?)"\s+bx-datakey="([^"]+?)"-->(\s*([\s\S]*)?\s*)<!--bx-tmpl="\1"-->/g,
                 m;
+            var foo = function(i, j, k, l){
+                S.log(i+','+l);
+                return l;
+            };
             while(r.test(tmpl)) {
-                tmpl = tmpl.replace(r, function(i, j, k, l) {
-                    return l;
-                });
+                tmpl = tmpl.replace(r, foo);
                 r.lastIndex = 0;
             }
             return tmpl;
