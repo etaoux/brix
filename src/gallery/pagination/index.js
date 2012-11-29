@@ -19,7 +19,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
         },
         /**
          * 页数显示偏移，默认0，
-         * @type {Object}
+         * @cfg {Number}
          */
         offset:{
             value:0
