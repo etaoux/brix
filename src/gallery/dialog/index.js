@@ -18,10 +18,7 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
         if(trigger){
             var triggerType = self.get('triggerType');
             S.each(triggerType, function(v) {
-                trigger.on(v, function(e) {
-                    e.preventDefault();
-                    self.toggle();
-                })
+                trigger.on(v, self.toggle,self);
             });
         }
     }
@@ -147,19 +144,18 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
                 dir = self.get('dir');
             //移除动画队列，设置显示，为动画增加效果
             el.stop();
+            //为防止出现滚动条
+            body.css({width:body.width(),height:body.height(),overflow:'hidden'});
+            html.css({width:body.width(),height:body.height(),overflow:'hidden'});
             el.css('visibility', 'visible');
             if (v) {//如果显示
                 el.css(self.get('start'));
                 s = 'end';
-                
             }
             else{
                 el.css(self.get('end'));
                 s = 'start';
             }
-            //为防止出现滚动条
-            body.css({width:body.width(),height:body.height(),overflow:'hidden'});
-            html.css({width:body.width(),height:body.height(),overflow:'hidden'});
             el.animate(self.get(s), self.get('duration'), self.get('easing'), function() {
                 el.css('visibility', v?'visible':"hidden");
                 if(!v){
@@ -203,13 +199,28 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
             });
         },
         destructor:function(){
-            var self = this;
+            var self = this,
+            trigger = S.one(self.get('trigger'));
+            if(trigger){
+                var triggerType = self.get('triggerType');
+                S.each(triggerType, function(v) {
+                    trigger.detach(v, self.toggle,self);
+                });
+            }
             if(self.pagelet){
                 self.pagelet.destroy();
                 self.pagelet = null;
             }
         },
-        toggle: function() {
+        /**
+         * 显示隐藏切换
+         * @param {Event} e 事件
+         */
+        toggle: function(e) {
+            var self = this;
+            if(e){
+                e.preventDefault();
+            }
             var self = this,el = self.get('el');
             if(el){
                 if (el.css('visibility') == 'hidden') {
