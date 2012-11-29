@@ -10,13 +10,13 @@ module.exports = function(grunt) {
         lint: {
             files: [
             'grunt.js'
-            // ,'src/core/brix.js'
-            // ,'src/core/brick.js'
-            // ,'src/core/tmpler.js'
-            // ,'src/core/chunk.js'
-            // ,'src/core/dataset.js'
-            // ,'src/core/pagelet.js'
-            // ,'src/core/mu.js'
+            ,'src/core/brix.js'
+            ,'src/core/brick.js'
+            ,'src/core/tmpler.js'
+            ,'src/core/chunk.js'
+            ,'src/core/dataset.js'
+            ,'src/core/pagelet.js'
+            ,'src/core/mu.js'
             ]
         },
         brixjs:{
@@ -97,7 +97,8 @@ module.exports = function(grunt) {
                 boss: true,
                 eqnull: true,
                 evil:true,
-                expr:true
+                expr:true,
+                laxcomma:true
             },
             globals: {
                 exports: true,
