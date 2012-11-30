@@ -256,7 +256,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                     if(!tmpler.inDom) {
                         var container = self.get('container');
                         var el = self.get('el');
-                        var html = tmpler.to_html(data);
+                        var html = S.trim(tmpler.to_html(data));
                         var node;
                         if((!el || el.length === 0)) {
                             var elID = 'brix_' + S.guid();
@@ -346,7 +346,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                             self.fire('beforeRefreshTmpl', {
                                 node: node
                             });
-                            node.html(o.tmpler.to_html(newData));
+                            node.html(S.trim(o.tmpler.to_html(newData)));
                             //局部刷新后触发
                             self.fire('afterRefreshTmpl', {
                                 node: node
