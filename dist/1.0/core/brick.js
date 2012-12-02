@@ -266,10 +266,8 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
             var events = this.events;
             var node = this.get("el")[0];
             var that = this;
-            for (var _type in events) {
-                (function() {
-                    var type = _type;
-                    node["on" + type] = function() {
+            var foo = function(type){
+                node["on" + type] = function() {
                         var event = arguments[0] || window.event;
                         var target = event.target || event.srcElement;
                         if (target.nodeType !== 1) {
@@ -304,7 +302,9 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
                         }
                         target = null;
                     };
-                })();
+            };
+            for (var _type in events) {
+                foo(_type);
             }
         },
         /**
@@ -315,11 +315,11 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
             var events = this.events;
             var node = this.get("el")[0];
             var that = this;
+            var foo = function(type){
+                node["on" + type] = null;
+            };
             for (var _type in events) {
-                (function() {
-                    var type = _type;
-                    node["on" + type] = null;
-                })();
+                foo(_type);
             }
         },
         /**

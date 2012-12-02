@@ -8,7 +8,16 @@ module.exports = function(grunt) {
             banner: '/*! <%= meta.name %> - v<%= pkg.version %>\n' + '* <%= pkg.homepage %>\n' + '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' + ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */'
         },
         lint: {
-            files: ['grunt.js']
+            files: [
+            'grunt.js'
+            ,'src/core/brix.js'
+            ,'src/core/brick.js'
+            ,'src/core/tmpler.js'
+            ,'src/core/chunk.js'
+            ,'src/core/dataset.js'
+            ,'src/core/pagelet.js'
+            ,'src/core/mu.js'
+            ]
         },
         brixjs:{
             brixjs:{
@@ -81,12 +90,15 @@ module.exports = function(grunt) {
                 eqeqeq: false,
                 immed: true,
                 latedef: true,
-                newcap: true,
+                newcap: false,
                 noarg: true,
                 sub: true,
                 undef: true,
                 boss: true,
-                eqnull: true
+                eqnull: true,
+                evil:true,
+                expr:true,
+                laxcomma:true
             },
             globals: {
                 exports: true,

@@ -19,7 +19,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
         },
         /**
          * 页数显示偏移，默认0，
-         * @type {Object}
+         * @cfg {Number}
          */
         offset:{
             value:0
@@ -490,6 +490,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
          * 计算页数的偏移
          * @param  {Number} index 页数
          * @return {Number} 偏移后的值
+         * @private
          */
         _offset:function(index){
             var self = this,
