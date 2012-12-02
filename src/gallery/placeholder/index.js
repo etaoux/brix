@@ -1,11 +1,10 @@
-/*
- * @module placeholder新版 
- * @description focus后value为空时出现placeholder 
- *   表单提交时，input的值这里不考虑
- * @param {HTMLElement} input element
- * @param {String} labelShowCls:显示placeholder的class
-*/
 KISSY.add('brix/gallery/placeholder/index', function(S, Brick) {
+    /**
+     * Placeholder 仿win7登录框placeholder效果 focus后value为空时placeholder不消失
+     * <br><a href="../demo/gallery/placeholder/placeholder.html" target="_blank">Demo</a>
+     * @class Brix.Gallery.Placeholder
+     * @extends Brix.Brick
+     */
 
     function Placeholder() {
         Placeholder.superclass.constructor.apply(this, arguments);
@@ -14,35 +13,26 @@ KISSY.add('brix/gallery/placeholder/index', function(S, Brick) {
     Placeholder.ATTRS = {
         /**
          * input
-         * @cfg {Element}
-         */
-         ipt: {
-
-         },
-
-        /**
-         * input
          * @cfg {String}
          */
          labelShowCls: {
-            value: 'labelshow'
+            value: 's-placeholder'
          }
     };
 
     S.extend(Placeholder, Brick, {
         initialize: function() {
             var self = this,
-                Dom = S.DOM;
-                ipt = self.get('ipt'),
+                DOM = S.DOM;
+                ipt = self.get('el'),
+                iptDom = ipt.getDOMNode(),
                 labelShowCls = self.get('labelShowCls');
 
-            if (!ipt) return;
-            //是否支持placeholder属性
+            if (iptDom.tagName.toUpperCase() !== 'INPUT') return;
             if ('placeholder' in document.createElement('input')) return;
 
             var placeholder = ipt.attr('placeholder'),
-                label = S.one(DOM.create('<label for="' + ipt.id + '">' + placeholder + '</label>'));
-
+                label = S.one(DOM.create('<label class="' + labelShowCls + '" for="' + iptDom.id + '">' + placeholder + '</label>'));
             label.insertBefore(ipt);
 
             if (ipt.value === '') {
@@ -58,7 +48,6 @@ KISSY.add('brix/gallery/placeholder/index', function(S, Brick) {
             });
         }
     });
-
     return Placeholder;
 }, {
     requires: ["brix/core/brick"]
