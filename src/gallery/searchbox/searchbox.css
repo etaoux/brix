@@ -12,6 +12,13 @@
   background-color: #424a5d;
 }
 
+.common-search fieldset {
+  /*修复tab下拉被淘吧单选钮压住的bug*/
+  *position: relative;
+  *z-index: 1;
+  outline: none;
+}
+
 .common-search fieldset legend {
   display: none;
 }
@@ -21,16 +28,19 @@
 }
 
 .common-search .s-ipt-container input {
+  *vertical-align: middle;
   height: 27px;
   font-size: 14px;
-  color: #101010;
-  width: 214px;
-  padding: 3px 0;
+  color: #333;
+  width: 205px;
+  padding: 3px 0 3px 9px;
+  padding: 6px 0 0px 9px\9;
+  _float: left;
   border: none;
-  -moz-transition: width 0.4s ease-in 0s; 
-  -webkit-transition: width 0.4s ease-in 0s;
-  -o-transition: width 0.4s ease-in 0s; 
-  transition: width 0.4s ease-in 0s; 
+  -moz-transition: width 0.3s ease-in 0s; 
+  -webkit-transition: width 0.3s ease-in 0s;
+  -o-transition: width 0.3s ease-in 0s; 
+  transition: width 0.3s ease-in 0s; 
 }
 
 .common-search .s-ipt-container input:focus {
@@ -40,46 +50,47 @@
 .common-search .s-ipt-container input[type=search] {
   -webkit-appearance: textfield;
   box-sizing: content-box;
+  padding-left: 0;
+  width: 214px;
 }
 
 .common-search .s-btn-container input {
   float: left;
   width: 35px;
   height: 33px;
+  line-height: 33px;
   border: none;
   background-color: #387bee;
   font-family: "globalheader";
   font-size: 16px;
   color: #fff;
+  _zoom: 1;
 }
 
 .common-search .s-menu {
+  color: #999;
   position: relative;
   float: left;
   width: 0px;
-  opacity: 0;
-  -moz-transition: opacity 0.2s ease-in 0s; 
-  -webkit-transition: opacity 0.2s ease-in 0s;
-  -o-transition: opacity 0.2s ease-in 0s; 
-  transition: opacity 0.2s ease-in 0s; 
-  -moz-transition: width 0.4s ease-in 0s; 
-  -webkit-transition: width 0.4s ease-in 0s;
-  -o-transition: width 0.4s ease-in 0s; 
-  transition: width 0.4s ease-in 0s; 
+  overflow: hidden;
+  -moz-transition: width 0.3s ease-in 0s; 
+  -webkit-transition: width 0.3s ease-in 0s;
+  -o-transition: width 0.3s ease-in 0s; 
+  transition: width 0.3s ease-in 0s; 
 }
 
 .common-search .s-menu .s-menu-selected {
   height: 33px;
   line-height: 33px;
-  padding: 0 5px;
   background-color: #fff;
+  text-align: center;
 }
 
 .common-search .s-menu-selected i {
   font-family: "globalheader";
   font-style: normal;
   color: #ccc;
-  padding-left: 3px;
+  padding: 0 5px 0 3px;
 }
 
 .common-search .s-menu-list {
@@ -87,19 +98,27 @@
   position: absolute;
   top: 33px;
   right: 0;
+  z-index: 100000;
   height: 0;
   overflow: hidden;
-  -moz-transition: height 0.4s ease-out 0s; 
-  -webkit-transition: height 0.4s ease-out 0s;
-  -o-transition: height 0.4s ease-out 0s; 
-  transition: height 0.4s ease-out 0s; 
+  border: 1px solid #d9d9d9;
+  border-top: none;
+  -moz-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
+  -moz-transition: height 0.2s ease-in 0s; 
+  -webkit-transition: height 0.2s ease-in 0s;
+  -o-transition: height 0.2s ease-in 0s; 
+  transition: height 0.2s ease-in 0s; 
 }
 
 .common-search .s-menu-list li {
-  padding: 0 20px 0 5px;
   height: 24px;
   line-height: 24px;
-  /*width: 62px;*/
+  width: 42px;
+  padding: 0 8px 0 12px;
+  text-align: left;
 }
 
 .common-search .s-menu-list li a {
@@ -109,16 +128,12 @@
 .common-search .s-menu-list li a:hover, 
 .common-search .s-menu-list .selected a {
   color: #377bee;
+  text-decoration: none;
 }
 
+/* start focus 状态*/
 .s-focus .s-menu {
-   width: auto;
-   opacity: 1;
-   overflow: hidden;
-   -moz-transition: width 0.4s ease-in 0s; 
-  -webkit-transition: width 0.4s ease-in 0s;
-  -o-transition: width 0.4s ease-in 0s; 
-  transition: width 0.4s ease-in 0s; 
+   width: 56px;
 }
 
 .s-focus .expand {
@@ -127,12 +142,85 @@
 
 .common-search .expand .s-menu-list {
   height: auto;
-  -moz-transition: height 0.4s ease-out 0s; 
-  -webkit-transition: height 0.4s ease-out 0s;
-  -o-transition: height 0.4s ease-out 0s; 
-  transition: height 0.4s ease-out 0s; 
 }
 
 .s-focus .s-ipt-container input {
-   width: 269px;
+   width: 260px;
+}
+
+.s-focus .s-ipt-container input[type=search] {
+     width: 269px;
+}
+
+/* end focus 状态*/
+
+/* start for placeholder */
+.common-search .s-ipt-container {
+  position: relative;
+  background-color: #fff;
+}
+
+.common-search .s-ipt-container input {
+  position: relative\9;
+  z-index: 2\9; /* ie下右键placeholder无法在input中粘贴 */
+  background-color: transparent;
+  /*fix ie下背景穿透，导致右键无法粘贴复制，同时避免出现点击label是input outline出现 TODO 产生一个空请求*/
+  background: url(0) no-repeat\9;
+}
+
+.common-search .s-ipt-container label {
+  position: absolute;
+  top: -99999px;
+  left: -99999px;
+  z-index: 1\9;
+}
+
+.common-search .s-ipt-container .s-placeholder {
+  top: 7px;
+  left: 10px;
+}
+
+.common-search .s-ipt-container input:-moz-placeholder,
+.common-search .s-ipt-container input:-moz-placeholder {
+    color: #999!important; /* fix ff */
+    font-size: 14px!important;
+}
+
+.common-search .s-ipt-container .s-placeholder {
+    color: #999;
+    font-size: 14px;
+}
+/* end for placeholder */
+
+
+/*下拉 suggest*/
+.ks-suggest-container {
+  width: 325px !important;
+  color: #333 !important;
+}
+
+.ks-suggest-container {
+  border: 1px solid #d9d9d9 !important;
+  border-top: 1px solid #424A5D !important;
+  width: 323px !important;
+  -moz-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
+}
+
+.ks-suggest-container .ks-selected {
+  background-color: #eee !important;
+}
+
+.ks-suggest-container .ks-selected span {
+  color: #333 !important;
+}
+
+.ks-suggest-result {
+  color: #999 !important;
+}
+
+.ks-suggest-container .ks-selected .ks-suggest-result {
+  color: #999 !important;
 }

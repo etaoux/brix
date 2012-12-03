@@ -17,6 +17,31 @@ KISSY.add('brix/gallery/placeholder/index', function(S, Brick) {
          */
          labelShowCls: {
             value: 's-placeholder'
+         },
+         /**
+         * label
+         * @type {Object}
+         */
+         label: {
+
+         }
+    };
+
+    Placeholder.EVENTS = {
+         "": {
+            keyup: function(e) {
+                var self = this,
+                    label = self.label,
+                    labelShowCls = self.get('labelShowCls');
+                if (e.target.value === '') {
+                    label.addClass(labelShowCls);
+                } else {
+
+                    label.removeClass(labelShowCls);
+                                                            //alert(e.target.value);
+
+                }
+            }
          }
     };
 
@@ -34,18 +59,11 @@ KISSY.add('brix/gallery/placeholder/index', function(S, Brick) {
             var placeholder = ipt.attr('placeholder'),
                 label = S.one(DOM.create('<label class="' + labelShowCls + '" for="' + iptDom.id + '">' + placeholder + '</label>'));
             label.insertBefore(ipt);
+            self.label = label;
 
-            if (ipt.value === '') {
-                label.addClass(labelShowCls);
+            if (iptDom.value != '') {
+                label.removeClass(labelShowCls);
             }
-
-            ipt.on('keyup', function() {
-                if (this.value === '') {
-                    label.addClass(labelShowCls);
-                } else {
-                    label.removeClass(labelShowCls);
-                }
-            });
         }
     });
     return Placeholder;

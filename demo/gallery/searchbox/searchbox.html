@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../../../src/gallery/searchbox/searchbox.css">
     <link rel="stylesheet" href="../../assets/doc.css">
     <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
-    <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,fixed:'src/'}"></script>
+    <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,fixed:'src/',autoPagelet:true}"></script>
     <style>
         .container {
             width: 100%;
@@ -22,24 +22,24 @@
 <body style="min-height:460px">
     <div class="container">
         <div class="common-search clearfix" id="J_searchbox">
-            <fieldset tabindex="0">
+            <fieldset>
                 <legend>一淘搜索框</legend>
                 <form class="search-form">
                 <div class="s-ipt-container">
-                    <input class="searchbox-input" accesskey="s" bx-name="placeholder" x-webkit-speech x-webkit-grammar="builtin:translate" type="search" autocomplete="off" name="q" value="" placeholder="要购物，先一淘" maxlength="512" data-autofocus="autofocus">
+                    <input class="searchbox-input" accesskey="s" bx-name="placeholder" type="search" autocomplete="off" name="q" value="" placeholder="要购物，先一淘" maxlength="512" data-autofocus="autofocus">
                 </div>
-                <div class="s-menu" id="J_sMenu">
+                <div class="s-menu">
                     <div class="s-menu-selected"><span>商品</span><i>&#405;</i></div>
                     <ul class="s-menu-list" data-redirect="true">
                         <li class="selected"  data-suggest-api="http://suggest.taobao.com/sug?area=etao&code=utf-8">
                             <a target="_self" href="http://s.etao.com/search" hidefocus="true" data-stat-submit="dgp=t0&dgl=t&dgt=11">商品</a>
                         </li>
                         <li data-suggest-api="http://suggest.taobao.com/sug?area=etao&code=utf-8"><a target="_self" href="http://s8.etao.com/search?spm=1002.1.0.21&t=0" hidefocus="true" data-stat-submit="dgp=t0&dgl=t&dgt=11">热卖</a></li>
-                        <li><a target="_self" href="http://web.etao.com/search?t=5" hidefocus="true">网页</a></li>
-                        <li><a target="_self"  href="http://www.etao.com/search?t=0"  hidefocus="true">资讯</a></li>   
+                        <!--<li><a target="_self" href="http://web.etao.com/search?t=5" hidefocus="true">网页</a></li>
+                        <li><a target="_self"  href="http://www.etao.com/search?t=0"  hidefocus="true">资讯</a></li> -->  
                         <li><a target="_self"  href="http://8.etao.com/etao.htm?ly=e" hidefocus="true" id="taoba_href">淘吧</a></li>   
-                        <li><a target="_self" href="http://tuan.etao.com/list.htm"  hidefocus="true">团购</a></li>
-                        <li><a target="_self"  href="http://price.etao.com/search.htm"  hidefocus="true">降价</a></li>
+                        <!--<li><a target="_self" href="http://tuan.etao.com/list.htm"  hidefocus="true">团购</a></li>
+                        <li><a target="_self"  href="http://price.etao.com/search.htm"  hidefocus="true">降价</a></li>-->
                         <li><a target="_self"  href="http://quan.etao.com/search.htm"  hidefocus="true">优惠券</a></li>
                     </ul>
                 </div>
@@ -52,13 +52,13 @@
         </div>
 
         <div class="common-search common-search2 clearfix" id="J_searchbox2">
-            <fieldset tabindex="0">
+            <fieldset>
                 <legend>一淘搜索框</legend>
                 <form class="search-form">
                 <div class="s-ipt-container">
                     <input class="searchbox-input" accesskey="s" bx-name="placeholder" x-webkit-speech x-webkit-grammar="builtin:translate" type="search" autocomplete="off" name="q" value="" placeholder="要购物，先一淘" maxlength="512" data-autofocus="autofocus">
                 </div>
-                <div class="s-menu" id="J_sMenu">
+                <div class="s-menu">
                     <div class="s-menu-selected"><span>商品</span><i>&#405;</i></div>
                     <ul class="s-menu-list" data-redirect="true">
                         <li class="selected"  data-suggest-api="http://suggest.taobao.com/sug?area=etao&code=utf-8">
@@ -75,8 +75,7 @@
                 </div>
                 <div class="s-btn-container">
                     <input type="submit" value="&#337;">
-                    <b></b>
-                <div>
+                </div>
                 </form>
             </fieldset>
         </div>

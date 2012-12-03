@@ -9,7 +9,41 @@
     <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,autoPagelet:true,fixed:'src/'}"></script>
 </head>
 <body style="min-height:460px">
-    <div class="container">
+	<style type="text/css">
+.s-ipt-container {
+	margin: 200px;
+}
+
+.s-ipt-container input {
+	width: 400px;
+	height: 30px;
+	line-height: 30px;
+}
+
+/* placeholder常用 style */
+.s-ipt-container {
+  position: relative;
+}
+
+.s-ipt-container label {
+  position: absolute;
+  top: -99999px;
+  left: -99999px;
+}
+
+.s-ipt-container .s-placeholder {
+  top: 7px;
+  left: 10px;
+}
+
+.s-ipt-container input:-moz-placeholder,
+.s-ipt-container input:-moz-placeholder,
+.s-ipt-container .s-placeholder {
+    color: #999 !important; /* fix ff */
+    font-size: 14px !important;
+}
+	</style>
+    <div class="s-ipt-container">
         <input id="J_searchIpt" accesskey="s" x-webkit-speech x-webkit-grammar="builtin:translate" autocomplete="off" bx-name="placeholder" name="q" value="" placeholder="输入商品链接，轻松比价享优惠" maxlength="512">
     </div>
 </body>

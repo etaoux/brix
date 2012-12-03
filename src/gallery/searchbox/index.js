@@ -1,8 +1,4 @@
 KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
-    var $ = S.Node.all;
-    var D = S.DOM; //这三行为了修复淘吧编辑器引入kissy1.1.7 重新覆盖DOM和Event
-    var E = S.Event;
-
     /**
      * 搜索框
      * <br><a href="../demo/gallery/searchbox/searchbox.html" target="_blank">Demo</a>
@@ -74,7 +70,6 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
             click: function(e) {
                 var self = this,
                     tar = S.one(e.target);
-                //console.log(e.target);
                 //点在搜索框以外
                 if(!self.get('el').contains(tar)) {
                     self.hideTabs();
@@ -88,15 +83,23 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
             mouseenter:function (e) {
                 e.preventDefault();
                 var self = this,
-                    target = e.currentTarget;
-                D.addClass(target, 'expand');
+                    tar = S.one(e.currentTarget),
+                    menuList = tar.one('.s-menu-list');
+                tar.addClass('expand');
+                //height auto 不支持css animation 所以取height value
+                var h = menuList.height();
+                if (!self.menu.h) {
+                    self.menu.h = h;
+                } 
+                menuList.height(self.menu.h);
             },
             mouseleave:function (e) {
                 e.preventDefault();
                 var self = this,
-                    target = e.currentTarget;
-                D.removeClass(target, 'expand');
-                self.focusInput();
+                    tar = S.one(e.currentTarget),
+                    menuList = tar.one('.s-menu-list');
+                tar.removeClass('expand');
+                menuList.height(0);
             }
         },
         'li' : {
@@ -109,36 +112,34 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
                 e.halt(true);
 
                 //点击本身
-                if (tar.hasClass(curCls)) {
-                    e.halt(true);
-                    return;
-                }
+                if (tar.hasClass(curCls)) { return; }
                 var menuItems = self.get('el').all('li'),
                     menuSelected = self.get('el').one('.s-menu-selected span');
                 //点击选中
                 menuItems.removeClass(curCls);
                 tar.addClass(curCls);
                 menuSelected.html(tar.one('a').html());
-                D.removeClass(self.menu, 'expand');
+                //优惠券等3个字宽度自适应
+                //self.menu.width('auto');
 
-                if (self.ipt.value !== '') {
-                    self.submit();
-                } else {
-                    self.focusInput();
-                }
+                self.menu.removeClass('expand');
+
+                if (self.ipt.getDOMNode().value !== '') {
+                    self._fireEvent(self.form.getDOMNode(), 'submit');
+                } 
             }           
         },
         '.searchbox-input': {
             focus:function (e) {
                 var self = this;
                 var target = e.currentTarget;
-                var suggestApi = D.attr(self.get('curItem'), self.get("suggestApi"));
+                var suggestApi = self.get('curItem').attr(self.get("suggestApi"));
                 //和上次focus使用的suggesetapi缓存对比
                 if(self.suggestApi && self.suggestApi !== suggestApi) {
                     self.detach(e.type, arguments.callee);
-                    /*self.suggest.on('beforeStart', function() {
+                    self.suggest.on('beforeStart', function() {
                         return false;
-                    });*/
+                    });
                     self.suggest = undefined;
                 }
 
@@ -149,21 +150,22 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
                 }
                 self.suggestApi = suggestApi;
                 self.showTabs();
-                self.fire('afterFocus', {'eventData' : e.currentTarget});
+                self.fire('afterFocus', {'eventData' : target});
             }
         },
-        '.search-form': {
+        'form': {
             submit: function(e) {
                 var self = this;
-                self.fire('afterFocus', {'eventData' : e.target});
+                self.fire('beforeSubmit', {'eventData' : e.target});
 
-                var currentTabA = D.get('a', self.curItem);
-                if (self.ipt.value === '') {
+                var currentTabA = self.get('curItem').one('a');
+                if (self.ipt.getDOMNode().value === '') {
                     e.halt(true);
                     self.focusInput();
                 } else {
-                    var action = D.attr(currentTabA, 'href')
-                        form = self.form;
+                    var action = currentTabA.attr('href'),
+                        form = e.target;
+                        form.action = action;
                     //不同tab传递不一样的参数，通过a中的href后面的？来配置要传递的参数
                     self._parseAction(form, action);
                     form.submit();
@@ -195,7 +197,7 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
          */
         focusInput:function () {
             var self = this;
-            self.ipt.focus();
+            self.ipt.getDOMNode().focus();
         }
     };
 
@@ -234,7 +236,7 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
             if (hiddenInput) {
                 hiddenInput.value = value;
             } else {
-                hiddenInput = D.create('<input type="hidden" name="' + key + '" value="' + value + '" />');
+                hiddenInput = S.DOM.create('<input type="hidden" name="' + key + '" value="' + value + '" />');
                 form.appendChild(hiddenInput);
             }
             return hiddenInput;
@@ -248,19 +250,19 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
             });
 
             self.suggest.on('beforeShow', function() {//{{{
-                //和query不相同的字符加粗
                 self._keyword();
             });//}}}
 
             self.suggest.on('itemSelect', function() {//{{{
                 //对下拉埋点 透传suggest=0_N & wq=xx到srp中
+                var D = S.DOM;
                 var selectedItem = this.selectedItem,
                     items = D.query('li', this.containers),
                     searchForm = S.get('form', self.get('el'));
-                self.writeHiddenInput(searchForm, 'wq', D.attr(selectedItem, 'key'));
-                self.writeHiddenInput(searchForm, 'suggest', '0_' + S.indexOf(selectedItem, items));
+                self._writeHiddenInput(searchForm, 'wq', D.attr(selectedItem, 'key'));
+                self._writeHiddenInput(searchForm, 'suggest', '0_' + S.indexOf(selectedItem, items));
             });//}}}
-
+            //空query不提交表单
             self.suggest.on('beforeSubmit', function() {
                 if (ipt.value === '') {
                     return false;
@@ -272,7 +274,8 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
          * @private
          */
         _keyword: function() {//{{{
-            var self = this,
+            var D = S.DOM,
+                self = this,
                 sug = self.suggest,
                 ori = sug.query,
                 idx = ori.length;
@@ -283,6 +286,25 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
                     D.html(k, s.substring(0, idx) + '<b>' + s.substring(idx, s.length) + '</b>');
                 }
             });
+        },
+        /**
+         * 兼容多浏览器的事件触发器
+         * @param {Object} element 触发事件的元素.
+         * @param {String} event 事件名.
+         */           
+        _fireEvent: function(element, event) {
+            if (document.createEvent){
+                // 标准浏览器使用dispatchEvent方法
+                var evt = document.createEvent( 'HTMLEvents' );
+                // initEvent接受3个参数：
+                // 事件类型，是否冒泡，是否阻止浏览器的默认行为
+                evt.initEvent(event, true, true); 
+                element.dispatchEvent(evt);
+            } else if (document.createEventObject) {
+                // IE浏览器支持fireEvent方法
+                var evt = document.createEventObject();
+                element.fireEvent('on'+event,evt);
+            }
         }
     });
     S.augment(Searchbox, Searchbox.METHODS);
