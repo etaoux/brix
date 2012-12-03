@@ -60,7 +60,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         callback:{
             value:null
         }
-    }
+    };
     S.extend(Pagelet, Chunk, {
         /**
          * 获取brick的实例
@@ -208,7 +208,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                         self.bricks.splice(i,1);
                         return false;
                     }
-                };
+                }
             }
             else{
                 self._destroy();

@@ -283,10 +283,8 @@
             var events = this.events;
             var node = this.get(&quot;el&quot;)[0];
             var that = this;
-            for (var _type in events) {
-                (function() {
-                    var type = _type;
-                    node[&quot;on&quot; + type] = function() {
+            var foo = function(type){
+                node[&quot;on&quot; + type] = function() {
                         var event = arguments[0] || window.event;
                         var target = event.target || event.srcElement;
                         if (target.nodeType !== 1) {
@@ -321,7 +319,9 @@
                         }
                         target = null;
                     };
-                })();
+            };
+            for (var _type in events) {
+                foo(_type);
             }
         },
 <span id='Brix-Brick-method-_undelegateEvents'>        /**
@@ -332,11 +332,11 @@
             var events = this.events;
             var node = this.get(&quot;el&quot;)[0];
             var that = this;
+            var foo = function(type){
+                node[&quot;on&quot; + type] = null;
+            };
             for (var _type in events) {
-                (function() {
-                    var type = _type;
-                    node[&quot;on&quot; + type] = null;
-                })();
+                foo(_type);
             }
         },
 <span id='Brix-Brick-method-destroy'>        /**

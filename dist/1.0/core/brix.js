@@ -27,7 +27,7 @@
         win = window,
         loc = win.location,
         startsWith = S.startsWith,
-        __pagePath = loc.href.replace(loc.hash, "").replace(/[^/]*$/i, "");
+        __pagePath = loc.href.replace(loc.hash, "").replace(/[^\/]*$/i, "");
     Brix = win[Brix] = win[Brix] || {};
 
     //从KISSY源代码提取并改动适合brix的
@@ -71,12 +71,12 @@
         }
         path = re.join("/");
         return path.substring(0, path.length - 1);
-    };
+    }
 
     function getBaseInfo() {
         // get path from current script file path
         // notice: timestamp
-        var pathReg = /^(.*)brix(-min)?\.js[^/]*/i,
+        var pathReg = /^(.*)brix(-min)?\.js[^\/]*/i,
             pathTestReg = /brix(-min)?\.js/i,
             scripts = win.document.getElementsByTagName('script'),
             script = scripts[scripts.length - 1],
@@ -176,7 +176,7 @@
                     [/(.+brix\/)(gallery\/)(.+?)(\/.+?(?:-min)?\.(?:js|css))(\?[^?]+)?$/, function($0, $1, $2, $3, $4, $5) {
                         var str = $1 + options.fixed + $2 + $3;
                         if(options.gallery[$3]) {
-                            str += '/' + options.gallery[$3]
+                            str += '/' + options.gallery[$3];
                         }
                         if(options.debug) {
                             $4 = $4.replace('-min', '');
@@ -241,5 +241,7 @@
             return;
         }
     }
-    Brix._fireReady();
-})(KISSY, 'Brix');
+    S.ready(function() {
+        Brix._fireReady();
+    });
+}(KISSY, 'Brix'));

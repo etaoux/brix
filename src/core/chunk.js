@@ -166,7 +166,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                 self.set('isBuidDataset', true);
                 data = data || {}; //原始数据
                 data = S.clone(data); //数据深度克隆
-                dataset = new Dataset({
+                var dataset = new Dataset({
                     data: data
                 });
                 self.set('dataset', dataset); //设置最新的数据集合
@@ -256,11 +256,12 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                     if(!tmpler.inDom) {
                         var container = self.get('container');
                         var el = self.get('el');
-                        var html = tmpler.to_html(data);
-                        if((!el || el.length == 0)) {
+                        var html = S.trim(tmpler.to_html(data));
+                        var node;
+                        if((!el || el.length === 0)) {
                             var elID = 'brix_' + S.guid();
                             if(UA.ie <= 8) {
-                                var node = new Node('<div />');
+                                node = new Node('<div />');
                                 container.append(node);
                                 node.html(html);
                                 var childs = node[0].childNodes;
@@ -273,9 +274,10 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                                         container[0].appendChild(childs[0]);
                                     }
                                     node.remove();
+                                    node = null;
                                 }
                             } else {
-                                var node = new Node(html);
+                                node = new Node(html);
                                 if(node.length > 1) {
                                     node = $('<div id="' + elID + '"></div>').append(node);
                                 } else {
@@ -287,13 +289,14 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                             self.set('el', '#' + elID);
                         } else {
                             if(UA.ie <= 8) {
-                                var node = new Node('<div />');
+                                node = new Node('<div />');
                                 container.append(node);
                                 node.html(html);
                                 while(node[0].childNodes.length > 0) {
                                     container[0].appendChild(node[0].childNodes[0]);
                                 }
                                 node.remove();
+                                node = null;
                             } else {
                                 container.append(html);
                             }
@@ -343,7 +346,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                             self.fire('beforeRefreshTmpl', {
                                 node: node
                             });
-                            node.html(o.tmpler.to_html(newData));
+                            node.html(S.trim(o.tmpler.to_html(newData)));
                             //局部刷新后触发
                             self.fire('afterRefreshTmpl', {
                                 node: node
