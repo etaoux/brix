@@ -56,7 +56,7 @@
             if(node) {
                 if(node.item(0)[0].nodeName.toUpperCase() == 'SCRIPT') {
                     //如果是script节点，则直接取html
-                    tmpl = node.item(0).html()
+                    tmpl = node.item(0).html();
                 } else {
                     inDom = true;
                 }
@@ -82,7 +82,7 @@
          */
         _buildTmpls: function(tmpl) {
             var self = this;
-            var r = new RegExp(self.reg,&quot;ig&quot;);
+            var r = new RegExp(self.reg,&quot;ig&quot;),m;
             while((m = r.exec(tmpl)) !== null) {
                 self.tmpls.push({
                     name: m[2],
@@ -102,10 +102,12 @@
             //return tmpl;
             var r = /&lt;!--bx-tmpl=&quot;([^&quot;]+?)&quot;\s+bx-datakey=&quot;([^&quot;]+?)&quot;--&gt;(\s*([\s\S]*)?\s*)&lt;!--bx-tmpl=&quot;\1&quot;--&gt;/g,
                 m;
+            var foo = function(i, j, k, l){
+                S.log(i+','+l);
+                return l;
+            };
             while(r.test(tmpl)) {
-                tmpl = tmpl.replace(r, function(i, j, k, l) {
-                    return l;
-                });
+                tmpl = tmpl.replace(r, foo);
                 r.lastIndex = 0;
             }
             return tmpl;
