@@ -67,6 +67,12 @@
     }
 }
 
+.input-error,
+.textarea-error {
+    border-color: @inputBorderError;
+    .box-shadow(~"0 0 8px rgba(236, 0, 0, .6)");
+}
+
 // Disabled and read-only inputs
 .input-disabled {
     cursor: not-allowed;
