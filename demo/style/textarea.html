@@ -17,25 +17,25 @@
 <body>
 <div class="container">
 
-    <h2>文本框</h2>
-    <form class="form-horizontal">
+    <h3 class="h3">文本框</h3>
+    <form class="form">
         <fieldset>
             <div class="control-group">
                 <label class="control-label" for="input02">普通未输入状态:</label>
                 <div class="controls">
-                    <textarea id="input02" placeholder="未输入前提示文字"></textarea>
+                    <textarea id="input02" class="textarea" rows="3" placeholder="未输入前提示文字"></textarea>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="input03">普通已输入状态:</label>
                 <div class="controls">
-                    <textarea id="input03" placeholder="未输入前提示文字">输入的文字</textarea>
+                    <textarea id="input03" class="textarea" rows="3" placeholder="未输入前提示文字">输入的文字</textarea>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="input03">焦点状态:</label>
                 <div class="controls">
-                    <textarea id="input03" class="focus">用户需要输入或编辑长字符；
+                    <textarea id="input03" class="textarea focus" rows="3">用户需要输入或编辑长字符；
 
 文本框的高度应该满足典型输入内容的要求；
 
@@ -55,7 +55,7 @@
             <div class="control-group error">
                 <label class="control-label" for="input03">输入错误状态:</label>
                 <div class="controls">
-                    <textarea id="input03" placeholder="未输入前提示文字">用户需要输入或编辑长字符；
+                    <textarea id="input03" class="textarea" rows="3" placeholder="未输入前提示文字">用户需要输入或编辑长字符；
 
 文本框的高度应该满足典型输入内容的要求；
 
@@ -75,7 +75,7 @@
             <div class="control-group disabled">
                 <label class="control-label" for="input04">Disabled 状态:</label>
                 <div class="controls">
-                    <textarea id="input04" class="disabled" disabled placeholder="未输入前提示文字" >输入的文字</textarea>
+                    <textarea id="input04" class="textarea textarea-disabled" rows="3" disabled placeholder="未输入前提示文字" >输入的文字</textarea>
                 </div>
             </div>
         </fieldset>
