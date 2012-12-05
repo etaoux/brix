@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Brix Chart Demo</title>
+        <meta charset="utf-8" />
+        <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
+        <link rel="stylesheet" href="../../assets/doc.css">
+        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+        <!--<script src="http://a.tbcdn.cn/apps/e/brix/1.0/brix.js" bx-config="{autoConfig:true}"></script>-->
+        <script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>
+    </head>
+<body>
+	<div id="J_wrapper1" class="wrapper1" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper2" class="wrapper2" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper3" class="wrapper3" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper4" class="wrapper4" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper5" class="wrapper5" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper6" class="wrapper6" style="width:720px;height:400px;"></div>
+
+	<script type="text/javascript">
+
+		KISSY.use('brix/gallery/charts/',function(S,Charts){
+			new Charts({
+					parent_id:'J_wrapper1',
+
+					path:'',
+
+					config:{
+						configData:'<chart v="1.0" type="line"><data shape="0" node="1" area="0"/></chart>',
+						
+						chartData:'<chart><data><indexAxis labels="12月1号,12月2号,12月3号,12月4号,12月5号,12月6号,12月7号" name="维度2："/><sets name="维度1："><set values="83,81,77,71,68,70,68"></set></sets></data></chart>'
+					}
+			});
+			new Charts({
+					parent_id:'J_wrapper2',
+
+					path:'',
+
+					config:{
+						configData:'<?xml version="1.0"?><chart v="1.0" type="line"><data shape="0" node="1" area="0"><colors normals="0xF93715" overs="0xFF0000"/><node mode="1"><normal radius="2" thickness="1"/><over min_radius="0" max_radius="4" max_thickness="1"/></node></data></chart>',
+						
+						chartData:'<chart><data><indexAxis labels="2012.09.28,2012.09.29,2012.09.30,2012.10.01,2012.10.02,2012.10.03,2012.10.04,2012.10.05,2012.10.06,2012.10.07,2012.10.08,2012.10.09,2012.10.10,2012.10.11,2012.10.12,2012.10.13,2012.10.14,2012.10.15,2012.10.16,2012.10.17,2012.10.18,2012.10.19,2012.10.20,2012.10.21,2012.10.22,2012.10.23,2012.10.24,2012.10.25,2012.10.26,2012.10.27,2012.10.28,2012.10.29,2012.10.30,2012.10.31,2012.11.01,2012.11.02,2012.11.03,2012.11.04,2012.11.05,2012.11.06,2012.11.07,2012.11.08,2012.11.09,2012.11.10,2012.11.11,2012.11.12,2012.11.13,2012.11.14,2012.11.15,2012.11.16,2012.11.17,2012.11.18,2012.11.19,2012.11.20,2012.11.21,2012.11.22,2012.11.23,2012.11.24,2012.11.25,2012.11.26,2012.11.27" name="日期："/><sets name="价格："><set values="179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,76.43,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8,179.8"></set></sets></data></chart>'
+					}
+			});
+			new Charts({
+					parent_id:'J_wrapper3',
+
+					config:{
+						configData:'<chart v="1.0" type="line"><data shape="1" node="0" area="1"/></chart>',
+							
+						chartData:'<chart><data><indexAxis labels="12月1号,12月2号,12月3号,12月4号,12月5号,12月6号,12月7号" name="维度2："/><sets name="维度1："><set values="83,81,77,71,68,70,68"></set><set values="43,41,37,31,28,30,28"></set><set values="143,141,137,131,128,130,128"></set></sets></data></chart>'
+					}
+			});
+			new Charts({
+					parent_id:'J_wrapper4',
+
+					config:{
+						configData:'<chart v="1.0" type="line"><data shape="1" node="0" area="0"><colors normals="0x3300FF,0x3333FF,0x3366FF" overs="0xCC0000,0xCC3300,0xCC6600"/></data></chart>',
+					
+						chartData:'<chart><data><indexAxis labels="12月1号,12月2号,12月3号,12月4号,12月5号,12月6号,12月7号" name="维度2："><key indexs="5"/></indexAxis><sets name="维度1："><set values="83,81,77,71,68,70,68"></set><set values="43,41,37,31,28,30,28"></set><set values="143,141,137,131,128,130,128"></set></sets></data></chart>'
+					}
+			});
+			new Charts({
+					parent_id:'J_wrapper5',
+
+					config:{
+						configData:'<chart v="1.0" type="line"><data shape="1" node="0" area="0"><colors normals="0x3300FF,0x3333FF,0x3366FF" overs="0xCC0000,0xCC3300,0xCC6600"/></data></chart>',
+					
+						chartData:'<chart><data><indexAxis labels="12月1号,12月2号,12月3号,12月4号,12月5号,12月6号,12月7号" name="维度2："><key indexs="5"/></indexAxis><sets name="维度1："><set values="83,81,77,71,68,70,68" name="维度1---1："></set><set values="43,41,37,31,28,30,28"></set><set values="143,141,137,131,128,130,128" name="维度1---3："></set></sets></data></chart>'
+					}
+			});
+			new Charts({
+					parent_id:'J_wrapper6',
+
+					config:{
+						configData:'<chart v="1.0" type="line"><data shape="1" node="0" area="0"><colors normals="0x3300FF,0x3333FF,0x3366FF" overs="0xCC0000,0xCC3300,0xCC6600"/></data></chart>',
+					
+						chartData:'<chart><data><indexAxis labels="2012-04-02,2012-04-03,2012-04-04,2012-04-05,2012-04-06,2012-04-07,2012-04-08" chartParam="" name="时间："/><sets name="点击转化率:"><set values="0.47,0.54,0.72,1.1,0.75,0.57,0.43"></set></sets></data></chart>'
+					}
+			})
+		})
+	</script>
+</body>
+</html>

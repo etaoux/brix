@@ -65,6 +65,12 @@ module.exports = function(grunt) {
                 }
             }
         },
+        chartsjs:{
+            chartsjs:{
+                src:'src/gallery/charts/',
+                dest:'dist/<%= pkg.version %>/gallery/charts/'
+            }
+        },
         watch: {
             watchbrixjs:{
                 files: 'src/core/*.js',
@@ -124,5 +130,5 @@ module.exports = function(grunt) {
     grunt.loadTasks('tasks');
 
     // Default task.
-    grunt.registerTask('default', 'lint brixjs brixless galleryless galleryjs watch');
+    grunt.registerTask('default', 'lint brixjs brixless galleryless galleryjs chartsjs watch');
 };

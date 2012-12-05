@@ -7,6 +7,9 @@ KISSY.add('brix/gallery/placeholder/index', function(S, Brick) {
      */
 
     function Placeholder() {
+        if ('placeholder' in document.createElement('input')) {
+            return {};
+        }
         Placeholder.superclass.constructor.apply(this, arguments);
     }
 
@@ -36,10 +39,7 @@ KISSY.add('brix/gallery/placeholder/index', function(S, Brick) {
                 if (e.target.value === '') {
                     label.addClass(labelShowCls);
                 } else {
-
                     label.removeClass(labelShowCls);
-                                                            //alert(e.target.value);
-
                 }
             }
          }
@@ -52,10 +52,7 @@ KISSY.add('brix/gallery/placeholder/index', function(S, Brick) {
                 ipt = self.get('el'),
                 iptDom = ipt.getDOMNode(),
                 labelShowCls = self.get('labelShowCls');
-
             if (iptDom.tagName.toUpperCase() !== 'INPUT') return;
-            if ('placeholder' in document.createElement('input')) return;
-
             var placeholder = ipt.attr('placeholder'),
                 label = S.one(DOM.create('<label class="' + labelShowCls + '" for="' + iptDom.id + '">' + placeholder + '</label>'));
             label.insertBefore(ipt);
@@ -63,6 +60,11 @@ KISSY.add('brix/gallery/placeholder/index', function(S, Brick) {
 
             if (iptDom.value != '') {
                 label.removeClass(labelShowCls);
+            }
+        },
+        destructor:function(){
+            if(this.label){
+                this.label = null;
             }
         }
     });

@@ -1,300 +1,237 @@
-@sprite: 'http://img03.taobaocdn.com/tps/i3/T1b8fAXfpnXXX5DWD4-200-260.png';
-@backgroundColorDefault: #4690cd;
-@backgroundColorCustom: #f82500;
-
-.border-radius(@radius: 5px) {
-    -moz-border-radius: @radius;
-    -khtml-border-radius: @radius;
-    -webkit-border-radius: @radius;
-    border-radius: @radius;
+@font-face {
+    font-family: 'globalheader';
+    src: url('http://img01.taobaocdn.com/tfscom/T1VhZoXXJfXXXRsVjX.eot');  /*IE9*/
+    src: url('http://img01.taobaocdn.com/tfscom/T1VhZoXXJfXXXRsVjX.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('http://img01.taobaocdn.com/tfscom/T12pUpXbXeXXXH0WbX.woff') format('woff'), /* chrome、firefox */
+    url('http://img01.taobaocdn.com/tfscom/T1NzspXoBaXXcxxVjX.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('http://img01.taobaocdn.com/tfscom/T1TiMqXXdXXXcPxFjX.svg#svgFontName') format('svg'); /* iOS 4.1- */
 }
 
-.transition(@property:background-color,  @duration:0.25s,  @timing-function:ease-out, @delay: 0) {
-    -webkit-transition: @arguments;
-    -moz-transition: @arguments;
-    transition: @arguments;
+.common-search {
+  position: relative;
 }
 
-.transition-transform(@duration: .2s, @timing-function:ease-in-out) {
-    -webkit-transition: -webkit-transform @arguments;
-    -moz-transition: -moz-transform @arguments;
-    -o-transition: -o-transform @arguments;
-    -ms-transition: -ms-transform @arguments;
-    transition: transform @arguments;
+.common-search fieldset {
+  /*修复tab下拉被淘吧单选钮压住的bug*/
+  *position: relative;
+  *z-index: 1;
+  outline: none;
 }
 
-.transform (@property: rotate(-180deg)) {
-    -webkit-transform: @property;
-    -moz-transform: @property;
-    -o-transform: @property;
-    -ms-transform: @property;
-    transform: @property;
+.common-search fieldset legend {
+  display: none;
 }
 
-.border-radius-bottomleft(@radius: 0px) {
-    -webkit-border-bottom-left-radius: @radius;
-    -moz-border-radius-bottomleft: @radius;
-    border-bottom-left-radius: @radius;
+.common-search .s-ipt-container {
+  float: left;
 }
 
-.border-radius-topright(@radius: 0px) {
-    -webkit-border-top-right-radius: @radius;
-    -moz-border-radius-topright: @radius;
-    border-top-right-radius: @radius;
-
+.common-search .s-ipt-container input {
+  *vertical-align: middle;
+  height: 27px;
+  font-size: 14px;
+  color: #333;
+  width: 205px;
+  padding: 3px 0 3px 9px;
+  padding: 6px 0 0px 9px\9;
+  _float: left;
+  border: none;
+  -moz-transition: width 0.3s ease-out 0s; 
+  -webkit-transition: width 0.3s ease-out 0s;
+  -o-transition: width 0.3s ease-out 0s; 
+  transition: width 0.3s ease-out 0s; 
 }
 
-.border-radius-bottomright(@radius: 0px) {
-    -webkit-border-bottom-right-radius: @radius;
-    -moz-border-radius-bottomright: @radius;
-    border-bottom-right-radius: @radius;
+.common-search .s-ipt-container input:focus {
+  outline: none;
 }
 
-.searchbox {
-
+.common-search .s-ipt-container input[type=search] {
+  -webkit-appearance: textfield;
+  box-sizing: content-box;
+  padding-left: 0;
+  width: 214px;
 }
 
-.s-ipt-inner input,
-.s-menu-selected i,
-.s-ipt-inner label,
-.s-btn-clear,
-.s-btn-submit {
-    background: url(@sprite) no-repeat -9999px -9999px;
+.common-search .s-btn-container {
+  float: left;
 }
 
-.searchbox form {
-    margin: 0;
+.common-search .s-btn-container input {
+  float: left;
+  width: 35px;
+  height: 33px;
+  line-height: 33px;
+  border: none;
+  background-color: #ff6600;
+  font-family: "globalheader";
+  font-size: 16px;
+  color: #fff;
+  _zoom: 1;
 }
 
-.searchbox fieldset {
-    /*修复tab下拉被单选钮压住的bug*/
-    *position: relative;
-    *z-index: 1;
+.common-search .s-menu {
+  color: #999;
+  position: relative;
+  float: left;
+  width: 0px;
+  overflow: hidden;
+  -moz-transition: width 0.3s ease-in 0s; 
+  -webkit-transition: width 0.3s ease-in 0s;
+  -o-transition: width 0.3s ease-in 0s; 
+  transition: width 0.3s ease-in 0s; 
 }
 
-.searchbox legend {
-    display: none;
+.common-search .s-menu .s-menu-selected {
+  height: 33px;
+  line-height: 33px;
+  background-color: #fff;
+  text-align: center;
 }
 
-.searchbox-outer {
-    padding: 3px;
-    .border-radius(5px);
-    .transition(background-color, 0.25s, ease-out, 0s);
-    background-color: #ccc;
+.common-search .s-menu-selected i {
+  font-family: "globalheader";
+  font-style: normal;
+  color: #ccc;
+  padding: 0 5px 0 3px;
 }
 
-.searchbox-inner {
-    height: 37px;
-    background-color: #fff;
-    .border-radius(3px);
-    .transition(border-radius, 0s, ease-out, .2s);
+.common-search .s-menu-list {
+  background-color: #fff; 
+  position: absolute;
+  top: 33px;
+  right: 0;
+  z-index: 100000;
+  height: 0;
+  overflow: hidden;
+  border: 1px solid #d9d9d9;
+  border-top: none;
+  -moz-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
+  -moz-transition: height 0.2s ease-in 0s; 
+  -webkit-transition: height 0.2s ease-in 0s;
+  -o-transition: height 0.2s ease-in 0s; 
+  transition: height 0.2s ease-in 0s; 
 }
 
-.searchbox-inner.expandmenu {
-    .border-radius-bottomleft(0);
-    .transition(border-radius, 0s, ease-out, 0s);
+.common-search .s-menu-list li {
+  height: 24px;
+  line-height: 24px;
+  width: 42px;
+  padding: 0 8px 0 12px;
+  text-align: left;
 }
 
-.default {
-    .searchbox-outer.focus,
-    .searchbox-outer.focus .s-menu-container {
-        background-color: @backgroundColorDefault;
-    }
+.common-search .s-menu-list li a {
+  color: #999;
 }
 
-.custom {
-    .searchbox-outer.focus,
-    .searchbox-outer.focus .s-menu-container {
-        background-color: @backgroundColorCustom;
-    }
+.common-search .s-menu-list li a:hover, 
+.common-search .s-menu-list .selected a {
+  color: #377bee;
+  text-decoration: none;
 }
 
-.searchbox-menu {
-    float: left;
-    position: relative;
-    _margin-right: -3px;
-    .transition(color, 0.25s, ease-out, 0s);
+/* start focus 状态*/
+.s-focus .s-menu {
+   width: 56px;
 }
 
-.s-menu-selected {
-    height: 37px;
-    line-height: 37px;
-    font-size: 16px;
-    padding: 0 10px;
-    color: #8C8C8C;
-    _margin-top: 9px;
-    _height: 28px;
-    _display: inline; /* 防止宽度100% */
-    _zoom: 1;
-
+.s-focus .expand {
+   overflow: visible;
 }
 
-.expand .s-menu-selected {
-    color: #404040;
-    cursor: pointer;
+.common-search .expand .s-menu-list {
+  height: auto;
 }
 
-.searchbox-menu .s-menu-selected i {
-    display: inline-block;
-    margin: 0 0 2px 10px;
-    width: 11px;
-    height: 7px;
-    _overflow: hidden;
-    background-position: 0 -15px;
-    *vertical-align: middle;
-    .transition-transform(.2s, ease-in-out)
+.s-focus .s-ipt-container input {
+   width: 260px;
 }
 
-.searchbox-menu:hover .s-menu-selected i,
-.searchbox-menu.expand .s-menu-selected i {
-    .transform (rotate(-180deg));
+.s-focus .s-ipt-container input[type=search] {
+     width: 269px;
 }
 
-.s-ipt-outer {
+/* end focus 状态*/
 
+/* start for placeholder */
+.common-search .s-ipt-container {
+  position: relative;
+  background-color: #fff;
 }
 
-.s-ipt-inner {
-    position: relative;
-    height: 37px;
-    overflow: hidden;
-
+.common-search .s-ipt-container input {
+  position: relative\9;
+  z-index: 2\9; /* ie下右键placeholder无法在input中粘贴 */
+  background-color: transparent;
+  /*fix ie下背景穿透，导致右键无法粘贴复制，同时避免出现点击label是input outline出现 TODO 产生一个空请求*/
+  background: url(0) no-repeat\9;
 }
 
-.s-ipt-inner label {
-    position: absolute;
-    left: 10px;
-    top: 0;
-    height: 37px;
-    line-height: 37px;
-    background-position: 0 -220px;
-    padding-left: 25px;
-    font-size: 12px;
-    color: #ddd;
-    cursor: text;
+.common-search .s-ipt-container label {
+  position: absolute;
+  top: -99999px;
+  left: -99999px;
+  z-index: 1\9;
 }
 
-.s-ipt-inner label.hide {
-    top: -9999px;
+.common-search .s-ipt-container .s-placeholder {
+  top: 7px;
+  left: 10px;
 }
 
-.s-ipt-inner input {
-    background-position: 0 -180px;
-
-    width: 98.5%;
-    _width: 90%;
-    height: 30px;
-    margin: 0;
-    font-size: 20px;
-    line-height: 30px;
-    padding: 4px 4px 3px 10px;
-    border: 0 none;
+.common-search .s-ipt-container input:-moz-placeholder,
+.common-search .s-ipt-container input:-moz-placeholder {
+    color: #999!important; /* fix ff */
+    font-size: 14px!important;
 }
 
-.searchbox button {
-    float: right;
-    margin: 0;
-    padding: 0;
-}
-
-.s-btn-clear {
-    display: none;
-    width: 36px;
-    height: 37px;
-    border: 0 none;
-    text-indent: -9999em;
-    background-position: 0 -140px;
-    _margin-left: -3px;
-}
-
-.s-btn-clear:hover {
-    background-position: -100px -140px;
-}
-
-.s-btn-clear:active {
-    background-position: -150px -140px;
-}
-
-.s-btn-submit {
-    width: 44px;
-    height: 37px;
-    border: 0 none;
-    text-indent: -9999em;
-    background-position: 0 -90px;
-    .border-radius-topright(3px);
-    .border-radius-bottomright(3px);
-}
-
-.default .focus .s-btn-submit {
-    background-position: -50px -40px;
-}
-
-.default .focus .s-btn-submit:hover {
-    background-position: -100px -40px;
-}
-
-.default .focus .s-btn-submit:active {
-    background-position: -150px -40px;
-}
-
-.custom .focus .s-btn-submit {
-    background-position: -50px -90px;
-}
-
-.custom .focus .s-btn-submit:hover {
-    background-position: -100px -90px;
-}
-
-.custom .focus .s-btn-submit:active {
-    background-position: -150px -90px;
-}
-
-.s-menu-container {
-    position: absolute;
-    left: -3px;
-    top: 37px;
-    width: 73px;
-    background-color: #ccc;
-    z-index: 10000;
-    .border-radius-bottomleft(5px);
-    .border-radius-bottomright(5px);
-    .transition(height,  0.2s,  ease-out, 0);
-}
-
-.s-menu-list {
-    /*height: 178px;*/
-    height: 0;
-    overflow: hidden;
-    margin: 0 3px 3px;
-    background-color: #fff;
-    .border-radius-bottomleft(3px);
-    .border-radius-bottomright(3px);
-    .transition(height,  0.2s,  ease-out, 0);
-}
-
-.s-menu-list li a {
-    display: block;
-    width: 57px;
-    height: 24px;
-    line-height: 22px;
-    padding-left: 10px;
-    color: #666;
-    letter-spacing: 1px;
+.common-search .s-ipt-container .s-placeholder {
+    color: #999;
     font-size: 14px;
 }
+/* end for placeholder */
 
-.s-menu-list li a:hover {
-    color: #404040;
+
+/*下拉 suggest*/
+.ks-suggest-container {
+  width: 325px !important;
+  color: #333 !important;
 }
 
-.s-menu-list li.selected a {
-    color: #9b9b9b;
-    background-color: #e7e7e7;
-}
-.btn-hide {
-    display: none;
+.ks-suggest-container {
+  border: 1px solid #d9d9d9 !important;
+  border-top: 1px solid #4A4A4A !important;
+  width: 323px !important;
+  -moz-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
 }
 
-.btn-show {
-    display: block;
+.ks-suggest-container li {
+  padding: 3px 0 !important;
+}
+
+.ks-suggest-key {
+  padding-left: 9px;
+}
+
+.ks-suggest-container .ks-selected {
+  background-color: #eee !important;
+}
+
+.ks-suggest-container .ks-selected span {
+  color: #333 !important;
+}
+
+.ks-suggest-result {
+  color: #999 !important;
+}
+
+.ks-suggest-container .ks-selected .ks-suggest-result {
+  color: #999 !important;
 }

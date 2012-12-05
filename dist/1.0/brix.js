@@ -1956,6 +1956,8 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
             if(options.fixed == '@VERSION@') {
                 options.fixed = '';
             }
+            Brix.basePath = options.path;
+            Brix.fixed = options.fixed;
             KISSY.config({
                 packages: [{
                     name: "brix",
