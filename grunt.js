@@ -130,5 +130,5 @@ module.exports = function(grunt) {
     grunt.loadTasks('tasks');
 
     // Default task.
-    grunt.registerTask('default', 'lint brixjs brixless galleryless galleryjs watch');
+    grunt.registerTask('default', 'lint brixjs brixless galleryless galleryjs chartsjs watch');
 };
