@@ -1,15 +1,14 @@
 @font-face {
     font-family: 'globalheader';
-    src: url('http://t.tbcdn.cn/apps/e/ehome/font/uxiconfont.eot');  /*IE9*/
-    src: url('http://sou.taobaocdn.com/tfscom/T1FgclXgFdXXXRsVjX.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('http://sou.taobaocdn.com/tfscom/T1EFZmXaBcXXXH0WbX.woff') format('woff'), /* chrome、firefox */
-    url('http://sou.taobaocdn.com/tfscom/T1o37lXiXdXXcxxVjX.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-    url('http://sou.taobaocdn.com/tfscom/T1El7mXflaXXcPxFjX.svg#svgFontName') format('svg'); /* iOS 4.1- */
+    src: url('http://img01.taobaocdn.com/tfscom/T1VhZoXXJfXXXRsVjX.eot');  /*IE9*/
+    src: url('http://img01.taobaocdn.com/tfscom/T1VhZoXXJfXXXRsVjX.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('http://img01.taobaocdn.com/tfscom/T12pUpXbXeXXXH0WbX.woff') format('woff'), /* chrome、firefox */
+    url('http://img01.taobaocdn.com/tfscom/T1NzspXoBaXXcxxVjX.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('http://img01.taobaocdn.com/tfscom/T1TiMqXXdXXXcPxFjX.svg#svgFontName') format('svg'); /* iOS 4.1- */
 }
 
 .common-search {
   position: relative;
-  background-color: #424a5d;
 }
 
 .common-search fieldset {
@@ -37,10 +36,10 @@
   padding: 6px 0 0px 9px\9;
   _float: left;
   border: none;
-  -moz-transition: width 0.3s ease-in 0s; 
-  -webkit-transition: width 0.3s ease-in 0s;
-  -o-transition: width 0.3s ease-in 0s; 
-  transition: width 0.3s ease-in 0s; 
+  -moz-transition: width 0.3s ease-out 0s; 
+  -webkit-transition: width 0.3s ease-out 0s;
+  -o-transition: width 0.3s ease-out 0s; 
+  transition: width 0.3s ease-out 0s; 
 }
 
 .common-search .s-ipt-container input:focus {
@@ -54,13 +53,17 @@
   width: 214px;
 }
 
+.common-search .s-btn-container {
+  float: left;
+}
+
 .common-search .s-btn-container input {
   float: left;
   width: 35px;
   height: 33px;
   line-height: 33px;
   border: none;
-  background-color: #387bee;
+  background-color: #ff6600;
   font-family: "globalheader";
   font-size: 16px;
   color: #fff;
@@ -201,12 +204,20 @@
 
 .ks-suggest-container {
   border: 1px solid #d9d9d9 !important;
-  border-top: 1px solid #424A5D !important;
+  border-top: 1px solid #4A4A4A !important;
   width: 323px !important;
   -moz-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
   -o-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
   box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
+}
+
+.ks-suggest-container li {
+  padding: 3px 0 !important;
+}
+
+.ks-suggest-key {
+  padding-left: 9px;
 }
 
 .ks-suggest-container .ks-selected {
