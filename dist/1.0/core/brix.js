@@ -153,6 +153,7 @@
             if(options.fixed == '@VERSION@') {
                 options.fixed = '';
             }
+            Brix.basePath = options.path;
             KISSY.config({
                 packages: [{
                     name: "brix",
