@@ -65,6 +65,12 @@ module.exports = function(grunt) {
                 }
             }
         },
+        chartsjs:{
+            chartsjs:{
+                src:'src/gallery/charts/',
+                dest:'dist/<%= pkg.version %>/gallery/charts/'
+            }
+        },
         watch: {
             watchbrixjs:{
                 files: 'src/core/*.js',
