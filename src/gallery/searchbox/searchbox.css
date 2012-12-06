@@ -32,8 +32,8 @@
   font-size: 14px;
   color: #333;
   width: 205px;
-  padding: 3px 0 3px 9px;
-  padding: 6px 0 0px 9px\9;
+  padding: 3px 0 3px 10px;
+  padding: 6px 0 0px 10px\9;
   _float: left;
   border: none;
   -moz-transition: width 0.3s ease-out 0s; 
@@ -50,7 +50,7 @@
   -webkit-appearance: textfield;
   box-sizing: content-box;
   padding-left: 0;
-  width: 214px;
+  width: 215px;
 }
 
 .common-search .s-btn-container {
@@ -152,7 +152,7 @@
 }
 
 .s-focus .s-ipt-container input[type=search] {
-     width: 269px;
+     width: 270px;
 }
 
 /* end focus 状态*/

@@ -147,7 +147,7 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
                 if(suggestApi && (!self.suggestApi || self.suggestApi !== suggestApi)) {
                     S.use('suggest', function() {
                         self._initSuggest(target, suggestApi);
-                        console.log('hastriggler');
+                        //console.log('hastriggler');
                     });
                 }
                 self.suggestApi = suggestApi;
