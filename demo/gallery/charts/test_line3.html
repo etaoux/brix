@@ -1,0 +1,113 @@
+<!--
+折线图(双指标)
+
+configData(折线图、折线图(多日期)、折线图(双指标) 该属性配置类似):
+//type = 类型(空或histogram = 纵向直方图  |  scatter = 散点图  |  line = 折线图(区域图)  |  line2 = 折线图(多日期) |  line3 = 折线图(双指标)  |  pie = 饼图  |  map = 地图  |  integrate = 综合图(直方+折线))[默认为纵向直方图]
+<chart v="1.0" type="line3">
+	//shape = 线的形状(可选值: 空|0 = 直线  |  1 = 曲线)[默认:0]
+	//node  = 线上节点(可选值: 空|0 = 无节点  |  1 = 有节点)[默认:1]
+	//area  = 是否显示区域(可选值: 空|0 = 无区域  |  1 = 有区域)[默认:0]
+	<data shape="0" node="1" area="0">
+		//线条颜色配置 例:例子2
+		//normals 表示正常状态时颜色[默认:0x458AE6, 0x94CC5C]
+		//overs   对应鼠标划入时颜色[默认:0x135EBF, 0x78A64B]
+		//注意:当有多条线条时 请使用','号分隔每条线条的颜色值 如果颜色组合少于线条数量 未给予颜色值的线条将以黑色显示
+		<colors normals="0x3300FF,0x3333FF,0x3366FF" overs="0xCC0000,0xCC3300,0xCC6600"/>
+	</data>
+</chart>
+
+//------------------------------------
+chartData:
+<chart>
+	//对应图表左侧数据的线
+	<data>
+		//labels = 横向显示的数据(,号分开)
+		<indexAxis labels="3月8号,3月9号,3月10号,3月11号,3月12号,3月13号,3月14号" name=""/>
+		//name   = 鼠标划入时显示的前信息
+		<sets name="千次展现价格:">
+			//values = 纵向显示的数据
+			<set values="8300,8100,7700,7100,6800,17000,6800.909"></set>
+		</sets>
+	</data>
+	
+	//对应图表右侧数据的线,如果没有将显示一条数据
+	<data>
+		<indexAxis labels="3月1号,3月2号,3月3号,3月4号,3月5号,3月6号,3月7号" name=""/>
+		<sets name="展现次数:">
+			<set values="4300,4100,3700,3100,2800,3000,2800"/>
+		</sets>
+	</data>
+</chart>
+-->
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Brix Chart Demo 折线图(双指标)</title>
+    <meta charset="utf-8" />
+    <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
+    <link rel="stylesheet" href="../../assets/doc.css">
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+    <!--<script src="http://a.tbcdn.cn/apps/e/brix/1.0/brix.js" bx-config="{autoConfig:true}"></script>-->
+    <!--<script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>-->
+    <script src="../../../dist/1.0/brix.js" bx-config="{autoConfig:true,fixed:'dist/1.0/'}"></script>
+</head>
+<body>
+	<div id="J_wrapper1" class="wrapper1" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper2" class="wrapper2" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper3" class="wrapper3" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper4" class="wrapper4" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper5" class="wrapper5" style="width:720px;height:400px;"></div>
+	
+	<script type="text/javascript">
+
+		KISSY.use('brix/gallery/charts/',function(S,Charts){
+			new Charts({
+					parent_id:'J_wrapper1',
+
+					config:{
+						configData:'<chart v="1.0" type="line3"><data shape="" node="0" area="1"></data></chart>',
+						
+						chartData:'<chart><data><indexAxis labels="3月8号,3月9号,3月10号,3月11号,3月12号,3月13号,3月14号" name=""></indexAxis><sets name="千次展现价格:"><set values="8300,8100,7700,7100,6800,17000,6800.909"></set></sets></data><data><indexAxis labels="3月1号,3月2号,3月3号,3月4号,3月5号,3月6号,3月7号" name=""/><sets name="展现次数:"><set values="4300,4100,3700,3100,2800,3000,2800"/></sets></data></chart>'
+					}
+			});
+			new Charts({
+					parent_id:'J_wrapper2',
+
+					config:{
+						configData:'<chart v="1.0" type="line3"><data shape="1" node="0" area="1"><colors normals="0x3300FF,0x3333FF,0x3366FF" overs="0xCC0000,0xCC3300,0xCC6600"/></data></chart>',
+							
+						chartData:'<chart><data><indexAxis labels="3月8号,3月9号,3月10号,3月11号,3月12号,3月13号,3月14号" name=""></indexAxis><sets name="千次展现价格:"><set values="8300,8100,7700,7100,6800,17000,6800.909"></set></sets></data><data><indexAxis labels="3月1号,3月2号,3月3号,3月4号,3月5号,3月6号,3月7号" name=""/><sets name="展现次数:"><set values="4300,4100,3700,3100,2800,3000,2800"/></sets></data></chart>'
+					}
+			});
+			new Charts({
+					parent_id:'J_wrapper3',
+
+					config:{
+						configData:'<chart v="1.0" type="line3"><data shape="1" node="0" area="1"><colors normals="0x3300FF,0x3333FF,0x3366FF" overs="0xCC0000,0xCC3300,0xCC6600"/></data></chart>',
+							
+						chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="3月8号,3月9号,3月10号,3月11号,3月12号,3月13号,3月14号" name=""></indexAxis><sets name="千次展现价格:"><set values="8300,8100,7700,7100,6800,17000,6800.909"></set></sets></data></chart>'
+					}
+			});
+			new Charts({
+					parent_id:'J_wrapper4',
+
+					config:{
+						configData:'<chart v="1.0" type="line3"><data shape="" node="0" area="1"></data></chart>',
+							
+						chartData:'<chart><data><indexAxis labels=" 2012-05-24,2012-05-25,2012-05-26,2012-05-27,2012-05-28,2012-05-29,2012-05-30 "></indexAxis> <sets name="展现量："> <set values=" 0,0,0,1564617,0,0,0 "></set></sets></data> <data><indexAxis labels=" 2012-05-17,2012-05-18,2012-05-19,2012-05-20,2012-05-21,2012-05-22,2012-05-23 "></indexAxis> <sets name="花费："> <set values=" 0,0,0,0,0,0,0 "></set></sets></data> </chart>'
+					}
+			});
+			new Charts({
+					parent_id:'J_wrapper5',
+
+					config:{
+						configData:'<chart v="1.0" type="line3"><data shape="0" node="1" area="0"><colors normals="0x9C77F2,0xFE7C1C" overs="0x9C77F2,0xFE7C1C"/></data></chart>',
+							
+						chartData:'<chart><data><indexAxis labels="9月13号" name=""/><sets name="平均点击价格(元):"><set values="0.63"></set></sets></data><data><indexAxis labels="9月13号" name=""/><sets name="千次展现价格(元):"><set values="62.7"/></sets></data></chart>'
+					}
+			});
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!--
+纵向直方图
+
+configData:
+//type = 类型(空或histogram = 纵向直方图  |  scatter = 散点图  |  line = 折线图(区域图)  |  line2 = 折线图(多日期) |  line3 = 折线图(双指标)  |  pie = 饼图  |  map = 地图  |  integrate = 综合图(直方+折线))[默认为纵向直方图]
+<chart v="1.0" type="">
+	<data/>
+</chart>
+
+//------------------------------------
+chartData:
+<chart>
+	<data>
+		//labels = 横向显示的数据(,号分开)
+		//name   = 鼠标划入时显示的前信息
+		<indexAxis labels="0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,2,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,2.55" name="维度2: ">
+			//key    = 突出显示指定索引中的直方  支持多个同时突出(例：<key indexs="3,5,7"/>) 索引从1开始
+			<key indexs="3"/>
+			//start  = 当鼠标移动到最左侧的直方时 显示前信息中的一个值 例:例子1[默认为0]
+			<start name="原点">
+		</indexAxis>
+	    //name   = 鼠标划入时显示的前信息
+		//多个<set></set> 将支持多组直方 例:例子2、例子3
+		<sets name="维度1：">
+			//values = 纵向显示的数据
+			<set values="201,1145,488,390,186,645,259,378,189,589,175,329,148,311,294,1478,441,794,376,1575,224,350,219,568,223,353,146,239,94,548,129,253,91,196,68,230,69,137,47,324,47,77,40,60,36,57,33,31,15,55,28"></set>
+		</sets>
+	</data>
+</chart>
+-->
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Brix Chart Demo 直方图</title>
+    <meta charset="utf-8" />
+    <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
+    <link rel="stylesheet" href="../../assets/doc.css">
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+    <!--<script src="http://a.tbcdn.cn/apps/e/brix/1.0/brix.js" bx-config="{autoConfig:true}"></script>-->
+    <!--<script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>-->
+    <script src="../../../dist/1.0/brix.js" bx-config="{autoConfig:true,fixed:'dist/1.0/'}"></script>
+</head>
+<body>
+	<div id="J_wrapper1" class="wrapper1" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper2" class="wrapper2" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper3" class="wrapper3" style="width:720px;height:400px;"></div>
+
+	<script type="text/javascript">
+		KISSY.use('brix/gallery/charts/',function(S,Charts){
+			new Charts({
+					parent_id:'J_wrapper1',
+
+					config:{
+						configData:'<chart v="1.0" type=""><data/></chart> ',
+						
+						chartData:'<chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,2,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,2.55" name="维度2: "><key indexs="3"/><start name="原点"/></indexAxis><sets name="维度1："><set values="201,1145,488,390,186,645,259,378,189,589,175,329,148,311,294,1478,441,794,376,1575,224,350,219,568,223,353,146,239,94,548,129,253,91,196,68,230,69,137,47,324,47,77,40,60,36,57,33,31,15,55,28"></set></sets></data></chart>'
+					}
+			});
+			new Charts({
+					parent_id:'J_wrapper2',
+
+					config:{
+						configData:'<chart v="1.0" type=""><data/></chart> ',
+							
+						chartData:'<chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25,0.3,0.35" name="维度2: "/><sets name="维度1："><set values="201,1145,488,390,186,645,259"></set><set values="101,145,88,546,126,145,99"/></sets></data></chart>'
+					}
+			});
+			new Charts({
+					parent_id:'J_wrapper3',
+
+					config:{
+						configData:'<chart v="1.0" type=""><data/></chart> ',
+					
+						chartData:'<chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25" name="维度2: "/><sets name="维度1："><set values="201,1145,488,390,186"></set><set values="101,145,88,546,126"/><set values="500,600,700,800,900"/></sets></data></chart> '
+					}
+			});
+		})
+	</script>
+</body>
+</html>

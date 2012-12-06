@@ -1943,7 +1943,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 return;
             }
             isConfig = true;
-            options = KISSY.merge({
+            options = S.merge({
                 debug:debug=='@DEBUG@'?true:false,
                 tag: tag == '@TAG@' ? '' : tag,
                 fixed: version == '@VERSION@' ? '' : version + '/',
@@ -1958,7 +1958,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
             }
             Brix.basePath = options.path;
             Brix.fixed = options.fixed;
-            KISSY.config({
+            S.config({
                 packages: [{
                     name: "brix",
                     path: options.path,
@@ -1976,7 +1976,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                     charset: "utf-8"
                 }]
             });
-            KISSY.config({
+            S.config({
                 map: [
                     [/(.+brix\/)(gallery\/)(.+?)(\/.+?(?:-min)?\.(?:js|css))(\?[^?]+)?$/, function($0, $1, $2, $3, $4, $5) {
                         var str = $1 + options.fixed + $2 + $3;
@@ -2027,6 +2027,43 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 }
                 readyList = null;
             }
+        },
+        /**
+         * 同步获取默认模板和数据，多在demo页构建中使用
+         * @param  {String} tmpl 模板文件
+         * @param  {Object} data 数据对象
+         * @param  {String} s    分割符号，默认‘@’
+         * @return {Object}      模板和数据的对象{tmpl:tmpl,data:data}
+         */
+        getPageletTmplData:function(tmpl,data,s){
+            s = s||'@';
+            data = data || {};
+            var reg = new RegExp('\\{\\{'+s+'(.+)?\\}\\}',"ig");
+            tmpl = tmpl.replace(reg,function($1,$2){
+                S.log($2);
+                var str = '';
+                var p = $2.replace(/\//ig,'_').replace(/\./ig,'_');
+                data[p] = data[p] || {};
+                S.io({
+                    url:$2+'template.html',
+                    async:false,
+                    success:function(d , textStatus , xhrObj){
+                        str = '{{#'+p+'}}' + d+'{{/'+p+'}}';
+                    }
+                });
+                S.io({
+                    url:$2+'data.json',
+                    async:false,
+                    dataType:'json',
+                    success:function(d , textStatus , xhrObj){
+                        for(var k in d){
+                            data[p][k] = d[k];
+                        }
+                    }
+                });
+                return str;
+            });
+            return {tmpl:tmpl,data:data};
         }
     });
     if(defaultOptions.autoConfig) {
