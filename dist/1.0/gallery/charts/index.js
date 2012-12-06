@@ -1,9 +1,12 @@
 KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	var $ = Node.all
 	var isSWF = 0
-	//charts.js 服务所在路径前缀[http://***.com/charts.js 指http://***.com]
-	// var _path = 'http://localhost:8017/charts/' //charts.js 服务所在路径前缀[http://***.com/charts.js 指http://***.com]
-
+	/**
+     * 图表
+     * <br><a href="../demo/gallery/charts/charts.html" target="_blank">Demo</a>
+     * @class Brix.Gallery.Charts
+     * @extends Brix.Brick
+     */
 	function Charts(){
 		var self = this
 

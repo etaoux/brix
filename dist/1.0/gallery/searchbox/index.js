@@ -73,6 +73,7 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
                 //点在搜索框以外
                 if(!self.get('el').contains(tar)) {
                     self.hideTabs();
+                    self.fire('afterBlur');
                 }            
             }
         }
@@ -146,6 +147,7 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
                 if(suggestApi && (!self.suggestApi || self.suggestApi !== suggestApi)) {
                     S.use('suggest', function() {
                         self._initSuggest(target, suggestApi);
+                        console.log('hastriggler');
                     });
                 }
                 self.suggestApi = suggestApi;
@@ -205,7 +207,8 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
         afterLoad: 'afterLoad', //初始化完成后
         beforeTabChange: 'beforeTabChange', //切换tab后
         beforeSubmit: 'beforeSubmit', //提交表单之前
-        afterFocus: 'aferFocus' //focus后 
+        afterFocus: 'aferFocus', //focus后 
+        afterBlur: 'afterBlur' //失焦后 
     };
 
     S.extend(Searchbox, Brick, {

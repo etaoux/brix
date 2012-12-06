@@ -1,31 +1,28 @@
 @font-face {
-    font-family: 'globalheader';
-    src: url('http://img01.taobaocdn.com/tfscom/T1VhZoXXJfXXXRsVjX.eot');  /*IE9*/
-    src: url('http://img01.taobaocdn.com/tfscom/T1VhZoXXJfXXXRsVjX.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-    url('http://img01.taobaocdn.com/tfscom/T12pUpXbXeXXXH0WbX.woff') format('woff'), /* chrome、firefox */
-    url('http://img01.taobaocdn.com/tfscom/T1NzspXoBaXXcxxVjX.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-    url('http://img01.taobaocdn.com/tfscom/T1TiMqXXdXXXcPxFjX.svg#svgFontName') format('svg'); /* iOS 4.1- */
+  font-family: 'globalheader';
+  src: url('http://img01.taobaocdn.com/tfscom/T1VhZoXXJfXXXRsVjX.eot');
+  src: url('http://img01.taobaocdn.com/tfscom/T1VhZoXXJfXXXRsVjX.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+   url('http://img01.taobaocdn.com/tfscom/T12pUpXbXeXXXH0WbX.woff') format('woff'), /* chrome、firefox */
+   url('http://img01.taobaocdn.com/tfscom/T1NzspXoBaXXcxxVjX.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+   url('http://img01.taobaocdn.com/tfscom/T1TiMqXXdXXXcPxFjX.svg#svgFontName') format('svg');/*IE9*/
+  /* iOS 4.1- */
 }
-
 .common-search {
   position: relative;
 }
-
 .common-search fieldset {
   /*修复tab下拉被淘吧单选钮压住的bug*/
+
   *position: relative;
   *z-index: 1;
   outline: none;
 }
-
 .common-search fieldset legend {
   display: none;
 }
-
 .common-search .s-ipt-container {
   float: left;
 }
-
 .common-search .s-ipt-container input {
   *vertical-align: middle;
   height: 27px;
@@ -36,27 +33,23 @@
   padding: 6px 0 0px 9px\9;
   _float: left;
   border: none;
-  -moz-transition: width 0.3s ease-out 0s; 
+  -moz-transition: width 0.3s ease-out 0s;
   -webkit-transition: width 0.3s ease-out 0s;
-  -o-transition: width 0.3s ease-out 0s; 
-  transition: width 0.3s ease-out 0s; 
+  -o-transition: width 0.3s ease-out 0s;
+  transition: width 0.3s ease-out 0s;
 }
-
 .common-search .s-ipt-container input:focus {
   outline: none;
 }
-
 .common-search .s-ipt-container input[type=search] {
   -webkit-appearance: textfield;
   box-sizing: content-box;
   padding-left: 0;
   width: 214px;
 }
-
 .common-search .s-btn-container {
   float: left;
 }
-
 .common-search .s-btn-container input {
   float: left;
   width: 35px;
@@ -69,35 +62,31 @@
   color: #fff;
   _zoom: 1;
 }
-
 .common-search .s-menu {
   color: #999;
   position: relative;
   float: left;
   width: 0px;
   overflow: hidden;
-  -moz-transition: width 0.3s ease-in 0s; 
+  -moz-transition: width 0.3s ease-in 0s;
   -webkit-transition: width 0.3s ease-in 0s;
-  -o-transition: width 0.3s ease-in 0s; 
-  transition: width 0.3s ease-in 0s; 
+  -o-transition: width 0.3s ease-in 0s;
+  transition: width 0.3s ease-in 0s;
 }
-
 .common-search .s-menu .s-menu-selected {
   height: 33px;
   line-height: 33px;
   background-color: #fff;
   text-align: center;
 }
-
 .common-search .s-menu-selected i {
   font-family: "globalheader";
   font-style: normal;
   color: #ccc;
   padding: 0 5px 0 3px;
 }
-
 .common-search .s-menu-list {
-  background-color: #fff; 
+  background-color: #fff;
   position: absolute;
   top: 33px;
   right: 0;
@@ -110,12 +99,11 @@
   -webkit-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
   -o-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
   box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
-  -moz-transition: height 0.2s ease-in 0s; 
+  -moz-transition: height 0.2s ease-in 0s;
   -webkit-transition: height 0.2s ease-in 0s;
-  -o-transition: height 0.2s ease-in 0s; 
-  transition: height 0.2s ease-in 0s; 
+  -o-transition: height 0.2s ease-in 0s;
+  transition: height 0.2s ease-in 0s;
 }
-
 .common-search .s-menu-list li {
   height: 24px;
   line-height: 24px;
@@ -123,85 +111,73 @@
   padding: 0 8px 0 12px;
   text-align: left;
 }
-
 .common-search .s-menu-list li a {
   color: #999;
 }
-
-.common-search .s-menu-list li a:hover, 
+.common-search .s-menu-list li a:hover,
 .common-search .s-menu-list .selected a {
   color: #377bee;
   text-decoration: none;
 }
-
 /* start focus 状态*/
 .s-focus .s-menu {
-   width: 56px;
+  width: 56px;
 }
-
 .s-focus .expand {
-   overflow: visible;
+  overflow: visible;
 }
-
 .common-search .expand .s-menu-list {
   height: auto;
 }
-
 .s-focus .s-ipt-container input {
-   width: 260px;
+  width: 260px;
 }
-
 .s-focus .s-ipt-container input[type=search] {
-     width: 269px;
+  width: 269px;
 }
-
 /* end focus 状态*/
-
 /* start for placeholder */
 .common-search .s-ipt-container {
   position: relative;
   background-color: #fff;
 }
-
 .common-search .s-ipt-container input {
   position: relative\9;
-  z-index: 2\9; /* ie下右键placeholder无法在input中粘贴 */
+  z-index: 2\9;
+  /* ie下右键placeholder无法在input中粘贴 */
+
   background-color: transparent;
   /*fix ie下背景穿透，导致右键无法粘贴复制，同时避免出现点击label是input outline出现 TODO 产生一个空请求*/
-  background: url(0) no-repeat\9;
-}
 
+  background: url(0) no-repeat \9;
+}
 .common-search .s-ipt-container label {
   position: absolute;
   top: -99999px;
   left: -99999px;
   z-index: 1\9;
 }
-
 .common-search .s-ipt-container .s-placeholder {
   top: 7px;
   left: 10px;
 }
-
 .common-search .s-ipt-container input:-moz-placeholder,
 .common-search .s-ipt-container input:-moz-placeholder {
-    color: #999!important; /* fix ff */
-    font-size: 14px!important;
-}
+  color: #999!important;
+  /* fix ff */
 
+  font-size: 14px!important;
+}
 .common-search .s-ipt-container .s-placeholder {
-    color: #999;
-    font-size: 14px;
+  color: #999;
+  font-size: 14px;
 }
 /* end for placeholder */
-
-
 /*下拉 suggest*/
 .ks-suggest-container {
   width: 325px !important;
   color: #333 !important;
 }
-
 .ks-suggest-container {
   border: 1px solid #d9d9d9 !important;
   border-top: 1px solid #4A4A4A !important;
@@ -211,27 +187,21 @@
   -o-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
   box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
 }
-
 .ks-suggest-container li {
   padding: 3px 0 !important;
 }
-
 .ks-suggest-key {
   padding-left: 9px;
 }
-
 .ks-suggest-container .ks-selected {
   background-color: #eee !important;
 }
-
 .ks-suggest-container .ks-selected span {
   color: #333 !important;
 }
-
 .ks-suggest-result {
   color: #999 !important;
 }
-
 .ks-suggest-container .ks-selected .ks-suggest-result {
   color: #999 !important;
 }
