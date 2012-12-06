@@ -1,15 +1,61 @@
-<!DOCTYPE HTML>
+<!--
+折线图
+
+configData(折线图、折线图(多日期)、折线图(双指标) 该属性配置类似):
+//type = 类型(空或histogram = 纵向直方图  |  scatter = 散点图  |  line = 折线图(区域图)  |  line2 = 折线图(多日期) |  line3 = 折线图(双指标)  |  pie = 饼图  |  map = 地图  |  integrate = 综合图(直方+折线))[默认为纵向直方图]
+<chart v="1.0" type="line">
+	//shape = 线的形状(可选值: 空|0 = 直线  |  1 = 曲线)[默认:0]
+	//node  = 线上节点(可选值: 空|0 = 无节点  |  1 = 有节点)[默认:1]
+	//area  = 是否显示区域(可选值: 空|0 = 无区域  |  1 = 有区域)[默认:0]
+	<data shape="0" node="1" area="0">
+		//线条颜色配置 例:例子4
+		//normals 表示正常状态时颜色[默认:0x458AE6, 0x39BCC0, 0x5BCB8A, 0x94CC5C, 0xC3CC5C, 0xE6B522, 0xE68422]
+		//overs   对应鼠标划入时颜色[默认:0x135EBF, 0x2E9599, 0x36B26A, 0x78A64B, 0x9CA632, 0xBF9E39, 0xBF7C39]
+		//注意:当有多条线条时 请使用','号分隔每条线条的颜色值 如果颜色组合少于线条数量 未给予颜色值的线条将以黑色显示
+		<colors normals="0x3300FF,0x3333FF,0x3366FF" overs="0xCC0000,0xCC3300,0xCC6600"/>
+		//节点  例:例子2
+		//mode  显示节点模式(可选值：当node=1时  空|0 =  显示所有点  |  1 = 在同一段直线内 数据相同的将过滤)
+		<node mode="1">
+			//radius    正常状态时圆的半径[默认:3]
+			//thickness 正常状态时圆的线条粗细[默认:2]
+			<normal radius="2" thickness="1"/>
+			//min_radius    鼠标划入时小圆的半径[默认:4]
+			//max_radius    鼠标划入时大圆的半径[默认:7]
+			//max_thickness 鼠标划入时大圆的线条粗细[默认:2]
+			<over min_radius="0" max_radius="4" max_thickness="1"/>
+		</node>
+	</data>
+</chart>
+//------------------------------------
+chartData:
+<chart>
+	<data>
+		//labels = 横向显示的数据(,号分开)
+		//name   = 鼠标划入时显示的前信息(底部)
+		<indexAxis labels="12月1号,12月2号,12月3号,12月4号,12月5号,12月6号,12月7号" name="维度2: "></indexAxis>
+	    //name   = 鼠标划入时显示的前信息
+		//多个<set></set> 将支持多组折线 例:例子3
+		<sets name="维度1：">
+			//name   = 每条折线独立的鼠标划入时显示的前信息,如果此处没有name属性或为空,那么将会把上一级中的name属性值作为此处的值 例:例子5
+			//values = 纵向显示的数据
+			<set name="维度1-1:" values="83,81,77,71,68,70,68"></set>
+		</sets>
+	</data>
+</chart>
+-->
+
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>Brix Chart Demo</title>
-        <meta charset="utf-8" />
-        <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
-        <link rel="stylesheet" href="../../assets/doc.css">
-        <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
-        <!--<script src="http://a.tbcdn.cn/apps/e/brix/1.0/brix.js" bx-config="{autoConfig:true}"></script>-->
-        <script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>
-    </head>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Brix Chart Demo 折线图</title>
+    <meta charset="utf-8" />
+    <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
+    <link rel="stylesheet" href="../../assets/doc.css">
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+    <!--<script src="http://a.tbcdn.cn/apps/e/brix/1.0/brix.js" bx-config="{autoConfig:true}"></script>-->
+    <!--<script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>-->
+    <script src="../../../dist/1.0/brix.js" bx-config="{autoConfig:true,fixed:'dist/1.0/'}"></script>
+</head>
 <body>
 	<div id="J_wrapper1" class="wrapper1" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper2" class="wrapper2" style="width:720px;height:400px;"></div>
