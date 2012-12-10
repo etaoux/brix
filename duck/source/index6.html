@@ -15,614 +15,201 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
-    var type = (window.SVGAngle || document.implementation.hasFeature(&quot;http://www.w3.org/TR/SVG11/feature#BasicStructure&quot;, &quot;1.1&quot;) ? &quot;SVG&quot; : &quot;VML&quot;);
-
-<span id='global-method-S-C'>    /**
-</span>     * Create SVG element.
-     * @ignore
+  <pre class="prettyprint lang-js">KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
+	var $ = Node.all
+	var isSWF = 0
+<span id='Brix-Gallery-Charts'>	/**
+</span>     * 图表
+     * arguments:
+	 * 	  o:{
+	 * 		parent_id :''，    //div id
+	 * 		config    :{
+	 * 			configData:''//图表配置
+	 * 			chartData :''//图表数据
+	 * 		}
+	 * 	  }
+     * &lt;br&gt;&lt;a href=&quot;../demo/gallery/charts/charts.html&quot; target=&quot;_blank&quot;&gt;Demo&lt;/a&gt;
+     * @class Brix.Gallery.Charts
      */
+	function Charts(){
+		var self = this
 
-    function $C(el, attrs, children) {
-        el = document.createElementNS('http://www.w3.org/2000/svg', el);
-        for (var key in attrs)
-        el.setAttribute(key, attrs[key]);
-        if (Object.prototype.toString.call(children) != '[object Array]') children = [children];
-        var i = 0,
-            len = (children[0] &amp;&amp; children.length) || 0;
-        for (; i &lt; len; i++)
-        el.appendChild(children[i]);
-        return el;
-    }
+		/*
+			
+		 */
+		
+		Charts.superclass.constructor.apply(self, arguments);
 
-<span id='Brix-Gallery-ColorPicker'>    /**
-</span>     * 颜色选择器
-     * &lt;br&gt;&lt;a href=&quot;../demo/gallery/colorpicker/colorpicker.html&quot; target=&quot;_blank&quot;&gt;Demo&lt;/a&gt;
-     * @class Brix.Gallery.ColorPicker
-     * @extends Brix.Brick
-     */
-    function ColorPicker() {
-        ColorPicker.superclass.constructor.apply(this, arguments);
-        //绑定触发事件
-        var self = this,
-            trigger = S.one(self.get('trigger'));
-        if(trigger){
-            var triggerType = self.get('triggerType');
-            S.each(triggerType, function(v) {
-                trigger.on(v, self.toggle,self);
-            });
-        }
-    }
-    ColorPicker.ATTRS = {
-<span id='Brix-Gallery-ColorPicker-cfg-min'>        /**
-</span>         * 是否缩小版本
-         * @cfg {Boolean}
-         */
-        min:{
-            value:false
-        },
-<span id='Brix-Gallery-ColorPicker-cfg-trigger'>        /**
-</span>         * 触发颜色选择器的对象
-         * @cfg {Element}
-         */
-        trigger:{
-            value:false
-        },
-<span id='Brix-Gallery-ColorPicker-cfg-triggerType'>        /**
-</span>         * 触发弹出颜色选择器的事件类型, 
-         * 例如：[‘click’,’focus’],也可以直接传入’focus’, 默认为[‘click’]
-         * @cfg {String|Array}
-         */
-        triggerType:{
-            value:['click']
-        },
-<span id='Brix-Gallery-ColorPicker-cfg-align'>        /**
-</span>         * 对齐方式
-         * @cfg {Object} align
-         * @cfg {Element} align.node 对其的节点
-         * @cfg {Array} align.points   对其方式
-         * @cfg {Array} align.offset   对其偏移量
-         */
-        align: {
-            value: {
-                node: false,
-                points: ['bl', 'tl'],
-                offset: [0, 0]
-            }
-        },
-<span id='Brix-Gallery-ColorPicker-cfg-colorList'>        /**
-</span>         * 颜色数组
-         * @cfg {Array}
-         */
-        colorList: {
-            value: ['#d81e06', '#f4ea2a', '#1afa29', '#1296db', '#13227a', '#d4237a', '#ffffff', '#e6e6e6', '#dbdbdb', '#cdcdcd', '#bfbfbf', '#8a8a8a', '#707070', '#515151', '#2c2c2c', '#000000', '#ea986c', '#eeb174', '#f3ca7e', '#f9f28b', '#c8db8c', '#aad08f', '#87c38f', '#83c6c2', '#7dc5eb', '#87a7d6', '#8992c8', '#a686ba', '#bd8cbb', '#be8dbd', '#e89abe', '#e8989a', '#e16632', '#e98f36', '#efb336', '#f6ef37', '#afcd51', '#7cba59', '#36ab60', '#1baba8', '#17ace3', '#3f81c1', '#4f68b0', '#594d9c', '#82529d', '#a4579d', '#db649b', '#dd6572', '#d81e06', '#e0620d', '#ea9518', '#f4ea2a', '#8cbb1a', '#2ba515', '#0e932e', '#0c9890', '#1295db', '#0061b2', '#0061b0', '#004198', '#122179', '#88147f', '#d3227b', '#d6204b']
-        },
-        data: {
-            valueFn: function() {
-                return {
-                    colorList: this.get('colorList'),
-                    color: this.get('color'),
-                    min:this.get('min')
-                };
-            }
-        },
-        tmpl: {
-            value: '&lt;div class=&quot;colorpicker&quot;&gt;' + '&lt;div class=&quot;colorpicker-hd&quot;&gt;' + '&lt;ul&gt;' + '{{#colorList}}' + '&lt;li val=&quot;{{.}}&quot; style=&quot;background-color:{{.}};&quot;&gt;&lt;/li&gt;' + '{{/colorList}}' + '&lt;/ul&gt;' + '&lt;/div&gt;' + '&lt;div class=&quot;colorpicker-md&quot;&gt;' + '&lt;i class=&quot;iconfont icon-arrow {{^min}}icon-arrow-up{{/min}}&quot;&gt;{{#min}}&amp;#405{{/min}}{{^min}}&amp;#404{{/min}}&lt;/i&gt;' + '&lt;/div&gt;' + '&lt;div class=&quot;colorpicker-bd {{#min}}colorpicker-bd-min{{/min}}&quot;&gt;' + '&lt;div class=&quot;picker-wrapper&quot;&gt;' + '&lt;div class=&quot;picker&quot;&gt;&lt;/div&gt;' + '&lt;i class=&quot;iconfont icon-picker-indicator&quot;&gt;&amp;#470&lt;/i&gt;' + '&lt;/div&gt;' + '&lt;div class=&quot;slide-wrapper&quot;&gt;' + '&lt;div class=&quot;slide&quot;&gt;&lt;/div&gt;' + '&lt;i class=&quot;iconfont icon-slide-indicator&quot;&gt;&amp;#461&lt;/i&gt;' + '&lt;/div&gt;' + '&lt;/div&gt;' + '&lt;div class=&quot;colorpicker-fd&quot;&gt;' + '&lt;span class=&quot;bg&quot; style=&quot;background-color:{{color}}&quot;&gt;&lt;/span&gt;&lt;input class=&quot;input&quot; value=&quot;{{color}}&quot;&gt;&lt;a class=&quot;btn btn-size25 btn-confirm&quot;&gt;确定&lt;/a&gt;' + '&lt;/div&gt;' + '&lt;/div&gt;'
-        },
-<span id='Brix-Gallery-ColorPicker-cfg-color'>        /**
-</span>         * 默认选中颜色
-         * @cfg {String}
-         */
-        color: {
-            value: '#ffffff'
-        },
-        autoRender:{
-            value:false
-        }
-    };
-    ColorPicker.DOCEVENTS = {
-        '': {
-            click: function(e) {
-                var self = this,
-                    el = self.get('el'),
-                    node = S.one(e.target),
-                    trigger = S.one(self.get('trigger'));
-                if (!el.equals(node)&amp;&amp;!el.contains(node) &amp;&amp; trigger&amp;&amp;!trigger.contains(node) &amp;&amp; node[0] != trigger[0]) {
-                    self.hide();
-                }
-            }
-        }
-    }
-    ColorPicker.EVENTS = {
-        '.picker': {
-            click: function(e) {
-                var self = this,
-                    offset = self.pickerNode.offset(),
-                    left = e.pageX-offset.left,
-                    top = e.pageY-offset.top,
-                    width = self.pickerNode.width(),
-                    height = self.pickerNode.height(),
-                    s = left / width,
-                    v = (height - top) / height;
-                self.setHsv({
-                    h: self.h,
-                    s: s,
-                    v: v
-                });
-            }
-        },
-        '.slide': {
-            click: function(e) {
-                var self = this,
-                    offset = self.slideNode.offset(),
-                    height = self.slideNode.height(),
-                    top = ((e.pageY-offset.top&gt;=height)?height-1:e.pageY-offset.top),
-                    h = top / height * 360;
-                self.setHsv({
-                    h: h,
-                    s: self.s,
-                    v: self.v
-                });
-            }
-        },
-        '.btn-confirm': {
-            click: function(e) {
-                this._fireSelected();
-            }
-        },
-        'li': {
-            click: function(e) {
-                var color = S.one(e.currentTarget).attr('val');
-                this.setHex(color);
-                S.one(e.currentTarget).addClass('selected');
-                //this._fireSelected();
-            }
-        },
-        '.icon-arrow': {
-            click: function(e) {
-                var self = this,
-                    animateNode = self.get('el').one('.colorpicker-bd');
-                var node = S.one(e.currentTarget);
-                animateNode.stop();
-                if (node.hasClass('icon-arrow-up')) {
-                    node.removeClass('icon-arrow-up');
-                    animateNode.css('overflow', 'hidden');
-                    animateNode.animate({
-                        height: 0,
-                        'marginBottom': 0
-                    }, 0.3, 'easyNone', function() {
-                        node.html('&amp;#405');
-                    });
-                } else {
-                    node.addClass('icon-arrow-up');
-                    animateNode.animate({
-                        height: 196,
-                        marginBottom: 10
-                    }, 0.3, 'easyNone', function() {
-                        node.html('&amp;#404');
-                        animateNode.css('overflow', 'visible');
-                    });
-                }
-            }
-        },
-        'input':{
-            'blur':function(e){
-                var self = this,v= S.one(e.currentTarget).val();
-                if(self.get('color')!=v){
-                    this.setHex(v);
-                }
-            }
-        }
-    };
+		S.one(window).on('resize',function(e){self.resize()});
 
-    ColorPicker.FIRES = {
-<span id='Brix-Gallery-ColorPicker-event-selected'>        /**
-</span>         * @event selected
-         * 颜色选择事件
-         * @param {Object} e 
-         * @param {String} e.hex hex颜色值
-         * @param {Object} e.hsv hsv颜色值
-         * @param {Object} e.rgb rgb颜色值
-         */
-        selected:'selected',
-<span id='Brix-Gallery-ColorPicker-event-show'>        /**
-</span>         * @event show
-         * 显示
-         */
-        show: 'show',
-<span id='Brix-Gallery-ColorPicker-event-hide'>        /**
-</span>         * @event hide
-         * 隐藏
-         */
-        hide: 'hide'
-    };
+		self.init()
+	}
 
-    ColorPicker.METHODS = {
-<span id='Brix-Gallery-ColorPicker-method-show'>        /**
-</span>         * 显示
-         */
-        show: function() {
-            var self = this;
-            if(!self.get('rendered')){
-                self.render();
-            }
-            if (self.overlay) {
-                var align = S.clone(self.get('align'));
-                if(!align.node){
-                    align.node = self.get('trigger');
-                }
-                self.overlay.set('align', align);
-                self.overlay.show();
-                self.fire(ColorPicker.FIRES.show);
-            }
+	Charts.ATTRS = {
 
-        },
-<span id='Brix-Gallery-ColorPicker-method-hide'>        /**
-</span>         * 隐藏
-         */
-        hide: function() {
-            var self = this;
-            if (self.overlay) {
-                self.overlay.hide();
-                self.fire(ColorPicker.FIRES.hide);
-            }
-        },
-<span id='Brix-Gallery-ColorPicker-method-toggle'>        /**
-</span>         * 显示隐藏切换
-         * @param {Event} e 事件
-         */
-        toggle: function(e) {
-            var self = this;
-            if(e){
-                e.preventDefault();
-            }
-            if (self.overlay) {
-                if (self.overlay.get('el').css('visibility') == 'hidden') {
-                    self.show();
-                } else {
-                    self.hide();
-                }
-            }
-            else{
-                self.show();
-            }
-        },
-<span id='Brix-Gallery-ColorPicker-method-hsv2rgb'>        /**
-</span>         * Convert HSV representation to RGB HEX string.
-         * Credits to http://www.raphaeljs.com
-         */
-        hsv2rgb: function(h, s, v) {
-            var R, G, B, X, C;
-            h = (h % 360) / 60;
-            C = v * s;
-            X = C * (1 - Math.abs(h % 2 - 1));
-            R = G = B = v - C;
+		w:{
+			value : 100
+		},
 
-            h = ~~h;
-            R += [C, X, 0, 0, X, C][h];
-            G += [X, C, C, X, 0, 0][h];
-            B += [0, 0, X, C, C, X][h];
+		h:{
+			value : 100
+		},
+		mainDiv:{
+			value : null
+		},
+		url_svg:{
+			value : 'brix/gallery/charts/js/case'    //case.js   svg版本主入口
+		},
+		url_swf:{
+			value : 'brix/gallery/charts/as/case'        //case.swf  swf版本主入口
+		},
+		path_swf:{
+			value : Brix.basePath + 'brix/'+Brix.fixed+'gallery/charts/as/case.swf'
+		},
 
-            var r = R * 255,
-                g = G * 255,
-                b = B * 255;         
-            return {
-                r: r,
-                g: g,
-                b: b,
-                hex: &quot;#&quot; + (16777216 | b | (g &lt;&lt; 8) | (r &lt;&lt; 16)).toString(16).slice(1)
-            };
+		mainDiv_id:{
+			value : 'J_Charts_'
+		},
+		swfDiv:{
+			value : null
+		},
+		swfDiv_id:{
+			value : 'J_SWF_'
+		},
+		_case:{
+			value : null
+		},
 
-        },
-<span id='Brix-Gallery-ColorPicker-method-rgb2hsv'>        /**
-</span>         * Convert RGB representation to HSV.
-         * r, g, b can be either in &lt;0,1&gt; range or &lt;0,255&gt; range.
-         * Credits to http://www.raphaeljs.com
-         */
-        rgb2hsv: function(r, g, b) {
-            if (r &gt; 1 || g &gt; 1 || b &gt; 1) {
-                r /= 255;
-                g /= 255;
-                b /= 255;
-            }
-            var H, S, V, C;
-            V = Math.max(r, g, b);
-            C = V - Math.min(r, g, b);
-            H = (C == 0 ? null : V == r ? (g - b) / C + (g &lt; b ? 6 : 0) : V == g ? (b - r) / C + 2 : (r - g) / C + 4);
-            H = (H % 6) * 60;
-            S = C == 0 ? 0 : C / V;
-            return {
-                h: H,
-                s: S,
-                v: V
-            };
-        },
-<span id='Brix-Gallery-ColorPicker-method-setColor'>        /**
-</span>         * Sets color of the picker in hsv/rgb/hex format.
-         * @param {Object} hsv Object of the form: { h: &lt;hue&gt;, s: &lt;saturation&gt;, v: &lt;value&gt; }.
-         * @param {Object} rgb Object of the form: { r: &lt;red&gt;, g: &lt;green&gt;, b: &lt;blue&gt; }.
-         * @param {String} hex String of the form: #RRGGBB.
-         */
-        setColor: function(hsv, rgb, hex) {
-            var self = this,el = self.get('el');
-            self.h = hsv.h % 360;
-            self.s = hsv.s;
-            self.v = hsv.v;
-            var c = self.hsv2rgb(self.h, self.s, self.v);
+		_resize_index:{                    //当为2的整数时 才resize
+			value:0
+		}
+	}
 
-            self.slideDragNode.css({
-                top: Math.round(self.h * self.slideNode.height() / 360 - 5)
-            });
-            var left = Math.round(self.s * self.pickerNode.width() - 5),
-                top = Math.round((1 - self.v) * self.pickerNode.height() - 5);
-            self.pickerDragNode.css({
-                left: left,
-                top: top,
-                color: top &gt; 98 ? '#fff' : '#000'
-            });
-            self.pickerNode.css({
-                &quot;background-color&quot;: self.hsv2rgb(self.h, 1, 1).hex
-            });
-            el.one('.bg').css({
-                &quot;background-color&quot;: c.hex
-            });
-            self.set('color',c.hex);
-            el.all('li').removeClass('selected');
-            el.one('input').val(c.hex);
-        },
-<span id='Brix-Gallery-ColorPicker-method-setHsv'>        /**
-</span>         * 设置颜色
-         * @param {Object} hsv hsv对象 { h: &lt;hue&gt;, s: &lt;saturation&gt;, v: &lt;value&gt; }
-         */
-        setHsv: function(hsv) {
-            this.setColor(hsv);
-        },
-<span id='Brix-Gallery-ColorPicker-method-setRgb'>        /**
-</span>         * 设置颜色
-         * @param {Object} rgb rgb对象 { r: &lt;red&gt;, g: &lt;green&gt;, b: &lt;blue&gt; }
-         */
-        setRgb: function(rgb) {
-            this.setColor(this.rgb2hsv(rgb.r, rgb.g, rgb.b), rgb);
-        },
-<span id='Brix-Gallery-ColorPicker-method-setHex'>        /**
-</span>         * 设置颜色
-         * @param {String} hex 颜色值#RRGGBB.
-         */
-        setHex: function(hex) {
-            this.setColor(this.rgb2hsv(parseInt(hex.substr(1, 2), 16), parseInt(hex.substr(3, 2), 16), parseInt(hex.substr(5, 2), 16)), undefined, hex);
-        }
-    };
+	S.extend(Charts,Base,{
+		init:function(){
+			var self = this
+			if(window.SVGAngle || document.implementation.hasFeature(&quot;http://www.w3.org/TR/SVG11/feature#BasicStructure&quot;, &quot;1.1&quot;)){
+				isSWF = 0
+			}else{
+				isSWF = 1
+			}
+			if(S.UA.shell == 'maxthon' || (S.UA.shell == 'ie')){
+				isSWF = 1
+			}
+			// isSWF = 1
+			self.set('w',$('#' + self.get('parent_id')).width())
+			self.set('h',$('#' + self.get('parent_id')).height())
+
+	    	self.set('mainDiv', $('&lt;div&gt;&lt;/div&gt;')), self.set('mainDiv_id', self.get('mainDiv_id') + self.get('parent_id'))  
+	    	self.get('mainDiv').attr('id',self.get('mainDiv_id'))
+	    	var style = {'width':self.get('w'), 'height':self.get('h'), 'position':'relative'}
+	    	self.get('mainDiv').css(style);
+
+	    	$('#' + self.get('parent_id')).append(self.get('mainDiv'));
+	    	if(isSWF){
+	    		self.set('swfDiv',$('&lt;div&gt;&lt;/div&gt;')), self.set('swfDiv_id', self.get('swfDiv_id') + self.get('parent_id'))
+	    		self.get('swfDiv').attr('id',self.get('swfDiv_id'))
+	    		var style = {'width':self.get('w'), 'height':self.get('h')}
+	    		self.get('swfDiv').css(style);
+	    		self.get('mainDiv').append(self.get('swfDiv'))
+
+	    		S.use(self.get('url_swf'),function(S,Case){
+	    			self.set('_case', new Case({
+	    				path : self.get('path_swf'),
+	    				parent_id : self.get('swfDiv_id'),
+	    				config : self.get('config')
+	    			}))
+	    		})
+	    	}else{
+	    		S.use(self.get('url_svg'),function(S,Case){
+	    			self.set('_case', new Case({
+	    				parent_id : self.get('mainDiv_id'),
+	    				configData : self.get('config').configData,
+	    				chartData : self.get('config').chartData
+	    			})) 
+	    		})
+	    	}
+		},
+<span id='Brix-Gallery-Charts-method-actions'>		/**
+</span>		 * 对外api
+		 * @param  {String} $name  方法名
+		 * @param  {String} $value 具体参数
+		 */
+		actions:function($name,$value){
+			var self = this
+			self.get('_case').actions($name,$value)
+		},
+
+		resize:function(){
+			var self = this
+			self.set('_resize_index',self.get('_resize_index') + 1)
+			if(self.get('_resize_index') % 2 == 0){
+				self.set('w',$('#' + self.get('parent_id')).width())
+				self.set('h',$('#' + self.get('parent_id')).height())
+	    		var style = {'width':self.get('w'), 'height':self.get('h'), 'position':'relative'}
+	    		self.get('mainDiv').css(style);
+
+			 	if(isSWF){
+	    			var style = {'width':self.get('w'), 'height':self.get('h')}
+	    			self.get('swfDiv').css(style);
+				}else{
+					self.get('_case').actions('reset')
+				}
+			}
+		}
+	});
+
+	return Charts;
+
+	}, {
+	    requires:['base','node']
+	}
+);
+/*
+	发布注意事项
+        1.svg   flash路径
+        2.flash 版本号
+ */
 
 
-    S.extend(ColorPicker, Brick, {
-        initialize: function() {
-            var self = this;
-            this.h = 0;
-            this.s = this.v = 1;
-            var align = self.get('align');
-            self.overlay = new Overlay({
-                srcNode: self.get('el'),
-                align: align
-            });
-            self.overlay.render();
-            var el = self.get('el'),
-                slideNode = self.slideNode = el.one('.slide'),
-                pickerNode = self.pickerNode = el.one('.picker');
-            if (type == 'SVG') {
-                slideNode.append($C('svg', {
-                    xmlns: 'http://www.w3.org/2000/svg',
-                    version: '1.1',
-                    width: '100%',
-                    height: '100%'
-                }, [
-                $C('defs', {}, $C('linearGradient', {
-                    id: 'gradient-hsv',
-                    x1: '0%',
-                    y1: '100%',
-                    x2: '0%',
-                    y2: '0%'
-                }, [
-                $C('stop', {
-                    offset: '0%',
-                    'stop-color': '#FF0000',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '13%',
-                    'stop-color': '#FF00FF',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '25%',
-                    'stop-color': '#8000FF',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '38%',
-                    'stop-color': '#0040FF',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '50%',
-                    'stop-color': '#00FFFF',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '63%',
-                    'stop-color': '#00FF40',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '75%',
-                    'stop-color': '#0BED00',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '88%',
-                    'stop-color': '#FFFF00',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '100%',
-                    'stop-color': '#FF0000',
-                    'stop-opacity': '1'
-                })])), $C('rect', {
-                    x: '0',
-                    y: '0',
-                    width: '100%',
-                    height: '100%',
-                    fill: 'url(#gradient-hsv)'
-                })]));
-                pickerNode.append($C('svg', {
-                    xmlns: 'http://www.w3.org/2000/svg',
-                    version: '1.1',
-                    width: '100%',
-                    height: '100%'
-                }, [
-                $C('defs', {}, [
-                $C('linearGradient', {
-                    id: 'gradient-black',
-                    x1: '0%',
-                    y1: '100%',
-                    x2: '0%',
-                    y2: '0%'
-                }, [
-                $C('stop', {
-                    offset: '0%',
-                    'stop-color': '#000000',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '100%',
-                    'stop-color': '#CC9A81',
-                    'stop-opacity': '0'
-                })]), $C('linearGradient', {
-                    id: 'gradient-white',
-                    x1: '0%',
-                    y1: '100%',
-                    x2: '100%',
-                    y2: '100%'
-                }, [
-                $C('stop', {
-                    offset: '0%',
-                    'stop-color': '#FFFFFF',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '100%',
-                    'stop-color': '#CC9A81',
-                    'stop-opacity': '0'
-                })])]), $C('rect', {
-                    x: '0',
-                    y: '0',
-                    width: '100%',
-                    height: '100%',
-                    fill: 'url(#gradient-white)'
-                }), $C('rect', {
-                    x: '0',
-                    y: '0',
-                    width: '100%',
-                    height: '100%',
-                    fill: 'url(#gradient-black)'
-                })]));
-            } else {
-                if (!document.namespaces['v']) {
-                    document.namespaces.add('v', 'urn:schemas-microsoft-com:vml', '#default#VML');
-                }
-                slideNode.html(['&lt;div style=&quot;position: relative; width: 100%; height: 100%&quot;&gt;', '&lt;v:rect style=&quot;position: absolute; top: 0; left: 0; width: 100%; height: 100%&quot; stroked=&quot;f&quot; filled=&quot;t&quot;&gt;', '&lt;v:fill type=&quot;gradient&quot; method=&quot;none&quot; angle=&quot;0&quot; color=&quot;red&quot; color2=&quot;red&quot; colors=&quot;8519f fuchsia;.25 #8000ff;24903f #0040ff;.5 aqua;41287f #00ff40;.75 #0bed00;57671f yellow&quot;&gt;&lt;/v:fill&gt;', '&lt;/v:rect&gt;', '&lt;/div&gt;'].join(''));
-                pickerNode.html(['&lt;div style=&quot;position: relative; width: 100%; height: 100%&quot;&gt;', '&lt;v:rect style=&quot;position: absolute; left: -1px; top: -1px; width: 101%; height: 101%&quot; stroked=&quot;f&quot; filled=&quot;t&quot;&gt;', '&lt;v:fill type=&quot;gradient&quot; method=&quot;none&quot; angle=&quot;270&quot; color=&quot;#FFFFFF&quot; opacity=&quot;100%&quot; color2=&quot;#CC9A81&quot; o:opacity2=&quot;0%&quot;&gt;&lt;/v:fill&gt;', '&lt;/v:rect&gt;', '&lt;v:rect style=&quot;position: absolute; left: 0px; top: 0px; width: 100%; height: 101%&quot; stroked=&quot;f&quot; filled=&quot;t&quot;&gt;', '&lt;v:fill type=&quot;gradient&quot; method=&quot;none&quot; angle=&quot;0&quot; color=&quot;#000000&quot; opacity=&quot;100%&quot; color2=&quot;#CC9A81&quot; o:opacity2=&quot;0%&quot;&gt;&lt;/v:fill&gt;', '&lt;/v:rect&gt;', '&lt;/div&gt;'].join(''));
-            }
+/*
+	*  版本:1.0.1
+	*  日期:2012.11.28
+	*  内容:
+	*       优化：svg性能优化(解决firefox下卡的问题)
+	*
+	*  版本:1.0.2
+	*  日期:2012.11.29
+	*  内容:charts.js
+	*       解决：兼容ie9以下版本ie  window.addEventListener
+	*
+	*  版本:1.0.3
+	*  日期:2012.11.29
+	*  内容:demo -&gt; test_line.html
+	*  		swf
+	*       line -&gt; view -&gt; widget.js、graphs.js、group.js
+	*               control -&gt; configparse.js
+	*                    
+	*       新增：折线图 圆大小自定义
+	*
+	*  版本:1.0.4
+	*  日期:2012.11.30
+	*  内容:demo -&gt; test_line.html
+	*  		swf
+	*       line -&gt; view -&gt; widget.js、graphs.js、group.js
+	*               control -&gt; configparse.js
+	*                    
+	*       新增：折线图 过滤数据相同的圆点
+	*
+	*  版本:1.0.5
+	*  日期:2012.12.04
+	*  内容:
+	*       优化：js文件打包 去掉两个src目录
+ */
 
-            var pickerDragNode = self.pickerDragNode = el.one('.icon-picker-indicator'),
-                slideDragNode = self.slideDragNode = el.one('.icon-slide-indicator');
-            var pickerDrag = new DD.Draggable({
-                node: pickerDragNode,
-                cursor: 'move'
-            });
 
-            pickerDrag.on('drag', function(ev) {
-                var offset = pickerNode.offset();
-                var width = pickerNode.width(),
-                    height = pickerNode.height();
-                var left = ev.left - offset.left,
-                    top = ev.top - offset.top;
-                if (left+5 &gt; width) {
-                    left = width;
-                } else if (left &lt; 0) {
-                    left = 0;
-                } else {
-                    left += 5;
-                }
-                if (top+5 &gt; height) {
-                    top = height;
-                } else if (top &lt; 0) {
-                    top = 0;
-                } else {
-                    top += 5;
-                }
-
-                var s = left / width,
-                    v = (height - top) / height;
-                self.setHsv({
-                    h: self.h,
-                    s: s,
-                    v: v
-                });
-            });
-
-            var slideDrag = new DD.Draggable({
-                node: slideDragNode,
-                cursor: 'move'
-            });
-
-            slideDrag.on('drag', function(ev) {
-                var offset = slideNode.offset();
-                var height = slideNode.height(),
-                    top = ev.top - offset.top;
-                if (top + 5 &gt; height) {
-                    top = height - 1;
-                } else if (top &lt; 0) {
-                    top = 0;
-                } else {
-                    top += 5;
-                }
-                h = top / self.slideNode.height() * 360;
-                self.setHsv({
-                    h: h,
-                    s: self.s,
-                    v: self.v
-                });
-            });
-            self.setHex(self.get('color'));
-        },
-        _fireSelected: function() {
-            var self = this,
-                c = self.hsv2rgb(self.h, self.s, self.v);
-            self.overlay.hide();
-            self.fire(ColorPicker.FIRES.selected, {
-                hex: c.hex,
-                hsv: {
-                    h: self.h,
-                    s: self.s,
-                    v: self.v
-                },
-                rgb: {
-                    r: c.r,
-                    g: c.g,
-                    b: c.b
-                }
-            });
-        },
-        destructor: function() {
-            var self= this,
-            trigger = S.one(self.get('trigger'));
-            if(trigger){
-                var triggerType = self.get('triggerType');
-                S.each(triggerType, function(v) {
-                    trigger.detach(v, self.toggle,self);
-                });
-            }
-            if (self.overlay) {
-                self.overlay.destroy();
-                self.overlay = null;
-            }
-        }
-    });
-    S.augment(ColorPicker, ColorPicker.METHODS);
-    return ColorPicker;
-}, {
-    requires: [&quot;brix/core/brick&quot;, &quot;overlay&quot;, &quot;dd&quot;]
-});
-</pre>
+/*
+   是否需要文字类型接口
+ */</pre>
 </body>
 </html>

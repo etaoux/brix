@@ -15,63 +15,142 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">KISSY.add('brix/gallery/keystone/index', function(S, Brick) {
-
-    function Keystone() {
-        Keystone.superclass.constructor.apply(this, arguments);
+  <pre class="prettyprint lang-js">KISSY.add(&quot;brix/gallery/inplaceeditor/index&quot;, function(S, Brick) {
+<span id='Brix-Gallery-InplaceEditor'>    /**
+</span>     * 就地编辑
+     * &lt;br&gt;&lt;a href=&quot;../demo/gallery/inplaceeditor/inplaceeditor.html&quot; target=&quot;_blank&quot;&gt;Demo&lt;/a&gt;
+     * @class Brix.Gallery.InplaceEditor
+     * @extends Brix.Brick
+     */
+    function InplaceEditor() {
+        InplaceEditor.superclass.constructor.apply(this, arguments);
+        this._v = null; //记录编辑原始值
+        this._x = 0;
+        this._y = 0;
     }
-
-    Keystone.ATTRS = {
-        backgroundColor: {
-            // 默认值
-            value: '#F50',
-            // this.set('backgroundColor', '#ddd'); 的时候会调用的方法
-            setter: function(v) {
-                if (/^\#[0-9a-f]{6}$/i.test(v) || /^\#[0-9a-f]{3}/i.test(v)) {
-                    return v;
-                }
+    InplaceEditor.ATTRS = {
+        autoRender: {
+            value: true
+        },
+        tmpl: {
+            value: '&lt;div class=&quot;inplaceeditor-popup&quot;&gt;&lt;input class=&quot;input&quot; type=&quot;text&quot; value=&quot;&quot;&gt;&lt;/div&gt;'
+        }
+    };
+    InplaceEditor.EVENTS = {
+        &quot;input&quot;: {
+            focusout: function(e) {
+                this.hide();
             },
-            // this.get('backgroundColor') 时会调用的方法
-            getter: function(v) {
-                if (v.length === 4) {
-                    return '#' + v.substr(1).replace(/\w/ig, function(c) {
-                        return c.toUpperCase() + c.toUpperCase();
-                    })
-                }
-                else {
-                    return v.toUpperCase();
+            keydown: function(e) {
+                if (e.keyCode == 13) {
+                    this.hide();
                 }
             }
         }
     };
+    InplaceEditor.FIRES = {
+<span id='Brix-Gallery-InplaceEditor-event-show'>        /**
+</span>         * @event show
+         * 显示
+         */
+        show:'show',
+<span id='Brix-Gallery-InplaceEditor-event-hide'>        /**
+</span>         * @event hide
+         * 隐藏
+         */
+        hide:'hide',
+<span id='Brix-Gallery-InplaceEditor-event-valueChange'>        /**
+</span>         * @event valueChange
+         * 选择触发
+         * @param {Object} e 
+         * @param {String} e.value 值
+         */
+        valueChange:'valueChange'
 
-    Keystone.METHODS = {
-        anim: function() {
-            var el = this.get('el'),
-                color = this.get('backgroundColor'),
-                cfg;
-
-            cfg = {
-                duration: 1,
-                queue: 'keystone' + this.get('id')
-            };
-            el.all('p').stop(true).animate({
-                backgroundColor: color
-            }, cfg).animate({
-                backgroundColor: '#fff'
-            }, cfg);
-        }
     }
+    InplaceEditor.METHODS = {
+<span id='Brix-Gallery-InplaceEditor-method-show'>        /**
+</span>         * 显示就地编辑
+         * @param {Number} x 显示的X坐标
+         * @param {Number} y 显示的Y坐标
+         * @param {String} v 文本框的值
+         * @param {String} css 文本框的样式
+         */
+        show: function(x, y, v, css) {
+            var el = this.get('el'),
+                inputNode = el.one('input');
+            el.css({
+                visibility: 'visible'
+            });
+            if (x !== undefined) {
+                this._x = x;
+            }
+            if (y !== undefined) {
+                this._y = y;
+            }
+            el.css({
+                left: this._x,
+                top: this._y
+            });
 
-    S.extend(Keystone, Brick, {
-        initialize: function() {
-            this.anim();
+            if (css) {
+                inputNode.css(css);
+            }
+
+            inputNode[0].focus();
+            if (v !== undefined) {
+                this._v = v;
+                inputNode.val(v);
+            }
+            this.fire(InplaceEditor.FIRES.show);
+        },
+<span id='Brix-Gallery-InplaceEditor-method-hide'>        /**
+</span>         *  隐藏就地编辑
+         */
+        hide: function() {
+            var v = this.getValue();
+            var el = this.get('el');
+            if (this._v != v) { //值不相等时候触发valueChange事件
+                if (this.fire(InplaceEditor.FIRES.valueChange, {
+                    value: v
+                }) === false) {
+                    this._v = v;
+                    S.later(function(){
+                        try{
+                            //防止input隐藏
+                            el.one('input')[0].focus();
+                        }
+                        catch(e){
+                            
+                        }
+                        
+                    },50);
+                    return; //如果值验证不通过，则直接跳出
+                }
+            }
+            el.css({
+                visibility: 'hidden',
+                left: '-9999px',
+                top: '-9999px'
+            });
+            this.fire(InplaceEditor.FIRES.hide);
+        },
+<span id='Brix-Gallery-InplaceEditor-method-getValue'>        /**
+</span>         * 获取当前值
+         */
+        getValue: function() {
+            var el = this.get('el');
+            return el.one('input').val();
         }
+    };
+
+    S.extend(InplaceEditor, Brick, {
+
     });
 
-    S.augment(Keystone, Keystone.METHODS);
+    S.augment(InplaceEditor, InplaceEditor.METHODS);
 
-    return Keystone;
+    return InplaceEditor;
 }, {
     requires: [&quot;brix/core/brick&quot;]
 });</pre>

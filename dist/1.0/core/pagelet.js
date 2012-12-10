@@ -236,7 +236,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
          */
         _destroyBrick: function(o) {
             if (o.brick) {
-                o.brick.destroy();
+                o.brick.destroy&&o.brick.destroy();
                 o.brick = null;
             }
         }

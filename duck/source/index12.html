@@ -15,144 +15,80 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">KISSY.add(&quot;brix/gallery/inplaceeditor/index&quot;, function(S, Brick) {
-<span id='Brix-Gallery-InplaceEditor'>    /**
-</span>     * 就地编辑
-     * &lt;br&gt;&lt;a href=&quot;../demo/gallery/inplaceeditor/inplaceeditor.html&quot; target=&quot;_blank&quot;&gt;Demo&lt;/a&gt;
-     * @class Brix.Gallery.InplaceEditor
-     * @extends Brix.Brick
-     */
-    function InplaceEditor() {
-        InplaceEditor.superclass.constructor.apply(this, arguments);
-        this._v = null; //记录编辑原始值
-        this._x = 0;
-        this._y = 0;
-    }
-    InplaceEditor.ATTRS = {
-        autoRender: {
-            value: true
-        },
-        tmpl: {
-            value: '&lt;div class=&quot;inplaceeditor-popup&quot;&gt;&lt;input class=&quot;input&quot; type=&quot;text&quot; value=&quot;&quot;&gt;&lt;/div&gt;'
-        }
+  <pre class="prettyprint lang-js">KISSY.add(&quot;brix/gallery/form/index&quot;, function(S, Brick) {
+    var KeyCodes = {
+        ENTER: 13,
+        SPACE: 32
     };
-    InplaceEditor.EVENTS = {
-        &quot;input&quot;: {
-            focusout: function(e) {
-                this.hide();
-            },
-            keydown: function(e) {
-                if (e.keyCode == 13) {
-                    this.hide();
+
+    function Form() {
+        Form.superclass.constructor.apply(this, arguments);
+    }
+    Form.EVENTS = {
+        '.checkbox, .radio': {
+            'keyup': function (e) {
+                if (e.keyCode === KeyCodes.ENTER ||
+                    e.keyCode === KeyCodes.SPACE) {
+                    S.one(e.target).fire('click');
+
+                    // 空格键会触发页面滚动.
+                    e.preventDefault();
                 }
             }
         }
     };
-    InplaceEditor.FIRES = {
-<span id='Brix-Gallery-InplaceEditor-event-show'>        /**
-</span>         * @event show
-         * 显示
-         */
-        show:'show',
-<span id='Brix-Gallery-InplaceEditor-event-hide'>        /**
-</span>         * @event hide
-         * 隐藏
-         */
-        hide:'hide',
-<span id='Brix-Gallery-InplaceEditor-event-valueChange'>        /**
-</span>         * @event valueChange
-         * 选择触发
-         * @param {Object} e 
-         * @param {String} e.value 值
-         */
-        valueChange:'valueChange'
 
-    }
-    InplaceEditor.METHODS = {
-<span id='Brix-Gallery-InplaceEditor-method-show'>        /**
-</span>         * 显示就地编辑
-         * @param {Number} x 显示的X坐标
-         * @param {Number} y 显示的Y坐标
-         * @param {String} v 文本框的值
-         * @param {String} css 文本框的样式
-         */
-        show: function(x, y, v, css) {
-            var el = this.get('el'),
-                inputNode = el.one('input');
-            el.css({
-                visibility: 'visible'
-            });
-            if (x !== undefined) {
-                this._x = x;
-            }
-            if (y !== undefined) {
-                this._y = y;
-            }
-            el.css({
-                left: this._x,
-                top: this._y
-            });
+    function handleStat(node, checkSiblings) {
+        var input = node.one('.control');
+        var _input = node.one('input');
+        var isChecked = _input.prop('checked');
+        var isDisabled = _input.prop('disabled');
 
-            if (css) {
-                inputNode.css(css);
-            }
-
-            inputNode[0].focus();
-            if (v !== undefined) {
-                this._v = v;
-                inputNode.val(v);
-            }
-            this.fire(InplaceEditor.FIRES.show);
-        },
-<span id='Brix-Gallery-InplaceEditor-method-hide'>        /**
-</span>         *  隐藏就地编辑
-         */
-        hide: function() {
-            var v = this.getValue();
-            var el = this.get('el');
-            if (this._v != v) { //值不相等时候触发valueChange事件
-                if (this.fire(InplaceEditor.FIRES.valueChange, {
-                    value: v
-                }) === false) {
-                    this._v = v;
-                    S.later(function(){
-                        try{
-                            //防止input隐藏
-                            el.one('input')[0].focus();
-                        }
-                        catch(e){
-                            
-                        }
-                        
-                    },50);
-                    return; //如果值验证不通过，则直接跳出
-                }
-            }
-            el.css({
-                visibility: 'hidden',
-                left: '-9999px',
-                top: '-9999px'
-            });
-            this.fire(InplaceEditor.FIRES.hide);
-        },
-<span id='Brix-Gallery-InplaceEditor-method-getValue'>        /**
-</span>         * 获取当前值
-         */
-        getValue: function() {
-            var el = this.get('el');
-            return el.one('input').val();
+        // patch for radio
+        if (checkSiblings &amp;&amp; node.hasClass('radio')) {
+            node.siblings('.radio').each(handleStat);
         }
-    };
 
-    S.extend(InplaceEditor, Brick, {
+        var className = 'control' +
+                (isChecked ? ' checked' : '') +
+                (isDisabled ? ' disabled' : '') +
+                (isChecked &amp;&amp; isDisabled ? ' checked-disabled' : '');
 
+        if (input) {
+            input.attr('class', className);
+        } else {
+            node.prepend('&lt;span class=&quot;' + className + '&quot; tabindex=&quot;0&quot;&gt;&lt;/span&gt;');
+        }
+    }
+
+    S.extend(Form, Brick, {
+        initialize: function () {
+            var el = this.get('el');
+
+            el.addClass('bx-controls');
+            el.all('.checkbox, .radio').each(handleStat);
+            // 思路：不直接处理click事件，监听input状态变化来相应span的状态.
+            el.all('input').on('change', function (e) {
+                handleStat(S.one(e.currentTarget.parentNode), true);
+            });
+            // 1. 坑爹的IE6/7/8只能在input被渲染时click可以从label传递到input
+            // 2. 坑爹的IE6/7只能在label有对应for属性时click才能传递到input，嵌套都不行
+            //    ref: http://lucassmith.name/2008/04/label-checkbox-concerns.html
+            // 这里统一隐藏掉input
+            if (S.UA.ie &lt; 9) {
+                el.all('.checkbox, .radio').on('click', function (e) {
+                    // 避免循环触发.
+                    if (e.target.nodeName === 'INPUT') { return; }
+
+                    S.one(e.currentTarget).one('input')[0].click();
+                });
+            }
+        }
     });
-
-    S.augment(InplaceEditor, InplaceEditor.METHODS);
-
-    return InplaceEditor;
+    return Form;
 }, {
     requires: [&quot;brix/core/brick&quot;]
-});</pre>
+});
+</pre>
 </body>
 </html>

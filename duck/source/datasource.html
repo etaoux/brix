@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">KISSY.add('brix/gallery/charts/js/m/datasource/datasource',function(S,Base){
+
+	function DataSource(){
+		
+		var self = this
+
+		DataSource.superclass.constructor.apply(self,arguments);
+	}
+
+	DataSource.ATTRS = {
+		o:{
+			value:{
+				type : '',
+				data : ''
+			}	
+		},
+		version:{
+			value:{
+				v1:'1.0'
+			}
+		}
+	}
+
+	S.extend(DataSource,Base,{
+		parse:function($data,$type){
+			var self = this
+			var o
+			var type = $type ? $type : 'xml'
+			if(type == 'xml'){
+				o = self._xml($data)
+			}
+			return o
+		},
+		_xml:function($data){
+			var self = this
+			var o
+			var domParser = new DOMParser();
+			var xmlDoc = domParser.parseFromString($data, 'text/xml');
+			var __chart = xmlDoc.getElementsByTagName(&quot;chart&quot;)[0]
+			var v = __chart &amp;&amp; __chart.getAttribute('v') &amp;&amp; String(__chart.getAttribute('v')) ? String(__chart.getAttribute('v')) : '1.0'
+			if(v == self.get('version').v1){
+				o = self._V1($data)
+			}
+
+			return o
+		},
+		_V1:function($data){
+			var self = this
+			var o = S.clone(self.get('o'))
+			var domParser = new  DOMParser();
+			var xmlDoc = domParser.parseFromString($data, 'text/xml');
+			var __chart = xmlDoc.getElementsByTagName(&quot;chart&quot;)[0]
+
+			o.type = __chart.getAttribute('type') &amp;&amp; String(__chart.getAttribute('type')) ? String(__chart.getAttribute('type')) : ''
+			o.data = (new XMLSerializer()).serializeToString(__chart.getElementsByTagName(&quot;data&quot;)[0])
+			
+			return o
+		}
+
+	});
+
+	return DataSource;
+
+	}, {
+	    requires:['base']
+	}
+);</pre>
+</body>
+</html>

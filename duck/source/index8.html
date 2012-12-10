@@ -15,20 +15,46 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">KISSY.add(&quot;brix/gallery/dialog/index&quot;, function(S, Pagelet, Overlay) {
-<span id='Brix-Gallery-Dialog'>    /**
-</span>     * 弹出层组件
-     * &lt;br&gt;&lt;a href=&quot;../demo/gallery/dialog/dialog.html&quot; target=&quot;_blank&quot;&gt;Demo&lt;/a&gt;
-     * @class Brix.Gallery.Dialog
-     * @extends KISSY.Overlay
-     *
-     * see:
-     * &lt;a href=&quot;http://docs.kissyui.com/docs/html/api/component/overlay/overlay.html&quot;&gt;http://docs.kissyui.com/docs/html/api/component/overlay/overlay.html&lt;/a&gt;
-     *
+  <pre class="prettyprint lang-js">KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) {
+
+    function getRecentlyDate(n) {
+        var dt = 1000 * 60 * 60 * 24; //一天的毫秒数
+        var d = new Date();
+        var ct = d.getTime();
+
+        d.setTime(ct + dt * n)
+        return d;
+    };
+    var date=new Date(),
+        yestoday = getRecentlyDate(-1),
+        quickDates = { //快捷日期组
+            'today': {
+                text: '今天',
+                dateRange: [date, date]
+            },
+            'yestoday': {
+                text: '昨天',
+                dateRange: [yestoday, yestoday]
+            },
+            'days7before': {
+                text: '过去7天',
+                dateRange: [getRecentlyDate(-7), yestoday]
+            },
+            'days14before': {
+                text: '过去15天',
+                dateRange: [getRecentlyDate(-15), yestoday]
+            }
+        };
+    var NOTLIMITEDTEXT = '不限';
+        
+<span id='Brix-Gallery-DatePicker'>    /**
+</span>     * 时间段选择器
+     * &lt;br&gt;&lt;a href=&quot;../demo/gallery/datepicker/datepicker.html&quot; target=&quot;_blank&quot;&gt;Demo&lt;/a&gt;
+     * @class Brix.Gallery.DatePicker
+     * @extends Brix.Brick
      */
-    function Dialog(config) {
-        var self = this;
-        Dialog.superclass.constructor.apply(this, arguments);
+    function DatePicker() {
+        DatePicker.superclass.constructor.apply(this, arguments);
         //绑定触发事件
         var self = this,
             trigger = S.one(self.get('trigger'));
@@ -38,198 +64,387 @@
                 trigger.on(v, self.toggle,self);
             });
         }
+
+        var isCompare = self.get('isCompare');
+        if(isCompare){
+            self.on('afterCompareTextChange',function(ev){
+                self.setChunkData('compareText',self.get('compareText'));
+            })
+        }
     }
-    Dialog.ATTRS = {
-<span id='Brix-Gallery-Dialog-cfg-trigger'>        /**
-</span>         * 触发Dialog的对象
+    DatePicker.Date = Calendar.Date;
+    DatePicker.ATTRS = {
+        id:{
+            getter:function(v){
+                if(!v){
+                    v = 'brix_datepicker_' + S.guid();
+                    this.__set('id',v);
+                }
+                return v
+            }
+        },
+<span id='Brix-Gallery-DatePicker-cfg-trigger'>        /**
+</span>         * 触发时间选择的对象
          * @cfg {Element}
          */
         trigger:{
-            value:false
+            value: false
         },
-<span id='Brix-Gallery-Dialog-cfg-triggerType'>        /**
-</span>         * 触发弹出Dialog的事件类型, 
+<span id='Brix-Gallery-DatePicker-cfg-triggerType'>        /**
+</span>         * 触发弹出时间选择的事件类型, 
          * 例如：[‘click’,’focus’],也可以直接传入’focus’, 默认为[‘click’]
          * @cfg {String|Array}
          */
         triggerType:{
             value:['click']
         },
-<span id='Brix-Gallery-Dialog-cfg-start'>        /**
-</span>         * 显示的开始位置信息
-         * @cfg {Object} start
-         * @cfg {Number} start.left left值
-         * @cfg {Number} start.top   top值
-         * @cfg {Number} start.opacity  opacity值 
+<span id='Brix-Gallery-DatePicker-cfg-quickDates'>        /**
+</span>         * 快捷日期组
+         * @cfg {Object}
+         *
+         * @example
+         *     {
+         *          'today': {
+         *               text: '今天',
+         *               dateRange: [date, date]
+         *           },
+         *           'yestoday': {
+         *               text: '昨天',
+         *               dateRange: [yestoday, yestoday]
+         *           },
+         *           'days7before': {
+         *               text: '过去7天',
+         *               dateRange: [getRecentlyDate(-7), yestoday]
+         *           },
+         *           'days14before': {
+         *               text: '过去15天',
+         *               dateRange: [getRecentlyDate(-15), yestoday]
+         *           }
+         *       };
+         *  
          */
-        start: {
+        quickDates:{
+            value:quickDates //快捷日期
         },
-<span id='Brix-Gallery-Dialog-cfg-end'>        /**
-</span>         * 显示的结束位置信息
-         * @cfg {Object} end
-         * @cfg {Number} end.left left值
-         * @cfg {Number} end.top   top值
-         * @cfg {Number} end.opacity  opacity值 
+<span id='Brix-Gallery-DatePicker-cfg-dates'>        /**
+</span>         * 已选择的时间段
+         * @cfg {Object} dates
+         * @cfg {Date} dates.start 开始时间
+         * @cfg {Date} dates.end   结束时间
+         *
+         * 
+         *      {start:new Date(),end:new Date(2014,11,26)}
          */
-        end: {
-        },
-        elCls:{
-            value:'dialog'
-        },
-        prefixCls: {
-            value: 'dialog-'
-        },
-        x: {
-            getter: function() {
-                var self = this;
-                if(!self.get('start')){
-                    return false
-                }
-                return self.get('start').left;
+        dates:{
+            value:{
+                start:null,//开始日期
+                end:null//结束日期
             }
         },
-        y: {
-            getter: function() {
-                var self = this;
-                if(!self.get('start')){
-                    return false
-                }
-                return self.get('start').top;
-            }
+<span id='Brix-Gallery-DatePicker-cfg-isQuick'>        /**
+</span>         * 是否快捷日期
+         * @cfg {Boolean}
+         */
+        isQuick:{
+            value:true
         },
-        dir: {
-            getter: function() {
-                var self = this;
-                var dir = '',
-                    start = self.get('start'),
-                    end = self.get('end');
-                if(start.left===end.left&amp;&amp;start.top===end.top){
-                    return false;
-                }
-                dir = start.left === end.left &amp;&amp; (start.top &lt; end.top ? 'down' : 'up') || start.top === end.top &amp;&amp; (start.left &lt; end.left ? 'right' : 'left') || 'left';
-                return dir;
-            }
+<span id='Brix-Gallery-DatePicker-cfg-isCompare'>        /**
+</span>         * 是否是比较
+         * @cfg {Boolean}
+         */
+        isCompare:{
+            value:false
         },
-        duration: {
-            value: 0.3
+<span id='Brix-Gallery-DatePicker-cfg-compareText'>        /**
+</span>         * 比较的日期
+         * @cfg {String}
+         */
+        compareText:{
+            value:'过去7天'
         },
-        easing: {
-            value: 'easeNone'
+<span id='Brix-Gallery-DatePicker-cfg-align'>        /**
+</span>         * 对齐方式
+         * @cfg {Object} align
+         * @cfg {Element} align.node 对其的节点
+         * @cfg {Array} align.points   对其方式
+         * @cfg {Array} align.offset   对其偏移量
+         */
+        align:{
+            value:{
+                node:false,
+                points : ['bl', 'tl'],
+                offset : [0, 0]
+            } //设置对其方式
         },
-        closable: {
-            value: true
+<span id='Brix-Gallery-DatePicker-cfg-notLimited'>        /**
+</span>         * 是否出现不限的按钮
+         * @cfg {Boolean}
+         */
+        notLimited:{
+            value:false
         },
-        mask: {
+<span id='Brix-Gallery-DatePicker-cfg-pages'>        /**
+</span>         * 日历的页数, 默认为2
+         * @cfg {Number}
+         */
+        pages:{
+            value:2
+        },
+<span id='Brix-Gallery-DatePicker-cfg-minDateStart'>        /**
+</span>         * 日历开始可选择的最小日期
+         * @cfg {Date}
+         */
+        minDateStart: {
             value: false
         },
-        tmpl: {
-            value: null
+<span id='Brix-Gallery-DatePicker-cfg-minDateEnd'>        /**
+</span>         * 日历结束可选择的最小日期
+         * @cfg {Date}
+         */
+        minDateEnd: {
+            value: false
         },
-        data: {
 
+<span id='Brix-Gallery-DatePicker-cfg-maxDateStart'>        /**
+</span>         * 日历开始可选择的最大日期
+         * @cfg {Date}
+         */
+        maxDateStart: {
+            value: false
+        },
+<span id='Brix-Gallery-DatePicker-cfg-maxDateEnd'>        /**
+</span>         * 日历结束可选择的最大日期
+         * @cfg {Date}
+         */
+        maxDateEnd: {
+            value: false
+        },
+<span id='Brix-Gallery-DatePicker-cfg-disabledStart'>        /**
+</span>         * 开始禁止点击的日期数组
+         * @cfg {Array}
+         *
+         *      [new Date(),new Date(2011,11,26)]
+         */
+        disabledStart: {
+            value: false
+        },
+<span id='Brix-Gallery-DatePicker-cfg-disabledEnd'>        /**
+</span>         * 结束禁止点击的日期数组
+         * @cfg {Array}
+         *
+         *      [new Date(),new Date(2011,11,26)]
+         */
+        disabledEnd: {
+            value: false
+        },
+        tmpl:{
+            valueFn:function(){
+                var self = this;
+                var html ='&lt;div class=&quot;datepicker-bd&quot;&gt;'+
+                                '{{^isCompare}}'+
+                                '&lt;label&gt;日期范围：&lt;/label&gt;'+
+                                '&lt;div class=&quot;range&quot;&gt;'+
+                                    '&lt;input class=&quot;input&quot; input_type=&quot;Start&quot; value=&quot;{{start}}&quot;&gt;'+
+                                    '&lt;span class=&quot;input-split&quot;&gt;-&lt;/span&gt;'+
+                                    '&lt;input class=&quot;input&quot; input_type=&quot;End&quot; value=&quot;{{end}}&quot;&gt;'+
+                                '&lt;/div&gt;'+
+                                '{{/isCompare}}'+
+                                '{{#isCompare}}'+
+                                '&lt;label&gt;当前日期：&lt;/label&gt;'+
+                                '&lt;div bx-tmpl=&quot;datepicker&quot; bx-datakey=&quot;compareText&quot; class=&quot;range&quot;&gt;{{compareText}}'+
+                                '&lt;/div&gt;'+
+                                '&lt;label&gt;与其他日期比较：(须同样天数)&lt;/label&gt;'+
+                                '&lt;div class=&quot;range&quot;&gt;'+
+                                    '&lt;input class=&quot;input&quot; input_type=&quot;Start&quot; value=&quot;{{start}}&quot;&gt;'+
+                                    '&lt;span class=&quot;input-split&quot;&gt;-&lt;/span&gt;'+
+                                    '&lt;input class=&quot;input&quot; input_type=&quot;End&quot; value=&quot;{{end}}&quot;&gt;'+
+                                '&lt;/div&gt;'+
+                                '{{/isCompare}}'+
+                                '{{#isQuick}}'+
+                                '{{{quick_html}}}'+
+                                '{{/isQuick}}'+
+                                '&lt;div class=&quot;operator&quot;&gt;'+
+                                    '&lt;a class=&quot;btn btn-size25 btn-confirm&quot; href=&quot;#&quot;&gt;确定&lt;/a&gt;&lt;a class=&quot;btn-cancel&quot; href=&quot;#&quot;&gt;取消&lt;/a&gt;'+
+                                '&lt;/div&gt;'+
+                            '&lt;/div&gt;';
+                if(!self.get('el')){
+                    html = '&lt;div class=&quot;datepicker&quot;&gt;' +html+ '&lt;/div&gt;';
+                }
+                return html;
+            }
+        },
+        data:{
+            valueFn:function(){
+                var self = this,
+                isQuick = self.get('isQuick'),
+                isCompare = self.get('isCompare'),
+                compareText = self.get('compareText'),
+                dates = self.get('dates'),
+                start = dates.start?Calendar.Date.format(dates.start,'isoDate'):NOTLIMITEDTEXT,
+                end = dates.end?Calendar.Date.format(dates.end,'isoDate'):NOTLIMITEDTEXT;
+                return {
+                    start:start,
+                    end:end,
+                    isQuick:isQuick,
+                    isCompare:isCompare,
+                    compareText:compareText
+                }
+            }
+        },
+        autoRender:{
+            value:false
+        }
+    };
+    DatePicker.RENDERERS = {
+        quick:{
+            html:function(context){
+                var quickDates = context.get('quickDates');
+                var html = '&lt;label&gt;快捷日期:&lt;/label&gt;&lt;ul class=&quot;quick-list&quot;&gt;';
+                for(var quick in quickDates){
+                    html+='&lt;li&gt;&lt;a class=&quot;quick-item&quot; key=&quot;'+quick+'&quot; href=&quot;#&quot;&gt;'+quickDates[quick].text+'&lt;/a&gt;&lt;/li&gt;';
+                }
+                html+='&lt;/ul&gt;';
+                return html;
+            }
+        }
+    };
+    DatePicker.DOCEVENTS = {
+        '': {
+            click: function(e) {
+                var self = this,
+                    el = self.get('el'),
+                    node = S.one(e.target),
+                    trigger = S.one(self.get('trigger'));
+                if (!el.equals(node)&amp;&amp;!el.contains(node) &amp;&amp; trigger &amp;&amp;!trigger.contains(node) &amp;&amp; node[0] != trigger[0]&amp;&amp;(!self.calendar || !self.calendar.get('el').contains(node))) {
+                    self.hide();
+                }
+            }
+        }
+    };
+    DatePicker.EVENTS = {
+        'input':{
+            click:function(e){
+                var self = this,
+                    node = S.one(e.currentTarget),
+                    date = Calendar.Date.parse(node.val())||new Date(),
+                    selected = Calendar.Date.parse(node.val()),
+                    align = S.clone(self.get('align'));
+                    align.node = node[0];
+                if(!self.calendar){
+                    self.calendar = new Calendar({
+                        date:date,
+                        selected:selected,
+                        popup:true,
+                        closable:true,
+                        notLimited:self.get('notLimited'),
+                        pages:self.get('pages'),
+                        align:align
+                    });
+                    self.calendar.on('select',function(ev){
+                        var t = self.calendar.get('trigger');
+                        if(ev.date){
+                            t.val(Calendar.Date.format(ev.date,'isoDate'));
+                        }
+                        else{
+                            t.val(NOTLIMITEDTEXT);
+                        }
+                    });
+                }
+                self.calendar.set('date',date);
+                self.calendar.set('selected',selected); 
+                self.calendar.set('trigger',node);
+                self.calendar.set('align',align);
+                var input_type = node.attr('input_type');
+                self.calendar.set('minDate',self.get('minDate'+input_type));
+                self.calendar.set('maxDate',self.get('maxDate'+input_type));
+                self.calendar.set('disabled',self.get('disabled'+input_type));
+                self.fire(DatePicker.FIRES.inputClick,{type:input_type});
+                self.calendar.show();
+            }
+        },
+        '.btn-confirm':{
+            click:function(e){
+                e.preventDefault();
+                var self = this,
+                el = self.get('el'),
+                quickListNode = el.one('.quick-list');
+                dates = {
+                    isQuick : false
+                },
+                inputs = el.all('input');
+                if(quickListNode){
+                    quickListNode.all('a').removeClass('quick-current');
+                }
+                dates.start = Calendar.Date.parse(inputs.item(0).val());
+                dates.end = Calendar.Date.parse(inputs.item(1).val());
+                S.log(dates);
+                if(self.fire(DatePicker.FIRES.selected,dates)===false){
+                    return;
+                }
+                self.hide();
+            }
+        },
+        '.btn-cancel':{
+            click:function(e){
+                e.preventDefault();
+                this.hide();
+            }
+        },
+        '.quick-item':{
+            click:function(e){
+                e.preventDefault();
+                var self = this,
+                    node = S.one(e.currentTarget),
+                    el = self.get('el'),
+                    quickDates = self.get('quickDates'),
+                    key = S.one(e.currentTarget).attr('key'),
+                    quick = quickDates[key],
+                    dates = {
+                        isQuick : true
+                    };
+                el.one('.quick-list').all('a').removeClass('quick-current');
+                node.addClass('quick-current');
+                dates.start = quick.dateRange[0];
+                dates.end = quick.dateRange[1];
+                dates.quickDate = quick;
+                S.log(dates);
+                self.fire(DatePicker.FIRES.selected,dates);
+                self.hide();
+            }
         }
     };
 
-    S.extend(Dialog, Overlay, {
-        initializer: function() {
+    DatePicker.METHODS = {
+<span id='Brix-Gallery-DatePicker-method-show'>        /**
+</span>         * 显示日历
+         */
+        show: function() {
             var self = this;
-            //渲染模板内容
-            self.on('afterRenderUI', function() {
-                var closeBtn = self.get('el').one('.dialog-ext-close');
-                closeBtn.one('.dialog-ext-close-x').html('&amp;#223');
-                closeBtn.on('mouseenter',function(e){
-                    closeBtn.one('.dialog-ext-close-x').html('&amp;#378');
-                });
-                closeBtn.on('mouseleave',function(e){
-                    closeBtn.one('.dialog-ext-close-x').html('&amp;#223');
-                });
-                if (self.get('tmpl')) {
-                    self.pagelet = new Pagelet({
-                        container: self.get('contentEl'),
-                        tmpl: self.get('tmpl'),
-                        data: self.get('data')
-                    });
-                }
-            });
-        },
-        _visibilityChange:function(v,fn){
-            var self = this;
-            var el = self.get('el'),
-                body = S.one('body'),
-                html = S.one('html'),
-                s = 'start',
-                dir = self.get('dir');
-            //移除动画队列，设置显示，为动画增加效果
-            el.stop();
-            //为防止出现滚动条
-            body.css({width:body.width(),height:body.height(),overflow:'hidden'});
-            html.css({width:body.width(),height:body.height(),overflow:'hidden'});
-            el.css('visibility', 'visible');
-            if (v) {//如果显示
-                el.css(self.get('start'));
-                s = 'end';
+            if(!self.get('rendered')){
+                self.render();
             }
-            else{
-                el.css(self.get('end'));
-                s = 'start';
+            if (self.overlay) {
+                var align = S.clone(self.get('align'));
+                if(!align.node){
+                    align.node = self.get('trigger');
+                }
+                self.overlay.set('align', align);
+                self.overlay.show();
+                self.fire(DatePicker.FIRES.show);
             }
-            el.animate(self.get(s), self.get('duration'), self.get('easing'), function() {
-                el.css('visibility', v?'visible':&quot;hidden&quot;);
-                if(!v){
-                    el.css({left:'-99999px',top:'-99999px'});
-                }
-                body.css({width:'',height:'',overflow:''});
-                html.css({width:'',height:'',overflow:''});
-                fn&amp;&amp;fn.call(self);
-            });
-        },
-        bindUI:function(){
-            var self = this,el = self.get('el');
-            
-            self.on('beforeVisibleChange', function(ev) {
-                if(!self.get('start')){
-                    return true;
-                }
-                var v = ev.newVal,dir = self.get('dir');
-                el.removeClass('dialog-left').removeClass('dialog-right').removeClass('dialog-up').removeClass('dialog-down');
-                if(dir){
-                    el.addClass('dialog-'+dir)
-                }
-                if(!v){
-                    self._visibilityChange(v,function(){
-                        el.css('visibility', 'hidden');
-                        self.set('visible',false,{silent:true});
-                        self.fire('hide');
-                    });
-                    return false;
-                }
 
-            });
-            self.on('afterVisibleChange', function(ev) {
-                if(!self.get('start')){
-                    return true;
-                }
-                var v = ev.newVal;
-                if(v){
-                    self._visibilityChange(v);
-                }
-            });
         },
-        destructor:function(){
-            var self = this,
-            trigger = S.one(self.get('trigger'));
-            if(trigger){
-                var triggerType = self.get('triggerType');
-                S.each(triggerType, function(v) {
-                    trigger.detach(v, self.toggle,self);
-                });
-            }
-            if(self.pagelet){
-                self.pagelet.destroy();
-                self.pagelet = null;
+<span id='Brix-Gallery-DatePicker-method-hide'>        /**
+</span>         * 隐藏日历
+         */
+        hide: function() {
+            var self = this;
+            if (self.overlay) {
+                self.overlay.hide();
+                self.fire(DatePicker.FIRES.hide);
             }
         },
-<span id='Brix-Gallery-Dialog-method-toggle'>        /**
+<span id='Brix-Gallery-DatePicker-method-toggle'>        /**
 </span>         * 显示隐藏切换
          * @param {Event} e 事件
          */
@@ -238,9 +453,8 @@
             if(e){
                 e.preventDefault();
             }
-            var self = this,el = self.get('el');
-            if(el){
-                if (el.css('visibility') == 'hidden') {
+            if (self.overlay) {
+                if (self.overlay.get('el').css('visibility') == 'hidden') {
                     self.show();
                 } else {
                     self.hide();
@@ -250,10 +464,70 @@
                 self.show();
             }
         }
+    };
+
+    DatePicker.FIRES = {
+<span id='Brix-Gallery-DatePicker-event-selected'>        /**
+</span>         * @event selected
+         * 日期选择触发
+         * @param {Object} e 
+         * @param {Boolean} e.isQuick 是否快捷日期
+         * @param {Object} e.quickDate 如果是快捷日期，则返回快捷日期对象
+         * @param {Date} e.start 开始日期
+         * @param {Date} e.end 开始日期
+         */
+        selected:'selected',
+<span id='Brix-Gallery-DatePicker-event-inputClick'>        /**
+</span>         * @event inputClick
+         * 日期选择触发
+         * @param {Object} e 
+         * @param {String} e.type 点击的是那个input：Start|End
+         */
+        inputClick:'inputClick',
+<span id='Brix-Gallery-DatePicker-event-show'>        /**
+</span>         * @event show
+         * 显示
+         */
+        show: 'show',
+<span id='Brix-Gallery-DatePicker-event-hide'>        /**
+</span>         * @event hide
+         * 隐藏
+         */
+        hide: 'hide'
+    };
+    S.extend(DatePicker, Brick, {
+        initialize: function() {
+            var self = this;
+            self.overlay = new Overlay({
+                srcNode: self.get('el')
+            });
+            self.overlay.render();
+        },
+        destructor: function() {
+            var self = this,
+            trigger = S.one(self.get('trigger'));
+            if(trigger){
+                var triggerType = self.get('triggerType');
+                S.each(triggerType, function(v) {
+                    trigger.detach(v, self.toggle,self);
+                });
+            }
+            if(self.calendar){
+                self.calendar.destroy();
+                self.calendar = null;
+            }
+            if (self.overlay) {
+                self.overlay.destroy();
+                self.overlay = null;
+            }
+        }
+                
     });
-    return Dialog;
+    S.augment(DatePicker, DatePicker.METHODS);
+    return DatePicker;
 }, {
-    requires: [&quot;brix/core/pagelet&quot;, &quot;overlay&quot;]
-});</pre>
+    requires: [&quot;brix/core/brick&quot;, &quot;overlay&quot;,&quot;../calendar/index&quot;]
+});
+</pre>
 </body>
 </html>

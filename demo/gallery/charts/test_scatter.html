@@ -1,0 +1,70 @@
+<!--
+散点图
+
+configData:
+//type = 类型(空或histogram = 纵向直方图  |  scatter = 散点图  |  line = 折线图(区域图)  |  line2 = 折线图(多日期) |  line3 = 折线图(双指标)  |  pie = 饼图  |  map = 地图  |  integrate = 综合图)[默认为纵向直方图]
+<chart v="1.0" type="scatter">
+	//style = 样式(可选值: 1 = 散点色彩为渐变  |  2 = 散点色彩为固定)[默认:1]
+	<data style="1"/>
+</chart>
+
+//------------------------------------
+chartData:
+<chart>
+	<data>
+		//labels = 横向显示的数据(,号分开)
+		//name   = 鼠标划入时显示的前信息
+		<indexAxis labels="1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,12000,13000,14000,15000,16000,17000,18000,19000,20000,21000,22000,23000,24000,25000,26000,27000,28000,29000,30000,31000,32000,33000,34000,36000,38000" name="维度2：">
+			//key    = 突出显示指定索引中的散点  支持多个同时突出(例：<key indexs="3,5,7"/>) 索引从1开始
+			<key indexs="5"/>
+		</indexAxis>
+		//name   = 鼠标划入时显示的前信息
+		<sets name="维度1：">
+			//values = 纵向显示的数据(,号分开)
+			<set values="256,10,432,379,1100,254,98,134,51,1,21,53,21,25,17,22,9,15,4,15,3,1,2,3,2,1,1,1,3,3,100,200,300,400,500,100"></set>
+		</sets>
+	</data>
+</chart>
+-->
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Brix Chart Demo 散点图</title>
+    <meta charset="utf-8" />
+    <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
+    <link rel="stylesheet" href="../../assets/doc.css">
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+    <!--<script src="http://a.tbcdn.cn/apps/e/brix/1.0/brix.js" bx-config="{autoConfig:true}"></script>-->
+    <!--<script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>-->
+    <script src="../../../dist/1.0/brix.js" bx-config="{autoConfig:true,fixed:'dist/1.0/'}"></script>
+</head>
+<body>
+	<div id="J_wrapper1" class="wrapper1" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper2" class="wrapper2" style="width:720px;height:400px;"></div>
+
+	<script type="text/javascript">
+
+		KISSY.use('brix/gallery/charts/',function(S,Charts){
+			new Charts({
+					parent_id:'J_wrapper1',
+
+					config:{
+						configData:'<chart v="1.0" type="scatter"><data style="1"/></chart>',
+						
+						chartData:'<chart><data><indexAxis labels="1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,12000,13000,14000,15000,16000,17000,18000,19000,20000,21000,22000,23000,24000,25000,26000,27000,28000,29000,30000,31000,32000,33000,34000,36000,38000" name="维度2："><key indexs="5"/></indexAxis><sets name="维度1："><set values="256,10,432,379,1100,254,98,134,51,1,21,53,21,25,17,22,9,15,4,15,3,1,2,3,2,1,1,1,3,3,100,200,300,400,500,100"></set></sets></data></chart>'
+					}
+			});
+			new Charts({
+					parent_id:'J_wrapper2',
+
+					config:{
+						configData:'<chart v="1.0" type="scatter"><data style="2"/></chart>',
+							
+						chartData:'<chart><data><indexAxis labels="1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,12000" name="维度2："><key indexs="5,10,12"/></indexAxis><sets name="维度1："><set values="256,10,432,379,1100,254,98,134,51,1,21,53"></set></sets></data></chart>'
+					}
+			});
+		})
+	</script>
+</body>
+</html>

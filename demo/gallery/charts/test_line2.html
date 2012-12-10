@@ -1,0 +1,90 @@
+<!--
+折线图(双日期)
+
+configData(折线图、折线图(多日期)、折线图(双指标) 该属性配置类似):
+//type = 类型(空或histogram = 纵向直方图  |  scatter = 散点图  |  line = 折线图(区域图)  |  line2 = 折线图(多日期) |  line3 = 折线图(双指标)  |  pie = 饼图  |  map = 地图  |  integrate = 综合图(直方+折线))[默认为纵向直方图]
+<chart v="1.0" type="line2">
+	//shape = 线的形状(可选值: 空|0 = 直线  |  1 = 曲线)[默认:0]
+	//node  = 线上节点(可选值: 空|0 = 无节点  |  1 = 有节点)[默认:1]
+	//area  = 是否显示区域(可选值: 空|0 = 无区域  |  1 = 有区域)[默认:0]
+	<data shape="0" node="1" area="0">
+		//线条颜色配置 例:例子2
+		//normals 表示正常状态时颜色[默认:0x458AE6, 0xE68422, 0x5BCB8A, 0x94CC5C, 0xC3CC5C, 0xE6B522, 0xE68422]
+		//overs   对应鼠标划入时颜色[默认:0x135EBF, 0xBF7C39, 0x36B26A, 0x78A64B, 0x9CA632, 0xBF9E39, 0xBF7C39]
+		//注意:当有多条线条时 请使用','号分隔每条线条的颜色值 如果颜色组合少于线条数量 未给予颜色值的线条将以黑色显示
+		<colors normals="0x3300FF,0x3333FF,0x3366FF" overs="0xCC0000,0xCC3300,0xCC6600"/>
+	</data>
+</chart>
+
+//------------------------------------
+chartData:
+<chart>
+	//哪个data在前 将根据该data中indexAxis的labels熟悉确定日期
+	<data>
+		//labels = 横向显示的数据(,号分开)
+		<indexAxis labels="3月8号,3月9号,3月10号,3月11号,3月12号,3月13号,3月14号" name=""/>
+		//name   = 鼠标划入时显示的前信息
+		<sets name="03月08号:,03月09号:,03月10号:,03月11号:,03月12号:,03月13号:,03月14号:">
+			//values = 纵向显示的数据
+			<set values="83,81,77,71,68,70,68"/>
+		</sets>
+	</data>
+	
+	<data>
+		<indexAxis labels="3月1号,3月2号,3月3号,3月4号,3月5号,3月6号,3月7号" name=""/>
+		<sets name="03月01号:,03月02号:,03月03号:,03月04号:,03月05号:,03月06号:,03月07号:">
+			<set values="43,41,37,31,28,30,28"/>
+		</sets>
+	</data>
+	
+	<info>
+		<content>
+			//name  = 鼠标划入时显示的前信息的第一行
+			//color = 预留
+			<title name="展现次数" color="0x666666"/>
+		</content>
+	</info>
+</chart>
+-->
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Brix Chart Demo 折线图(双日期)</title>
+    <meta charset="utf-8" />
+    <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
+    <link rel="stylesheet" href="../../assets/doc.css">
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+    <!--<script src="http://a.tbcdn.cn/apps/e/brix/1.0/brix.js" bx-config="{autoConfig:true}"></script>-->
+    <!--<script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>-->
+    <script src="../../../dist/1.0/brix.js" bx-config="{autoConfig:true,fixed:'dist/1.0/'}"></script>
+</head>
+<body>
+	<div id="J_wrapper1" class="wrapper1" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper2" class="wrapper2" style="width:720px;height:400px;"></div>
+
+	<script type="text/javascript">
+
+		KISSY.use('brix/gallery/charts/',function(S,Charts){
+			new Charts({
+					parent_id:'J_wrapper1',
+
+					config:{
+						configData:'<chart v="1.0" type="line2"><data shape="0" node="1" area="0"/></chart>',
+						
+						chartData:'<chart><data><indexAxis labels="3月8号,3月9号,3月10号,3月11号,3月12号,3月13号,3月14号" name=""></indexAxis><sets name="03月08号:,03月09号:,03月10号:,03月11号:,03月12号:,03月13号:,03月14号:"><set values="83,81,77,71,68,70,68"></set></sets></data><data><indexAxis labels="3月1号,3月2号,3月3号,3月4号,3月5号,3月6号,3月7号" name=""/><sets name="03月01号:,03月02号:,03月03号:,03月04号:,03月05号:,03月06号:,03月07号:"><set values="43,41,37,31,28,30,28"/></sets></data><info><content><title name="展现次数" color="0x666666"/></content></info></chart>'
+					}
+			});
+			new Charts({
+					parent_id:'J_wrapper2',
+
+					config:{
+						configData:'<chart v="1.0" type="line2"><data shape="1" node="0" area="1"><colors normals="0x3300FF,0x3333FF,0x3366FF" overs="0xCC0000,0xCC3300,0xCC6600"/></data></chart>',
+							
+						chartData:'<chart><data><indexAxis labels="3月8号,3月9号,3月10号,3月11号,3月12号,3月13号,3月14号" name=""></indexAxis><sets name="03月08号:,03月09号:,03月10号:,03月11号:,03月12号:,03月13号:,03月14号:"><set values="83,81,77,71,68,70,68"></set></sets></data><data><indexAxis labels="3月1号,3月2号,3月3号,3月4号,3月5号,3月6号,3月7号" name=""/><sets name="03月01号:,03月02号:,03月03号:,03月04号:,03月05号:,03月06号:,03月07号:"><set values="43,41,37,31,28,30,28"/></sets></data><info><content><title name="展现次数" color="0x666666"/></content></info></chart>'
+					}
+			});
+		})
+	</script>
+</body>
+</html>

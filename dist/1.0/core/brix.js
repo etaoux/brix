@@ -140,7 +140,7 @@
                 return;
             }
             isConfig = true;
-            options = KISSY.merge({
+            options = S.merge({
                 debug:debug=='@DEBUG@'?true:false,
                 tag: tag == '@TAG@' ? '' : tag,
                 fixed: version == '@VERSION@' ? '' : version + '/',
@@ -153,7 +153,9 @@
             if(options.fixed == '@VERSION@') {
                 options.fixed = '';
             }
-            KISSY.config({
+            Brix.basePath = options.path;
+            Brix.fixed = options.fixed;
+            S.config({
                 packages: [{
                     name: "brix",
                     path: options.path,
@@ -171,7 +173,7 @@
                     charset: "utf-8"
                 }]
             });
-            KISSY.config({
+            S.config({
                 map: [
                     [/(.+brix\/)(gallery\/)(.+?)(\/.+?(?:-min)?\.(?:js|css))(\?[^?]+)?$/, function($0, $1, $2, $3, $4, $5) {
                         var str = $1 + options.fixed + $2 + $3;
