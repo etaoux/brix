@@ -1,0 +1,30 @@
+<html>
+<head>
+	<title>Brix Chart Demo Index</title>
+	<meta charset="utf-8" />
+	<!-- <link rel="stylesheet" type="text/css" href="test.css"> -->
+</head>
+<body>
+	<form name="form" onsubmit="return false;">
+        <input type="button" value="直方图" onclick="link('test_histogram.html')"/>
+	    <input type="button" value="综合图" onclick="link('test_integrate.html')"/>
+	    <input type="button" value="折线图" onclick="link('test_line.html')"/>
+	    <input type="button" value="折线图(双日期)" onclick="link('test_line2.html')"/>
+	    <input type="button" value="折线图(双指标)" onclick="link('test_line3.html')"/>
+	    <input type="button" value="散点图" onclick="link('test_scatter.html')"/>
+	    <input type="button" value="饼图" onclick="link('test_pie.html')"/>
+	    <input type="button" value="地图" onclick="link('test_map.html')"/>
+    </form>
+
+    <form name="form" onsubmit="return false;">
+        <input type="button" value="自适应" onclick="link('_test_resize.html')"/>
+	    <input type="button" value="对外接口" onclick="link('_test_interface.html')"/>
+    </form>
+
+	<script type="text/javascript">
+		function link($s){
+			window.open($s);
+		}
+	</script>
+</body>
+</html>  

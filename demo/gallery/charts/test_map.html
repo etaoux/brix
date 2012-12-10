@@ -1,0 +1,97 @@
+<!--
+地图
+
+configData:
+//type = 类型(空或histogram = 纵向直方图  |  scatter = 散点图  |  line = 折线图(区域图)  |  line2 = 折线图(多日期) |  line3 = 折线图(双指标)  |  pie = 饼图  |  map = 地图  |  integrate = 综合图(直方+折线))[默认为纵向直方图]
+<chart v="1.0" type="map">
+	<data>
+		//contents = 信息内容(支持单行及多行,多行以','号隔开,内容对应chartData中的内容,flash将根据命名寻找对应的 name+value)
+		//bolds    = 是否为粗体(支持单行及多行,多行以','号隔开,对应显示内容字体是否为粗体: 1 = 是 | 0 = 否)
+		//colors   = 字体颜色(支持单行及多行,多行以','号隔开,对应显示内容字体的颜色)
+		//sizes    = 字体大小(支持单行及多行,多行以','号隔开,对应显示内容字体的大小)
+		//f_c      = 信息框颜色
+		<info contents="name,order,show" bolds="1,0,0" colors="0x1351BF,0x1351BF,0x1351BF" sizes="14,," f_c="0x1351BF"/>
+		//normals  = 颜色集合(支持多颜色,图中各区域对应的颜色将根据此值,索引从1开始,索引对照chartData -><set><colors normal="1"/></set>)
+		//over     = 当鼠标经过某一区域时,该区域所突出显示的颜色
+		<colors normals="0xD2E2FA,0xB5D0F5,0x8FB9F0,0x6AA1EB,0x458AE6,0x135EBF" over="0xF89D60"/>
+	</data>
+</chart>
+
+//------------------------------------
+chartData:
+<chart>
+	<data>
+		<sets>
+			//index   = 地图区域索引(此值固定)
+			//name、order、show  = 某一区域具体信息(flash将根据规则排列具体信息:name+value'换行'name+value'换行'name+value,内容的排列顺序对应configData -> contents)
+			//normal  = 颜色索引(对应configData -> <colors normals="0xD2E2FA,0xB5D0F5,0x8FB9F0,0x6AA1EB,0x458AE6,0x135EBF" over="0xF89D60"/>) 索引从1开始
+			<set index="34"><name name="安徽"/><order name="排名:" value="34"/><show name="展现:" value="3400"/><colors normal="5"/></set>
+			<set index="92"><name name="澳门"/><order name="排名:" value="92"/><show name="展现:" value="9200"/><colors normal="1"/></set>
+			<set index="11"><name name="北京"/><order name="排名:" value="11"/><show name="展现:" value="1100"/><colors normal="1"/></set>
+			<set index="50"><name name="重庆"/><order name="排名:" value="50"/><show name="展现:" value="5000"/><colors normal="3"/></set>
+			<set index="35"><name name="福建"/><order name="排名:" value="35"/><show name="展现:" value="3500"/><colors normal="2"/></set>
+			<set index="44"><name name="广东"/><order name="排名:" value="44"/><show name="展现:" value="4400"/><colors normal="5"/></set>
+			<set index="62"><name name="甘肃"/><order name="排名:" value="62"/><show name="展现:" value="6200"/><colors normal="2"/></set>
+			<set index="45"><name name="广西"/><order name="排名:" value="45"/><show name="展现:" value="4500"/><colors normal="2"/></set>
+			<set index="52"><name name="贵州"/><order name="排名:" value="52"/><show name="展现:" value="5200"/><colors normal="5"/></set>
+			<set index="13"><name name="河北"/><order name="排名:" value="13"/><show name="展现:" value="1300"/><colors normal="2"/></set>
+			<set index="42"><name name="湖北"/><order name="排名:" value="42"/><show name="展现:" value="4200"/><colors normal="5"/></set>
+			<set index="23"><name name="黑龙江"/><order name="排名:" value="23"/><show name="展现:" value="2300"/><colors normal="4"/></set>
+			<set index="46"><name name="海南"/><order name="排名:" value="46"/><show name="展现:" value="4600"/><colors normal="6"/></set>
+			<set index="41"><name name="河南"/><order name="排名:" value="41"/><show name="展现:" value="4100"/><colors normal="6"/></set>
+			<set index="43"><name name="湖南"/><order name="排名:" value="43"/><show name="展现:" value="4300"/><colors normal="5"/></set>
+			<set index="22"><name name="吉林"/><order name="排名:" value="22"/><show name="展现:" value="2200"/><colors normal="6"/></set>
+			<set index="32"><name name="江苏"/><order name="排名:" value="32"/><show name="展现:" value="3200"/><colors normal="5"/></set>
+			<set index="36"><name name="江西"/><order name="排名:" value="36"/><show name="展现:" value="3600"/><colors normal="6"/></set>
+			<set index="21"><name name="辽宁"/><order name="排名:" value="21"/><show name="展现:" value="2100"/><colors normal="6"/></set>
+			<set index="15"><name name="内蒙古"/><order name="排名:" value="15"/><show name="展现:" value="1500"/><colors normal="4"/></set>
+			<set index="64"><name name="宁夏"/><order name="排名:" value="64"/><show name="展现:" value="6400"/><colors normal="1"/></set>
+			<set index="63"><name name="青海"/><order name="排名:" value="63"/><show name="展现:" value="6300"/><colors normal="5"/></set>
+			<set index="51"><name name="四川"/><order name="排名:" value="51"/><show name="展现:" value="5100"/><colors normal="6"/></set>
+			<set index="37"><name name="山东"/><order name="排名:" value="37"/><show name="展现:" value="3700"/><colors normal="4"/></set>
+			<set index="31"><name name="上海"/><order name="排名:" value="31"/><show name="展现:" value="3100"/><colors normal="2"/></set>
+			<set index="14"><name name="山西"/><order name="排名:" value="14"/><show name="展现:" value="1400"/><colors normal="1"/></set>
+			<set index="61"><name name="陕西"/><order name="排名:" value="61"/><show name="展现:" value="6100"/><colors normal="4"/></set>
+			<set index="12"><name name="天津"/><order name="排名:" value="12"/><show name="展现:" value="1200"/><colors normal="3"/></set>
+			<set index="71"><name name="台湾"/><order name="排名:" value="71"/><show name="展现:" value="7100"/><colors normal="6"/></set>
+			<set index="91"><name name="香港"/><order name="排名:" value="91"/><show name="展现:" value="9100"/><colors normal="3"/></set>
+			<set index="65"><name name="新疆"/><order name="排名:" value="65"/><show name="展现:" value="6500"/><colors normal="1"/></set>
+			<set index="54"><name name="西藏"/><order name="排名:" value="54"/><show name="展现:" value="5400"/><colors normal="6"/></set>
+			<set index="53"><name name="云南"/><order name="排名:" value="53"/><show name="展现:" value="5300"/><colors normal="3"/></set>
+			<set index="33"><name name="浙江"/><order name="排名:" value="33"/><show name="展现:" value="3300"/><colors normal="5"/></set>
+		</sets>
+	</data>
+</chart>
+-->
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Brix Chart Demo 地图</title>
+    <meta charset="utf-8" />
+    <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
+    <link rel="stylesheet" href="../../assets/doc.css">
+    <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+    <!--<script src="http://a.tbcdn.cn/apps/e/brix/1.0/brix.js" bx-config="{autoConfig:true}"></script>-->
+    <!--<script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>-->
+    <script src="../../../dist/1.0/brix.js" bx-config="{autoConfig:true,fixed:'dist/1.0/'}"></script>
+</head>
+<body>
+	<div id="J_wrapper1" class="wrapper1" style="width:720px;height:400px;"></div>
+
+	<script type="text/javascript">
+
+		KISSY.use('brix/gallery/charts/',function(S,Charts){
+			new Charts({
+					parent_id:'J_wrapper1',
+
+					config:{
+						configData:'<?xml version="1.0"?><chart v="1.0" type="map"><data><info contents="name,order,show" bolds="1,0,0" colors="0x1351BF,0x1351BF,0x1351BF" sizes="14,," f_c="0x1351BF"/><colors normals="0xD2E2FA,0xB5D0F5,0x8FB9F0,0x6AA1EB,0x458AE6,0x135EBF" over="0xF89D60"/></data></chart>',
+						
+						chartData:'<?xml version="1.0"?><chart><data><indexAxis labels=""><key indexs="1"/></indexAxis><sets><set index="34"><name name="安徽"/><order name="排名:" value="34"/><show name="展现:" value="3400"/><colors normal="5"/></set><set index="92"><name name="澳门"/><order name="排名:" value="92"/><show name="展现:" value="9200"/><colors normal="1"/></set><set index="11"><name name="北京"/><order name="排名:" value="11"/><show name="展现:" value="1100"/><colors normal="1"/></set><set index="50"><name name="重庆"/><order name="排名:" value="50"/><show name="展现:" value="5000"/><colors normal="3"/></set><set index="35"><name name="福建"/><order name="排名:" value="35"/><show name="展现:" value="3500"/><colors normal="2"/></set><set index="44"><name name="广东"/><order name="排名:" value="44"/><show name="展现:" value="4400"/><colors normal="5"/></set><set index="62"><name name="甘肃"/><order name="排名:" value="62"/><show name="展现:" value="6200"/><colors normal="2"/></set><set index="45"><name name="广西"/><order name="排名:" value="45"/><show name="展现:" value="4500"/><colors normal="2"/></set><set index="52"><name name="贵州"/><order name="排名:" value="52"/><show name="展现:" value="5200"/><colors normal="5"/></set><set index="13"><name name="河北"/><order name="排名:" value="13"/><show name="展现:" value="1300"/><colors normal="2"/></set><set index="42"><name name="湖北"/><order name="排名:" value="42"/><show name="展现:" value="4200"/><colors normal="5"/></set><set index="23"><name name="黑龙江"/><order name="排名:" value="23"/><show name="展现:" value="2300"/><colors normal="4"/></set><set index="46"><name name="海南"/><order name="排名:" value="46"/><show name="展现:" value="4600"/><colors normal="6"/></set><set index="41"><name name="河南"/><order name="排名:" value="41"/><show name="展现:" value="4100"/><colors normal="6"/></set><set index="43"><name name="湖南"/><order name="排名:" value="43"/><show name="展现:" value="4300"/><colors normal="5"/></set><set index="22"><name name="吉林"/><order name="排名:" value="22"/><show name="展现:" value="2200"/><colors normal="6"/></set><set index="32"><name name="江苏"/><order name="排名:" value="32"/><show name="展现:" value="3200"/><colors normal="5"/></set><set index="36"><name name="江西"/><order name="排名:" value="36"/><show name="展现:" value="3600"/><colors normal="6"/></set><set index="21"><name name="辽宁"/><order name="排名:" value="21"/><show name="展现:" value="2100"/><colors normal="6"/></set><set index="15"><name name="内蒙古"/><order name="排名:" value="15"/><show name="展现:" value="1500"/><colors normal="4"/></set><set index="64"><name name="宁夏"/><order name="排名:" value="64"/><show name="展现:" value="6400"/><colors normal="1"/></set><set index="63"><name name="青海"/><order name="排名:" value="63"/><show name="展现:" value="6300"/><colors normal="5"/></set><set index="51"><name name="四川"/><order name="排名:" value="51"/><show name="展现:" value="5100"/><colors normal="6"/></set><set index="37"><name name="山东"/><order name="排名:" value="37"/><show name="展现:" value="3700"/><colors normal="4"/></set><set index="31"><name name="上海"/><order name="排名:" value="31"/><show name="展现:" value="3100"/><colors normal="2"/></set><set index="14"><name name="山西"/><order name="排名:" value="14"/><show name="展现:" value="1400"/><colors normal="1"/></set><set index="61"><name name="陕西"/><order name="排名:" value="61"/><show name="展现:" value="6100"/><colors normal="4"/></set><set index="12"><name name="天津"/><order name="排名:" value="12"/><show name="展现:" value="1200"/><colors normal="3"/></set><set index="71"><name name="台湾"/><order name="排名:" value="71"/><show name="展现:" value="7100"/><colors normal="6"/></set><set index="91"><name name="香港"/><order name="排名:" value="91"/><show name="展现:" value="9100"/><colors normal="3"/></set><set index="65"><name name="新疆"/><order name="排名:" value="65"/><show name="展现:" value="6500"/><colors normal="1"/></set><set index="54"><name name="西藏"/><order name="排名:" value="54"/><show name="展现:" value="5400"/><colors normal="6"/></set><set index="53"><name name="云南"/><order name="排名:" value="53"/><show name="展现:" value="5300"/><colors normal="3"/></set><set index="33"><name name="浙江"/><order name="排名:" value="33"/><show name="展现:" value="3300"/><colors normal="5"/></set></sets></data></chart>'
+					}
+			});
+		})
+	</script>
+</body>
+</html>
