@@ -15,92 +15,86 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">KISSY.add('brix/gallery/tables/index', function(S, Brick) {
-    var $ = S.all;
-<span id='Brix-Gallery-Tables'>    /**
-</span>     * Tables
-     * &lt;br&gt;&lt;a href=&quot;../demo/gallery/tables/tables.html&quot; target=&quot;_blank&quot;&gt;Demo&lt;/a&gt;
-     * @class Brix.Gallery.Tables
+  <pre class="prettyprint lang-js">KISSY.add(&quot;brix/gallery/switcher/index&quot;, function(S, Brick) {
+<span id='Brix-Gallery-Switcher'>    /**
+</span>     * Switcher
+     * &lt;br&gt;&lt;a href=&quot;../demo/gallery/switcher/switcher.html&quot; target=&quot;_blank&quot;&gt;Demo&lt;/a&gt;
+     * @class Brix.Gallery.Switcher
      * @extends Brix.Brick
      */
-    function Tables() {
-        Tables.superclass.constructor.apply(this, arguments);
+    function Switcher() {
+        Switcher.superclass.constructor.apply(this, arguments);
     }
-    Tables.ATTRS = {
-        // cb: {
-        //     value: '.checkbox'
-        // }
+    Switcher.ATTRS = {
+        switchOn: {
+            value: false
+        },
+        switchStatus: {
+            value: true
+        }
     };
 
-    Tables.EVENTS = {
-        '.selectLine': {
+    Switcher.METHODS = {
+        switchTo: function(on) {
+            var self = this;
+            self._switchTo(on);
+        }
+    };
+
+    Switcher.FIRES = {
+        switched: 'switched'
+    };
+
+    Switcher.EVENTS = {
+        '': {
             click: function(e) {
-                var _this = $(e.currentTarget);
-                var _tr = _this.parent('tr');
+                var el = this.get('el');
 
-                _this.prop('checked') ? _tr.addClass('selected') : _tr.removeClass('selected');
-            }
-        },
-        '.J_expendCollapse': {
-            click: function(e) {
-                var _this = e.target;
-                var child = $(_this).parent('tr').next('.table-child-tr');
-
-                if (!child) return;
-
-                if ($(_this).hasClass('icon-expend')) {
-                    $(_this).replaceClass('icon-expend', 'icon-collapse');
-                    child.hide();
-                } else {
-                    $(_this).replaceClass('icon-collapse', 'icon-expend');
-                    child.show();
-                }
-            }
-        },
-        '.table-handle': {
-            mouseenter: function(e) {
-                $(e.currentTarget).css('z-index', 9996).all('.table-change').show();
-            },
-
-            mouseleave: function(e) {
-                $(e.currentTarget).css('z-index', '').all('.table-change').hide();
-            }
-        },
-        '.table-more': {
-            mouseenter: function(e) {
-                $(e.currentTarget).css('z-index', 9996).all('.table-info').show();
-            },
-
-            mouseleave: function(e) {
-                $(e.currentTarget).css('z-index', '').all('.table-info').hide();
-            }
-        },
-        'tbody &gt; tr': {
-            mouseenter: function(e) {
-                var t = $(e.currentTarget);
-
-                if (!t.hasClass('table-child-tr') &amp;&amp; !t.hasClass('none')) {
-                    this.curTr.removeClass('hover');
-                    t.addClass('hover');
-                    this.curTr = t;
-                }
+                this._switchTo(!el.hasClass('switcher-on'));
             }
         }
-
     };
 
-
-    S.extend(Tables, Brick, {
+    S.extend(Switcher, Brick, {
         initialize: function() {
-            //默认第一个tr高亮
-            this.curTr = this.get('el').all('tbody &gt; tr:first');
-            this.curTr.addClass('hover');
+            var self = this;
+
+            if (self.get(&quot;switchOn&quot;)) {
+                self._switchTo(true);
+            }
+            else {
+                self._switchTo(false);
+            }
+        },
+        _switchTo: function(on) {
+            var self = this,
+                el = self.get('el');
+
+            if (on) {
+                el.addClass('switcher-on');
+                if (!self.get('switchStatus')) {
+                    el.addClass('switcher-no-status');
+                }
+            }
+            else {
+                el.removeClass('switcher-on');
+                if (!self.get('switchStatus')) {
+                    el.removeClass('switcher-no-status');
+                }
+            }
+
+            data = {
+                value: el.hasClass('switcher-on')
+            };
+            self.fire(Switcher.FIRES.switched, data);
         }
     });
 
-    return Tables;
+    S.augment(Switcher,Switcher.METHODS);
+    return Switcher;
 }, {
     requires: [&quot;brix/core/brick&quot;]
-});</pre>
+});
+</pre>
 </body>
 </html>

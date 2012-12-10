@@ -15,329 +15,63 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">KISSY.add(&quot;brix/gallery/kwicks/index&quot;, function(S, Brick) {
-<span id='Brix-Gallery-Kwicks'>    /**
-</span>     * Kwicks 轮播组件
-     * &lt;br&gt;&lt;a href=&quot;../demo/gallery/kwicks/kwicks.html&quot; target=&quot;_blank&quot;&gt;Demo&lt;/a&gt;
-     * @class Brix.Gallery.Kwicks
-     * @extends Brix.Brick
-     */
-    function Kwicks() {
-        Kwicks.superclass.constructor.apply(this, arguments);
+  <pre class="prettyprint lang-js">KISSY.add('brix/gallery/keystone/index', function(S, Brick) {
+
+    function Keystone() {
+        Keystone.superclass.constructor.apply(this, arguments);
     }
-    Kwicks.ATTRS = {
-<span id='Brix-Gallery-Kwicks-cfg-isVertical'>        /**
-</span>         * 默认横向
-         * @cfg {Boolean}
-         */
-        isVertical: {
-            value: false
-        },
-<span id='Brix-Gallery-Kwicks-cfg-sticky'>        /**
-</span>         * 是否始终激活一个
-         * @cfg {Boolean}
-         */
-        sticky: {
-            value: false
-        },
-<span id='Brix-Gallery-Kwicks-cfg-activeIndex'>        /**
-</span>         * 默认激活的位置，只有当sticky为true时有效
-         * @cfg {Number}
-         */
-        activeIndex: {
-            value: 0
-        },
-<span id='Brix-Gallery-Kwicks-cfg-trigger'>        /**
-</span>         * 触发的元素选择器，默认li
-         * @cfg {String}
-         */
-        trigger:{
-            value:'li'
-        },
-<span id='Brix-Gallery-Kwicks-cfg-triggerType'>        /**
-</span>         * 事件类型
-         * @cfg {String}
-         */
-        triggerType: {
-            value: 'mouseenter'
-        },
-<span id='Brix-Gallery-Kwicks-cfg-activeCls'>        /**
-</span>         * 激活样式
-         * @cfg {String}
-         */
-        activeCls: {
-            value: 'active'
-        },
-<span id='Brix-Gallery-Kwicks-cfg-spacing'>        /**
-</span>         * 间距
-         * @cfg {Number}
-         */
-        spacing: {
-            value: 0
-        },
-<span id='Brix-Gallery-Kwicks-cfg-duration'>        /**
-</span>         * 动画持续时间
-         * @cfg {Number}
-         */
-        duration: {
-            value: 0.3
-        },
-<span id='Brix-Gallery-Kwicks-cfg-easing'>        /**
-</span>         * 动画效果
-         * @cfg {String}
-         */
-        easing: {
-            value: 'easeNone'
-        },
-<span id='Brix-Gallery-Kwicks-cfg-max'>        /**
-</span>         * 最大值
-         * @cfg {Number}
-         */
-        max: {
-            value:false
-        },
-<span id='Brix-Gallery-Kwicks-cfg-min'>        /**
-</span>         * 最小值
-         * @cfg {Number}
-         */
-        min: {
-            value:false
-        },
-<span id='Brix-Gallery-Kwicks-cfg-autoplay'>        /**
-</span>         * 自动播放
-         * @cfg {Boolean}
-         */
-        autoplay: {
-            value: false
-        },
-<span id='Brix-Gallery-Kwicks-cfg-interval'>        /**
-</span>         * 自动播放间隔
-         * @cfg {Number}
-         */
-        interval: {
-            value: 3000
-        }
-    };
-    Kwicks.EVENTS = {
-        '': {
-            'mouseenter': function() {
-                var self = this,
-                    autoplay = self.get('autoplay');
-                if (autoplay) {
-                    self.stop();
+
+    Keystone.ATTRS = {
+        backgroundColor: {
+            // 默认值
+            value: '#F50',
+            // this.set('backgroundColor', '#ddd'); 的时候会调用的方法
+            setter: function(v) {
+                if (/^\#[0-9a-f]{6}$/i.test(v) || /^\#[0-9a-f]{3}/i.test(v)) {
+                    return v;
                 }
             },
-            'mouseleave': function() {
-                var self = this,
-                    autoplay = self.get('autoplay'),
-                    sticky = self.get('sticky');
-                if (autoplay) {
-                    self.start();
-                } else if (!sticky) {
-                    var kwicks = self.kwicks,
-                        length = kwicks.length,
-                        activeCls = self.get('activeCls'),
-                        spacing = self.get('spacing'),
-                        duration = self.get('duration'),
-                        easing = self.get('easing'),
-                        LoT = self.LoT,
-                        WoH = self.WoH,
-                        normWoH = self.normWoH;
-                    kwicks.stop().removeClass(activeCls);
-                    kwicks.each(function(k, j) {
-                        var animObj = {};
-                        animObj[WoH] = normWoH;
-                        if (j &lt; length) {
-                            animObj[LoT] = (j * normWoH) + (j * spacing);
-                        }
-                        k.animate(animObj, duration, easing);
-                    });
+            // this.get('backgroundColor') 时会调用的方法
+            getter: function(v) {
+                if (v.length === 4) {
+                    return '#' + v.substr(1).replace(/\w/ig, function(c) {
+                        return c.toUpperCase() + c.toUpperCase();
+                    })
+                }
+                else {
+                    return v.toUpperCase();
                 }
             }
         }
     };
-    Kwicks.FIRES = {
-<span id='Brix-Gallery-Kwicks-event-beforeSwitchTo'>        /**
-</span>         * @event beforeSwitchTo
-         * 切换前触发，return false 阻止切换
-         * @param {Object} e 
-         * @param {Number} e.toIndex 将要切换的项
-         */
-        'beforeSwitchTo':'beforeSwitch',
-<span id='Brix-Gallery-Kwicks-event-switch'>        /**
-</span>         * @event switch
-         * 切换前触发
-         * @param {Object} e 
-         * @param {Number} e.currentIndex 当前项
-         */
-        'switch':'switch'
+
+    Keystone.METHODS = {
+        anim: function() {
+            var el = this.get('el'),
+                color = this.get('backgroundColor'),
+                cfg;
+
+            cfg = {
+                duration: 1,
+                queue: 'keystone' + this.get('id')
+            };
+            el.all('p').stop(true).animate({
+                backgroundColor: color
+            }, cfg).animate({
+                backgroundColor: '#fff'
+            }, cfg);
+        }
     }
-    Kwicks.METHODS = {
-<span id='Brix-Gallery-Kwicks-method-switchTo'>        /**
-</span>         * 切换到某个视图
-         * @param  {Number} i 要切换的项
-         */
-        switchTo: function(i) {
-            if(this.fire(Kwicks.FIRES.beforeSwitch,{toIndex:i})===false){
-                return;
-            }
-            var self = this,
-                kwicks = self.kwicks,
-                length = kwicks.length,
-                preCalcLoTs = self.preCalcLoTs,
-                activeCls = self.get('activeCls'),
-                duration = self.get('duration'),
-                easing = self.get('easing'),
-                LoT = self.LoT,
-                WoH = self.WoH,
-                max = self.max,
-                min = self.min;
 
-            if (i &gt;= length || i &lt; 0) {
-                i = 0;
-                self.set('activeIndex', 0);
-            } else {
-                self.set('activeIndex', i);
-            }
-            var kwick = kwicks.item(i);
-            kwicks.stop().removeClass(activeCls);
-            kwick.addClass(activeCls);
-            var count = 0;
-            kwicks.each(function(k, j) {
-                var animObj = {};
-                if (kwick[0] == k[0]) {
-                    animObj[WoH] = max;
-                } else {
-                    animObj[WoH] = min;
-                }
-                animObj[LoT] = preCalcLoTs[i][j];
-                k.animate(animObj, duration, easing,function(){
-                    count++;
-                    if(count==length){
-                        S.log('fire switch')
-                        self.fire(Kwicks.FIRES['switch'],{currentIndex :i});
-                    }
-                });
-            });
-        },
-<span id='Brix-Gallery-Kwicks-method-start'>        /**
-</span>         * 开始自动切换
-         */
-        start: function() {
-            var self = this,
-                autoplay = self.get('autoplay'),
-                interval = self.get('interval');
-            if (autoplay) {
-                self.stop();
-                self.timer = S.later(function() {
-                    var i = self.get('activeIndex');
-                    self.switchTo(i + 1);
-                }, interval, true, self);
-            }
-        },
-<span id='Brix-Gallery-Kwicks-method-stop'>        /**
-</span>         * 停止自动切换
-         */
-        stop: function() {
-            var self = this;
-            if (self.timer) {
-                self.timer.cancel();
-                self.timer = null;
-            }
-        }
-    };
-
-    S.extend(Kwicks, Brick, {
+    S.extend(Keystone, Brick, {
         initialize: function() {
-            var self = this,
-                isVertical = self.get('isVertical'),
-                sticky = self.get('sticky'),
-                activeIndex = self.get('activeIndex'),
-                triggerType = self.get('triggerType'),
-                activeCls = self.get('activeCls'),
-                spacing = self.get('spacing'),
-                duration = self.get('duration'),
-                easing = self.get('easing'),
-                max = self.max = self.get('max'),
-                min = self.min = self.get('min'),
-                autoplay = self.get('autoplay');
-
-            var WoH = self.WoH = (isVertical ? 'height' : 'width'); // WoH = Width or Height
-            var LoT = self.LoT = (isVertical ? 'top' : 'left'); // LoT = Left or Top
-            var container = self.get('el');
-            var kwicks = self.kwicks = container.all(self.get('trigger'));
-            var length = kwicks.length;
-            var normWoH = self.normWoH = kwicks.item(0).css(WoH).replace(/px/, ''); // normWoH = Normal Width or Height
-            if (!max) {
-                max = self.max = (normWoH * length) - (min * (length - 1));
-            } else {
-                min = self.min = ((normWoH * length) - max) / (length - 1);
-            }
-            // set width of container ul
-            if (isVertical) {
-                container.css({
-                    width: kwicks.item(0).css('width'),
-                    height: (normWoH * length) + (spacing * (length - 1)) + 'px'
-                });
-            } else {
-                container.css({
-                    width: (normWoH * length) + (spacing * (length - 1)) + 'px',
-                    height: kwicks.item(0).css('height')
-                });
-            }
-
-            // pre calculate left or top values for all kwicks
-            // i = index of currently hovered kwick, j = index of kwick we're calculating
-            var preCalcLoTs = self.preCalcLoTs = []; // preCalcLoTs = pre-calculated Left or Top's
-            for (var i = 0; i &lt; length; i++) {
-                preCalcLoTs[i] = [];
-                // don't need to calculate values for first or last kwick
-                for (var j = 0; j &lt; length; j++) {
-                    if (i == j) {
-                        preCalcLoTs[i][j] = isVertical ? j * min + (j * spacing) : j * min + (j * spacing);
-                    } else {
-                        preCalcLoTs[i][j] = (j &lt; i ? (j * min) : (j - 1) * min + max) + (j * spacing);
-                    }
-                }
-            }
-
-            // loop through all kwick elements
-            kwicks.each(function(kwick, i) {
-                if (sticky) {
-                    kwick.css(LoT, preCalcLoTs[activeIndex][i]);
-                } else {
-                    kwick.css(LoT, (i * normWoH) + (i * spacing));
-                }
-                // correct size in sticky mode
-                if (sticky) {
-                    if (activeIndex == i) {
-                        kwick.css(WoH, max + 'px');
-                        kwick.addClass(activeCls);
-                    } else {
-                        kwick.css(WoH, min + 'px');
-                    }
-                }
-                kwick.css({
-                    margin: 0,
-                    position: 'absolute'
-                });
-
-                kwick.on(triggerType, function() {
-                    self.switchTo(i);
-                });
-            });
-            self.start();
-        },
-        destructor:function(){
-            if(self.timer){
-                self.timer.cancel();
-                self.timer = null;
-                self.kwicks = null;
-            }
+            this.anim();
         }
     });
-    S.augment(Kwicks, Kwicks.METHODS);
-    return Kwicks;
+
+    S.augment(Keystone, Keystone.METHODS);
+
+    return Keystone;
 }, {
     requires: [&quot;brix/core/brick&quot;]
 });</pre>

@@ -15,90 +15,110 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">KISSY.add('brix/gallery/loading/index', function(S, Brick) {
-<span id='Brix-Gallery-Loading'>    /**
-</span>     * Loading
-     * &lt;br&gt;&lt;a href=&quot;../demo/gallery/loading/loading.html&quot; target=&quot;_blank&quot;&gt;Demo&lt;/a&gt;
-     * @class Brix.Gallery.Loading
+  <pre class="prettyprint lang-js">KISSY.add(&quot;brix/gallery/lavalamp/index&quot;, function(S, Brick, Anim, Node) {
+<span id='Brix-Gallery-Lavalamp'>    /**
+</span>     * Lavalamp 滑动菜单
+     * &lt;br&gt;&lt;a href=&quot;../demo/gallery/lavalamp/lavalamp.html&quot; target=&quot;_blank&quot;&gt;Demo&lt;/a&gt;
+     * @class Brix.Gallery.Lavalamp
      * @extends Brix.Brick
      */
-    function Loading() {
-        Loading.superclass.constructor.apply(this, arguments);
+    function Lavalamp() {
+        Lavalamp.superclass.constructor.apply(this, arguments);
     }
-    
-    Loading.ATTRS = {
-<span id='Brix-Gallery-Loading-cfg-loadingStyle'>        /**
-</span>         * 样式配置，默认0
+    Lavalamp.ATTRS = {
+<span id='Brix-Gallery-Lavalamp-cfg-fx'>        /**
+</span>         * 动画效果
+         * @cfg {String}
+         */
+        fx: {
+            value: 'bounceOut'
+        },
+<span id='Brix-Gallery-Lavalamp-cfg-speed'>        /**
+</span>         * 动画时间
          * @cfg {Number}
          */
-        loadingStyle: {
-            value: 0
-        }
-    };
-    
-    Loading.METHODS = {
-<span id='Brix-Gallery-Loading-method-show'>        /**
-</span>         * 显示
-         */
-        show: function() {
-            var self = this;
-                el = self.get('el');
-
-            el.css('display', 'block');
-            self.fire(Loading.FIRES.show);
+        speed: {
+            value: 0.4
         },
-<span id='Brix-Gallery-Loading-method-hide'>        /**
-</span>         * 隐藏
+<span id='Brix-Gallery-Lavalamp-cfg-triggered'>        /**
+</span>         * 触发方式“click”，“mouseover”
+         * @cfg {String}
          */
-        hide: function() {
-            var self = this,
-                el = self.get('el');
-            
-            el.css('display', 'none');
-            self.fire(Loading.FIRES.hide);
+        triggered: {
+            value: 'mouseover' 
+        },
+<span id='Brix-Gallery-Lavalamp-cfg-click'>        /**
+</span>         * 点击的回调方法
+         * @cfg {Function}
+         */
+        click: {
+            value: function() {
+
+            }
         }
     };
 
-    Loading.FIRES= {
-<span id='Brix-Gallery-Loading-event-show'>        /**
-</span>         * @event show
-         * 显示
-         */
-        show:'show', //显示loading
-<span id='Brix-Gallery-Loading-event-hide'>        /**
-</span>         * @event hide
-         * 隐藏
-         */
-        hide:'hide' //隐藏loading
-    };
 
-    S.extend(Loading, Brick, {
+    S.extend(Lavalamp, Brick, {
         initialize: function() {
             var self = this,
-                el = self.get('el');
+                trigger = self.get('el');
+            var anim, backNode = new Node('&lt;li class=&quot;back&quot;&gt;&lt;/li&gt;'),
+                liNodeList = trigger.all('li'),
+                currendNode = (trigger.one('.current') || liNodeList[0].addClass('current'))[0];
 
-            var styles = [
-                    'http://img01.taobaocdn.com/tps/i1/T1Z6DDXllbXXbb3zDj-60-24.gif',
-                    'http://img04.taobaocdn.com/tps/i4/T1h7YDXdddXXcntf6c-30-12.gif',
-                    'http://img03.taobaocdn.com/tps/i3/T1cN_yXgBnXXc.LCDe-40-18.gif',
-                    'http://img02.taobaocdn.com/tps/i2/T19ZHDXf4fXXc.LCDe-40-18.gif'
-                ];
+            trigger.append(backNode);
+            liNodeList.each(function(el) {
 
-            if (self.get('loadingStyle')) {
-                el.css('background-image', styles[self.get('loadingStyle')]);
-            }
-            else {
-                el.attr('src', styles[0]);
-            }
+                if (self.get('triggered') == 'mouseover') {
+                    el.on('mouseenter', function() {
+                        move(el[0]);
+                    });
+                    el.on('click', function(e) {
+                        setCurr(el[0]);
+                        return self.get('click').apply(self, [e]);
+                    });
+                } else {
+                    el.on('click', function(e) {
+                        move(el[0]);
+                        setCurr(el[0]);
+                        return self.get('click').apply(self, [e]);
+                    });
+                }
+            });
+            trigger.on('mouseleave', function() {
+                move(currendNode);
+            })
 
-            self.show();
+            setCurr(currendNode);
+
+            function setCurr(el) {
+                backNode.css({
+                    &quot;left&quot;: el.offsetLeft + &quot;px&quot;,
+                    &quot;width&quot;: el.offsetWidth + &quot;px&quot;
+                });
+                currendNode = el;
+            };
+
+            function move(el) {
+                if (anim) {
+                    //anim = null;
+                    anim.stop();
+                }
+                anim = new Anim(backNode[0], {
+                    width: el.offsetWidth + 'px',
+                    left: el.offsetLeft + 'px'
+                }, self.get('speed'), self.get('fx'));
+                anim.run();
+            };
+        },
+        destructor: function() {
+
         }
     });
-
-    S.augment(Loading, Loading.METHODS);
-    return Loading;
+    return Lavalamp;
 }, {
-    requires: [&quot;brix/core/brick&quot;]
+    requires: [&quot;brix/core/brick&quot;, &quot;anim&quot;, &quot;node&quot;]
 });</pre>
 </body>
 </html>

@@ -253,7 +253,7 @@
          */
         _destroyBrick: function(o) {
             if (o.brick) {
-                o.brick.destroy();
+                o.brick.destroy&amp;&amp;o.brick.destroy();
                 o.brick = null;
             }
         }
