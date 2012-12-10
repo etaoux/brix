@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">KISSY.add('brix/gallery/charts/js/e/map/view/widget',function(S,Base,Node,Global,Move,DataSection,SVGElement,GlobalInduce,Infos,EventType,Graphs){
+	var $ = Node.all
+
+	function Widget(){
+		
+		var self = this
+
+		/*
+			arguments:
+
+			  o:{
+				parent    :''     //SVGElement
+				w         :100    //chart 宽
+				h         :100    //chart 高
+				DataSource:{}     //数据源
+				config    :{}     //配置
+			  }
+
+		 */
+		Widget.superclass.constructor.apply(self,arguments);
+
+		self.init()
+	}
+
+	Widget.ATTRS = {
+		w:{
+			value:0
+		},
+		h:{
+			value:0
+		},
+		element:{
+			value:null
+		},
+
+		_DataFrameFormat : {
+			value:{
+				key:{                    //突出显示[预留]
+					indexs:'',               //String 索引字符串[1,2,3]
+					data:[]                  //Array  索引集合[[1,2,3]]
+				},
+				values:{               
+					org:[],                  //原始二维数据['&lt;set index=&quot;34&quot;&gt;&lt;name name=&quot;安徽&quot;/&gt;...&lt;/set&gt;','...','...']
+					data:[],                 //原始二维数据[见datatrim-&gt;data]
+				}
+			}
+		},
+
+		_dis:{
+			value:4                   
+		},
+		_angle_left:{
+			value:235
+		},
+		_angle_right:{
+			value:309
+		},
+		_radius:{
+			value:155
+		},
+		_graphs:{
+			value:null                   //图形
+		},
+		_infos:{
+			value:null                   //信息
+		},
+		_globalInduce:{
+			value:null                   //全局感应区
+		},
+		_induces:{
+			value:null                   //感应区
+		},
+
+		_timeoutId:{
+			value:0                      
+		},
+		_timeoutDelay:{
+			value:300                    
+		},
+	}
+
+	S.extend(Widget,Base,{
+		init:function(){
+			var self = this
+			
+			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'), self.get('DataSource')))
+
+			self._widget()
+		},
+
+		_widget:function(){
+			var self = this
+			self.set('element', new SVGElement('g')), self.get('element').set('class','widget')
+			self.get('parent').appendChild(self.get('element').element)
+
+			self.set('_graphs',new Graphs({parent:self.get('element')}))
+			self.set('_infos',new Infos())
+			self.set('_globalInduce', new GlobalInduce())
+
+			var n = parseInt(Math.min(self.get('w'), self.get('h'))) - self.get('_dis')
+			var o = {
+				parent: self.get('element'),
+				data  : self.get('_DataFrameFormat').values.data,
+				w     : self.get('w') - 2 * self.get('_dis'),
+				h     : self.get('h') - 2 * self.get('_dis')
+			}
+			self.get('_graphs').widget(o)
+
+			self.get('_infos').init({parent:self.get('element')})
+			
+			var o = {
+				w     : self.get('w'),
+				h     : self.get('h'),
+				parent: self.get('element'),
+				opacity : Global.N00001
+				// opacity : 0.1
+			}
+			self.get('_globalInduce').init(o)
+
+			self.set('_induces',new Graphs({parent:self.get('element'),id: 'induces'}))
+			var o = {
+				parent: self.get('element'),
+				id    : 'induces',
+				data  : self.get('_DataFrameFormat').values.data,
+				isInduce   : 1,
+				w     : self.get('w') - 2 * self.get('_dis'),
+				h     : self.get('h') - 2 * self.get('_dis')
+			}
+			self.get('_induces').get('element').on(EventType.COMPLETE,function($o){self._completeHandler($o)})
+			self.get('_induces').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
+			self.get('_induces').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
+			self.get('_induces').widget(o)
+		},
+
+		_getRPoint:function(x0, y0, xr, yr, r) {
+			var r = r * Math.PI / 180
+			return {'x':Math.cos(r) * xr + x0, 'y':Math.sin(r) * yr + y0}
+		},
+
+		_completeHandler:function(){
+			var self = this
+			var x = (self.get('w') - self.get('_graphs').get('map_w')) / 2
+			var y = (self.get('h') - self.get('_graphs').get('map_h')) / 2
+			self.get('_graphs').get('element').transformXY(x,y)
+			self.get('_induces').get('element').transformXY(x,y)
+			self.set('_radius',self.get('_graphs').get('map_scale') * self.get('_radius')) 
+		},
+		_overHandler:function($o){
+			clearTimeout(this.get('_timeoutId'));
+			var self = this
+			var index = $o.index
+			var x = Number($o.cx) + Number(this.get('_graphs').get('element').get('_x'))
+			var y = Number($o.cy) + Number(this.get('_graphs').get('element').get('_y'))
+	
+			var angle = self.get('w') / 2 &lt; x ? self.get('_angle_left') : self.get('_angle_right')
+		
+			var p = self._getRPoint(x, y, self.get('_radius'), self.get('_radius'), angle)
+			var data = $o.content
+			var base_fill = self.get('config').info.frame_fill
+			var o = {
+				w    : this.get('w'),
+				h    : this.get('h'),
+				parent : this.get('element'),
+
+				info:{
+					x    : p.x,
+					y    : p.y,
+					data : data,
+					base_fill : base_fill
+				},
+				hLine:{
+					is   : 0
+				},
+				hInfo:{
+					is   : 0
+				},
+				arrow:{
+					is   : 1,
+					x    : x,
+					y    : y
+				}
+			}
+			// this.get('_infos').update(o)
+			this.get('_infos').move(o)
+
+			this.get('_graphs').induce({index:$o.index,id:$o.id},true)
+			 
+		},
+		_outHandler:function($o){
+			var self = this
+			this.set('_timeoutId', setTimeout(function(){self._outTimeout()}, self.get('_timeoutDelay')))
+			this.get('_graphs').induce({index:$o.index,id:$o.id},false)
+		},
+		_outTimeout:function(){
+			this.get('_infos').remove()
+		},
+<span id='global-property-DataExtend'>		/**
+</span>		 * 数据继承
+		 * @type {Object}
+		 */
+		DataExtend:function(DataFrameFormat,DataSource){
+			// DataFrameFormat.key.indexs = DataSource.key.indexs
+			DataFrameFormat.values.org = DataSource.values.data
+			DataFrameFormat.values.data = DataSource.data
+			
+			return DataFrameFormat
+		}
+	});
+
+	return Widget;
+
+	}, {
+	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/move','../../../pub/utils/datasection','../../../pub/utils/svgelement',
+	    		  '../../../pub/views/globalinduce','../../../pub/views/infos/infos','../model/eventtype','./graphs'
+
+	    ]
+	}
+);</pre>
+</body>
+</html>

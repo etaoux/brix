@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">KISSY.add('brix/gallery/charts/js/e/map/control/dataparse',function(S,Base,Node){
+	var $ = Node.all
+
+	function DataParse(){
+		
+		var self = this
+
+		DataParse.superclass.constructor.apply(self,arguments);
+	}
+
+	DataParse.ATTRS = {
+		o:{
+			value:{
+				key:{                    //突出显示[预留]
+					indexs:''                //String 索引字符串[1,2,3]                            
+				},
+				values:{                 	
+					data:[]                  //原始二维数据['&lt;set index=&quot;34&quot;&gt;&lt;name name=&quot;安徽&quot;/&gt;...&lt;/set&gt;','...','...']
+				}
+			}
+		}
+	}
+
+	S.extend(DataParse,Base,{
+		parse:function($data,$type){
+			var o
+			var type = $type ? $type : 'xml'
+			if(type == 'xml'){
+				o = this._xml($data)
+			}
+			return o
+		},
+
+		_xml:function($data){
+			var self = this
+
+			var o = S.clone(self.get('o')) 
+			var data = String($data)
+
+			var domParser = new DOMParser();
+			var xmlDoc = domParser.parseFromString(data, 'text/xml');
+			var __data = xmlDoc.getElementsByTagName(&quot;data&quot;)[0]
+			var __sets = __data.getElementsByTagName(&quot;sets&quot;)[0]
+
+			o.values.data = self._getItems(__sets.getElementsByTagName(&quot;set&quot;))
+			
+			return o
+		},
+
+		_getItems:function($list){
+			var self = this
+
+			var item = []
+
+			for (var a = 0, al = $list.length; a &lt; al; a++) {
+				var __data = $list[a]
+				
+				item.push(__data)
+			}
+
+			return item
+		}
+	});
+
+	return DataParse;
+
+	}, {
+	    requires:['base','node']
+	}
+);</pre>
+</body>
+</html>
