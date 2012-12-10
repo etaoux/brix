@@ -3,24 +3,22 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	var isSWF = 0
 	/**
      * 图表
+     * arguments:
+	 * 	  o:{
+	 * 		parent_id :''，    //div id
+	 * 		config    :{
+	 * 			configData:''//图表配置
+	 * 			chartData :''//图表数据
+	 * 		}
+	 * 	  }
      * <br><a href="../demo/gallery/charts/charts.html" target="_blank">Demo</a>
      * @class Brix.Gallery.Charts
-     * @extends Brix.Brick
      */
 	function Charts(){
 		var self = this
 
 		/*
-			arguments:
-
-			  o:{
-				parent_id :''    //div id
-
-				config    :{
-					configData:''//图表配置
-					chartData :''//图表数据
-				}
-			  }
+			
 		 */
 		
 		Charts.superclass.constructor.apply(self, arguments);
@@ -115,7 +113,11 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	    		})
 	    	}
 		},
-
+		/**
+		 * 对外api
+		 * @param  {String} $name  方法名
+		 * @param  {String} $value 具体参数
+		 */
 		actions:function($name,$value){
 			var self = this
 			self.get('_case').actions($name,$value)
