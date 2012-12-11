@@ -15,19 +15,18 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
         var self = this;
         self.pagelet = arguments[0] ? arguments[0].pagelet : null; //pagelet的引用
         Brick.superclass.constructor.apply(this, arguments);
-
-        var tmpler = self.get('tmpler');
+        
         var constt = self.constructor;
-
-        if(tmpler){
-            while(constt.NAME!='Brick'){
-                var renderers = constt.RENDERERS;
-                if (renderers) {
-                    self.get('dataset').setRenderer(renderers, self);
-                }
-                constt = constt.superclass.constructor;
+        while(constt.NAME!='Brick'){
+            var renderers = constt.RENDERERS;
+            if (renderers) {
+                self._buildTmpler('', false);
+                self._buildDataset();
+                self.get('dataset').setRenderer(renderers, self);
             }
+            constt = constt.superclass.constructor;
         }
+
         self.on('rendered', function() {
             var main,extChains = [];
             constt = self.constructor;
@@ -43,6 +42,7 @@ KISSY.add("brix/core/brick", function(S, Chunk) {
             self._bindEvent();
         });
 
+        var tmpler = self.get('tmpler');
         if (self.get('autoRender')||!tmpler||tmpler.inDom){
             self.render();
         }
