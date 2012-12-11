@@ -621,7 +621,6 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 count = self.get('count'),
                 max = self.get('max'),
                 hasmax = self.get('hasmax'),
-                mode = self.get('mode'),
                 pageName = self.get('pageName'),
                 pageSizeName = self.get('pageSizeName');
 
@@ -649,17 +648,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             }
             step = Math.min(step, max);
             self.set('step', step);
-
-            var formatUrl = self.doUrl();
-            switch (mode) {
-            case 'p':
-                formatUrl = formatUrl.replace(pageName + '=' + index, pageName + '={$p}');
-                break;
-            case 's':
-                formatUrl = formatUrl.replace(pageName + '=' + index * size, pageName + '={$p}');
-                break;
-            }
-            self.set('formatUrl', formatUrl);
+            self.set('formatUrl', self.doUrl().replace(pageName + '=' + self._offset(index), pageName + '={$p}'));
         }
     });
     S.augment(Pagination, Pagination.METHODS);

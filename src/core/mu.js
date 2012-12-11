@@ -106,6 +106,8 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
             if (typeof(data) === "object") {
                 findArray(data, 0);
             }
+            //对if判断在vm中出错的兼容。
+            template = template.replace(/(\{{2,3})@if/ig,'$1#if');
             addFns(template, data);
             return Mustache.to_html.apply(this, arguments);
         },

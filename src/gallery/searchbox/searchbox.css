@@ -29,9 +29,7 @@
   -webkit-transition: width 0.3s ease-out 0s;
   -o-transition: width 0.3s ease-out 0s;
   transition: width 0.3s ease-out 0s;
-  -webkit-border: 1px solid #fff;
 }
-
 .common-search .s-ipt-container input:focus {
   outline: none;
 }
@@ -56,11 +54,9 @@ input[type=search]::-webkit-search-decoration {
     background-size: 19px;  
     background-position: top right;  
 }*/
-
 .common-search .s-btn-container {
   float: left;
 }
-
 .common-search .s-btn-container input {
   float: left;
   width: 35px;

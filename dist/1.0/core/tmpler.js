@@ -105,7 +105,7 @@ KISSY.add("brix/core/tmpler", function(S, Mustache,Node) {
         addTmpl: function(name, datakey, tmpl) {
             var self = this;
             self.tmpls.push({
-                id: name,
+                name: name,
                 datakey: datakey,
                 tmpler: new Tmpler(tmpl, false)
             });

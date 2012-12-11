@@ -16,6 +16,7 @@ module.exports = function(grunt) {
             ,'src/core/chunk.js'
             ,'src/core/dataset.js'
             ,'src/core/pagelet.js'
+            ,'src/core/demolet.js'
             ,'src/core/mu.js'
             ]
         },
