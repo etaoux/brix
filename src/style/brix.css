@@ -120,7 +120,7 @@ button,
 input,
 select,
 textarea {
-  font: 12px/1.5 tahoma, arial, "\5b8b\4f53";
+  font: 12px/1.5 tahoma, "microsoft yahei", "\5FAE\8F6F\96C5\9ED1";
 }
 button,
 input,
@@ -1068,7 +1068,6 @@ button,
 input,
 select,
 textarea {
-  font: 12px/1.5 tahoma, "microsoft yahei", "\5FAE\8F6F\96C5\9ED1";
   color: #606060;
 }
 h1,
