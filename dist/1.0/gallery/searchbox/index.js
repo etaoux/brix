@@ -103,7 +103,7 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
                 menuList.height(0);
             }
         },
-        'li' : {
+        '.s-menu-list li' : {
             click: function(e) {
                 var self = this, 
                     tar = S.one(e.currentTarget),
@@ -120,8 +120,6 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
                 menuItems.removeClass(curCls);
                 tar.addClass(curCls);
                 menuSelected.html(tar.one('a').html());
-                //优惠券等3个字宽度自适应
-                //self.menu.width('auto');
 
                 self.menu.removeClass('expand');
 
