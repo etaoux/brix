@@ -246,7 +246,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 	return Widget;
 
 	}, {
-	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/datasection','../../../pub/utils/svgelement','../../../pub/views/globalinduce','../../../pub/views/infos/infos','../model/eventtype','./graphs'
+	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/datasection','../../../pub/utils/svgelement','../../../pub/views/globalinduce','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/pie/graphs'
 	    ]
 	}
 );

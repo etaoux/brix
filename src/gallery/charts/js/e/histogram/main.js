@@ -65,6 +65,6 @@ KISSY.add('brix/gallery/charts/js/e/histogram/main',function(S,Base,Global,SVGEl
 	return Main;
 
 	}, {
-	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','./control/dataparse','./control/configparse','./view/widget']
+	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','../../pub/controls/histogram/dataparse','../../pub/controls/histogram/configparse','./view/widget']
 	}
 );

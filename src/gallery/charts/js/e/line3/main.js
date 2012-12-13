@@ -65,6 +65,6 @@ KISSY.add('brix/gallery/charts/js/e/line3/main',function(S,Base,Global,SVGElemen
 	return Main;
 
 	}, {
-	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','./view/widget','./control/dataparse','./control/configparse']
+	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','./view/widget','../../pub/controls/line3/dataparse','../../pub/controls/line3/configparse']
 	}
 );
