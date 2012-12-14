@@ -28,13 +28,18 @@ css: frontpage.css
       <h3>简介 Intro</h3>
       {% assign posts = site.categories.intro %}
       {% include entries.html %}
+      <h3>技术思想 Architecture</h3>
+      {% assign posts = site.categories.arch %}
+      {% include entries.html %}
     </div>
     <div class="span16">
-      <h3>线上地址 CDN</h3>
-      <p><a href="http://a.tbcdn.cn/apps/e/brix/1.0/brix-min.css">Brix Style</a><br>
-        <a href="http://a.tbcdn.cn/apps/e/brix/1.0/brix-min.js">Brix Core</a></p>
       <h3>文档 API</h3>
-      <p><a href="{{ site.baseurl }}/duck/">API</a></p>
+      <p><a href="{{ site.baseurl }}/duck/" class="btn btn-blue">API</a></p>
+      <h3>线上地址 CDN</h3>
+      <p>
+        <a href="http://a.tbcdn.cn/apps/e/brix/1.0/brix-min.css" target="_blank" class="btn">Brix Style</a>
+        <a href="http://a.tbcdn.cn/apps/e/brix/1.0/brix-min.js" target="_blank" class="btn">Brix Core</a>
+      </p>
     </div>
   </section>
   <hr class="soften"/>
@@ -56,28 +61,6 @@ css: frontpage.css
       {% include entries.html %}
       <h3>指南 Tutorials</h3>
       {% assign posts = site.categories.tutorials %}
-      {% include entries.html %}
-    </div>
-  </section>
-  <hr class="soften">
-  <section id="doc" class="row">
-    <div class="span17">
-      <h3>文档 Doc</h3>
-      <p>此节涵盖 Brix 所有 API，总结了 Brix 核心、样式、组件库的编程接口与设计、实现思路。</p>
-      <h3>技术思想 Architecture</h3>
-      {% assign posts = site.categories.arch %}
-      {% include entries.html %}
-    </div>
-    <div class="span16 offset1">
-      <h3>核心 Core</h3>
-      <p>请以 <a href="{{ site.baseurl }}/duck">API 文档</a> 为准。</p>
-      {% assign posts = site.categories.core %}
-      {% include entries.html %}
-    </div>
-    <div class="span16">
-      <h3>组件库 Gallery</h3>
-      <p>请以 <a href="{{ site.baseurl }}/duck">API 文档</a> 为准。</p>
-      {% assign posts = site.categories.gallery %}
       {% include entries.html %}
     </div>
   </section>
