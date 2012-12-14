@@ -88,11 +88,11 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
                     menuList = tar.one('.s-menu-list');
                 tar.addClass('expand');
                 //height auto 不支持css animation 所以取height value
-                var h = menuList.height();
+                /*var h = menuList.height();
                 if (!self.menu.h) {
                     self.menu.h = h;
-                } 
-                menuList.height(self.menu.h);
+                } */
+                //menuList.height(self.menu.h);
             },
             mouseleave:function (e) {
                 e.preventDefault();
@@ -100,7 +100,7 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
                     tar = S.one(e.currentTarget),
                     menuList = tar.one('.s-menu-list');
                 tar.removeClass('expand');
-                menuList.height(0);
+                //menuList.height(0);
             }
         },
         '.s-menu-list li' : {
@@ -109,8 +109,7 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
                     tar = S.one(e.currentTarget),
                     curCls = self.get("currentCls");
 
-                self.fire('beforeTabChange', {'eventData' : e.currentTarget});
-                e.halt(true);
+                self.fire('beforeTabChange', {'eventData' : e.currentTarget});                
 
                 //点击本身
                 if (tar.hasClass(curCls)) { return; }
@@ -168,7 +167,6 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
                         form.action = action;
                     //不同tab传递不一样的参数，通过a中的href后面的？来配置要传递的参数
                     self._parseAction(form, action);
-                    form.submit();
                 }
             }
         }

@@ -2,9 +2,9 @@
   font-family: 'globalheader';
   src: url('http://t.tbcdn.cn/apps/e/base/fonts/uxiconfont.eot');
   src: url('http://t.tbcdn.cn/apps/e/base/fonts/uxiconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('http://t.tbcdn.cn/apps/e/base/fonts/uxiconfont.woff') format('woff'), /* chrome、firefox */
-  url('http://t.tbcdn.cn/apps/e/base/fonts/uxiconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-  url('http://t.tbcdn.cn/apps/e/base/fonts/uxiconfont.svg#svgFontName') format('svg');/*IE9*/
+   url('http://t.tbcdn.cn/apps/e/base/fonts/uxiconfont.woff') format('woff'), /* chrome、firefox */
+   url('http://t.tbcdn.cn/apps/e/base/fonts/uxiconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+   url('http://t.tbcdn.cn/apps/e/base/fonts/uxiconfont.svg#svgFontName') format('svg');/*IE9*/
   /* iOS 4.1- */
 }
 .common-search {
@@ -31,17 +31,15 @@
 .common-search .s-ipt-container input:focus {
   outline: none;
 }
-
 input[type=search] {
   -webkit-appearance: textfield;
   box-sizing: content-box;
 }
-
 input[type=search]::-webkit-search-decoration {
-/*input[type=search]::-webkit-search-cancel-button {*/
+  /*input[type=search]::-webkit-search-cancel-button {*/
+
   -webkit-appearance: none;
 }
-  
 /*input[type=search]::-webkit-search-cancel-button:after {  
     content: '';     
     display: block;   
@@ -66,18 +64,20 @@ input[type=search]::-webkit-search-decoration {
   font-size: 16px;
   color: #fff;
   _zoom: 1;
-  -webkit-border-radius: 0
+  -webkit-border-radius: 0;
 }
 .common-search .s-menu {
+  width: 1px;
+  font-size: 0px;
+  -webkit-text-size-adjust:none;
   color: #999;
   position: relative;
   float: left;
-  width: 0px;
   overflow: hidden;
-  -moz-transition: width 0.3s ease-in 0s;
-  -webkit-transition: width 0.3s ease-in 0s;
-  -o-transition: width 0.3s ease-in 0s;
-  transition: width 0.3s ease-in 0s;
+  -moz-transition: all 0.3s ease-in 0s;
+  -webkit-transition: all 0.3s ease-in 0s;
+  -o-transition: all 0.3s ease-in 0s;
+  transition: all 0.3s ease-in 0s;
 }
 .common-search .s-menu .s-menu-selected {
   height: 33px;
@@ -105,10 +105,10 @@ input[type=search]::-webkit-search-decoration {
   -webkit-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
   -o-box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
   box-shadow: -4px 5px 7px 0px rgba(0, 0, 0, 0.1);
-  -moz-transition: height 0.2s ease-in 0s;
-  -webkit-transition: height 0.2s ease-in 0s;
-  -o-transition: height 0.2s ease-in 0s;
-  transition: height 0.2s ease-in 0s;
+  -moz-transition: height 0.2s ease-in 0.01s;
+  -webkit-transition: height 0.2s ease-in 0.01s;
+  -o-transition: height 0.2s ease-in 0.01s;
+  transition: height 0.2s ease-in 0.1s;
 }
 .common-search .s-menu-list li {
   height: 24px;
@@ -128,6 +128,7 @@ input[type=search]::-webkit-search-decoration {
 /* start focus 状态*/
 .s-focus .s-menu {
   width: 56px;
+  font-size: 12px;
 }
 .s-focus .expand {
   overflow: visible;
@@ -148,10 +149,10 @@ input[type=search]::-webkit-search-decoration {
   position: relative\9;
   z-index: 2\9;
   /* ie下右键placeholder无法在input中粘贴 */
+
   background-color: transparent;
   /*fix ie下背景穿透，导致右键无法粘贴复制，同时避免出现点击label是input outline出现 TODO 产生一个空请求*/
   background-image: url(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAbCAMAAACOc8V7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6Q0IyMENDNzMzQjZCMTFFMjk2MzU4RDY5NDRDQjMxNTkiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6Q0IyMENDNzQzQjZCMTFFMjk2MzU4RDY5NDRDQjMxNTkiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpDQjIwQ0M3MTNCNkIxMUUyOTYzNThENjk0NENCMzE1OSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpDQjIwQ0M3MjNCNkIxMUUyOTYzNThENjk0NENCMzE1OSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PoPJYnMAAAAGUExURf///wAAAFXC034AAAABdFJOUwBA5thmAAAADklEQVR42mJgoB8ACDAAAGwAAYpicjQAAAAASUVORK5CYII=);
-  background-repeat: repeat-x;
 }
 .common-search .s-ipt-container label {
   position: absolute;
