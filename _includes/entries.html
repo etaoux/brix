@@ -1,3 +1,3 @@
-<ul class="entries">
-{% for post in posts reversed %}<li><a href="/brix{{ post.url }}" class="{{ post.linkClass }}">{{ post.title }}</a></li>{% endfor %}
+<ul class="entries">{% for post in posts reversed %}
+  <li><a href="/brix{{ post.url }}" class="{{ post.linkClass }}">{{ post.title }}</a></li>{% endfor %}
 </ul>
