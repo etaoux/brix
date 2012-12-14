@@ -211,7 +211,7 @@ KISSY.add('brix/gallery/charts/js/e/map/view/widget',function(S,Base,Node,Global
 
 	}, {
 	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/move','../../../pub/utils/datasection','../../../pub/utils/svgelement',
-	    		  '../../../pub/views/globalinduce','../../../pub/views/infos/infos','../model/eventtype','./graphs'
+	    		  '../../../pub/views/globalinduce','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/map/graphs'
 
 	    ]
 	}

@@ -1,4 +1,54 @@
 KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
+
+    function param(o) {
+        if (!S.isPlainObject(o)) {
+            return '';
+        }
+        var sep = '&',eq = '=';
+        var buf = [], key, val;
+        for (key in o) {
+            if (o.hasOwnProperty(key)) {
+                val = o[key] || '';
+                if (!S.isArray(val)) {
+                    buf.push(key, eq, val, sep);
+                }
+                else if (S.isArray(val) && val.length) {
+                    for (var i = 0, len = val.length; i < len; ++i) {
+                        buf.push(key,eq,val[i], sep);
+                    }
+                }
+            }
+        }
+        buf.pop();
+        return buf.join('');
+    }
+    function unparam(str) {
+        if (typeof str !== 'string'
+            || (str = S.trim(str)).length === 0) {
+            return {};
+        }
+        var sep = '&',eq = '=';
+        var ret = {},
+            pairs = str.split(sep),
+            pair, key, val,
+            i = 0, len = pairs.length;
+
+        for (; i < len; ++i) {
+            pair = pairs[i].split(eq);
+            key = pair[0];
+            val = pair[1] || '';
+            if (Object.prototype.hasOwnProperty.call(ret, key)) {
+                if (S.isArray(ret[key])) {
+                    ret[key].push(val);
+                } else {
+                    ret[key] = [ret[key], val];
+                }
+            } else {
+                ret[key] = val;
+            }
+        }
+        return ret;
+    }
     /**
      * Pagination 分页
      * <br><a href="../demo/gallery/pagination/pagination.html" target="_blank">Demo</a>
@@ -322,7 +372,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 port: a.port,
                 query: a.search,
                 params: (function() { 
-                    return S.unparam(a.search.replace(/^\?/, ''));
+                    return unparam(a.search.replace(/^\?/, ''));
                 })(),
                 file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
                 hash: a.hash.replace('#', ''),
@@ -357,7 +407,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             returnUrl += urlInfo.path + '?';
 
 
-            returnUrl += S.param(urlInfo.params,'&','=',self.get('paramsArr'));
+            returnUrl += param(urlInfo.params);
             if (urlInfo.hash != '') {
                 returnUrl += '#' + urlInfo.hash;
             }

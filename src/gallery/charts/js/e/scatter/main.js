@@ -65,6 +65,6 @@ KISSY.add('brix/gallery/charts/js/e/scatter/main',function(S,Base,Global,SVGElem
 	return Main;
 
 	}, {
-	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','./view/widget','./control/dataparse','./control/configparse']
+	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','./view/widget','../../pub/controls/scatter/dataparse','../../pub/controls/scatter/configparse']
 	}
 );

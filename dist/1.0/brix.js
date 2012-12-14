@@ -1823,6 +1823,7 @@ KISSY.add("brix/core/demolet", function(S, Pagelet,IO) {
             data[p] = data[p] || {};
             IO({
                 url:$2+'template.html',
+                dataType:'html',
                 async:false,
                 success:function(d , textStatus , xhrObj){
                     str = '{{#'+p+'}}' + d+'{{/'+p+'}}';

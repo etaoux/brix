@@ -156,10 +156,10 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                     case 13:
                         self.__show = true;
                         var selectedItem = el.one('.dropdown-itemover');
+                        self.blur();
                         if(!selectedItem||selectedItem.hasClass('dropdown-itemselected')){
                             return;
                         }
-                        self.blur();
                         self._select(selectedItem);
                         break;
                     case 38:
@@ -249,10 +249,11 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                 self.__show = true;
                 var el = self.get('el');
                 var selectedItem = S.one(e.currentTarget);
+                self.blur();
                 if(selectedItem.hasClass('dropdown-itemselected')){
                     return;
                 }
-                self.blur();
+                
                 self._select(selectedItem);
             },
             mouseenter: function(e) {
