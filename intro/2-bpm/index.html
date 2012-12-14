@@ -1,0 +1,569 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+<title>Brix &mdash; UX</title>
+<!--[if lt IE 9]>
+<script>
+  // html5
+  (function() {
+      var tags = [
+          'article', 'aside', 'details', 'figcaption',
+          'figure', 'footer', 'header', 'hgroup',
+          'menu', 'nav', 'section', 'summary',
+          'time', 'mark', 'audio', 'video'],
+              i = 0, len = tags.length;
+      for (; i < len; i++) document.createElement(tags[i]);
+  })();
+</script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="/brix/dist/brix-min.css">
+<link rel="stylesheet" type="text/css" href="/brix/assets/css/post.css">
+</head>
+<body>
+  <div id="site-nav">
+  <nav class="container">
+    <a href="/brix/">首页 Home</a>
+    <a href="/brix/#tutorial">入门 Tutorials</a>
+    <a href="/brix/#doc">文档 Doc</a>
+    <a href="/brix/style">样式 Style</a>
+    <a href="/brix/#about">关于 About</a>
+  </nav>
+</div>
+  <aside id="aside">
+  <div id="logo">
+    <a href="/brix/">Brix</a>
+  </div>
+  
+  
+  <section class="collapsed">
+  
+    <h3>Guide<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/guide/1-intro" class="">Brix 组件初探</a></li><li><a href="/brix/guide/2-attrs" class="">ATTRS：配置项</a></li><li><a href="/brix/guide/3-events" class="">EVENTS：事件绑定机制</a></li><li><a href="/brix/guide/4-methods" class="">METHODS：公共方法</a></li><li><a href="/brix/guide/5-fires" class="">FIRES：自定义事件</a></li><li><a href="/brix/guide/6-renderders" class="">RENDERDERS</a></li><li><a href="/brix/guide/7-hooks" class="">Brix 钩子</a></li><li><a href="/brix/guide/8-usage" class="">模板与局部刷新</a></li><li><a href="/brix/guide/9-goodbye" class="">总结</a></li>
+</ul>
+  </section>
+  
+  
+  <section class="collapsed">
+  
+    <h3>Gallery<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/gallery/breadcrumbs" class="">Breadcrumbs</a></li><li><a href="/brix/gallery/calendar" class="">Calendar</a></li><li><a href="/brix/gallery/colorpicker" class="">ColorPicker</a></li><li><a href="/brix/gallery/datepicker" class="">DatePicker</a></li><li><a href="/brix/gallery/dialog" class="">Dialog</a></li><li><a href="/brix/gallery/dropdown" class="">Dropdown</a></li><li><a href="/brix/gallery/flowsteps" class="">Flowsteps</a></li><li><a href="/brix/gallery/footer" class="">Footer</a></li><li><a href="/brix/gallery/inplace-editor" class="">InplaceEditor</a></li><li><a href="/brix/gallery/kwicks" class="">Kwicks</a></li><li><a href="/brix/gallery/lavalamp" class="">Lavalamp</a></li><li><a href="/brix/gallery/loading" class="">Loading</a></li><li><a href="/brix/gallery/msgbox" class="">MsgBox</a></li><li><a href="/brix/gallery/pagination" class="">Pagination</a></li><li><a href="/brix/gallery/searchbox" class="">Searchbox</a></li><li><a href="/brix/gallery/sidenav" class="">SideNav</a></li><li><a href="/brix/gallery/slider" class="">Slider</a></li><li><a href="/brix/gallery/starrating" class="">StarRating</a></li><li><a href="/brix/gallery/switcher" class="">Switcher</a></li><li><a href="/brix/gallery/tables" class="">Tables</a></li><li><a href="/brix/gallery/timer" class="">Timer</a></li><li><a href="/brix/gallery/tips" class="">Tips</a></li>
+</ul>
+  </section>
+  
+  
+  <section class="collapsed">
+  
+    <h3>Core<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/core/brix" class="">Brix</a></li><li><a href="/brix/core/chunk" class="">Chunk</a></li><li><a href="/brix/core/brick" class="">Brick</a></li><li><a href="/brix/core/dataset" class="">Dataset</a></li><li><a href="/brix/core/pagelet" class="">Pagelet</a></li><li><a href="/brix/core/tmpler" class="">Tmpler</a></li>
+</ul>
+  </section>
+  
+  
+  <section class="collapsed">
+  
+    <h3>Meta<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/meta/gallery" class="">组件开发规范</a></li><li><a href="/brix/meta/gallery-doc-sample" class="">组件文档示例</a></li><li><a href="/brix/meta/style" class="">Brix Style 开发规范</a></li><li><a href="/brix/meta/style-doc" class="">Brix Style 文档规范</a></li>
+</ul>
+  </section>
+  
+  
+  <section class="collapsed">
+  
+    <h3>Arch<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/arch/1-goal" class="">Brix 组件架构（一）</a></li><li><a href="/brix/arch/2-reporting-system-modulization" class="">Brix 组件架构（二）</a></li><li><a href="/brix/arch/3-tab-and-tab-configer" class="">Brix 组件架构（三）</a></li><li><a href="/brix/arch/4-sub-modules-and-data-structure" class="">Brix 组件架构（四）</a></li>
+</ul>
+  </section>
+  
+  
+  <section class="collapsed">
+  
+    <h3>Style<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/style/scaffolding" class="">Scaffolding</a></li><li><a href="/brix/style/type" class="">Type</a></li><li><a href="/brix/style/grid" class="">Grid</a></li><li><a href="/brix/style/buttons" class="">Buttons</a></li>
+</ul>
+  </section>
+  
+  
+  <section class="collapsed">
+  
+    <h3>Tutorials<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/tutorials/style" class="">Brix Style开发指南</a></li>
+</ul>
+  </section>
+  
+  
+  <section class="current">
+  
+    <h3>Intro<b class="arrow"></b></h3>
+    
+    <ul class="entries">
+<li><a href="/brix/intro/1-intro" class="">Brix Framework 简介</a></li><li><a href="/brix/intro/2-bpm" class="">Brix 组件管理模式</a></li>
+</ul>
+  </section>
+  
+</aside>
+  <div id="page">
+  <div class="title-bar clearfix">
+    <h1>Brix 组件管理模式</h1>
+    
+    <p class="caption">李牧</p>
+    
+  </div>
+  <article>
+    
+    <section class="content"><div class="nutshell">
+  <p>Brix 是 Bricks（砖块）的缩写，我们希望将页面区块抽象成一个个具有相似行为和功用的砖块，
+    保障区块可重用的同时又保持页面搭建的便捷性，进而促成设计积累并提高效率。</p>
+</div>
+
+<p>首先我们约定了统一的组件架构，接下来就是在这套架构下的组件搭建、积累的过程。
+  我们将形成一个基础组控件库，和数十个业务子组件库，这两类组件库有什么异同？如何将这些组件管理好（共享、升级）？这是本文要讨论的问题。</p>
+
+<h2>1 基础组控件库</h2>
+
+<div class="nutshell">
+  <p>Brix 一期开发了30余个组控件并在不断扩充中，包含最基础的按钮、输入框、日历等，即基础组控件库。
+    我们希望通过规范，统一使用这些常用的组控件，形成一淘视觉规范的完整传递。
+  </p>
+</div>
+
+<h3>1.1 基础控件的管理</h3>
+
+<p>Brix 基础组控件的管理延续Brix 核心的管理模式（与Kissy类库或JQuery+JQueryUI类库并无太大异同），其要点是：</p>
+
+<ul>
+<li>开发：Brix 核心与基础组控件库的多个组件，共用同一个版本号，统一发布升级。</li>
+<li>使用：各业务系统使用CDN上统一的一份代码。</li>
+<li>升级：发布新版本，采用公共页头的业务统一升级,没有采用公共页头的业务手动升级。</li>
+<li>修复：当前版本发现bug，修复后的代码先发布至预发环境，经过一段时间的运行无误后升级。</li>
+<li>好处：集中维护、统一升级、很好的保证了UI整体一致性的实现。</li>
+<li>问题：升级与Bug修复都必须非常谨慎，不够敏捷，原因是：
+
+<ul>
+<li>代码存在一段缓存时间，新旧代码需要平稳过度</li>
+<li>所有业务依赖同一份代码，代码升级需要各处回归测试</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>2 业务子组件库</h2>
+
+<div class="nutshell">
+  <p>我们希望一淘页面中的每个区块都成为一个Brix 组件，这样我们的组件数量预计会达到数百个，
+    如果全部采用基础组控件库的管理模式，各个业务贡献的组件相互耦合，会让整个开发过程泥足深陷。
+  </p>
+</div>
+
+<p>我们必须采用与基础组控件库的传统管理模式完全不同的方式去管理组件版本、以更好的支持各业务库之间的组件共享，同时保障组件使用者的页面的稳定性。</p>
+
+<h3>2.1 以往业务系统中的前端代码管理：</h3>
+
+<p>Brix 实施后，普通的业务代码转化为组件代码。先回顾一下，一直以来我们对一般业务特有的前端代码是如何管理的：</p>
+
+<ul>
+<li>开发：每一项业务有各自独立的代码库（svn or git），多数业务前端代码与后台代码在一个代码库中。</li>
+<li>使用：各个业务各自管理业务前端代码的发布。</li>
+<li>升级：每次更新上线，形成一个新的时间戳（时间戳文件夹或时间戳参数），以避免缓存影响。</li>
+<li>修复：采用与升级新功能相同的上线模式，所以业务代码库的时间戳会比基础类库的版本数量多的多。</li>
+<li>好处：
+
+<ul>
+<li>时间戳很好的解决了缓存可能导致的不兼容问题。</li>
+<li>每个业务有其专属代码，修改不会影响其他业务。</li>
+</ul>
+</li>
+<li>问题：不多！</li>
+</ul>
+
+
+<h3>2.2 业务子组件库的管理</h3>
+
+<h4>2.2.1 坚持好的做法</h4>
+
+<p>多年的实践证明,2.1节描述的业务系统前端代码管理方法是一套行之有效的代码管理模式。那么在业务代码库向业务组件库的转变过程中，我们要尽可能维持这种管理方式不变，其要点如下：</p>
+
+<ul>
+<li>独立代码库</li>
+<li>业务代码独立，除基础类库外没有其他存在变数的外部依赖</li>
+<li>升级维护由业务发起</li>
+<li>基于时间戳管理上线版本</li>
+</ul>
+
+
+<h4>2.2.2 组件化 = 可分享</h4>
+
+<div class="nutshell">
+  <p>组件化的目标即“共享”二字，我们要让业务中的任一个区块可以在多个页面中、多个业务中反复使用。
+  </p>
+</div>
+
+<p>做到大批量区块“共享”我们应该：</p>
+
+<ul>
+<li>为每个区块起个名字</li>
+<li>让每个区块维护自己的版本更迭（每个组件升级都可以由它的开发者随时发起，无需等待统一Release）</li>
+</ul>
+
+
+<p>这样就带来几个问题：业务组件代码库中必须包含版本信息么？每个小的改动以及BugFix都要升级一个版本么？
+  这无疑引入了大量的复杂度，并背离了上一节介绍的几个业务代码管理模式的要点，没有可操作性。</p>
+
+<p>解决这个问题的关键是重新审视“共享”二字：</p>
+
+<ul>
+<li>如果组件没有其他人使用，我的共享是没有意义的。</li>
+<li>如果组件只是我自己使用，版本号对我是没有意义的。所以我只要开发维护一套代码即可，按传统业务代码开发模式修改、测试、发布。</li>
+<li>如果我使用别人的组件，我也只需要使用其某一个版本。</li>
+</ul>
+
+
+<p>基于如上判断，我们的业务子组件共享策略如下：</p>
+
+<ul>
+<li>业务代码库中开发的自有组件，只维护组件的最新代码，使用时当然无需指定组件版本号。</li>
+<li>当某个组件代码稳定后，由组件开发者，发起组件共享动作
+
+<ul>
+<li>为组件安排一个版本号。</li>
+<li>从业务中的组件多次使用中选择一个（数据、模板、样式），作为组件使用示例。</li>
+<li>发布组件以共享。</li>
+</ul>
+</li>
+<li>使用其他子组件库的共享的组件时：
+
+<ul>
+<li>只有引入组件的时候关心引入的是哪个版本（一般引入最新版本）。</li>
+<li>组件一旦引入使用过程与组件版本无关。</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>2.2.3 BPM（Brix Package Manager）概览</h4>
+
+<p>我们建立一套名为 BPM（Brix Package Manager）的业务子组件分享机制，这其实与 NodeJS 的 NPM，
+  与 Ruby 的 GEM 等包管理系统没有本质区别，已经被证明是比较成熟的管理机制。</p>
+
+<p>我们需要做的是，让这一套机制可以真正实践于任何基于 Brix 的组件系统中。
+  这要求我们结合具体业务，结合平台化的目标，并坚持以往的业务系统代码管理模式在开发、发布等环节不做改变，具体需要我们：</p>
+
+<ul>
+<li>约定组件的内部构成。</li>
+<li>统一组件发布和引入过程。</li>
+<li>约定业务子组件库代码结构，让其可以寄附于任一业务代码库之中。</li>
+<li>通过为基于模板的 Brix 组件增加 Extension 机制让组件展现、行为多样化，同时让 Extension 也可以分享。</li>
+<li>形成统一的所有业务子组件库展示平台。</li>
+<li>展示平台同时能够展现某组件在所有线上业务中的具体展现样式。</li>
+</ul>
+
+
+<h2>3 Brix Package Manager</h2>
+
+<div class="nutshell">
+  <p>经过月初的 Workshop 以及后续的多次讨论，在我们将过往经验和问题汇总在一起充分思考后，
+    终于将 Brix 组件管理的整体思路和每个细节都弄清楚了，最终形成下面这张图。
+    一图胜千言，这却是一张需要辅以数千文字才能将其彻底解释清楚的图。
+  </p>
+</div>
+
+<h3>3.1 All in 1 Picture</h3>
+
+<p><img src="http://img02.taobaocdn.com/tps/i2/T1aiHPXdleXXbKS1nX-1024-373.png" alt="Brix Package Manager" />
+<a href="http://img03.taobaocdn.com/tps/i3/T1_3HPXmJfXXa.Weoz-3686-1341.png">查看大图</a></p>
+
+<h3>3.2 代码实例</h3>
+
+<p>我们在 Git 上建立了一个独立的项目，用以展示一个业务子组件库的全景。</p>
+
+<p>详见：<a href="https://github.com/etaoux/Brix -test/">https://github.com/etaoux/Brix -test/</a></p>
+
+<h3>3.3 业务子组件库</h3>
+
+<h4>3.3.1 子组件库名字</h4>
+
+<p>我们使用 namespace 来表示子组件库的名字，每个 namespace 必须唯一，它与一个独立的代码库一一对应，命名中包含组织+业务+项目三项内容：</p>
+
+<ul>
+<li>组织：如果是 etao，可以省略。</li>
+<li>业务：如一淘搜索结果页：srp，钻石展位:zuanshi；需避免使用组织代号，如 taobao，alipay。</li>
+<li>项目：重要：必选！一项业务即使是刚刚上线，也硬分配一个项目名，因为每个namespace对应一个代码库，而未来可能的重构可能使用新的代码库。</li>
+</ul>
+
+
+<p>名称示例：
+* SRP响应式：etao.srp.rd 或 srp.rd
+* 钻石展位雷神：etao.zuanshi.thor 或 zuanshi.thor</p>
+
+<h4>3.3.2 子组件库名字的用处</h4>
+
+<ul>
+<li>使用引用组件时的前缀标识符</li>
+<li>共享组件仓库中的目录名</li>
+<li>每个子组件库，以名称作为唯一标识注册到BPM管理系统中，</li>
+<li>建议（不强制）业务子组件库的CDN目录为 http://a.tbcdn.cn/p/Brix/product/<strong>namespace</strong>/timestamp</li>
+</ul>
+
+
+<h4>3.3.3 子组件库内三个目录</h4>
+
+<p>子组件库内包含三个重要目录，components，imports，exports，其中两个用于支撑线上系统运作，一个用于缓存待共享组件。</p>
+
+<h4>3.3.3.1 components</h4>
+
+<p>自有组件目录，其下包含若干当前业务特有的组件，供线上页面直接使用。</p>
+
+<h4>3.3.3.2 imports</h4>
+
+<p>引用的组件目录，其下包含所有引自其他业务子库的某一版本组件的完整拷贝。imports目录下是namespace，然后无需版本号直接接是组件名，供线上页面直接使用。</p>
+
+<div class="nutshell">
+  <p>通过 `bpm install` 命令完成 `imports` 组件的引入</p>
+</div>
+
+<h4>3.3.3.3 exports</h4>
+
+<p>这个目录是待共享组件缓存区，当 components 目录下的组件成熟了，组件开发者需要编写组件的 package.json，
+  为组件指定版本号，然后将组件发布到 exports 目录下，exports 目录下即是组件版本号目录，然后是组件内容，
+  无需 namespace。</p>
+
+<div class="nutshell">
+  <p>通过 `bpm export` 命令完成 `components` 到 `exports` 的输出过程。</p>
+</div>
+
+<p>注：exports 的作用是让组件作者在同一个代码库中快速查看输出的内容，而线上代码不依赖exports目录，
+  未来组件集中库（下面介绍）运行稳定之后，exports 可以考虑去除。</p>
+
+<h3>3.4 Brix 业务子组件库集中 Git 库：Brix-lib.git</h3>
+
+<p>所有业务子库分散在各个所在项目的代码仓库当中，完成真正的分享，需要各个组件库把组件push给一个共享组件中心。
+  于是我们构建Brix 业务子组件库集中git库：Brix-lib.git</p>
+
+<h4>3.4.1 目录结构</h4>
+
+<p>Brix-lib.git 对应 cdn 上的：http://a.tbcdn.cn/p/Brix/lib/</p>
+
+<p>其目录结构即包含 namespace，又包含版本号。</p>
+
+<p>http://a.tbcdn.cn/p/Brix/lib/namespace/versionnumber/componentname</p>
+
+<div class="nutshell">
+  <p>通过 `bpm push` 命令完成各子库 exports 到 Brix-lib 的输出过程。</p>
+</div>
+
+<h4>3.4.2 Brix-lib 库用途</h4>
+
+<ul>
+<li>对各子库共享的组件进行集中管理</li>
+<li>用于BPM组件展示平台中展示组件</li>
+<li>与其他线上系统无关</li>
+</ul>
+
+
+<hr />
+
+<p>===================以下内容待细化。。。=========================</p>
+
+<hr />
+
+<h4>3.4.3 关于 allextension.json</h4>
+
+<h3>3.5 组件内部结构和扩展机制</h3>
+
+<h4>3.5.1 组件内部结构</h4>
+
+<ul>
+<li>index.js</li>
+<li>package.json</li>
+<li>example 目录</li>
+<li>extension 目录（多个）</li>
+</ul>
+
+
+<h4>3.5.2 example 目录：组件基本示例</h4>
+
+<ul>
+<li>data.json</li>
+<li>template.html</li>
+<li><em>component name</em>.css</li>
+</ul>
+
+
+<h4>3.5.3 为什么要（强制）做扩展</h4>
+
+<ul>
+<li>Brix 使用模板系统，增加了展现的灵活性，同一组件在不同地方使用展现可能完全不同</li>
+<li>组件在某一具体场景下使用，可能需要进行一些特有的行为拓展</li>
+<li>example 是一个没有扩展行为的，最简单的扩展，固定作为组件使用示例使用</li>
+</ul>
+
+
+<h4>3.5.4 扩展的实现</h4>
+
+<ul>
+<li>组件名下主要包含 index.js,同时存在若干扩展名目录</li>
+<li>每个扩展目录下存在 index.js继承至上层目录中的 index.js，这个继承自组件共享对象的子对象才是组件实例化时的真正构造器</li>
+</ul>
+
+
+<h4>3.5.5 不同目录下组件结构差异</h4>
+
+<ul>
+<li>components下</li>
+<li>imports下</li>
+<li>exports下</li>
+<li>Brix-lib.git中</li>
+</ul>
+
+
+<h4>3.5.6 真假数据快速切换</h4>
+
+<p>基于data.json</p>
+
+<h4>3.5.7 预留响应式行为支持</h4>
+
+<p>基于响应式布局工具的产出</p>
+
+<h3>3.6 组件使用</h3>
+
+<h4>3.6.1 kissy包配置</h4>
+
+<p>业务代码将会使用三类组件，将对应这页面中的三个kissy包地址:</p>
+
+<ul>
+<li>Brix 核心组控件库中的组件:Brix 包</li>
+<li>业务自有组件:components包</li>
+<li>业务引入组件:imports包</li>
+</ul>
+
+
+<h4>3.6.2 组件钩子brix hook</h4>
+
+<ul>
+<li>对应核心组控件库中组件：Brix/gallery/<em>components name</em></li>
+<li>对应自有组件：components/<em>components name</em>/<em>extension name</em></li>
+<li>对应引入组件：imports/<em>namespace</em>/<em>components name</em>/<em>extension name</em></li>
+</ul>
+
+
+<h4>3.6.3 快速搭建 pagelet</h4>
+
+<p>搭建由若干组件组成的页面区块或完整页面</p>
+
+<h4>3.6.4 为pagelet准备好模板和数据</h4>
+
+<p>为页面区块准备好模板和数据</p>
+
+<h4>3.6.5 纯前端Demo页面展示</h4>
+
+<p>不依赖任何后台动态服务语言，展现各个业务的Demo页面。</p>
+
+<h3>3.7 命令行工具</h3>
+
+<h4>3.7.1 基本命令</h4>
+
+<ul>
+<li>bpm install</li>
+<li>bpm export</li>
+<li>bpm push</li>
+<li>bpm publish</li>
+</ul>
+
+
+<h4>3.7.2 扩展功能</h4>
+
+<ul>
+<li>bpm scan 生成allextension.json</li>
+<li>bpm install 自动生成extension</li>
+<li>bpm install 输入布局信息，自动生成mediaquery</li>
+<li>bpm publish 解决bug的发布，要生成邮件通知</li>
+<li>bpm report 阶段性bpm使用报告，组件更新报告</li>
+</ul>
+
+
+<h3>3.8 子组件库展示平台</h3>
+
+<h4>3.8.1 展示平台前端相关信息</h4>
+
+<p>通过共个四层父子结构，全景展现Brix 组件平台的所有组件</p>
+
+<ol>
+<li>子组件库名称（namespace）</li>
+<li>组件名</li>
+<li>组件版本和当前组件版本的默认展现</li>
+<li>当前组件版本下的所有扩展展现</li>
+</ol>
+
+
+<p>为每个组件展示：示例、模板、数据、API
+为每个组件扩展展示：模板、数据、扩展行为的API</p>
+
+<h4>3.8.2 多维度组件查询展示</h4>
+
+<ul>
+<li>为每个组件、组件扩展从不同维度丰富属性，进而支持查询</li>
+</ul>
+
+
+<h4>3.8.3 组件交互视觉展示平台</h4>
+
+<h3>3.9 问题</h3>
+
+<ul>
+<li>同一应用中的页面，需要引入同一组件的不同版本分别使用时，需要额外处理</li>
+</ul>
+
+
+<h3>3.10 小结</h3>
+
+<ul>
+<li>Brix 只是一套组件架构</li>
+<li>Brix 在业务中的实施，依然坚持采用业务惯用的开发、测试、上线模式</li>
+</ul>
+
+<p><a href="/brix" class="btn btn-blue">All in Brix </a></p></section>
+  </article>
+</div>
+  <footer id="footer">
+  </footer>
+  <div id="J_tocBox" class="table-of-contents collapsed"></div>
+  <script type="text/template" id="J_tocTemplate">
+
+<a href="javascript:void(0);" class="toggle-toc">目录<b class="arrow"></b></a>
+<ul id="J_toc" bx-name="toc" bx-tmpl="toc" bx-datakey="tree">
+{{#tree}}
+  <li><a href="#{{id}}" class="j-entry">{{text}}</a>
+    <ul>
+    {{#children}}
+    <li><a href="#{{id}}" class="j-entry">{{text}}</a>
+      <ul>
+      {{#children}}
+      <li><a href="#{{id}}" class="j-entry">{{text}}</a>
+      {{/children}}
+      </ul>
+    </li>
+    {{/children}}
+    </ul>
+  </li>
+{{/tree}}
+</ul>
+
+  </script>
+  <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
+  <script src="/brix/assets/js/post.js"></script>
+</body>
+</html>

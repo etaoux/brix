@@ -111,7 +111,7 @@
     <h3>Intro<b class="arrow"></b></h3>
     
     <ul class="entries">
-<li><a href="/brix/intro/1-intro" class="hot">Brix Framework 简介</a></li>
+<li><a href="/brix/intro/1-intro" class="">Brix Framework 简介</a></li><li><a href="/brix/intro/2-bpm" class="">Brix 组件管理模式</a></li>
 </ul>
   </section>
   
@@ -200,62 +200,6 @@
 </div>
 
 
-<h2>bx-parent</h2>
-
-<p>指定当前组件的父组件(值等于bx-name)，在渲染时，实现层次化的渲染。</p>
-
-<p>下面的代码，只有dialog组件加载完成，才会去加载dropdown组件</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;tmpl_helloword1&quot;</span><span class="nt">&gt;</span>
-    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">name</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">config</span><span class="o">=</span><span class="s2">&quot;{xx:&#39;oo&#39;}&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;helloworld1&quot;</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span>
-            <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">tmpl</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">datakey</span><span class="o">=</span><span class="s2">&quot;helloworld1_xx_yy&quot;</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">helloworld1_xx_yy</span><span class="p">}}</span><span class="o">&lt;</span><span class="err">/span&gt;</span>
-        <span class="o">&lt;</span><span class="err">/span&gt;</span>
-    <span class="o">&lt;</span><span class="err">/div&gt;</span>
-    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">name</span><span class="o">=</span><span class="s2">&quot;dropdown&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">parent</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span><span class="o">&gt;&lt;</span><span class="err">/div&gt;</span>
-<span class="nt">&lt;/script&gt;</span>
-</code></pre>
-</div>
-
-
-<h2>bx-tmpl-source</h2>
-
-<p>指定需要复用的源模板选择器</p>
-
-<p>下面两份模板等价，上面的模板中一个占位容器</p>
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;tmpl_dialog1&quot;</span><span class="nt">&gt;</span>
-<span class="o">&lt;</span><span class="nx">div</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">name</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">config</span><span class="o">=</span><span class="s2">&quot;{xx:&#39;oo&#39;}&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;dialog1&quot;</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span>
-        <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">tmpl</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">datakey</span><span class="o">=</span><span class="s2">&quot;helloworld1_xx_yy&quot;</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">helloworld1_xx_yy</span><span class="p">}}</span><span class="o">&lt;</span><span class="err">/span&gt;</span>
-    <span class="o">&lt;</span><span class="err">/span&gt;</span>
-<span class="o">&lt;</span><span class="err">/div&gt;</span>
-<span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;dialog2&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">tmpl</span><span class="o">-</span><span class="nx">source</span><span class="o">=</span><span class="s2">&quot;#dialog1&quot;</span><span class="o">&gt;</span>
-<span class="c1">//这个只是一个占位容器</span>
-<span class="o">&lt;</span><span class="err">/div&gt;</span>
-<span class="nt">&lt;/script&gt;</span>
-</code></pre>
-</div>
-
-
-
-
-<div class="highlight"><pre><code class="html"><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/template&quot;</span> <span class="na">id=</span><span class="s">&quot;tmpl_dialog1&quot;</span><span class="nt">&gt;</span>
-<span class="o">&lt;</span><span class="nx">div</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">name</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">config</span><span class="o">=</span><span class="s2">&quot;{xx:&#39;oo&#39;}&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;dialog1&quot;</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span>
-        <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">tmpl</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">datakey</span><span class="o">=</span><span class="s2">&quot;helloworld1_xx_yy&quot;</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">helloworld1_xx_yy</span><span class="p">}}</span><span class="o">&lt;</span><span class="err">/span&gt;</span>
-    <span class="o">&lt;</span><span class="err">/span&gt;</span>
-<span class="o">&lt;</span><span class="err">/div&gt;</span>
-<span class="o">&lt;</span><span class="nx">div</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">name</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">config</span><span class="o">=</span><span class="s2">&quot;{xx:&#39;oo&#39;}&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;dialog2&quot;</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="nx">span</span><span class="o">&gt;</span><span class="nx">Hello</span>
-        <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">tmpl</span><span class="o">=</span><span class="s2">&quot;dialog&quot;</span> <span class="nx">bx</span><span class="o">-</span><span class="nx">datakey</span><span class="o">=</span><span class="s2">&quot;helloworld1_xx_yy&quot;</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">helloworld1_xx_yy</span><span class="p">}}</span><span class="o">&lt;</span><span class="err">/span&gt;</span>
-    <span class="o">&lt;</span><span class="err">/span&gt;</span>
-<span class="o">&lt;</span><span class="err">/div&gt;</span>
-<span class="nt">&lt;/script&gt;</span>
-</code></pre>
-</div>
-
-
 
 </section>
   </article>
@@ -263,9 +207,6 @@
   <footer id="footer">
   </footer>
   <div id="J_tocBox" class="table-of-contents collapsed"></div>
-  <div id="J_log" class="js-log">
-    <a style="position:absolute;top:1px;right:1px;z-index:999;" id="J_close" href="#">显示调试窗口</a>
-  </div>
   <script type="text/template" id="J_tocTemplate">
 
 <a href="javascript:void(0);" class="toggle-toc">目录<b class="arrow"></b></a>
@@ -288,7 +229,6 @@
 </ul>
 
   </script>
-  <script src="/brix/assets/js/log4javascript.js"></script>
   <script src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy.js"></script>
   <script src="/brix/assets/js/post.js"></script>
 </body>
