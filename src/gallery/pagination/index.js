@@ -454,9 +454,9 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             var self = this,
                 mode = self.get('mode'),
                 formatUrl = self.get('formatUrl'),
-                step = self.get('step'),
                 index = self.get('index'),
                 max = self.get('max'),
+                step = Math.min(self.get('step'),max),
                 size = self.get('size'),
                 count = self.get('count'),
                 hascount = self.get('hascount'),
@@ -637,22 +637,6 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             //合并外部参数
             if (params) {
                 S.each(params, function(v, k) {
-                    /*if(urlInfo.params[k]){
-                        if(!urlInfo.params[k] instanceof Array){
-                            urlInfo.params[k] = [urlInfo.params[k]];
-                        }
-                        if(v instanceof Array){
-                            S.each(v,function(d){
-                                urlInfo.params[k].push(d);
-                            });
-                        }
-                        else{
-                            urlInfo.params[k].push(v);
-                        }
-                    }
-                    else{
-                        urlInfo.params[k] = v;
-                    }*/
                     urlInfo.params[k] = v;
                 });
             }
@@ -667,7 +651,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             var self = this,
                 index = self.get('index'),
                 hascount = self.get('hascount'),
-                step = self.get('step'),
+                
                 size = self.get('size'),
                 count = self.get('count'),
                 max = self.get('max'),
@@ -676,6 +660,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 pageSizeName = self.get('pageSizeName');
 
             if (!hascount) {
+                var step = self.get('step');
                 if (index >= step) {
                     count = size * (index + 1);
                 } else {
@@ -697,8 +682,6 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 self.set('max', 1);
                 self.set('index', 1);
             }
-            step = Math.min(step, max);
-            self.set('step', step);
             self.set('formatUrl', self.doUrl().replace(pageName + '=' + self._offset(index), pageName + '={$p}'));
         }
     });
