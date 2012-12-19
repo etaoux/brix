@@ -96,6 +96,10 @@
 .pagination .pagination-page .page-next .iconfont {
   cursor: pointer;
 }
+.pagination .pagination-page .page-prev span,
+.pagination .pagination-page .page-next span {
+  float: left;
+}
 .pagination .pagination-page .page-prev:hover,
 .pagination .pagination-page .page-next:hover {
   padding: 0px 5px;

@@ -194,13 +194,6 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             value: false
         },
         /**
-         * 参数值为数组时, 参数键是否加 [] 即 %5B%5D , 默认 false
-         * @cfg {Boolean}
-         */
-        paramsArr:{
-            value:false
-        },
-        /**
          * 是否用默认UI,多在seo中采用
          * @cfg {Boolean}
          */
@@ -221,6 +214,13 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
         //格式化url字符，内部参数
         formatUrl: {
             value: false
+        },
+        /**
+         * 是否显示上一页，下一页的文字
+         * @cfg {Boolean}
+         */
+        isText:{
+            value:false,
         }
     };
 
@@ -460,7 +460,8 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 size = self.get('size'),
                 count = self.get('count'),
                 hascount = self.get('hascount'),
-                pageCount = self.get('pageCount');
+                pageCount = self.get('pageCount'),
+                isText = self.get('isText');
             var arrHTML = [];
 
             //render statistics
@@ -483,7 +484,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             arrHTML.push('<div class="pagination-pages"><div class="pagination-page">');
 
             if (index > 1) {
-                arrHTML.push('<a title="上一页" href="' + formatUrl.replace('{$p}',  self._offset(index - 1)) + '" class="page-prev"><i class="iconfont">&#403</i></a>');
+                arrHTML.push('<a title="上一页" href="' + formatUrl.replace('{$p}',  self._offset(index - 1)) + '" class="page-prev"><i class="iconfont">&#403</i>'+(isText?'<span>上一页</span>':'')+'</a>');
             }
             if (self.get('simplify')) {
                 arrHTML.push('<span class="page-simply">' + index + '/' + max + '</span>');
@@ -520,7 +521,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             }
 
             if (index != max) {
-                arrHTML.push('<a title="下一页" href="' + formatUrl.replace('{$p}', self._offset(index + 1)) + '" class="page-next"><i class="iconfont">&#402</i></a>');
+                arrHTML.push('<a title="下一页" href="' + formatUrl.replace('{$p}', self._offset(index + 1)) + '" class="page-next">'+(isText?'<span>下一页</span>':'')+'<i class="iconfont">&#402</i></a>');
             }
             arrHTML.push('</div>');
             if (hascount && pageCount) {

@@ -1679,7 +1679,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                     name = brickNode.attr('bx-name'),
                     path = brickNode.attr('bx-path'),
                     config = brickNode.attr('bx-config');
-                config = config ? eval("config=" + config) : {};
+                config = config ? (new Function("return " + config))() : {};
                 bricks.push({
                     id :id,
                     name:name,

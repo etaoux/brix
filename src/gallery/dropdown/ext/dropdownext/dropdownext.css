@@ -51,6 +51,7 @@
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8f8f8', endColorstr='#eeeeee', GradientType=0);
   cursor: default;
+  zoom: 1;
 }
 .dropdown-arrow .dropdown-hd {
   padding-right: 20px;
