@@ -6,8 +6,7 @@
         template: [ '亲~您还在使用十几年前的浏览器IE6，享受更棒的购物体验建议您更新',
                     '<a class="anti-ie6-top-ie8" href="http://windows.microsoft.com/zh-CN/internet-explorer/downloads/ie" target="_blank">ie8浏览器</a>',
                     '<a class="anti-ie6-top-taobao" href="http://download.taobaocdn.com/client/browser/download.php?pid=0080_2010">淘宝浏览器</a>',
-                    // '<a class="anti-ie6-top-keep" id="fieKeepIE6" href="#">不再提示</a>',
-                    '<i class="anti-ie6-top-close" id="fieClose"></i>'].join(''),
+                    '<i class="anti-ie6-top-close" id="fieKeepIE6"></i>'].join(''),
 
         //css
         style: ".anti-ie6-top{zoom:1;position:relative;height:35px;text-align:center;padding-top:15px;background:#49e;color:white;font-size:14px}.anti-ie6-top a{color:white;text-decoration:none}.anti-ie6-top a:hover{text-decoration:underline}.anti-ie6-top-taobao,.anti-ie6-top-close,.anti-ie6-top-ie8{background:url(http://img02.taobaocdn.com/tps/i2/T13kMHXkBeXXcsc8fa-19-71.png) no-repeat}.anti-ie6-top-close{position:absolute;top:16px;right:12px;width:20px;height:20px;background-position:0 -50px;cursor:pointer}.anti-ie6-top-taobao{padding-left:22px;margin-left:25px;background-position:0 -25px}.anti-ie6-top-ie8{padding-left:22px;margin-left:30px;background-position:0 0}",
@@ -52,13 +51,13 @@
         },
 
         bindEvents: function () {
-            var fieClose = doc.getElementById('fieClose');
+            // var fieClose = doc.getElementById('fieClose');
             var _this = this;
             var fieKeepIE6 = doc.getElementById('fieKeepIE6');
 
-            fieClose.onclick = function () {
-                _this.div.parentNode.removeChild(_this.div);
-            };
+            // fieClose.onclick = function () {
+            //     _this.div.parentNode.removeChild(_this.div);
+            // };
 
             fieKeepIE6.onclick = function(e) {
                 var d = new Date();
