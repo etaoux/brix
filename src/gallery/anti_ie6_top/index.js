@@ -5,7 +5,7 @@
         //template
         template: [ '亲~您还在使用十几年前的浏览器IE6，享受更棒的购物体验建议您更新',
                     '<a class="anti-ie6-top-ie8" href="http://windows.microsoft.com/zh-CN/internet-explorer/downloads/ie" target="_blank">ie8浏览器</a>',
-                    '<a class="anti-ie6-top-taobao" href="http://download.taobaocdn.com/client/browser/download.php?pid=0080_2010">淘宝浏览器</a>',
+                    '<a class="anti-ie6-top-taobao" href="http://download.taobaocdn.com/client/browser/download.php?pid=0080_2022">淘宝浏览器</a>',
                     '<i class="anti-ie6-top-close" id="fieKeepIE6"></i>'].join(''),
 
         //css
