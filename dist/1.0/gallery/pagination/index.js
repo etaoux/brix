@@ -8,7 +8,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
         var buf = [], key, val;
         for (key in o) {
             if (o.hasOwnProperty(key)) {
-                val = o[key] || '';
+                val = o[key];
                 if (!S.isArray(val)) {
                     buf.push(key, eq, val, sep);
                 }
@@ -392,7 +392,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 size = self.get('size'),
                 pageName = self.get('pageName'),
                 pageSizeName = self.get('pageSizeName'),
-                returnUrl;
+                returnUrl='';
             urlInfo.params[pageName] = self._offset(index);
             if (pageSizeName) {
                 urlInfo.params[pageSizeName] = size;
@@ -400,13 +400,13 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 delete urlInfo.params[pageSizeName];
             }
 
-            returnUrl = urlInfo.protocol + '://' + urlInfo.host;
-            if (urlInfo.port != 0 && urlInfo.port != 80) {
-                returnUrl += ':' + urlInfo.port;
+            if(urlInfo.protocol){
+                returnUrl = urlInfo.protocol + '://' + urlInfo.host;
+                if (urlInfo.port != 0 && urlInfo.port != 80) {
+                    returnUrl += ':' + urlInfo.port;
+                }
             }
             returnUrl += urlInfo.path + '?';
-
-
             returnUrl += param(urlInfo.params);
             if (urlInfo.hash != '') {
                 returnUrl += '#' + urlInfo.hash;
@@ -640,8 +640,9 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                     urlInfo.params[k] = v;
                 });
             }
-
+            S.log(urlInfo.params.s);
             self.set('urlInfo', urlInfo);
+            S.log(urlInfo.params.s);
         },
         /**
          * 配置纠错，对传入的配置进行容错处理

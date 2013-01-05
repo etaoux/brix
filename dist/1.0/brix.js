@@ -1,6 +1,6 @@
 /*! Brix - v1.0
 * https://github.com/etaoux/brix
-* Copyright (c) 2012 etaoux; Licensed MIT */
+* Copyright (c) 2013 etaoux; Licensed MIT */
 KISSY.add('brix/core/mustache', function(S) {
   /**
    * mustache.js - Logic-less {{mustache}} templates with JavaScript
