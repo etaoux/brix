@@ -16,6 +16,7 @@ KISSY.add("brix/core/demolet", function(S, Pagelet,IO) {
             var str = '';
             var p = $2.replace(/\//ig,'_').replace(/\./ig,'_');
             data[p] = data[p] || {};
+            //获取模板
             IO({
                 url:$2+'template.html',
                 dataType:'html',
@@ -24,6 +25,7 @@ KISSY.add("brix/core/demolet", function(S, Pagelet,IO) {
                     str = '{{#'+p+'}}' + d+'{{/'+p+'}}';
                 }
             });
+            //获取数据
             IO({
                 url:$2+'data.json',
                 async:false,
@@ -34,6 +36,8 @@ KISSY.add("brix/core/demolet", function(S, Pagelet,IO) {
                     }
                 }
             });
+            //加载组件的css
+            S.use($2+'index.css');
             return str;
         });
         return {tmpl:tmpl,data:data};
@@ -48,6 +52,15 @@ KISSY.add("brix/core/demolet", function(S, Pagelet,IO) {
         Demolet.superclass.constructor.apply(this, arguments);
     }
     Demolet.ATTRS = {
+        /**
+         * 获取项目的css，包名怎么定义?
+         * @cfg {String}
+         */
+        projectCss:{
+            setter:function(v){
+                S.use(v);
+            }
+        },
         /**
          * 分割符号
          * @cfg {String}
