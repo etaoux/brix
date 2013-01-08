@@ -1841,8 +1841,17 @@ KISSY.add("brix/core/demolet", function(S, Pagelet,IO) {
                     }
                 }
             });
-            //加载组件的css
-            S.use($2+'index.css');
+            //加载组件的css,比较丑，先这样吧。
+            var arr = $2.split('/');
+            if(arr.length>3){
+                arr.splice(arr.length-2);
+                S.use(arr.join('/')+'/index.css',function(){
+                    S.use($2+'index.css');
+                });
+            }
+            else{
+                S.use($2+'index.css');
+            }
             return str;
         });
         return {tmpl:tmpl,data:data};
