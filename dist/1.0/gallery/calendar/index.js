@@ -1388,8 +1388,6 @@ KISSY.add('brix/gallery/calendar/time', function(S, Brick) {
             el.one('.calendar-time-popup').css({display:'none'});
         },
         destructor: function() {
-            var self = this;
-            self.overlay.destroy();
         }
     });
     S.augment(Time, Time.METHODS);
