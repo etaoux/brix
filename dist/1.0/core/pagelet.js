@@ -141,6 +141,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                         useList.push(o.path);
                     }
                 });
+                self.fire('beforeAddBehavior',{useList:useList});
                 //实例化pagelet所有组件
                 S.use(useList.join(','),function(S){
                     var useClassList = arguments;

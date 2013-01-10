@@ -1,4 +1,30 @@
-KISSY.add("brix/core/demolet", function(S, Pagelet,IO) {
+KISSY.add("brix/core/demolet", function(S, Pagelet, IO, Node) {
+    var $ = Node.all;
+
+    //存储已经加载的CSS
+    var hasLoadCSS = {};
+    /**
+     * 同步载入样式，保证串行加载
+     * @param  {String} path css路径
+     * @ignore
+     */
+
+    function loadCSS(path) {
+        if(hasLoadCSS[path]) {
+            return false;
+        }
+        hasLoadCSS[path] = true;
+        IO({
+            url: path,
+            dataType: 'text',
+            async: false,
+            complete: function(d, textStatus, xhrObj) {
+                if(textStatus == 'success') {
+                    $('<style>' + d + '</style>').appendTo('head');
+                }
+            }
+        });
+    }
     /**
      * 同步获取默认模板和数据，多在demo页构建中使用
      * @param  {String} tmpl 模板文件
@@ -7,49 +33,41 @@ KISSY.add("brix/core/demolet", function(S, Pagelet,IO) {
      * @private
      * @return {Object}      模板和数据的对象{tmpl:tmpl,data:data}
      */
-    function getTmplData(tmpl,data,s){
-        s = s||'@';
+
+    function getTmplData(tmpl, data, s) {
+        s = s || '@';
         data = data || {};
-        var reg = new RegExp('\\{\\{'+s+'(.+)?\\}\\}',"ig");
-        tmpl = tmpl.replace(reg,function($1,$2){
-            S.log($2);
+        var reg = new RegExp('\\{\\{' + s + '(.+)?\\}\\}', "ig");
+        tmpl = tmpl.replace(reg, function($1, $2) {
             var str = '';
-            var p = $2.replace(/\//ig,'_').replace(/\./ig,'_');
+            var p = $2.replace(/\//ig, '_').replace(/\./ig, '_');
             data[p] = data[p] || {};
             //获取模板
             IO({
-                url:$2+'template.html',
-                dataType:'html',
-                async:false,
-                success:function(d , textStatus , xhrObj){
-                    str = '{{#'+p+'}}' + d+'{{/'+p+'}}';
+                url: $2 + 'template.html',
+                dataType: 'html',
+                async: false,
+                success: function(d, textStatus, xhrObj) {
+                    str = '{{#' + p + '}}' + d + '{{/' + p + '}}';
                 }
             });
             //获取数据
             IO({
-                url:$2+'data.json',
-                async:false,
-                dataType:'json',
-                success:function(d , textStatus , xhrObj){
-                    for(var k in d){
+                url: $2 + 'data.json',
+                async: false,
+                dataType: 'json',
+                success: function(d, textStatus, xhrObj) {
+                    for(var k in d) {
                         data[p][k] = d[k];
                     }
                 }
             });
-            //加载组件的css,比较丑，先这样吧。
-            var arr = $2.split('/');
-            if(arr.length>3){
-                arr.splice(arr.length-2);
-                S.use(arr.join('/')+'/index.css',function(){
-                    S.use($2+'index.css');
-                });
-            }
-            else{
-                S.use($2+'index.css');
-            }
             return str;
         });
-        return {tmpl:tmpl,data:data};
+        return {
+            tmpl: tmpl,
+            data: data
+        };
     }
 
     /**
@@ -57,44 +75,75 @@ KISSY.add("brix/core/demolet", function(S, Pagelet,IO) {
      * @extends Brix.Pagelet
      * @class Brix.Demolet
      */
+
     function Demolet() {
+        var self = this;
+        //在组件渲染前，加载所有的css
+        self.on('beforeAddBehavior', function(ev) {
+            S.each(self.get('projectCss'), function(path) {
+                loadCSS(path);
+            });
+            var useList = ev.useList;
+            S.each(useList, function(path) {
+                var arr = path.split('/');
+                if(S.startsWith(path,'brix/')) {
+                    S.use(path + arr[arr.length-2]+'.css');
+                } else {
+                    var length = 3;
+                    if(S.startsWith(path,'imports/')) {
+                        length = 4;
+                    }
+                    if(arr.length > length) {
+                        arr.splice(arr.length - 2);
+                        loadCSS(arr.join('/') + '/index.css');
+                    }
+                    loadCSS(path + 'index.css');
+                }
+            });
+
+        });
         Demolet.superclass.constructor.apply(this, arguments);
     }
     Demolet.ATTRS = {
         /**
-         * 获取项目的css，包名怎么定义?
-         * @cfg {String}
+         * 项目的样式
+         * @cfg {Array}
          */
-        projectCss:{
+        projectCss: {
+            value: ['styles/style.css'],
             setter:function(v){
-                S.use(v);
+                if(S.isArray(v)){
+                    return v;
+                }else{
+                    return [v];
+                }
             }
         },
         /**
          * 分割符号
          * @cfg {String}
          */
-        s:{
-            value:'@'
+        s: {
+            value: '@'
         },
         /**
          * 模板,如果外部需要传入data，请把data属性设置在前，因为这个内部会会对data进行处理
          * @cfg {String}
          */
-        tmpl:{
-            setter:function(v){
+        tmpl: {
+            setter: function(v) {
                 var self = this,
                     data = self.get('data') || {};
-                var tmplData = getTmplData(v,data,self.get('s'));
-                self.set('data',tmplData.data);
+                var tmplData = getTmplData(v, data, self.get('s'));
+                self.set('data', tmplData.data);
                 return tmplData.tmpl;
-            } 
+            }
         }
     };
     S.extend(Demolet, Pagelet, {
-        
+
     });
     return Demolet;
 }, {
-    requires: ['./pagelet','ajax']
+    requires: ['./pagelet', 'ajax', 'node']
 });
