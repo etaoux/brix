@@ -15,7 +15,9 @@
     <script type="text/javascript">
         KISSY.add("brixtest/index", function(S, Brick) {
             function BrixTest() {
+
                 BrixTest.superclass.constructor.apply(this, arguments);
+                S.log(this.get('b'));
             }
             BrixTest.EVENTS = {
                 '#input1': {
@@ -78,7 +80,7 @@
         }
     KISSY.ready(function(S){
         S.use('brix/core/pagelet',function(S,Pagelet){
-            window.pagelet = new Pagelet({container:'.container',tmpl:'#tmpl',data:list});
+            window.pagelet = new Pagelet({container:'.container',tmpl:'#tmpl',data:list,config:{brixtest:{b:2}}});
         });
     })
     </script>
