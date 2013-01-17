@@ -1,6 +1,6 @@
 # Brix
 
-基于淘宝 [Kissy](http://kissyui.com)框架的一淘通用组件框架。
+基于淘宝 [Kissy1.3](http://kissyui.com)框架的一淘通用组件框架。
 
 ##如何使用
 
