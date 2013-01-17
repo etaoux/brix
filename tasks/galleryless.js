@@ -51,10 +51,10 @@ module.exports = function(grunt) {
         var files = fs.readdirSync(src);
         var count = 0;
         var done = this.async();
-        function foo(srcPath,destPath,f){
+        function foo(srcPath,destPath){
             count++;
-            var srcFile = srcPath + f + '.less';
-            var destFile = destPath + f + options.min+'.css'
+            var srcFile = srcPath  + 'index.less';
+            var destFile = destPath + 'index' + options.min+'.css'
             if (fs.existsSync(srcFile)) {
                 grunt.helper('less', [srcFile], options, function(err, css) {
                     if (err) {
@@ -76,13 +76,13 @@ module.exports = function(grunt) {
         files.forEach(function(f) {
             var srcPath = src + '/' + f + '/' 
             var destPath = dest + '/' + f + '/' 
-            foo(srcPath,destPath,f);
+            foo(srcPath,destPath);
 
             var extPath = srcPath+'ext/';
             if(fs.existsSync(extPath)){
                 var extFiles = fs.readdirSync(extPath);
                 extFiles.forEach(function(f){
-                   foo(extPath+f+'/',destPath+'ext/'+f+'/',f); 
+                   foo(extPath+f+'/',destPath+'ext/'+f+'/'); 
                 })
             }
         });
