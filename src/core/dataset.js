@@ -4,6 +4,7 @@ KISSY.add("brix/core/dataset", function(S, Base) {
      * @extends KISSY.Base
      * @class Brix.Dataset
      */
+
     function Dataset() {
         Dataset.superclass.constructor.apply(this, arguments);
     }
@@ -26,7 +27,7 @@ KISSY.add("brix/core/dataset", function(S, Base) {
                 data = self.get('data'),
                 type, wrapperName;
             prefix = prefix ? prefix + '_' : '';
-            if (renderer) {
+            if(renderer) {
                 var foo = function(type, wrapperName) {
                         var name = prefix + type + '_' + wrapperName,
                             fn = renderer[type][wrapperName];
@@ -34,8 +35,8 @@ KISSY.add("brix/core/dataset", function(S, Base) {
                             return fn.call(this, context, type);
                         };
                     };
-                for (type in renderer) {
-                    for (wrapperName in renderer[type]) {
+                for(type in renderer) {
+                    for(wrapperName in renderer[type]) {
                         foo(type, wrapperName);
                     }
                 }

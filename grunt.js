@@ -12,12 +12,10 @@ module.exports = function(grunt) {
             'grunt.js'
             ,'src/core/brix.js'
             ,'src/core/brick.js'
-            ,'src/core/tmpler.js'
             ,'src/core/chunk.js'
             ,'src/core/dataset.js'
             ,'src/core/pagelet.js'
             ,'src/core/demolet.js'
-            ,'src/core/mu.js'
             ]
         },
         brixjs:{

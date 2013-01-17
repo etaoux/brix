@@ -1,11 +1,11 @@
 # Brix
 
-基于淘宝 [Kissy](http://kissyui.com) 框架和 [mustache](http://mustache.github.com) 模板引擎的一淘通用组件库。
+基于淘宝 [Kissy](http://kissyui.com)框架的一淘通用组件框架。
 
 ##如何使用
 
 	<link type="text/css" rel="stylesheet" href="http://a.tbcdn.cn/apps/e/brix/1.0/brix-min.css" charset="utf-8">
-	<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/1.2.0/kissy-min.js"></script>
+	<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/1.3.0/seed-min.js"></script>
 	<script type="text/javascript" src="http://a.tbcdn.cn/apps/e/brix/1.0/brix-min.js" bx-config="{autoPagelet:true}"></script>
 	<script type="text/javascript">
 		//业务代码,自动构建
@@ -35,16 +35,15 @@
 
 * brix.js : 框架的配置入口类
 * chunk.js : `brick.js` 和 `pagelet.js` 类的父类
-* tmpler.js : 模板解析类，用 `mustache` 渲染。
+* tmpler.js : 模板解析类，用 `xtemplate` 渲染。
 * dataset.js : 数据管理类，数据变化时，通知模板引擎更新
 * brick.js : 组件基类，所有组件继承此类
-* pagelet.js : 组件管理器，对组件实现层次化的渲染
-* mustache.js : 模板渲染引擎
-* mu.js : 对 `mustache` 模板引擎的增强
+* pagelet.js : 组件管理器，对组件实现渲染
+* demolet.js : demo组件管理器，根据业务组件的data.json和template.html显示预览
 
 ## 类关系图
 
-![Brix 类关系图](http://img01.taobaocdn.com/tps/i1/T1w4ohXe4hXXa7p3UB-1003-855.png)
+![Brix 类关系图](http://img01.taobaocdn.com/tps/i1/T11xsMXdVaXXa7FSjg-1027-949.png)
 
 ## 组件钩子
 

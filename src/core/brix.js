@@ -3,7 +3,7 @@
  * <br><a href="../demo/core/brix.html" target="_blank">Demo</a>
  * <br>
  * 引用：
- *     
+ *
  *     <script type="text/javascript" src="brix.js" bx-config="{autoConfig:true,autoPagelet:true}"></script>
  *
  * bx-config节点说明：<br>
@@ -119,7 +119,7 @@
         }
         path = path.substring(0, path.lastIndexOf('brix'));
         return S.mix({
-            autoConfig:true,
+            autoConfig: true,
             path: path,
             componentsPath: './',
             importsPath: './'
@@ -141,7 +141,7 @@
             }
             isConfig = true;
             options = S.merge({
-                debug:debug=='@DEBUG@'?true:false,
+                debug: debug == '@DEBUG@' ? true : false,
                 tag: tag == '@TAG@' ? '' : tag,
                 fixed: version == '@VERSION@' ? '' : version + '/',
                 //路径修正，brix路劲下存在其他文件夹
