@@ -1,4 +1,4 @@
-KISSY.add('brix/gallery/charts/js/pub/controls/integrate/dataparse',function(S,Base,Node){
+KISSY.add('brix/gallery/charts/js/e/integrate/control/dataparse',function(S,Base,Node){
 	var $ = Node.all
 
 	function DataParse(){

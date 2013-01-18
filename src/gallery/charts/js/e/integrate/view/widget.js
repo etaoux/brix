@@ -494,7 +494,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate/view/widget',function(S,Base,Node,
 
 	}, {
 	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/datasection','../../../pub/utils/svgelement',
-	    		  '../../../pub/views/vertical','../../../pub/views/horizontal','../../../pub/views/back','../../../pub/views/globalinduce','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/integrate/graphs'
+	    		  '../../../pub/views/vertical','../../../pub/views/horizontal','../../../pub/views/back','../../../pub/views/globalinduce','../../../pub/views/infos/infos','../../../pub/models/eventtype','./graphs'
 
 	    ]
 	}

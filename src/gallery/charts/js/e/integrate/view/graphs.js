@@ -1,4 +1,4 @@
-KISSY.add('brix/gallery/charts/js/pub/views/integrate/graphs',function(S,Base,node,Global,SVGElement,SVGRenderer,EventType,histogramGraphs,lineGraphs){
+KISSY.add('brix/gallery/charts/js/e/integrate/view/graphs',function(S,Base,node,Global,SVGElement,SVGRenderer,EventType,histogramGraphs,lineGraphs){
 	
 	function Graphs(){
 		
@@ -218,6 +218,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/integrate/graphs',function(S,Base,no
 	return Graphs;
 
 	}, {
-	    requires:['base','node','../../utils/global','../../utils/svgelement','../../utils/svgrenderer','../../models/eventtype','../histogram/graphs','../line/graphs']
+	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/utils/svgrenderer','../../../pub/models/eventtype','../../../pub/views/histogram/graphs','../../../pub/views/line/graphs']
 	}
 );
