@@ -1,4 +1,4 @@
-KISSY.add('brix/gallery/charts/js/pub/controls/integrate/configparse',function(S,Base,Node,HistogramConfigParse,LineConfigParse){
+KISSY.add('brix/gallery/charts/js/e/integrate/control/configparse',function(S,Base,Node,HistogramConfigParse,LineConfigParse){
 	var $ = Node.all
 
 	function ConfigParse(){
@@ -69,6 +69,6 @@ KISSY.add('brix/gallery/charts/js/pub/controls/integrate/configparse',function(S
 	return ConfigParse;
 
 	}, {
-	    requires:['base','node','../histogram/configparse','../line/configparse']
+	    requires:['base','node','../../../pub/controls/histogram/configparse','../../../pub/controls/line/configparse']
 	}
 );
