@@ -57,15 +57,6 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
     }
     DatePicker.Date = Calendar.Date;
     DatePicker.ATTRS = {
-        id:{
-            getter:function(v){
-                if(!v){
-                    v = 'brix_datepicker_' + S.guid();
-                    this.__set('id',v);
-                }
-                return v
-            }
-        },
         /**
          * 触发时间选择的对象
          * @cfg {Element}
@@ -349,12 +340,12 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
             click:function(e){
                 e.preventDefault();
                 var self = this,
-                el = self.get('el'),
-                quickListNode = el.one('.quick-list');
-                dates = {
-                    isQuick : false
-                },
-                inputs = el.all('input');
+                    el = self.get('el'),
+                    quickListNode = el.one('.quick-list'),
+                    dates = {
+                        isQuick : false
+                    },
+                    inputs = el.all('input');
                 if(quickListNode){
                     quickListNode.all('a').removeClass('quick-current');
                 }

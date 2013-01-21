@@ -216,7 +216,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
             self.bricks = null;
             if(self.get('rendered') && self.get('isRemoveHTML')) {
                 var el = self.get('el');
-                if(self.get('isRemoveEl')) {
+                if(self.get('isRemoveEL')) {
                     el.remove();
                 } else {
                     el.empty();

@@ -105,7 +105,7 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
          * @param  {Object} data 数据
          * @return {String}      html片段
          */
-        to_html: function(data) {
+        render: function(data) {
             return new XTemplate(this.getTmpl()).render(data);
         }
     });
@@ -422,7 +422,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                     if(!tmpler.inDom) {
                         var container = self.get('container');
                         var el = self.get('el');
-                        var html = S.trim(tmpler.to_html(data));
+                        var html = S.trim(tmpler.render(data));
                         var node;
                         if((!el || el.length === 0)) {
                             var elID = 'brix_' + S.guid();
@@ -516,7 +516,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                             self.fire('beforeRefreshTmpl', {
                                 node: node
                             });
-                            node.html(S.trim(o.tmpler.to_html(newData)));
+                            node.html(S.trim(o.tmpler.render(newData)));
                             /**
                              * @event beforeRefreshTmpl
                              * 局部刷新后触发
@@ -557,7 +557,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
              * 在销毁的时候是否移除本身，默认true
              * @cfg {Object}
              */
-            isRemoveEl: {
+            isRemoveEL: {
                 value: true
             },
             /**
@@ -752,7 +752,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
                 self._detachEvent();
                 if(self.get('isRemoveHTML')) {
                     var el = self.get('el');
-                    if(self.get('isRemoveEl')) {
+                    if(self.get('isRemoveEL')) {
                         el.remove();
                     } else {
                         el.empty();
@@ -1085,7 +1085,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
             self.bricks = null;
             if(self.get('rendered') && self.get('isRemoveHTML')) {
                 var el = self.get('el');
-                if(self.get('isRemoveEl')) {
+                if(self.get('isRemoveEL')) {
                     el.remove();
                 } else {
                     el.empty();
@@ -1204,7 +1204,7 @@ KISSY.add("brix/core/demolet", function(S, Pagelet, IO, Node) {
             var self = this;
             //在组件渲染前，加载所有的css
             self.on('beforeAddBehavior', function(ev) {
-                S.each(self.get('projectCss'), function(path) {
+                S.each(self.get('projectCSS'), function(path) {
                     loadCSS(path);
                 });
                 var useList = ev.useList;
@@ -1234,7 +1234,7 @@ KISSY.add("brix/core/demolet", function(S, Pagelet, IO, Node) {
              * 项目的样式
              * @cfg {Array}
              */
-            projectCss: {
+            projectCSS: {
                 value: [],
                 setter:function(v){
                     if(S.isArray(v)){

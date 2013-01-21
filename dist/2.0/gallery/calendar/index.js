@@ -193,7 +193,6 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     if(!self.get('el')){
                         v = '<div class="calendar">' +v+ '</div>'
                     }
-                    this.__set('tmpl',v);
                 }
                 return v;
             }
@@ -439,7 +438,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                         month: month,
                         father: self,
                         isRemoveHTML:self.get('isRemoveHTML'),
-                        isRemoveEl:self.get('isRemoveEl'),
+                        isRemoveEL:self.get('isRemoveEL'),
                         container: container
                     });
                     self.pageBricks.push(pageBrick);
@@ -1191,7 +1190,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
             if(showTime){
                 self.timeBrick = new Time({
                     isRemoveHTML:self.get('isRemoveHTML'),
-                    isRemoveEl:self.get('isRemoveEl'),
+                    isRemoveEL:self.get('isRemoveEL'),
                     container:el.one('.calendar-page-fd')
                 });
             }
@@ -1340,18 +1339,10 @@ KISSY.add('brix/gallery/calendar/time', function(S, Brick) {
         }
     };
 
-    Time.METHODS = {
-
-    };
-
     Time.FIRES = {
         timeSelect: 'timeSelect'
     };
     S.extend(Time, Brick, {
-        initialize: function() {
-            var self = this;
-        },
-
         _setTime : function(status, v) {
             var self = this,
                 time = self.get('time'),el = self.get('el');
@@ -1386,11 +1377,8 @@ KISSY.add('brix/gallery/calendar/time', function(S, Brick) {
         _hideTimePopup:function(){
             var self = this,el = self.get('el');
             el.one('.calendar-time-popup').css({display:'none'});
-        },
-        destructor: function() {
         }
     });
-    S.augment(Time, Time.METHODS);
     return Time;
 }, {
     requires: ["brix/core/brick"]

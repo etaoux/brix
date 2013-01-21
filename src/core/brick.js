@@ -122,7 +122,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
                 self._detachEvent();
                 if(self.get('isRemoveHTML')) {
                     var el = self.get('el');
-                    if(self.get('isRemoveEl')) {
+                    if(self.get('isRemoveEL')) {
                         el.remove();
                     } else {
                         el.empty();

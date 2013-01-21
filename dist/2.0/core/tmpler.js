@@ -102,7 +102,7 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
          * @param  {Object} data 数据
          * @return {String}      html片段
          */
-        to_html: function(data) {
+        render: function(data) {
             return new XTemplate(this.getTmpl()).render(data);
         }
     });

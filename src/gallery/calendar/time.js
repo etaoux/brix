@@ -123,18 +123,10 @@ KISSY.add('brix/gallery/calendar/time', function(S, Brick) {
         }
     };
 
-    Time.METHODS = {
-
-    };
-
     Time.FIRES = {
         timeSelect: 'timeSelect'
     };
     S.extend(Time, Brick, {
-        initialize: function() {
-            var self = this;
-        },
-
         _setTime : function(status, v) {
             var self = this,
                 time = self.get('time'),el = self.get('el');
@@ -169,11 +161,8 @@ KISSY.add('brix/gallery/calendar/time', function(S, Brick) {
         _hideTimePopup:function(){
             var self = this,el = self.get('el');
             el.one('.calendar-time-popup').css({display:'none'});
-        },
-        destructor: function() {
         }
     });
-    S.augment(Time, Time.METHODS);
     return Time;
 }, {
     requires: ["brix/core/brick"]

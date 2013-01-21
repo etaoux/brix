@@ -193,7 +193,6 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     if(!self.get('el')){
                         v = '<div class="calendar">' +v+ '</div>'
                     }
-                    this.__set('tmpl',v);
                 }
                 return v;
             }
@@ -439,7 +438,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                         month: month,
                         father: self,
                         isRemoveHTML:self.get('isRemoveHTML'),
-                        isRemoveEl:self.get('isRemoveEl'),
+                        isRemoveEL:self.get('isRemoveEL'),
                         container: container
                     });
                     self.pageBricks.push(pageBrick);

@@ -80,7 +80,7 @@ KISSY.add("brix/core/demolet", function(S, Pagelet, IO, Node) {
             var self = this;
             //在组件渲染前，加载所有的css
             self.on('beforeAddBehavior', function(ev) {
-                S.each(self.get('projectCss'), function(path) {
+                S.each(self.get('projectCSS'), function(path) {
                     loadCSS(path);
                 });
                 var useList = ev.useList;
@@ -110,7 +110,7 @@ KISSY.add("brix/core/demolet", function(S, Pagelet, IO, Node) {
              * 项目的样式
              * @cfg {Array}
              */
-            projectCss: {
+            projectCSS: {
                 value: [],
                 setter:function(v){
                     if(S.isArray(v)){

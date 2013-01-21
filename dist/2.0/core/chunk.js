@@ -258,7 +258,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                     if(!tmpler.inDom) {
                         var container = self.get('container');
                         var el = self.get('el');
-                        var html = S.trim(tmpler.to_html(data));
+                        var html = S.trim(tmpler.render(data));
                         var node;
                         if((!el || el.length === 0)) {
                             var elID = 'brix_' + S.guid();
@@ -352,7 +352,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                             self.fire('beforeRefreshTmpl', {
                                 node: node
                             });
-                            node.html(S.trim(o.tmpler.to_html(newData)));
+                            node.html(S.trim(o.tmpler.render(newData)));
                             /**
                              * @event beforeRefreshTmpl
                              * 局部刷新后触发
@@ -393,7 +393,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
              * 在销毁的时候是否移除本身，默认true
              * @cfg {Object}
              */
-            isRemoveEl: {
+            isRemoveEL: {
                 value: true
             },
             /**
