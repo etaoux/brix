@@ -214,12 +214,16 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 self._destroyBrick(o);
             });
             self.bricks = null;
-            if(self.get('rendered') && self.get('isRemoveHTML')) {
+            if(self.get('rendered')) {
+                var action = self.get('destroyAction');
                 var el = self.get('el');
-                if(self.get('isRemoveEL')) {
-                    el.remove();
-                } else {
-                    el.empty();
+                switch(action){
+                    case 'remove':
+                        el.remove();
+                        break;
+                    case 'empty':
+                        el.empty();
+                        break;
                 }
                 el = null;
             }

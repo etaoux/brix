@@ -437,8 +437,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                         year: year,
                         month: month,
                         father: self,
-                        isRemoveHTML:self.get('isRemoveHTML'),
-                        isRemoveEL:self.get('isRemoveEL'),
+                        destroyAction:self.get('destroyAction'),
                         container: container
                     });
                     self.pageBricks.push(pageBrick);

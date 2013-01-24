@@ -322,8 +322,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
                 showTime = father.get('showTime');
             if(showTime){
                 self.timeBrick = new Time({
-                    isRemoveHTML:self.get('isRemoveHTML'),
-                    isRemoveEL:self.get('isRemoveEL'),
+                    destroyAction:self.get('destroyAction'),
                     container:el.one('.calendar-page-fd')
                 });
             }

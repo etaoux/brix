@@ -383,18 +383,12 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                 }
             },
             /**
-             * 在销毁的时候是否移除HTML，默认true
-             * @cfg {Object}
+             * 销毁操作时候的动作，默认remove。
+             * 可选none:什么都不做，empty:清空内部html
+             * @cfg {String}
              */
-            isRemoveHTML: {
-                value: true
-            },
-            /**
-             * 在销毁的时候是否移除本身，默认true
-             * @cfg {Object}
-             */
-            isRemoveEL: {
-                value: true
+            destroyAction:{
+                value:'remove'
             },
             /**
              * 容器节点

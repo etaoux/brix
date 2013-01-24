@@ -547,18 +547,12 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                 }
             },
             /**
-             * 在销毁的时候是否移除HTML，默认true
-             * @cfg {Object}
+             * 销毁操作时候的动作，默认remove。
+             * 可选none:什么都不做，empty:清空内部html
+             * @cfg {String}
              */
-            isRemoveHTML: {
-                value: true
-            },
-            /**
-             * 在销毁的时候是否移除本身，默认true
-             * @cfg {Object}
-             */
-            isRemoveEL: {
-                value: true
+            destroyAction:{
+                value:'remove'
             },
             /**
              * 容器节点
@@ -750,13 +744,15 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
             var self = this;
             if(self.get('rendered')) {
                 self._detachEvent();
-                if(self.get('isRemoveHTML')) {
-                    var el = self.get('el');
-                    if(self.get('isRemoveEL')) {
+                var action = self.get('destroyAction');
+                var el = self.get('el');
+                switch(action){
+                    case 'remove':
                         el.remove();
-                    } else {
+                        break;
+                    case 'empty':
                         el.empty();
-                    }
+                        break;
                 }
             }
             if(self.get('pagelet')) {
@@ -1083,12 +1079,16 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 self._destroyBrick(o);
             });
             self.bricks = null;
-            if(self.get('rendered') && self.get('isRemoveHTML')) {
+            if(self.get('rendered')) {
+                var action = self.get('destroyAction');
                 var el = self.get('el');
-                if(self.get('isRemoveEL')) {
-                    el.remove();
-                } else {
-                    el.empty();
+                switch(action){
+                    case 'remove':
+                        el.remove();
+                        break;
+                    case 'empty':
+                        el.empty();
+                        break;
                 }
                 el = null;
             }

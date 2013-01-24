@@ -120,13 +120,15 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
             var self = this;
             if(self.get('rendered')) {
                 self._detachEvent();
-                if(self.get('isRemoveHTML')) {
-                    var el = self.get('el');
-                    if(self.get('isRemoveEL')) {
+                var action = self.get('destroyAction');
+                var el = self.get('el');
+                switch(action){
+                    case 'remove':
                         el.remove();
-                    } else {
+                        break;
+                    case 'empty':
                         el.empty();
-                    }
+                        break;
                 }
             }
             if(self.get('pagelet')) {

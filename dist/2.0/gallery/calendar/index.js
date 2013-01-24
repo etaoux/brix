@@ -437,8 +437,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                         year: year,
                         month: month,
                         father: self,
-                        isRemoveHTML:self.get('isRemoveHTML'),
-                        isRemoveEL:self.get('isRemoveEL'),
+                        destroyAction:self.get('destroyAction'),
                         container: container
                     });
                     self.pageBricks.push(pageBrick);
@@ -1189,8 +1188,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
                 showTime = father.get('showTime');
             if(showTime){
                 self.timeBrick = new Time({
-                    isRemoveHTML:self.get('isRemoveHTML'),
-                    isRemoveEL:self.get('isRemoveEL'),
+                    destroyAction:self.get('destroyAction'),
                     container:el.one('.calendar-page-fd')
                 });
             }
