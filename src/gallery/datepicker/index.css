@@ -23,12 +23,12 @@
 .datepicker .datepicker-bd {
   *zoom: 1;
 }
-.datepicker .datepicker-bd::before,
-.datepicker .datepicker-bd::after {
+.datepicker .datepicker-bd:before,
+.datepicker .datepicker-bd:after {
   display: table;
   content: "";
 }
-.datepicker .datepicker-bd::after {
+.datepicker .datepicker-bd:after {
   clear: both;
 }
 .datepicker .datepicker-bd label {
@@ -78,12 +78,12 @@
 .datepicker .datepicker-bd ul.quick-list {
   *zoom: 1;
 }
-.datepicker .datepicker-bd ul.quick-list::before,
-.datepicker .datepicker-bd ul.quick-list::after {
+.datepicker .datepicker-bd ul.quick-list:before,
+.datepicker .datepicker-bd ul.quick-list:after {
   display: table;
   content: "";
 }
-.datepicker .datepicker-bd ul.quick-list::after {
+.datepicker .datepicker-bd ul.quick-list:after {
   clear: both;
 }
 .datepicker .datepicker-bd ul.quick-list li {

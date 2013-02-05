@@ -22,7 +22,7 @@
  *     debug:是否启用非压缩版本
  *
  * bx-config高级配置：<br>
- *     fixed：对包路径的重写（不清楚的不要配）
+ *     fixed：对包路径的重写，多用在内部的版本管理（不清楚的不要配）
  * @class Brix
  */
 (function(S, Brix) {
@@ -127,7 +127,7 @@
             path: path,
             componentsPath: './',
             importsPath: './',
-            templateEngine:'brix/core/mu'
+            templateEngine:'./mu'
         }, pathInfo);
     }
     var defaultOptions = getBaseInfo();
@@ -137,7 +137,7 @@
     var isConfig = false; //是否已经配置过
     S.mix(Brix, {
         /**
-         * 配置路径
+         * 初始化配置
          * @param  {Object} options 配置对象，详见bx-config配置节点
          */
         config: function(options) {
@@ -148,8 +148,8 @@
             options = S.merge({
                 debug: debug == '@DEBUG@' ? true : false,
                 tag: tag == '@TAG@' ? '' : tag,
+                //路径修正，brix路径下存在其他文件夹
                 fixed: version == '@VERSION@' ? '' : version + '/',
-                //路径修正，brix路劲下存在其他文件夹
                 gallery: {
                     //配置组件版本信息
                     //dropdown:'1.0'
@@ -250,10 +250,14 @@
         //自动实例化pagelet
         //外部调用的S.ready注册的方法中可以直接用Brix.pagelet实例书写业务逻辑
         if(defaultOptions.autoPagelet) {
-            //演示执行，保证后面的模块已经载入
+            //延时执行，在打包后的能保证后面的模块已经载入
             S.later(function(){
                 S.use('brix/core/pagelet', function(S, Pagelet) {
                     S.ready(function() {
+                        /**
+                         * 配置autoPagelet时候，会在Brix的全局对象上挂载Pagelet的实例对象，模板为body
+                         * @type {Brix.Pagelet}
+                         */
                         Brix.pagelet = new Pagelet({
                             tmpl: 'body'
                         });
@@ -1544,7 +1548,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
 KISSY.add("brix/core/brick", function(S, Chunk, Event) {
     /**
      * Brix Brick 组件基类，完成组件渲染后的事件代理（既行为）。<br>
-     * initializer是组件实例化的初始函数，bindUI在渲染后的绑定逻辑，destructor是析构方法
+     * initializer是组件实例化的初始函数，bindUI在渲染后的绑定逻辑,替换原来的initialize方法，destructor是析构方法
      * @extends Brix.Chunk
      * @class Brix.Brick
      */

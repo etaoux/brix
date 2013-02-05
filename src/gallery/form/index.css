@@ -70,12 +70,12 @@
 .control-group {
   *zoom: 1;
 }
-.control-group::before,
-.control-group::after {
+.control-group:before,
+.control-group:after {
   display: table;
   content: "";
 }
-.control-group::after {
+.control-group:after {
   clear: both;
 }
 .control-label {

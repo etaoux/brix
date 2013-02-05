@@ -20,12 +20,12 @@
 .calendar .calendar-pages {
   *zoom: 1;
 }
-.calendar .calendar-pages::before,
-.calendar .calendar-pages::after {
+.calendar .calendar-pages:before,
+.calendar .calendar-pages:after {
   display: table;
   content: "";
 }
-.calendar .calendar-pages::after {
+.calendar .calendar-pages:after {
   clear: both;
 }
 .calendar .calendar-pages .calendar-page {
@@ -165,12 +165,12 @@
 .calendar .calendar-pages .calendar-page .calendar-page-dbd {
   *zoom: 1;
 }
-.calendar .calendar-pages .calendar-page .calendar-page-dbd::before,
-.calendar .calendar-pages .calendar-page .calendar-page-dbd::after {
+.calendar .calendar-pages .calendar-page .calendar-page-dbd:before,
+.calendar .calendar-pages .calendar-page .calendar-page-dbd:after {
   display: table;
   content: "";
 }
-.calendar .calendar-pages .calendar-page .calendar-page-dbd::after {
+.calendar .calendar-pages .calendar-page .calendar-page-dbd:after {
   clear: both;
 }
 .calendar .calendar-pages .calendar-page .calendar-page-dbd a {

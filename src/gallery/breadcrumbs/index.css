@@ -48,11 +48,11 @@
 .breadcrumbs {
   *zoom: 1;
 }
-.breadcrumbs::before,
-.breadcrumbs::after {
+.breadcrumbs:before,
+.breadcrumbs:after {
   display: table;
   content: "";
 }
-.breadcrumbs::after {
+.breadcrumbs:after {
   clear: both;
 }

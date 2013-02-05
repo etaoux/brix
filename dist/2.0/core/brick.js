@@ -1,7 +1,7 @@
 KISSY.add("brix/core/brick", function(S, Chunk, Event) {
     /**
      * Brix Brick 组件基类，完成组件渲染后的事件代理（既行为）。<br>
-     * initializer是组件实例化的初始函数，bindUI在渲染后的绑定逻辑，destructor是析构方法
+     * initializer是组件实例化的初始函数，bindUI在渲染后的绑定逻辑,替换原来的initialize方法，destructor是析构方法
      * @extends Brix.Chunk
      * @class Brix.Brick
      */

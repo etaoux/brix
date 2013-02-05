@@ -26,12 +26,12 @@
 .colorpicker-hd ul {
   *zoom: 1;
 }
-.colorpicker-hd ul::before,
-.colorpicker-hd ul::after {
+.colorpicker-hd ul:before,
+.colorpicker-hd ul:after {
   display: table;
   content: "";
 }
-.colorpicker-hd ul::after {
+.colorpicker-hd ul:after {
   clear: both;
 }
 .colorpicker-hd li {
