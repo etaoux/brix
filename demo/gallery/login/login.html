@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="../../../src/style/brix-min.css">
+    <link rel="stylesheet" href="../../../src/gallery/dialog/index.css">
+    <link rel="stylesheet" type="text/css" href="../../../src/gallery/login/index.css">
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script>
+    <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,fixed:'src/'}"></script>
+    <script src="../../../src/gallery/login/index.js"></script>
+</head>
+<body>
+
+<button class="J-EtaoLogin">登录，然后刷新</button>
+<script>
+    KISSY.ready(function (S) {
+        KISSY.use("brix/gallery/login/", function (S, Login) {
+            var login = new Login();
+        });
+
+    });
+</script>
+</body>
+</html>
