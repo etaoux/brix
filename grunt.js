@@ -11,9 +11,10 @@ module.exports = function(grunt) {
             files: [
             'grunt.js'
             ,'src/core/brix.js'
-            ,'src/core/brick.js'
-            ,'src/core/chunk.js'
+            ,'src/core/mu.js'
             ,'src/core/dataset.js'
+            ,'src/core/chunk.js'
+            ,'src/core/brick.js'
             ,'src/core/pagelet.js'
             ,'src/core/demolet.js'
             ]

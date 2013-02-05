@@ -1,7 +1,7 @@
 KISSY.add("brix/core/brick", function(S, Chunk, Event) {
     /**
-     * Brix Brick 组件基类，完成组件渲染后的事件代理（既行为）。
-     * initialize是组件在渲染后的初始化方法，destructor是析构方法
+     * Brix Brick 组件基类，完成组件渲染后的事件代理（既行为）。<br>
+     * initializer是组件实例化的初始函数，bindUI在渲染后的绑定逻辑,替换原来的initialize方法，destructor是析构方法
      * @extends Brix.Chunk
      * @class Brix.Brick
      */
@@ -17,40 +17,42 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
                 }
                 constt = constt.superclass && constt.superclass.constructor;
             }
+            //对原有pagelet的兼容
+            self.pagelet = self.get('pagelet');
         },
         bindUI: function() {
             var self = this;
-            self._bindEvent();
+            self._bx_bindEvent();
         },
         /**
          * 移除代理事件
          * @private
          */
-        _detachEvent: function() {
+        _bx_detachEvent: function() {
             var self = this;
             var constt = self.constructor;
 
             while(constt) {
                 var defaultEvents = constt.EVENTS;
                 if(defaultEvents) {
-                    self._removeEvents(defaultEvents);
+                    self._bx_removeEvents(defaultEvents);
                 }
                 var defaultDocEvents = constt.DOCEVENTS;
                 if(defaultDocEvents) {
-                    self._removeEvents(defaultDocEvents, document);
+                    self._bx_removeEvents(defaultDocEvents, document);
                 }
                 constt = constt.superclass && constt.superclass.constructor;
             }
             var events = self.get("events");
             if(events) {
-                this._removeEvents(events);
+                this._bx_removeEvents(events);
             }
         },
         /**
          * 绑定代理事件
          * @private
          */
-        _bindEvent: function() {
+        _bx_bindEvent: function() {
             var self = this;
             var constt = self.constructor;
             while(constt) {
@@ -58,12 +60,12 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
                 //方式一
                 var defaultEvents = constt.EVENTS;
                 if(defaultEvents) {
-                    this._addEvents(defaultEvents);
+                    this._bx_addEvents(defaultEvents);
                 }
                 //代理在全局的页面上
                 var defaultDocEvents = constt.DOCEVENTS;
                 if(defaultDocEvents) {
-                    this._addEvents(defaultDocEvents, document);
+                    this._bx_addEvents(defaultDocEvents, document);
                 }
                 constt = constt.superclass && constt.superclass.constructor;
             }
@@ -72,7 +74,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
             //用户使用组件中的自定义事件代理
             var events = self.get("events");
             if(events) {
-                this._addEvents(events);
+                this._bx_addEvents(events);
             }
         },
         /**
@@ -80,7 +82,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
          * @param  {Object} events 事件对象，参见EVENTS属性
          * @private
          */
-        _removeEvents: function(events, el) {
+        _bx_removeEvents: function(events, el) {
             el = el || this.get("el");
             for(var selector in events) {
                 var es = events[selector];
@@ -99,7 +101,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
          * @param  {Object} events 事件对象，参见EVENTS属性
          * @private
          */
-        _addEvents: function(events, el) {
+        _bx_addEvents: function(events, el) {
             el = el || this.get("el");
             for(var selector in events) {
                 var es = events[selector];
@@ -114,12 +116,13 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
             }
         },
         /**
-         * 销毁组件
+         * 销毁组件（destroy）时候调用
+         * @protected
          */
         destructor: function() {
             var self = this;
             if(self.get('rendered')) {
-                self._detachEvent();
+                self._bx_detachEvent();
                 var action = self.get('destroyAction');
                 var el = self.get('el');
                 switch(action){

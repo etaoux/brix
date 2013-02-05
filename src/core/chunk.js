@@ -49,16 +49,17 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
         // change routine from rich-base for uibase
         syncInternal: noop,
         /**
-         * 初始化
+         * 初始化,在实例化对象时调用
+         * @protected
          */
         initializer: function() {
             var self = this;
             var tmpl = self.get('tmpl');
             if(tmpl) {
-                self._buildTmpler(tmpl, self.get('level'));
+                self._bx_buildTmpler(tmpl, self.get('level'));
                 var tmpler = self.get('tmpler');
                 if(tmpler) {
-                    self._buildDataset(self.get('data'));
+                    self._bx_buildDataset(self.get('data'));
                     if(tmpler.inDom) {
                         self.set('el', tmpl);
                     }
@@ -71,7 +72,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
          * @param {Number} level 模板解析的层级
          * @private
          */
-        _buildTmpler: function(tmpl, level) {
+        _bx_buildTmpler: function(tmpl, level) {
             var self = this;
             if(!self.get('isBuidTmpler')) {
                 self.set('isBuidTmpler', true);
@@ -84,7 +85,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
          * @param {Object} data 数据集合
          * @private
          */
-        _buildDataset: function(data) {
+        _bx_buildDataset: function(data) {
             var self = this;
             if(!self.get('isBuidDataset')) {
                 self.set('isBuidDataset', true);
@@ -95,12 +96,13 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                 });
                 self.set('dataset', dataset); //设置最新的数据集合
                 dataset.on('afterDataChange', function(e) {
-                    self._render(e.subAttrName, e.newVal);
+                    self._bx_render(e.subAttrName, e.newVal);
                 });
             }
         },
         /**
-         * 销毁tmpler和dataset
+         * 销毁（destroy）时候调用
+         * @protected
          */
         destructor: function() {
             var self = this,
@@ -115,22 +117,16 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                 dataset.detach();
             }
         },
-        /**
-         * For overridden. Render logic of subclass component.
-         * @protected
-         * @method
-         */
-        renderUI: noop,
 
         /**
-         * For overridden. Bind logic for subclass component.
+         * 为子类组件的绑定逻辑，替代1.0版本brix的initialize方法
          * @protected
          * @method
          */
         bindUI: noop,
 
         /**
-         * For overridden. Sync attribute with ui.
+         * 同步属性与用户界面
          * @protected
          * @method
          */
@@ -144,8 +140,8 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
          */
         addTmpl: function(name, datakey, tmpl) {
             var self = this;
-            self._buildTmpler('', false);
-            self._buildDataset();
+            self._bx_buildTmpler('', false);
+            self._bx_buildDataset();
             if(name) {
                 var tmpler = self.get('tmpler');
                 tmpler.addTmpl(name, datakey, tmpl);
@@ -182,7 +178,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                 self.fire('beforeRenderUI');
                 var dataset = self.get('dataset');
                 if(dataset) {
-                    self._render('data', dataset.get('data'));
+                    self._bx_render('data', dataset.get('data'));
                 }
 
                 /**
@@ -244,7 +240,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
          * @param  {Object} data 数据
          * @private
          */
-        _render: function(key, data) {
+        _bx_render: function(key, data) {
             var self = this,
                 tmpler = self.get('tmpler');
             if(tmpler) {
@@ -252,7 +248,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                     if(self.get("rendered")) {
                         //已经渲染，才能局部刷新
                         key = key.replace(/^data\./, '');
-                        self._renderTmpl(tmpler.tmpls, key, data);
+                        self._bx_renderTmpl(tmpler.tmpls, key, data);
                     }
                 } else {
                     if(!tmpler.inDom) {
@@ -260,6 +256,8 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                         var el = self.get('el');
                         var html = S.trim(tmpler.render(data));
                         var node;
+                        //下面增加浏览器的判断，
+                        //是因为创建dom时候，不同浏览器对自定义标签（比如：vframe）的支持不同。
                         if((!el || el.length === 0)) {
                             var elID = 'brix_' + S.guid();
                             if(UA.ie <= 8) {
@@ -314,7 +312,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
          * @param  {Object} data 数据
          * @private
          */
-        _renderTmpl: function(tmpls, key, data) {
+        _bx_renderTmpl: function(tmpls, key, data) {
             var self = this,
                 el = self.get('el');
             S.each(tmpls, function(o) {
@@ -354,7 +352,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                             });
                             node.html(S.trim(o.tmpler.render(newData)));
                             /**
-                             * @event beforeRefreshTmpl
+                             * @event afterRefreshTmpl
                              * 局部刷新后触发
                              * @param {KISSY.Event.CustomEventObject} e
                              */

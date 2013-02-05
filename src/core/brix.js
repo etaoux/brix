@@ -13,12 +13,13 @@
  *     componentsTag：项目组件时间戳
  *     importsPath：项目公用组件包路径
  *     importsTag：项目公用组件时间戳
+ *     templateEngine: 模板引擎的包路径，brix内置mustache引擎，并做了扩展，详细看mu.js
  *     gallery：组件版本配置
  *     tag：核心组件的时间戳
  *     debug:是否启用非压缩版本
  *
  * bx-config高级配置：<br>
- *     fixed：对包路径的重写（不清楚的不要配）
+ *     fixed：对包路径的重写，多用在内部的版本管理（不清楚的不要配）
  * @class Brix
  */
 (function(S, Brix) {
@@ -122,7 +123,8 @@
             autoConfig: true,
             path: path,
             componentsPath: './',
-            importsPath: './'
+            importsPath: './',
+            templateEngine:'./mu'
         }, pathInfo);
     }
     var defaultOptions = getBaseInfo();
@@ -132,7 +134,7 @@
     var isConfig = false; //是否已经配置过
     S.mix(Brix, {
         /**
-         * 配置路径
+         * 初始化配置
          * @param  {Object} options 配置对象，详见bx-config配置节点
          */
         config: function(options) {
@@ -143,8 +145,8 @@
             options = S.merge({
                 debug: debug == '@DEBUG@' ? true : false,
                 tag: tag == '@TAG@' ? '' : tag,
+                //路径修正，brix路径下存在其他文件夹
                 fixed: version == '@VERSION@' ? '' : version + '/',
-                //路径修正，brix路劲下存在其他文件夹
                 gallery: {
                     //配置组件版本信息
                     //dropdown:'1.0'
@@ -153,8 +155,21 @@
             if(options.fixed == '@VERSION@') {
                 options.fixed = '';
             }
+            /**
+             * brix 的基础路径
+             * @type {String}
+             */
             Brix.basePath = options.path;
+            /**
+             * 对包路径的重写
+             * @type {String}
+             */
             Brix.fixed = options.fixed;
+            /**
+             * 模板引擎的包路径，内部使用
+             * @type {String}
+             */
+            Brix.templateEngine = options.templateEngine;
             S.config({
                 packages: [{
                     name: "brix",
@@ -212,7 +227,7 @@
          * 触发ready添加的方法
          * @private
          */
-        _fireReady: function() {
+        _bx_fireReady: function() {
             if(isReady) {
                 return;
             }
@@ -232,18 +247,25 @@
         //自动实例化pagelet
         //外部调用的S.ready注册的方法中可以直接用Brix.pagelet实例书写业务逻辑
         if(defaultOptions.autoPagelet) {
-            S.use('brix/core/pagelet', function(S, Pagelet) {
-                S.ready(function() {
-                    Brix.pagelet = new Pagelet({
-                        tmpl: 'body'
+            //延时执行，在打包后的能保证后面的模块已经载入
+            S.later(function(){
+                S.use('brix/core/pagelet', function(S, Pagelet) {
+                    S.ready(function() {
+                        /**
+                         * 配置autoPagelet时候，会在Brix的全局对象上挂载Pagelet的实例对象，模板为body
+                         * @type {Brix.Pagelet}
+                         */
+                        Brix.pagelet = new Pagelet({
+                            tmpl: 'body'
+                        });
+                        Brix._bx_fireReady();
                     });
-                    Brix._fireReady();
                 });
-            });
+            },1);
             return;
         }
     }
     S.ready(function() {
-        Brix._fireReady();
+        Brix._bx_fireReady();
     });
 }(KISSY, 'Brix'));

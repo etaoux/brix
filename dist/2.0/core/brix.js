@@ -13,6 +13,7 @@
  *     componentsTag：项目组件时间戳
  *     importsPath：项目公用组件包路径
  *     importsTag：项目公用组件时间戳
+ *     templateEngine: 模板引擎的包路径，brix内置mustache引擎，并做了扩展，详细看mu.js
  *     gallery：组件版本配置
  *     tag：核心组件的时间戳
  *     debug:是否启用非压缩版本
@@ -122,7 +123,8 @@
             autoConfig: true,
             path: path,
             componentsPath: './',
-            importsPath: './'
+            importsPath: './',
+            templateEngine:'brix/core/mu'
         }, pathInfo);
     }
     var defaultOptions = getBaseInfo();
@@ -153,8 +155,21 @@
             if(options.fixed == '@VERSION@') {
                 options.fixed = '';
             }
+            /**
+             * brix 的基础路径
+             * @type {String}
+             */
             Brix.basePath = options.path;
+            /**
+             * 对包路径的重写
+             * @type {String}
+             */
             Brix.fixed = options.fixed;
+            /**
+             * 模板引擎的包路径，内部使用
+             * @type {String}
+             */
+            Brix.templateEngine = options.templateEngine;
             S.config({
                 packages: [{
                     name: "brix",
@@ -212,7 +227,7 @@
          * 触发ready添加的方法
          * @private
          */
-        _fireReady: function() {
+        _bx_fireReady: function() {
             if(isReady) {
                 return;
             }
@@ -232,18 +247,21 @@
         //自动实例化pagelet
         //外部调用的S.ready注册的方法中可以直接用Brix.pagelet实例书写业务逻辑
         if(defaultOptions.autoPagelet) {
-            S.use('brix/core/pagelet', function(S, Pagelet) {
-                S.ready(function() {
-                    Brix.pagelet = new Pagelet({
-                        tmpl: 'body'
+            //演示执行，保证后面的模块已经载入
+            S.later(function(){
+                S.use('brix/core/pagelet', function(S, Pagelet) {
+                    S.ready(function() {
+                        Brix.pagelet = new Pagelet({
+                            tmpl: 'body'
+                        });
+                        Brix._bx_fireReady();
                     });
-                    Brix._fireReady();
                 });
-            });
+            },1);
             return;
         }
     }
     S.ready(function() {
-        Brix._fireReady();
+        Brix._bx_fireReady();
     });
 }(KISSY, 'Brix'));

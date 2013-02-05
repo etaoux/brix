@@ -11,7 +11,7 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
     function Tmpler(tmpl, level) {
         this.tmpls = [];
         if(tmpl && (level !== false)) {
-            this._praseTmpl(tmpl, level);
+            this._bx_praseTmpl(tmpl, level);
         } else {
             this.tmpl = tmpl;
         }
@@ -24,7 +24,7 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
          * @param  {Number} level 对模板进行解析的层级，false表示不解析
          * @private
          */
-        _praseTmpl: function(tmpl, level) {
+        _bx_praseTmpl: function(tmpl, level) {
             var self = this,
                 inDom = false,
                 node, tmplNode;
@@ -53,7 +53,7 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
                 r = r.replace('@brix@', '(?:[\\s\\S]*?)');
                 self.reg = r;
                 self.tmpl = tmpl;
-                self._buildTmpls(self.tmpl);
+                self._bx_buildTmpls(self.tmpl);
             }
             self.inDom = inDom;
         },
@@ -62,7 +62,7 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
          * @param  {String} tmpl  需要解析的模板
          * @private
          */
-        _buildTmpls: function(tmpl) {
+        _bx_buildTmpls: function(tmpl) {
             var self = this;
             var r = new RegExp(self.reg, "ig"),
                 m;
@@ -72,7 +72,7 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
                     datakey: m[3],
                     tmpler: new Tmpler(m[4], false)
                 });
-                self._buildTmpls(m[4]);
+                self._bx_buildTmpls(m[4]);
             }
         },
         /**
@@ -103,10 +103,16 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
          * @return {String}      html片段
          */
         render: function(data) {
-            return new XTemplate(this.getTmpl()).render(data);
+            if(typeof XTemplate === 'function'){
+                return new XTemplate(this.getTmpl()).render(data);
+            }
+            else{
+                return XTemplate.render(this.getTmpl(),data);
+            }
+            
         }
     });
     return Tmpler;
 }, {
-    requires: ['xtemplate', 'node', 'sizzle']
+    requires: [Brix.templateEngine, 'node', 'sizzle']
 });
