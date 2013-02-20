@@ -9,7 +9,7 @@ Brix认为任何组件和模块的都是由html片段和事件行为构成，所
 ![Brix 类关系图](http://img02.taobaocdn.com/tps/i2/T1Wrg6Xk4hXXcMABjZ-1027-1025.png)
 
 #### 约定大于配置的原则
-* Brix的核心钩子有五个: bx-name、bx-path、bx-config、bx-tmpl、bx-datakey，详细看https://github.com/etaoux/brix#%E7%BB%84%E4%BB%B6%E9%92%A9%E5%AD%90、
+* Brix的核心钩子有五个: bx-name、bx-path、bx-config、bx-tmpl、bx-datakey，详细看https://github.com/etaoux/brix/blob/master/README.md#-3
 * 基于Brix的组件、模块有统一的写法：ATTRS、EVENTS、DOCEVENTS、METHODS、FIRES、RENDERERS这些配置完整的表现了一个组件需要的属性、事件、方法、接口、以及模板渲染增强。
 * Brix基于统一的渲染方式，既模板（tmpl）和数据(data)产生html片段。innerHTML到DOM节点中.
 
