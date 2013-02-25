@@ -182,11 +182,13 @@
                 }, {
                     name: "components",
                     path: options.componentsPath,
+                    debug:options.debug,
                     tag: options.componentsTag || options.tag,
                     charset: "utf-8"
                 }, {
                     name: "imports",
                     path: options.importsPath,
+                    debug:options.debug,
                     tag: options.importsTag || options.tag,
                     charset: "utf-8"
                 }]

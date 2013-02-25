@@ -29,7 +29,7 @@ KISSY.add('brix/gallery/calendar/time', function(S, Brick) {
                             '<div bx-tmpl="time" bx-datakey="list" class="calendar-time-popup-bd">'+
                             '<!--bx-tmpl="time" bx-datakey="list"-->'+
                                 '{{#list}}'+
-                                '<a class="item">{{this}}</a>'+
+                                '<a class="item">{{.}}</a>'+
                                 '{{/list}}'+
                             '<!--bx-tmpl="time"-->'+
                             '</div>'+
