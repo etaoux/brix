@@ -1,30 +1,70 @@
 // Variables.less
 // -----------------------------------------------------
 
-// Grays
-// -------------------------
-@black:                 #000;
-@grayDark:              #101010;
-@gray:                  #606060;
-@grayLight:             #acacac;
-@grayLighter:           #d0d0d0;
-@white:                 #fff;
 
 // Accent colors
+// Ref: http://ux.etao.com/bricks/67
 // -------------------------
-@blue:                  #06d;
-@green:                 #290;
-@red:                   #ff1919;
-@yellow:                #ffc40d;
-@yellowDark:            #c88c0a;
-@orange:                #ff8400;
-@pink:                  #c3325f;
-@purple:                #810080;
+@blue:                  #377bee;
+@red:                   #f82244;
+@pink:                  #ee2888;
+@cyan:                  #009daa;
+@purple:                #885fff;
+@brown:                 #953;
+
+@orange:                #f60;
+@green:                 #449c00;
+@black:                 #000;
+@white:                 #fff;
+
+
+// Font Colors
+// Ref: http://ux.etao.com/bricks/67
+// Ref: http://ux.etao.com/bricks/66
+// -------------------------
+// Gray Colors
+@background:            @white;
+
+/**
+ * RGB to HSV(HSB in Photoshop)
+ * lesscss will support hsv unit in 1.4
+ * Ref: http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
+ * Ref: http://en.wikipedia.org/wiki/HSV_color_space
+ **/
+@bgR:                   red(@background);
+@bgG:                   green(@background);
+@bgB:                   blue(@background);
+@bgH:                   unit(`this.r=@{bgR}/255,this.g=@{bgG}/255,this.b=@{bgB}/255,this.max=Math.max(this.r,this.g,this.b),this.min=Math.min(this.r,this.g,this.b),this.d=this.max-this.min,this.max===this.min?this.h=0:this.max===this.r?this.h=(this.g-this.b)/this.d+(this.g<this.b?6:0):this.max===this.g?this.h=(this.b-this.r)/this.d+2:this.h=(this.r-this.g)/this.d+4,this.h*60`);
+@bgS:                   unit(`this.r=@{bgR}/255,this.g=@{bgG}/255,this.b=@{bgB}/255,this.max=Math.max(this.r,this.g,this.b),this.min=Math.min(this.r,this.g,this.b),this.d=this.max-this.min,this.max===0?0:this.d/this.max`);
+@bgV:                   unit(`this.r=@{bgR}/255,this.g=@{bgG}/255,this.b=@{bgB}/255,Math.max(this.r,this.g,this.b)`);
+
+@grayDark:              hsv(@bgH, @bgS, @bgV - 0.8);
+@gray:                  hsv(@bgH, @bgS, @bgV - 0.6);
+@grayLight:             hsv(@bgH, @bgS, @bgV - 0.4);
+@grayLighter:           hsv(@bgH, @bgS, @bgV - 0.2);
+@silverDark:            hsv(@bgH, @bgS, @bgV - 0.16);
+@silver:                hsv(@bgH, @bgS, @bgV - 0.08);
+@silverLight:           hsv(@bgH, @bgS, @bgV - 0.04);
+@silverLighter:         hsv(@bgH, @bgS, @bgV - 0.02);
+
+// Font Colors
+@titleColor:            @grayDark;
+@textColor:             @gray;
+
+@linkColor:             #06d;
+@linkColorHover:        #f60;
+@linkColorVisited:      #06d;
+
+@strongColor:           #f60;
+@priceUpColor:          #f44;
+@priceDownColor:        #449c00;
+
 
 // iconfont
+// Ref: http://ux.etao.com/bricks/41
 // -------------------------
-// TODO: publish this resources to TBCDN
 @iconfontpath: 'http://t.tbcdn.cn/apps/e/brix/fonts/uxiconfont';
+
 
 // Z-index master list
 // -------------------------
@@ -37,28 +77,18 @@
 @zindexModalBackdrop:     1040;
 @zindexModal:             1050;
 
-// GRID
-// --------------------------------------------------
-// Max 1920px grid
+
+// Grid
+// Ref: http://ux.etao.com/bricks/42
+// Max 1920px
 // -------------------------
-@gridColumns:             96;
-@gridColumnWidth:         10px;
+@gridColumns:             192;
+@gridColumnWidth:         0px;
 @gridGutterWidth:         10px;
 @gridRowWidth:            (@gridColumns * @gridColumnWidth) + (@gridGutterWidth * (@gridColumns - 1));
 
 
-// type.less - vars
-// ----------------
-@titleColor:            @grayDark;
-@textColor:             @gray;
-
-@linkColor:             @blue;
-@linkColorHover:        @orange;
-@linkColorVisited:      @blue;
-
-@strongColor:           @red;
-@approvedColor:         @green;
-@moderatedColor:        @yellowDark;
-
+// type.less
+// -------------------------
 @baseFontSize:          12px;
 @baseLineHeight:        18px;
