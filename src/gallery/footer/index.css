@@ -74,6 +74,6 @@
   height: 87px;
   background: url(http://img03.taobaocdn.com/tps/i3/T15XvFXeNbXXX.NiPr-89-87.png) no-repeat;
   _background: none;
-  _filter: progid:dximagetransform.microsoft.alphaimageloader(src='http://img03.taobaocdn.com/tps/i3/T15XvFXeNbXXX.NiPr-89-87.png', sizingMethod='crop');
+  _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://img03.taobaocdn.com/tps/i3/T15XvFXeNbXXX.NiPr-89-87.png', sizingMethod='crop');
   margin: 20px auto 0;
 }
