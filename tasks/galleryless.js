@@ -26,65 +26,50 @@ module.exports = function(grunt) {
     // TASKS
     // ==========================================================================
     grunt.registerMultiTask('galleryless', 'Compile Gallery LESS files.', function() {
-        var src = this.file.src;
-        var dest = this.file.dest;
-        var options = this.data.options || {};
-        if(options.compress||options.yuicompress){
-            if(!options.min){
-                options.min = '-min';
-            }
-        }
-        else{
-            options.min = '';
-        }
+        var lessConfig = {};
 
-        if (!src) {
-            grunt.warn('Missing src property.');
-            return false;
-        }
-
-        if (!dest) {
-            grunt.warn('Missing dest property');
-            return false;
-        }
-
-        var files = fs.readdirSync(src);
-        var count = 0;
-        var done = this.async();
-        function foo(srcPath,destPath){
-            count++;
-            var srcFile = srcPath  + 'index.less';
-            var destFile = destPath + 'index' + options.min+'.css'
+        function foo(srcPath, destPath) {
+            var srcFile = srcPath + 'index.less';
+            var destFile = destPath + 'index.css'
             if (fs.existsSync(srcFile)) {
-                grunt.helper('less', [srcFile], options, function(err, css) {
-                    if (err) {
-                        grunt.warn(err);
-                        done(false);
-                        return;
-                    }
-                    file.write(destFile, css);
-                    count--;
-                    if(count==0){
-                        done();
-                    }
-                });
-            }
-            else{
-                count--;
+                lessConfig[srcPath] = {
+                    files: {}
+                };
+                lessConfig[srcPath].files[srcPath + 'index.css'] = srcFile;
+
+                lessConfig[destPath] = {
+                    files: {}
+                };
+                lessConfig[destPath].files[destFile] = srcFile;
+
+                lessConfig[destPath + 'min'] = {
+                    options: {
+                        yuicompress: true
+                    },
+                    files: {}
+                };
+                lessConfig[destPath + 'min'].files[destPath + 'index-min.css'] = srcFile;
             }
         }
-        files.forEach(function(f) {
-            var srcPath = src + '/' + f + '/' 
-            var destPath = dest + '/' + f + '/' 
-            foo(srcPath,destPath);
+        this.files.forEach(function(f) {
+            var src = f.src;
+            var dest = f.dest;
+            var files = fs.readdirSync(src);
+            files.forEach(function(p) {
+                var srcPath = src + p + '/'
+                var destPath = dest + p + '/'
+                foo(srcPath, destPath);
 
-            var extPath = srcPath+'ext/';
-            if(fs.existsSync(extPath)){
-                var extFiles = fs.readdirSync(extPath);
-                extFiles.forEach(function(f){
-                   foo(extPath+f+'/',destPath+'ext/'+f+'/'); 
-                })
-            }
+                var extPath = srcPath + 'ext/';
+                if (fs.existsSync(extPath)) {
+                    var extFiles = fs.readdirSync(extPath);
+                    extFiles.forEach(function(p) {
+                        foo(extPath + p + '/', destPath + 'ext/' + p + '/');
+                    })
+                }
+            });
         });
+        config('less', lessConfig);
+        task.run('less');
     });
 };

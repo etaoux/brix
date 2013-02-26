@@ -26,33 +26,21 @@ module.exports = function(grunt) {
     // TASKS
     // ==========================================================================
     grunt.registerMultiTask('galleryjs', 'Compile Gallery JS files.', function() {
-        var src = this.file.src;
-        var dest = this.file.dest;
-        var options = this.data.options || {};
-        if (options.compress) {
-            if (!options.min) {
-                options.min = '-min';
+        var concatConfig = {
+            options: {
+                separator: '\n'
             }
-        } else {
-            options.min = '';
-        }
-
-        if (!src) {
-            grunt.warn('Missing src property.');
-            return false;
-        }
-
-        if (!dest) {
-            grunt.warn('Missing dest property');
-            return false;
-        }
-
-        var self = this;
-        var files = fs.readdirSync(src);
-
-        function foo(srcPath,destPath){
-            var srcFile =  srcPath + 'index.js';
-            var destFile = destPath + 'index' + options.min + '.js'
+        };
+        var uglifyConfig = {
+            options: {
+                beautify: {
+                    ascii_only: true
+                }
+            }
+        };
+        function foo(srcPath, destPath) {
+            var srcFile = srcPath + 'index.js';
+            var destFile = destPath + 'index.js';
             if (fs.existsSync(srcFile)) {
                 var arr = [srcFile];
                 var tempArr = fs.readdirSync(srcPath);
@@ -62,32 +50,46 @@ module.exports = function(grunt) {
                     }
                 });
 
-                var max = grunt.helper('concat', arr, {
-                    separator: '\n'
-                });
-                var min;
-                if (options.compress) {
-                    min = grunt.helper('uglify', max, grunt.config('uglify'));
+                if (arr.length > 1) {
+                    concatConfig[srcPath] = {
+                        src: arr,
+                        dest: destFile
+                    }
                 } else {
-                    min = max;
+                    file.copy(srcFile, destFile)
                 }
-                file.write(destFile, min);
-            }
 
+                uglifyConfig[srcPath] = {
+                    files: {}
+                };
+
+                uglifyConfig[srcPath].files[destPath + 'index-min.js'] = [srcFile];
+            }
         }
+        this.files.forEach(function(f) {
+            var src = f.src;
+            var dest = f.dest;
 
-        files.forEach(function(p){
-            var srcPath = src  + p +'/',
-                destPath = dest + p + '/';
-            foo(srcPath,destPath);
+            var self = this;
+            var files = fs.readdirSync(src);
 
-            var extPath = srcPath+'ext/';
-            if(fs.existsSync(extPath)){
-                var extFiles = fs.readdirSync(extPath);
-                extFiles.forEach(function(p){
-                   foo(extPath+p+'/',destPath+'ext/'+p+'/'); 
-                })
-            }
+            files.forEach(function(p) {
+                var srcPath = src + p + '/',
+                    destPath = dest + p + '/';
+                foo(srcPath, destPath);
+                var extPath = srcPath + 'ext/';
+                if (fs.existsSync(extPath)) {
+                    var extFiles = fs.readdirSync(extPath);
+                    extFiles.forEach(function(p) {
+                        foo(extPath + p + '/', destPath + 'ext/' + p + '/');
+                    })
+                }
+            });
+            config('concat', concatConfig);
+            task.run('concat');
+
+            config('uglify', uglifyConfig);
+            task.run('uglify');
         });
     });
 };
