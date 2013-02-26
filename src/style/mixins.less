@@ -182,7 +182,6 @@
 
 // The Grid
 #grid {
-
   .core (@gridColumnWidth, @gridGutterWidth) {
 
     .spanX (@index) when (@index > 0) {
@@ -194,16 +193,6 @@
       .spanX(@index - 1);
     }
     .spanX (0) {}
-
-    .offsetX (@index) when (@index > 0) {
-      (~".offset@{index}") { .offset(@index); }
-      .offsetX(@index - 1);
-    }
-    .offsetX (0) {}
-
-    .offset (@columns) {
-      margin-left: (@gridColumnWidth * @columns) + (@gridGutterWidth * (@columns + 1));
-    }
 
     .span (@columns) {
       width: (@gridColumnWidth * @columns) + (@gridGutterWidth * (@columns - 1));
@@ -225,10 +214,12 @@
     // Set the container width, and override it for fixed navbars in media queries
     .grid { .span(@gridColumns); }
 
-    // generate .spanX and .offsetX
+    .offset1 {
+        margin-left: 2*@gridGutterWidth;
+    }
+
+    // generate .spanX
     .spanX (@gridColumns);
-    .offsetX (@gridColumns);
 
   }
-
 }

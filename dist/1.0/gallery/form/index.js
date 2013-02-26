@@ -29,7 +29,10 @@ KISSY.add("brix/gallery/form/index", function(S, Brick) {
 
         // patch for radio
         if (checkSiblings && node.hasClass('radio')) {
-            node.siblings('.radio').each(handleStat);
+            // S.each 会传3个参数，handleStat接收2个参数，要小心使用.
+            node.siblings('.radio').each(function(nod) {
+                handleStat(nod);
+            });
         }
 
         var className = 'control' +
@@ -49,7 +52,9 @@ KISSY.add("brix/gallery/form/index", function(S, Brick) {
             var el = this.get('el');
 
             el.addClass('bx-controls');
-            el.all('.checkbox, .radio').each(handleStat);
+            el.all('.checkbox, .radio').each(function(nod) {
+                handleStat(nod);
+            });
             // 思路：不直接处理click事件，监听input状态变化来相应span的状态.
             el.all('input').on('change', function (e) {
                 handleStat(S.one(e.currentTarget.parentNode), true);
