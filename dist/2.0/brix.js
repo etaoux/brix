@@ -20,6 +20,7 @@
  *     gallery：组件版本配置
  *     tag：核心组件的时间戳
  *     debug:是否启用非压缩版本
+ *     combine:是否启用combo功能
  *
  * bx-config高级配置：<br>
  *     fixed：对包路径的重写，多用在内部的版本管理（不清楚的不要配）
@@ -147,6 +148,7 @@
             isConfig = true;
             options = S.merge({
                 debug: debug == '@DEBUG@' ? true : false,
+                combine:true,//默认开始combine
                 tag: tag == '@TAG@' ? '' : tag,
                 //路径修正，brix路径下存在其他文件夹
                 fixed: version == '@VERSION@' ? '' : version + '/',
@@ -177,17 +179,20 @@
                 packages: [{
                     name: "brix",
                     path: options.path,
+                    combine:options.combine,
                     tag: options.tag,
                     charset: "utf-8"
                 }, {
                     name: "components",
                     path: options.componentsPath,
+                    combine:options.combine,
                     debug:options.debug,
                     tag: options.componentsTag || options.tag,
                     charset: "utf-8"
                 }, {
                     name: "imports",
                     path: options.importsPath,
+                    combine:options.combine,
                     debug:options.debug,
                     tag: options.importsTag || options.tag,
                     charset: "utf-8"
