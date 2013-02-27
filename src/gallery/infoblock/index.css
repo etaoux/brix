@@ -13,10 +13,16 @@
     overflow: hidden;
     text-align: center;
 }
+.infoblock .pic-panel .img-wrap img {
+    vertical-align:middle;
+}
 .infoblock .title {
     color: #333;
     font-size: 12px;
     margin: 0 0 5px;
+}
+.infoblock .big-title {
+    font-size: 14px;
 }
 .infoblock .title  a {
     color: #333;
@@ -129,8 +135,12 @@
 }
 
 /*two column*/
+.infoblock-twocolumn {
+    position:relative;
+}
 .infoblock-twocolumn .pic-panel {
     float: left;
+    margin: 0;
 }
 .infoblock-twocolumn .infoblock-text {
     padding: 0 0 0 10px;
@@ -138,6 +148,10 @@
 }
 .infoblock-twocolumn  .no-fixed {
     overflow: hidden;
+}
+.infoblock-twocolumn .infoblock-text-bottom {
+    position:absolute;
+    bottom:0;
 }
 .infoblock-twocolumn .title, .infoblock-twocolumn .price-panel, .infoblock-twocolumn .description-panel, .infoblock-twocolumn .promotion-panel {
     display: inline-block;
