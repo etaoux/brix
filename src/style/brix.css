@@ -177,18 +177,6 @@ iframe {
  *   思路：最小影响，最大适用范围
  **/
 /**
- * RGB to HSV(HSB in Photoshop)
- * lesscss will support hsv unit in 1.4
- * Ref: http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
- * Ref: http://en.wikipedia.org/wiki/HSV_color_space
- **/
-/**
- * RGB to HSV(HSB in Photoshop)
- * lesscss will support hsv unit in 1.4
- * Ref: http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
- * Ref: http://en.wikipedia.org/wiki/HSV_color_space
- **/
-/**
  * 栅格系统及页面布局
  **/
 .row {

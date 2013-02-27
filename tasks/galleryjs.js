@@ -67,7 +67,7 @@ module.exports = function(grunt) {
             }
         }
         this.files.forEach(function(f) {
-            var src = f.src;
+            var src = f.src[0];
             var dest = f.dest;
 
             var self = this;

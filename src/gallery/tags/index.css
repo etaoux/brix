@@ -5,7 +5,7 @@
   word-wrap: normal;
 }
 .tags-hd {
-  color: #101010;
+  color: #333333;
   font-size: 12px;
   font-weight: bold;
   letter-spacing: normal;
@@ -54,15 +54,15 @@
   color: #ffffff;
 }
 .tags-list li a {
-  color: #606060;
+  color: #666666;
   text-decoration: none;
 }
 .tags-list li a:hover {
-  color: #ff8400;
+  color: #ff6600;
 }
 .tags-list .del {
   background: transparent url(http://img01.taobaocdn.com/tps/i1/T1mczJXiheXXa9hgfr-5-5.png) no-repeat 5px center;
-  color: #acacac;
+  color: #999999;
   padding-left: 5px;
   display: inline-block;
   *zoom: 1;

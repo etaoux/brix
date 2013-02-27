@@ -54,19 +54,20 @@ module.exports = function(grunt) {
         this.files.forEach(function(f) {
             var src = f.src;
             var dest = f.dest;
-            var files = fs.readdirSync(src);
-            files.forEach(function(p) {
-                var srcPath = src + p + '/'
-                var destPath = dest + p + '/'
-                foo(srcPath, destPath);
+            src.forEach(function(dir){
+                fs.readdirSync(dir).forEach(function(p) {
+                    var srcPath = dir + p + '/'
+                    var destPath = dest + p + '/'
+                    foo(srcPath, destPath);
 
-                var extPath = srcPath + 'ext/';
-                if (fs.existsSync(extPath)) {
-                    var extFiles = fs.readdirSync(extPath);
-                    extFiles.forEach(function(p) {
-                        foo(extPath + p + '/', destPath + 'ext/' + p + '/');
-                    })
-                }
+                    var extPath = srcPath + 'ext/';
+                    if (fs.existsSync(extPath)) {
+                        var extFiles = fs.readdirSync(extPath);
+                        extFiles.forEach(function(p) {
+                            foo(extPath + p + '/', destPath + 'ext/' + p + '/');
+                        })
+                    }
+                });
             });
         });
         config('less', lessConfig);

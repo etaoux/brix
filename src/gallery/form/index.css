@@ -1,15 +1,3 @@
-/**
- * RGB to HSV(HSB in Photoshop)
- * lesscss will support hsv unit in 1.4
- * Ref: http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
- * Ref: http://en.wikipedia.org/wiki/HSV_color_space
- **/
-/**
- * RGB to HSV(HSB in Photoshop)
- * lesscss will support hsv unit in 1.4
- * Ref: http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
- * Ref: http://en.wikipedia.org/wiki/HSV_color_space
- **/
 .input,
 .textarea {
   display: inline-block;
