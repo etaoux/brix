@@ -64,7 +64,7 @@
                     '#input5': {
                         click: function(e) {
                             var self = this;
-                            self.pagelet.setChunkData('e', false);
+                            self.pagelet.setChunkData('e', Math.random()>0.5);
                         }
                     }
                 },
@@ -73,7 +73,7 @@
                         return 'test'
                     }
                 }
-            });
+            },'BrixTest');
             S.augment(BrixTest, BrixTest.METHODS);
             return BrixTest;
         }, {
@@ -90,25 +90,39 @@
                 d1: '2'
             }, {
                 d1: '3'
-            },{
-                d1:function(){
+            }, {
+                d1: function() {
                     return '4';
                 }
             }],
-            e:true,
-            f:function(){
+            e: true,
+            f: function() {
                 return 'xx';
             }
         }
-    KISSY.ready(function(S){
-        S.use('brix/core/pagelet',function(S,Pagelet){
-             window.pagelet = new Pagelet({container:'.container',tmpl:'#tmpl',data:list,config:{brixtest:{b:2,listeners:{myfire:function(e){S.log(1)}}}}});
-             pagelet.ready(function(){
-                var brixtest = pagelet.getBrick('brixtest');
-                S.log(brixtest.testMethod());
-             })
+        KISSY.ready(function(S){
+            S.use('brix/core/pagelet', function(S, Pagelet) {
+                window.pagelet = new Pagelet({
+                    container: '.container',
+                    tmpl: '#tmpl',
+                    data: list,
+                    config: {
+                        brixtest: {
+                            b: 2,
+                            listeners: {
+                                myfire: function(e) {
+                                    S.log(1)
+                                }
+                            }
+                        }
+                    }
+                });
+                pagelet.ready(function() {
+                    var brixtest = pagelet.getBrick('brixtest');
+                    S.log(brixtest.testMethod());
+                })
+            });
         });
-    })
     </script>
     <script type="text/tmpl" id="tmpl">
         <div id="brixtest" bx-name="brixtest" bx-path="brixtest/">
