@@ -1,0 +1,48 @@
+<li class="pf-slide-item pf-slide-item-{{id}}" filterid="{{id}}" filtertype="pf-{{id}}" filtername="{{name}}">
+    <div class="pf-content">
+        <div class="filter-title">{{name}}</div>
+        {{#hasImage}}
+        <div class="filter-items pf-image pf-fixed-height clear-fix">
+            {{#imgitems}}
+            <a data-stat="{{stat}}" href="{{url}}" class="filter-item fp-item-{{id}} pf-image-item" filterid="{{id}}" filtername="{{name}}" title="{{name}}">
+                <img src="{{image}}">
+            </a>
+            {{/imgitems}}
+        </div>
+        {{/hasImage}}
+        {{#hasGroupNoImage}}
+        <div class="filter-items pf-fixed-height clear-fix pf-itemcotainer-{{id}}">
+            {{#items}}
+                <a data-stat="{{stat}}" href="{{url}}" class="filter-item fp-item-{{id}}" filterid="{{id}}" filtername="{{name}}" title="{{name}}">{{name}}</a>
+            {{/items}}
+        </div>
+        {{/hasGroupNoImage}}
+        {{#hasgroup}}
+        <div id="pf-band-cate" class="pf-band-more pf-switch">
+            <ul class="ks-switchable-nav">
+                {{#cate}}
+                <li>{{group_name}}<i class="iconfont">&#404;</i></li>
+                {{/cate}}
+            </ul>
+           <div class="ks-switchable-content">
+               {{#cate}}
+               <div style="display: none">
+                   <div class="pf-switch-ul clear-fix pf-itemcotainer-{{id}}">
+                       {{#items}}
+                           <a data-stat="{{stat}}" href="{{url}}" class="filter-item fp-item-{{id}}" filterid="{{id}}" filtername="{{name}}" title="{{name}}">{{name}}</a>
+                       {{/items}}
+                   </div>
+               </div>
+               {{/cate}}
+            </div>
+        </div>
+        {{/hasgroup}}
+        {{^hasgroup}}
+        <div class="filter-items clear-fix pf-itemcotainer-{{id}}">
+            {{#items}}
+                <a data-stat="{{stat}}" href="{{url}}" class="filter-item fp-item-{{id}}" filterid="{{id}}" filtername="{{name}}" title="{{name}}">{{name}}</a>
+            {{/items}}
+        </div>
+        {{/hasgroup}}
+    </div>
+</li>

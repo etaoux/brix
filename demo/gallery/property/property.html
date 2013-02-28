@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Brix Property Demo</title>
+        <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
+        <link rel="stylesheet" href="../../assets/doc.css">
+        <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script>
+        <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,autoPagelet:false,fixed:'src/'}"></script>
+    </head>
+    <style>
+        .wrap{
+            width:900px;
+            margin:20px auto;
+        }
+        .main{
+            width:900px;
+            height:1000px;
+            margin:25px auto;
+            border:1px solid;
+        }
+    </style>
+    <body>
+    </body>
+    <script>
+        KISSY.ready(function(S) {
+            KISSY.use('ajax,brix/core/pagelet', function(S, IO, Pagelet) {
+                var tmpl = S.one('#tmpl_script').html();
+                var pagelet_data = {};
+                var s = '@';
+                reg = new RegExp('\{\{'+s+'(.+)?\}\}',"ig");
+                tmpl = tmpl.replace(reg,function($1,$2){
+                    S.log($2);
+                    var str = '';
+                    var p = $2.replace(/\//ig,'_').replace(/\./ig,'_');
+                    pagelet_data[p] = pagelet_data[p] || {};
+                    IO({
+                        url:$2+'template.html',
+                        async:false,
+                        success:function(data , textStatus , xhrObj){
+                            str = '{{#'+p+'}}' + data+'{{/'+p+'}}';
+                        }
+                    });
+                    IO({
+                        url:$2+'data.json',
+                        async:false,
+                        dataType:'json',
+                        success:function(data , textStatus , xhrObj){
+                            for(var k in data){
+                                pagelet_data[p][k] = data[k];
+                            }
+                        }
+                    });
+                    return str;
+                });
+
+                var pagelet = new Pagelet({
+                    container:'body',
+                    tmpl:tmpl,
+                    data:pagelet_data,
+                    autoRender:true,
+                    callback:function(){
+                    }
+                });
+                S.log(tmpl);
+            });
+        });
+    </script>
+    <script type="text/template" id="tmpl_script">
+        <div class="wrap">
+            {{@../../../src/gallery/property/}}
+        </div>
+        <div class="main">
+            请向下滚动鼠标...
+        </div>
+    </script>
+</html>
