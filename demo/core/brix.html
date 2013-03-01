@@ -13,7 +13,7 @@
     <div class="container" >
     </div>
     <script type="text/javascript">
-        KISSY.add("brixtest/index", function(S, Brick) {
+        KISSY.add("components/brixtest/index", function(S, Brick) {
             var BrixTest = Brick.extend({
                 initializer: function() {
                     S.log('initializer');
@@ -125,7 +125,7 @@
         });
     </script>
     <script type="text/tmpl" id="tmpl">
-        <div id="brixtest" bx-name="brixtest" bx-path="brixtest/">
+        <div id="brixtest" bx-name="brixtest" bx-path="components/brixtest/">
             <input id="input1" type="button" value="局部刷新a">
             <input id="input2" type="button" value="局部刷新b">
             <input id="input3" type="button" value="局部刷新c">
