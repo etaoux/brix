@@ -63,7 +63,7 @@ module.exports = function(grunt) {
                     files: {}
                 };
 
-                uglifyConfig[srcPath].files[destPath + 'index-min.js'] = [srcFile];
+                uglifyConfig[srcPath].files[destPath + 'index-min.js'] = [destFile];
             }
         }
         this.files.forEach(function(f) {

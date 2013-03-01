@@ -135,6 +135,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
                 }
             }
             if(self.get('pagelet')) {
+                delete self.pagelet;
                 self.set('pagelet', null);
             }
         }

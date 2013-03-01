@@ -220,7 +220,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
          * @cfg {Boolean}
          */
         isText:{
-            value:false,
+            value:false
         }
     };
 

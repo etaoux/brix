@@ -151,7 +151,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                     if(!o.path) {
                         o.path = 'brix/gallery/' + o.name + '/';
                     }
-                    if(!S.inArray(useList, o.path)) {
+                    if(!S.inArray(useList, o.path)&&!o.autoBrick) {
                         useList.push(o.path);
                     }
                 });

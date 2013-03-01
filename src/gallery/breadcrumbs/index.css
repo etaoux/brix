@@ -45,6 +45,12 @@
   color: #666;
   text-decoration: none;
 }
+.breadcrumbs li.item-dropdown .dropdown {
+  float: left;
+}
+.breadcrumbs li.item-dropdown .dropdown-hd {
+  *display: inline-block;
+}
 .breadcrumbs {
   *zoom: 1;
 }
