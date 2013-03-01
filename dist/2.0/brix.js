@@ -1950,7 +1950,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                     if(!o.path) {
                         o.path = 'brix/gallery/' + o.name + '/';
                     }
-                    if(!S.inArray(useList, o.path)&&!o.autoBrick) {
+                    if(!S.inArray(useList, o.path)&&!o.config.autoBrick) {
                         useList.push(o.path);
                     }
                 });
@@ -1965,7 +1965,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                     }
                     var useClassList = arguments;
                     S.each(bricks, function(o) {
-                        if(!o.destroyed){
+                        if(!o.destroyed&&!o.config.autoBrick){
                             var id = o.id;
                             var config = S.merge({
                                 container: '#' + id,
