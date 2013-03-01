@@ -1,0 +1,159 @@
+.infoblock {
+    display: inline-block;
+    vertical-align: top;
+    letter-spacing: 0;
+    font-size: 12px;
+    color: #666;
+}
+.infoblock {
+    *display: inline;
+}
+.infoblock .pic-panel {
+    margin: 0 0 5px;
+    overflow: hidden;
+    text-align: center;
+}
+.infoblock .pic-panel .img-wrap img {
+    vertical-align:middle;
+}
+.infoblock .title {
+    color: #333;
+    font-size: 12px;
+    margin: 0 0 5px;
+}
+.infoblock .big-title {
+    font-size: 14px;
+}
+.infoblock .title  a {
+    color: #333;
+}
+.infoblock .title  a:hover {
+    color: #ff6600;
+    text-decoration:none;
+}
+.infoblock .price-panel {
+    margin: 0 0 5px;
+}
+.infoblock .price {
+    color: #000;
+    display: inline;
+    float: left;
+    font-size: 16px;
+    margin: 0 2px 0 0;
+}
+.infoblock .discount {
+    display: inline;
+    float: left;
+    margin: 3px 4px 0;
+}
+.infoblock .o-price {
+    display: inline;
+    float: left;
+    margin: 3px 4px 3px 4px;
+    text-decoration: line-through;
+}
+.infoblock .pricetrends {
+    display: inline;
+    float: left;
+    margin: 4px 0 0 4px;
+}
+.infoblock .description-panel {
+    margin: 0 0 5px;
+}
+.infoblock .freight {
+    display: inline;
+    float: left;
+    margin: 0 18px 0 0;
+}
+.infoblock .sales-volume {
+    display: inline;
+    float: left;
+    margin: 0 18px 0 0;
+}
+.infoblock .shop-name {
+    float: left;
+}
+.infoblock .shop-name .label-popup {
+    height: 18px;
+    color: #666;
+    *white-space: nowrap;
+}
+.infoblock .shop-name .label-popup:hover {
+    color: #ff6600;
+    text-decoration: none;
+}
+.infoblock .youhuigou-wrap {
+    float: left;
+    color: #333;
+    line-height:14px;
+    *white-space: nowrap;
+}
+.infoblock .youhuijuan-wrap {
+    color: #333;
+    float: left;
+    display: inline;
+    margin: 0 25px 5px 0;
+    line-height:14px;
+    *white-space: nowrap;
+}
+.infoblock .fanli-wrap {
+    color: #333;
+    float: left;
+    display: inline;
+    margin: 0 0 5px 0;
+    line-height:14px;
+    *white-space: nowrap;
+}
+.infoblock .youhuigou-wrap:hover {
+    color: #ff6600;
+    text-decoration: none;
+}
+.infoblock .youhuigou-wrap .icon-youhuigou {
+    background: url("http://img02.taobaocdn.com/tps/i2/T1S72.Xb4eXXXJHH6f-38-14.gif") no-repeat;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    height: 14px;
+    margin: 0 5px 0 0;
+    width: 38px;
+}
+.infoblock .youhuijuan-wrap .icon-youhuijuan {
+    background: url("http://img01.taobaocdn.com/tps/i1/T1hAdeXqphXXbrlo..-14-14.gif") no-repeat;
+    display: inline-block;
+    vertical-align: top;
+    height: 14px;
+    margin: 0 5px 0 0;
+    width: 14px;
+}
+.infoblock .fanli-wrap .icon-fanli {
+    background: url("http://img02.taobaocdn.com/tps/i2/T1yt4rXBdgXXbrlo..-14-14.gif") no-repeat;
+    display: inline-block;
+    vertical-align: top;
+    height: 14px;
+    margin: 0 5px 0 0;
+    width: 14px;
+}
+
+/*two column*/
+.infoblock-twocolumn {
+    position:relative;
+}
+.infoblock-twocolumn .pic-panel {
+    float: left;
+    margin: 0;
+}
+.infoblock-twocolumn .infoblock-text {
+    padding: 0 0 0 10px;
+    *zoom : 1;
+}
+.infoblock-twocolumn  .no-fixed {
+    overflow: hidden;
+}
+.infoblock-twocolumn .infoblock-text-bottom {
+    position:absolute;
+    bottom:0;
+}
+.infoblock-twocolumn .title, .infoblock-twocolumn .price-panel, .infoblock-twocolumn .description-panel, .infoblock-twocolumn .promotion-panel {
+    display: inline-block;
+    width: 100%;
+}

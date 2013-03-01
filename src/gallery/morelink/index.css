@@ -1,0 +1,57 @@
+.more-link {
+    font-size: 12px;
+    color: #666;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    padding: 0 12px 0 0;
+}
+.more-link:hover {
+    color: #ff6600;
+    text-decoration: none;
+}
+.more-link .angle-right {
+    position: absolute;
+    width: 4px;
+    height: 8px;
+    right: 0;
+    top: 50%;
+    margin: -4px 0 0 0;
+}
+.more-link .angle-right span {
+    border: 4px dashed transparent;
+    font-size: 0;
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+    width: 0;
+}
+.more-link .angle-right .angle-outter {
+    border-left: 4px solid #666;
+}
+.more-link:hover .angle-right .angle-outter {
+    border-left: 4px solid #ff6600;
+}
+.more-link .angle-right .angle-inner {
+    border-left: 4px solid #fff;
+    left: -2px;
+    top: 0;
+}
+.highlight-link {
+    color: #377bee;
+}
+.highlight-link .angle-right .angle-outter {
+    border-left: 4px solid #377bee;
+}
+.greybg-link .angle-right .angle-inner {
+    border-left: 4px solid #f2f2f2;
+}
+.darkgreybg-link {
+    color: #fff;
+}
+.darkgreybg-link .angle-right .angle-outter {
+    border-left: 4px solid #fff;
+}
+.darkgreybg-link .angle-right .angle-inner {
+    border-left: 4px solid #acacac;
+}
