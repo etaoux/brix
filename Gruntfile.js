@@ -16,6 +16,13 @@ module.exports = function(grunt) {
                 }
             }
         },
+        galleryjs: {
+            gallery: {
+                files: {
+                    'dist/<%= pkg.version %>/gallery/': 'src/gallery/'
+                }
+            }
+        },
         galleryless: {
             galleryless: {
                 files: {
@@ -23,13 +30,6 @@ module.exports = function(grunt) {
                 }
             }
 
-        },
-        galleryjs: {
-            gallery: {
-                files: {
-                    'dist/<%= pkg.version %>/gallery/': 'src/gallery/'
-                }
-            }
         },
         chartsjs:{
             chartsjs:{
