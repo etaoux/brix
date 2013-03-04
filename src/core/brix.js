@@ -27,13 +27,11 @@
     var isReady = false,
         readyList = [],
         host = S.Env.host,
-        location = host.location,
-        simulatedLocation,
-        locationHref;
+        simulatedLocation;
     Brix = host[Brix] = host[Brix] || {};
 
     //从KISSY源代码提取并改动适合brix的
-    simulatedLocation = new S.Uri(locationHref);
+    simulatedLocation = new S.Uri(host.location.href);
     function returnJSON(s){
         if(s){
             return (new Function('return ' + s))();
@@ -82,12 +80,14 @@
                 return undefined;
             });
         }
-        console.log(base);
-        base = simulatedLocation.resolve(base.substring(0, base.lastIndexOf('brix'))).toString();
+        //转换成绝对路径
+        base = simulatedLocation.resolve(base).toString();
+        //获取brix包base对应的路径
+        base = base.substring(0, base.lastIndexOf('brix'));
 
         return S.mix({
             autoConfig: true,
-            path: base,
+            base: base,
             componentsPath: './',
             importsPath: './',
             templateEngine:'./mu'
@@ -126,7 +126,7 @@
              * brix 的基础路径
              * @type {String}
              */
-            Brix.basePath = options.path;
+            Brix.basePath = options.base;
             /**
              * 对包路径的重写
              * @type {String}
@@ -140,20 +140,20 @@
             S.config({
                 packages: [{
                     name: "brix",
-                    path: options.path,
+                    base: options.base,
                     combine:options.combine,
                     tag: options.tag,
                     charset: "utf-8"
                 }, {
                     name: "components",
-                    path: options.componentsPath,
+                    base: options.componentsPath,
                     combine:options.combine,
                     debug:options.debug,
                     tag: options.componentsTag || options.tag,
                     charset: "utf-8"
                 }, {
                     name: "imports",
-                    path: options.importsPath,
+                    base: options.importsPath,
                     combine:options.combine,
                     debug:options.debug,
                     tag: options.importsTag || options.tag,
