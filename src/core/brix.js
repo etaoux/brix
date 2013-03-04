@@ -26,107 +26,72 @@
 (function(S, Brix) {
     var isReady = false,
         readyList = [],
-        win = window,
-        loc = win.location,
-        startsWith = S.startsWith,
-        __pagePath = loc.href.replace(loc.hash, "").replace(/[^\/]*$/i, "");
-    Brix = win[Brix] = win[Brix] || {};
+        host = S.Env.host,
+        location = host.location,
+        simulatedLocation,
+        locationHref;
+    Brix = host[Brix] = host[Brix] || {};
 
     //从KISSY源代码提取并改动适合brix的
-    /**
-     * 相对路径文件名转换为绝对路径
-     * @param path
-     * @ignore
-     */
-
-    function absoluteFilePath(path) {
-        path = S.trim(path);
-
-        // path 为空时，不能变成 "/"
-        if(path && path.charAt(path.length - 1) != '/') {
-            path += "/";
+    simulatedLocation = new S.Uri(locationHref);
+    function returnJSON(s){
+        if(s){
+            return (new Function('return ' + s))();
         }
-
-        /**
-         * 一定要正则化，防止出现 ../ 等相对路径
-         * 考虑本地路径
-         * @ignore
-         */
-        if(!path.match(/^(http(s)?)|(file):/i) && !startsWith(path, "/")) {
-            path = __pagePath + path;
+        else{
+            return {};
         }
-
-        if(startsWith(path, "/")) {
-            var loc = win.location;
-            path = loc.protocol + "//" + loc.host + path;
-        }
-        var paths = path.split("/"),
-            re = [],
-            p;
-        for(var i = 0; i < paths.length; i++) {
-            p = paths[i];
-            if(p == ".") {} else if(p == "..") {
-                re.pop();
-            } else {
-                re.push(p);
-            }
-        }
-        path = re.join("/");
-        return path.substring(0, path.length - 1);
     }
-
     function getBaseInfo() {
-        // get path from current script file path
+        // get base from current script file path
         // notice: timestamp
-        var pathReg = /^(.*)brix(-min)?\.js[^\/]*/i,
-            pathTestReg = /brix(-min)?\.js/i,
-            scripts = win.document.getElementsByTagName('script'),
+        var baseReg = /^(.*)(brix)(?:-min)?\.js[^\/]*/i,
+            baseTestReg = /(brix)(?:-min)?\.js/i,
+            comboPrefix,
+            comboSep,
+            scripts = host.document.getElementsByTagName('script'),
             script = scripts[scripts.length - 1],
-            src = absoluteFilePath(script.src),
-            pathInfo = script.getAttribute("bx-config");
-        if(pathInfo) {
-            pathInfo = (new Function("return " + pathInfo))();
-        } else {
-            pathInfo = {};
-        }
-        pathInfo.comboPrefix = pathInfo.comboPrefix || '??';
-        pathInfo.comboSep = pathInfo.comboSep || ',';
+        // can not use KISSY.Uri
+        // /??x.js,dom.js for tbcdn
+            src = script.src,
+            baseInfo = returnJSON(script.getAttribute('bx-config'));
 
-        var comboPrefix = pathInfo.comboPrefix,
-            comboSep = pathInfo.comboSep,
-            parts = src.split(comboSep),
-            path, part0 = parts[0],
-            part01, index = part0.indexOf(comboPrefix);
+        comboPrefix = baseInfo.comboPrefix = baseInfo.comboPrefix || '??';
+        comboSep = baseInfo.comboSep = baseInfo.comboSep || ',';
+
+        var parts ,
+            base,
+            index = src.indexOf(comboPrefix);
 
         // no combo
-        if(index == -1) {
-            path = src.replace(pathReg, '$1');
+        if (index == -1) {
+            base = src.replace(baseReg, '$1');
         } else {
-            path = part0.substring(0, index);
-            part01 = part0.substring(index + 2, part0.length);
-            // combo first
-            // notice use match better than test
-            if(part01.match(pathTestReg)) {
-                path += part01.replace(pathReg, '$1');
+            base = src.substring(0, index);
+            // a.tbcdn.cn??y.js, ie does not insert / after host
+            // a.tbcdn.cn/combo? comboPrefix=/combo?
+            if (base.charAt(base.length - 1) != '/') {
+                base += '/';
             }
-            // combo after first
-            else {
-                S.each(parts, function(part) {
-                    if(part.match(pathTestReg)) {
-                        path += part.replace(pathReg, '$1');
-                        return false;
-                    }
-                });
-            }
+            parts = src.substring(index + comboPrefix.length).split(comboSep);
+            S.each(parts, function (part) {
+                if (part.match(baseTestReg)) {
+                    base += part.replace(baseReg, '$1');
+                    return false;
+                }
+                return undefined;
+            });
         }
-        path = path.substring(0, path.lastIndexOf('brix'));
+        console.log(base);
+        base = simulatedLocation.resolve(base.substring(0, base.lastIndexOf('brix'))).toString();
+
         return S.mix({
             autoConfig: true,
-            path: path,
+            path: base,
             componentsPath: './',
             importsPath: './',
             templateEngine:'./mu'
-        }, pathInfo);
+        }, baseInfo);
     }
     var defaultOptions = getBaseInfo();
     var debug = '@DEBUG@'; //区分src还是dist版本
@@ -246,6 +211,23 @@
                 }
                 readyList = null;
             }
+        },
+        /**
+         * 将bx-config节点转换成JSON格式
+         * @param  {String} s JSON字符串
+         * @return {Object}   JSON对象
+         */
+        returnJSON:function(s) {
+            return returnJSON(s);
+        },
+        /**
+         * 根据模块相对路径获取绝对路径
+         * @param  {Object} module 模块的this
+         * @param  {String} path   相对路径
+         * @return {String}        绝对路径
+         */
+        absoluteFilePath:function(module,path){
+            return new S.Uri(module.getFullPath()).resolve(path).toString(); 
         }
     });
     if(defaultOptions.autoConfig) {

@@ -48,7 +48,7 @@ KISSY.add('brix/gallery/placeholder/index', function(S, Brick) {
     S.extend(Placeholder, Brick, {
         initialize: function() {
             var self = this,
-                DOM = S.DOM;
+                DOM = S.DOM,
                 ipt = self.get('el'),
                 iptDom = ipt.getDOMNode(),
                 labelShowCls = self.get('labelShowCls');

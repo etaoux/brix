@@ -1,4 +1,5 @@
 KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_Date) {
+    var tmpl = '@TEMPLATE|'+Brix.absoluteFilePath(this,'index.html')+'|TEMPLATE@';
     /**
      * 日历
      * <br><a href="../demo/gallery/calendar/calendar.html" target="_blank">Demo</a>
@@ -189,7 +190,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
             getter: function(v) {
                 if(!v){
                     var self = this;
-                    v = '<div class="calendar-pages"></div>' + '<div bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,op_html" class="calendar-operator">{{{op_html}}}</div>';
+                    v = tmpl;
                     if(!self.get('el')){
                         v = '<div class="calendar">' +v+ '</div>'
                     }

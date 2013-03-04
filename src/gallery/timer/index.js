@@ -158,8 +158,9 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick, IO) {
                         break;
                     case 'down':
                         self._currentTime -= self._diffTime;
+                        //这里是干什么的？
                         if(self._currentTime <= 0) {
-                            self._currentTime = interval;
+                            self._currentTime = 0;
                         }
                         break;
                     }

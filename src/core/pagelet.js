@@ -17,9 +17,9 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         return el.attr('id');
     }
     /**
-     * Brix Pagelet 是组件的管理器，实现组件的层次化渲染。
+     * Brix Pagelet 是组件的管理器，实现组件的渲染。
      * 一个页面由多个组件和非组件的HTML片段组成，实际创建过程中需要一个个动态创建，
-     * 基于约定为大的原则，采用“钩子”和Mustache，自动化的完成组件渲染和行为附加
+     * 基于约定为大的原则，采用“钩子”和模板引擎，自动化的完成组件渲染和行为附加
      * @extends Brix.Chunk
      * @class Brix.Pagelet
      */
@@ -131,8 +131,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 var id = _stamp(brickNode),
                     name = brickNode.attr('bx-name'),
                     path = brickNode.attr('bx-path'),
-                    config = brickNode.attr('bx-config');
-                config = config ? (new Function("return " + config))() : {};
+                    config = Brix.returnJSON(brickNode.attr('bx-config'));
                 if(bxConfig && bxConfig[id]) {
                     S.mix(config, bxConfig[id]);
                 }

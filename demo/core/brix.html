@@ -64,7 +64,7 @@
                     '#input5': {
                         click: function(e) {
                             var self = this;
-                            self.pagelet.setChunkData('e', Math.random()>0.5);
+                            self.pagelet.setChunkData('e', !self.pagelet.get('dataset').get('data').e);
                         }
                     }
                 },
@@ -98,7 +98,8 @@
             e: true,
             f: function() {
                 return 'xx';
-            }
+            },
+            g:[5,6,7]
         }
         KISSY.ready(function(S){
             S.use('brix/core/pagelet', function(S, Pagelet) {
@@ -126,25 +127,25 @@
     </script>
     <script type="text/tmpl" id="tmpl">
         <div id="brixtest" bx-name="brixtest" bx-path="components/brixtest/">
-            <input id="input1" type="button" value="局部刷新a">
-            <input id="input2" type="button" value="局部刷新b">
-            <input id="input3" type="button" value="局部刷新c">
-            <input id="input4" type="button" value="局部刷新d">
-            <input id="input5" type="button" value="局部刷新e">
-            <div id="xx" bx-tmpl="a" class="hahah" bx-datakey="a,b" name="xx">
+            <input id="input1" type="button" class="btn btn-red btn-size25" value="局部刷新a">
+            <input id="input2" type="button" class="btn btn-red btn-size25" value="局部刷新b">
+            <input id="input3" type="button" class="btn btn-red btn-size25" value="局部刷新c">
+            <input id="input4" type="button" class="btn btn-red btn-size25" value="局部刷新d">
+            <input id="input5" type="button" class="btn btn-red btn-size25" value="局部刷新e">
+            <div id="xx" bx-tmpl="tmpl_a" class="hahah" bx-datakey="a,b" name="xx">
                 <span>{{a}}</span>
-                <div bx-tmpl="b" bx-datakey="b">
+                <div bx-tmpl="tmpl_b" bx-datakey="b">
                     <span>{{b}}</span>
-                    <div id="J_CalendarTest" bx-name="calendar" class="calendar" bx-config="{popup:false,autoRender:true}">
+                    <div id="J_CalendarTest" bx-name="calendar" class="calendar" bx-config="{popup:false,autoRender:true,showTime:true}">
                     </div>
                     dd
                 </div>
                 sdaf
             </div>
-            <div bx-tmpl="c" bx-datakey="a,c">
+            <div bx-tmpl="tmpl_c" bx-datakey="a,c">
                 <span>{{a}}-{{c}}</span>
             </div>
-            <div bx-tmpl="d" bx-datakey="d">
+            <div bx-tmpl="tmpl_d" bx-datakey="d">
                 <table>
                     <tbody>
                     {{#d}}
@@ -155,12 +156,23 @@
                     </tbody>
                 </table>
             </div>
-            <div bx-tmpl="e" bx-datakey="e" >
+            <div bx-tmpl="tmpl_e" bx-datakey="e" >
             {{^e}}
             <input type="text" value="{{e}}" />
             {{/e}}
             </div>
-            {{f}}
+            <p>function：</p>
+            <p>{{f}}</p>
+            <p>mustache Array “.”测试</p>
+            <table>
+                <tbody>
+                {{#g}}
+                    <tr>
+                        <td>{{.}}<td>
+                    </tr>
+                {{/g}}
+                </tbody>
+            </table>
         </div>
     </script>
 </body>

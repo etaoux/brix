@@ -29,107 +29,72 @@
 (function(S, Brix) {
     var isReady = false,
         readyList = [],
-        win = window,
-        loc = win.location,
-        startsWith = S.startsWith,
-        __pagePath = loc.href.replace(loc.hash, "").replace(/[^\/]*$/i, "");
-    Brix = win[Brix] = win[Brix] || {};
+        host = S.Env.host,
+        location = host.location,
+        simulatedLocation,
+        locationHref;
+    Brix = host[Brix] = host[Brix] || {};
 
     //从KISSY源代码提取并改动适合brix的
-    /**
-     * 相对路径文件名转换为绝对路径
-     * @param path
-     * @ignore
-     */
-
-    function absoluteFilePath(path) {
-        path = S.trim(path);
-
-        // path 为空时，不能变成 "/"
-        if(path && path.charAt(path.length - 1) != '/') {
-            path += "/";
+    simulatedLocation = new S.Uri(locationHref);
+    function returnJSON(s){
+        if(s){
+            return (new Function('return ' + s))();
         }
-
-        /**
-         * 一定要正则化，防止出现 ../ 等相对路径
-         * 考虑本地路径
-         * @ignore
-         */
-        if(!path.match(/^(http(s)?)|(file):/i) && !startsWith(path, "/")) {
-            path = __pagePath + path;
+        else{
+            return {};
         }
-
-        if(startsWith(path, "/")) {
-            var loc = win.location;
-            path = loc.protocol + "//" + loc.host + path;
-        }
-        var paths = path.split("/"),
-            re = [],
-            p;
-        for(var i = 0; i < paths.length; i++) {
-            p = paths[i];
-            if(p == ".") {} else if(p == "..") {
-                re.pop();
-            } else {
-                re.push(p);
-            }
-        }
-        path = re.join("/");
-        return path.substring(0, path.length - 1);
     }
-
     function getBaseInfo() {
-        // get path from current script file path
+        // get base from current script file path
         // notice: timestamp
-        var pathReg = /^(.*)brix(-min)?\.js[^\/]*/i,
-            pathTestReg = /brix(-min)?\.js/i,
-            scripts = win.document.getElementsByTagName('script'),
+        var baseReg = /^(.*)(brix)(?:-min)?\.js[^\/]*/i,
+            baseTestReg = /(brix)(?:-min)?\.js/i,
+            comboPrefix,
+            comboSep,
+            scripts = host.document.getElementsByTagName('script'),
             script = scripts[scripts.length - 1],
-            src = absoluteFilePath(script.src),
-            pathInfo = script.getAttribute("bx-config");
-        if(pathInfo) {
-            pathInfo = (new Function("return " + pathInfo))();
-        } else {
-            pathInfo = {};
-        }
-        pathInfo.comboPrefix = pathInfo.comboPrefix || '??';
-        pathInfo.comboSep = pathInfo.comboSep || ',';
+        // can not use KISSY.Uri
+        // /??x.js,dom.js for tbcdn
+            src = script.src,
+            baseInfo = returnJSON(script.getAttribute('bx-config'));
 
-        var comboPrefix = pathInfo.comboPrefix,
-            comboSep = pathInfo.comboSep,
-            parts = src.split(comboSep),
-            path, part0 = parts[0],
-            part01, index = part0.indexOf(comboPrefix);
+        comboPrefix = baseInfo.comboPrefix = baseInfo.comboPrefix || '??';
+        comboSep = baseInfo.comboSep = baseInfo.comboSep || ',';
+
+        var parts ,
+            base,
+            index = src.indexOf(comboPrefix);
 
         // no combo
-        if(index == -1) {
-            path = src.replace(pathReg, '$1');
+        if (index == -1) {
+            base = src.replace(baseReg, '$1');
         } else {
-            path = part0.substring(0, index);
-            part01 = part0.substring(index + 2, part0.length);
-            // combo first
-            // notice use match better than test
-            if(part01.match(pathTestReg)) {
-                path += part01.replace(pathReg, '$1');
+            base = src.substring(0, index);
+            // a.tbcdn.cn??y.js, ie does not insert / after host
+            // a.tbcdn.cn/combo? comboPrefix=/combo?
+            if (base.charAt(base.length - 1) != '/') {
+                base += '/';
             }
-            // combo after first
-            else {
-                S.each(parts, function(part) {
-                    if(part.match(pathTestReg)) {
-                        path += part.replace(pathReg, '$1');
-                        return false;
-                    }
-                });
-            }
+            parts = src.substring(index + comboPrefix.length).split(comboSep);
+            S.each(parts, function (part) {
+                if (part.match(baseTestReg)) {
+                    base += part.replace(baseReg, '$1');
+                    return false;
+                }
+                return undefined;
+            });
         }
-        path = path.substring(0, path.lastIndexOf('brix'));
+        console.log(base);
+        base = simulatedLocation.resolve(base.substring(0, base.lastIndexOf('brix'))).toString();
+
         return S.mix({
             autoConfig: true,
-            path: path,
+            path: base,
             componentsPath: './',
             importsPath: './',
             templateEngine:'./mu'
-        }, pathInfo);
+        }, baseInfo);
     }
     var defaultOptions = getBaseInfo();
     var debug = ''; //区分src还是dist版本
@@ -249,6 +214,23 @@
                 }
                 readyList = null;
             }
+        },
+        /**
+         * 将bx-config节点转换成JSON格式
+         * @param  {String} s JSON字符串
+         * @return {Object}   JSON对象
+         */
+        returnJSON:function(s) {
+            return returnJSON(s);
+        },
+        /**
+         * 根据模块相对路径获取绝对路径
+         * @param  {Object} module 模块的this
+         * @param  {String} path   相对路径
+         * @return {String}        绝对路径
+         */
+        absoluteFilePath:function(module,path){
+            return new S.Uri(module.getFullPath()).resolve(path).toString(); 
         }
     });
     if(defaultOptions.autoConfig) {
@@ -927,8 +909,10 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
 }, {
     requires: ["./mustache"]
 });
-KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
+KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
     var $ = Node.all;
+    //用于缓存xhr获取的模板
+    var templates = {};
     /**
      * 模板解析器，对传入的模板通过钩子进行分析，结合 XTemplate 和数据给出 html 片段。
      * @class Brix.Tmpler
@@ -939,7 +923,7 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
 
     function Tmpler(tmpl, level) {
         this.tmpls = [];
-        if(tmpl && (level !== false)) {
+        if (tmpl && (level !== false)) {
             this._bx_praseTmpl(tmpl, level);
         } else {
             this.tmpl = tmpl;
@@ -957,16 +941,33 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
             var self = this,
                 inDom = false,
                 node, tmplNode;
-            if(typeof tmpl === 'string') {
-                if(tmpl.charAt(0) === '.' || tmpl.charAt(0) === '#' || tmpl === 'body') {
+            if (typeof tmpl === 'string') {
+                if (tmpl.charAt(0) === '.' || tmpl.charAt(0) === '#' || tmpl === 'body') {
                     node = $(tmpl);
+                } else {
+                    var reg = /@TEMPLATE\|(.*?)\|TEMPLATE@/g;
+                    if (reg.test(tmpl)) {
+                        tmpl = tmpl.replace(reg, function($1, $2) {
+                            if (!templates[$2]) {
+                                IO({
+                                    url: $2,
+                                    dataType: 'html',
+                                    async: false,
+                                    success: function(d, textStatus, xhrObj) {
+                                        templates[$2] = d;
+                                    }
+                                });
+                            }
+                            return templates[$2] || '';
+                        });
+                    }
                 }
             } else {
                 node = tmpl;
             }
 
-            if(node) {
-                if(node.item(0)[0].nodeName.toUpperCase() == 'SCRIPT') {
+            if (node) {
+                if (node.item(0)[0].nodeName.toUpperCase() == 'SCRIPT') {
                     //如果是script节点，则直接取html
                     tmpl = node.item(0).html();
                 } else {
@@ -974,9 +975,9 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
                 }
             }
 
-            if(!inDom) {
+            if (!inDom) {
                 var r = '<([\\w]+)\\s+[^>]*?bx-tmpl=["\']?([^"\'\\s]+)["\']?\\s+[^>]*?bx-datakey=["\']?([^"\'\\s]+)["\']?[^>]*?>(@brix@)</\\1>';
-                while(level--) {
+                while (level--) {
                     r = r.replace('@brix@', '(?:<\\1[^>]*>@brix@</\\1>|[\\s\\S])*?');
                 }
                 r = r.replace('@brix@', '(?:[\\s\\S]*?)');
@@ -995,7 +996,7 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
             var self = this;
             var r = new RegExp(self.reg, "ig"),
                 m;
-            while((m = r.exec(tmpl)) !== null) {
+            while ((m = r.exec(tmpl)) !== null) {
                 self.tmpls.push({
                     name: m[2],
                     datakey: m[3],
@@ -1032,18 +1033,17 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
          * @return {String}      html片段
          */
         render: function(data) {
-            if(typeof XTemplate === 'function'){
+            if (typeof XTemplate === 'function') {
                 return new XTemplate(this.getTmpl()).render(data);
+            } else {
+                return XTemplate.render(this.getTmpl(), data);
             }
-            else{
-                return XTemplate.render(this.getTmpl(),data);
-            }
-            
+
         }
     });
     return Tmpler;
 }, {
-    requires: [Brix.templateEngine, 'node', 'sizzle']
+    requires: [Brix.templateEngine, 'node', 'ajax', 'sizzle']
 });
 KISSY.add("brix/core/dataset", function(S, Base) {
     /**
@@ -1816,9 +1816,9 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         return el.attr('id');
     }
     /**
-     * Brix Pagelet 是组件的管理器，实现组件的层次化渲染。
+     * Brix Pagelet 是组件的管理器，实现组件的渲染。
      * 一个页面由多个组件和非组件的HTML片段组成，实际创建过程中需要一个个动态创建，
-     * 基于约定为大的原则，采用“钩子”和Mustache，自动化的完成组件渲染和行为附加
+     * 基于约定为大的原则，采用“钩子”和模板引擎，自动化的完成组件渲染和行为附加
      * @extends Brix.Chunk
      * @class Brix.Pagelet
      */
@@ -1930,8 +1930,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 var id = _stamp(brickNode),
                     name = brickNode.attr('bx-name'),
                     path = brickNode.attr('bx-path'),
-                    config = brickNode.attr('bx-config');
-                config = config ? (new Function("return " + config))() : {};
+                    config = Brix.returnJSON(brickNode.attr('bx-config'));
                 if(bxConfig && bxConfig[id]) {
                     S.mix(config, bxConfig[id]);
                 }

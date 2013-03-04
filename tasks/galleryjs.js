@@ -38,6 +38,7 @@ module.exports = function(grunt) {
                 }
             }
         };
+
         function foo(srcPath, destPath) {
             var srcFile = srcPath + 'index.js';
             var destFile = destPath + 'index.js';
@@ -87,6 +88,10 @@ module.exports = function(grunt) {
             });
             config('concat', concatConfig);
             task.run('concat');
+
+            //对tmpl的获取和替换
+            config('gallerytmpl',uglifyConfig)
+            task.run('gallerytmpl');
 
             config('uglify', uglifyConfig);
             task.run('uglify');

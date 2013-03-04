@@ -1,5 +1,7 @@
-KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
+KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
     var $ = Node.all;
+    //用于缓存xhr获取的模板
+    var templates = {};
     /**
      * 模板解析器，对传入的模板通过钩子进行分析，结合 XTemplate 和数据给出 html 片段。
      * @class Brix.Tmpler
@@ -10,7 +12,7 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
 
     function Tmpler(tmpl, level) {
         this.tmpls = [];
-        if(tmpl && (level !== false)) {
+        if (tmpl && (level !== false)) {
             this._bx_praseTmpl(tmpl, level);
         } else {
             this.tmpl = tmpl;
@@ -28,16 +30,33 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
             var self = this,
                 inDom = false,
                 node, tmplNode;
-            if(typeof tmpl === 'string') {
-                if(tmpl.charAt(0) === '.' || tmpl.charAt(0) === '#' || tmpl === 'body') {
+            if (typeof tmpl === 'string') {
+                if (tmpl.charAt(0) === '.' || tmpl.charAt(0) === '#' || tmpl === 'body') {
                     node = $(tmpl);
+                } else {
+                    var reg = /@TEMPLATE\|(.*?)\|TEMPLATE@/g;
+                    if (reg.test(tmpl)) {
+                        tmpl = tmpl.replace(reg, function($1, $2) {
+                            if (!templates[$2]) {
+                                IO({
+                                    url: $2,
+                                    dataType: 'html',
+                                    async: false,
+                                    success: function(d, textStatus, xhrObj) {
+                                        templates[$2] = d;
+                                    }
+                                });
+                            }
+                            return templates[$2] || '';
+                        });
+                    }
                 }
             } else {
                 node = tmpl;
             }
 
-            if(node) {
-                if(node.item(0)[0].nodeName.toUpperCase() == 'SCRIPT') {
+            if (node) {
+                if (node.item(0)[0].nodeName.toUpperCase() == 'SCRIPT') {
                     //如果是script节点，则直接取html
                     tmpl = node.item(0).html();
                 } else {
@@ -45,9 +64,9 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
                 }
             }
 
-            if(!inDom) {
+            if (!inDom) {
                 var r = '<([\\w]+)\\s+[^>]*?bx-tmpl=["\']?([^"\'\\s]+)["\']?\\s+[^>]*?bx-datakey=["\']?([^"\'\\s]+)["\']?[^>]*?>(@brix@)</\\1>';
-                while(level--) {
+                while (level--) {
                     r = r.replace('@brix@', '(?:<\\1[^>]*>@brix@</\\1>|[\\s\\S])*?');
                 }
                 r = r.replace('@brix@', '(?:[\\s\\S]*?)');
@@ -66,7 +85,7 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
             var self = this;
             var r = new RegExp(self.reg, "ig"),
                 m;
-            while((m = r.exec(tmpl)) !== null) {
+            while ((m = r.exec(tmpl)) !== null) {
                 self.tmpls.push({
                     name: m[2],
                     datakey: m[3],
@@ -103,16 +122,15 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node) {
          * @return {String}      html片段
          */
         render: function(data) {
-            if(typeof XTemplate === 'function'){
+            if (typeof XTemplate === 'function') {
                 return new XTemplate(this.getTmpl()).render(data);
+            } else {
+                return XTemplate.render(this.getTmpl(), data);
             }
-            else{
-                return XTemplate.render(this.getTmpl(),data);
-            }
-            
+
         }
     });
     return Tmpler;
 }, {
-    requires: [Brix.templateEngine, 'node', 'sizzle']
+    requires: [Brix.templateEngine, 'node', 'ajax', 'sizzle']
 });

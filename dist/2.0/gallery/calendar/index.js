@@ -1,4 +1,5 @@
 KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_Date) {
+    var tmpl = '<div class="calendar-pages"></div><div bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,op_html" class="calendar-operator"> {{{op_html}}}</div>';
     /**
      * 日历
      * <br><a href="../demo/gallery/calendar/calendar.html" target="_blank">Demo</a>
@@ -189,7 +190,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
             getter: function(v) {
                 if(!v){
                     var self = this;
-                    v = '<div class="calendar-pages"></div>' + '<div bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,op_html" class="calendar-operator">{{{op_html}}}</div>';
+                    v = tmpl;
                     if(!self.get('el')){
                         v = '<div class="calendar">' +v+ '</div>'
                     }
@@ -865,6 +866,7 @@ KISSY.add('brix/gallery/calendar/date', function(S) {
     };
 });
 KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
+    var tmpl = '<div class="calendar-page"><div class="calendar-page-hd"><div bx-mpl="page" bx-datakey="prev"> {{#prev}} <a href="javascript:void(0);" class="calendar-prev-year"><i class="iconfont">&#403</i><i class="iconfont icon-yp">&#403</i></a><a href="javascript:void(0);" class="calendar-prev-month"><i class="iconfont">&#403</i></a> {{/prev}} </div><a bx-tmpl="yearmonth" bx-datakey="year,month" href="javascript:void(0);" class="calendar-year-month"> {{year}}年{{month}}月 </a><div bx-tmpl="next" bx-datakey="next"> {{#next}} <a href="javascript:void(0);" class="calendar-next-month "><i class="iconfont">&#402</i></a><a href="javascript:void(0);" class="calendar-next-year "><i class="iconfont icon-yn">&#402</i><i class="iconfont">&#402</i></a> {{/next}} </div><div class="calendar-year-month-pupop" ><p bx-tmpl="select" bx-datakey="month,select_html">{{{select_html}}}</p><p bx-tmpl="year" bx-datakey="year">年:<input type="text" value="{{year}}" onfocus="this.select()"></p><p><a class="btn btn-size25 btn-pupop-confirm">确定</a><a class="btn-pupop-cancel" href="#">取消</a></p></div></div><div bx-tmpl="pagewbd" bx-datakey="startDay,days_html" class="calendar-page-wbd"> {{{days_html}}} </div><div bx-tmpl="pagedbd" bx-datakey="startDay,year,month,selected,range,multi,disabled,minDate,maxDate,da_html" class="calendar-page-dbd"> {{{da_html}}} </div><div class="calendar-page-fd"></div></div>';
     var days = ['日','一','二','三','四','五','六'];
     function _handleDaysOffset(startDay) {
         var a = [];
@@ -903,40 +905,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
             value:true
         },
         tmpl:{
-            valueFn:function(){
-                var self = this;
-                return '<div  class="calendar-page">'+
-                        '<div class="calendar-page-hd">'+
-                            '<div bx-mpl="page" bx-datakey="prev">'+
-                            '{{#prev}}'+
-                            '<a href="javascript:void(0);" class="calendar-prev-year"><i class="iconfont">&#403</i><i class="iconfont icon-yp">&#403</i></a>'+
-                            '<a href="javascript:void(0);" class="calendar-prev-month"><i class="iconfont">&#403</i></a>'+
-                            '{{/prev}}'+
-                            '</div>'+
-                            '<a bx-tmpl="yearmonth" bx-datakey="year,month" href="javascript:void(0);" class="calendar-year-month">{{year}}年{{month}}月</a>'+
-                            '<div bx-tmpl="next" bx-datakey="next">'+
-                            '{{#next}}'+
-                            '<a href="javascript:void(0);" class="calendar-next-month "><i class="iconfont">&#402</i></a>'+
-                            '<a href="javascript:void(0);" class="calendar-next-year "><i class="iconfont icon-yn">&#402</i><i class="iconfont">&#402</i></a>'+
-                            '{{/next}}'+
-                            '</div>'+
-                            '<div class="calendar-year-month-pupop" >'+
-                                '<p bx-tmpl="select" bx-datakey="month,select_html">{{{select_html}}}</p>'+
-                                '<p bx-tmpl="year" bx-datakey="year">年:<input type="text" value="{{year}}" onfocus="this.select()"></p>'+
-                                '<p><a class="btn btn-size25 btn-pupop-confirm">确定</a><a class="btn-pupop-cancel" href="#">取消</a></p>'+
-                            '</div>'+
-                        '</div>'+
-                        '<div bx-tmpl="pagewbd" bx-datakey="startDay,days_html" class="calendar-page-wbd">'+    
-                            '{{{days_html}}}'+
-                        '</div>'+
-                        '<div bx-tmpl="pagedbd" bx-datakey="startDay,year,month,selected,range,multi,disabled,minDate,maxDate,da_html" class="calendar-page-dbd">'+
-                           '{{{da_html}}}'+
-                        '</div>'+
-                        '<div class="calendar-page-fd">'+
-                            
-                        '</div>'+
-                    '</div>'
-                }
+            value:tmpl
         },
         data:{
             valueFn: function() {
@@ -1218,6 +1187,7 @@ KISSY.add('brix/gallery/calendar/time', function(S, Brick) {
         m: ['00','10','20','30','40','50'],
         s: ['00','10','20','30','40','50']
     }
+    var tmpl = '<div><div class="calendar-time"> 时间：<span class="h">{{h}}</span>:<span class="m">{{m}}</span>:<span class="s">{{s}}</span><div class="calendar-time-updown"><i class="iconfont u">&#456</i><i class="iconfont d">&#459</i></div></div><div class="calendar-time-popup"><div bx-tmpl="time" bx-datakey="list" class="calendar-time-popup-bd"> {{#list}} <a class="item">{{.}}</a> {{/list}} </div><i class="iconfont icon-close">&#223</i></div></div>';
     function Time() {
         Time.superclass.constructor.apply(this, arguments);
     }
@@ -1232,24 +1202,7 @@ KISSY.add('brix/gallery/calendar/time', function(S, Brick) {
             value:true
         },
         tmpl:{
-            value : '<div>'+
-                        '<div class="calendar-time">'+
-                            '时间：<span class="h">{{h}}</span>:<span class="m">{{m}}</span>:<span class="s">{{s}}</span>'+
-                            '<div class="calendar-time-updown">'+
-                                '<i class="iconfont u">&#456</i><i class="iconfont d">&#459</i>'+
-                            '</div>'+
-                        '</div>'+
-                        '<div class="calendar-time-popup">'+
-                            '<div bx-tmpl="time" bx-datakey="list" class="calendar-time-popup-bd">'+
-                            '<!--bx-tmpl="time" bx-datakey="list"-->'+
-                                '{{#list}}'+
-                                '<a class="item">{{.}}</a>'+
-                                '{{/list}}'+
-                            '<!--bx-tmpl="time"-->'+
-                            '</div>'+
-                            '<i class="iconfont icon-close">&#223</i>'+
-                        '</div>'+
-                    '</div>'
+            value : tmpl
         },
         data:{
             valueFn: function() {
