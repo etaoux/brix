@@ -1,1 +1,0 @@
-KISSY.add("brix/core/dataset",function(a,b){function c(){c.superclass.constructor.apply(this,arguments)}return c.ATTRS={data:{}},a.extend(c,b,{setRenderer:function(a,b,c){var d=this,e=d.get("data"),f,g;c=c?c+"_":"";if(a){var h=function(d,f){var g=c+d+"_"+f,h=a[d][f];e[g]=function(){return h.call(this,b,d)}};for(f in a)for(g in a[f])h(f,g)}}}),c},{requires:["base"]});
