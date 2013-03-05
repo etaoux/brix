@@ -1,0 +1,74 @@
+.tags {
+  font-size: 0;
+  letter-spacing: -5px;
+  white-space: nowrap;
+  word-wrap: normal;
+}
+.tags-hd {
+  color: #101010;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: normal;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: top;
+  padding: 3px 5px 4px 0;
+}
+.tags-bd {
+  font-size: 12px;
+  letter-spacing: normal;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  vertical-align: top;
+  margin: 0;
+}
+.tags-list,
+.tags-list li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.tags-list li {
+  float: left;
+  height: 18px;
+  line-height: 18px;
+  padding: 3px 8px 4px 8px;
+  margin: 0 10px 10px 0;
+  background-color: #eee;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+.tags-list .no-bg {
+  background-color: transparent;
+}
+.tags-list .current {
+  background-color: #488fdc;
+}
+.tags-list .current a {
+  color: #ffffff;
+}
+.tags-list .current a:hover {
+  color: #ffffff;
+}
+.tags-list li a {
+  color: #606060;
+  text-decoration: none;
+}
+.tags-list li a:hover {
+  color: #ff8400;
+}
+.tags-list .del {
+  background: transparent url(http://img01.taobaocdn.com/tps/i1/T1mczJXiheXXa9hgfr-5-5.png) no-repeat 5px center;
+  color: #acacac;
+  padding-left: 5px;
+  display: inline-block;
+  *zoom: 1;
+  text-indent: -999px;
+  vertical-align: middle;
+  width: 5px;
+  height: 18px;
+  overflow: hidden;
+}

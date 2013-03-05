@@ -26,65 +26,51 @@ module.exports = function(grunt) {
     // TASKS
     // ==========================================================================
     grunt.registerMultiTask('galleryless', 'Compile Gallery LESS files.', function() {
-        var src = this.file.src;
-        var dest = this.file.dest;
-        var options = this.data.options || {};
-        if(options.compress||options.yuicompress){
-            if(!options.min){
-                options.min = '-min';
+        var lessConfig = {};
+
+        function foo(srcPath, destPath,p) {
+            var srcFile = srcPath + p+'.less';
+            var destFile = destPath + p+'.css';
+            if (fs.existsSync(srcFile)) {
+                lessConfig[srcPath] = {
+                    files: {}
+                };
+                lessConfig[srcPath].files[srcPath + p+'.css'] = srcFile;
+
+                lessConfig[destPath] = {
+                    files: {}
+                };
+                lessConfig[destPath].files[destFile] = srcFile;
+
+                lessConfig[destPath + 'min'] = {
+                    options: {
+                        yuicompress: true
+                    },
+                    files: {}
+                };
+                lessConfig[destPath + 'min'].files[destPath + p+'-min.css'] = srcFile;
             }
         }
-        else{
-            options.min = '';
-        }
+        this.files.forEach(function(f) {
+            var src = f.src;
+            var dest = f.dest;
+            src.forEach(function(dir){
+                fs.readdirSync(dir).forEach(function(p) {
+                    var srcPath = dir + p + '/'
+                    var destPath = dest + p + '/'
+                    foo(srcPath, destPath,p);
 
-        if (!src) {
-            grunt.warn('Missing src property.');
-            return false;
-        }
-
-        if (!dest) {
-            grunt.warn('Missing dest property');
-            return false;
-        }
-
-        var files = fs.readdirSync(src);
-        var count = 0;
-        var done = this.async();
-        function foo(srcPath,destPath,f){
-            count++;
-            var srcFile = srcPath + f + '.less';
-            var destFile = destPath + f + options.min+'.css'
-            if (fs.existsSync(srcFile)) {
-                grunt.helper('less', [srcFile], options, function(err, css) {
-                    if (err) {
-                        grunt.warn(err);
-                        done(false);
-                        return;
-                    }
-                    file.write(destFile, css);
-                    count--;
-                    if(count==0){
-                        done();
+                    var extPath = srcPath + 'ext/';
+                    if (fs.existsSync(extPath)) {
+                        var extFiles = fs.readdirSync(extPath);
+                        extFiles.forEach(function(p) {
+                            foo(extPath + p + '/', destPath + 'ext/' + p + '/',p);
+                        })
                     }
                 });
-            }
-            else{
-                count--;
-            }
-        }
-        files.forEach(function(f) {
-            var srcPath = src + '/' + f + '/' 
-            var destPath = dest + '/' + f + '/' 
-            foo(srcPath,destPath,f);
-
-            var extPath = srcPath+'ext/';
-            if(fs.existsSync(extPath)){
-                var extFiles = fs.readdirSync(extPath);
-                extFiles.forEach(function(f){
-                   foo(extPath+f+'/',destPath+'ext/'+f+'/',f); 
-                })
-            }
+            });
         });
+        config('less', lessConfig);
+        task.run('less');
     });
 };

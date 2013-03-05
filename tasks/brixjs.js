@@ -26,35 +26,61 @@ module.exports = function(grunt) {
     // TASKS
     // ==========================================================================
     grunt.registerMultiTask('brixjs', 'Compile Brix JS files.', function() {
-        var pkg = file.readJSON('package.json');
-        var src = this.file.src,
-            dest = this.file.dest;
-        var max,min, 
-            files = ['mustache.js', 'mu.js', 'tmpler.js', 'dataset.js', 'chunk.js', 'brick.js', 'pagelet.js','demolet.js','brix.js'],
-            banner = grunt.task.directive('<banner:meta.banner>', function() { return null; });
-
-        if(!banner){
-            banner = '';
-        }
-        files.forEach(function(f,i){
-            files[i] = [src+'core/'+f];
-            max = grunt.helper('concat',files[i] , {
-                separator: '\n'
+        var pkg = config('pkg');
+        var files = ['brix.js', 'mustache.js', 'mu.js', 'tmpler.js', 'dataset.js', 'chunk.js', 'brick.js', 'pagelet.js', 'demolet.js'];
+        var banner = '/*! Brix - v<%= pkg.version %>\n' + '* <%= pkg.homepage %>\n' + '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' + ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */ \n';
+        this.files.forEach(function(f) {
+            files.forEach(function(name, i) {
+                var srcPath = f.src + 'core/' + name;
+                var destPath = f.dest + 'core/' + name;
+                files[i] = destPath;
+                if (i == 0) {
+                    //对brix.js进行替换处理
+                    var src = file.read(srcPath).replace('@DEBUG@', '').replace('@VERSION@', pkg.version).replace('@TAG@', pkg.tag);
+                    file.write(destPath, src);
+                } else {
+                    file.copy(srcPath, destPath);
+                }
             });
-            max = max.replace('@DEBUG@','').replace('@VERSION@',pkg.version).replace('@TAG@',pkg.tag);
-            file.write(dest+'core/'+f, max);
-            min = grunt.helper('uglify', max, grunt.config('uglify'));
-            file.write(dest+'core/'+path.basename(f,'.js')+'-min.js', min);
+
+            //执行contact和uglify
+            config('concat', {
+                options: {
+                    banner: banner,
+                    separator: '\n'
+                },
+                dist: {
+                    src: files,
+                    dest: f.dest + 'brix.js'
+                }
+            });
+            task.run('concat');
+            var uglifyConfig = {
+                core: {
+                    options: {
+                        beautify: {
+                            ascii_only: true
+                        }
+                    },
+                    files: {}
+                },
+                dist: {
+                    options: {
+                        banner: banner,
+                        beautify: {
+                            ascii_only: true
+                        }
+                    },
+                    files: {}
+                }
+            };
+            files.forEach(function(name) {
+                uglifyConfig.core.files[f.dest + 'core/' + path.basename(name, '.js') + '-min.js'] = [name];
+            });
+            uglifyConfig.dist.files[f.dest + 'brix-min.js'] = files;
+            
+            config('uglify', uglifyConfig);
+            task.run('uglify');
         });
-
-        max = grunt.helper('concat', files, {
-            separator: '\n'
-        });
-        max = max.replace('@DEBUG@','').replace('@VERSION@',pkg.version).replace('@TAG@',pkg.tag);
-        file.write(dest+'brix.js', banner+max);
-
-        min = grunt.helper('uglify', max, grunt.config('uglify'));
-        file.write(dest+'brix-min.js', banner+min);
-
     });
 };

@@ -232,14 +232,17 @@
         //自动实例化pagelet
         //外部调用的S.ready注册的方法中可以直接用Brix.pagelet实例书写业务逻辑
         if(defaultOptions.autoPagelet) {
-            S.use('brix/core/pagelet', function(S, Pagelet) {
-                S.ready(function() {
-                    Brix.pagelet = new Pagelet({
-                        tmpl: 'body'
+            //延时执行，在打包后的能保证后面的模块已经载入
+            S.later(function(){
+                S.use('brix/core/pagelet', function(S, Pagelet) {
+                    S.ready(function() {
+                        Brix.pagelet = new Pagelet({
+                            tmpl: 'body'
+                        });
+                        Brix._fireReady();
                     });
-                    Brix._fireReady();
                 });
-            });
+            },1);
             return;
         }
     }

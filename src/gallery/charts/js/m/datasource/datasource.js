@@ -47,7 +47,7 @@ KISSY.add('brix/gallery/charts/js/m/datasource/datasource',function(S,Base){
 		_V1:function($data){
 			var self = this
 			var o = S.clone(self.get('o'))
-			var domParser = new  DOMParser();
+			var domParser = new DOMParser();
 			var xmlDoc = domParser.parseFromString($data, 'text/xml');
 			var __chart = xmlDoc.getElementsByTagName("chart")[0]
 
