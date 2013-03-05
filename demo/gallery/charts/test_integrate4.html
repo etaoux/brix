@@ -1,0 +1,62 @@
+<!--
+综合图4(折线 + 饼图)
+//type = 类型(空或histogram = 纵向直方图  |  scatter = 散点图  |  line = 折线图(区域图)  |  line2 = 折线图(多日期) |  line3 = 折线图(双指标)  |  pie = 饼图  |  map = 地图  |  integrate = 综合图(直方+折线)  |  integrate2 = 综合图2(直方+双饼图)  |  integrate3 = 综合图3(直方+饼图)  |  integrate4 = 综合图4(折线+饼图)  |  integrate5 = 综合图5(折线+轴信息))[默认为纵向直方图]
+<chart v="1.0" type="integrate4">
+	<data/>
+</chart>
+
+//------------------------------------
+chartData:
+<chart>
+	<data>
+		//labels = 横向显示的数据(,号分开)
+		//name = 预留
+		//names = 鼠标划入时对应的信息 长度必须与labels一样
+		<indexAxis labels="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23" name="" names="0:00,1:00,2:00,3:00,4:00,5:00,6:00,7:00,8:00,9:00,10:00,11:00,12:00,13:00,14:00,15:00,16:00,17:00,18:00,19:00,20:00,21:00,22:00,23:00"></indexAxis>
+		//name = 预留
+		<sets name="">
+			//name = 鼠标划入时显示的第一行前信息
+			<set name="点击：">
+				//values = 右侧纵向显示的数据 
+				//name = 鼠标划入时显示的前信息的前缀
+				//name_sign = 饼图信息中显示的前信息的前缀
+				//*根据set节点的顺序 显示时set在前的折线在上层
+				<set values="145,413,243,360,327,44,360,487,115,405,270,318,71,423,435,331,169,247,264,26,54,260,321,168" name="智能优化：" name_sign="智能优化"/>
+				<set values="763,60,946,725,933,853,539,568,209,328,995,746,128,258,925,581,851,267,356,924,394,619,947,839" name="品牌展位：" name_sign="品牌展位"/>
+			</set>
+		</sets>
+	</data>
+</chart>
+-->
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Brix Chart Demo 综合图4(折线,饼图)</title>
+    <meta charset="utf-8" />
+    <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
+    <link rel="stylesheet" href="../../assets/doc.css">
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script>
+    <!--<script src="http://a.tbcdn.cn/apps/e/brix/1.0/brix.js" bx-config="{autoConfig:true}"></script>-->
+    <!--<script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>-->
+    <script src="../../../dist/1.0/brix.js" bx-config="{autoConfig:true,fixed:'dist/1.0/'}"></script>
+</head>
+<body>
+	<div id="J_wrapper1" class="wrapper1" style="width:720px;height:400px;"></div>
+	
+	<script type="text/javascript">
+
+		KISSY.use('brix/gallery/charts/',function(S,Charts){
+			new Charts({
+					parent_id:'J_wrapper1',
+
+					config:{
+						configData:'<?xml version="1.0"?><chart v="1.0" type="integrate4"><data/></chart>',
+						
+						chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23" name="" names="0:00,1:00,2:00,3:00,4:00,5:00,6:00,7:00,8:00,9:00,10:00,11:00,12:00,13:00,14:00,15:00,16:00,17:00,18:00,19:00,20:00,21:00,22:00,23:00"><key indexs="3"/></indexAxis><sets name=""><set name="点击："><set values="145,413,243,360,327,44,360,487,115,405,270,318,71,423,435,331,169,247,264,26,54,260,321,168" name="智能优化：" name_sign="智能优化"/><set values="763,60,946,725,933,853,539,568,209,328,995,746,128,258,925,581,851,267,356,924,394,619,947,839" name="品牌展位：" name_sign="品牌展位"/></set></sets></data></chart>'
+					}
+			});
+		})
+	</script>
+</body>
+</html>
