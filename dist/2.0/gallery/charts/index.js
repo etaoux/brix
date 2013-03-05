@@ -41,7 +41,7 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 			value : null
 		},
 		url_svg:{
-			value : 'brix/gallery/charts/js/case'    //case.js   svg版本主入口
+			value : 'brix/gallery/charts/js/case'        //case.js   svg版本主入口
 		},
 		url_swf:{
 			value : 'brix/gallery/charts/as/case'        //case.swf  swf版本主入口
@@ -79,6 +79,8 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 			if(S.UA.shell == 'maxthon' || (S.UA.shell == 'ie')){
 				isSWF = 1
 			}
+			isSWF = self._isSWF()
+
 			// isSWF = 1
 			self.set('w',$('#' + self.get('parent_id')).width())
 			self.set('h',$('#' + self.get('parent_id')).height())
@@ -139,6 +141,29 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 					self.get('_case').actions('reset')
 				}
 			}
+		},
+
+		_isSWF:function(){
+			var self = this
+			var o = self._xml(self.get('config').configData)
+			var arr = ['integrate2','integrate3','integrate4','integrate5']
+			for(var a = 0, al = arr.length; a<al; a++){
+				if(o.type == arr[a]){
+					return 1
+				}
+			}
+			return 0
+		},
+
+		_xml:function($data){
+			var self = this
+			var o = {type:''}
+			var domParser = new DOMParser();
+			var xmlDoc = domParser.parseFromString($data, 'text/xml');
+			var __chart = xmlDoc.getElementsByTagName("chart")[0]
+			o.type = __chart.getAttribute('type') && String(__chart.getAttribute('type')) ? String(__chart.getAttribute('type')) : ''
+
+			return o
 		}
 	});
 
@@ -188,6 +213,11 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2012.12.04
 	*  内容:
 	*       优化：js文件打包 去掉两个src目录
+	*
+	*  版本:1.0.6
+	*  日期:2013.03.05
+	*  内容:
+	*       新增：综合2、综合3、综合4、综合5 4副图表
  */
 
 
