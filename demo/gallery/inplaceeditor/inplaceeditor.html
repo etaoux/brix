@@ -5,7 +5,7 @@
         <title>Brix InplaceEditor Demo</title>
         <link rel="stylesheet" href="../../../src/style/brix-min.css"/>
         <link rel="stylesheet" href="../../../src/gallery/inplaceeditor/index.css">
-        <link rel="stylesheet" href="../../../src/gallery/form/form.css">
+        <link rel="stylesheet" href="../../../src/gallery/form/index.css">
         <link rel="stylesheet" href="../../assets/doc.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script>
         <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,fixed:'src/'}"></script>
@@ -90,9 +90,11 @@
                 KISSY.use("brix/gallery/inplaceeditor/,cookie,json", function(S, InplaceEditor, COOKIE, JSON) {
                     var url_listNode = S.one('.url_list'),url_add_conNode = S.one('.url_add_con'),inplaceeditor = new InplaceEditor();
                     inplaceeditor.on('valueChange',function(e){
+                        S.log(S.guid())
                         var inputNode = inplaceeditor.get('el').one('input');
                         S.one('#item_' + inputNode.attr('data-sid')).one('span').html(e.value);
                         saveData();
+                        return false;
                     });
                     var navData = JSON.parse(COOKIE.get('userNavigationData')) || [{
                         name: '淘网址',
@@ -184,6 +186,7 @@
                         if(!inplaceeditor1){
                             inplaceeditor1 = new InplaceEditor();
                             inplaceeditor1.on('valueChange',function(ev){
+                                S.log(S.guid())
                                 editNode.html(ev.value);
                             });
                         }
