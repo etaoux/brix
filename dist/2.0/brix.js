@@ -97,7 +97,7 @@
         }, baseInfo);
     }
     var defaultOptions = getBaseInfo();
-    var debug = ''; //区分src还是dist版本
+    var debug = '@DEBUG@'; //区分src还是dist版本
     var tag = '20121226'; //KISSY包时间戳
     var version = '2.0'; //版本号
     var isConfig = false; //是否已经配置过
@@ -112,19 +112,16 @@
             }
             isConfig = true;
             options = S.merge({
-                debug: debug == '@DEBUG@' ? true : false,
-                combine:true,//默认开始combine
+                debug: debug === '' ? false : true,
+                combine:false,//默认不开启combine
                 tag: tag == '@TAG@' ? '' : tag,
                 //路径修正，brix路径下存在其他文件夹
-                fixed: version == '@VERSION@' ? '' : version + '/',
+                fixed: version == '@VERSION@' ? 'src/' : version + '/',
                 gallery: {
                     //配置组件版本信息
                     //dropdown:'1.0'
                 }
             }, defaultOptions, options);
-            if(options.fixed == '@VERSION@') {
-                options.fixed = '';
-            }
             /**
              * brix 的基础路径
              * @type {String}
@@ -145,6 +142,7 @@
                     name: "brix",
                     base: options.base,
                     combine:options.combine,
+                    debug:options.debug,
                     tag: options.tag,
                     charset: "utf-8"
                 }, {
@@ -170,17 +168,11 @@
                         if(options.gallery[$3]) {
                             str += '/' + options.gallery[$3];
                         }
-                        if(options.debug) {
-                            $4 = $4.replace('-min', '');
-                        }
                         str += $4 + ($5 ? $5 : '');
                         return str;
                     }],
                     [/(.+brix\/)(core.+?)((?:-min)?\.js)(\?[^?]+)?$/, function($0, $1, $2, $3, $4) {
                         var str = $1 + options.fixed;
-                        if(options.debug) {
-                            $3 = $3.replace('-min', '');
-                        }
                         str += $2 + $3 + ($4 ? $4 : '');
                         return str;
                     }]
