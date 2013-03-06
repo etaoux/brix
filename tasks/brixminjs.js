@@ -26,10 +26,10 @@ module.exports = function(grunt) {
     // TASKS
     // ==========================================================================
     grunt.registerMultiTask('brixminjs', 'Compile BrixMin JS files.', function() {
-        console.log(this.files);
+        //console.log(this.files);
         this.files.forEach(function(f) {
             f.src.forEach(function(p){
-                console.log(p);
+                //console.log(p);
                 var src = file.read(p).replace('@DEBUG@', '');
                 file.write(p, src);
             });
