@@ -192,7 +192,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			self.get('_graphs').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w') + Global.N05, self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05)
 
 			self.get('_infos').init({parent:self.get('element')})
-// return	
+			
 			var o = {
 				w     : self.get('w'),
 				h     : self.get('h'),
@@ -201,6 +201,9 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			}
 			self.get('_globalInduce').init(o)
 
+			if(self.get('_DataFrameFormat').horizontal.org.length == 0){
+				return
+			}
 			var o = {
 				x     : self.get('_disX') + self.get('_vertical').get('w') + Global.N05,
 				y     : self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05,
@@ -269,6 +272,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			var dis = disMin
 			dis = disMin + self.get('_horizontalMaxW') % self.get('_DataFrameFormat').horizontal.org.length 
 			dis = dis > disMax ? disMax : dis
+			dis = isNaN(dis) ? 0 : dis
 			return dis
 		},
 		//换算图形
@@ -283,7 +287,9 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			for (var a = 0, al = arr.length; a < al; a++ ) {
 				for (var b = 0, bl = arr[a].length ; b < bl; b++ ) {
 					!tmpData[a] ? tmpData[a] = [] : ''
-					tmpData[a][b] = {'value':arr[a][b], 'x':self.get('_dis_graphs') + b / (maxHorizontal - 1) * self.get('_horizontalDrawW'),'y':-self.get('_dis_graphs') - arr[a][b] / maxVertical * self.get('_verticalDrawH')}
+					var y = -self.get('_dis_graphs') - arr[a][b] / maxVertical * self.get('_verticalDrawH')
+					y = isNaN(y) ? 0 : y
+					tmpData[a][b] = {'value':arr[a][b], 'x':self.get('_dis_graphs') + b / (maxHorizontal - 1) * self.get('_horizontalDrawW'),'y':y}
 					if(no_nodes[a] && no_nodes[a][b]){
 						tmpData[a][b].no_node = 1
 					}
