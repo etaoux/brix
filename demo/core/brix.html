@@ -29,7 +29,7 @@
                 '#input2': {
                     click: function(e) {
                         var self = this;
-                        self.pagelet.setChunkData('b', 'bbb'+S.guid());
+                        self.pagelet.setChunkData('b', 'bbb'+S.guid(),{renderType:'append'});
                     }
                 },
                 '#input3': {
@@ -91,16 +91,14 @@
             <input id="input3" type="button" value="局部刷新c">
             <input id="input4" type="button" value="局部刷新d">
             <input id="input5" type="button" value="局部刷新e">
-            <div id="xx" bx-tmpl="a" class="hahah" bx-datakey="a,b" name="xx">
+            <div id="xx" bx-tmpl="a" class="hahah" bx-datakey="a" name="xx">
                 <span>{{a}}</span>
-                <div bx-tmpl="b" bx-datakey="b">
-                    <span>{{b}}</span>
-                    <div id="J_CalendarTest" bx-name="calendar" class="calendar" bx-config="{popup:false,autoRender:true}">
-                    </div>
-                    dd
-                </div>
-                sdaf
             </div>
+            <div bx-tmpl="b" bx-datakey="b">
+                    <span>{{b}}</span>
+                    <div bx-name="calendar" class="calendar" bx-config="{popup:false,autoRender:true}">
+                    </div>
+                </div>
             <div bx-tmpl="c" bx-datakey="a,c">
                 <!--bx-tmpl="c" bx-datakey="a,c"-->
                 <span>{{a}}-{{c}}</span>
