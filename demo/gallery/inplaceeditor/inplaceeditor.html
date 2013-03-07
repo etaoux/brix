@@ -94,7 +94,6 @@
                         var inputNode = inplaceeditor.get('el').one('input');
                         S.one('#item_' + inputNode.attr('data-sid')).one('span').html(e.value);
                         saveData();
-                        return false;
                     });
                     var navData = JSON.parse(COOKIE.get('userNavigationData')) || [{
                         name: '淘网址',

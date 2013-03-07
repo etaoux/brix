@@ -103,6 +103,13 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             value: 15
         },
         /**
+         * 是否显示每页显示记录数
+         * @cfg {Boolean}
+         */
+        sizeDisplay:{
+            value:true
+        },
+        /**
          * 是否可以修改每页记录数
          * @cfg {Boolean}
          */
@@ -458,6 +465,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 max = self.get('max'),
                 step = Math.min(self.get('step'),max),
                 size = self.get('size'),
+                sizeDisplay = self.get('sizeDisplay'),
                 count = self.get('count'),
                 hascount = self.get('hascount'),
                 pageCount = self.get('pageCount'),
@@ -466,18 +474,22 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
 
             //render statistics
             if (self.get('statistics')) {
-                arrHTML.push('<div class="pagination-info"><span>当前</span><span class="b">' + (count == 0 ? 0 : ((index - 1) * size + 1)) + '-' + Math.min(index * size, count) + '</span><span>条</span><span class="mr">共</span><span class="b">' + count + '</span><span>条</span><span class="mr">每页展现</span>');
-                if (self.get('sizeChange')) {
-                    var sizes = self.get('sizes');
-                    arrHTML.push('<div class="dropdown">' + '<span class="dropdown-hd">' + '<span class="dropdown-text" value="' + S.indexOf(size, sizes) + '">' + size + '</span>' + '</span>' + '<ul class="dropdown-list dropdown-list-noicon">');
-                    S.each(sizes, function(s, i) {
-                        arrHTML.push('<li class="dropdown-item' + (s == size ? ' dropdown-itemselected' : '') + '"><span value="' + i + '">' + s + '</span></li>');
-                    });
-                    arrHTML.push('</ul></div>');
-                } else {
-                    arrHTML.push('<span class="b">' + size + '</span>')
-                }
-                arrHTML.push('<span>条</span></div>');
+                arrHTML.push('<div class="pagination-info"><span>当前</span><span class="b">' + (count == 0 ? 0 : ((index - 1) * size + 1)) + '-' + Math.min(index * size, count) + '</span><span>条</span><span class="mr">共</span><span class="b">' + count + '</span><span>条</span>');
+                if(sizeDisplay){
+                    arrHTML.push('<span class="mr">每页展现</span>');
+                    if (self.get('sizeChange')) {
+                        var sizes = self.get('sizes');
+                        arrHTML.push('<div class="dropdown">' + '<span class="dropdown-hd">' + '<span class="dropdown-text" value="' + S.indexOf(size, sizes) + '">' + size + '</span>' + '</span>' + '<ul class="dropdown-list dropdown-list-noicon">');
+                        S.each(sizes, function(s, i) {
+                            arrHTML.push('<li class="dropdown-item' + (s == size ? ' dropdown-itemselected' : '') + '"><span value="' + i + '">' + s + '</span></li>');
+                        });
+                        arrHTML.push('</ul></div>');
+                    } else {
+                        arrHTML.push('<span class="b">' + size + '</span>')
+                    }
+                    arrHTML.push('<span>条</span>');  
+                } 
+                arrHTML.push('</div>');
             }
 
             //pages
