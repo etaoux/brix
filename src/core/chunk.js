@@ -9,6 +9,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
      * @return {Boolean}     是否有重复
      * @ignore
      */
+
     function isDitto(arr1, arr2) {
         for (var i = 0; i < arr1.length; i++) {
             for (var j = 0; j < arr2.length; j++) {
@@ -16,7 +17,6 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                     return true;
                 }
             }
-
         }
         return false;
     }
@@ -348,8 +348,8 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
             }
         },
         /**
-         * 渲染模板
-         * @param  {Array} keys   更新的数据对象key
+         * 渲染局部模板
+         * @param  {Array} keys  更新的数据对象key
          * @param  {Object} data 数据
          * @private
          */
