@@ -895,7 +895,9 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
         tags: Mustache.tags,
         parse: Mustache.parse,
         compile: Mustache.compile,
-        render: Mustache.render,
+        render: function(){
+            return this.to_html.apply(this,arguments);
+        },
         clearCache: Mustache.clearCache
     };
 }, {
@@ -1095,12 +1097,12 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
         Chunk.superclass.constructor.apply(this, arguments);
         var self = this;
         var tmpl = self.get('tmpl');
-        if(tmpl) {
+        if (tmpl) {
             self._buildTmpler(tmpl, self.get('level'));
             var tmpler = self.get('tmpler');
-            if(tmpler) {
+            if (tmpler) {
                 self._buildDataset(self.get('data'));
-                if(tmpler.inDom) {
+                if (tmpler.inDom) {
                     self.set('el', tmpl);
                 }
             }
@@ -1140,7 +1142,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
          */
         el: {
             getter: function(s) {
-                if(S.isString(s)) {
+                if (S.isString(s)) {
                     s = $(s);
                 }
                 return s;
@@ -1167,7 +1169,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
         container: {
             value: 'body',
             getter: function(s) {
-                if(S.isString(s)) {
+                if (S.isString(s)) {
                     s = $(s);
                 }
                 return s;
@@ -1221,6 +1223,13 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
          */
         level: {
             value: 3
+        },
+        /**   
+         * setChunkData时候的渲染类型，目前支持html，append，prepend
+         * @type {Object}
+         */
+        renderType: {
+            value: 'html'
         }
     };
 
@@ -1233,7 +1242,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
          */
         _buildTmpler: function(tmpl, level) {
             var self = this;
-            if(!self.get('isBuidTmpler')) {
+            if (!self.get('isBuidTmpler')) {
                 self.set('isBuidTmpler', true);
                 var tmpler = new Tmpler(tmpl, level);
                 self.set('tmpler', tmpler);
@@ -1246,7 +1255,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
          */
         _buildDataset: function(data) {
             var self = this;
-            if(!self.get('isBuidDataset')) {
+            if (!self.get('isBuidDataset')) {
                 self.set('isBuidDataset', true);
                 data = data || {}; //原始数据
                 data = S.clone(data); //数据深度克隆
@@ -1267,11 +1276,11 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
             var self = this,
                 tmpler = self.get('tmpler'),
                 dataset = self.get('dataset');
-            if(tmpler) {
+            if (tmpler) {
                 self.set('tmpler', null);
                 delete tmpler.tmpls;
             }
-            if(dataset) {
+            if (dataset) {
                 self.set('dataset', null);
                 dataset.detach();
             }
@@ -1297,12 +1306,23 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
          * @param {Object} data    数据对象
          * @param {Object} [opts]    控制对象，包括以下控制选项
          * @param {Boolean} [opts.silent] 是否触发change事件
+         * @param {Function} [opts.error] 验证失败的回调，包括失败原因
+         * @param {String} [opts.renderType] 渲染类型，目前支持html，append，prepend
          */
         setChunkData: function(datakey, data, opts) {
             var self = this,
                 dataset = self.get('dataset');
-            if(dataset) {
+            if (dataset) {
                 data = S.clone(data);
+                var renderType = 'html';
+                //对opts的处理
+                if (opts) {
+                    if (opts.renderType) {
+                        renderType = opts.renderType;
+                        delete opts.renderType;
+                    }
+                }
+                self.set('renderType', renderType);
                 dataset.set('data.' + datakey, data, opts);
             }
         },
@@ -1311,9 +1331,9 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
          */
         render: function() {
             var self = this;
-            if(!self.get("rendered")) {
+            if (!self.get("rendered")) {
                 var dataset = self.get('dataset');
-                if(dataset) {
+                if (dataset) {
                     self._render('data', dataset.get('data'));
                 }
                 self.set("rendered", true);
@@ -1329,32 +1349,32 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
         _render: function(key, data) {
             var self = this,
                 tmpler = self.get('tmpler');
-            if(tmpler) {
-                if(key.split('.').length > 1) {
-                    if(self.get("rendered")) {
+            if (tmpler) {
+                if (key.split('.').length > 1) {
+                    if (self.get("rendered")) {
                         //已经渲染，才能局部刷新
                         key = key.replace(/^data\./, '');
                         self._renderTmpl(tmpler.tmpls, key, data);
                     }
                 } else {
-                    if(!tmpler.inDom) {
+                    if (!tmpler.inDom) {
                         var container = self.get('container');
                         var el = self.get('el');
                         var html = S.trim(tmpler.to_html(data));
                         var node;
-                        if((!el || el.length === 0)) {
+                        if ((!el || el.length === 0)) {
                             var elID = 'brix_' + S.guid();
-                            if(UA.ie <= 8) {
+                            if (UA.ie <= 8) {
                                 node = new Node('<div />');
                                 container.append(node);
                                 node.html(html);
                                 var childs = node[0].childNodes;
-                                if(childs.length > 1) {
+                                if (childs.length > 1) {
                                     node.attr('id', elID);
                                 } else {
                                     elID = childs[0].id || elID;
                                     childs[0].id = elID;
-                                    while(childs.length > 0) {
+                                    while (childs.length > 0) {
                                         container[0].appendChild(childs[0]);
                                     }
                                     node.remove();
@@ -1362,7 +1382,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                                 }
                             } else {
                                 node = new Node(html);
-                                if(node.length > 1) {
+                                if (node.length > 1) {
                                     node = $('<div id="' + elID + '"></div>').append(node);
                                 } else {
                                     elID = node.attr('id') || elID;
@@ -1372,11 +1392,11 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                             }
                             self.set('el', '#' + elID);
                         } else {
-                            if(UA.ie <= 8) {
+                            if (UA.ie <= 8) {
                                 node = new Node('<div />');
                                 container.append(node);
                                 node.html(html);
-                                while(node[0].childNodes.length > 0) {
+                                while (node[0].childNodes.length > 0) {
                                     container[0].appendChild(node[0].childNodes[0]);
                                 }
                                 node.remove();
@@ -1400,21 +1420,21 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
             var self = this,
                 el = self.get('el');
             S.each(tmpls, function(o) {
-                if((',' + o.datakey + ',').indexOf(',' + key + ',') >= 0) {
+                if ((',' + o.datakey + ',').indexOf(',' + key + ',') >= 0) {
                     var nodes = el.all('[bx-tmpl=' + o.name + ']');
                     //如果el本身也是tmpl，则加上自己
-                    if(el.attr('bx-tmpl') == o.name) {
+                    if (el.attr('bx-tmpl') == o.name) {
                         nodes = el.add(nodes);
                     }
                     nodes.each(function(node) {
-                        if(node.attr('bx-datakey') == o.datakey) {
+                        if (node.attr('bx-datakey') == o.datakey) {
                             var newData = {};
                             S.each(o.datakey.split(','), function(item) {
                                 var tempdata = data,
                                     temparr = item.split('.'),
                                     length = temparr.length,
                                     i = 0;
-                                while(i !== length) {
+                                while (i !== length) {
                                     tempdata = tempdata[temparr[i]];
                                     i++;
                                 }
@@ -1422,16 +1442,27 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                                 tempdata = null;
                             });
                             S.each(data, function(d, k) {
-                                if(S.isFunction(d)) {
+                                if (S.isFunction(d)) {
                                     newData[k] = d;
                                 }
                             });
-                            //局部刷新前触发
+                            var renderType = self.get('renderType') || 'html';
+                            /**  
+                             * @event beforeRefreshTmpl
+                             * 局部刷新前触发
+                             * @param {KISSY.Event.CustomEventObject} e
+                             */
                             self.fire('beforeRefreshTmpl', {
-                                node: node
+                                node: node,
+                                renderType: renderType
                             });
-                            node.html(S.trim(o.tmpler.to_html(newData)));
-                            //局部刷新后触发
+
+                            node[renderType](S.trim(o.tmpler.to_html(newData)));
+                            /**
+                             * @event afterRefreshTmpl
+                             * 局部刷新后触发
+                             * @param {KISSY.Event.CustomEventObject} e
+                             */
                             self.fire('afterRefreshTmpl', {
                                 node: node
                             });
@@ -1911,9 +1942,11 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                     self.bricks = bricks;
                     self._fireReady();
                     self.on('beforeRefreshTmpl',function(e){
-                        e.node.all('[bx-name]').each(function(node){
-                            self.destroy(node.attr('id'));
-                        });
+                        if(e.renderType==='html'){
+                            e.node.all('[bx-name]').each(function(node){
+                                self.destroy(node.attr('id'));
+                            });
+                        }
                     });
                     self.on('afterRefreshTmpl',function(e){
                         self._addBehavior(e.node.all('[bx-name]'),function(newBricks){
@@ -1934,20 +1967,23 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         _addBehavior: function(brickNodes,fn) {
             var self = this,bxConfig = self.get('config'), bricks=[];
             brickNodes.each(function(brickNode){
-                var id = _stamp(brickNode),
-                    name = brickNode.attr('bx-name'),
-                    path = brickNode.attr('bx-path'),
-                    config = brickNode.attr('bx-config');
-                config = config ? (new Function("return " + config))() : {};
-                if(bxConfig&&bxConfig[id]){
-                    S.mix(config,bxConfig[id]);
+                if(brickNode.attr('bx-behavior')!='true'){
+                    var id = _stamp(brickNode),
+                        name = brickNode.attr('bx-name'),
+                        path = brickNode.attr('bx-path'),
+                        config = brickNode.attr('bx-config');
+                    config = config ? (new Function("return " + config))() : {};
+                    if(bxConfig&&bxConfig[id]){
+                        S.mix(config,bxConfig[id]);
+                    }
+                    brickNode.attr('bx-behavior','true');
+                    bricks.push({
+                        id :id,
+                        name:name,
+                        path: path,
+                        config: config
+                    });
                 }
-                bricks.push({
-                    id :id,
-                    name:name,
-                    path: path,
-                    config: config
-                });
             });
 
             //构建pagelet需要引用组件js

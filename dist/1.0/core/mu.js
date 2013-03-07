@@ -116,7 +116,9 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
         tags: Mustache.tags,
         parse: Mustache.parse,
         compile: Mustache.compile,
-        render: Mustache.render,
+        render: function(){
+            return this.to_html.apply(this,arguments);
+        },
         clearCache: Mustache.clearCache
     };
 }, {
