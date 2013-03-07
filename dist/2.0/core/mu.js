@@ -43,27 +43,27 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
     function buildFn(key) {
         key = key.split("==");
         var res = function() {
-                var ns = key[0].split("."),
-                    value = key[1],
-                    curData = this;
-                for (var i = ns.length - 1; i > -1; i--) {
-                    var cns = ns.slice(i);
-                    var d = curData;
-                    try {
-                        for (var j = 0; j < cns.length - 1; j++) {
-                            d = d[cns[j]];
+            var ns = key[0].split("."),
+                value = key[1],
+                curData = this;
+            for (var i = ns.length - 1; i > -1; i--) {
+                var cns = ns.slice(i);
+                var d = curData;
+                try {
+                    for (var j = 0; j < cns.length - 1; j++) {
+                        d = d[cns[j]];
+                    }
+                    if (cns[cns.length - 1] in d) {
+                        if (d[cns[cns.length - 1]].toString() === value) {
+                            return true;
+                        } else {
+                            return false;
                         }
-                        if (cns[cns.length - 1] in d) {
-                            if (d[cns[cns.length - 1]].toString() === value) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        }
-                    } catch (err) {}
-                }
-                return false;
-            };
+                    }
+                } catch (err) {}
+            }
+            return false;
+        };
         return res;
     }
 
@@ -107,7 +107,7 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
                 findArray(data, 0);
             }
             //对if判断在vm中出错的兼容。
-            template = template.replace(/(\{{2,3})@if/ig,'$1#if');
+            template = template.replace(/(\{{2,3})@if/ig, '$1#if');
             addFns(template, data);
             return Mustache.to_html.apply(this, arguments);
         },
@@ -116,7 +116,9 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
         tags: Mustache.tags,
         parse: Mustache.parse,
         compile: Mustache.compile,
-        render: Mustache.render,
+        render: function() {
+            return this.to_html.apply(this, arguments);
+        },
         clearCache: Mustache.clearCache
     };
 }, {

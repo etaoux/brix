@@ -822,27 +822,27 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
     function buildFn(key) {
         key = key.split("==");
         var res = function() {
-                var ns = key[0].split("."),
-                    value = key[1],
-                    curData = this;
-                for (var i = ns.length - 1; i > -1; i--) {
-                    var cns = ns.slice(i);
-                    var d = curData;
-                    try {
-                        for (var j = 0; j < cns.length - 1; j++) {
-                            d = d[cns[j]];
+            var ns = key[0].split("."),
+                value = key[1],
+                curData = this;
+            for (var i = ns.length - 1; i > -1; i--) {
+                var cns = ns.slice(i);
+                var d = curData;
+                try {
+                    for (var j = 0; j < cns.length - 1; j++) {
+                        d = d[cns[j]];
+                    }
+                    if (cns[cns.length - 1] in d) {
+                        if (d[cns[cns.length - 1]].toString() === value) {
+                            return true;
+                        } else {
+                            return false;
                         }
-                        if (cns[cns.length - 1] in d) {
-                            if (d[cns[cns.length - 1]].toString() === value) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        }
-                    } catch (err) {}
-                }
-                return false;
-            };
+                    }
+                } catch (err) {}
+            }
+            return false;
+        };
         return res;
     }
 
@@ -886,7 +886,7 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
                 findArray(data, 0);
             }
             //对if判断在vm中出错的兼容。
-            template = template.replace(/(\{{2,3})@if/ig,'$1#if');
+            template = template.replace(/(\{{2,3})@if/ig, '$1#if');
             addFns(template, data);
             return Mustache.to_html.apply(this, arguments);
         },
@@ -895,7 +895,9 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
         tags: Mustache.tags,
         parse: Mustache.parse,
         compile: Mustache.compile,
-        render: Mustache.render,
+        render: function() {
+            return this.to_html.apply(this, arguments);
+        },
         clearCache: Mustache.clearCache
     };
 }, {
@@ -1242,12 +1244,23 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
          * @param {Object} data    数据对象
          * @param {Object} [opts]    控制对象，包括以下控制选项
          * @param {Boolean} [opts.silent] 是否触发change事件
+         * @param {Function} [opts.error] 验证失败的回调，包括失败原因
+         * @param {String} [opts.renderType] 渲染类型，目前支持html，append，prepend
          */
         setChunkData: function(datakey, data, opts) {
             var self = this,
                 dataset = self.get('dataset');
             if(dataset) {
                 data = S.clone(data);
+                var renderType = 'html';
+                //对opts的处理
+                if(opts){
+                    if(opts.renderType){
+                        renderType = opts.renderType;
+                        delete opts.renderType;
+                    }
+                }
+                self.set('renderType',renderType);
                 dataset.set('data.' + datakey, data, opts);
             }
         },
@@ -1430,15 +1443,18 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                                     newData[k] = d;
                                 }
                             });
+                            var renderType = self.get('renderType') || 'html';
                             /**
                              * @event beforeRefreshTmpl
                              * 局部刷新前触发
                              * @param {KISSY.Event.CustomEventObject} e
                              */
                             self.fire('beforeRefreshTmpl', {
-                                node: node
+                                node: node,
+                                renderType:renderType
                             });
-                            node.html(S.trim(o.tmpler.render(newData)));
+
+                            node[renderType](S.trim(o.tmpler.render(newData)));
                             /**
                              * @event afterRefreshTmpl
                              * 局部刷新后触发
@@ -1537,6 +1553,13 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
              */
             level: {
                 value: 3
+            },
+            /**
+             * setChunkData时候的渲染类型，目前支持html，append，prepend
+             * @type {Object}
+             */
+            renderType:{
+                value:'html'
             }
         }
     });
@@ -1892,9 +1915,11 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 }, function() {
                     self._bx_fireReady();
                     self.on('beforeRefreshTmpl', function(e) {
-                        e.node.all('[bx-name]').each(function(node) {
-                            self.destroyBrick(node.attr('id'));
-                        });
+                        if(e.renderType==='html'){
+                            e.node.all('[bx-name]').each(function(node) {
+                                self.destroyBrick(node.attr('id'));
+                            });
+                        }
                     });
                     self.on('afterRefreshTmpl', function(e) {
                         self._bx_addBehavior(e.node.all('[bx-name]'), function(newBricks) {
@@ -1919,19 +1944,22 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 bxConfig = self.get('config'),
                 bricks = [];
             brickNodes.each(function(brickNode) {
-                var id = _stamp(brickNode),
-                    name = brickNode.attr('bx-name'),
-                    path = brickNode.attr('bx-path'),
-                    config = Brix.returnJSON(brickNode.attr('bx-config'));
-                if(bxConfig && bxConfig[id]) {
-                    S.mix(config, bxConfig[id]);
+                if(brickNode.attr('bx-behavior')!='true'){
+                    var id = _stamp(brickNode),
+                        name = brickNode.attr('bx-name'),
+                        path = brickNode.attr('bx-path'),
+                        config = Brix.returnJSON(brickNode.attr('bx-config'));
+                    if(bxConfig && bxConfig[id]) {
+                        S.mix(config, bxConfig[id]);
+                    }
+                    brickNode.attr('bx-behavior','true');
+                    bricks.push({
+                        id: id,
+                        name: name,
+                        path: path,
+                        config: config
+                    });
                 }
-                bricks.push({
-                    id: id,
-                    name: name,
-                    path: path,
-                    config: config
-                });
             });
 
             //构建pagelet需要引用组件js
