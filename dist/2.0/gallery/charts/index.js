@@ -79,6 +79,7 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 			if(S.UA.shell == 'maxthon' || (S.UA.shell == 'ie')){
 				isSWF = 1
 			}
+
 			isSWF = self._isSWF()
 
 			// isSWF = 1
@@ -152,16 +153,17 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 					return 1
 				}
 			}
-			return 0
+			return isSWF
 		},
 
 		_xml:function($data){
 			var self = this
 			var o = {type:''}
-			var domParser = new DOMParser();
-			var xmlDoc = domParser.parseFromString($data, 'text/xml');
-			var __chart = xmlDoc.getElementsByTagName("chart")[0]
-			o.type = __chart.getAttribute('type') && String(__chart.getAttribute('type')) ? String(__chart.getAttribute('type')) : ''
+			// var domParser = new DOMParser();
+			// var xmlDoc = domParser.parseFromString($data, 'text/xml');
+			var xmlDoc = KISSY.all(KISSY.parseXML($data))
+			var type = xmlDoc.all('chart').attr('type')
+			o.type = type ? type : ''
 
 			return o
 		}
