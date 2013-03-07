@@ -7,7 +7,7 @@
     <link type="text/css" rel="stylesheet" href="../../src/gallery/calendar/index.css" charset="utf-8">
     <link rel="stylesheet" href="../assets/doc.css">
     <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js" data-config="{combine:true}"></script>
-    <script src="../../src/core/brix.js" bx-config="{fixed:'src/',templateEngine:'xtemplate',combine:false}"></script>
+    <script src="../../src/core/brix.js" bx-config="{fixed:'src/',combine:false}"></script>
 </head>
 <body>
     <div class="container" >
@@ -40,13 +40,13 @@
                     '#input2': {
                         click: function(e) {
                             var self = this;
-                            self.pagelet.setChunkData('b', 'bbb' + S.guid());
+                            self.pagelet.setChunkData('b', 'bbb' + S.guid(),{renderType:'prepend'});
                         }
                     },
                     '#input3': {
                         click: function(e) {
                             var self = this;
-                            self.pagelet.setChunkData('c', 'ccc' + S.guid());
+                            self.pagelet.setChunkData('c', 'ccc' + S.guid(),{renderType:'append'});
                         }
                     },
                     '#input4': {
@@ -132,15 +132,13 @@
             <input id="input3" type="button" class="btn btn-red btn-size25" value="局部刷新c">
             <input id="input4" type="button" class="btn btn-red btn-size25" value="局部刷新d">
             <input id="input5" type="button" class="btn btn-red btn-size25" value="局部刷新e">
-            <div id="xx" bx-tmpl="tmpl_a" class="hahah" bx-datakey="a,b" name="xx">
+            <div id="xx" bx-tmpl="tmpl_a" class="hahah" bx-datakey="a" name="xx">
                 <span>{{a}}</span>
-                <div bx-tmpl="tmpl_b" bx-datakey="b">
-                    <span>{{b}}</span>
-                    <div id="J_CalendarTest" bx-name="calendar" class="calendar" bx-config="{popup:false,autoRender:true,showTime:true}">
-                    </div>
-                    dd
+            </div>
+            <div bx-tmpl="tmpl_b" bx-datakey="b">
+                <span>{{b}}</span>
+                <div bx-name="calendar" class="calendar" bx-config="{popup:false,autoRender:true,showTime:true}">
                 </div>
-                sdaf
             </div>
             <div bx-tmpl="tmpl_c" bx-datakey="a,c">
                 <span>{{a}}-{{c}}</span>
