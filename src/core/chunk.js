@@ -154,12 +154,23 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
          * @param {Object} data    数据对象
          * @param {Object} [opts]    控制对象，包括以下控制选项
          * @param {Boolean} [opts.silent] 是否触发change事件
+         * @param {Function} [opts.error] 验证失败的回调，包括失败原因
+         * @param {String} [opts.renderType] 渲染类型，目前支持html，append，prepend
          */
         setChunkData: function(datakey, data, opts) {
             var self = this,
                 dataset = self.get('dataset');
             if(dataset) {
                 data = S.clone(data);
+                var renderType = 'html';
+                //对opts的处理
+                if(opts){
+                    if(opts.renderType){
+                        renderType = opts.renderType;
+                        delete opts.renderType;
+                    }
+                }
+                self.set('renderType',renderType);
                 dataset.set('data.' + datakey, data, opts);
             }
         },
@@ -342,15 +353,18 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                                     newData[k] = d;
                                 }
                             });
+                            var renderType = self.get('renderType') || 'html';
                             /**
                              * @event beforeRefreshTmpl
                              * 局部刷新前触发
                              * @param {KISSY.Event.CustomEventObject} e
                              */
                             self.fire('beforeRefreshTmpl', {
-                                node: node
+                                node: node,
+                                renderType:renderType
                             });
-                            node.html(S.trim(o.tmpler.render(newData)));
+
+                            node[renderType](S.trim(o.tmpler.render(newData)));
                             /**
                              * @event afterRefreshTmpl
                              * 局部刷新后触发
@@ -449,6 +463,13 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
              */
             level: {
                 value: 3
+            },
+            /**
+             * setChunkData时候的渲染类型，目前支持html，append，prepend
+             * @type {Object}
+             */
+            renderType:{
+                value:'html'
             }
         }
     });
