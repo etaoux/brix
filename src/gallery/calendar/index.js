@@ -25,7 +25,13 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
          * @cfg {Date}
          */
         date: {
-            value: new Date()
+            value: new Date(),
+            setter:function(v){
+                if(!v){
+                    v=new Date();
+                }
+                return v;
+            }
         },
         /**
          * 当前选中的日期

@@ -36,7 +36,7 @@ module.exports = function(grunt) {
                 files[i] = destPath;
                 if (i == 0) {
                     //对brix.js进行替换处理
-                    var src = file.read(srcPath).replace('@DEBUG@', '').replace('@VERSION@', pkg.version).replace('@TAG@', pkg.tag);
+                    var src = file.read(srcPath).replace('@VERSION@', pkg.version).replace('@TAG@', pkg.tag);
                     file.write(destPath, src);
                 } else {
                     file.copy(srcPath, destPath);
@@ -81,6 +81,17 @@ module.exports = function(grunt) {
             
             config('uglify', uglifyConfig);
             task.run('uglify');
+
+            var brixminjsConfig = {
+                brixminjs:{
+                    files:{
+                        'brix':[f.dest+'core/brix-min.js',f.dest+'brix-min.js']
+                    }
+                }
+                
+            }
+            config('brixminjs', brixminjsConfig);
+            task.run('brixminjs');
         });
     });
 };

@@ -26,7 +26,12 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
             },
             keydown: function(e) {
                 if (e.keyCode == 13) {
-                    this.hide();
+                    try{
+                        e.target.blur();
+                    }
+                    catch(e){
+                        
+                    }
                 }
             }
         }
