@@ -101,9 +101,11 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                     self.bricks = bricks;
                     self._fireReady();
                     self.on('beforeRefreshTmpl',function(e){
-                        e.node.all('[bx-name]').each(function(node){
-                            self.destroy(node.attr('id'));
-                        });
+                        if(e.renderType==='html'){
+                            e.node.all('[bx-name]').each(function(node){
+                                self.destroy(node.attr('id'));
+                            });
+                        }
                     });
                     self.on('afterRefreshTmpl',function(e){
                         self._addBehavior(e.node.all('[bx-name]'),function(newBricks){
@@ -124,20 +126,23 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
         _addBehavior: function(brickNodes,fn) {
             var self = this,bxConfig = self.get('config'), bricks=[];
             brickNodes.each(function(brickNode){
-                var id = _stamp(brickNode),
-                    name = brickNode.attr('bx-name'),
-                    path = brickNode.attr('bx-path'),
-                    config = brickNode.attr('bx-config');
-                config = config ? (new Function("return " + config))() : {};
-                if(bxConfig&&bxConfig[id]){
-                    S.mix(config,bxConfig[id]);
+                if(brickNode.attr('bx-behavior')!='true'){
+                    var id = _stamp(brickNode),
+                        name = brickNode.attr('bx-name'),
+                        path = brickNode.attr('bx-path'),
+                        config = brickNode.attr('bx-config');
+                    config = config ? (new Function("return " + config))() : {};
+                    if(bxConfig&&bxConfig[id]){
+                        S.mix(config,bxConfig[id]);
+                    }
+                    brickNode.attr('bx-behavior','true');
+                    bricks.push({
+                        id :id,
+                        name:name,
+                        path: path,
+                        config: config
+                    });
                 }
-                bricks.push({
-                    id :id,
-                    name:name,
-                    path: path,
-                    config: config
-                });
             });
 
             //构建pagelet需要引用组件js
