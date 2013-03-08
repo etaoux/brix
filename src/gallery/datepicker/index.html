@@ -1,0 +1,23 @@
+<div class="datepicker-bd">
+    {{^isCompare}}
+    <label>日期范围：</label>
+    <div class="range" bx-tmpl="datapickRange1" bx-datakey="start,end">
+        <input class="input" input_type="Start" value="{{start}}"><span class="input-split">-</span><input class="input" input_type="End" value="{{end}}">
+    </div>
+    {{/isCompare}}
+    {{#isCompare}}
+    <label>当前日期：</label>
+    <div bx-tmpl="datepicker" bx-datakey="compareText" class="range">{{compareText}}
+    </div>
+    <label>与其他日期比较：(须同样天数)</label>
+    <div class="range" bx-tmpl="datapickRange2" bx-datakey="start,end">
+        <input class="input" input_type="Start" value="{{start}}"><span class="input-split">-</span><input class="input" input_type="End" value="{{end}}">
+    </div>
+    {{/isCompare}}
+    {{#isQuick}}
+    {{{quick_html}}}
+    {{/isQuick}}
+    <div class="operator">
+        <a class="btn btn-size25 btn-confirm" href="#">确定</a><a class="btn-cancel" href="#">取消</a>
+    </div>
+</div>

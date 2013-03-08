@@ -1,5 +1,5 @@
 KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) {
-
+    var tmpl = '@TEMPLATE|'+Brix.absoluteFilePath(this,'index.html')+'|TEMPLATE@';
     function getRecentlyDate(n) {
         var dt = 1000 * 60 * 60 * 24; //一天的毫秒数
         var d = new Date();
@@ -214,33 +214,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
         tmpl:{
             valueFn:function(){
                 var self = this;
-                var html ='<div class="datepicker-bd">'+
-                                '{{^isCompare}}'+
-                                '<label>日期范围：</label>'+
-                                '<div class="range">'+
-                                    '<input class="input" input_type="Start" value="{{start}}">'+
-                                    '<span class="input-split">-</span>'+
-                                    '<input class="input" input_type="End" value="{{end}}">'+
-                                '</div>'+
-                                '{{/isCompare}}'+
-                                '{{#isCompare}}'+
-                                '<label>当前日期：</label>'+
-                                '<div bx-tmpl="datepicker" bx-datakey="compareText" class="range">{{compareText}}'+
-                                '</div>'+
-                                '<label>与其他日期比较：(须同样天数)</label>'+
-                                '<div class="range">'+
-                                    '<input class="input" input_type="Start" value="{{start}}">'+
-                                    '<span class="input-split">-</span>'+
-                                    '<input class="input" input_type="End" value="{{end}}">'+
-                                '</div>'+
-                                '{{/isCompare}}'+
-                                '{{#isQuick}}'+
-                                '{{{quick_html}}}'+
-                                '{{/isQuick}}'+
-                                '<div class="operator">'+
-                                    '<a class="btn btn-size25 btn-confirm" href="#">确定</a><a class="btn-cancel" href="#">取消</a>'+
-                                '</div>'+
-                            '</div>';
+                var html =tmpl;
                 if(!self.get('el')){
                     html = '<div class="datepicker">' +html+ '</div>';
                 }
