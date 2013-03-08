@@ -23,7 +23,7 @@
                 '#input1': {
                     click: function(e) {
                         var self = this;
-                        self.pagelet.setChunkData('a', 'aaa'+S.guid());
+                        self.pagelet.setChunkData({'a':'aaa'+S.guid(),c:'ccc'+S.guid()},{silent:false});
                     }
                 },
                 '#input2': {

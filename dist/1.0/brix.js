@@ -1087,6 +1087,24 @@ KISSY.add("brix/core/dataset", function(S, Base) {
 KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
     var $ = Node.all;
     /**
+     * 判断两个数组数否有重复值
+     * @param  {Array}  arr1 数组1
+     * @param  {Array}  arr2 数组2
+     * @return {Boolean}     是否有重复
+     * @ignore
+     */
+
+    function isDitto(arr1, arr2) {
+        for (var i = 0; i < arr1.length; i++) {
+            for (var j = 0; j < arr2.length; j++) {
+                if (arr1[i] == arr2[j]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    /**
      * Brix Chunk,Brick和Pagelet类的基类,
      * 作为组件底层，完成渲染、数据更新、销毁操作，是模板解析器（Tmpler）和数据管理器（Dataset）的调度者。
      * @extends KISSY.Base
@@ -1223,13 +1241,6 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
          */
         level: {
             value: 3
-        },
-        /**   
-         * setChunkData时候的渲染类型，目前支持html，append，prepend
-         * @type {Object}
-         */
-        renderType: {
-            value: 'html'
         }
     };
 
@@ -1263,8 +1274,22 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                     data: data
                 });
                 self.set('dataset', dataset); //设置最新的数据集合
-                dataset.on('afterDataChange', function(e) {
-                    self._render(e.subAttrName, e.newVal);
+                // dataset.on('afterDataChange', function(e) {
+                //     self._render(e.subAttrName, e.newVal);
+                // });
+                dataset.on('*Change', function(e) {
+                    var flg = false; //是否data数据变化
+                    var keys = S.map(e.subAttrName, function(str) {
+                        if (/^data\./g.test(str)) {
+                            flg = true;
+                            return str.replace(/^data\./, '');
+                        } else {
+                            return 'zuomo.xb@taobao.com'; //彩蛋，哈哈。
+                        }
+                    });
+                    if (flg) {
+                        self._renderTmpl(keys, dataset.get('data'));
+                    }
                 });
             }
         },
@@ -1310,12 +1335,24 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
          * @param {String} [opts.renderType] 渲染类型，目前支持html，append，prepend
          */
         setChunkData: function(datakey, data, opts) {
-            var self = this,
-                dataset = self.get('dataset');
+            var self = this;
+            var dataset = self.get('dataset');
             if (dataset) {
-                data = S.clone(data);
+                if (S.isObject(datakey)) {
+                    datakey = S.clone(datakey);
+                    var newData = {};
+                    for (var key in datakey) {
+                        newData['data.' + key] = datakey[key];
+                    }
+                    datakey = newData;
+                    opts = data;
+                } else {
+                    datakey = 'data.' + datakey;
+                    data = S.clone(data);
+                }
+
+                //根据传入的opts,设置renderType
                 var renderType = 'html';
-                //对opts的处理
                 if (opts) {
                     if (opts.renderType) {
                         renderType = opts.renderType;
@@ -1323,7 +1360,8 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                     }
                 }
                 self.set('renderType', renderType);
-                dataset.set('data.' + datakey, data, opts);
+
+                dataset.set.apply(dataset, arguments);
             }
         },
         /**
@@ -1347,17 +1385,9 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
          * @private
          */
         _render: function(key, data) {
-            var self = this,
-                tmpler = self.get('tmpler');
-            if (tmpler) {
-                if (key.split('.').length > 1) {
-                    if (self.get("rendered")) {
-                        //已经渲染，才能局部刷新
-                        key = key.replace(/^data\./, '');
-                        self._renderTmpl(tmpler.tmpls, key, data);
-                    }
-                } else {
-                    if (!tmpler.inDom) {
+            var self = this;
+            var tmpler = self.get('tmpler');
+            if (tmpler&&!tmpler.inDom) {
                         var container = self.get('container');
                         var el = self.get('el');
                         var html = S.trim(tmpler.to_html(data));
@@ -1406,21 +1436,22 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                             }
                         }
                     }
-                }
-            }
         },
         /**
          * 渲染模板
-         * @param  {Array} tmpls  tmpls集合
-         * @param  {String} key   更新的数据对象key
+         * @param  {Array} keys   更新的数据对象key
          * @param  {Object} data 数据
          * @private
          */
-        _renderTmpl: function(tmpls, key, data) {
-            var self = this,
-                el = self.get('el');
+        _renderTmpl: function(keys, data) {
+            var self = this;
+            var tmpler = self.get('tmpler');
+            if (tmpler && self.get('rendered')) {
+                var el = self.get('el');
+                var tmpls = tmpler.tmpls;
             S.each(tmpls, function(o) {
-                if ((',' + o.datakey + ',').indexOf(',' + key + ',') >= 0) {
+                var datakeys = o.datakey.split(',');
+                if (isDitto(datakeys, keys)) {
                     var nodes = el.all('[bx-tmpl=' + o.name + ']');
                     //如果el本身也是tmpl，则加上自己
                     if (el.attr('bx-tmpl') == o.name) {
@@ -1429,7 +1460,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                     nodes.each(function(node) {
                         if (node.attr('bx-datakey') == o.datakey) {
                             var newData = {};
-                            S.each(o.datakey.split(','), function(item) {
+                            S.each(datakeys, function(item) {
                                 var tempdata = data,
                                     temparr = item.split('.'),
                                     length = temparr.length,
@@ -1473,6 +1504,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, Base, Dataset, Tmpler) {
                 }
             });
         }
+    }
     });
     return Chunk;
 }, {
