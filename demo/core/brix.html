@@ -15,13 +15,20 @@
     <script type="text/javascript">
         KISSY.add("components/brixtest/index", function(S, Brick) {
             var BrixTest = Brick.extend({
+                constructor:function BrixTest(){
+                    //可以重新定义构成函数，如果定义，必须显示调用父类的构造函数
+                    BrixTest.superclass.constructor.apply(this, arguments);
+                    S.log('constructor');
+                },
                 initializer: function() {
                     S.log('initializer');
-                    S.log(this.get('b'));
                 },
                 bindUI: function() {
                     //和老版本的initialize作用相同
                     S.log('bindUI');
+                },
+                destructor:function(){
+                    S.log('destructor');
                 }
             }, {
                 ATTRS: {
@@ -68,6 +75,11 @@
                         click: function(e) {
                             var self = this;
                             self.pagelet.setChunkData('e', !self.pagelet.get('dataset').get('data').e);
+                        }
+                    },
+                    '#input6': {
+                        click: function(e) {
+                            this.pagelet.destroy();
                         }
                     }
                 },
@@ -130,11 +142,12 @@
     </script>
     <script type="text/tmpl" id="tmpl">
         <div id="brixtest" bx-name="brixtest" bx-path="components/brixtest/">
-            <input id="input1" type="button" class="btn btn-red btn-size25" value="局部刷新a">
-            <input id="input2" type="button" class="btn btn-red btn-size25" value="局部刷新b">
-            <input id="input3" type="button" class="btn btn-red btn-size25" value="局部刷新c">
+            <input id="input1" type="button" class="btn btn-red btn-size25" value="局部刷新a,c">
+            <input id="input2" type="button" class="btn btn-red btn-size25" value="局部刷新b-prepend">
+            <input id="input3" type="button" class="btn btn-red btn-size25" value="局部刷新c-append">
             <input id="input4" type="button" class="btn btn-red btn-size25" value="局部刷新d">
             <input id="input5" type="button" class="btn btn-red btn-size25" value="局部刷新e">
+            <input id="input6" type="button" class="btn btn-red btn-size25" value="自杀">
             <div id="xx" bx-tmpl="tmpl_a" class="hahah" bx-datakey="a" name="xx">
                 <span>{{a}}</span>
             </div>
