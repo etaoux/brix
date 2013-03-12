@@ -6,7 +6,7 @@
 
 	<link type="text/css" rel="stylesheet" href="http://a.tbcdn.cn/apps/e/brix/1.0/brix-min.css" charset="utf-8">
 	<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/1.3.0/seed-min.js"></script>
-	<script type="text/javascript" src="http://a.tbcdn.cn/apps/e/brix/1.0/brix-min.js" bx-config="{autoPagelet:true}"></script>
+	<script type="text/javascript" src="http://a.tbcdn.cn/apps/e/brix/2.0/brix-min.js" bx-config="{autoPagelet:true}"></script>
 	<script type="text/javascript">
 		//业务代码,自动构建
 		KISSY.ready(function(S){
@@ -19,15 +19,6 @@
 				});
 			});
 		});
-		//业务代码，手动构建
-		/*
-		KISSY.ready(function(S){
-			S.use('brix/core/pagelet',function(S,Pagelet){
-				var config = {tmpl:'body'};
-				var pagelet = new Pagelet(config);
-			});
-		});
-		*/
 	</script>
 
 
@@ -59,17 +50,23 @@
 * [Node.js](http://nodejs.org) 0.8+
 * [NPM](https://npmjs.org)
 * [grunt](https://github.com/cowboy/grunt)
-* [grunt-less](https://github.com/jharding/grunt-less)
 
 ## 开发
 
 ```bash
 git clone git://github.com/etaoux/brix.git
 cd brix
+
+# If you have installed Grunt globally in the past, you will need to remove it first
+npm uninstall -g grunt
+
 # 安装 Grunt
-npm install -g grunt
-npm install grunt-less
-# 使用 Grunt 运行 js和less 自动监视文件变化编译,windows系统grunt.cmd
+npm install -g grunt-cli
+
+# 以及插件模块
+npm install
+
+# 使用 Grunt 运行自动监视文件变化编译
 grunt
 ```
 
