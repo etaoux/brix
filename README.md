@@ -4,7 +4,7 @@
 
 ##如何使用
 
-	<link type="text/css" rel="stylesheet" href="http://a.tbcdn.cn/apps/e/brix/1.0/brix-min.css" charset="utf-8">
+	<link type="text/css" rel="stylesheet" href="http://a.tbcdn.cn/apps/e/brix/2.0/brix-min.css" charset="utf-8">
 	<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/1.3.0/seed-min.js"></script>
 	<script type="text/javascript" src="http://a.tbcdn.cn/apps/e/brix/2.0/brix-min.js" bx-config="{autoPagelet:true}"></script>
 	<script type="text/javascript">
