@@ -100,6 +100,7 @@
             b: 'b',
             c: 'c',
             d: [{
+                a:'4',
                 d1: '1'
             }, {
                 d1: '2'
@@ -149,7 +150,9 @@
             <input id="input5" type="button" class="btn btn-red btn-size25" value="局部刷新e">
             <input id="input6" type="button" class="btn btn-red btn-size25" value="自杀">
             <div id="xx" bx-tmpl="tmpl_a" class="hahah" bx-datakey="a" name="xx">
+                {{#a}}
                 <span>{{a}}</span>
+                {{/a}}
             </div>
             <div bx-tmpl="tmpl_b" bx-datakey="b">
                 <span>{{b}}</span>
@@ -164,7 +167,7 @@
                     <tbody>
                     {{#d}}
                         <tr>
-                            <td>{{d1}}<td>
+                            <td>{{d1}}--{{a}}<td>
                         </tr>
                     {{/d}}
                     </tbody>
