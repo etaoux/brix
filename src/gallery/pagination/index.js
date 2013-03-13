@@ -1,20 +1,21 @@
-KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
+KISSY.add('brix/gallery/pagination/index', function(S, Brick, Dropdown) {
 
     function param(o) {
         if (!S.isPlainObject(o)) {
             return '';
         }
-        var sep = '&',eq = '=';
-        var buf = [], key, val;
+        var sep = '&',
+            eq = '=';
+        var buf = [],
+            key, val;
         for (key in o) {
             if (o.hasOwnProperty(key)) {
                 val = o[key];
                 if (!S.isArray(val)) {
                     buf.push(key, eq, val, sep);
-                }
-                else if (S.isArray(val) && val.length) {
+                } else if (S.isArray(val) && val.length) {
                     for (var i = 0, len = val.length; i < len; ++i) {
-                        buf.push(key,eq,val[i], sep);
+                        buf.push(key, eq, val[i], sep);
                     }
                 }
             }
@@ -22,16 +23,18 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
         buf.pop();
         return buf.join('');
     }
+
     function unparam(str) {
-        if (typeof str !== 'string'
-            || (str = S.trim(str)).length === 0) {
+        if (typeof str !== 'string' || (str = S.trim(str)).length === 0) {
             return {};
         }
-        var sep = '&',eq = '=';
+        var sep = '&',
+            eq = '=';
         var ret = {},
-            pairs = str.split(sep),
+        pairs = str.split(sep),
             pair, key, val,
-            i = 0, len = pairs.length;
+            i = 0,
+            len = pairs.length;
 
         for (; i < len; ++i) {
             pair = pairs[i].split(eq);
@@ -55,6 +58,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
      * @class Brix.Gallery.Pagination
      * @extends Brix.Brick
      */
+
     function Pagination() {
         Pagination.superclass.constructor.apply(this, arguments);
     }
@@ -71,8 +75,8 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
          * 页数显示偏移，默认0，
          * @cfg {Number}
          */
-        offset:{
-            value:0
+        offset: {
+            value: 0
         },
         /**
          * 是否精简模式
@@ -106,8 +110,8 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
          * 是否显示每页显示记录数
          * @cfg {Boolean}
          */
-        sizeDisplay:{
-            value:true
+        sizeDisplay: {
+            value: true
         },
         /**
          * 是否可以修改每页记录数
@@ -226,8 +230,8 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
          * 是否显示上一页，下一页的文字
          * @cfg {Boolean}
          */
-        isText:{
-            value:false
+        isText: {
+            value: false
         }
     };
 
@@ -269,36 +273,36 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
         /**
          * @event beforeGotoPage
          * 跳转前触发 return false 阻止跳转
-         * @param {Object} e 
+         * @param {Object} e
          * @param {Number} e.newIndex 新的页数
          * @param {Number} e.prevIndex 原页数
          * @type {String}
          */
-        beforeGotoPage:'beforeGotoPage',
+        beforeGotoPage: 'beforeGotoPage',
         /**
          * @event goToPage
          * 跳转触发
-         * @param {Object} e 
+         * @param {Object} e
          * @param {Number} e.index 新的页数
          * @type {String}
          */
-        goToPage:'goToPage',
+        goToPage: 'goToPage',
         /**
          * @event gotoPage
          * 跳转触发
-         * @param {Object} e 
+         * @param {Object} e
          * @param {Number} e.index 新的页数
          * @type {String}
          */
-        gotoPage:'gotoPage',
+        gotoPage: 'gotoPage',
         /**
          * @event sizeChange
-         * 每页显示记录数改变 
-         * @param {Object} e 
+         * 每页显示记录数改变
+         * @param {Object} e
          * @param {Number} e.size 记录数
          * @type {String}
          */
-        sizeChange:'sizeChange'
+        sizeChange: 'sizeChange'
     };
 
     Pagination.METHODS = {
@@ -321,7 +325,9 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
 
             self.set('index', page);
 
-            if(self.setConfig({index:page})){
+            if (self.setConfig({
+                index: page
+            })) {
                 return;
             }
 
@@ -378,7 +384,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 host: a.hostname,
                 port: a.port,
                 query: a.search,
-                params: (function() { 
+                params: (function() {
                     return unparam(a.search.replace(/^\?/, ''));
                 })(),
                 file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
@@ -399,7 +405,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 size = self.get('size'),
                 pageName = self.get('pageName'),
                 pageSizeName = self.get('pageSizeName'),
-                returnUrl='';
+                returnUrl = '';
             urlInfo.params[pageName] = self._offset(index);
             if (pageSizeName) {
                 urlInfo.params[pageSizeName] = size;
@@ -407,7 +413,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 delete urlInfo.params[pageSizeName];
             }
 
-            if(urlInfo.protocol){
+            if (urlInfo.protocol) {
                 returnUrl = urlInfo.protocol + '://' + urlInfo.host;
                 if (urlInfo.port != 0 && urlInfo.port != 80) {
                     returnUrl += ':' + urlInfo.port;
@@ -438,13 +444,13 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             }
             if (urlInfo.params[pageName]) {
                 switch (mode) {
-                case 'p':
-                    self.set('index', parseInt(urlInfo.params[pageName], 10)-offset);
-                    break;
-                case 's':
-                    var size = self.get('size');
-                    self.set('index', (parseInt(urlInfo.params[pageName], 10)-(offset*size)) / size);
-                    break;
+                    case 'p':
+                        self.set('index', parseInt(urlInfo.params[pageName], 10) - offset);
+                        break;
+                    case 's':
+                        var size = self.get('size');
+                        self.set('index', (parseInt(urlInfo.params[pageName], 10) - (offset * size)) / size);
+                        break;
                 }
             }
             //对配置参数容错
@@ -463,7 +469,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                 formatUrl = self.get('formatUrl'),
                 index = self.get('index'),
                 max = self.get('max'),
-                step = Math.min(self.get('step'),max),
+                step = Math.min(self.get('step'), max),
                 size = self.get('size'),
                 sizeDisplay = self.get('sizeDisplay'),
                 count = self.get('count'),
@@ -475,7 +481,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             //render statistics
             if (self.get('statistics')) {
                 arrHTML.push('<div class="pagination-info"><span>当前</span><span class="b">' + (count == 0 ? 0 : ((index - 1) * size + 1)) + '-' + Math.min(index * size, count) + '</span><span>条</span><span class="mr">共</span><span class="b">' + count + '</span><span>条</span>');
-                if(sizeDisplay){
+                if (sizeDisplay) {
                     arrHTML.push('<span class="mr">每页展现</span>');
                     if (self.get('sizeChange')) {
                         var sizes = self.get('sizes');
@@ -487,8 +493,8 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                     } else {
                         arrHTML.push('<span class="b">' + size + '</span>')
                     }
-                    arrHTML.push('<span>条</span>');  
-                } 
+                    arrHTML.push('<span>条</span>');
+                }
                 arrHTML.push('</div>');
             }
 
@@ -496,7 +502,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             arrHTML.push('<div class="pagination-pages"><div class="pagination-page">');
 
             if (index > 1) {
-                arrHTML.push('<a title="上一页" href="' + formatUrl.replace('{$p}',  self._offset(index - 1)) + '" class="page-prev"><i class="iconfont">&#403</i>'+(isText?'<span>上一页</span>':'')+'</a>');
+                arrHTML.push('<a title="上一页" href="' + formatUrl.replace('{$p}', self._offset(index - 1)) + '" class="page-prev"><i class="iconfont">&#403</i>' + (isText ? '<span>上一页</span>' : '') + '</a>');
             }
             if (self.get('simplify')) {
                 arrHTML.push('<span class="page-simply">' + index + '/' + max + '</span>');
@@ -533,7 +539,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             }
 
             if (index != max) {
-                arrHTML.push('<a title="下一页" href="' + formatUrl.replace('{$p}', self._offset(index + 1)) + '" class="page-next">'+(isText?'<span>下一页</span>':'')+'<i class="iconfont">&#402</i></a>');
+                arrHTML.push('<a title="下一页" href="' + formatUrl.replace('{$p}', self._offset(index + 1)) + '" class="page-next">' + (isText ? '<span>下一页</span>' : '') + '<i class="iconfont">&#402</i></a>');
             }
             arrHTML.push('</div>');
             if (hascount && pageCount) {
@@ -555,37 +561,37 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
          * @return {Number} 偏移后的值
          * @private
          */
-        _offset:function(index){
+        _offset: function(index) {
             var self = this,
                 mode = self.get('mode'),
                 offset = self.get('offset');
-            switch(mode){
+            switch (mode) {
                 case 'p':
-                    return index+offset;
+                    return index + offset;
                 case 's':
                     var size = self.get('size');
-                    return size*(index+offset);
+                    return size * (index + offset);
                 default:
-                    return index+offset;
+                    return index + offset;
             }
         },
         _getDropDown: function() {
             var self = this;
+            self._destroyDropdown();
             if (self.get('sizeChange') && self.get('statistics')) {
                 var dropdownNode = self.get('el').one('.dropdown');
                 if (dropdownNode) {
                     var id = dropdownNode ? dropdownNode.attr('id') : false;
                     if (id && self.pagelet) {
-                        self.pagelet.ready(function(){
+                        self.pagelet.ready(function() {
                             self.dropdown = self.pagelet.getBrick(id);
-                            if(self.dropdown){
+                            if (self.dropdown) {
                                 self._bindDropdownSizeChange();
-                            }
-                            else{
+                            } else {
                                 self._createDropdown();
                             }
-                        }); 
-                    }else{
+                        });
+                    } else {
                         self._createDropdown();
                     }
                 }
@@ -594,18 +600,16 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
         },
         _createDropdown: function() {
             var self = this;
-            S.use('brix/gallery/dropdown/', function(S, Dropdown) {
-                self.dropdown = new Dropdown({
-                    tmpl: self.get('el').one('.dropdown')
-                });
-                self._bindDropdownSizeChange();
+            self.dropdown = new Dropdown({
+                tmpl: self.get('el').one('.dropdown')
             });
+            self._bindDropdownSizeChange();
         },
-        _bindDropdownSizeChange:function(){
+        _bindDropdownSizeChange: function() {
             var self = this;
             self.dropdown.on('selected', function(ev) {
                 self.setConfig({
-                    index:1,
+                    index: 1,
                     size: ev.text
                 });
             });
@@ -652,9 +656,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
                     urlInfo.params[k] = v;
                 });
             }
-            S.log(urlInfo.params.s);
             self.set('urlInfo', urlInfo);
-            S.log(urlInfo.params.s);
         },
         /**
          * 配置纠错，对传入的配置进行容错处理
@@ -664,7 +666,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             var self = this,
                 index = self.get('index'),
                 hascount = self.get('hascount'),
-                
+
                 size = self.get('size'),
                 count = self.get('count'),
                 max = self.get('max'),
@@ -701,5 +703,5 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
     S.augment(Pagination, Pagination.METHODS);
     return Pagination;
 }, {
-    requires: ["brix/core/brick"]
+    requires: ["brix/core/brick", 'brix/gallery/dropdown/']
 });
