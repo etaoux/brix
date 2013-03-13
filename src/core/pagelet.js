@@ -61,6 +61,10 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
             });
             return brick || null;
         },
+        /**
+         * 销毁组件
+         * @param {String} id 组件id
+         */
         destroyBrick: function(id) {
             var self = this;
             for (var i = 0; i < self.bricks.length; i++) {
@@ -239,10 +243,6 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 self.readyList = [];
             }
         },
-        /**
-         * 销毁组件或者pagelet
-         * @param  {String} id 组件id,如果带了id，销毁组件
-         */
         destructor: function() {
             var self = this;
             S.each(self.bricks, function(o, i) {
