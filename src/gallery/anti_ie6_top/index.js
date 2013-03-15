@@ -17,7 +17,6 @@
             if (!this.isIE6()) {
                 return;
             }
-
             //cookie检测
             if (document.cookie.indexOf('anti_ie6') > -1) {
                 // return;
@@ -80,5 +79,9 @@
         window.attachEvent('onload', function() {
             anti_ie6.init();
         });
+    } else {
+        window.addEventListener('load', function() {
+            anti_ie6.init();
+        }, false);
     }
 })(document);
