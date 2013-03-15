@@ -45,7 +45,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
      * @static
      * @type {Object}
      */
-    
+
 
     /**
      * 实例销毁,会依次调用类的destructor函数
@@ -368,7 +368,9 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                 var el = self.get('el');
                 var tmpls = tmpler.tmpls;
                 S.each(tmpls, function(o) {
-                    var datakeys = o.datakey.split(',');
+                    var datakeys = S.map(o.datakey.split(','), function(str) {
+                        return S.trim(str); //修复编辑器格式化造成的问题
+                    });
                     if (isDitto(datakeys, keys)) {
                         var nodes = el.all('[bx-tmpl=' + o.name + ']');
                         //如果el本身也是tmpl，则加上自己

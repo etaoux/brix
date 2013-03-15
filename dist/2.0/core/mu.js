@@ -14,6 +14,7 @@
  * @static
  */
 KISSY.add("brix/core/mu", function(S, Mustache) {
+    var notRender=/\s*<script[^>]+type\s*=\s*(['"])\s*text\/tmpl\1[^>]*>([\s\S]*?)<\/script>\s*/gi;
     function addFns(template, data) {
         var ifs = getConditions(template);
         var key = "";
@@ -106,10 +107,24 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
             if (typeof(data) === "object") {
                 findArray(data, 0);
             }
+            var notRenders=template.match(notRender);
+            if(notRenders){
+                template=template.replace(notRender,function(){//防止不必要的解析
+                    return '<script type="text/tmpl"></script>';
+                });
+            }
             //对if判断在vm中出错的兼容。
             template = template.replace(/(\{{2,3})@if/ig, '$1#if');
             addFns(template, data);
-            return Mustache.to_html.apply(this, arguments);
+            template = Mustache.to_html.apply(this, arguments);
+
+            if(notRenders){
+                var idx=0;
+                template=template.replace(notRender,function(){
+                    return notRenders[idx++];
+                });
+            }
+            return template;
         },
         name: Mustache.name,
         version: Mustache.version,
