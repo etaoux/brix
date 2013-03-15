@@ -38,12 +38,19 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
      *          }
      *      }
      * see:
-     * <a href="http://docs.kissyui.com/kissy/docs/#!/api/KISSY.Base">http://docs.kissyui.com/kissy/docs/#!/api/KISSY.Base</a>
+     * <a href="http://docs.kissyui.com/1.3/api/#!/api/KISSY.RichBase">RichBase</a>
      *
      * @property ATTRS
-     * @member KISSY.Base
+     * @member KISSY.RichBase
      * @static
      * @type {Object}
+     */
+
+
+    /**
+     * 实例销毁,会依次调用类的destructor函数
+     * @method destroy
+     * @member KISSY.RichBase
      */
 
     /**
@@ -361,7 +368,9 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                 var el = self.get('el');
                 var tmpls = tmpler.tmpls;
                 S.each(tmpls, function(o) {
-                    var datakeys = o.datakey.split(',');
+                    var datakeys = S.map(o.datakey.split(','), function(str) {
+                        return S.trim(str); //修复编辑器格式化造成的问题
+                    });
                     if (isDitto(datakeys, keys)) {
                         var nodes = el.all('[bx-tmpl=' + o.name + ']');
                         //如果el本身也是tmpl，则加上自己
