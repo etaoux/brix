@@ -46,20 +46,35 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
             }
         },
         /**
-         * 获取brick的实例
+         * 根据dom id，获取brick的实例
          * @param  {String} id     brick的id
          * @return {Object}        组件实例
          */
         getBrick: function(id) {
-            var self = this,
-                brick;
+            var self = this;
+            var brick = null;
             S.each(self.bricks, function(b) {
                 if (b.id === id) {
                     brick = b.brick;
                     return false;
                 }
             });
-            return brick || null;
+            return brick;
+        },
+        /**
+         * 根据bx-name，获取brick的实例数组
+         * @param  {String} name     brick的bx-name
+         * @return {Array}           组件实例数组
+         */
+        getBricks: function(name) {
+            var self = this;
+            var bricks = [];
+            S.each(self.bricks, function(b) {
+                if (b.name === name) {
+                    bricks.push(b.brick);
+                }
+            });
+            return bricks;
         },
         /**
          * 销毁组件
