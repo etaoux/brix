@@ -17,9 +17,8 @@
             if (!this.isIE6()) {
                 return;
             }
-
             //cookie检测
-            if (document.cookie.indexOf('anti_ie6') > -1) {
+            if (doc.cookie.indexOf('anti_ie6') > -1) {
                 // return;
             }
 
@@ -63,7 +62,7 @@
                 var d = new Date();
                 d.setTime(d.getTime() + 7*60*60*24*1000); //十天后过期
 
-                document.cookie = 'anti_ie6=1; path=/; expires=' + d.toGMTString();
+                doc.cookie = 'anti_ie6=1; path=/; expires=' + d.toGMTString();
                 _this.div.parentNode.removeChild(_this.div);
             };
         },
@@ -80,5 +79,9 @@
         window.attachEvent('onload', function() {
             anti_ie6.init();
         });
+    } else {
+        window.addEventListener('load', function() {
+            anti_ie6.init();
+        }, false);
     }
 })(document);

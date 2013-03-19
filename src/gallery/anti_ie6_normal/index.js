@@ -28,7 +28,7 @@
                 '<a href="javascript:;" class="fuck-ie6-close" id="fieClose" title="close"></a>'].join(''),
 
         //css
-        style: ".fuck-ie6-close,.fuck-ie6-update li a i{background:url(http://img04.taobaocdn.com/tps/i4/T1yTvUXbFlXXc8DhIo-320-101.png) no-repeat 0 0}.fuck-ie6{background-position:0 -1262px;position:absolute;border:1px solid #d9d9d9;background-color:#fafafa;width:576px;height:376px;top:100px;left:25%;overflow:hidden;font-size:14px;z-index:999999}.fuck-ie6-close{position:absolute;top:25px;right:25px;width:21px;height:21px;background-position:0 0;cursor:pointer}.fuck-ie6-close:hover{background-position:-21px 0}.fuck-ie6-info{position:absolute;width:520px;height:150px;left:30px;top:20px;overflow:hidden}.fuck-ie6-container{width:1040px;position:relative}.fuck-ie6-container a{text-decoration:none}.fuck-ie6-container a:hover{text-decoration:underline}.fuck-ie6-why,.fuck-ie6-show{float:left;width:520px;height:150px;cursor:pointer;position:relative}.fuck-ie6-why .sp1{font-size:26px;display:block;padding-top:50px}.fuck-ie6-why .sp2{position:absolute;right:0;top:100px;font-weight:bold;color:#06c}.fuck-ie6-show .sp1{font-size:18px;display:block;padding-top:30px;line-height:1.7;padding-bottom:10px}.fuck-ie6-show .sp2{display:block;color:#06c;font-weight:bold}.fuck-ie6-update{position:absolute;top:200px;left:30px}.fuck-ie6-update ul{padding:0;list-style:none;overflow:hidden;zoom:1;margin:0}.fuck-ie6-update li{float:left;padding:0;list-style:none}.fuck-ie6-update li a{display:block;text-align:center;width:120px;height:110px;color:#06c;font-weight:bold;text-decoration:none;font-size:13px}.fuck-ie6-update li a:hover{text-decoration:underline}.fuck-ie6-update li a i{display:block;width:80px;height:80px;margin:0 auto;background-position:0 -21px}.fuck-ie6-update li a i.b-taobao{background-position:-160px -21px}.fuck-ie6-update li a i.b-chrome{background-position:-80px -21px}.fuck-ie6-update li a i.b-browser360{background-position:-240px -21px}.fuck-ie6-keep{padding-top:15px}.fuck-ie6-keep a{color:black;font-weight:bold}.fuck-ie6-keep a:hover{color:#06c}",
+        style: ".fuck-ie6-close,.fuck-ie6-update li a i{background:url(http://img04.taobaocdn.com/tps/i4/T1yTvUXbFlXXc8DhIo-320-101.png) no-repeat 0 0}.fuck-ie6{background-position:0 -1262px;position:absolute;border:1px solid #d9d9d9;background-color:#fafafa;width:576px;height:376px;top:0;left:0;overflow:hidden;font-size:14px;z-index:999999}.fuck-ie6-close{position:absolute;top:25px;right:25px;width:21px;height:21px;background-position:0 0;cursor:pointer}.fuck-ie6-close:hover{background-position:-21px 0}.fuck-ie6-info{position:absolute;width:520px;height:150px;left:30px;top:20px;overflow:hidden}.fuck-ie6-container{width:1040px;position:relative}.fuck-ie6-container a{text-decoration:none}.fuck-ie6-container a:hover{text-decoration:underline}.fuck-ie6-why,.fuck-ie6-show{float:left;width:520px;height:150px;cursor:pointer;position:relative}.fuck-ie6-why .sp1{font-size:26px;display:block;padding-top:50px}.fuck-ie6-why .sp2{position:absolute;right:0;top:100px;font-weight:bold;color:#06c}.fuck-ie6-show .sp1{font-size:18px;display:block;padding-top:30px;line-height:1.7;padding-bottom:10px}.fuck-ie6-show .sp2{display:block;color:#06c;font-weight:bold}.fuck-ie6-update{position:absolute;top:200px;left:30px}.fuck-ie6-update ul{padding:0;list-style:none;overflow:hidden;zoom:1;margin:0}.fuck-ie6-update li{float:left;padding:0;list-style:none}.fuck-ie6-update li a{display:block;text-align:center;width:120px;height:110px;color:#06c;font-weight:bold;text-decoration:none;font-size:13px}.fuck-ie6-update li a:hover{text-decoration:underline}.fuck-ie6-update li a i{display:block;width:80px;height:80px;margin:0 auto;background-position:0 -21px}.fuck-ie6-update li a i.b-taobao{background-position:-160px -21px}.fuck-ie6-update li a i.b-chrome{background-position:-80px -21px}.fuck-ie6-update li a i.b-browser360{background-position:-240px -21px}.fuck-ie6-keep{padding-top:15px}.fuck-ie6-keep a{color:black;font-weight:bold}.fuck-ie6-keep a:hover{color:#06c}",
 
         init: function() {
 
@@ -38,7 +38,7 @@
             }
 
             //cookie检测
-            if (document.cookie.indexOf('anti_ie6') > -1) {
+            if (doc.cookie.indexOf('anti_ie6') > -1) {
                 return;
             }
 
@@ -62,16 +62,28 @@
             }
             head.appendChild(style);
 
-            //create wrapper
+            ////create wrapper
             this.div = doc.createElement('div');
+            this.wrapDiv = doc.createElement('div');
+            this.wrapDiv.style.cssText = 'position:absolute;top:100px;';
             this.div.className = 'fuck-ie6';
-            this.div.style.left = (docWidth - 580)/2 + 'px';//居中
+            this.wrapDiv.style.left = (docWidth - 580)/2 + 'px';//居中
             tmpl = tmpl.replace('{r}', ran);
             this.div.innerHTML = tmpl;
-            body.appendChild(this.div);
+            this.wrapDiv.appendChild(this.div);
+
+            //add iframe
+            var ifr = doc.createElement('iframe');
+            var styleText = 'z-index: 0; position: absolute; border:0; width: 576px; height:376px;left:0;top:0;';
+            ifr.style.cssText = styleText;
+            this.wrapDiv.appendChild(ifr);
+
+            //
+            body.appendChild(this.wrapDiv);
 
             //bind events
             this.bindEvents();
+
         },
 
         bindEvents: function () {
@@ -94,7 +106,7 @@
             };
 
             fieClose.onclick = function () {
-                _this.div.parentNode.removeChild(_this.div);
+                _this.wrapDiv.parentNode.removeChild(_this.wrapDiv);
             };
 
             //
@@ -172,7 +184,7 @@
                 var d = new Date();
                 d.setTime(d.getTime() + 7*60*60*24*1000); //十天后过期
 
-                document.cookie = 'anti_ie6=1; path=/; expires=' + d.toGMTString();
+                doc.cookie = 'anti_ie6=1; path=/; expires=' + d.toGMTString();
                 _this.div.parentNode.removeChild(_this.div);
             };
 
@@ -304,6 +316,10 @@
         window.attachEvent('onload', function() {
             anti_ie6.init();
         });
+    } else {
+        window.addEventListener('load', function() {
+            anti_ie6.init();
+        }, false);
     }
 
 })(document);

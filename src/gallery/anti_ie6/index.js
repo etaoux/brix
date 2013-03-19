@@ -35,7 +35,7 @@
                 '<a href="javascript:;" class="fuck-ie6-close" id="fieClose" title="close"></a>'].join(''),
 
         //css
-        style: ".fuck-ie6-why,.fuck-ie6-show,.fuck-ie6-update ul li.fie-or,.fuck-ie6-update ul li span,.fuck-ie6-update ul li i,.fuck-ie6-suggest,.fuck-ie6-keep a,.fuck-ie6-close,.fuck-ie6{background:url(http://img02.taobaocdn.com/tps/i2/T1RwDWXnNXXXbXZK.q-576-1660.png) no-repeat 0 0}.fuck-ie6{background-position:0 -1262px;position:absolute;width:576px;height:376px;top:100px;left:25%;overflow:hidden;z-index:999999}.fuck-ie6-update{position:absolute;width:540px;left:30px;bottom:20px;height:187px}.fuck-ie6-update ul{margin:0 0 15px;padding:0;list-style:none;zoom:1;overflow:hidden}.fuck-ie6-update ul li{float:left;width:110px;height:115px;position:relative;margin:0 6px;display:inline}.fuck-ie6-update ul li.fie-or{width:45px;height:30px;background-position:0 -1182px;text-indent:-9999px;margin:40px 0 0}.fuck-ie6-update ul li span{font-family:'Microsoft YaHei';position:absolute;width:110px;height:25px;background-position:0 -1090px;font-size:14px;text-align:center;padding-top:20px;font-weight:bold;left:0;bottom:0;color:#06c}.fuck-ie6-update ul li a{display:block;width:110px;height:115px;cursor:pointer;color:#06c;text-decoration:none;position:absolute;z-index:10;left:0;top:0;background-color:white;filter:alpha(opacity=0);opacity:0}.fuck-ie6-update ul li a span{text-decoration:none}.fuck-ie6-update ul li a:hover span{text-decoration:underline}.fuck-ie6-update ul li i{position:absolute;width:110px;height:80px;background-position:0 -1010px;left:0;bottom:0}.fuck-ie6-update ul li.fie-hover span{text-decoration:underline}.fuck-ie6-update ul li i.b-ie{background-position:-110px -1010px}.fuck-ie6-update ul li i.b-browser360{background-position:-220px -1010px}.fuck-ie6-update ul li i.b-chrome{background-position:-330px -1010px}.fuck-ie6-suggest{background-position:0 -1150px;width:82px;height:32px;text-indent:-9999px}.fuck-ie6-keep{height:25px}.fuck-ie6-keep a{display:block;text-indent:-9999px;height:25px;width:325px;zoom:1;background-position:0 -1212px}.fuck-ie6-keep a:hover{background-position:0 -1237px}.fuck-ie6-close{position:absolute;top:25px;right:25px;width:26px;height:24px;background-position:0 -21px;cursor:pointer}.fuck-ie6-close:hover{background-position:-26px -21px}.fuck-ie6-info{position:absolute;width:520px;height:150px;left:30px;top:20px;overflow:hidden}.fuck-ie6-container{width:1040px;position:relative}.fuck-ie6-why,.fuck-ie6-show{float:left;width:520px;height:150px;cursor:pointer}.fuck-ie6-why{background-position:0 -97px;cursor:pointer}.fuck-ie6-show{background-position:0 -247px}.fuck-ie6-info2 .fuck-ie6-why{background-position:0 -397px}.fuck-ie6-info2 .fuck-ie6-show{background-position:0 -547px}.fuck-ie6-info3 .fuck-ie6-why{background-position:0 -697px}.fuck-ie6-info3 .fuck-ie6-show{background-position:0 -847px}",
+        style: ".fuck-ie6-why,.fuck-ie6-show,.fuck-ie6-update ul li.fie-or,.fuck-ie6-update ul li span,.fuck-ie6-update ul li i,.fuck-ie6-suggest,.fuck-ie6-keep a,.fuck-ie6-close,.fuck-ie6{background:url(http://img02.taobaocdn.com/tps/i2/T1RwDWXnNXXXbXZK.q-576-1660.png) no-repeat 0 0}.fuck-ie6{background-position:0 -1262px;position:absolute;width:576px;height:376px;top:0;left:0;overflow:hidden;z-index:999999}.fuck-ie6-update{position:absolute;width:540px;left:30px;bottom:20px;height:187px}.fuck-ie6-update ul{margin:0 0 15px;padding:0;list-style:none;zoom:1;overflow:hidden}.fuck-ie6-update ul li{float:left;width:110px;height:115px;position:relative;margin:0 6px;display:inline}.fuck-ie6-update ul li.fie-or{width:45px;height:30px;background-position:0 -1182px;text-indent:-9999px;margin:40px 0 0}.fuck-ie6-update ul li span{font-family:'Microsoft YaHei';position:absolute;width:110px;height:25px;background-position:0 -1090px;font-size:14px;text-align:center;padding-top:20px;font-weight:bold;left:0;bottom:0;color:#06c}.fuck-ie6-update ul li a{display:block;width:110px;height:115px;cursor:pointer;color:#06c;text-decoration:none;position:absolute;z-index:10;left:0;top:0;background-color:white;filter:alpha(opacity=0);opacity:0}.fuck-ie6-update ul li a span{text-decoration:none}.fuck-ie6-update ul li a:hover span{text-decoration:underline}.fuck-ie6-update ul li i{position:absolute;width:110px;height:80px;background-position:0 -1010px;left:0;bottom:0}.fuck-ie6-update ul li.fie-hover span{text-decoration:underline}.fuck-ie6-update ul li i.b-ie{background-position:-110px -1010px}.fuck-ie6-update ul li i.b-browser360{background-position:-220px -1010px}.fuck-ie6-update ul li i.b-chrome{background-position:-330px -1010px}.fuck-ie6-suggest{background-position:0 -1150px;width:82px;height:32px;text-indent:-9999px}.fuck-ie6-keep{height:25px}.fuck-ie6-keep a{display:block;text-indent:-9999px;height:25px;width:325px;zoom:1;background-position:0 -1212px}.fuck-ie6-keep a:hover{background-position:0 -1237px}.fuck-ie6-close{position:absolute;top:25px;right:25px;width:26px;height:24px;background-position:0 -21px;cursor:pointer}.fuck-ie6-close:hover{background-position:-26px -21px}.fuck-ie6-info{position:absolute;width:520px;height:150px;left:30px;top:20px;overflow:hidden}.fuck-ie6-container{width:1040px;position:relative}.fuck-ie6-why,.fuck-ie6-show{float:left;width:520px;height:150px;cursor:pointer}.fuck-ie6-why{background-position:0 -97px;cursor:pointer}.fuck-ie6-show{background-position:0 -247px}.fuck-ie6-info2 .fuck-ie6-why{background-position:0 -397px}.fuck-ie6-info2 .fuck-ie6-show{background-position:0 -547px}.fuck-ie6-info3 .fuck-ie6-why{background-position:0 -697px}.fuck-ie6-info3 .fuck-ie6-show{background-position:0 -847px}",
 
         init: function() {
 
@@ -45,7 +45,7 @@
             }
 
             //cookie检测
-            if (document.cookie.indexOf('anti_ie6') > -1) {
+            if (doc.cookie.indexOf('anti_ie6') > -1) {
                 return;
             }
 
@@ -71,11 +71,22 @@
 
             //create wrapper
             this.div = doc.createElement('div');
+            this.wrapDiv = doc.createElement('div');
+            this.wrapDiv.style.cssText = 'position:absolute;top:100px;';
             this.div.className = 'fuck-ie6';
-            this.div.style.left = (docWidth - 580)/2 + 'px';//居中
+            this.wrapDiv.style.left = (docWidth - 580)/2 + 'px';//居中
             tmpl = tmpl.replace('{r}', ran);
             this.div.innerHTML = tmpl;
-            body.appendChild(this.div);
+            this.wrapDiv.appendChild(this.div);
+
+            //add iframe
+            var ifr = doc.createElement('iframe');
+            var styleText = 'z-index: 0; position: absolute; border:0; width: 576px; height:376px;left:0;top:0;';
+            ifr.style.cssText = styleText;
+            this.wrapDiv.appendChild(ifr);
+
+            //
+            body.appendChild(this.wrapDiv);
 
             //bind events
             this.bindEvents();
@@ -101,7 +112,7 @@
             };
 
             fieClose.onclick = function () {
-                _this.div.parentNode.removeChild(_this.div);
+                _this.wrapDiv.parentNode.removeChild(_this.wrapDiv);
             };
 
             //
@@ -179,7 +190,7 @@
                 var d = new Date();
                 d.setTime(d.getTime() + 7*60*60*24*1000); //十天后过期
 
-                document.cookie = 'anti_ie6=1; path=/; expires=' + d.toGMTString();
+                doc.cookie = 'anti_ie6=1; path=/; expires=' + d.toGMTString();
                 _this.div.parentNode.removeChild(_this.div);
             };
 
@@ -311,6 +322,10 @@
         window.attachEvent('onload', function() {
             anti_ie6.init();
         });
+    } else {
+        window.addEventListener('load', function() {
+            anti_ie6.init();
+        }, false);
     }
 
 })(document);

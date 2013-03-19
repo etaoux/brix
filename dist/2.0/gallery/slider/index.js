@@ -103,7 +103,6 @@ KISSY.add('brix/gallery/slider/index', function(S, Brick, UA, Node, DD) {
             this.knob_start && this.knob_start.destroy();
             this.knobNode = null;
             this.knobNode_start = null;
-            self.detach();
         }
 
     };
