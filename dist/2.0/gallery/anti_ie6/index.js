@@ -45,7 +45,7 @@
             }
 
             //cookie检测
-            if (document.cookie.indexOf('anti_ie6') > -1) {
+            if (doc.cookie.indexOf('anti_ie6') > -1) {
                 return;
             }
 
@@ -80,7 +80,7 @@
             this.wrapDiv.appendChild(this.div);
 
             //add iframe
-            var ifr = document.createElement('iframe');
+            var ifr = doc.createElement('iframe');
             var styleText = 'z-index: 0; position: absolute; border:0; width: 576px; height:376px;left:0;top:0;';
             ifr.style.cssText = styleText;
             this.wrapDiv.appendChild(ifr);
@@ -190,7 +190,7 @@
                 var d = new Date();
                 d.setTime(d.getTime() + 7*60*60*24*1000); //十天后过期
 
-                document.cookie = 'anti_ie6=1; path=/; expires=' + d.toGMTString();
+                doc.cookie = 'anti_ie6=1; path=/; expires=' + d.toGMTString();
                 _this.div.parentNode.removeChild(_this.div);
             };
 

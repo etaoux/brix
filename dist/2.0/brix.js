@@ -27,14 +27,18 @@
  * @class Brix
  */
 (function(S, Brix) {
-    var isReady = false,
-        readyList = [],
-        host = S.Env.host,
-        simulatedLocation;
+    var isReady = false;
+    var readyList = [];
+    var host = S.Env.host;
+    var location = host.location;
+    var debug = '@DEBUG@'; //区分src还是dist版本
+    var tag = '20121226'; //KISSY包时间戳
+    var version = '2.0'; //版本号
+    var isConfig = false; //是否已经配置过
     Brix = host[Brix] = host[Brix] || {};
 
     //从KISSY源代码提取并改动适合brix的
-    simulatedLocation = new S.Uri(host.location.href);
+    var simulatedLocation = new S.Uri(location.href);
     function returnJSON(s){
         if(s){
             return (new Function('return ' + s))();
@@ -56,6 +60,11 @@
         // /??x.js,dom.js for tbcdn
             src = script.src,
             baseInfo = returnJSON(script.getAttribute('bx-config'));
+
+
+        if (location && (location.search || '').indexOf('bx-debug') !== -1) {
+            baseInfo.debug = true;
+        }
 
         comboPrefix = baseInfo.comboPrefix = baseInfo.comboPrefix || '??';
         comboSep = baseInfo.comboSep = baseInfo.comboSep || ',';
@@ -90,17 +99,11 @@
 
         return S.mix({
             autoConfig: true,
-            base: base,
-            componentsPath: './',
-            importsPath: './',
-            templateEngine:'./mu'
+            base: base
         }, baseInfo);
     }
     var defaultOptions = getBaseInfo();
-    var debug = '@DEBUG@'; //区分src还是dist版本
-    var tag = '20121226'; //KISSY包时间戳
-    var version = '2.0'; //版本号
-    var isConfig = false; //是否已经配置过
+
     S.mix(Brix, {
         /**
          * 初始化配置
@@ -112,6 +115,9 @@
             }
             isConfig = true;
             options = S.merge({
+                componentsPath: './',
+                importsPath: './',
+                templateEngine:'./mu',
                 debug: debug === '' ? false : true,
                 combine:false,//默认不开启combine
                 tag: tag == '@TAG@' ? '' : tag,
@@ -1912,20 +1918,35 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
             }
         },
         /**
-         * 获取brick的实例
+         * 根据dom id，获取brick的实例
          * @param  {String} id     brick的id
          * @return {Object}        组件实例
          */
         getBrick: function(id) {
-            var self = this,
-                brick;
+            var self = this;
+            var brick = null;
             S.each(self.bricks, function(b) {
                 if (b.id === id) {
                     brick = b.brick;
                     return false;
                 }
             });
-            return brick || null;
+            return brick;
+        },
+        /**
+         * 根据bx-name，获取brick的实例数组
+         * @param  {String} name     brick的bx-name
+         * @return {Array}           组件实例数组
+         */
+        getBricks: function(name) {
+            var self = this;
+            var bricks = [];
+            S.each(self.bricks, function(b) {
+                if (b.name === name) {
+                    bricks.push(b.brick);
+                }
+            });
+            return bricks;
         },
         /**
          * 销毁组件
