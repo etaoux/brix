@@ -47,7 +47,7 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 			value : 'brix/gallery/charts/as/case'        //case.swf  swf版本主入口
 		},
 		path_swf:{
-			value : Brix.basePath + 'brix/'+Brix.fixed+'gallery/charts/as/case.swf'
+			value : Brix.basePath + 'brix/'+ Brix.fixed +'gallery/charts/as/case.swf'
 		},
 
 		mainDiv_id:{
