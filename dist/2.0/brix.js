@@ -1990,7 +1990,6 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 self._bx_addBehavior(brickNodes, function(bricks) {
                     self.bricks = bricks;
                 }, function() {
-                    self._bx_fireReady();
                     self.on('beforeRefreshTmpl', function(e) {
                         if (e.renderType === 'html') {
                             e.node.all('[bx-name]').each(function(node) {
@@ -2007,6 +2006,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                             self._bx_fireReady();
                         });
                     });
+                    self._bx_fireReady();
                 });
             }
         },

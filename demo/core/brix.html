@@ -50,7 +50,7 @@
                     '#input2': {
                         click: function(e) {
                             var self = this;
-                            self.pagelet.setChunkData('b', 'bbb' + S.guid(),{renderType:'prepend'});
+                            self.pagelet.setChunkData('b', 'bbb' + S.guid());
                         }
                     },
                     '#input3': {
@@ -135,6 +135,7 @@
                     }
                 });
                 pagelet.ready(function() {
+                    pagelet.setChunkData('b', 'bbb' + S.guid());
                     var brixtest = pagelet.getBrick('brixtest');
                     S.log(brixtest.testMethod());
                 })
