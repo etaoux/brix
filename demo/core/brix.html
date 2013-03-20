@@ -136,6 +136,7 @@
                 });
                 pagelet.ready(function() {
                     pagelet.setChunkData('b', 'bbb' + S.guid());
+                    pagelet.setChunkData('c', 'ccc' + S.guid());
                     var brixtest = pagelet.getBrick('brixtest');
                     S.log(brixtest.testMethod());
                 })

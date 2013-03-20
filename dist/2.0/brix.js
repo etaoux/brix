@@ -2122,13 +2122,16 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 return;
             }
             self.isReady = true;
-            if (self.readyList) {
+            //局部变量，保证所有注册方法只执行一次
+            var readyList = self.readyList;
+            self.readyList = [];
+            if (readyList.length > 0) {
                 var fn, i = 0;
-                while (fn = self.readyList[i++]) {
+                while (fn = readyList[i++]) {
                     fn.call(self);
                 }
-                self.readyList = [];
             }
+            readyList = null;
         },
         destructor: function() {
             var self = this;
