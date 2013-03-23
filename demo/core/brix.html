@@ -81,8 +81,14 @@
                         click: function(e) {
                             this.pagelet.destroy();
                         }
-                    }
-                },
+                    },
+                    '#input7': {
+                        click: function(e) {
+                           var self = this;
+                           //这个有问题啊。bx-tmpl应该唯一键值。可以考虑加上组件名称前缀
+                            self.pagelet.setChunkData('startDay', 'startDay' + S.guid());
+                        }
+                    }},
                 METHODS: {
                     testMethod: function() {
                         return 'test'
@@ -115,7 +121,8 @@
             f: function() {
                 return 'xx';
             },
-            g:[5,6,7]
+            g:[5,6,7],
+            startData:'haha'
         }
         KISSY.ready(function(S){
             S.use('brix/core/pagelet', function(S, Pagelet) {
@@ -137,8 +144,7 @@
                 pagelet.ready(function() {
                     pagelet.setChunkData('b', 'bbb' + S.guid());
                     pagelet.setChunkData('c', 'ccc' + S.guid());
-                    var brixtest = pagelet.getBrick('brixtest');
-                    S.log(brixtest.testMethod());
+                    S.log(pagelet.getBrick('brixtest').testMethod());
                 })
             });
         });
@@ -151,6 +157,7 @@
             <input id="input4" type="button" class="btn btn-red btn-size25" value="局部刷新d">
             <input id="input5" type="button" class="btn btn-red btn-size25" value="局部刷新e">
             <input id="input6" type="button" class="btn btn-red btn-size25" value="自杀">
+            <input id="input7" type="button" class="btn btn-red btn-size25" value="startData">
             <div id="xx" bx-tmpl="tmpl_a" class="hahah" bx-datakey="a" name="xx">
                 {{#a}}
                 <span>{{a}}</span>
@@ -192,6 +199,10 @@
                 {{/g}}
                 </tbody>
             </table>
+
+            <div bx-tmpl="pagewbd" bx-datakey="startDay,days_html">
+            {{startData}}
+            </div>
         </div>
     </script>
 </body>
