@@ -1,5 +1,5 @@
 /*
- * grunt-galleryjs
+ * grunt-gallerytmpl
  * https://github.com/etaoux/brix
  *
  * Copyright (c) 2012 左莫
@@ -25,7 +25,7 @@ module.exports = function(grunt) {
     // ==========================================================================
     // TASKS
     // ==========================================================================
-    grunt.registerMultiTask('gallerytmpl', 'Compile Gallery JS files.', function() {
+    grunt.registerMultiTask('gallerytmpl', 'Compile Gallery TMPL files.', function() {
         //console.log(this.nameArgs)
         var srcPath = this.nameArgs.split(':')[1];
         this.files.forEach(function(f) {

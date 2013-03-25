@@ -1,5 +1,5 @@
 /*
- * grunt-brixjs
+ * grunt-brixminjs
  * https://github.com/etaoux/brix
  *
  * Copyright (c) 2012 左莫
