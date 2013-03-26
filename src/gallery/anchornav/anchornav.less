@@ -7,7 +7,7 @@
     position: fixed;
     _position:absolute;
     top: 70px;
-    _top:expression(eval(document.documentElement.scrollTop + 80));
+    _top:~"expression(eval(document.documentElement.scrollTop + 80))";
     right: 10px;
     background: #eee
 }
@@ -69,7 +69,7 @@
     border-right: 1px solid #ccc;
     top: 80px;
     width: 76px;
-    _top:expression(eval(document.documentElement.scrollTop + 80));
+    _top:~"expression(eval(document.documentElement.scrollTop + 80))";
     right: 20px;
 }
 
@@ -123,7 +123,7 @@
     position: fixed;
     _position : absolute;
     top: 80px;
-    _top:expression(eval(document.documentElement.scrollTop + 80));
+    _top:~"expression(eval(document.documentElement.scrollTop + 80))";
     right: 20px;
     *width: 105px;   /*style为3时，ie6，7下需要指定宽度*/
     background: #6BBDE7;
