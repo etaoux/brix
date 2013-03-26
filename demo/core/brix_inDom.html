@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>brix_inDom</title>
+	<link type="text/css" rel="stylesheet" href="../../src/style/brix-min.css" charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="../../src/gallery/calendar/index.css" charset="utf-8">
+    <link rel="stylesheet" href="../assets/doc.css">
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js" data-config="{combine:false}"></script>
+    <script src="../../src/core/brix.js" bx-config="{autoPagelet:true}"></script>
+</head>
+<body>
+	<div class="container">
+    	<div id="brixtest" bx-name="brixtest" bx-path="components/brixtest/">
+            <input id="input1" type="button" class="btn btn-red btn-size25" value="局部刷新a,c">
+            <input id="input2" type="button" class="btn btn-red btn-size25" value="局部刷新b-prepend">
+            <input id="input3" type="button" class="btn btn-red btn-size25" value="局部刷新c-append">
+            <input id="input4" type="button" class="btn btn-red btn-size25" value="局部刷新d">
+            <input id="input5" type="button" class="btn btn-red btn-size25" value="局部刷新e">
+            <input id="input6" type="button" class="btn btn-red btn-size25" value="自杀">
+            <input id="input7" type="button" class="btn btn-red btn-size25" value="startData">
+            <div id="xx" bx-tmpl="tmpl_a" class="hahah" bx-datakey="a" name="xx">
+                <span>a</span>
+            </div>
+            <div bx-tmpl="tmpl_b" bx-datakey="b"><span>bbb183</span>
+                <div bx-name="calendar" class="calendar calendar-1" bx-config="{popup:false,autoRender:true,showTime:true}">
+                </div>
+            </div>
+            <div bx-tmpl="tmpl_c" bx-datakey="a,c" class="xx">
+            	<span>a-ccc192</span>
+            </div>
+            <div bx-tmpl="tmpl_d" bx-datakey="d">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>1--4</td><td>
+                        </td></tr>
+                        <tr>
+                            <td>2--a</td><td>
+                        </td></tr>
+                        <tr>
+                            <td>3--a</td><td>
+                        </td></tr>
+                        <tr>
+                            <td>4--a</td><td>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div bx-tmpl="tmpl_e" bx-datakey="e">
+            </div>
+            <p>function：</p>
+            <p>xx</p>
+            <p>mustache Array “.”测试</p>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>5</td><td>
+                    </td></tr>
+                    <tr>
+                        <td>6</td><td>
+                    </td></tr>
+                    <tr>
+                        <td>7</td><td>
+                    </td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div bx-tmpl="pagewbd" bx-datakey="startDay,days_html">
+            haha
+        </div>
+    </div>
+    <!--子模板和存储模板-->
+    <script type="text/tmpl">
+        <div bx-tmpl="tmpl_a" bx-datakey='a'>
+            <span>{{a}}</span>
+        </div>
+        <div bx-tmpl="tmpl_b" bx-datakey="b">
+            <span>{{b}}</span>
+            <div bx-name="calendar" class="calendar" bx-config="{popup:false,autoRender:true,showTime:true}">
+            </div>
+        </div>
+        <div bx-tmpl="tmpl_c" bx-datakey='a,c'>
+            <span>{{a}}-{{c}}</span>
+        </div>
+        <div bx-tmpl="tmpl_d" bx-datakey="d">
+            <table>
+                <tbody>
+                {{#d}}
+                    <tr>
+                        <td>{{d1}}--{{a}}<td>
+                    </tr>
+                {{/d}}
+                </tbody>
+            </table>
+        </div>
+        <div bx-tmpl="tmpl_e" bx-datakey="e" >
+            {{^e}}
+            <input type="text" value="{{e}}" />
+            {{/e}}
+        </div>
+        <div bx-tmpl="pagewbd" bx-datakey="startDay,days_html">
+            {{startDay}}
+        </div>
+        {{#bx-tmpl-id}}
+            <span>{{a}}</span>
+            <span>{{b}}</span>
+        {{/bx-tmpl}}
+    </script>
+</body>
+</html>

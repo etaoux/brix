@@ -126,9 +126,8 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                         if (/^data\./g.test(str)) {
                             flg = true;
                             return str.replace(/^data\./, '');
-                        } else {
-                            return 'zuomo.xb@taobao.com'; //彩蛋，哈哈。
                         }
+                        return 'zuomo.xb@taobao.com'; //彩蛋，哈哈。
                     });
                     if (flg) {
                         self._bx_renderTmpl(keys, dataset.get('data'));
@@ -146,7 +145,6 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
             var dataset = self.get('dataset');
             if (tmpler) {
                 self.set('tmpler', null);
-                delete tmpler.tmpls;
             }
             if (dataset) {
                 self.set('dataset', null);
@@ -175,14 +173,27 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
          * @param {String} datakey 模板对应的数据key
          * @param {String} tmpl    子模板
          */
-        addTmpl: function(name, datakey, tmpl) {
+        addSubTmpl: function(name, datakey, tmpl) {
             var self = this;
             self._bx_buildTmpler('', false);
             self._bx_buildDataset();
             if (name) {
                 var tmpler = self.get('tmpler');
-                tmpler.addTmpl(name, datakey, tmpl);
+                tmpler.addSubTmpl(name, datakey, tmpl);
             }
+        },
+        /**
+         * 获取存储的模板字符串
+         * @param {String} id 模板标识，在{{#bx-tmpl-id}}指定的id
+         * @return {String} 模板字符串
+         */
+        getStoreTmpl: function(id) {
+            var self = this;
+            var tmpler = self.get('tmpler');
+            if(tmpler){
+                return tmpler.getStoreTmpl(id);
+            }
+            return '';
         },
 
         /**
@@ -366,8 +377,8 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
             var tmpler = self.get('tmpler');
             if (tmpler && self.get('rendered')) {
                 var el = self.get('el');
-                var tmpls = tmpler.tmpls;
-                S.each(tmpls, function(o) {
+                var subTmpls = tmpler.subTmpls;
+                S.each(subTmpls, function(o) {
                     var datakeys = S.map(o.datakey.split(','), function(str) {
                         return S.trim(str); //修复编辑器格式化造成的问题
                     });
