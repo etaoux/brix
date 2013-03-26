@@ -1,0 +1,276 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Brix Anchor Navigator Demo</title>
+        <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
+        <link rel="stylesheet" href="../../../src/gallery/anchornav/index.css">
+        <link rel="stylesheet" href="./demo.css">
+        <link rel="stylesheet" href="../../assets/doc.css">
+        <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script>
+        <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,autoRender:true,fixed:'src/'}"></script>
+    </head>
+    <body style="min-height:2000px;">
+		<h1 id="header" style="width:100%;height:92px;line-height:92px;color:#aaa;background:#535353;text-align:center;font-size:20px;">
+			注demo: url加参数style=2查看情景2，style=3查看情景3, style=3&autoFold=true查看情景4
+		</h1>
+
+
+		<style>
+		.clear-fix{
+			clear: both;
+		}
+
+			
+		</style>
+
+
+		<div class="wp prodclass clear-fix" id="J_prodclass">
+		    <h1 class="pctitle h4">商品分类</h1>
+		</div>
+
+
+
+	<div id="wrap">	
+		<div class="prodlist pl-shumachanpin pl-odd" rel="shumachanpin">
+		    <div class="wp clear-fix">
+		        <div class="bg bigicon">
+
+		        </div>
+		        <div class="classlist clear-fix">
+		        </div>
+		    </div>
+		</div>
+
+		<div class="prodlist pl-jiayongdianqi pl-even" rel="jiayongdianqi">
+		    <div class="wp clear-fix">
+		        <div class="bg bigicon">
+
+		        </div>
+		        <div class="classlist clear-fix">
+		        </div>
+		    </div>
+		</div>
+
+		<div class="prodlist pl-hufucaizhuang pl-odd" rel="hufucaizhuang">
+		    <div class="wp clear-fix">
+		        <div class="bg bigicon">
+
+		        </div>
+		        <div class="classlist clear-fix">
+		        </div>
+		    </div>
+		</div>
+
+		<div class="prodlist pl-shujiyinxiang pl-even" rel="shujiyinxiang">
+		    <div class="wp clear-fix">
+		        <div class="bg bigicon">
+
+		        </div>
+		        <div class="classlist clear-fix">
+		        </div>
+		    </div>
+		</div>
+
+		<div class="prodlist pl-fuzhuangfushi pl-odd" rel="fuzhuangfushi">
+		    <div class="wp clear-fix">
+		        <div class="bg bigicon">
+            
+		        </div>
+		        <div class="classlist clear-fix">
+		        </div>
+		    </div>
+		</div>
+
+
+		<div class="prodlist pl-zhubaopeishi pl-even" rel="zhubaopeishi">
+		    <div class="wp clear-fix">
+		        <div class="bg bigicon">
+            
+		        </div>
+		        <div class="classlist clear-fix">
+		        </div>
+		    </div>
+		</div>
+
+		<div class="prodlist pl-xiemaoxiangbao pl-odd" rel="xiemaoxiangbao">
+		    <div class="wp clear-fix">
+		        <div class="bg bigicon">
+            
+		        </div>
+		        <div class="classlist clear-fix">
+		        </div>
+		    </div>
+		</div>
+
+		<div class="prodlist pl-yiyaojisheng pl-even" rel="yiyaojisheng">
+		    <div class="wp clear-fix">
+		        <div class="bg bigicon">
+            
+		        </div>
+		        <div class="classlist clear-fix">
+		        </div>
+		    </div>
+		</div>
+
+		<div class="prodlist pl-huwaiyundong pl-odd" rel="huwaiyundong">
+		    <div class="wp clear-fix">
+		        <div class="bg bigicon">
+            
+		        </div>
+		        <div class="classlist clear-fix">
+		        </div>
+		    </div>
+		</div>
+
+		<div class="prodlist pl-muyingyongpin pl-even" rel="muyingyongpin">
+		    <div class="wp clear-fix">
+		        <div class="bg bigicon">
+            
+		        </div>
+		        <div class="classlist clear-fix">
+		        </div>
+		    </div>
+		</div>
+
+		<div class="prodlist pl-shipinjiankang pl-odd" rel="shipinjiankang">
+		    <div class="wp clear-fix">
+		        <div class="bg bigicon">
+            
+		        </div>
+		        <div class="classlist clear-fix">
+		        </div>
+		    </div>
+		</div>
+
+		<div class="prodlist pl-shenghuobaihuo pl-even" rel="shenghuobaihuo">
+		    <div class="wp clear-fix">
+		        <div class="bg bigicon">
+            
+		        </div>
+		        <div class="classlist clear-fix">
+		        </div>
+		    </div>
+		</div>
+	</div>
+
+<script type="text/template" id="tmpl_navlist">
+		<div bx-name="anchornav" class="navbar">
+			<ul class="anchor-list">
+				{{#list}}	
+					<li>
+						<a href="#{{rel}}" rel="{{rel}}"  class="anchor-item anchor-item-{{rel}}"  bgColor="{{bgColor}}">
+							<span class="anchor-text">{{text}}</span>
+							<i class="iconfont">{{iconfont}}</i>
+						</a>
+					</li>
+				{{/list}}
+			</ul>  
+		</div>
+</script>
+
+<script>
+
+	var data = {
+		list : [
+			{
+				'rel' : 'shumachanpin',
+				'text' : '数码产品',
+				'iconfont' : '&#114;',
+				'bgColor' : '#DEC4F1'
+			},
+			{
+				'rel' : 'jiayongdianqi',
+				'text' : '家用电器',
+				'iconfont' : '&#118;',
+				'bgColor' : '#A6BDDD'
+			},
+			{
+				'rel' : 'hufucaizhuang',
+				'text' : '护肤彩妆',
+				'iconfont' : '&#34;',
+				'bgColor' : '#F9C4CC'
+			},
+			{
+				'rel' : 'shujiyinxiang',
+				'text' : '书籍音像',
+				'iconfont' : '&#113;',
+				'bgColor' : '#AED5DA'
+			},
+			{
+				'rel' : 'fuzhuangfushi',
+				'text' : '服装服饰',
+				'iconfont' : '&#69;',
+				'bgColor' : '#B5E7F2'
+			},
+			{
+				'rel' : 'zhubaopeishi',
+				'text' : '珠宝配饰',
+				'iconfont' : '&#115;',
+				'bgColor' : '#ECC7AD'
+			},
+			{
+				'rel' : 'xiemaoxiangbao',
+				'text' : '鞋帽箱包',
+				'iconfont' : '&#106;',
+				'bgColor' : '#FAC6DD'
+			},
+			{
+				'rel' : 'yiyaojisheng',
+				'text' : '医药计生',
+				'iconfont' : '&#59;',
+				'bgColor' : '#C6D089'
+			},
+			{
+				'rel' : 'huwaiyundong',
+				'text' : '户外运动',
+				'iconfont' : '&#109;',
+				'bgColor' : '#A9C8E5'
+			},
+			{
+				'rel' : 'muyingyongpin',
+				'text' : '母婴用品',
+				'iconfont' : '&#112;',
+				'bgColor' : '#EBD5A4'
+			},
+			{
+				'rel' : 'shipinjiankang',
+				'text' : '食品健康',
+				'iconfont' : '&#100;',
+				'bgColor' : '#B9DAA1'
+			},
+			{
+				'rel' : 'shenghuobaihuo',
+				'text' : '生活百货',
+				'iconfont' : '&#87;',
+				'bgColor' : '#EECDAE'
+			}
+		]
+	}
+</script>
+
+<script>
+	KISSY.ready(function(S) {
+		KISSY.use('uri',function(S,Uri){
+
+			//demo根据url中传入的参数，显示不同的样式
+			var uri = new Uri(location.href).getQuery();
+			var style = uri.get('style') || 1;
+			var autoFold = uri.get('autoFold') || false;
+
+		    KISSY.use("brix/gallery/anchornav/index", function(S,AnchorNav){
+
+		    	var anchorNav = new AnchorNav({
+		    		tmpl : '#tmpl_navlist',
+		   			data : data,
+		   			alwaysShow : false,  //是否一直显示工具条
+		   			styleKind : style,
+		   			autoFold : autoFold
+		    	});
+		    })
+		})
+	})
+</script>
+
+</body>
+</html>
