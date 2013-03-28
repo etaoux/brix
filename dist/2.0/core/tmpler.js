@@ -1,18 +1,26 @@
 KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
     var $ = Node.all;
     //用于缓存xhr获取的模板
-    var templates = {};
+    var xhr_templates = {};
+    //子模板主正则
+    var SUBTMPLREGEXP = '<([\\w]+)\\s+[^>]*?bx-tmpl=["\']([^"\']+)["\']\\s+[^>]*?bx-datakey=["\']([^"\']+)["\']\\s*[^>]*?>(@brix@)</\\1>';
+    //不解析模板存储正则
+    var STORETMPLREGEXP = /\{\{#bx\-tmpl\-(.*)\}\}([\s\S]*?)\{\{\/bx\-tmpl\}\}/ig;
+    //xhr的模板解析正则
+    var XHRTMPLREGEXP = /@TEMPLATE\|(.*?)\|TEMPLATE@/g;
     /**
      * 模板解析器，对传入的模板通过钩子进行分析，结合 XTemplate 和数据给出 html 片段。
      * @class Brix.Tmpler
-     * @param {String}  tmpl    模板字符串
+     * @param {String} tmpl     模板字符串
      * @param {Number} level    对模板进行解析的层级，false表示不解析
-     * @requires Brix.Mu
      */
 
     function Tmpler(tmpl, level) {
-        this.tmpls = [];
         if (tmpl && (level !== false)) {
+            //子模板数组
+            this.subTmpls = [];
+            //存储的模板，不解析，供后期使用
+            this.storeTmpls = {};
             this._bx_praseTmpl(tmpl, level);
         } else {
             this.tmpl = tmpl;
@@ -34,22 +42,20 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
                 if (tmpl.charAt(0) === '.' || tmpl.charAt(0) === '#' || tmpl === 'body') {
                     node = $(tmpl);
                 } else {
-                    var reg = /@TEMPLATE\|(.*?)\|TEMPLATE@/g;
-                    if (reg.test(tmpl)) {
-                        tmpl = tmpl.replace(reg, function($1, $2) {
-                            if (!templates[$2]) {
-                                IO({
-                                    url: $2,
-                                    dataType: 'html',
-                                    async: false,
-                                    success: function(d, textStatus, xhrObj) {
-                                        templates[$2] = d;
-                                    }
-                                });
-                            }
-                            return templates[$2] || '';
-                        });
-                    }
+                    tmpl = tmpl.replace(XHRTMPLREGEXP, function($1, $2) {
+                        S.log($2)
+                        if (!xhr_templates[$2]) {
+                            IO({
+                                url: $2,
+                                dataType: 'html',
+                                async: false,
+                                success: function(d, textStatus, xhrObj) {
+                                    xhr_templates[$2] = d;
+                                }
+                            });
+                        }
+                        return xhr_templates[$2] || '';
+                    });
                 }
             } else {
                 node = tmpl;
@@ -60,38 +66,62 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
                     //如果是script节点，则直接取html
                     tmpl = node.item(0).html();
                 } else {
+                    //解析script是text/tmpl的模板，看是否是subTmpl或者storeTmpl
+                    $('[type="text/tmpl"]').each(function(el) {
+                        var html = el.html();
+                        html = self._bx_buildStoreTmpls(html);
+                        self._bx_buildSubTmpls(html, false, level);
+                    });
                     inDom = true;
                 }
             }
 
             if (!inDom) {
-                var r = '<([\\w]+)\\s+[^>]*?bx-tmpl=["\']([^"\']+)["\']\\s+[^>]*?bx-datakey=["\']([^"\']+)["\']\\s*[^>]*?>(@brix@)</\\1>';
-                while (level--) {
-                    r = r.replace('@brix@', '(?:<\\1[^>]*>@brix@</\\1>|[\\s\\S])*?');
-                }
-                r = r.replace('@brix@', '(?:[\\s\\S]*?)');
-                self.reg = r;
+                tmpl = self._bx_buildStoreTmpls(tmpl);
+                self._bx_buildSubTmpls(tmpl, false, level);
                 self.tmpl = tmpl;
-                self._bx_buildTmpls(self.tmpl);
             }
             self.inDom = inDom;
         },
         /**
-         * 对节点中的bx-tmpl解析，构建模板和数据配置
-         * @param  {String} tmpl  需要解析的模板
+         * 构建{{#bx-tmpl-id}}……{{/bx-tmpl}}的存储
+         * @param  {String} tmpl 需要解析的模板
+         * @return {String}      解析后的模板
+         */
+        _bx_buildStoreTmpls: function(tmpl) {
+            var self = this;
+            tmpl = tmpl.replace(STORETMPLREGEXP, function(g, id, html) {
+                self.storeTmpls[id] = html;
+                return '';
+            });
+            return tmpl;
+        },
+        /**
+         * 对节点中的bx-tmpl和bx-datakey解析，构建模板和数据配置
+         * @param {String} tmpl  需要解析的模板
+         * @param {String} r 正则
+         * @param {Number} level  嵌套层级
          * @private
          */
-        _bx_buildTmpls: function(tmpl) {
+        _bx_buildSubTmpls: function(tmpl, r, level) {
             var self = this;
-            var r = new RegExp(self.reg, "ig"),
-                m;
-            while ((m = r.exec(tmpl)) !== null) {
-                self.tmpls.push({
+            var r = r;
+            if (!r) {
+                r = SUBTMPLREGEXP;
+                while (level--) {
+                    r = r.replace('@brix@', '(?:<\\1[^>]*>@brix@</\\1>|[\\s\\S])*?');
+                }
+                r = r.replace('@brix@', '(?:[\\s\\S]*?)');
+            }
+            var reg = new RegExp(r, "ig");
+            var m;
+            while ((m = reg.exec(tmpl)) !== null) {
+                self.subTmpls.push({
                     name: m[2],
                     datakey: m[3],
                     tmpler: new Tmpler(m[4], false)
                 });
-                self._bx_buildTmpls(m[4]);
+                self._bx_buildSubTmpls(m[4], r);
             }
         },
         /**
@@ -100,9 +130,10 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
          * @param {String} datakey 模板对应的数据key
          * @param {String} tmpl    子模板
          */
-        addTmpl: function(name, datakey, tmpl) {
+        addSubTmpl: function(name, datakey, tmpl) {
             var self = this;
-            self.tmpls.push({
+            self.subTmpls = self.subTmpls || [];
+            self.subTmpls.push({
                 name: name,
                 datakey: datakey,
                 tmpler: new Tmpler(tmpl, false)
@@ -110,24 +141,28 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
         },
 
         /**
-         * 获取模板字符串
+         * 获取存储的模板字符串
+         * @param {String} id 模板标识，在{{#bx-tmpl-id}}指定的id
          * @return {String} 模板字符串
          */
-        getTmpl: function() {
-            return this.tmpl;
+        getStoreTmpl: function(id) {
+            var storeTmpls = this.storeTmpls;
+            if (storeTmpls) {
+                return storeTmpls[id] || '';
+            }
         },
         /**
          * 模板和数据渲染成字符串
          * @param  {Object} data 数据
-         * @return {String}      html片段
+         * @return {String} html片段
          */
         render: function(data) {
+            var tmpl = this.tmpl;
             if (typeof XTemplate === 'function') {
-                return new XTemplate(this.getTmpl()).render(data);
+                return new XTemplate(tmpl).render(data);
             } else {
-                return XTemplate.render(this.getTmpl(), data);
+                return XTemplate.render(tmpl, data);
             }
-
         }
     });
     return Tmpler;
