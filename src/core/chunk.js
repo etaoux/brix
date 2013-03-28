@@ -119,6 +119,10 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                 var dataset = new Dataset({
                     data: data
                 });
+                var renderer = self.get('renderer');
+                if(renderer){
+                    dataset.setRenderer(renderer, self);
+                }
                 self.set('dataset', dataset); //设置最新的数据集合
                 dataset.on('*Change', function(e) {
                     var flg = false; //是否data数据变化
@@ -511,6 +515,13 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
              */
             dataset: {
                 value: false
+            },
+            /**
+             * 数据扩展
+             * @cfg {Object}
+             */
+            renderer:{
+                value:false
             },
             /**
              * 子模板解析的层级

@@ -51,6 +51,13 @@
                                 }
                             }
                         }
+                    },
+                    renderer:{
+                        xx:{
+                            yy:function(){
+                                return 'xx_yy_'+S.guid();
+                            }
+                        }
                     }
                 });
                 pagelet.ready(function() {
@@ -111,12 +118,14 @@
                 {{/g}}
                 </tbody>
             </table>
-
+            <p>bx-tmpl重名问题</p>
             <div bx-tmpl="pagewbd" bx-datakey="startDay,days_html">
                 {{startDay}}
             </div>
+            <p>renderer配置</p>
+            {{xx_yy}}
         </div>
-
+        <!--需要保存的模板-->
         {{#bx-tmpl-id}}
             <span>{{a}}</span>
             <span>{{b}}</span>
