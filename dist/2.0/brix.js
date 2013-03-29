@@ -546,11 +546,9 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
      */
     var Chunk = RichBase.extend({
         constructor: function Chunk() {
-            var self = this;
-            Chunk.superclass.constructor.apply(self, arguments);
-            var tmpler = self.get('tmpler');
-            if (self.get('autoRender') || tmpler.inDom) {
-                self.render();
+            Chunk.superclass.constructor.apply(this, arguments);
+            if (this.get('autoRender') || this.get('tmpler').inDom) {
+                this.render();
             }
         },
         /**
@@ -558,44 +556,39 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
          * @protected
          */
         initializer: function() {
-            var self = this;
-            var tmpl = self.get('tmpl');
-            self._bx_buildTmpler(tmpl, self.get('level'));
-            self._bx_buildDataset(self.get('data'));
-            var tmpler = self.get('tmpler');
-            if (tmpler.inDom) {
-                self.set('el', tmpl);
-            }
+            this._bx_buildTmpler();
+            this._bx_buildDataset();
         },
         /**
          * 构建模板解析器
-         * @param {String} tmpl 模板字符串
-         * @param {Number} level 模板解析的层级
          * @private
          */
-        _bx_buildTmpler: function(tmpl, level) {
+        _bx_buildTmpler: function() {
             var self = this;
+            var tmpl = self.get('tmpl');
             if (!self.get('isBuidTmpler')) {
                 self.set('isBuidTmpler', true);
-                var tmpler = new Tmpler(tmpl, level);
+                var tmpler = new Tmpler(tmpl, self.get('level'));
                 self.set('tmpler', tmpler);
+                if (tmpler.inDom) {
+                    self.set('el', tmpl);
+                }
             }
         },
         /**
          * 构建数据管理器
-         * @param {Object} data 数据集合
          * @private
          */
-        _bx_buildDataset: function(data) {
+        _bx_buildDataset: function() {
             var self = this;
             if (!self.get('isBuidDataset')) {
                 self.set('isBuidDataset', true);
-                data = S.clone(data || {}); //原始数据深度克隆
+                var data = S.clone(self.get('data') || {}); //原始数据深度克隆
                 var dataset = new Dataset({
                     data: data
                 });
                 var renderer = self.get('renderer');
-                if(renderer){
+                if (renderer) {
                     dataset.setRenderer(renderer, self);
                 }
                 self.set('dataset', dataset); //设置最新的数据集合
@@ -716,10 +709,8 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                  */
 
                 self.fire('beforeRenderUI');
-                var dataset = self.get('dataset');
-                if (dataset) {
-                    self._bx_render(dataset.get('data'));
-                }
+
+                self._bx_render();
 
                 /**
                  * @event afterRenderUI
@@ -776,16 +767,15 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
         },
         /**
          * 将模板渲染到页面
-         * @param  {Object} data 数据
          * @private
          */
-        _bx_render: function(data) {
+        _bx_render: function() {
             var self = this;
             var tmpler = self.get('tmpler');
-            if (tmpler.tmpl&&!tmpler.inDom) {
+            if (tmpler.tmpl && !tmpler.inDom) {
                 var container = self.get('container');
                 var el = self.get('el');
-                var html = S.trim(tmpler.render(data));
+                var html = S.trim(tmpler.render(self.get('dataset').get('data')));
                 var node;
                 //下面增加浏览器的判断，
                 //是因为创建dom时候，不同浏览器对自定义标签（比如：vframe）的支持不同。
@@ -984,8 +974,8 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
              * 数据扩展
              * @cfg {Object}
              */
-            renderer:{
-                value:false
+            renderer: {
+                value: false
             },
             /**
              * 子模板解析的层级
@@ -995,7 +985,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                 value: 3
             }
         }
-    },'Chunk');
+    });
     return Chunk;
 }, {
     requires: ["node", 'ua', "rich-base", "./dataset", "./tmpler"]
