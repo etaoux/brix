@@ -64,16 +64,10 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
             var self = this;
             Chunk.superclass.constructor.apply(self, arguments);
             var tmpler = self.get('tmpler');
-            if (self.get('autoRender') || !tmpler || tmpler.inDom) {
+            if (self.get('autoRender') || tmpler.inDom) {
                 self.render();
             }
         },
-
-        // change routine from rich-base for uibase
-        bindInternal: noop,
-
-        // change routine from rich-base for uibase
-        syncInternal: noop,
         /**
          * 初始化,在实例化对象时调用
          * @protected
@@ -81,15 +75,11 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
         initializer: function() {
             var self = this;
             var tmpl = self.get('tmpl');
-            if (tmpl) {
-                self._bx_buildTmpler(tmpl, self.get('level'));
-                var tmpler = self.get('tmpler');
-                if (tmpler) {
-                    self._bx_buildDataset(self.get('data'));
-                    if (tmpler.inDom) {
-                        self.set('el', tmpl);
-                    }
-                }
+            self._bx_buildTmpler(tmpl, self.get('level'));
+            self._bx_buildDataset(self.get('data'));
+            var tmpler = self.get('tmpler');
+            if (tmpler.inDom) {
+                self.set('el', tmpl);
             }
         },
         /**
@@ -178,13 +168,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
          * @param {String} tmpl    子模板
          */
         addSubTmpl: function(name, datakey, tmpl) {
-            var self = this;
-            self._bx_buildTmpler('', false);
-            self._bx_buildDataset();
-            if (name) {
-                var tmpler = self.get('tmpler');
-                tmpler.addSubTmpl(name, datakey, tmpl);
-            }
+            return this.get('tmpler').addSubTmpl(name, datakey, tmpl);
         },
         /**
          * 获取存储的模板字符串
@@ -192,12 +176,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
          * @return {String} 模板字符串
          */
         getStoreTmpl: function(id) {
-            var self = this;
-            var tmpler = self.get('tmpler');
-            if(tmpler){
-                return tmpler.getStoreTmpl(id);
-            }
-            return '';
+            return this.get('tmpler').getStoreTmpl(id);
         },
 
         /**
@@ -318,7 +297,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
         _bx_render: function(data) {
             var self = this;
             var tmpler = self.get('tmpler');
-            if (tmpler && !tmpler.inDom) {
+            if (tmpler.tmpl&&!tmpler.inDom) {
                 var container = self.get('container');
                 var el = self.get('el');
                 var html = S.trim(tmpler.render(data));
@@ -442,8 +421,8 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
     }, {
         ATTRS: {
             /**
-             * 组件节点
-             * @cfg {String}
+             * 组件根节点
+             * @type {Node}
              */
             el: {
                 getter: function(s) {
@@ -531,7 +510,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                 value: 3
             }
         }
-    });
+    },'Chunk');
     return Chunk;
 }, {
     requires: ["node", 'ua', "rich-base", "./dataset", "./tmpler"]

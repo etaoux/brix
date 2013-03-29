@@ -7,13 +7,13 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
      */
     var Brick = Chunk.extend({
         initializer: function() {
-            var self = this,
-                constt = self.constructor;
+            var self = this;
+            var constt = self.constructor;
+            var dataset = self.get('dataset');
             while(constt) {
                 var renderers = constt.RENDERERS;
                 if(renderers) {
-                    self.addSubTmpl();
-                    self.get('dataset').setRenderer(renderers, self);
+                    dataset.setRenderer(renderers, self);
                 }
                 constt = constt.superclass && constt.superclass.constructor;
             }
@@ -21,8 +21,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
             self.pagelet = self.get('pagelet');
         },
         bindUI: function() {
-            var self = this;
-            self._bx_bindEvent();
+            this._bx_bindEvent();
         },
         /**
          * 移除代理事件

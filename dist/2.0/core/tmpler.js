@@ -16,14 +16,17 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
      */
 
     function Tmpler(tmpl, level) {
-        if (tmpl && (level !== false)) {
-            //子模板数组
-            this.subTmpls = [];
-            //存储的模板，不解析，供后期使用
-            this.storeTmpls = {};
-            this._bx_praseTmpl(tmpl, level);
-        } else {
-            this.tmpl = tmpl;
+        if (tmpl) {
+            if(level !== false){
+                //子模板数组
+                this.subTmpls = [];
+                //存储的模板，不解析，供后期使用
+                this.storeTmpls = {};
+                this._bx_praseTmpl(tmpl, level);
+            }
+            else{
+                this.tmpl = tmpl;
+            }
         }
     }
 
@@ -104,7 +107,6 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
          */
         _bx_buildSubTmpls: function(tmpl, r, level) {
             var self = this;
-            r = r;
             if (!r) {
                 r = SUBTMPLREGEXP;
                 while (level--) {
@@ -148,6 +150,9 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
             var storeTmpls = this.storeTmpls;
             if (storeTmpls) {
                 return storeTmpls[id] || '';
+            }
+            else{
+                return '';
             }
         },
         /**
