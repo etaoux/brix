@@ -43,7 +43,6 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
                     node = $(tmpl);
                 } else {
                     tmpl = tmpl.replace(XHRTMPLREGEXP, function($1, $2) {
-                        S.log($2)
                         if (!xhr_templates[$2]) {
                             IO({
                                 url: $2,
@@ -105,7 +104,7 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
          */
         _bx_buildSubTmpls: function(tmpl, r, level) {
             var self = this;
-            var r = r;
+            r = r;
             if (!r) {
                 r = SUBTMPLREGEXP;
                 while (level--) {

@@ -9,11 +9,11 @@
 {{/list}}
 </pre>
  * 对于数组对象可以通过{{__index__}}访问数组下标
- * @class Brix.Mu
+ * @class Brix.Gallery.Mu
  * @extend Mustache
  * @static
  */
-KISSY.add("brix/core/mu", function(S, Mustache) {
+KISSY.add("brix/gallery/mu/index", function(S, Mustache) {
     var notRender=/\s*<script[^>]+type\s*=\s*(['"])\s*text\/tmpl\1[^>]*>([\s\S]*?)<\/script>\s*/gi;
     function addFns(template, data) {
         var ifs = getConditions(template);
@@ -129,13 +129,19 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
         name: Mustache.name,
         version: Mustache.version,
         tags: Mustache.tags,
+        Scanner:Mustache.Scanner,
+        Context:Mustache.Context,
+        Writer:Mustache.Writer,
+        escape:Mustache.escape,
         parse: Mustache.parse,
+        clearCache: Mustache.clearCache,
         compile: Mustache.compile,
+        compilePartial:Mustache.compilePartial,
+        compileTokens:Mustache.compileTokens,
         render: function() {
             return this.to_html.apply(this, arguments);
-        },
-        clearCache: Mustache.clearCache
+        }
     };
 }, {
-    requires: ["./mustache"]
+    requires: ["brix/gallery/mustache/"]
 });

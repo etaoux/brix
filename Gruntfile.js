@@ -57,7 +57,7 @@ module.exports = function(grunt) {
             }
         },
         jshint: {
-            files: ['Gruntfile.js', 'src/core/brix.js', 'src/core/mu.js', 'src/core/dataset.js', 'src/core/chunk.js', 'src/core/brick.js', 'src/core/pagelet.js', 'src/core/demolet.js'],
+            files: ['Gruntfile.js', 'src/core/brix.js', 'src/core/tmpler.js', 'src/core/dataset.js', 'src/core/chunk.js', 'src/core/brick.js', 'src/core/pagelet.js', 'src/core/demolet.js'],
             options: {
                 browser: true,
                 curly: true,

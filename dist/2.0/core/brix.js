@@ -114,7 +114,7 @@
             options = S.merge({
                 componentsPath: './',
                 importsPath: './',
-                templateEngine:'./mu',
+                templateEngine:'brix/gallery/mu/',
                 debug: debug === '' ? false : true,
                 combine:false,//默认不开启combine
                 tag: tag == '@TAG@' ? '' : tag,
