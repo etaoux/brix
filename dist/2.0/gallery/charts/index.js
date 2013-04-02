@@ -219,7 +219,7 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  版本:1.0.6
 	*  日期:2013.03.05
 	*  内容:
-	*       新增：综合2、综合3、综合4、综合5 4副图表
+	*       新增：综合2、综合3、综合4、综合5 4副图表(flash)
  */
 
 
