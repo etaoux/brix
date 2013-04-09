@@ -17,14 +17,13 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
 
     function Tmpler(tmpl, level) {
         if (tmpl) {
-            if(level !== false){
+            if (level !== false) {
                 //子模板数组
                 this.subTmpls = [];
                 //存储的模板，不解析，供后期使用
                 this.storeTmpls = {};
                 this._bx_praseTmpl(tmpl, level);
-            }
-            else{
+            } else {
                 this.tmpl = tmpl;
             }
         }
@@ -150,8 +149,7 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
             var storeTmpls = this.storeTmpls;
             if (storeTmpls) {
                 return storeTmpls[id] || '';
-            }
-            else{
+            } else {
                 return '';
             }
         },

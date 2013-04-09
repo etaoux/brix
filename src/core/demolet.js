@@ -10,7 +10,7 @@ KISSY.add("brix/core/demolet", function(S, Pagelet, IO, Node) {
      */
 
     function loadCSS(path) {
-        if(hasLoadCSS[path]) {
+        if (hasLoadCSS[path]) {
             return false;
         }
         hasLoadCSS[path] = true;
@@ -19,7 +19,7 @@ KISSY.add("brix/core/demolet", function(S, Pagelet, IO, Node) {
             dataType: 'text',
             async: false,
             complete: function(d, textStatus, xhrObj) {
-                if(textStatus == 'success') {
+                if (textStatus == 'success') {
                     $('<style>' + d + '</style>').appendTo('head');
                 }
             }
@@ -57,7 +57,7 @@ KISSY.add("brix/core/demolet", function(S, Pagelet, IO, Node) {
                 async: false,
                 dataType: 'json',
                 success: function(d, textStatus, xhrObj) {
-                    for(var k in d) {
+                    for (var k in d) {
                         data[p][k] = d[k];
                     }
                 }
@@ -85,20 +85,20 @@ KISSY.add("brix/core/demolet", function(S, Pagelet, IO, Node) {
                 });
                 var useList = ev.useList;
                 S.each(useList, function(path) {
-                    if(S.startsWith(path,'brix/')) {
-                        S.use(path + 'index.css');//核心组件采用模块方式加载
+                    if (S.startsWith(path, 'brix/')) {
+                        S.use(path + 'index.css'); //核心组件采用模块方式加载
                     } else {
                         var length = 3;
-                        if(S.startsWith(path,'imports/')) {
+                        if (S.startsWith(path, 'imports/')) {
                             //imports有5个层级imports/namespace/componentname/version/index.js
                             length = 5;
                         }
                         var arr = path.split('/');
-                        if(arr.length > length) {
+                        if (arr.length > length) {
                             arr.splice(arr.length - 2);
                             loadCSS(arr.join('/') + '/index.css');
                         }
-                        loadCSS(path.substring(0,path.lastIndexOf('/')) + '/index.css');
+                        loadCSS(path.substring(0, path.lastIndexOf('/')) + '/index.css');
                     }
                 });
 
@@ -112,10 +112,10 @@ KISSY.add("brix/core/demolet", function(S, Pagelet, IO, Node) {
              */
             projectCSS: {
                 value: [],
-                setter:function(v){
-                    if(S.isArray(v)){
+                setter: function(v) {
+                    if (S.isArray(v)) {
                         return v;
-                    }else{
+                    } else {
                         return [v];
                     }
                 }

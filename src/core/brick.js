@@ -10,9 +10,9 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
             var self = this;
             var constt = self.constructor;
             var dataset = self.get('dataset');
-            while(constt) {
+            while (constt) {
                 var renderers = constt.RENDERERS;
-                if(renderers) {
+                if (renderers) {
                     dataset.setRenderer(renderers, self);
                 }
                 constt = constt.superclass && constt.superclass.constructor;
@@ -31,23 +31,23 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
             var self = this;
             var constt = self.constructor;
 
-            while(constt) {
+            while (constt) {
                 var defaultEvents = constt.EVENTS;
-                if(defaultEvents) {
+                if (defaultEvents) {
                     self._bx_removeEvents(defaultEvents);
                 }
                 var defaultDocEvents = constt.DOCEVENTS;
-                if(defaultDocEvents) {
+                if (defaultDocEvents) {
                     self._bx_removeEvents(defaultDocEvents, document);
                 }
                 var defaultWinEvents = constt.WINEVENTS;
-                if(defaultWinEvents) {
+                if (defaultWinEvents) {
                     this._bx_removeWinEvents(defaultWinEvents);
                 }
                 constt = constt.superclass && constt.superclass.constructor;
             }
             var events = self.get("events");
-            if(events) {
+            if (events) {
                 this._bx_removeEvents(events);
             }
         },
@@ -58,20 +58,20 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
         _bx_bindEvent: function() {
             var self = this;
             var constt = self.constructor;
-            while(constt) {
+            while (constt) {
                 //代理在el上的事件
                 var defaultEvents = constt.EVENTS;
-                if(defaultEvents) {
+                if (defaultEvents) {
                     this._bx_addEvents(defaultEvents);
                 }
                 //代理在document上的事件
                 var defaultDocEvents = constt.DOCEVENTS;
-                if(defaultDocEvents) {
+                if (defaultDocEvents) {
                     this._bx_addEvents(defaultDocEvents, document);
                 }
                 //绑定window上的事件
                 var defaultWinEvents = constt.WINEVENTS;
-                if(defaultWinEvents) {
+                if (defaultWinEvents) {
                     this._bx_addWinEvents(defaultWinEvents);
                 }
 
@@ -82,7 +82,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
 
             //用户使用组件中的自定义事件代理
             var events = self.get("events");
-            if(events) {
+            if (events) {
                 this._bx_addEvents(events);
             }
         },
@@ -94,11 +94,11 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
          */
         _bx_removeEvents: function(events, el) {
             el = el || this.get("el");
-            for(var selector in events) {
+            for (var selector in events) {
                 var es = events[selector];
-                for(var type in es) {
+                for (var type in es) {
                     var callback = es[type];
-                    if(selector === "") {
+                    if (selector === "") {
                         Event.detach(el, type, callback, this);
                     } else {
                         Event.undelegate(el, type, selector, callback, this);
@@ -114,11 +114,11 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
          */
         _bx_addEvents: function(events, el) {
             el = el || this.get("el");
-            for(var selector in events) {
+            for (var selector in events) {
                 var es = events[selector];
-                for(var type in es) {
+                for (var type in es) {
                     var callback = es[type];
-                    if(selector === "") {
+                    if (selector === "") {
                         Event.on(el, type, callback, this);
                     } else {
                         Event.delegate(el, type, selector, callback, this);
@@ -132,7 +132,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
          * @private
          */
         _bx_removeWinEvents: function(events) {
-            for(var type in events) {
+            for (var type in events) {
                 var callback = events[type];
                 Event.detach(window, type, callback, this);
             }
@@ -143,7 +143,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
          * @private
          */
         _bx_addWinEvents: function(events) {
-            for(var type in events) {
+            for (var type in events) {
                 var callback = events[type];
                 Event.on(window, type, callback, this);
             }
@@ -154,11 +154,11 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
          */
         destructor: function() {
             var self = this;
-            if(self.get('rendered')) {
+            if (self.get('rendered')) {
                 self._bx_detachEvent();
                 var action = self.get('destroyAction');
                 var el = self.get('el');
-                switch(action){
+                switch (action) {
                     case 'remove':
                         el.remove();
                         break;
@@ -167,7 +167,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
                         break;
                 }
             }
-            if(self.get('pagelet')) {
+            if (self.get('pagelet')) {
                 delete self.pagelet;
                 self.set('pagelet', null);
             }
@@ -178,7 +178,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
                 value: null
             }
         }
-    },'Brick');
+    }, 'Brick');
 
 
     /**
@@ -240,7 +240,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
      * @static
      * @type {Object}
      */
-    
+
     /**
      * window事件绑定
      *
