@@ -50,6 +50,14 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
             if (events) {
                 this._bx_removeEvents(events);
             }
+            var docEvents = self.get("docEvents");
+            if (docEvents) {
+                this._bx_removeEvents(docEvents,document);
+            }
+            var winEvents = self.get("winEvents");
+            if (winEvents) {
+                this._bx_removeWinEvents(winEvents);
+            }
         },
         /**
          * 绑定代理事件
@@ -74,8 +82,6 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
                 if (defaultWinEvents) {
                     this._bx_addWinEvents(defaultWinEvents);
                 }
-
-
                 constt = constt.superclass && constt.superclass.constructor;
             }
 
@@ -84,6 +90,14 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
             var events = self.get("events");
             if (events) {
                 this._bx_addEvents(events);
+            }
+            var docEvents = self.get("docEvents");
+            if (docEvents) {
+                this._bx_addEvents(docEvents,document);
+            }
+            var winEvents = self.get("winEvents");
+            if (winEvents) {
+                this._bx_addWinEvents(winEvents);
             }
         },
         /**
