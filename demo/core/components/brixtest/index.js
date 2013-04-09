@@ -29,7 +29,7 @@ KISSY.add("components/brixtest/index", function(S, Brick) {
 						a: 'aaaa' + S.guid(),
 						c: 'ccc' + S.guid()
 					});
-					self.fire('myfire');
+					self.fire(BrixTest.FIRES.myfire);
 				}
 			},
 			'#input2': {
@@ -78,6 +78,24 @@ KISSY.add("components/brixtest/index", function(S, Brick) {
 					self.pagelet.setChunkData('startDay', 'startDay' + S.guid());
 				}
 			}
+		},
+		DOCEVENTS:{
+			'':{
+				click:function(){
+					S.log('点击了document');
+				}
+			}
+		},
+		WINEVENTS:{
+			scroll:function(){
+				S.log('scroll_'+S.guid());
+			},
+			resize:function(){
+				S.log('resize_'+S.guid());
+			}
+		},
+		FIRES:{
+			myfire:'myfire'
 		},
 		METHODS: {
 			testMethod: function() {

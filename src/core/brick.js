@@ -40,6 +40,10 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
                 if(defaultDocEvents) {
                     self._bx_removeEvents(defaultDocEvents, document);
                 }
+                var defaultWinEvents = constt.WINEVENTS;
+                if(defaultWinEvents) {
+                    this._bx_removeWinEvents(defaultWinEvents);
+                }
                 constt = constt.superclass && constt.superclass.constructor;
             }
             var events = self.get("events");
@@ -55,17 +59,23 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
             var self = this;
             var constt = self.constructor;
             while(constt) {
-                //组件默认事件代理
-                //方式一
+                //代理在el上的事件
                 var defaultEvents = constt.EVENTS;
                 if(defaultEvents) {
                     this._bx_addEvents(defaultEvents);
                 }
-                //代理在全局的页面上
+                //代理在document上的事件
                 var defaultDocEvents = constt.DOCEVENTS;
                 if(defaultDocEvents) {
                     this._bx_addEvents(defaultDocEvents, document);
                 }
+                //绑定window上的事件
+                var defaultWinEvents = constt.WINEVENTS;
+                if(defaultWinEvents) {
+                    this._bx_addWinEvents(defaultWinEvents);
+                }
+
+
                 constt = constt.superclass && constt.superclass.constructor;
             }
 
@@ -78,7 +88,8 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
         },
         /**
          * 移除事件代理
-         * @param  {Object} events 事件对象，参见EVENTS属性
+         * @param  {Object} events 事件对象，参见EVENTS和DOCEVENTS属性
+         * @param {Node} el 代理事件根节点
          * @private
          */
         _bx_removeEvents: function(events, el) {
@@ -97,7 +108,8 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
         },
         /**
          * 添加事件代理绑定
-         * @param  {Object} events 事件对象，参见EVENTS属性
+         * @param  {Object} events 事件对象，参见EVENTS和DOCEVENTS属性
+         * @param {Node} el 代理事件根节点
          * @private
          */
         _bx_addEvents: function(events, el) {
@@ -112,6 +124,28 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
                         Event.delegate(el, type, selector, callback, this);
                     }
                 }
+            }
+        },
+        /**
+         * 移除window事件绑定
+         * @param  {Object} events 事件对象，参见WINEVENTS属性
+         * @private
+         */
+        _bx_removeWinEvents: function(events) {
+            for(var type in events) {
+                var callback = events[type];
+                Event.detach(window, type, callback, this);
+            }
+        },
+        /**
+         * 添加window事件绑定
+         * @param  {Object} events 事件对象，参见WINEVENTS属性
+         * @private
+         */
+        _bx_addWinEvents: function(events) {
+            for(var type in events) {
+                var callback = events[type];
+                Event.on(window, type, callback, this);
             }
         },
         /**
@@ -176,7 +210,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
      *
      *
      *      Brick.EVENTS = {
-     *          'selector':{
+     *          'selector':{//selector为空表示在el节点上绑定事件
      *              'eventtype':function(){
      *
      *               }
@@ -194,7 +228,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
      *
      *
      *      Brick.DOCEVENTS = {
-     *          'selector':{
+     *          'selector':{//selector为空表示在document上绑定事件
      *              'eventtype':function(){
      *
      *               }
@@ -203,6 +237,22 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
      *
      *
      * @property DOCEVENTS
+     * @static
+     * @type {Object}
+     */
+    
+    /**
+     * window事件绑定
+     *
+     *
+     *      Brick.WINEVENTS = {
+     *          'eventtype':function(){
+     *
+     *           }
+     *      }
+     *
+     *
+     * @property WINEVENTS
      * @static
      * @type {Object}
      */
