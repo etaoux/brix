@@ -330,7 +330,7 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
                     tmpl = node.item(0).html();
                 } else {
                     //解析script是text/tmpl的模板，看是否是subTmpl或者storeTmpl
-                    $('[type="text/tmpl"]').each(function(el) {
+                    $('script[type="text/tmpl"]').each(function(el) {
                         var html = el.html();
                         html = self._bx_buildStoreTmpls(html);
                         self._bx_buildSubTmpls(html, false, level);

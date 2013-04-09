@@ -206,6 +206,9 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
         },
         autoRender:{
             value:false
+        },
+        zIndex:{
+            value:9999
         }
     };
 
@@ -415,7 +418,8 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                 }
                 self.overlay = new Overlay({
                     srcNode: self.get('el'),
-                    align: align
+                    align: align,
+                    zIndex:self.get('zIndex')
                 });
                 self.overlay.render();
             } else {
