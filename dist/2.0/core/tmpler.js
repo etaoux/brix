@@ -5,7 +5,7 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
     //子模板主正则
     var SUBTMPLREGEXP = '<([\\w]+)\\s+[^>]*?bx-tmpl=["\']([^"\']+)["\']\\s+[^>]*?bx-datakey=["\']([^"\']+)["\']\\s*[^>]*?>(@brix@)</\\1>';
     //不解析模板存储正则
-    var STORETMPLREGEXP = /\{\{#bx\-tmpl\-(.*)\}\}([\s\S]*?)\{\{\/bx\-tmpl\}\}/ig;
+    var STORETMPLREGEXP = /\{\{#bx\-tmpl\-([^\}]*)?\}\}([\s\S]*?)\{\{\/bx\-tmpl\}\}/ig;
     //xhr的模板解析正则
     var XHRTMPLREGEXP = /@TEMPLATE\|(.*?)\|TEMPLATE@/g;
     /**
@@ -17,14 +17,13 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
 
     function Tmpler(tmpl, level) {
         if (tmpl) {
-            if(level !== false){
+            if (level !== false) {
                 //子模板数组
                 this.subTmpls = [];
                 //存储的模板，不解析，供后期使用
                 this.storeTmpls = {};
                 this._bx_praseTmpl(tmpl, level);
-            }
-            else{
+            } else {
                 this.tmpl = tmpl;
             }
         }
@@ -150,8 +149,7 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
             var storeTmpls = this.storeTmpls;
             if (storeTmpls) {
                 return storeTmpls[id] || '';
-            }
-            else{
+            } else {
                 return '';
             }
         },

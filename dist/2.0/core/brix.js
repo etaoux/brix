@@ -36,14 +36,15 @@
 
     //从KISSY源代码提取并改动适合brix的
     var simulatedLocation = new S.Uri(location.href);
-    function returnJSON(s){
-        if(s){
+
+    function returnJSON(s) {
+        if (s) {
             return (new Function('return ' + s))();
-        }
-        else{
+        } else {
             return {};
         }
     }
+
     function getBaseInfo() {
         // get base from current script file path
         // notice: timestamp
@@ -53,8 +54,8 @@
             comboSep,
             scripts = host.document.getElementsByTagName('script'),
             script = scripts[scripts.length - 1],
-        // can not use KISSY.Uri
-        // /??x.js,dom.js for tbcdn
+            // can not use KISSY.Uri
+            // /??x.js,dom.js for tbcdn
             src = script.src,
             baseInfo = returnJSON(script.getAttribute('bx-config'));
 
@@ -66,9 +67,9 @@
         comboPrefix = baseInfo.comboPrefix = baseInfo.comboPrefix || '??';
         comboSep = baseInfo.comboSep = baseInfo.comboSep || ',';
 
-        var parts ,
-            base,
-            index = src.indexOf(comboPrefix);
+        var parts,
+        base,
+        index = src.indexOf(comboPrefix);
 
         // no combo
         if (index == -1) {
@@ -81,7 +82,7 @@
                 base += '/';
             }
             parts = src.substring(index + comboPrefix.length).split(comboSep);
-            S.each(parts, function (part) {
+            S.each(parts, function(part) {
                 if (part.match(baseTestReg)) {
                     base += part.replace(baseReg, '$1');
                     return false;
@@ -107,16 +108,16 @@
          * @param  {Object} options 配置对象，详见bx-config配置节点
          */
         config: function(options) {
-            if(isConfig) {
+            if (isConfig) {
                 return;
             }
             isConfig = true;
             options = S.merge({
                 componentsPath: './',
                 importsPath: './',
-                templateEngine:'brix/gallery/mu/',
+                templateEngine: 'brix/gallery/mu/',
                 debug: debug === '' ? false : true,
-                combine:false,//默认不开启combine
+                combine: false, //默认不开启combine
                 tag: tag == '@TAG@' ? '' : tag,
                 //路径修正，brix路径下存在其他文件夹
                 fixed: version == '@VERSION@' ? 'src/' : version + '/',
@@ -144,22 +145,22 @@
                 packages: [{
                     name: "brix",
                     base: options.base,
-                    combine:options.combine,
-                    debug:options.debug,
+                    combine: options.combine,
+                    debug: options.debug,
                     tag: options.tag,
                     charset: "utf-8"
                 }, {
                     name: "components",
                     base: options.componentsPath,
-                    combine:options.combine,
-                    debug:options.debug,
+                    combine: options.combine,
+                    debug: options.debug,
                     tag: options.componentsTag || options.tag,
                     charset: "utf-8"
                 }, {
                     name: "imports",
                     base: options.importsPath,
-                    combine:options.combine,
-                    debug:options.debug,
+                    combine: options.combine,
+                    debug: options.debug,
                     tag: options.importsTag || options.tag,
                     charset: "utf-8"
                 }]
@@ -168,7 +169,7 @@
                 map: [
                     [/(.+brix\/)(gallery\/)(.+?)(\/.+?(?:-min)?\.(?:js|css))(\?[^?]+)?$/, function($0, $1, $2, $3, $4, $5) {
                         var str = $1 + options.fixed + $2 + $3;
-                        if(options.gallery[$3]) {
+                        if (options.gallery[$3]) {
                             str += '/' + options.gallery[$3];
                         }
                         str += $4 + ($5 ? $5 : '');
@@ -187,7 +188,7 @@
          * @param {Function} fn 执行的函数
          */
         ready: function(fn) {
-            if(isReady) {
+            if (isReady) {
                 fn.call(Brix);
             } else {
                 readyList.push(fn);
@@ -198,13 +199,13 @@
          * @private
          */
         _bx_fireReady: function() {
-            if(isReady) {
+            if (isReady) {
                 return;
             }
             isReady = true;
-            if(readyList) {
+            if (readyList) {
                 var fn, i = 0;
-                while(fn = readyList[i++]) {
+                while (fn = readyList[i++]) {
                     fn.call(Brix);
                 }
                 readyList = null;
@@ -215,7 +216,7 @@
          * @param  {String} s JSON字符串
          * @return {Object}   JSON对象
          */
-        returnJSON:function(s) {
+        returnJSON: function(s) {
             return returnJSON(s);
         },
         /**
@@ -224,18 +225,18 @@
          * @param  {String} path   相对路径
          * @return {String}        绝对路径
          */
-        absoluteFilePath:function(module,path){
-            return new S.Uri(module.getFullPath()).resolve(path).toString(); 
+        absoluteFilePath: function(module, path) {
+            return new S.Uri(module.getFullPath()).resolve(path).toString();
         }
     });
-    if(defaultOptions.autoConfig) {
+    if (defaultOptions.autoConfig) {
         //自动配置
         Brix.config({});
         //自动实例化pagelet
         //外部调用的S.ready注册的方法中可以直接用Brix.pagelet实例书写业务逻辑
-        if(defaultOptions.autoPagelet) {
+        if (defaultOptions.autoPagelet) {
             //延时执行，在打包后的能保证后面的模块已经载入
-            S.later(function(){
+            S.later(function() {
                 S.use('brix/core/pagelet', function(S, Pagelet) {
                     S.ready(function() {
                         /**
@@ -248,7 +249,7 @@
                         Brix._bx_fireReady();
                     });
                 });
-            },1);
+            }, 1);
             return;
         }
     }
