@@ -10,8 +10,11 @@ KISSY.add('brix/gallery/share/index', function(S, Brick){
         isFord : {
             value : false
         },
-        hasTips : {
+        hastips : {
             value : ''
+        },
+        duration: {
+            value : 0.3
         }
     };
 
@@ -57,22 +60,19 @@ KISSY.add('brix/gallery/share/index', function(S, Brick){
                 mod = self.get('el'),
                 ext = $('.ext', mod),
                 arrow =  $('.icon-arrow', mod),
-                _prop = {
-                    'width' : 'toggle'
-                };
+                duration = self.get('duration');
 
-                if(ext.hasClass('ext-v')){
-                    _prop = {
-                        'height' : 'toggle'
-                    };
-                }
+            ext.css(self.initProp);
 
-                self.turn(ext, 'animate', 0.3, 'easeOut', function(){
-                    callback();
-                    arrow.filter('.icon-arrow-l').html('&#402;');
-                    arrow.filter('.icon-arrow-r').html('&#403;');
-                    arrow.filter('.icon-arrow-d').html('&#404;');
-                }, undefined, _prop);
+            self.turn(ext, 'animate', duration, 'easeOut', function(){
+                callback();
+                arrow.filter('.icon-arrow-l').html('&#402;');
+                arrow.filter('.icon-arrow-r').html('&#403;');
+                arrow.filter('.icon-arrow-d').html('&#404;');
+                ext.css({
+                    overflow : 'visible'
+                });
+            }, undefined, self.expendProp);
 
         },
         shrink : function(callback){
@@ -81,22 +81,17 @@ KISSY.add('brix/gallery/share/index', function(S, Brick){
                 mod = self.get('el'),
                 ext = $('.ext', mod),
                 arrow =  $('.icon-arrow', mod),
-                _prop = {
-                    'width' : 'toggle'
-                };
+                duration = self.get('duration');
 
-                if(ext.hasClass('ext-v')){
-                    _prop = {
-                        'height' : 'toggle'
-                    };
-                }
+            ext.css({overflow:'hidden'});
 
-                self.turn(ext, 'animate', 0.3, 'easeIn', function(){
-                    callback();
-                    arrow.filter('.icon-arrow-l').html('&#403;');
-                    arrow.filter('.icon-arrow-r').html('&#402;');
-                    arrow.filter('.icon-arrow-d').html('&#405;');
-                }, undefined, _prop);
+            self.turn(ext, 'animate', duration, 'easeIn', function(){
+                callback();
+                arrow.filter('.icon-arrow-l').html('&#403;');
+                arrow.filter('.icon-arrow-r').html('&#402;');
+                arrow.filter('.icon-arrow-d').html('&#405;');
+                ext.css(self.initProp);
+            }, undefined, self.shrinkProp);
 
         },
         show : function(callback){
@@ -104,10 +99,11 @@ KISSY.add('brix/gallery/share/index', function(S, Brick){
             var self = this,
                 mod = self.get('el'),
                 activeClass = " popup-share-active",
-                panel = S.one('.panel-popup', mod);
+                panel = S.one('.panel-popup', mod),
+                duration = self.get('duration');
 
                 $(mod).addClass(activeClass);
-                self.turn(panel, 'fadeIn', 0.3, 'easeOut', callback);
+                self.turn(panel, 'fadeIn', duration, 'easeOut', callback);
 
         },
         hide : function(callback){
@@ -115,9 +111,10 @@ KISSY.add('brix/gallery/share/index', function(S, Brick){
             var self = this,
                 mod = self.get('el'),
                 activeClass = "popup-share-active",
-                panel = S.one('.panel-popup', mod);
+                panel = S.one('.panel-popup', mod),
+                duration = self.get('duration');
 
-                self.turn(panel, 'fadeOut', 0.3, 'easeIn', function(){
+                self.turn(panel, 'fadeOut', duration, 'easeIn', function(){
                     callback();
                     $(mod).removeClass(activeClass);
                 });
@@ -126,8 +123,8 @@ KISSY.add('brix/gallery/share/index', function(S, Brick){
             var self = this;
             var tips = S.one('.tips', btn),
                 angle = S.one('.angle', tips),
-                left = btn.offset().left + Math.round(btn.outerWidth()/2.0),
-                width = Math.round((tips.width() + tips.outerWidth())/2.0),
+                left = btn.offset().left + Math.round(btn.width()/2.0),
+                width = Math.round(tips.width()/2.0) + Math.round(btn.width()/2.0),
                 _css = {'margin-left' : (0 - width) + 'px'},
                 min_sep = 3;
 
@@ -268,9 +265,37 @@ KISSY.add('brix/gallery/share/index', function(S, Brick){
 
     S.extend(Share, Brick, {
         initialize: function(e) {
-            var $ = S.all,
-                self = this;
+            var $ = S.all;
+            var self = this;
+            var mod = self.get('el');
+            var ext = S.one('.ext', mod);
+
             self.dispatcher = { timer : 0 };
+
+            if(ext){
+                self.initProp = {
+                    opacity : 0,
+                    overflow: 'hidden'
+                };
+                self.expendProp = {
+                    opacity : 1
+                }
+                self.shrinkProp = {
+                    opacity : 0
+                };
+
+                var p = 'width';
+
+                if($(mod).hasClass('share-vertical')){
+                    p = 'height';
+                }
+
+                self.initProp[p] = 0;
+                self.expendProp[p] = ext[p]() + 'px';
+                self.shrinkProp[p] = 0;
+                ext.css({'display':''})                
+                ext.css(self.initProp);
+            }
 
             $('.btn-share',self.get('el')).each(function(el){
                 el[0].dispatcher = { isTipsShow: true, timer : 0};
