@@ -211,7 +211,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                     });
                     /**
                      * @event afterAddBehavior
-                     * fired before component is instantiated
+                     * fired after component is instantiated
                      * @param {KISSY.Event.CustomEventObject} e
                      */
                     self.fire('afterAddBehavior', {
