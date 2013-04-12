@@ -5,7 +5,7 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
     //子模板主正则
     var SUBTMPLREGEXP = '<([\\w]+)\\s+[^>]*?bx-tmpl=["\']([^"\']+)["\']\\s+[^>]*?bx-datakey=["\']([^"\']+)["\']\\s*[^>]*?>(@brix@)</\\1>';
     //不解析模板存储正则
-    var STORETMPLREGEXP = /\{\{#bx\-tmpl\-(.*)\}\}([\s\S]*?)\{\{\/bx\-tmpl\}\}/ig;
+    var STORETMPLREGEXP = /\{\{#bx\-tmpl\-([^\}]*)?\}\}([\s\S]*?)\{\{\/bx\-tmpl\}\}/ig;
     //xhr的模板解析正则
     var XHRTMPLREGEXP = /@TEMPLATE\|(.*?)\|TEMPLATE@/g;
     /**
