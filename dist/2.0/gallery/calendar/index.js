@@ -206,6 +206,9 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
         },
         autoRender:{
             value:false
+        },
+        zIndex:{
+            value:9999
         }
     };
 
@@ -415,7 +418,8 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                 }
                 self.overlay = new Overlay({
                     srcNode: self.get('el'),
-                    align: align
+                    align: align,
+                    zIndex:self.get('zIndex')
                 });
                 self.overlay.render();
             } else {
@@ -1103,7 +1107,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
                     node = S.one(e.currentTarget);
                 if(!node.hasClass('calendar-disabled')){
                     var d = false;
-                    if(!node.hasClass('calendar-selected')){
+                    //if(!node.hasClass('calendar-selected')){
                         var year = self.get('year'),
                             month = self.get('month');
                         d = new Date(year,month,Number(node.html()));
@@ -1113,7 +1117,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
                             d.setMinutes(time.getMinutes());
                             d.setSeconds(time.getSeconds());
                         }
-                    }
+                    //}
                     S.later(function(){
                         //先触发document的click事件
                         self.fire(Page.FIRES.itemClick,{date:d});

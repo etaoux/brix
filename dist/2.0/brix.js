@@ -39,14 +39,15 @@
 
     //从KISSY源代码提取并改动适合brix的
     var simulatedLocation = new S.Uri(location.href);
-    function returnJSON(s){
-        if(s){
+
+    function returnJSON(s) {
+        if (s) {
             return (new Function('return ' + s))();
-        }
-        else{
+        } else {
             return {};
         }
     }
+
     function getBaseInfo() {
         // get base from current script file path
         // notice: timestamp
@@ -56,8 +57,8 @@
             comboSep,
             scripts = host.document.getElementsByTagName('script'),
             script = scripts[scripts.length - 1],
-        // can not use KISSY.Uri
-        // /??x.js,dom.js for tbcdn
+            // can not use KISSY.Uri
+            // /??x.js,dom.js for tbcdn
             src = script.src,
             baseInfo = returnJSON(script.getAttribute('bx-config'));
 
@@ -69,9 +70,9 @@
         comboPrefix = baseInfo.comboPrefix = baseInfo.comboPrefix || '??';
         comboSep = baseInfo.comboSep = baseInfo.comboSep || ',';
 
-        var parts ,
-            base,
-            index = src.indexOf(comboPrefix);
+        var parts,
+        base,
+        index = src.indexOf(comboPrefix);
 
         // no combo
         if (index == -1) {
@@ -84,7 +85,7 @@
                 base += '/';
             }
             parts = src.substring(index + comboPrefix.length).split(comboSep);
-            S.each(parts, function (part) {
+            S.each(parts, function(part) {
                 if (part.match(baseTestReg)) {
                     base += part.replace(baseReg, '$1');
                     return false;
@@ -110,16 +111,16 @@
          * @param  {Object} options 配置对象，详见bx-config配置节点
          */
         config: function(options) {
-            if(isConfig) {
+            if (isConfig) {
                 return;
             }
             isConfig = true;
             options = S.merge({
                 componentsPath: './',
                 importsPath: './',
-                templateEngine:'./mu',
+                templateEngine: 'brix/gallery/mu/',
                 debug: debug === '' ? false : true,
-                combine:false,//默认不开启combine
+                combine: false, //默认不开启combine
                 tag: tag == '@TAG@' ? '' : tag,
                 //路径修正，brix路径下存在其他文件夹
                 fixed: version == '@VERSION@' ? 'src/' : version + '/',
@@ -147,22 +148,22 @@
                 packages: [{
                     name: "brix",
                     base: options.base,
-                    combine:options.combine,
-                    debug:options.debug,
+                    combine: options.combine,
+                    debug: options.debug,
                     tag: options.tag,
                     charset: "utf-8"
                 }, {
                     name: "components",
                     base: options.componentsPath,
-                    combine:options.combine,
-                    debug:options.debug,
+                    combine: options.combine,
+                    debug: options.debug,
                     tag: options.componentsTag || options.tag,
                     charset: "utf-8"
                 }, {
                     name: "imports",
                     base: options.importsPath,
-                    combine:options.combine,
-                    debug:options.debug,
+                    combine: options.combine,
+                    debug: options.debug,
                     tag: options.importsTag || options.tag,
                     charset: "utf-8"
                 }]
@@ -171,7 +172,7 @@
                 map: [
                     [/(.+brix\/)(gallery\/)(.+?)(\/.+?(?:-min)?\.(?:js|css))(\?[^?]+)?$/, function($0, $1, $2, $3, $4, $5) {
                         var str = $1 + options.fixed + $2 + $3;
-                        if(options.gallery[$3]) {
+                        if (options.gallery[$3]) {
                             str += '/' + options.gallery[$3];
                         }
                         str += $4 + ($5 ? $5 : '');
@@ -190,7 +191,7 @@
          * @param {Function} fn 执行的函数
          */
         ready: function(fn) {
-            if(isReady) {
+            if (isReady) {
                 fn.call(Brix);
             } else {
                 readyList.push(fn);
@@ -201,13 +202,13 @@
          * @private
          */
         _bx_fireReady: function() {
-            if(isReady) {
+            if (isReady) {
                 return;
             }
             isReady = true;
-            if(readyList) {
+            if (readyList) {
                 var fn, i = 0;
-                while(fn = readyList[i++]) {
+                while (fn = readyList[i++]) {
                     fn.call(Brix);
                 }
                 readyList = null;
@@ -218,7 +219,7 @@
          * @param  {String} s JSON字符串
          * @return {Object}   JSON对象
          */
-        returnJSON:function(s) {
+        returnJSON: function(s) {
             return returnJSON(s);
         },
         /**
@@ -227,18 +228,18 @@
          * @param  {String} path   相对路径
          * @return {String}        绝对路径
          */
-        absoluteFilePath:function(module,path){
-            return new S.Uri(module.getFullPath()).resolve(path).toString(); 
+        absoluteFilePath: function(module, path) {
+            return new S.Uri(module.getFullPath()).resolve(path).toString();
         }
     });
-    if(defaultOptions.autoConfig) {
+    if (defaultOptions.autoConfig) {
         //自动配置
         Brix.config({});
         //自动实例化pagelet
         //外部调用的S.ready注册的方法中可以直接用Brix.pagelet实例书写业务逻辑
-        if(defaultOptions.autoPagelet) {
+        if (defaultOptions.autoPagelet) {
             //延时执行，在打包后的能保证后面的模块已经载入
-            S.later(function(){
+            S.later(function() {
                 S.use('brix/core/pagelet', function(S, Pagelet) {
                     S.ready(function() {
                         /**
@@ -251,7 +252,7 @@
                         Brix._bx_fireReady();
                     });
                 });
-            },1);
+            }, 1);
             return;
         }
     }
@@ -259,689 +260,34 @@
         Brix._bx_fireReady();
     });
 }(KISSY, 'Brix'));
-KISSY.add('brix/core/mustache', function(S) {
-  /**
-   * mustache.js - Logic-less {{mustache}} templates with JavaScript
-   * http://github.com/janl/mustache.js
-   * @class Mustache
-   */
-  var Mustache = (typeof module !== "undefined" && module.exports) || {};
-
-  (function(exports) {
-
-    exports.name = "mustache.js";
-    exports.version = "0.5.0-dev";
-    exports.tags = ["{{", "}}"];
-    exports.parse = parse;
-    exports.compile = compile;
-    exports.render = render;
-    exports.clearCache = clearCache;
-
-    // This is here for backwards compatibility with 0.4.x.
-    exports.to_html = function(template, view, partials, send) {
-      var result = render(template, view, partials);
-
-      if (typeof send === "function") {
-        send(result);
-      } else {
-        return result;
-      }
-    };
-
-    var _toString = Object.prototype.toString;
-    var _isArray = Array.isArray;
-    var _forEach = Array.prototype.forEach;
-    var _trim = String.prototype.trim;
-
-    var isArray;
-    if (_isArray) {
-      isArray = _isArray;
-    } else {
-      isArray = function(obj) {
-        return _toString.call(obj) === "[object Array]";
-      };
-    }
-
-    var forEach;
-    if (_forEach) {
-      forEach = function(obj, callback, scope) {
-        return _forEach.call(obj, callback, scope);
-      };
-    } else {
-      forEach = function(obj, callback, scope) {
-        for (var i = 0, len = obj.length; i < len; ++i) {
-          callback.call(scope, obj[i], i, obj);
-        }
-      };
-    }
-
-    var spaceRe = /^\s*$/;
-
-    function isWhitespace(string) {
-      return spaceRe.test(string);
-    }
-
-    var trim;
-    if (_trim) {
-      trim = function(string) {
-        return string == null ? "" : _trim.call(string);
-      };
-    } else {
-      var trimLeft, trimRight;
-
-      if (isWhitespace("\xA0")) {
-        trimLeft = /^\s+/;
-        trimRight = /\s+$/;
-      } else {
-        // IE doesn't match non-breaking spaces with \s, thanks jQuery.
-        trimLeft = /^[\s\xA0]+/;
-        trimRight = /[\s\xA0]+$/;
-      }
-
-      trim = function(string) {
-        return string == null ? "" : String(string).replace(trimLeft, "").replace(trimRight, "");
-      };
-    }
-
-    var escapeMap = {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': '&quot;',
-      "'": '&#39;'
-    };
-
-    function escapeHTML(string) {
-      return String(string).replace(/&(?!\w+;)|[<>"']/g, function(s) {
-        return escapeMap[s] || s;
-      });
-    }
-
-    /**
-     * Adds the `template`, `line`, and `file` properties to the given error
-     * object and alters the message to provide more useful debugging information.
-     */
-
-    function debug(e, template, line, file) {
-      file = file || "<template>";
-
-      var lines = template.split("\n"),
-        start = Math.max(line - 3, 0),
-        end = Math.min(lines.length, line + 3),
-        context = lines.slice(start, end);
-
-      var c;
-      for (var i = 0, len = context.length; i < len; ++i) {
-        c = i + start + 1;
-        context[i] = (c === line ? " >> " : "    ") + context[i];
-      }
-
-      e.template = template;
-      e.line = line;
-      e.file = file;
-      e.message = [file + ":" + line, context.join("\n"), "", e.message].join("\n");
-
-      return e;
-    }
-
-    /**
-     * Looks up the value of the given `name` in the given context `stack`.
-     */
-
-    function lookup(name, stack, defaultValue) {
-      if (name === ".") {
-        return stack[stack.length - 1];
-      }
-
-      var names = name.split(".");
-      var lastIndex = names.length - 1;
-      var target = names[lastIndex];
-
-      var value, context, i = stack.length,
-        j, localStack;
-      while (i) {
-        localStack = stack.slice(0);
-        context = stack[--i];
-
-        j = 0;
-        while (j < lastIndex) {
-          context = context[names[j++]];
-
-          if (context == null) {
-            break;
-          }
-
-          localStack.push(context);
-        }
-
-        if (context && typeof context === "object" && target in context) {
-          value = context[target];
-          break;
-        }
-      }
-
-      // If the value is a function, call it in the current context.
-      if (typeof value === "function") {
-        value = value.call(localStack[localStack.length - 1]);
-      }
-
-      if (value == null) {
-        return defaultValue;
-      }
-
-      return value;
-    }
-
-    function renderSection(name, stack, callback, inverted) {
-      var buffer = "";
-      var value = lookup(name, stack);
-
-      if (inverted) {
-        // From the spec: inverted sections may render text once based on the
-        // inverse value of the key. That is, they will be rendered if the key
-        // doesn't exist, is false, or is an empty list.
-        if (value == null || value === false || (isArray(value) && value.length === 0)) {
-          buffer += callback();
-        }
-      } else if (isArray(value)) {
-        forEach(value, function(value) {
-          stack.push(value);
-          buffer += callback();
-          stack.pop();
-        });
-      } else if (typeof value === "object") {
-        stack.push(value);
-        buffer += callback();
-        stack.pop();
-      } else if (typeof value === "function") {
-        var scope = stack[stack.length - 1];
-        var scopedRender = function(template) {
-            return render(template, scope);
-          };
-        buffer += value.call(scope, callback(), scopedRender) || "";
-      } else if (value) {
-        buffer += callback();
-      }
-
-      return buffer;
-    }
-
-    /**
-     * Parses the given `template` and returns the source of a function that,
-     * with the proper arguments, will render the template. Recognized options
-     * include the following:
-     *
-     *   - file     The name of the file the template comes from (displayed in
-     *              error messages)
-     *   - tags     An array of open and close tags the `template` uses. Defaults
-     *              to the value of Mustache.tags
-     *   - debug    Set `true` to log the body of the generated function to the
-     *              console
-     *   - space    Set `true` to preserve whitespace from lines that otherwise
-     *              contain only a {{tag}}. Defaults to `false`
-     */
-
-    function parse(template, options) {
-      options = options || {};
-
-      var tags = options.tags || exports.tags,
-        openTag = tags[0],
-        closeTag = tags[tags.length - 1];
-
-      var code = ['var buffer = "";', // output buffer
-      "\nvar line = 1;", // keep track of source line number
-      "\ntry {", '\nbuffer += "'];
-
-      var spaces = [],
-        // indices of whitespace in code on the current line
-        hasTag = false,
-        // is there a {{tag}} on the current line?
-        nonSpace = false; // is there a non-space char on the current line?
-      // Strips all space characters from the code array for the current line
-      // if there was a {{tag}} on it and otherwise only spaces.
-      var stripSpace = function() {
-          if (hasTag && !nonSpace && !options.space) {
-            while (spaces.length) {
-              code.splice(spaces.pop(), 1);
-            }
-          } else {
-            spaces = [];
-          }
-
-          hasTag = false;
-          nonSpace = false;
-        };
-
-      var sectionStack = [],
-        updateLine, nextOpenTag, nextCloseTag;
-
-      var setTags = function(source) {
-          tags = trim(source).split(/\s+/);
-          nextOpenTag = tags[0];
-          nextCloseTag = tags[tags.length - 1];
-        };
-
-      var includePartial = function(source) {
-          code.push('";', updateLine, '\nvar partial = partials["' + trim(source) + '"];', '\nif (partial) {', '\n  buffer += render(partial,stack[stack.length - 1],partials);', '\n}', '\nbuffer += "');
-        };
-
-      var openSection = function(source, inverted) {
-          var name = trim(source);
-
-          if (name === "") {
-            throw debug(new Error("Section name may not be empty"), template, line, options.file);
-          }
-
-          sectionStack.push({
-            name: name,
-            inverted: inverted
-          });
-
-          code.push('";', updateLine, '\nvar name = "' + name + '";', '\nvar callback = (function () {', '\n  return function () {', '\n    var buffer = "";', '\nbuffer += "');
-        };
-
-      var openInvertedSection = function(source) {
-          openSection(source, true);
-        };
-
-      var closeSection = function(source) {
-          var name = trim(source);
-          var openName = sectionStack.length != 0 && sectionStack[sectionStack.length - 1].name;
-
-          if (!openName || name != openName) {
-            throw debug(new Error('Section named "' + name + '" was never opened'), template, line, options.file);
-          }
-
-          var section = sectionStack.pop();
-
-          code.push('";', '\n    return buffer;', '\n  };', '\n})();');
-
-          if (section.inverted) {
-            code.push("\nbuffer += renderSection(name,stack,callback,true);");
-          } else {
-            code.push("\nbuffer += renderSection(name,stack,callback);");
-          }
-
-          code.push('\nbuffer += "');
-        };
-
-      var sendPlain = function(source) {
-          code.push('";', updateLine, '\nbuffer += lookup("' + trim(source) + '",stack,"");', '\nbuffer += "');
-        };
-
-      var sendEscaped = function(source) {
-          code.push('";', updateLine, '\nbuffer += escapeHTML(lookup("' + trim(source) + '",stack,""));', '\nbuffer += "');
-        };
-
-      var line = 1,
-        c, callback;
-      for (var i = 0, len = template.length; i < len; ++i) {
-        if (template.slice(i, i + openTag.length) === openTag) {
-          i += openTag.length;
-          c = template.substr(i, 1);
-          updateLine = '\nline = ' + line + ';';
-          nextOpenTag = openTag;
-          nextCloseTag = closeTag;
-          hasTag = true;
-
-          switch (c) {
-          case "!":
-            // comment
-            i++;
-            callback = null;
-            break;
-          case "=":
-            // change open/close tags, e.g. {{=<% %>=}}
-            i++;
-            closeTag = "=" + closeTag;
-            callback = setTags;
-            break;
-          case ">":
-            // include partial
-            i++;
-            callback = includePartial;
-            break;
-          case "#":
-            // start section
-            i++;
-            callback = openSection;
-            break;
-          case "^":
-            // start inverted section
-            i++;
-            callback = openInvertedSection;
-            break;
-          case "/":
-            // end section
-            i++;
-            callback = closeSection;
-            break;
-          case "{":
-            // plain variable
-            closeTag = "}" + closeTag;
-            // fall through
-          case "&":
-            // plain variable
-            i++;
-            nonSpace = true;
-            callback = sendPlain;
-            break;
-          default:
-            // escaped variable
-            nonSpace = true;
-            callback = sendEscaped;
-          }
-
-          var end = template.indexOf(closeTag, i);
-
-          if (end === -1) {
-            throw debug(new Error('Tag "' + openTag + '" was not closed properly'), template, line, options.file);
-          }
-
-          var source = template.substring(i, end);
-
-          if (callback) {
-            callback(source);
-          }
-
-          // Maintain line count for \n in source.
-          var n = 0;
-          while (~ (n = source.indexOf("\n", n))) {
-            line++;
-            n++;
-          }
-
-          i = end + closeTag.length - 1;
-          openTag = nextOpenTag;
-          closeTag = nextCloseTag;
-        } else {
-          c = template.substr(i, 1);
-
-          switch (c) {
-          case '"':
-          case "\\":
-            nonSpace = true;
-            code.push("\\" + c);
-            break;
-          case "\r":
-            // Ignore carriage returns.
-            break;
-          case "\n":
-            spaces.push(code.length);
-            code.push("\\n");
-            stripSpace(); // Check for whitespace on the current line.
-            line++;
-            break;
-          default:
-            if (isWhitespace(c)) {
-              spaces.push(code.length);
-            } else {
-              nonSpace = true;
-            }
-
-            code.push(c);
-          }
-        }
-      }
-
-      if (sectionStack.length != 0) {
-        throw debug(new Error('Section "' + sectionStack[sectionStack.length - 1].name + '" was not closed properly'), template, line, options.file);
-      }
-
-      // Clean up any whitespace from a closing {{tag}} that was at the end
-      // of the template without a trailing \n.
-      stripSpace();
-
-      code.push('";', "\nreturn buffer;", "\n} catch (e) { throw {error: e, line: line}; }");
-
-      // Ignore `buffer += "";` statements.
-      var body = code.join("").replace(/buffer \+= "";\n/g, "");
-
-      if (options.debug) {
-        if (typeof console != "undefined" && console.log) {
-          console.log(body);
-        } else if (typeof print === "function") {
-          print(body);
-        }
-      }
-
-      return body;
-    }
-
-    /**
-     * Used by `compile` to generate a reusable function for the given `template`.
-     */
-
-    function _compile(template, options) {
-      var args = "view,partials,stack,lookup,escapeHTML,renderSection,render";
-      var body = parse(template, options);
-      var fn = new Function(args, body);
-
-      // This anonymous function wraps the generated function so we can do
-      // argument coercion, setup some variables, and handle any errors
-      // encountered while executing it.
-      return function(view, partials) {
-        partials = partials || {};
-
-        var stack = [view]; // context stack
-        try {
-          return fn(view, partials, stack, lookup, escapeHTML, renderSection, render);
-        } catch (e) {
-          throw debug(e.error, template, e.line, options.file);
-        }
-      };
-    }
-
-    // Cache of pre-compiled templates.
-    var _cache = {};
-
-    /**
-     * Clear the cache of compiled templates.
-     */
-
-    function clearCache() {
-      _cache = {};
-    }
-
-    /**
-     * Compiles the given `template` into a reusable function using the given
-     * `options`. In addition to the options accepted by Mustache.parse,
-     * recognized options include the following:
-     *
-     *   - cache    Set `false` to bypass any pre-compiled version of the given
-     *              template. Otherwise, a given `template` string will be cached
-     *              the first time it is parsed
-     */
-
-    function compile(template, options) {
-      options = options || {};
-
-      // Use a pre-compiled version from the cache if we have one.
-      if (options.cache !== false) {
-        if (!_cache[template]) {
-          _cache[template] = _compile(template, options);
-        }
-
-        return _cache[template];
-      }
-
-      return _compile(template, options);
-    }
-
-    /**
-     * High-level function that renders the given `template` using the given
-     * `view` and `partials`. If you need to use any of the template options (see
-     * `compile` above), you must compile in a separate step, and then call that
-     * compiled function.
-     */
-
-    function render(template, view, partials) {
-      return compile(template)(view, partials);
-    }
-
-  })(Mustache);
-
-  return Mustache;
-});
-/**
- * Brix扩展的Mustache类<br/>
- * 支持简单的条件判断 如:
-<pre>
-{{#list}}
-&nbsp;&nbsp;&nbsp;&nbsp;{{#if(status==P)}}ID:{{id}},status:&lt;b style='color:green'>通过&lt;/b>{{/if(status==P)}}
-&nbsp;&nbsp;&nbsp;&nbsp;{{#if(status==W)}}ID:{{id}},status:等待{{/if(status==W)}}
-&nbsp;&nbsp;&nbsp;&nbsp;{{#if(status==R)}}ID:{{id}},status&lt;b style='color:red'>拒绝&lt;/b>{{/if(status==R)}}
-{{/list}}
-</pre>
- * 对于数组对象可以通过{{__index__}}访问数组下标
- * @class Brix.Mu
- * @extend Mustache
- * @static
- */
-KISSY.add("brix/core/mu", function(S, Mustache) {
-    var notRender=/\s*<script[^>]+type\s*=\s*(['"])\s*text\/tmpl\1[^>]*>([\s\S]*?)<\/script>\s*/gi;
-    function addFns(template, data) {
-        var ifs = getConditions(template);
-        var key = "";
-        for (var i = 0; i < ifs.length; i++) {
-            key = "if(" + ifs[i] + ")";
-            if (data[key]) {
-                continue;
-            } else {
-                data[key] = buildFn(ifs[i]);
-            }
-        }
-    }
-
-    function getConditions(template) {
-        var ifregexp_ig = /\{{2,3}[\^#]?if\((.*?)\)\}{2,3}?/ig;
-        var ifregexp_i = /\{{2,3}[\^#]?if\((.*?)\)\}{2,3}?/i;
-        var gx = template.match(ifregexp_ig);
-        var ret = [];
-        if (gx) {
-            for (var i = 0; i < gx.length; i++) {
-                ret.push(gx[i].match(ifregexp_i)[1]);
-            }
-        }
-        return ret;
-    }
-
-    function buildFn(key) {
-        key = key.split("==");
-        var res = function() {
-            var ns = key[0].split("."),
-                value = key[1],
-                curData = this;
-            for (var i = ns.length - 1; i > -1; i--) {
-                var cns = ns.slice(i);
-                var d = curData;
-                try {
-                    for (var j = 0; j < cns.length - 1; j++) {
-                        d = d[cns[j]];
-                    }
-                    if (cns[cns.length - 1] in d) {
-                        if (d[cns[cns.length - 1]].toString() === value) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
-                } catch (err) {}
-            }
-            return false;
-        };
-        return res;
-    }
-
-    function findArray(o, depth) {
-        var k, v;
-        for (k in o) {
-            v = o[k];
-            if (v instanceof Array) {
-                addArrayIndex(v);
-            } else if (typeof(v) === "object" && depth < 5) {
-                findArray(v, depth + 1);
-            }
-        }
-    }
-
-    function addArrayIndex(v) {
-        for (var i = 0; i < v.length; i++) {
-            var o = v[i];
-            if (typeof(o) === "object") {
-                if (i === 0) {
-                    o.__first__ = true;
-                } else if (i === (v.length - 1)) {
-                    o.__last__ = true;
-                } else {
-                    o.__mid__ = true;
-                }
-                o.__index__ = i;
-            }
-        }
-    }
-    return {
-        /**
-         * 输出模板和数据,返回渲染后结果字符串,接口与Mustache完全一致
-         * @method to_html
-         * @param {String} template 模板字符串
-         * @param {Object} data 数据Object
-         * @return {String}
-         */
-        to_html: function(template, data) {
-            if (typeof(data) === "object") {
-                findArray(data, 0);
-            }
-            var notRenders=template.match(notRender);
-            if(notRenders){
-                template=template.replace(notRender,function(){//防止不必要的解析
-                    return '<script type="text/tmpl"></script>';
-                });
-            }
-            //对if判断在vm中出错的兼容。
-            template = template.replace(/(\{{2,3})@if/ig, '$1#if');
-            addFns(template, data);
-            template = Mustache.to_html.apply(this, arguments);
-
-            if(notRenders){
-                var idx=0;
-                template=template.replace(notRender,function(){
-                    return notRenders[idx++];
-                });
-            }
-            return template;
-        },
-        name: Mustache.name,
-        version: Mustache.version,
-        tags: Mustache.tags,
-        parse: Mustache.parse,
-        compile: Mustache.compile,
-        render: function() {
-            return this.to_html.apply(this, arguments);
-        },
-        clearCache: Mustache.clearCache
-    };
-}, {
-    requires: ["./mustache"]
-});
 KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
     var $ = Node.all;
     //用于缓存xhr获取的模板
-    var templates = {};
+    var xhr_templates = {};
+    //子模板主正则
+    var SUBTMPLREGEXP = '<([\\w]+)\\s+[^>]*?bx-tmpl=["\']([^"\']+)["\']\\s+[^>]*?bx-datakey=["\']([^"\']+)["\']\\s*[^>]*?>(@brix@)</\\1>';
+    //不解析模板存储正则
+    var STORETMPLREGEXP = /\{\{#bx\-tmpl\-([^\}]*)?\}\}([\s\S]*?)\{\{\/bx\-tmpl\}\}/ig;
+    //xhr的模板解析正则
+    var XHRTMPLREGEXP = /@TEMPLATE\|(.*?)\|TEMPLATE@/g;
     /**
      * 模板解析器，对传入的模板通过钩子进行分析，结合 XTemplate 和数据给出 html 片段。
      * @class Brix.Tmpler
-     * @param {String}  tmpl    模板字符串
+     * @param {String} tmpl     模板字符串
      * @param {Number} level    对模板进行解析的层级，false表示不解析
-     * @requires Brix.Mu
      */
 
     function Tmpler(tmpl, level) {
-        this.tmpls = [];
-        if (tmpl && (level !== false)) {
-            this._bx_praseTmpl(tmpl, level);
-        } else {
-            this.tmpl = tmpl;
+        if (tmpl) {
+            if (level !== false) {
+                //子模板数组
+                this.subTmpls = [];
+                //存储的模板，不解析，供后期使用
+                this.storeTmpls = {};
+                this._bx_praseTmpl(tmpl, level);
+            } else {
+                this.tmpl = tmpl;
+            }
         }
     }
 
@@ -960,22 +306,19 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
                 if (tmpl.charAt(0) === '.' || tmpl.charAt(0) === '#' || tmpl === 'body') {
                     node = $(tmpl);
                 } else {
-                    var reg = /@TEMPLATE\|(.*?)\|TEMPLATE@/g;
-                    if (reg.test(tmpl)) {
-                        tmpl = tmpl.replace(reg, function($1, $2) {
-                            if (!templates[$2]) {
-                                IO({
-                                    url: $2,
-                                    dataType: 'html',
-                                    async: false,
-                                    success: function(d, textStatus, xhrObj) {
-                                        templates[$2] = d;
-                                    }
-                                });
-                            }
-                            return templates[$2] || '';
-                        });
-                    }
+                    tmpl = tmpl.replace(XHRTMPLREGEXP, function($1, $2) {
+                        if (!xhr_templates[$2]) {
+                            IO({
+                                url: $2,
+                                dataType: 'html',
+                                async: false,
+                                success: function(d, textStatus, xhrObj) {
+                                    xhr_templates[$2] = d;
+                                }
+                            });
+                        }
+                        return xhr_templates[$2] || '';
+                    });
                 }
             } else {
                 node = tmpl;
@@ -986,38 +329,61 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
                     //如果是script节点，则直接取html
                     tmpl = node.item(0).html();
                 } else {
+                    //解析script是text/tmpl的模板，看是否是subTmpl或者storeTmpl
+                    $('script[type="text/tmpl"]').each(function(el) {
+                        var html = el.html();
+                        html = self._bx_buildStoreTmpls(html);
+                        self._bx_buildSubTmpls(html, false, level);
+                    });
                     inDom = true;
                 }
             }
 
             if (!inDom) {
-                var r = '<([\\w]+)\\s+[^>]*?bx-tmpl=["\']([^"\']+)["\']\\s+[^>]*?bx-datakey=["\']([^"\']+)["\']\\s*[^>]*?>(@brix@)</\\1>';
-                while (level--) {
-                    r = r.replace('@brix@', '(?:<\\1[^>]*>@brix@</\\1>|[\\s\\S])*?');
-                }
-                r = r.replace('@brix@', '(?:[\\s\\S]*?)');
-                self.reg = r;
+                tmpl = self._bx_buildStoreTmpls(tmpl);
+                self._bx_buildSubTmpls(tmpl, false, level);
                 self.tmpl = tmpl;
-                self._bx_buildTmpls(self.tmpl);
             }
             self.inDom = inDom;
         },
         /**
-         * 对节点中的bx-tmpl解析，构建模板和数据配置
-         * @param  {String} tmpl  需要解析的模板
+         * 构建{{#bx-tmpl-id}}……{{/bx-tmpl}}的存储
+         * @param  {String} tmpl 需要解析的模板
+         * @return {String}      解析后的模板
+         */
+        _bx_buildStoreTmpls: function(tmpl) {
+            var self = this;
+            tmpl = tmpl.replace(STORETMPLREGEXP, function(g, id, html) {
+                self.storeTmpls[id] = html;
+                return '';
+            });
+            return tmpl;
+        },
+        /**
+         * 对节点中的bx-tmpl和bx-datakey解析，构建模板和数据配置
+         * @param {String} tmpl  需要解析的模板
+         * @param {String} r 正则
+         * @param {Number} level  嵌套层级
          * @private
          */
-        _bx_buildTmpls: function(tmpl) {
+        _bx_buildSubTmpls: function(tmpl, r, level) {
             var self = this;
-            var r = new RegExp(self.reg, "ig"),
-                m;
-            while ((m = r.exec(tmpl)) !== null) {
-                self.tmpls.push({
+            if (!r) {
+                r = SUBTMPLREGEXP;
+                while (level--) {
+                    r = r.replace('@brix@', '(?:<\\1[^>]*>@brix@</\\1>|[\\s\\S])*?');
+                }
+                r = r.replace('@brix@', '(?:[\\s\\S]*?)');
+            }
+            var reg = new RegExp(r, "ig");
+            var m;
+            while ((m = reg.exec(tmpl)) !== null) {
+                self.subTmpls.push({
                     name: m[2],
                     datakey: m[3],
                     tmpler: new Tmpler(m[4], false)
                 });
-                self._bx_buildTmpls(m[4]);
+                self._bx_buildSubTmpls(m[4], r);
             }
         },
         /**
@@ -1026,9 +392,10 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
          * @param {String} datakey 模板对应的数据key
          * @param {String} tmpl    子模板
          */
-        addTmpl: function(name, datakey, tmpl) {
+        addSubTmpl: function(name, datakey, tmpl) {
             var self = this;
-            self.tmpls.push({
+            self.subTmpls = self.subTmpls || [];
+            self.subTmpls.push({
                 name: name,
                 datakey: datakey,
                 tmpler: new Tmpler(tmpl, false)
@@ -1036,24 +403,30 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
         },
 
         /**
-         * 获取模板字符串
+         * 获取存储的模板字符串
+         * @param {String} id 模板标识，在{{#bx-tmpl-id}}指定的id
          * @return {String} 模板字符串
          */
-        getTmpl: function() {
-            return this.tmpl;
+        getStoreTmpl: function(id) {
+            var storeTmpls = this.storeTmpls;
+            if (storeTmpls) {
+                return storeTmpls[id] || '';
+            } else {
+                return '';
+            }
         },
         /**
          * 模板和数据渲染成字符串
          * @param  {Object} data 数据
-         * @return {String}      html片段
+         * @return {String} html片段
          */
         render: function(data) {
+            var tmpl = this.tmpl;
             if (typeof XTemplate === 'function') {
-                return new XTemplate(this.getTmpl()).render(data);
+                return new XTemplate(tmpl).render(data);
             } else {
-                return XTemplate.render(this.getTmpl(), data);
+                return XTemplate.render(tmpl, data);
             }
-
         }
     });
     return Tmpler;
@@ -1089,16 +462,16 @@ KISSY.add("brix/core/dataset", function(S, Base) {
                 data = self.get('data'),
                 type, wrapperName;
             prefix = prefix ? prefix + '_' : '';
-            if(renderer) {
+            if (renderer) {
                 var foo = function(type, wrapperName) {
-                        var name = prefix + type + '_' + wrapperName,
-                            fn = renderer[type][wrapperName];
-                        data[name] = function() {
-                            return fn.call(this, context, type);
-                        };
+                    var name = prefix + type + '_' + wrapperName,
+                        fn = renderer[type][wrapperName];
+                    data[name] = function() {
+                        return fn.call(this, context, type);
                     };
-                for(type in renderer) {
-                    for(wrapperName in renderer[type]) {
+                };
+                for (type in renderer) {
+                    for (wrapperName in renderer[type]) {
                         foo(type, wrapperName);
                     }
                 }
@@ -1172,64 +545,51 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
      */
     var Chunk = RichBase.extend({
         constructor: function Chunk() {
-            var self = this;
-            Chunk.superclass.constructor.apply(self, arguments);
-            var tmpler = self.get('tmpler');
-            if (self.get('autoRender') || !tmpler || tmpler.inDom) {
-                self.render();
+            Chunk.superclass.constructor.apply(this, arguments);
+            if (this.get('autoRender') || this.get('tmpler').inDom) {
+                this.render();
             }
         },
-
-        // change routine from rich-base for uibase
-        bindInternal: noop,
-
-        // change routine from rich-base for uibase
-        syncInternal: noop,
         /**
          * 初始化,在实例化对象时调用
          * @protected
          */
         initializer: function() {
+            this._bx_buildTmpler();
+            this._bx_buildDataset();
+        },
+        /**
+         * 构建模板解析器
+         * @private
+         */
+        _bx_buildTmpler: function() {
             var self = this;
             var tmpl = self.get('tmpl');
-            if (tmpl) {
-                self._bx_buildTmpler(tmpl, self.get('level'));
-                var tmpler = self.get('tmpler');
-                if (tmpler) {
-                    self._bx_buildDataset(self.get('data'));
-                    if (tmpler.inDom) {
-                        self.set('el', tmpl);
-                    }
+            if (!self.get('isBuidTmpler')) {
+                self.set('isBuidTmpler', true);
+                var tmpler = new Tmpler(tmpl, self.get('level'));
+                self.set('tmpler', tmpler);
+                if (tmpler.inDom) {
+                    self.set('el', tmpl);
                 }
             }
         },
         /**
-         * 构建模板解析器
-         * @param {String} tmpl 模板字符串
-         * @param {Number} level 模板解析的层级
-         * @private
-         */
-        _bx_buildTmpler: function(tmpl, level) {
-            var self = this;
-            if (!self.get('isBuidTmpler')) {
-                self.set('isBuidTmpler', true);
-                var tmpler = new Tmpler(tmpl, level);
-                self.set('tmpler', tmpler);
-            }
-        },
-        /**
          * 构建数据管理器
-         * @param {Object} data 数据集合
          * @private
          */
-        _bx_buildDataset: function(data) {
+        _bx_buildDataset: function() {
             var self = this;
             if (!self.get('isBuidDataset')) {
                 self.set('isBuidDataset', true);
-                data = S.clone(data || {}); //原始数据深度克隆
+                var data = S.clone(self.get('data') || {}); //原始数据深度克隆
                 var dataset = new Dataset({
                     data: data
                 });
+                var renderer = self.get('renderer');
+                if (renderer) {
+                    dataset.setRenderer(renderer, self);
+                }
                 self.set('dataset', dataset); //设置最新的数据集合
                 dataset.on('*Change', function(e) {
                     var flg = false; //是否data数据变化
@@ -1237,9 +597,8 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                         if (/^data\./g.test(str)) {
                             flg = true;
                             return str.replace(/^data\./, '');
-                        } else {
-                            return 'zuomo.xb@taobao.com'; //彩蛋，哈哈。
                         }
+                        return 'zuomo.xb@taobao.com'; //彩蛋，哈哈。
                     });
                     if (flg) {
                         self._bx_renderTmpl(keys, dataset.get('data'));
@@ -1257,7 +616,6 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
             var dataset = self.get('dataset');
             if (tmpler) {
                 self.set('tmpler', null);
-                delete tmpler.tmpls;
             }
             if (dataset) {
                 self.set('dataset', null);
@@ -1286,14 +644,16 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
          * @param {String} datakey 模板对应的数据key
          * @param {String} tmpl    子模板
          */
-        addTmpl: function(name, datakey, tmpl) {
-            var self = this;
-            self._bx_buildTmpler('', false);
-            self._bx_buildDataset();
-            if (name) {
-                var tmpler = self.get('tmpler');
-                tmpler.addTmpl(name, datakey, tmpl);
-            }
+        addSubTmpl: function(name, datakey, tmpl) {
+            return this.get('tmpler').addSubTmpl(name, datakey, tmpl);
+        },
+        /**
+         * 获取存储的模板字符串
+         * @param {String} id 模板标识，在{{#bx-tmpl-id}}指定的id
+         * @return {String} 模板字符串
+         */
+        getStoreTmpl: function(id) {
+            return this.get('tmpler').getStoreTmpl(id);
         },
 
         /**
@@ -1348,10 +708,8 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                  */
 
                 self.fire('beforeRenderUI');
-                var dataset = self.get('dataset');
-                if (dataset) {
-                    self._bx_render(dataset.get('data'));
-                }
+
+                self._bx_render();
 
                 /**
                  * @event afterRenderUI
@@ -1408,16 +766,15 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
         },
         /**
          * 将模板渲染到页面
-         * @param  {Object} data 数据
          * @private
          */
-        _bx_render: function(data) {
+        _bx_render: function() {
             var self = this;
             var tmpler = self.get('tmpler');
-            if (tmpler && !tmpler.inDom) {
+            if (tmpler.tmpl && !tmpler.inDom) {
                 var container = self.get('container');
                 var el = self.get('el');
-                var html = S.trim(tmpler.render(data));
+                var html = S.trim(tmpler.render(self.get('dataset').get('data')));
                 var node;
                 //下面增加浏览器的判断，
                 //是因为创建dom时候，不同浏览器对自定义标签（比如：vframe）的支持不同。
@@ -1477,8 +834,8 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
             var tmpler = self.get('tmpler');
             if (tmpler && self.get('rendered')) {
                 var el = self.get('el');
-                var tmpls = tmpler.tmpls;
-                S.each(tmpls, function(o) {
+                var subTmpls = tmpler.subTmpls;
+                S.each(subTmpls, function(o) {
                     var datakeys = S.map(o.datakey.split(','), function(str) {
                         return S.trim(str); //修复编辑器格式化造成的问题
                     });
@@ -1538,8 +895,8 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
     }, {
         ATTRS: {
             /**
-             * 组件节点
-             * @cfg {String}
+             * 组件根节点
+             * @type {Node}
              */
             el: {
                 getter: function(s) {
@@ -1613,6 +970,13 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                 value: false
             },
             /**
+             * 数据扩展
+             * @cfg {Object}
+             */
+            renderer: {
+                value: false
+            },
+            /**
              * 子模板解析的层级
              * @cfg {Number}
              */
@@ -1634,13 +998,13 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
      */
     var Brick = Chunk.extend({
         initializer: function() {
-            var self = this,
-                constt = self.constructor;
-            while(constt) {
+            var self = this;
+            var constt = self.constructor;
+            var dataset = self.get('dataset');
+            while (constt) {
                 var renderers = constt.RENDERERS;
-                if(renderers) {
-                    self.addTmpl();
-                    self.get('dataset').setRenderer(renderers, self);
+                if (renderers) {
+                    dataset.setRenderer(renderers, self);
                 }
                 constt = constt.superclass && constt.superclass.constructor;
             }
@@ -1648,8 +1012,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
             self.pagelet = self.get('pagelet');
         },
         bindUI: function() {
-            var self = this;
-            self._bx_bindEvent();
+            this._bx_bindEvent();
         },
         /**
          * 移除代理事件
@@ -1659,20 +1022,32 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
             var self = this;
             var constt = self.constructor;
 
-            while(constt) {
+            while (constt) {
                 var defaultEvents = constt.EVENTS;
-                if(defaultEvents) {
+                if (defaultEvents) {
                     self._bx_removeEvents(defaultEvents);
                 }
                 var defaultDocEvents = constt.DOCEVENTS;
-                if(defaultDocEvents) {
+                if (defaultDocEvents) {
                     self._bx_removeEvents(defaultDocEvents, document);
+                }
+                var defaultWinEvents = constt.WINEVENTS;
+                if (defaultWinEvents) {
+                    this._bx_removeWinEvents(defaultWinEvents);
                 }
                 constt = constt.superclass && constt.superclass.constructor;
             }
             var events = self.get("events");
-            if(events) {
+            if (events) {
                 this._bx_removeEvents(events);
+            }
+            var docEvents = self.get("docEvents");
+            if (docEvents) {
+                this._bx_removeEvents(docEvents,document);
+            }
+            var winEvents = self.get("winEvents");
+            if (winEvents) {
+                this._bx_removeWinEvents(winEvents);
             }
         },
         /**
@@ -1682,17 +1057,21 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
         _bx_bindEvent: function() {
             var self = this;
             var constt = self.constructor;
-            while(constt) {
-                //组件默认事件代理
-                //方式一
+            while (constt) {
+                //代理在el上的事件
                 var defaultEvents = constt.EVENTS;
-                if(defaultEvents) {
+                if (defaultEvents) {
                     this._bx_addEvents(defaultEvents);
                 }
-                //代理在全局的页面上
+                //代理在document上的事件
                 var defaultDocEvents = constt.DOCEVENTS;
-                if(defaultDocEvents) {
+                if (defaultDocEvents) {
                     this._bx_addEvents(defaultDocEvents, document);
+                }
+                //绑定window上的事件
+                var defaultWinEvents = constt.WINEVENTS;
+                if (defaultWinEvents) {
+                    this._bx_addWinEvents(defaultWinEvents);
                 }
                 constt = constt.superclass && constt.superclass.constructor;
             }
@@ -1700,22 +1079,31 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
 
             //用户使用组件中的自定义事件代理
             var events = self.get("events");
-            if(events) {
+            if (events) {
                 this._bx_addEvents(events);
+            }
+            var docEvents = self.get("docEvents");
+            if (docEvents) {
+                this._bx_addEvents(docEvents,document);
+            }
+            var winEvents = self.get("winEvents");
+            if (winEvents) {
+                this._bx_addWinEvents(winEvents);
             }
         },
         /**
          * 移除事件代理
-         * @param  {Object} events 事件对象，参见EVENTS属性
+         * @param  {Object} events 事件对象，参见EVENTS和DOCEVENTS属性
+         * @param {Node} el 代理事件根节点
          * @private
          */
         _bx_removeEvents: function(events, el) {
             el = el || this.get("el");
-            for(var selector in events) {
+            for (var selector in events) {
                 var es = events[selector];
-                for(var type in es) {
+                for (var type in es) {
                     var callback = es[type];
-                    if(selector === "") {
+                    if (selector === "") {
                         Event.detach(el, type, callback, this);
                     } else {
                         Event.undelegate(el, type, selector, callback, this);
@@ -1725,16 +1113,17 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
         },
         /**
          * 添加事件代理绑定
-         * @param  {Object} events 事件对象，参见EVENTS属性
+         * @param  {Object} events 事件对象，参见EVENTS和DOCEVENTS属性
+         * @param {Node} el 代理事件根节点
          * @private
          */
         _bx_addEvents: function(events, el) {
             el = el || this.get("el");
-            for(var selector in events) {
+            for (var selector in events) {
                 var es = events[selector];
-                for(var type in es) {
+                for (var type in es) {
                     var callback = es[type];
-                    if(selector === "") {
+                    if (selector === "") {
                         Event.on(el, type, callback, this);
                     } else {
                         Event.delegate(el, type, selector, callback, this);
@@ -1743,16 +1132,38 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
             }
         },
         /**
+         * 移除window事件绑定
+         * @param  {Object} events 事件对象，参见WINEVENTS属性
+         * @private
+         */
+        _bx_removeWinEvents: function(events) {
+            for (var type in events) {
+                var callback = events[type];
+                Event.detach(window, type, callback, this);
+            }
+        },
+        /**
+         * 添加window事件绑定
+         * @param  {Object} events 事件对象，参见WINEVENTS属性
+         * @private
+         */
+        _bx_addWinEvents: function(events) {
+            for (var type in events) {
+                var callback = events[type];
+                Event.on(window, type, callback, this);
+            }
+        },
+        /**
          * 销毁组件（destroy）时候调用
          * @protected
          */
         destructor: function() {
             var self = this;
-            if(self.get('rendered')) {
+            if (self.get('rendered')) {
                 self._bx_detachEvent();
                 var action = self.get('destroyAction');
                 var el = self.get('el');
-                switch(action){
+                switch (action) {
                     case 'remove':
                         el.remove();
                         break;
@@ -1761,7 +1172,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
                         break;
                 }
             }
-            if(self.get('pagelet')) {
+            if (self.get('pagelet')) {
                 delete self.pagelet;
                 self.set('pagelet', null);
             }
@@ -1772,7 +1183,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
                 value: null
             }
         }
-    },'Brick');
+    }, 'Brick');
 
 
     /**
@@ -1804,7 +1215,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
      *
      *
      *      Brick.EVENTS = {
-     *          'selector':{
+     *          'selector':{//selector为空表示在el节点上绑定事件
      *              'eventtype':function(){
      *
      *               }
@@ -1822,7 +1233,7 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
      *
      *
      *      Brick.DOCEVENTS = {
-     *          'selector':{
+     *          'selector':{//selector为空表示在document上绑定事件
      *              'eventtype':function(){
      *
      *               }
@@ -1831,6 +1242,22 @@ KISSY.add("brix/core/brick", function(S, Chunk, Event) {
      *
      *
      * @property DOCEVENTS
+     * @static
+     * @type {Object}
+     */
+
+    /**
+     * window事件绑定
+     *
+     *
+     *      Brick.WINEVENTS = {
+     *          'eventtype':function(){
+     *
+     *           }
+     *      }
+     *
+     *
+     * @property WINEVENTS
      * @static
      * @type {Object}
      */
@@ -1990,7 +1417,6 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 self._bx_addBehavior(brickNodes, function(bricks) {
                     self.bricks = bricks;
                 }, function() {
-                    self._bx_fireReady();
                     self.on('beforeRefreshTmpl', function(e) {
                         if (e.renderType === 'html') {
                             e.node.all('[bx-name]').each(function(node) {
@@ -2007,6 +1433,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                             self._bx_fireReady();
                         });
                     });
+                    self._bx_fireReady();
                 });
             }
         },
@@ -2083,7 +1510,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                     });
                     /**
                      * @event afterAddBehavior
-                     * fired before component is instantiated
+                     * fired after component is instantiated
                      * @param {KISSY.Event.CustomEventObject} e
                      */
                     self.fire('afterAddBehavior', {
@@ -2122,13 +1549,16 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 return;
             }
             self.isReady = true;
-            if (self.readyList) {
+            //局部变量，保证所有注册方法只执行一次
+            var readyList = self.readyList;
+            self.readyList = [];
+            if (readyList.length > 0) {
                 var fn, i = 0;
-                while (fn = self.readyList[i++]) {
+                while (fn = readyList[i++]) {
                     fn.call(self);
                 }
-                self.readyList = [];
             }
+            readyList = null;
         },
         destructor: function() {
             var self = this;
@@ -2192,7 +1622,7 @@ KISSY.add("brix/core/demolet", function(S, Pagelet, IO, Node) {
      */
 
     function loadCSS(path) {
-        if(hasLoadCSS[path]) {
+        if (hasLoadCSS[path]) {
             return false;
         }
         hasLoadCSS[path] = true;
@@ -2201,7 +1631,7 @@ KISSY.add("brix/core/demolet", function(S, Pagelet, IO, Node) {
             dataType: 'text',
             async: false,
             complete: function(d, textStatus, xhrObj) {
-                if(textStatus == 'success') {
+                if (textStatus == 'success') {
                     $('<style>' + d + '</style>').appendTo('head');
                 }
             }
@@ -2239,7 +1669,7 @@ KISSY.add("brix/core/demolet", function(S, Pagelet, IO, Node) {
                 async: false,
                 dataType: 'json',
                 success: function(d, textStatus, xhrObj) {
-                    for(var k in d) {
+                    for (var k in d) {
                         data[p][k] = d[k];
                     }
                 }
@@ -2267,20 +1697,20 @@ KISSY.add("brix/core/demolet", function(S, Pagelet, IO, Node) {
                 });
                 var useList = ev.useList;
                 S.each(useList, function(path) {
-                    if(S.startsWith(path,'brix/')) {
-                        S.use(path + 'index.css');//核心组件采用模块方式加载
+                    if (S.startsWith(path, 'brix/')) {
+                        S.use(path + 'index.css'); //核心组件采用模块方式加载
                     } else {
                         var length = 3;
-                        if(S.startsWith(path,'imports/')) {
+                        if (S.startsWith(path, 'imports/')) {
                             //imports有5个层级imports/namespace/componentname/version/index.js
                             length = 5;
                         }
                         var arr = path.split('/');
-                        if(arr.length > length) {
+                        if (arr.length > length) {
                             arr.splice(arr.length - 2);
                             loadCSS(arr.join('/') + '/index.css');
                         }
-                        loadCSS(path.substring(0,path.lastIndexOf('/')) + '/index.css');
+                        loadCSS(path.substring(0, path.lastIndexOf('/')) + '/index.css');
                     }
                 });
 
@@ -2294,10 +1724,10 @@ KISSY.add("brix/core/demolet", function(S, Pagelet, IO, Node) {
              */
             projectCSS: {
                 value: [],
-                setter:function(v){
-                    if(S.isArray(v)){
+                setter: function(v) {
+                    if (S.isArray(v)) {
                         return v;
-                    }else{
+                    } else {
                         return [v];
                     }
                 }

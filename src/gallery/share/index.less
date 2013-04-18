@@ -1,0 +1,308 @@
+
+
+/* inline-block 通用解决方案 */
+
+.dib-wrap { 
+    font-size: 0;/* 所有浏览器 */
+    *word-spacing:-1px;/* IE6、7 */
+}
+
+@media(-webkit-min-device-pixel-ratio:0){.dib-wrap{letter-spacing:-5px;}}
+
+.dib { display: inline-block; *display:inline; *zoom:1;}
+
+.dib-wrap .dib{
+    font-size: 12px;
+    letter-spacing: normal;
+    word-spacing: normal;
+    vertical-align: top;
+}
+
+.share {
+    cursor:default;
+    position:relative;
+
+	.share-label {
+		margin-right:5px;
+	}
+	.icon-share-label {
+	    background:url(http://img01.taobaocdn.com/tps/i1/T1_S4yXw4cXXbAlL_b-9-12.png) no-repeat 0 0;
+	    height:12px;
+	    margin-right:5px;
+	    position:relative;
+	    top:3px;
+	    width:9px;
+	}
+
+    .btn-share {
+	    color:#333;
+	    height:18px;
+	    margin-right:2px;
+	    position:relative;
+	
+		&:hover {
+		    color:#F60;
+		    text-decoration:none;
+		}
+
+		.icon-share {
+		    background: url(http://img01.taobaocdn.com/tps/i1/T185JuXD0XXXXqlb.3-100-36.png)  no-repeat -9999em -9999em;
+		    cursor: pointer;
+		    height: 16px;
+		    margin-right:3px;
+		    overflow: hidden;
+		    position:relative;
+		    top:1px;
+		    width:16px;
+		}
+		.icon-share-taojianghu {
+		    background-position: 0 0;
+		}
+		.icon-share-taojianghu:hover,
+		.icon-share-taojianghu-hover,
+		&:hover .icon-share-taojianghu {
+		    background-position: 0 -20px;
+		}
+		.icon-share-tencentweibo {
+		    background-position: -20px 0;
+		}
+		.icon-share-tencentweibo-hover,
+		.icon-share-tencentweibo-hover,
+		&:hover .icon-share-tencentweibo {
+		    background-position: -20px -20px;
+		}
+		.icon-share-renren {
+		    background-position: -40px 0;
+		}
+		.icon-share-renren:hover,
+		.icon-share-renren-hover,
+		&:hover .icon-share-renren {
+		    background-position: -40px -20px;
+		}
+		.icon-share-sinaweibo {
+		    background-position: -60px 0;
+		}
+		.icon-share-sinaweibo:hover,
+		.icon-share-sinaweibo-hover,
+		&:hover .icon-share-sinaweibo {
+		    background-position: -60px -20px;
+		}
+		.icon-share-douban {
+		    background-position: -80px 0;
+		}
+		.icon-share-douban:hover,
+		.icon-share-douban-hover,
+		&:hover .icon-share-douban {
+		    background-position: -80px -20px;
+		}
+		.icon-share-kaixin {
+		    background-position: -100px 0;
+		}
+		.icon-share-kaixin:hover,
+		.icon-share-kaixin-hover,
+		&:hover .icon-share-kaixin {
+		    background-position: -100px -20px;
+		}
+
+		.tips {
+		    border:1px solid #D2D2D2;
+		    border-radius:2px;
+		    color:#666;
+		    height:18px;
+		    padding:0 8px;
+		    position:absolute;
+		    white-space: nowrap;
+		}
+
+	}
+
+	.ext {
+	    line-height:18px;
+	    position:relative;
+	}
+
+	.ext-h {
+	    height:18px;
+	    white-space: nowrap;
+	}
+	.ext-v {
+	    width:19px;
+	}
+
+	.angle {
+	    position: absolute;
+	
+		.angle-outer,
+		.angle-inner {
+		    border: transparent;
+		    border-style: dashed;
+		    font-size: 0;
+		    height: 0;
+		    overflow: hidden;
+		    position: absolute;
+		    width: 0;
+		}
+		.angle-outer {
+		    left: 0;
+		    top: 0;
+		}
+	}
+	.tips-up {
+	    left:50%;
+	    top:-25px;
+	}
+
+	.tips-up .angle {
+	    bottom:0px;
+	    left:50%;
+	    margin-left:-5px;
+	}
+	.tips-up .angle-outer{
+	    border-width:5px;
+	    border-top:5px solid #D2D2D2;
+	}
+	.tips-up .angle-inner {
+	    border-width:5px;
+	    border-top:5px solid #FFF;
+	    left: 0;
+	    top: -1px;
+	}
+
+	.tips-up-left .angle {
+	    bottom:4px;
+	    left:-1px;
+	    margin-left:0;
+	}
+	.tips-up-left .angle-outer{
+	    border-left:5px solid #D2D2D2;
+	    border-top:5px dashed transparent;
+	}
+	.tips-up-left .angle-inner {
+	    border-left:5px solid #FFF;
+	    border-top:5px dashed transparent;
+	    left: 1px;
+	    top: -2px;
+	}
+
+	.tips-up-right .angle {
+	    bottom:4px;
+	    margin-left:0;
+	}
+	.tips-up-right .angle-outer{
+	    border-right:5px solid #D2D2D2;
+	    border-top:5px dashed transparent;
+	}
+	.tips-up-right .angle-inner {
+	    border-right:5px solid #FFF;
+	    border-top:5px dashed transparent;
+	    right: 1px;
+	    top: -2px;
+	}
+
+	.tips-right {
+	    left:25px;
+	    top:0;
+	}
+	.tips-right .angle {
+	    left:-10px;
+	    margin-top:-5px;
+	    top:50%;
+	}
+	.tips-right .angle-outer{
+	    border-width:5px;
+	    border-right:5px solid #D2D2D2;
+	}
+	.tips-right .angle-inner {
+	    border-width:5px;
+	    border-right:5px solid #FFF;
+	    left: 1px;
+	    top: 0;
+	}
+
+}
+
+.share-vertical {
+    width:18px;
+}
+
+.popup-share {
+    cursor: default;
+
+	.label-popup {
+	    color:#333;
+	    height: 18px;
+	    line-height:18px;
+	    padding:3px 3px 9px;
+	    width:80px;
+	    .icon-share-label {
+	    	top:1px;
+	    }
+	}
+	.panel-popup {
+	    cursor: default;
+	    position: absolute;
+	    top: -9999px;
+    	text-align:left;
+	    z-index:5100;
+	    *zoom:1;
+
+	    .angle-up {
+		    left:50%;
+		    margin-left: 50px;
+		    top: -10px;
+
+		    .angle-outer {
+			    border-width: 5px;
+			    border-bottom: 5px solid #D2D2D2;
+			}
+			.angle-inner {
+			    border-width: 5px;
+			    border-bottom: 5px solid #FFF;
+			    top:1px;
+			}
+		}
+
+
+	}
+
+
+	.panel-share-content {
+	    background:#FFF;
+	    border:1px solid #D2D2D2;
+	    border-radius: 2px;
+	    box-shadow:1px 1px 5px #E6E6E6;
+	    margin: 0 auto;
+	    padding:5px 0 0 10px;
+	    width:175px;
+	}
+
+	.btn-share  {
+	    color:#666;
+	    margin:0 15px 5px 0;
+	    width:70px;
+		&:hover {
+		    color:#FF6600;
+		}
+	} 
+
+
+}
+
+.popup-share-active {
+    position:relative;
+    z-index:5000;
+    .panel-popup {
+	    right:0;
+	    top: 30px;
+	}
+}
+
+.popup-share-left {
+	.panel-popup {
+		left:0;
+	    .angle-up {
+	    	left:30px;
+	    	margin-left:0;
+	    }
+	}
+}

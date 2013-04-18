@@ -27,7 +27,7 @@ module.exports = function(grunt) {
     // ==========================================================================
     grunt.registerMultiTask('brixjs', 'Compile Brix JS files.', function() {
         var pkg = config('pkg');
-        var files = ['brix.js', 'mustache.js', 'mu.js', 'tmpler.js', 'dataset.js', 'chunk.js', 'brick.js', 'pagelet.js', 'demolet.js'];
+        var files = ['brix.js', 'tmpler.js', 'dataset.js', 'chunk.js', 'brick.js', 'pagelet.js', 'demolet.js'];
         var banner = '/*! Brix - v<%= pkg.version %>\n' + '* <%= pkg.homepage %>\n' + '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' + ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */ \n';
         this.files.forEach(function(f) {
             files.forEach(function(name, i) {

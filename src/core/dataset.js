@@ -27,16 +27,16 @@ KISSY.add("brix/core/dataset", function(S, Base) {
                 data = self.get('data'),
                 type, wrapperName;
             prefix = prefix ? prefix + '_' : '';
-            if(renderer) {
+            if (renderer) {
                 var foo = function(type, wrapperName) {
-                        var name = prefix + type + '_' + wrapperName,
-                            fn = renderer[type][wrapperName];
-                        data[name] = function() {
-                            return fn.call(this, context, type);
-                        };
+                    var name = prefix + type + '_' + wrapperName,
+                        fn = renderer[type][wrapperName];
+                    data[name] = function() {
+                        return fn.call(this, context, type);
                     };
-                for(type in renderer) {
-                    for(wrapperName in renderer[type]) {
+                };
+                for (type in renderer) {
+                    for (wrapperName in renderer[type]) {
                         foo(type, wrapperName);
                     }
                 }

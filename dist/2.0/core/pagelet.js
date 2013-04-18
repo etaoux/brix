@@ -118,7 +118,6 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 self._bx_addBehavior(brickNodes, function(bricks) {
                     self.bricks = bricks;
                 }, function() {
-                    self._bx_fireReady();
                     self.on('beforeRefreshTmpl', function(e) {
                         if (e.renderType === 'html') {
                             e.node.all('[bx-name]').each(function(node) {
@@ -135,6 +134,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                             self._bx_fireReady();
                         });
                     });
+                    self._bx_fireReady();
                 });
             }
         },
@@ -211,7 +211,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                     });
                     /**
                      * @event afterAddBehavior
-                     * fired before component is instantiated
+                     * fired after component is instantiated
                      * @param {KISSY.Event.CustomEventObject} e
                      */
                     self.fire('afterAddBehavior', {
@@ -250,13 +250,16 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                 return;
             }
             self.isReady = true;
-            if (self.readyList) {
+            //局部变量，保证所有注册方法只执行一次
+            var readyList = self.readyList;
+            self.readyList = [];
+            if (readyList.length > 0) {
                 var fn, i = 0;
-                while (fn = self.readyList[i++]) {
+                while (fn = readyList[i++]) {
                     fn.call(self);
                 }
-                self.readyList = [];
             }
+            readyList = null;
         },
         destructor: function() {
             var self = this;

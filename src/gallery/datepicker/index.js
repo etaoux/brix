@@ -323,9 +323,26 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                 if(quickListNode){
                     quickListNode.all('a').removeClass('quick-current');
                 }
-                dates.start = Calendar.Date.parse(inputs.item(0).val());
-                dates.end = Calendar.Date.parse(inputs.item(1).val());
-                S.log(dates);
+                var start = inputs.item(0).val();
+                var end = inputs.item(1).val();
+                
+
+                //同步快捷日期
+                if(self.get('isQuick')){
+                    var quickDates = self.get('quickDates');
+                    for(var key in quickDates){
+                        var quickDate = quickDates[key]; 
+                        if(Calendar.Date.format(quickDate.dateRange[0],'isoDate')==start&&Calendar.Date.format(quickDate.dateRange[1],'isoDate')==end){
+                            var node = el.one('.quick-list').one('[key="'+key+'"]');
+                            node.addClass('quick-current');
+                            break;
+                        }
+                    }
+                }
+                
+                dates.start = Calendar.Date.parse(start);
+                dates.end = Calendar.Date.parse(end);
+
                 if(self.fire(DatePicker.FIRES.selected,dates)===false){
                     return;
                 }
@@ -355,7 +372,13 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                 dates.start = quick.dateRange[0];
                 dates.end = quick.dateRange[1];
                 dates.quickDate = quick;
-                S.log(dates);
+
+                //同步文本框
+                var inputs = el.all('input');
+                inputs.each(function(t,i){
+                    t.val(Calendar.Date.format(quick.dateRange[i],'isoDate'));
+                })
+
                 self.fire(DatePicker.FIRES.selected,dates);
                 self.hide();
             }

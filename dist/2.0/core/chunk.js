@@ -61,64 +61,51 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
      */
     var Chunk = RichBase.extend({
         constructor: function Chunk() {
-            var self = this;
-            Chunk.superclass.constructor.apply(self, arguments);
-            var tmpler = self.get('tmpler');
-            if (self.get('autoRender') || !tmpler || tmpler.inDom) {
-                self.render();
+            Chunk.superclass.constructor.apply(this, arguments);
+            if (this.get('autoRender') || this.get('tmpler').inDom) {
+                this.render();
             }
         },
-
-        // change routine from rich-base for uibase
-        bindInternal: noop,
-
-        // change routine from rich-base for uibase
-        syncInternal: noop,
         /**
          * 初始化,在实例化对象时调用
          * @protected
          */
         initializer: function() {
+            this._bx_buildTmpler();
+            this._bx_buildDataset();
+        },
+        /**
+         * 构建模板解析器
+         * @private
+         */
+        _bx_buildTmpler: function() {
             var self = this;
             var tmpl = self.get('tmpl');
-            if (tmpl) {
-                self._bx_buildTmpler(tmpl, self.get('level'));
-                var tmpler = self.get('tmpler');
-                if (tmpler) {
-                    self._bx_buildDataset(self.get('data'));
-                    if (tmpler.inDom) {
-                        self.set('el', tmpl);
-                    }
+            if (!self.get('isBuidTmpler')) {
+                self.set('isBuidTmpler', true);
+                var tmpler = new Tmpler(tmpl, self.get('level'));
+                self.set('tmpler', tmpler);
+                if (tmpler.inDom) {
+                    self.set('el', tmpl);
                 }
             }
         },
         /**
-         * 构建模板解析器
-         * @param {String} tmpl 模板字符串
-         * @param {Number} level 模板解析的层级
-         * @private
-         */
-        _bx_buildTmpler: function(tmpl, level) {
-            var self = this;
-            if (!self.get('isBuidTmpler')) {
-                self.set('isBuidTmpler', true);
-                var tmpler = new Tmpler(tmpl, level);
-                self.set('tmpler', tmpler);
-            }
-        },
-        /**
          * 构建数据管理器
-         * @param {Object} data 数据集合
          * @private
          */
-        _bx_buildDataset: function(data) {
+        _bx_buildDataset: function() {
             var self = this;
             if (!self.get('isBuidDataset')) {
                 self.set('isBuidDataset', true);
-                data = S.clone(data || {}); //原始数据深度克隆
+                var data = S.clone(self.get('data') || {}); //原始数据深度克隆
                 var dataset = new Dataset({
                     data: data
                 });
+                var renderer = self.get('renderer');
+                if (renderer) {
+                    dataset.setRenderer(renderer, self);
+                }
                 self.set('dataset', dataset); //设置最新的数据集合
                 dataset.on('*Change', function(e) {
                     var flg = false; //是否data数据变化
@@ -126,9 +113,8 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                         if (/^data\./g.test(str)) {
                             flg = true;
                             return str.replace(/^data\./, '');
-                        } else {
-                            return 'zuomo.xb@taobao.com'; //彩蛋，哈哈。
                         }
+                        return 'zuomo.xb@taobao.com'; //彩蛋，哈哈。
                     });
                     if (flg) {
                         self._bx_renderTmpl(keys, dataset.get('data'));
@@ -146,7 +132,6 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
             var dataset = self.get('dataset');
             if (tmpler) {
                 self.set('tmpler', null);
-                delete tmpler.tmpls;
             }
             if (dataset) {
                 self.set('dataset', null);
@@ -175,14 +160,16 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
          * @param {String} datakey 模板对应的数据key
          * @param {String} tmpl    子模板
          */
-        addTmpl: function(name, datakey, tmpl) {
-            var self = this;
-            self._bx_buildTmpler('', false);
-            self._bx_buildDataset();
-            if (name) {
-                var tmpler = self.get('tmpler');
-                tmpler.addTmpl(name, datakey, tmpl);
-            }
+        addSubTmpl: function(name, datakey, tmpl) {
+            return this.get('tmpler').addSubTmpl(name, datakey, tmpl);
+        },
+        /**
+         * 获取存储的模板字符串
+         * @param {String} id 模板标识，在{{#bx-tmpl-id}}指定的id
+         * @return {String} 模板字符串
+         */
+        getStoreTmpl: function(id) {
+            return this.get('tmpler').getStoreTmpl(id);
         },
 
         /**
@@ -237,10 +224,8 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                  */
 
                 self.fire('beforeRenderUI');
-                var dataset = self.get('dataset');
-                if (dataset) {
-                    self._bx_render(dataset.get('data'));
-                }
+
+                self._bx_render();
 
                 /**
                  * @event afterRenderUI
@@ -297,16 +282,15 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
         },
         /**
          * 将模板渲染到页面
-         * @param  {Object} data 数据
          * @private
          */
-        _bx_render: function(data) {
+        _bx_render: function() {
             var self = this;
             var tmpler = self.get('tmpler');
-            if (tmpler && !tmpler.inDom) {
+            if (tmpler.tmpl && !tmpler.inDom) {
                 var container = self.get('container');
                 var el = self.get('el');
-                var html = S.trim(tmpler.render(data));
+                var html = S.trim(tmpler.render(self.get('dataset').get('data')));
                 var node;
                 //下面增加浏览器的判断，
                 //是因为创建dom时候，不同浏览器对自定义标签（比如：vframe）的支持不同。
@@ -366,8 +350,8 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
             var tmpler = self.get('tmpler');
             if (tmpler && self.get('rendered')) {
                 var el = self.get('el');
-                var tmpls = tmpler.tmpls;
-                S.each(tmpls, function(o) {
+                var subTmpls = tmpler.subTmpls;
+                S.each(subTmpls, function(o) {
                     var datakeys = S.map(o.datakey.split(','), function(str) {
                         return S.trim(str); //修复编辑器格式化造成的问题
                     });
@@ -427,8 +411,8 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
     }, {
         ATTRS: {
             /**
-             * 组件节点
-             * @cfg {String}
+             * 组件根节点
+             * @type {Node}
              */
             el: {
                 getter: function(s) {
@@ -499,6 +483,13 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
              * @type {Brix.Dataset}
              */
             dataset: {
+                value: false
+            },
+            /**
+             * 数据扩展
+             * @cfg {Object}
+             */
+            renderer: {
                 value: false
             },
             /**

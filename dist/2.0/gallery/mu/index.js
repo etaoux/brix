@@ -9,12 +9,13 @@
 {{/list}}
 </pre>
  * 对于数组对象可以通过{{__index__}}访问数组下标
- * @class Brix.Mu
+ * @class Brix.Gallery.Mu
  * @extend Mustache
  * @static
  */
-KISSY.add("brix/core/mu", function(S, Mustache) {
-    var notRender=/\s*<script[^>]+type\s*=\s*(['"])\s*text\/tmpl\1[^>]*>([\s\S]*?)<\/script>\s*/gi;
+KISSY.add("brix/gallery/mu/index", function(S, Mustache) {
+    var notRender = /\s*<script[^>]+type\s*=\s*(['"])\s*text\/tmpl\1[^>]*>([\s\S]*?)<\/script>\s*/gi;
+
     function addFns(template, data) {
         var ifs = getConditions(template);
         var key = "";
@@ -107,9 +108,9 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
             if (typeof(data) === "object") {
                 findArray(data, 0);
             }
-            var notRenders=template.match(notRender);
-            if(notRenders){
-                template=template.replace(notRender,function(){//防止不必要的解析
+            var notRenders = template.match(notRender);
+            if (notRenders) {
+                template = template.replace(notRender, function() { //防止不必要的解析
                     return '<script type="text/tmpl"></script>';
                 });
             }
@@ -118,9 +119,9 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
             addFns(template, data);
             template = Mustache.to_html.apply(this, arguments);
 
-            if(notRenders){
-                var idx=0;
-                template=template.replace(notRender,function(){
+            if (notRenders) {
+                var idx = 0;
+                template = template.replace(notRender, function() {
                     return notRenders[idx++];
                 });
             }
@@ -129,13 +130,19 @@ KISSY.add("brix/core/mu", function(S, Mustache) {
         name: Mustache.name,
         version: Mustache.version,
         tags: Mustache.tags,
+        Scanner: Mustache.Scanner,
+        Context: Mustache.Context,
+        Writer: Mustache.Writer,
+        escape: Mustache.escape,
         parse: Mustache.parse,
+        clearCache: Mustache.clearCache,
         compile: Mustache.compile,
+        compilePartial: Mustache.compilePartial,
+        compileTokens: Mustache.compileTokens,
         render: function() {
             return this.to_html.apply(this, arguments);
-        },
-        clearCache: Mustache.clearCache
+        }
     };
 }, {
-    requires: ["./mustache"]
+    requires: ["brix/gallery/mustache/"]
 });
