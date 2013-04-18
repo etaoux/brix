@@ -13,48 +13,76 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
     };
 
     Sidenav.ATTRS = {
+        //sidebar id
+        sidebar: {
+            value: '#sidebar'
+        },
+
+        //inmain id
+        inmain: {
+            value: '#inmain'
+        },
+
+        //nav id
+        nav: {
+            value: '#nav'
+        },
+
+        //subNav id
+        subNav: {
+            value: '#subNav'
+        },
+
+        //subNavWrap id
+        subNavWrap: {
+            value: '#subNavWrap'
+        },
+
+        //subNavHandle id
+        subNavHandle: {
+            value: '#subNavHandle'
+        },
         /**
          * 默认的首页地址
          * @cfg {String}
          */
-        index: { 
+        index: {
             value: '#!/home/'
         },
         /**
          * 导航动画持续时间，可配置
          * @cfg {Number}
          */
-        duration: { 
+        duration: {
             value: 0.25
         },
 
         /**
          * 这里配置有的页面不是导航点击进来的，可以配置成相应的导航下面,
          * 置空则不停在任何导航上
+         * 格式：
+         *  '#!/adzone/adzone_detail/': '#!/adzone/adzone/',
+            '#!/plan/handle/': '#!/plan/list/',
+            '#!/plan/price_handle/': '#!/plan/list/',
+            '#!/messages/list/': '',
+            '#!/messages/detail/': '',
+            '#!/components/': ''
          * @cfg {Object}
          */
         pathMap: {
-            value: {
-                '#!/adzone/adzone_detail/': '#!/adzone/adzone/',
-                '#!/plan/handle/': '#!/plan/list/',
-                '#!/plan/price_handle/': '#!/plan/list/',
-                '#!/messages/list/': '',
-                '#!/messages/detail/': '',
-                '#!/components/': ''
-            }
+            value: {}
         }
     };
 
     S.extend(Sidenav, Brick, {
         initialize: function() {
-            this.sidebar = S.one('#sidebar');
-            this.main = S.one('#inmain');
-            // this.sidebarFixed = S.one('#sidebarFixed');
+            this.sidebar = $(this.get('sidebar'));
+            this.main = $(this.get('inmain'));
             this.allLinks = this.sidebar.all('a');
-            this.nav = S.one('#nav');
-            this.subNav = S.one('#subNav');
-            this.subNavWrap = S.one('#subNavWrap');
-            this.subNavHandle = S.one('#subNavHandle');
+            this.nav = $(this.get('nav'));
+            this.subNav = $(this.get('subNav'));
+            this.subNavWrap = $(this.get('subNavWrap'));
+            this.subNavHandle = $(this.get('subNavHandle'));
 
             //这里配置有的页面不是导航点击进来的，
             //可以配置成相应的导航下面
@@ -62,7 +90,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
             this.pathMap = this.get('pathMap');
 
             //收缩子菜单状态下，子菜单是复制附加到body根节点下的
-            this.subNavView = S.one('<div class="sub-nav-view"></div>').appendTo('body');
+            this.subNavView = $('<div class="sub-nav-view"></div>').appendTo('body');
 
             //利用localStorage记录子菜单是否mini模式, 1：打开模式；0：收缩模式
             //不支持localStorage的浏览器用默认的值["1"]
@@ -89,9 +117,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
          * 提供一个切换到指定菜单打开状态的api,请传入模拟点击的node节点
          * @param  {Element} node 切换的节点
          */
-        clickSwitch: function(node) {
-            S.one(node).fire('click');
-        },
+
 
         /**
          * 模拟queryModel对hash的pathname进行解析
@@ -105,17 +131,11 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
 
         },
 
-        /**
-         * 根据pathname来确定sidebar的状态
-         * @private
-         */
+        //根据pathname来确定sidebar的状态
         _pathname2sidebar: function() {
+            var self = this;
             var pathname = this._getPathname();
             var h = pathname && ('#!' + pathname + '/') || this.index;
-
-            //回收站特例
-            // var trashParam = Router.queryModel.get('board.archivestatus');
-            // var h, trashParam;
 
             //将map中的地址映射成相应的导航
             S.each(this.pathMap, function(v, k) {
@@ -130,37 +150,74 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
                 this._setNoSelectedNav();
                 return;
             }
-            //h = h.replace(/([\!\/])/g, '\\$1');
-            //h = 'a[href="' + h + '"]';
+
             this.sidebar.all('a').each(function(n){
                 var origin_href = n.attr('href');
+                origin_href = origin_href.replace(/^.*?#/g, '#'); //ie7以下a的href会获取完整地址，做下处理
 
-                // if (trashParam) {
-                //     if (origin_href.indexOf('board.archivestatus') > -1) {
-                //         n.fire('click');
-                //         return false;
-                //     }
-                // } else {
-                    var _href = origin_href.match(/.*\//);
-                    if (!_href) return false;
+                var _href = origin_href.match(/.*\//);
+                if (!_href) return false;
 
-                    var href = _href[0];
-                    if (href.slice(href.indexOf('#')) === h) {
-                        n.fire('click');
-                        return false;
-                    }
-                // }
+                var href = _href[0];
+                if (href.slice(href.indexOf('#')) === h) {
+                    self.navclick(n, h);
+                    return false;
+                }
             });
             this.isNavClick = false;
         },
 
-        /**
-         * 触发无选中导航状态
-         * @private
-         */
+        //触发无选中导航状态
         _setNoSelectedNav: function() {
             this.sidebar.all('a').removeClass('on');
             this._collapseNav();
+        },
+
+        //主导航的点击切换
+        navclick: function(t, h, isRecover) {
+            var self = this;
+            var pathname = this._getPathname();
+            h = h || (pathname && ('#!' + pathname + '/') || this.index);
+            var isMainNav = false; //是否主菜单点击
+            var _href;
+
+            this.nav.all('a').each(function(item) {
+                _href = item.attr('href');
+                _href = _href.slice(_href.indexOf('#'));
+                if (_href === h) {
+                    isMainNav = true;
+                }
+            });
+
+            if (isRecover) {
+                isMainNav = false;
+            }
+
+            if (isMainNav) {
+                self._expandCollapseNav(t);
+            } else {
+                var p_sub = t.parent('ul[data-sub]');
+                if (!p_sub) return;
+                var _t = self.nav.all('a[data-sub='+ p_sub.attr('data-sub') +']');
+                self._expandCollapseNav(_t);
+                self.subNav.all('a').removeClass('on');
+
+                if (isRecover) {
+                    self.subNav.all('a[href="#!/board/list/board.archivestatus=1"]').addClass('on');
+                } else {
+                    self.subNav.all('a').each(function(item) {
+                        if (item.attr('href') === h) {
+                            item.addClass('on');
+                            return false;
+                        }
+                    });
+                }
+            }
+
+            self.isHandleClick = false;
+            self.nowNav = t;
+            self.isNavClick = true;
+            $(window).scrollTop(0);
         },
 
         _bindUI: function() {
@@ -182,19 +239,9 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
             });
 
 
-            //主导航的点击切换
             self.nav.delegate('click', 'a', function(e) {
                 var t = S.one(e.target);
-
-                // self.fire('navClick', {clickTarget: t});
-
-                self.isHandleClick = false;
-                self._expandCollapseNav(t);
-                self.nowNav = t;
-                self.isNavClick = true;
-                $(window).scrollTop(0);
-
-                // self._fixedStatic();
+                self.navclick(t);
             });
 
             //子导航的点击
@@ -205,18 +252,18 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
                 var thisSubNav = t.closest('.sub-nav-ul');
                 var dataSub = thisSubNav.attr('data-sub');
 
-                // self.fire('navClick', {clickTarget: t});
-
                 self.isHandleClick = false;
                 self.nowNav = self.nav.all('a[data-sub=' + dataSub + ']');
-                self.nowNav.fire('click');
+
+                self.navclick(self.nowNav);
+                // self.nowNav.fire('click');
+
                 self.currentSubNav = t.closest('.sub');
                 self._setSubNavOn(t);
                 self.isNavClick = true;
                 $(window).scrollTop(0);
                 // self._fixedStatic();
             });
-
 
             //三级导航点击标题收缩扩展子菜单
             self.subNav.delegate('click', '.sub-title', function(e) {
@@ -276,11 +323,8 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
             })
         },
 
-        /**
-         * sidebar 的 fixed与static切换
-         * @private
-         */
-        _fixedStatic: function(){
+        //sidebar 的 fixed与static切换
+        _fixedStatic: function(attribute){
             var self = this;
             var st = Math.max(document.body.scrollTop, document.documentElement.scrollTop); //兼容ie
             var isFixed = st > self.navTop; //滚动超过nav的offset top值时，变为fixed
@@ -306,22 +350,13 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
             }
         },
 
-        /**
-         * 延迟器
-         * @param  {Function} fn 方法
-         * @param  {Number}   t  时间
-         * @private
-         */
+        //延迟器
         _timer: function(fn, t) {
             clearTimeout(this.itv);
             this.itv = setTimeout(fn, t);
         },
 
-        /**
-         * 设置子菜单选中状态
-         * @param {Node} node 节点
-         * @private
-         */
+        //设置子菜单选中状态
         _setSubNavOn: function(node) {
             var thirdNav = node.closest('.sub-nav-third');
 
@@ -336,11 +371,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
             }
         },
 
-        /**
-         * 传入当前的导航a节点，处理导航点击引起的子导航切换
-         * @param {Node} node 节点
-         * @private
-         */
+        //传入当前的导航a节点，处理导航点击引起的子导航切换
         _expandCollapseNav: function(node) {
             var self = this;
             var dataSub = node.attr('data-sub'); //是否有子菜单
@@ -383,11 +414,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
             node.addClass('on');
         },
 
-        //
-        /**
-         * 收缩导航按钮的切换
-         * @private
-         */
+        //收缩导航按钮的切换
         _switchTrigger: function() {
             if (this.isFullSubNav === '1') {
                 this.subNavHandle.replaceClass('icon-collapse', 'icon-expand');
@@ -396,10 +423,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
             }
         },
 
-        /**
-         * 子导航的扩展收缩
-         * @private
-         */
+        //子导航的扩展收缩
         _expandCollapseSubNav: function() {
             var self = this;
             var curSubNav = self.currentSubNav;
@@ -443,11 +467,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
 
         },
 
-        /**
-         * 子菜单收缩
-         * @param  {Function} cb 回调函数
-         * @private
-         */
+        //子菜单收缩
         _collapseSubNav: function(cb) {
             this.subNav.animate({
                 'width': '16px',
@@ -466,11 +486,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
             this._collapseThirdNav();
         },
 
-        /**
-         * 子菜单打开
-         * @param  {Function} cb 回调函数
-         * @private
-         */
+        //子菜单打开
         _expandSubNav: function(cb) {
             this.subNav.animate({
                 'width': '140px',
@@ -490,11 +506,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
             this.subNavView.css('left', '-10000px');
         },
 
-        /**
-         * 打开三级菜单
-         * @param  {Function} cb 回调函数
-         * @private
-         */
+        //打开三级菜单
         _expandThirdNav: function(cb) {
             var self = this;
 
@@ -514,11 +526,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
             }
         },
 
-        /**
-         * 关闭三级菜单
-         * @param  {Function} cb 回调函数
-         * @private
-         */
+        //关闭三级菜单
         _collapseThirdNav: function(cb) {
             //直接slideToggle在chrome下有问题，故换成animate
             S.all('.sub-nav-third').animate({
@@ -526,12 +534,8 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
             }, this.duration, 'easeOut', cb);
         },
 
-        /**
-         * 主导航切换控制的侧栏菜单打开
-         * @param  {Function} cb 回调函数
-         * @private
-         */
-        _expandNav: function(cb) {
+        //主导航切换控制的侧栏菜单打开
+        _expandNav: function(dataSub, cb) {
             this.subNav.show();
             this.subNav.animate({
                 "width": this.isFullSubNav === '1' ? '140px' : '16px',
@@ -559,12 +563,8 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
             }
         },
 
-        /**
-         * 主导航切换控制的侧栏菜单收缩
-         * @param  {Function} cb 回调函数
-         * @private
-         */
-        _collapseNav: function(cb) {
+        //主导航切换控制的侧栏菜单收缩
+        _collapseNav: function(dataSub, cb) {
             var self = this;
 
             this.subNav.animate({
