@@ -56,7 +56,6 @@ KISSY.add('brix/gallery/charts/js/case',function(S,Base,Node,DataSource,Widget){
 			var self = this
 			//下载具体某图
 			if($name == 'reset'){
-
 				var o = $value
 				if(o){
 					self.set('configData',o.configData)
@@ -64,6 +63,7 @@ KISSY.add('brix/gallery/charts/js/case',function(S,Base,Node,DataSource,Widget){
 				}
 				self.reset()
 			}
+			return true
 		},
 		//重新展现图表
 		reset:function(){
@@ -603,7 +603,10 @@ KISSY.add('brix/gallery/charts/js/e/integrate/control/configparse',function(S,Ba
 			var __data = xmlDoc.getElementsByTagName("data")[0]
 			o.v = __data.getAttribute('v') && String(__data.getAttribute('v')) ? String(__data.getAttribute('v')) : o.v
 
-			var s = new XMLSerializer().serializeToString(__data.getElementsByTagName("line")[0])
+			var s = ''
+			if(__data.getElementsByTagName("line")[0]){
+				s = new XMLSerializer().serializeToString(__data.getElementsByTagName("line")[0])
+			}
 			s = s.replace('<line', "<data")
 			s = s.replace('line>', "data>")
 
@@ -1503,6 +1506,1816 @@ KISSY.add('brix/gallery/charts/js/e/integrate/view/widget',function(S,Base,Node,
 	    ]
 	}
 );
+KISSY.add('brix/gallery/charts/js/e/integrate2/control/configparse',function(S,Base,Node,BarConfigParse,Style1ConfigParse){
+	var $ = Node.all
+
+	function ConfigParse(){
+		
+		var self = this
+
+		ConfigParse.superclass.constructor.apply(self,arguments);
+	}
+
+	ConfigParse.ATTRS = {
+		o:{
+			value:{
+				v:'1.0',
+
+				bar:{},
+
+				layout:{},
+
+				infos:{
+			        xAxis:{
+					    mode:0               //模式[0 = 显示两个点(1:00-2:00) | 1 = 显示一个点(2013-03-08)]
+						  }
+			          }
+			      }
+		}
+	}
+
+	S.extend(ConfigParse,Base,{
+		parse:function($data,$type){
+			var self = this
+
+			var o = S.clone(self.o) 
+			var type = $type ? $type : 'xml'
+			if(type == 'xml'){
+				o = self._xml($data)
+			}
+			return o
+		},
+		_xml:function($data){
+			var self = this
+
+			var o = S.clone(self.get('o')) 
+			var data = String($data)
+			var domParser = new DOMParser();
+			var xmlDoc = domParser.parseFromString(data, 'text/xml');
+
+			var __data = xmlDoc.getElementsByTagName("data")[0]
+			if(__data){
+				o.v = __data.getAttribute('v') && String(__data.getAttribute('v')) ? String(__data.getAttribute('v')) : o.v
+
+				var s = ''
+				if(__data.getElementsByTagName("bar")[0]){
+					 s = new XMLSerializer().serializeToString(__data.getElementsByTagName("bar")[0])
+				}
+				s = s.replace('<bar', "<data")
+				s = s.replace('bar>', "data>")
+				o.bar = new BarConfigParse().parse(s)
+
+				var s = ''
+				if(__data.getElementsByTagName("layout")[0]){
+					s = new XMLSerializer().serializeToString(__data.getElementsByTagName("layout")[0])
+				}
+				s = s.replace('<layout', "<data")
+				s = s.replace('layout>', "data>")
+				o.layout = new Style1ConfigParse().parse(s)
+
+				var __infos = __data.getElementsByTagName("infos")[0]
+				if(__infos){
+					var __x_axis = __infos.getElementsByTagName("x_axis")[0]
+					if(__x_axis){
+						o.infos.xAxis.mode = __x_axis.getAttribute('mode') || __x_axis.getAttribute('mode') == 0 ? Number(__x_axis.getAttribute('mode')) : o.infos.xAxis.mode
+					}
+				}
+			}else{
+				o.bar = new BarConfigParse().parse('')
+				o.layout = new Style1ConfigParse().parse('')
+			}
+			return o
+		}
+	});
+
+	return ConfigParse;
+
+	}, {
+	    requires:['base','node','../../../pub/controls/bar/configparse','../../../pub/controls/layouts/style1/configparse']
+	}
+);
+KISSY.add('brix/gallery/charts/js/e/integrate2/main',function(S,Base,Global,SVGElement,DataParse,ConfigParse,Widget){
+	function Main(){
+
+		var self = this
+
+		/*
+			arguments:
+
+			  o:{
+				parent   :''     //SVGElement
+				w        :100    //chart 宽
+				h        :100    //chart 高
+				config   :''     //图表配置
+				data     :''     //图表数据  
+			  }
+
+		 */
+		Main.superclass.constructor.apply(self,arguments);
+
+		self.init()
+	}
+
+	Main.ATTRS = {
+		_main:{
+			value:null
+		},
+		_config:{                //图表配置   经过ConfigParse.parse
+			value:{}
+		},
+		_DataSource:{
+			value:{}             //图表数据源 经过DataParse.parse
+		}
+	}
+
+	S.extend(Main,Base,{
+		init:function(){
+			var self = this
+			
+			self.set('_DataSource', new DataParse().parse(self.get('data'))) 
+			self.set('_config', new ConfigParse().parse(self.get('config'))) 
+
+			self._widget()	
+		},
+
+		_widget:function(){
+			var self = this
+			
+			self.set('_main',new SVGElement('g'))
+			self.get('_main').attr({'class':'main'});
+			self.get('parent').appendChild(self.get('_main').element)
+			self.get('_main').transformXY(Global.N05,Global.N05)
+
+			var o = {}
+			o.parent = self.get('_main')                       //SVGElement
+			o.w = self.get('w')                                //chart 宽
+			o.h = self.get('h')                                //chart 高
+			o.DataSource = self.get('_DataSource')             //图表数据源
+			o.config = self.get('_config')                     //图表配置
+
+			new Widget(o)
+		}
+		
+	});
+
+	return Main;
+
+	}, {
+	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','../../pub/controls/bar/dataparse','./control/configparse','./view/widget']
+	}
+);
+KISSY.add('brix/gallery/charts/js/e/integrate2/view/widget',function(S,Base,Node,Global,SVGElement,Infos,EventType,Core,Layout){
+	var $ = Node.all
+
+	function Widget(){
+		
+		var self = this
+
+		/*
+			arguments:
+
+			  o:{
+				parent    :''     //SVGElement
+				w         :100    //chart 宽
+				h         :100    //chart 高
+				DataSource:{}     //数据源
+				config    :{}     //配置
+			  }
+
+		 */
+		Widget.superclass.constructor.apply(self,arguments);
+
+		self.init()
+	}
+
+	Widget.ATTRS = {
+		w:{
+			value:0
+		},
+		h:{
+			value:0
+		},
+		element:{
+			value:null
+		},
+
+		_DataFrameFormat : {
+			value:{
+				key:{                    //突出显示
+					indexs:'',               //String 索引字符串[1,2,3]
+					data:[]                  //Array  索引集合[[1,2,3]]
+				},
+				vertical:{               //纵轴
+					name:'',                 //名称[维度1]
+					org:[],                  //原始二维数据[[配置数据中每个队列第一个集合],[],[]]
+					max:[],                  //从org中提取的 直方叠加之后的数组 方便操作[[100+10,200+20,300+30],[]]
+					section:[],              //分段之后数据[200, 400, 600, 800, 1000, 1200, 1400, 1600]
+					data:[]                  //转换坐标后的数据  =>Vertical.data、Back.data
+				},
+				horizontal:{             //横轴
+					name:'',                 //名称[维度2]
+					names:[],                //名称集合(1:00,2:00,...,24:00)
+					start:{                  //原点
+						name:'0'                 //名称[原点]
+					},
+					org:'',                  //原始数据[0.05,0.1,0.15,0.2,...,2.55]
+					data:[]                  //转换坐标后的数据  =>Horizontal.data
+				},
+				graphs:{                 //图形
+					groupCount:1,            //每组中几条数据
+					groupW:59,               //一组的宽
+					groups:1,                //有几个组
+					data:[]                  //转换坐标后的数据(不删减 临时处理成Graphs.data)  =>Graphs.data  
+				}
+			}
+		},
+
+		_top_h:{
+			value:0
+		},
+		_core_y:{
+			value:0
+		},
+		_core_h:{
+			value:0
+		},
+
+		_core:{
+			value:null                   //直方图核心
+		},
+		_layout:{                        //布局_样式1
+			value:null                   
+		},
+		_infos:{                         //信息
+			value:null
+		},
+
+
+		_del:{
+			value:0                      //当数据量过大时 减去的数据个数
+		},
+		_timeoutId:{
+			value:0                      
+		},
+		_timeoutDelay:{
+			value:100                    
+		},
+		_isRemoveInfo:{
+			value:1
+		}
+	}
+
+	S.extend(Widget,Base,{
+		init:function(){
+			var self = this
+
+			self._widget()
+		},
+
+		_widget:function(){
+			var self = this
+
+		 	self.set('_top_h', 70)
+		 	self.set('_core_y', self.get('_top_h'))
+		 	self.set('_core_h', self.get('h') - self.get('_top_h') - 12 - 6)
+
+			self.set('element', new SVGElement('g')), self.get('element').set('class','widget')
+			self.get('parent').appendChild(self.get('element').element)
+
+			self.set('_core',new Core({parent:self.get('element')}))
+			var  o = {
+				w      : self.get('w'),
+				h      : self.get('_core_h'),
+				parent : self.get('element'),
+				DataSource : self.get('DataSource'),            //图表数据源
+				config     : self.get('config').bar             //图表配置
+			}
+			self.get('_core').get('element').on(EventType.COMPLETE,function(){self._completeHandler()})
+			self.get('_core').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
+			self.get('_core').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
+			self.get('_core').widget(o)
+			self.get('_core').get('element').transformY(self.get('_core_y'))
+
+			self.set('_layout',new Layout())
+			var  o = {
+				w      : self.get('w'),
+				h      : self.get('h'),  
+				data   : self._getPieInfos(),
+				parent : self.get('element'),
+				config     : self.get('config').layout,         //图表配置
+				txtStartIndex : 1
+			}
+			self.get('_layout').init(o)
+			self.get('_layout').get('y_txt').transformXY(6, self.get('_core_y') - 12 - 12)
+			self.get('_layout').get('x_txt').transformXY(Number(self.get('w')) - Number(self.get('_layout').get('x_txt').getWidth()) - 6, Number(self.get('h')) - Number(self.get('_layout').get('x_txt').getHeight()) - 6)
+			self.get('_layout').get('infos').transformXY(Number(self.get('w')) - Number(self.get('_layout').get('infos').getDynamic('w'))- 3 - 6 - 18, 6)
+
+			self.set('_infos',new Infos())
+			self.get('_infos').init({parent:self.get('element')})
+			self.get('_infos').get('element').on(EventType.OVER,function($o){self._overInfoHandler($o)})
+			self.get('_infos').get('element').on(EventType.OUT,function($o){self._outInfoHandler($o)})
+		},
+
+		_getPieInfos:function(){
+			var self = this
+			var data = self.get('_DataFrameFormat')
+			var config = self.get('config').bar
+			var arr = []
+
+			var $arr = data.vertical.org
+			for (var a = 0, al = $arr.length; a < al; a++ ) {
+				var o = $arr[a]
+				var tmp = { }
+				tmp.pie = { data:[], fills:[] }
+				tmp.info = []
+				var infoObj = { content:o.name, bold:1, fill:'#333333', family:'微软雅黑', ver_align:1, size:12 }
+				var infoIndex = 0
+				tmp.info[infoIndex] = []
+				tmp.info[infoIndex].push(infoObj)
+				
+				var totals = []
+				for (var b = 0, bl = o.data.length; b < bl; b++ ) {
+					tmp.pie.data.push(o.data[b].total)
+					tmp.pie.fills.push(config.fills[a][b].normal)
+
+					infoIndex++
+					infoObj = { content:o.data[b].signName, bold:0, fill:config.fills[a][b].over, family:'微软雅黑', size:12, sign: { has:1, trim:1, fill:config.fills[a][b].normal }}
+					!tmp.info[infoIndex] ? tmp.info[infoIndex] = [] : ''
+					tmp.info[infoIndex].push(infoObj)
+					
+					totals.push(o.data[b].total)
+				}
+				
+				var scales = Global.getArrScales(totals)
+				infoIndex = 0
+				for (var c = 0, cl = o.data.length; c < cl; c++ ) {
+					infoIndex++
+					tmp.info[infoIndex][0].content = tmp.info[infoIndex][0].content + scales[c] + '%'
+				}
+				
+				arr.push(tmp)
+			}
+			
+			return arr
+		},
+
+		_completeHandler:function(){
+			var self = this
+			self.set('_DataFrameFormat', self.get('_core').getAttr('DataFrameFormat'))
+			self.set('_del', self.get('_core').getAttr('del'))
+		},
+		_overHandler:function($o){
+			// return
+			clearTimeout(this.get('_timeoutId'));
+			var index = $o.index
+			var id = $o.id
+			if (index + 1 >= this.get('_DataFrameFormat').vertical.org[id].length - this.get('_del') && index + 1 < this.get('_DataFrameFormat').vertical.org[id].length) {
+				index = index + this.get('_del')
+			}
+			var x = Number($o.cx) + Number(this.get('_core').get('element').get('_x'))
+			var y = Number(this.get('_core_y')) + $o.cy
+			// var y = 100
+			var data = []
+			data[0] = []
+			var o = { }
+			o.content = this.get('_DataFrameFormat').vertical.org[id].name, o.bold = 1, o.fill = '#333333', o.size = 14, o.family = '微软雅黑', o.ver_align = 1
+			data[0].push(o)
+			o = { }
+			o.content = this.get('_DataFrameFormat').vertical.name + Global.numAddSymbol(this.get('_DataFrameFormat').vertical.max[id][index]), o.bold = 0, o.fill = '#666666', o.family = '微软雅黑', o.ver_align = 1
+			data[1] = []
+			data[1].push(o)
+			var dataID = 2
+			for (var a = 0, al = this.get('_DataFrameFormat').vertical.org[id].data.length; a < al; a++ ) {
+				o = { }
+				var fills = this.get('config').bar.fills
+				var fill_normal = fills[id][a] && fills[id][a].normal ? fills[id][a].normal : '#000000'
+				var fill_over = fills[id][a] && fills[id][a].over ? fills[id][a].over : '#000000'
+ 				o.content = this.get('_DataFrameFormat').vertical.org[id].data[a].name + Global.numAddSymbol(this.get('_DataFrameFormat').vertical.org[id].data[a].data[index]), o.bold = 0, o.fill = fill_over, o.family = '微软雅黑', o.hor_align = 2, o.sign = {has:1,trim:1,fill:fill_normal }
+				data[dataID] = []
+				data[dataID].push(o)
+				dataID++
+			}
+
+			var o = {
+				w    : this.get('w'),
+				h    : this.get('h'),
+				parent : this.get('element'),
+
+				info:{
+					x    : x,
+					y    : y,
+					data : data,
+					base_fill:'#666666'
+				},
+				hLine:{
+					is   : 1,
+					x    : x,
+					y    : y + $o.h
+				}
+			}
+			var pre = this.get('_DataFrameFormat').horizontal.names[index - 1] ? this.get('_DataFrameFormat').horizontal.names[index - 1] : ''
+			pre = index == 0 ? this.get('_DataFrameFormat').horizontal.start.name : pre
+			var next =  this.get('_DataFrameFormat').horizontal.names[index]
+			var content = this.get('_DataFrameFormat').horizontal.name + pre + ' - ' + next
+			if (this.get('config').infos.xAxis.mode == 1) {
+				content = this.get('_DataFrameFormat').horizontal.name + next
+			}
+
+			o.hInfo = {
+				is   : 1,
+				x    : x,
+				y    : y + $o.h,
+				content : content
+			}
+			this.get('_infos').update(o)
+		},
+		_outHandler:function($o){
+			var self = this
+			this.set('_timeoutId', setTimeout(function(){self._outTimeout()}, self.get('_timeoutDelay')))
+		},
+		_outTimeout:function(){
+			if(this.get('_isRemoveInfo')){
+				this.get('_infos').remove()
+			}
+		},
+		_overInfoHandler:function($o){
+			var self = this
+			self.set('_isRemoveInfo', 0)
+		},
+		_outInfoHandler:function($o){
+			var self = this
+			self.set('_isRemoveInfo', 1)
+			self._outHandler()
+		}
+	});
+
+	return Widget;
+
+	}, {
+	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/histogram/core',,'../../../pub/views/layouts/style1/main'
+	    ]
+	}
+);
+KISSY.add('brix/gallery/charts/js/e/integrate3/control/configparse',function(S,Base,Node,BarConfigParse,Style1ConfigParse){
+	var $ = Node.all
+
+	function ConfigParse(){
+		
+		var self = this
+
+		ConfigParse.superclass.constructor.apply(self,arguments);
+	}
+
+	ConfigParse.ATTRS = {
+		o:{
+			value:{
+				v:'1.0',
+
+				bar:{},
+
+				layout:{},
+
+				infos:{
+			        xAxis:{
+					    mode:0               //模式[0 = 显示两个点(1:00-2:00) | 1 = 显示一个点(2013-03-08)]
+						  }
+			          }
+			      }
+		}
+	}
+
+	S.extend(ConfigParse,Base,{
+		parse:function($data,$type){
+			var self = this
+
+			var o = S.clone(self.o) 
+			var type = $type ? $type : 'xml'
+			if(type == 'xml'){
+				o = self._xml($data)
+			}
+			return o
+		},
+		_xml:function($data){
+			var self = this
+
+			var o = S.clone(self.get('o')) 
+			var data = String($data)
+			var domParser = new DOMParser();
+			var xmlDoc = domParser.parseFromString(data, 'text/xml');
+
+			var __data = xmlDoc.getElementsByTagName("data")[0]
+			if(__data){
+				o.v = __data.getAttribute('v') && String(__data.getAttribute('v')) ? String(__data.getAttribute('v')) : o.v
+
+				var s = ''
+				if(__data.getElementsByTagName("bar")[0]){
+					 s = new XMLSerializer().serializeToString(__data.getElementsByTagName("bar")[0])
+				}
+				s = s.replace('<bar', "<data")
+				s = s.replace('bar>', "data>")
+				o.bar = new BarConfigParse().parse(s)
+
+				var s = ''
+				if(__data.getElementsByTagName("layout")[0]){
+					s = new XMLSerializer().serializeToString(__data.getElementsByTagName("layout")[0])
+				}
+				s = s.replace('<layout', "<data")
+				s = s.replace('layout>', "data>")
+				o.layout = new Style1ConfigParse().parse(s)
+
+				var __infos = __data.getElementsByTagName("infos")[0]
+				if(__infos){
+					var __x_axis = __infos.getElementsByTagName("x_axis")[0]
+					if(__x_axis){
+						o.infos.xAxis.mode = __x_axis.getAttribute('mode') || __x_axis.getAttribute('mode') == 0 ? Number(__x_axis.getAttribute('mode')) : o.infos.xAxis.mode
+					}
+				}
+			}else{
+				o.bar = new BarConfigParse().parse('')
+				o.layout = new Style1ConfigParse().parse('')
+			}
+			return o
+		}
+	});
+
+	return ConfigParse;
+
+	}, {
+	    requires:['base','node','../../../pub/controls/bar/configparse','../../../pub/controls/layouts/style1/configparse']
+	}
+);
+KISSY.add('brix/gallery/charts/js/e/integrate3/main',function(S,Base,Global,SVGElement,DataParse,ConfigParse,Widget){
+	function Main(){
+
+		var self = this
+
+		/*
+			arguments:
+
+			  o:{
+				parent   :''     //SVGElement
+				w        :100    //chart 宽
+				h        :100    //chart 高
+				config   :''     //图表配置
+				data     :''     //图表数据  
+			  }
+
+		 */
+		Main.superclass.constructor.apply(self,arguments);
+
+		self.init()
+	}
+
+	Main.ATTRS = {
+		_main:{
+			value:null
+		},
+		_config:{                //图表配置   经过ConfigParse.parse
+			value:{}
+		},
+		_DataSource:{
+			value:{}             //图表数据源 经过DataParse.parse
+		}
+	}
+
+	S.extend(Main,Base,{
+		init:function(){
+			var self = this
+			
+			self.set('_DataSource', new DataParse().parse(self.get('data'))) 
+			self.set('_config', new ConfigParse().parse(self.get('config'))) 
+			self.set('_config', self._defaultConfig(self.get('_config')))
+
+			self._widget()	
+		},
+
+		_widget:function(){
+			var self = this
+			
+			self.set('_main',new SVGElement('g'))
+			self.get('_main').attr({'class':'main'});
+			self.get('parent').appendChild(self.get('_main').element)
+			self.get('_main').transformXY(Global.N05,Global.N05)
+
+			var o = {}
+			o.parent = self.get('_main')                       //SVGElement
+			o.w = self.get('w')                                //chart 宽
+			o.h = self.get('h')                                //chart 高
+			o.DataSource = self.get('_DataSource')             //图表数据源
+			o.config = self.get('_config')                     //图表配置
+
+			new Widget(o)
+		},
+
+		_defaultConfig:function($config){
+			var config = $config
+			config.bar.fills = [[ { normal:'#458AE6', over:'#135EBF' } ], [ { normal:'#94CC5C', over:'#78A64B' } ]]
+			return config
+		}
+		
+	});
+
+	return Main;
+
+	}, {
+	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','../../pub/controls/bar/dataparse','./control/configparse','./view/widget']
+	}
+);
+KISSY.add('brix/gallery/charts/js/e/integrate3/view/widget',function(S,Base,Node,Global,SVGElement,Infos,EventType,Core,Layout){
+	var $ = Node.all
+
+	function Widget(){
+		
+		var self = this
+
+		/*
+			arguments:
+
+			  o:{
+				parent    :''     //SVGElement
+				w         :100    //chart 宽
+				h         :100    //chart 高
+				DataSource:{}     //数据源
+				config    :{}     //配置
+			  }
+
+		 */
+		Widget.superclass.constructor.apply(self,arguments);
+
+		self.init()
+	}
+
+	Widget.ATTRS = {
+		w:{
+			value:0
+		},
+		h:{
+			value:0
+		},
+		element:{
+			value:null
+		},
+
+		_DataFrameFormat : {
+			value:{
+				key:{                    //突出显示
+					indexs:'',               //String 索引字符串[1,2,3]
+					data:[]                  //Array  索引集合[[1,2,3]]
+				},
+				vertical:{               //纵轴
+					name:'',                 //名称[维度1]
+					org:[],                  //原始二维数据[[配置数据中每个队列第一个集合],[],[]]
+					max:[],                  //从org中提取的 直方叠加之后的数组 方便操作[[100+10,200+20,300+30],[]]
+					section:[],              //分段之后数据[200, 400, 600, 800, 1000, 1200, 1400, 1600]
+					data:[]                  //转换坐标后的数据  =>Vertical.data、Back.data
+				},
+				horizontal:{             //横轴
+					name:'',                 //名称[维度2]
+					names:[],                //名称集合(1:00,2:00,...,24:00)
+					start:{                  //原点
+						name:'0'                 //名称[原点]
+					},
+					org:'',                  //原始数据[0.05,0.1,0.15,0.2,...,2.55]
+					data:[]                  //转换坐标后的数据  =>Horizontal.data
+				},
+				graphs:{                 //图形
+					groupCount:1,            //每组中几条数据
+					groupW:59,               //一组的宽
+					groups:1,                //有几个组
+					data:[]                  //转换坐标后的数据(不删减 临时处理成Graphs.data)  =>Graphs.data  
+				}
+			}
+		},
+
+		_top_h:{
+			value:0
+		},
+		_core_y:{
+			value:0
+		},
+		_core_h:{
+			value:0
+		},
+
+		_core:{
+			value:null                   //直方图核心
+		},
+		_layout:{                        //布局_样式1
+			value:null                   
+		},
+		_infos:{                         //信息
+			value:null
+		},
+
+
+		_del:{
+			value:0                      //当数据量过大时 减去的数据个数
+		},
+		_timeoutId:{
+			value:0                      
+		},
+		_timeoutDelay:{
+			value:100                    
+		},
+		_isRemoveInfo:{
+			value:1
+		}
+	}
+
+	S.extend(Widget,Base,{
+		init:function(){
+			var self = this
+
+			self._widget()
+		},
+
+		_widget:function(){
+			var self = this
+
+		 	self.set('_top_h', 70)
+		 	self.set('_core_y', self.get('_top_h'))
+		 	self.set('_core_h', self.get('h') - self.get('_top_h') - 12 - 6)
+
+			self.set('element', new SVGElement('g')), self.get('element').set('class','widget')
+			self.get('parent').appendChild(self.get('element').element)
+
+			self.set('_core',new Core({parent:self.get('element')}))
+			var  o = {
+				w      : self.get('w'),
+				h      : self.get('_core_h'),
+				parent : self.get('element'),
+				DataSource : self.get('DataSource'),            //图表数据源
+				config     : self.get('config').bar             //图表配置
+			}
+			self.get('_core').get('element').on(EventType.COMPLETE,function(){self._completeHandler()})
+			self.get('_core').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
+			self.get('_core').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
+			self.get('_core').widget(o)
+			self.get('_core').get('element').transformY(self.get('_core_y'))
+
+			self.set('_layout',new Layout())
+			var  o = {
+				w      : self.get('w'),
+				h      : self.get('h'),  
+				data   : self._getPieInfos(),
+				parent : self.get('element'),
+				config     : self.get('config').layout,         //图表配置
+			}
+			self.get('_layout').init(o)
+			self.get('_layout').get('y_txt').transformXY(6, self.get('_core_y') - 12 - 12)
+			self.get('_layout').get('x_txt').transformXY(Number(self.get('w')) - Number(self.get('_layout').get('x_txt').getWidth()) - 6, Number(self.get('h')) - Number(self.get('_layout').get('x_txt').getHeight()) - 6)
+			self.get('_layout').get('infos').transformXY(Number(self.get('w')) - Number(self.get('_layout').get('infos').getDynamic('w'))- 3 - 6 - 18, 6)
+
+			self.set('_infos',new Infos())
+			self.get('_infos').init({parent:self.get('element')})
+			self.get('_infos').get('element').on(EventType.OVER,function($o){self._overInfoHandler($o)})
+			self.get('_infos').get('element').on(EventType.OUT,function($o){self._outInfoHandler($o)})
+		},
+
+		_getPieInfos:function(){
+			var self = this
+			var data = self.get('_DataFrameFormat')
+			var config = self.get('config').bar
+			var arr = []
+
+			var tmp = { }
+			arr.push(tmp)
+			
+			tmp.pie = { data:[], fills:[] }
+			tmp.info = []
+			
+			var infoIndex = 0
+			
+			//var o:Object = { }
+			var $arr = data.vertical.org
+			var totals = []
+			for (var a = 0, al = $arr.length; a < al; a++ ) {
+				var o = $arr[a]
+				
+				for (var b = 0, bl = o.data.length; b < bl; b++ ) {
+					tmp.pie.data.push(o.data[b].total)
+					tmp.pie.fills.push(config.fills[a][b].normal)
+					
+					var infoObj = { }
+					infoObj = { content:o.data[b].signName, bold:0, fill:config.fills[a][b].over, family:'微软雅黑', size:12, sign: { has:1, trim:1, fill:config.fills[a][b].normal }}
+					!tmp.info[infoIndex] ? tmp.info[infoIndex] = [] : ''
+					tmp.info[infoIndex].push(infoObj)
+					
+					totals.push(o.data[b].total)
+				}
+				infoIndex++
+			}
+			var scales = Global.getArrScales(totals)
+			for (var c = 0, cl = infoIndex; c < cl; c++ ) {
+				tmp.info[c][0].content = tmp.info[c][0].content + scales[c] + '%'
+			}
+			
+			return arr
+		},
+
+		_completeHandler:function(){
+			var self = this
+			self.set('_DataFrameFormat', self.get('_core').getAttr('DataFrameFormat'))
+			self.set('_del', self.get('_core').getAttr('del'))
+		},
+		_overHandler:function($o){
+			// return
+			clearTimeout(this.get('_timeoutId'));
+			var index = $o.index
+			var id = $o.id
+			if (index + 1 >= this.get('_DataFrameFormat').vertical.org[id].length - this.get('_del') && index + 1 < this.get('_DataFrameFormat').vertical.org[id].length) {
+				index = index + this.get('_del')
+			}
+			var x = Number($o.cx) + Number(this.get('_core').get('element').get('_x'))
+			var y = Number(this.get('_core_y')) + $o.cy
+			// var y = 100
+			var data = []
+			data[0] = []
+			var o = { }
+			o.content = this.get('_DataFrameFormat').vertical.org[id].name, o.bold = 1, o.fill = '#333333', o.size = 14, o.family = '微软雅黑', o.ver_align = 1
+			data[0].push(o)
+			// o = { }
+			// o.content = this.get('_DataFrameFormat').vertical.name + Global.numAddSymbol(this.get('_DataFrameFormat').vertical.max[id][index]), o.bold = 0, o.fill = '#666666', o.family = '微软雅黑', o.ver_align = 1
+			// data[1] = []
+			// data[1].push(o)
+			var dataID = 1
+			for (var a = 0, al = this.get('_DataFrameFormat').vertical.org[id].data.length; a < al; a++ ) {
+				o = { }
+				var fills = this.get('config').bar.fills
+				var fill_normal = fills[id][a] && fills[id][a].normal ? fills[id][a].normal : '#000000'
+				var fill_over = fills[id][a] && fills[id][a].over ? fills[id][a].over : '#000000'
+ 				o.content = this.get('_DataFrameFormat').vertical.org[id].data[a].name + Global.numAddSymbol(this.get('_DataFrameFormat').vertical.org[id].data[a].data[index]), o.bold = 0, o.fill = fill_over, o.family = '微软雅黑', o.hor_align = 2, o.sign = {has:1,trim:1,fill:fill_normal }
+				data[dataID] = []
+				data[dataID].push(o)
+				dataID++
+			}
+
+			var o = {
+				w    : this.get('w'),
+				h    : this.get('h'),
+				parent : this.get('element'),
+
+				info:{
+					x    : x,
+					y    : y,
+					data : data,
+					base_fill:'#666666'
+				},
+				hLine:{
+					is   : 1,
+					x    : x,
+					y    : y + $o.h
+				}
+			}
+			var pre = this.get('_DataFrameFormat').horizontal.names[index - 1] ? this.get('_DataFrameFormat').horizontal.names[index - 1] : ''
+			pre = index == 0 ? this.get('_DataFrameFormat').horizontal.start.name : pre
+			var next =  this.get('_DataFrameFormat').horizontal.names[index]
+			var content = this.get('_DataFrameFormat').horizontal.name + pre + ' - ' + next
+			if (this.get('config').infos.xAxis.mode == 1) {
+				content = this.get('_DataFrameFormat').horizontal.name + next
+			}
+
+			o.hInfo = {
+				is   : 1,
+				x    : x,
+				y    : y + $o.h,
+				content : content
+			}
+			this.get('_infos').update(o)
+		},
+		_outHandler:function($o){
+			var self = this
+			this.set('_timeoutId', setTimeout(function(){self._outTimeout()}, self.get('_timeoutDelay')))
+		},
+		_outTimeout:function(){
+			if(this.get('_isRemoveInfo')){
+				this.get('_infos').remove()
+			}
+		},
+		_overInfoHandler:function($o){
+			var self = this
+			self.set('_isRemoveInfo', 0)
+		},
+		_outInfoHandler:function($o){
+			var self = this
+			self.set('_isRemoveInfo', 1)
+			self._outHandler()
+		}
+	});
+
+	return Widget;
+
+	}, {
+	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/histogram/core',,'../../../pub/views/layouts/style1/main'
+	    ]
+	}
+);
+KISSY.add('brix/gallery/charts/js/e/integrate4/control/configparse',function(S,Base,Node,LineConfigParse,Style1ConfigParse){
+	var $ = Node.all
+
+	function ConfigParse(){
+		
+		var self = this
+
+		ConfigParse.superclass.constructor.apply(self,arguments);
+	}
+
+	ConfigParse.ATTRS = {
+		o:{
+			value:{
+				v:'1.0',
+
+				line:{},
+
+				layout:{},
+
+				infos:{
+			        xAxis:{
+					    mode:0               //模式[0 = 显示两个点(1:00-2:00) | 1 = 显示一个点(2013-03-08)]
+						  }
+			          }
+			      }
+		}
+	}
+
+	S.extend(ConfigParse,Base,{
+		parse:function($data,$type){
+			var self = this
+
+			var o = S.clone(self.o) 
+			var type = $type ? $type : 'xml'
+			if(type == 'xml'){
+				o = self._xml($data)
+			}
+			return o
+		},
+		_xml:function($data){
+			var self = this
+
+			var o = S.clone(self.get('o')) 
+			var data = String($data)
+			var domParser = new DOMParser();
+			var xmlDoc = domParser.parseFromString(data, 'text/xml');
+
+			var __data = xmlDoc.getElementsByTagName("data")[0]
+			if(__data){
+				o.v = __data.getAttribute('v') && String(__data.getAttribute('v')) ? String(__data.getAttribute('v')) : o.v
+
+				var s = ''
+				if(__data.getElementsByTagName("line")[0]){
+					 s = new XMLSerializer().serializeToString(__data.getElementsByTagName("line")[0])
+				}
+				s = s.replace('<line', "<data")
+				s = s.replace('line>', "data>")
+				o.line = new LineConfigParse().parse(s)
+
+				var s = ''
+				if(__data.getElementsByTagName("layout")[0]){
+					s = new XMLSerializer().serializeToString(__data.getElementsByTagName("layout")[0])
+				}
+				s = s.replace('<layout', "<data")
+				s = s.replace('layout>', "data>")
+				o.layout = new Style1ConfigParse().parse(s)
+
+				var __infos = __data.getElementsByTagName("infos")[0]
+				if(__infos){
+					var __x_axis = __infos.getElementsByTagName("x_axis")[0]
+					if(__x_axis){
+						o.infos.xAxis.mode = __x_axis.getAttribute('mode') || __x_axis.getAttribute('mode') == 0 ? Number(__x_axis.getAttribute('mode')) : o.infos.xAxis.mode
+					}
+				}
+			}else{
+				o.line = new LineConfigParse().parse('')
+				o.layout = new Style1ConfigParse().parse('')
+			}
+			return o
+		}
+	});
+
+	return ConfigParse;
+
+	}, {
+	    requires:['base','node','../../../pub/controls/line/configparse','../../../pub/controls/layouts/style1/configparse']
+	}
+);
+KISSY.add('brix/gallery/charts/js/e/integrate4/main',function(S,Base,Global,SVGElement,DataParse,ConfigParse,Widget){
+	function Main(){
+
+		var self = this
+
+		/*
+			arguments:
+
+			  o:{
+				parent   :''     //SVGElement
+				w        :100    //chart 宽
+				h        :100    //chart 高
+				config   :''     //图表配置
+				data     :''     //图表数据  
+			  }
+
+		 */
+		Main.superclass.constructor.apply(self,arguments);
+
+		self.init()
+	}
+
+	Main.ATTRS = {
+		_main:{
+			value:null
+		},
+		_config:{                //图表配置   经过ConfigParse.parse
+			value:{}
+		},
+		_DataSource:{
+			value:{}             //图表数据源 经过DataParse.parse
+		}
+	}
+
+	S.extend(Main,Base,{
+		init:function(){
+			var self = this
+			
+			self.set('_DataSource', new DataParse().parse(self.get('data'))) 
+			self.set('_config', new ConfigParse().parse(self.get('config'))) 
+			self.set('_config', self._defaultConfig(self.get('_config')))
+
+			self._widget()	
+		},
+
+		_widget:function(){
+			var self = this
+			
+			self.set('_main',new SVGElement('g'))
+			self.get('_main').attr({'class':'main'});
+			self.get('parent').appendChild(self.get('_main').element)
+			self.get('_main').transformXY(Global.N05,Global.N05)
+
+			var o = {}
+			o.parent = self.get('_main')                       //SVGElement
+			o.w = self.get('w')                                //chart 宽
+			o.h = self.get('h')                                //chart 高
+			o.DataSource = self.get('_DataSource')             //图表数据源
+			o.config = self.get('_config')                     //图表配置
+
+			new Widget(o)
+		},
+
+		_defaultConfig:function($config){
+			var config = $config
+			config.line.node = 1
+			config.line.area = 1
+			// config.line.shape = 1
+			config.line.areaMode = 1
+			config.line.areaAlphas = [0.4, 0.4]
+			config.line.isLine = 1
+			config.line.fills = [[ { normal:'#94CC5C', over:'#78A64B' }, { normal:'#458AE6', over:'#135EBF' } ]]
+			config.line.data = {mode:1}
+			return config
+		}
+		
+	});
+
+	return Main;
+
+	}, {
+	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','../../pub/controls/bar/dataparse','./control/configparse','./view/widget']
+	}
+);
+KISSY.add('brix/gallery/charts/js/e/integrate4/view/widget',function(S,Base,Node,Global,SVGElement,Infos,EventType,Core,Layout){
+	var $ = Node.all
+
+	function Widget(){
+		
+		var self = this
+
+		/*
+			arguments:
+
+			  o:{
+				parent    :''     //SVGElement
+				w         :100    //chart 宽
+				h         :100    //chart 高
+				DataSource:{}     //数据源
+				config    :{}     //配置
+			  }
+
+		 */
+		Widget.superclass.constructor.apply(self,arguments);
+
+		self.init()
+	}
+
+	Widget.ATTRS = {
+		w:{
+			value:0
+		},
+		h:{
+			value:0
+		},
+		element:{
+			value:null
+		},
+
+		_DataFrameFormat : {
+			value:{
+				key:{                    //突出显示
+					indexs:'',               //String 索引字符串[1,2,3]
+					data:[]                  //Array  索引集合[[1,2,3]]
+				},
+				vertical:{               //纵轴
+					name:'',                 //名称[维度1]
+					names:[],                //名称集合[维度1---1：,,维度1---3：]
+					org:[],                  //原始二维数据[[配置数据中每个队列第一个集合],[],[]]
+					section:[],              //分段之后数据[200, 400, 600, 800, 1000, 1200, 1400, 1600]
+					data:[]                  //转换坐标后的数据  =>Vertical.data、Back.data_hor
+				},
+				horizontal:{             //横轴
+					name:'',                 //名称[维度2]
+					org:'',                  //原始数据[0.05,0.1,0.15,0.2,...,2.55]
+					data:[]                  //转换坐标后的数据  =>Horizontal.data
+				},
+				graphs:{                 //图形
+					disX:59,                 //每两个点之间的距离
+					data:[]                  //转换坐标后的数据
+				}
+			}
+		},
+
+		_top_h:{
+			value:0
+		},
+		_core_y:{
+			value:0
+		},
+		_core_h:{
+			value:0
+		},
+
+		_core:{
+			value:null                   //直方图核心
+		},
+		_layout:{                        //布局_样式1
+			value:null                   
+		},
+		_infos:{                         //信息
+			value:null
+		},
+
+
+		_del:{
+			value:0                      //当数据量过大时 减去的数据个数
+		},
+		_timeoutId:{
+			value:0                      
+		},
+		_timeoutDelay:{
+			value:1                    
+		},
+		_isRemoveInfo:{
+			value:1
+		}
+	}
+
+	S.extend(Widget,Base,{
+		init:function(){
+			var self = this
+
+			self._widget()
+		},
+
+		_widget:function(){
+			var self = this
+
+		 	self.set('_top_h', 70)
+		 	self.set('_core_y', self.get('_top_h'))
+		 	self.set('_core_h', self.get('h') - self.get('_top_h') - 12 - 6)
+
+			self.set('element', new SVGElement('g')), self.get('element').set('class','widget')
+			self.get('parent').appendChild(self.get('element').element)
+
+			self.set('_core',new Core({parent:self.get('element')}))
+			var  o = {
+				gx     : 0,                                     //全局坐标 应用于graphs鼠标感应计算
+				gy     : self.get('_core_y'),                    
+				w      : self.get('w'),
+				h      : self.get('_core_h'),
+				parent : self.get('element'),
+				DataSource : self.get('DataSource'),            //图表数据源
+				config     : self.get('config').line            //图表配置
+			}
+			self.get('_core').get('element').on(EventType.COMPLETE,function(){self._completeHandler()})
+			self.get('_core').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
+			self.get('_core').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
+			self.get('_core').widget(o)
+			self.get('_core').get('element').transformY(self.get('_core_y'))
+
+			self.set('_layout',new Layout())
+			var  o = {
+				w      : self.get('w'),
+				h      : self.get('h'),  
+				data   : self._getPieInfos(),
+				parent : self.get('element'),
+				config     : self.get('config').layout,         //图表配置
+			}
+			self.get('_layout').init(o)
+			self.get('_layout').get('y_txt').transformXY(6, self.get('_core_y') - 12 - 12)
+			self.get('_layout').get('x_txt').transformXY(Number(self.get('w')) - Number(self.get('_layout').get('x_txt').getWidth()) - 6, Number(self.get('h')) - Number(self.get('_layout').get('x_txt').getHeight()) - 6)
+			self.get('_layout').get('infos').transformXY(Number(self.get('w')) - Number(self.get('_layout').get('infos').getDynamic('w'))- 3 - 6 - 18, 6)
+
+			self.set('_infos',new Infos())
+			self.get('_infos').init({parent:self.get('element')})
+			self.get('_infos').get('element').on(EventType.OVER,function($o){self._overInfoHandler($o)})
+			self.get('_infos').get('element').on(EventType.OUT,function($o){self._outInfoHandler($o)})
+		},
+
+		_getPieInfos:function(){
+			var self = this
+			var data = self.get('_DataFrameFormat')
+			var config = self.get('config').line
+			var arr = []
+
+			var $arr = data.vertical.org
+			for (var a = 0, al = $arr.length; a < al; a++ ) {
+				var o = $arr[a]
+				var tmp = { }
+				tmp.pie = { data:[], fills:[] }
+				tmp.info = []
+				var infoObj = { content:o.name, bold:1, fill:'#333333', family:'微软雅黑', ver_align:1, size:12 }
+				var infoIndex = 0
+				// tmp.info[infoIndex] = []
+				// tmp.info[infoIndex].push(infoObj)
+				
+				var totals = []
+				for (var b = 0, bl = o.data.length; b < bl; b++ ) {
+					tmp.pie.data.push(o.data[b].total)
+					tmp.pie.fills.push(config.fills[a][b].normal)
+
+					infoObj = { content:o.data[b].signName, bold:0, fill:config.fills[a][b].over, family:'微软雅黑', size:12, sign: { has:1, trim:1, fill:config.fills[a][b].normal }}
+					!tmp.info[infoIndex] ? tmp.info[infoIndex] = [] : ''
+					tmp.info[infoIndex].push(infoObj)
+					
+					totals.push(o.data[b].total)
+					infoIndex++
+				}
+				
+				var scales = Global.getArrScales(totals)
+				infoIndex = 0
+				for (var c = 0, cl = o.data.length; c < cl; c++ ) {
+					tmp.info[infoIndex][0].content = tmp.info[infoIndex][0].content + scales[c] + '%'
+					infoIndex++
+				}
+				
+				arr.push(tmp)
+			}
+			
+			return arr
+		},
+
+		_completeHandler:function(){
+			var self = this
+			self.set('_DataFrameFormat', self.get('_core').getAttr('DataFrameFormat'))
+			self.set('_del', self.get('_core').getAttr('del'))
+		},
+		_overHandler:function($o){
+			// return
+			clearTimeout(this.get('_timeoutId'));
+			var index = $o.index
+			var id = $o.id
+			id = 0
+
+			var x = $o.x
+			var y = $o.y
+			var dx = $o.dx
+			var dy = $o.dy
+			var base_fill = $o.fill_over
+
+			var data = []
+			data[0] = []
+			var o = { }
+			o.content = this.get('_DataFrameFormat').vertical.org[id].name, o.bold = 1, o.fill = '#333333', o.size = 14, o.family = '微软雅黑', o.ver_align = 1
+			data[0].push(o)
+			// o = { }
+			// o.content = this.get('_DataFrameFormat').vertical.name + Global.numAddSymbol(this.get('_DataFrameFormat').vertical.max[id][index]), o.bold = 0, o.fill = '#666666', o.family = '微软雅黑', o.ver_align = 1
+			// data[1] = []
+			// data[1].push(o)
+			var dataID = 1
+			var values = 0
+			for (var a = 0, al = this.get('_DataFrameFormat').vertical.org[id].data.length; a < al; a++ ) {
+				o = { }
+				var fills = this.get('config').line.fills
+				var fill_normal = fills[id][a] && fills[id][a].normal ? fills[id][a].normal : '#000000'
+				var fill_over = fills[id][a] && fills[id][a].over ? fills[id][a].over : '#000000'
+ 				o.content = this.get('_DataFrameFormat').vertical.org[id].data[a].name + Global.numAddSymbol(this.get('_DataFrameFormat').vertical.org[id].data[a].data[$o.id]), o.bold = 0, o.fill = fill_over, o.family = '微软雅黑', o.hor_align = 2, o.sign = {has:1,trim:1,fill:fill_normal }
+				data[dataID] = []
+				data[dataID].push(o)
+				dataID++
+
+				values = Global.CountAccuracy.add(values, Number(this.get('_DataFrameFormat').vertical.org[id].data[a].data[$o.id]))
+			}
+			data[0][0].content += Global.numAddSymbol(values)
+
+			var o = {
+				w    : this.get('w'),
+				h    : this.get('h'),
+				parent : this.get('element'),
+
+				info:{
+					x    : x,
+					y    : y,
+					data : data,
+					base_fill:'#666666'
+				},
+				light:{
+					is   : 1,
+					x    : x,
+					y    : y,
+					fill : base_fill
+				},
+				hLine:{
+					is   : 0,
+					x    : x,
+					y    : dy,
+				}
+			}
+			var pre = this.get('_DataFrameFormat').horizontal.names[$o.id] ? this.get('_DataFrameFormat').horizontal.names[$o.id] : ''
+			var next =  this.get('_DataFrameFormat').horizontal.names[$o.id + 1] ? this.get('_DataFrameFormat').horizontal.names[$o.id + 1] : this.get('_DataFrameFormat').horizontal.names[0]
+			var content = this.get('_DataFrameFormat').horizontal.name + pre + ' - ' + next
+			if (this.get('config').infos.xAxis.mode == 1) {
+				content = this.get('_DataFrameFormat').horizontal.name + pre
+			}
+
+			o.hInfo = {
+				is   : 1,
+				x    : x,
+				y    : dy,
+				y1   : 6,
+				content : content
+			}
+			o.other = {
+				is   : 1,
+				os   : $o.other
+			}
+			this.get('_infos').update(o)
+		},
+		_outHandler:function($o){
+			var self = this
+			this.set('_timeoutId', setTimeout(function(){self._outTimeout()}, self.get('_timeoutDelay')))
+		},
+		_outTimeout:function(){
+			if(this.get('_isRemoveInfo')){
+				this.get('_infos').remove()
+			}
+		},
+		_overInfoHandler:function($o){
+			var self = this
+			self.set('_isRemoveInfo', 0)
+		},
+		_outInfoHandler:function($o){
+			var self = this
+			self.set('_isRemoveInfo', 1)
+			self._outHandler()
+		}
+	});
+
+	return Widget;
+
+	}, {
+	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/line/core',,'../../../pub/views/layouts/style1/main'
+	    ]
+	}
+);
+KISSY.add('brix/gallery/charts/js/e/integrate5/control/configparse',function(S,Base,Node,LineConfigParse,Style1ConfigParse){
+	var $ = Node.all
+
+	function ConfigParse(){
+		
+		var self = this
+
+		ConfigParse.superclass.constructor.apply(self,arguments);
+	}
+
+	ConfigParse.ATTRS = {
+		o:{
+			value:{
+				v:'1.0',
+
+				line:{},
+
+				layout:{},
+
+				infos:{
+			        xAxis:{
+					    mode:0               //模式[0 = 显示两个点(1:00-2:00) | 1 = 显示一个点(2013-03-08)]
+						  }
+			          }
+			      }
+		}
+	}
+
+	S.extend(ConfigParse,Base,{
+		parse:function($data,$type){
+			var self = this
+
+			var o = S.clone(self.o) 
+			var type = $type ? $type : 'xml'
+			if(type == 'xml'){
+				o = self._xml($data)
+			}
+			return o
+		},
+		_xml:function($data){
+			var self = this
+
+			var o = S.clone(self.get('o')) 
+			var data = String($data)
+			var domParser = new DOMParser();
+			var xmlDoc = domParser.parseFromString(data, 'text/xml');
+
+			var __data = xmlDoc.getElementsByTagName("data")[0]
+			if(__data){
+				o.v = __data.getAttribute('v') && String(__data.getAttribute('v')) ? String(__data.getAttribute('v')) : o.v
+
+				var s = ''
+				if(__data.getElementsByTagName("line")[0]){
+					 s = new XMLSerializer().serializeToString(__data.getElementsByTagName("line")[0])
+				}
+				s = s.replace('<line', "<data")
+				s = s.replace('line>', "data>")
+				o.line = new LineConfigParse().parse(s)
+
+				var s = ''
+				if(__data.getElementsByTagName("layout")[0]){
+					s = new XMLSerializer().serializeToString(__data.getElementsByTagName("layout")[0])
+				}
+				s = s.replace('<layout', "<data")
+				s = s.replace('layout>', "data>")
+				o.layout = new Style1ConfigParse().parse(s)
+
+				var __infos = __data.getElementsByTagName("infos")[0]
+				if(__infos){
+					var __x_axis = __infos.getElementsByTagName("x_axis")[0]
+					if(__x_axis){
+						o.infos.xAxis.mode = __x_axis.getAttribute('mode') || __x_axis.getAttribute('mode') == 0 ? Number(__x_axis.getAttribute('mode')) : o.infos.xAxis.mode
+					}
+				}
+			}else{
+				o.line = new LineConfigParse().parse('')
+				o.layout = new Style1ConfigParse().parse('')
+			}
+			return o
+		}
+	});
+
+	return ConfigParse;
+
+	}, {
+	    requires:['base','node','../../../pub/controls/line/configparse','../../../pub/controls/layouts/style1/configparse']
+	}
+);
+KISSY.add('brix/gallery/charts/js/e/integrate5/main',function(S,Base,Global,SVGElement,DataParse,ConfigParse,Widget){
+	function Main(){
+
+		var self = this
+
+		/*
+			arguments:
+
+			  o:{
+				parent   :''     //SVGElement
+				w        :100    //chart 宽
+				h        :100    //chart 高
+				config   :''     //图表配置
+				data     :''     //图表数据  
+			  }
+
+		 */
+		Main.superclass.constructor.apply(self,arguments);
+
+		self.init()
+	}
+
+	Main.ATTRS = {
+		_main:{
+			value:null
+		},
+		_config:{                //图表配置   经过ConfigParse.parse
+			value:{}
+		},
+		_DataSource:{
+			value:{}             //图表数据源 经过DataParse.parse
+		}
+	}
+
+	S.extend(Main,Base,{
+		init:function(){
+			var self = this
+			
+			self.set('_DataSource', new DataParse().parse(self.get('data'))) 
+			self.set('_config', new ConfigParse().parse(self.get('config'))) 
+			self.set('_config', self._defaultConfig(self.get('_config')))
+
+			self._widget()	
+		},
+
+		_widget:function(){
+			var self = this
+			
+			self.set('_main',new SVGElement('g'))
+			self.get('_main').attr({'class':'main'});
+			self.get('parent').appendChild(self.get('_main').element)
+			self.get('_main').transformXY(Global.N05,Global.N05)
+
+			var o = {}
+			o.parent = self.get('_main')                       //SVGElement
+			o.w = self.get('w')                                //chart 宽
+			o.h = self.get('h')                                //chart 高
+			o.DataSource = self.get('_DataSource')             //图表数据源
+			o.config = self.get('_config')                     //图表配置
+
+			new Widget(o)
+		},
+
+		_defaultConfig:function($config){
+			var config = $config
+			config.line.node = 1
+			config.line.area = 1
+			// config.line.shape = 1
+			// config.line.areaMode = 1
+			config.line.areaAlphas = [0.4, 0.4]
+			config.line.isLine = 1
+			config.line.fills = [[ { normal:'#458AE6', over:'#135EBF' }, { normal:'#999999', over:'#666666' } ]]
+			return config
+		}
+		
+	});
+
+	return Main;
+
+	}, {
+	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','../../pub/controls/bar/dataparse','./control/configparse','./view/widget']
+	}
+);
+KISSY.add('brix/gallery/charts/js/e/integrate5/view/widget',function(S,Base,Node,Global,SVGElement,Infos,EventType,Core,Layout){
+	var $ = Node.all
+
+	function Widget(){
+		
+		var self = this
+
+		/*
+			arguments:
+
+			  o:{
+				parent    :''     //SVGElement
+				w         :100    //chart 宽
+				h         :100    //chart 高
+				DataSource:{}     //数据源
+				config    :{}     //配置
+			  }
+
+		 */
+		Widget.superclass.constructor.apply(self,arguments);
+
+		self.init()
+	}
+
+	Widget.ATTRS = {
+		w:{
+			value:0
+		},
+		h:{
+			value:0
+		},
+		element:{
+			value:null
+		},
+
+		_DataFrameFormat : {
+			value:{
+				key:{                    //突出显示
+					indexs:'',               //String 索引字符串[1,2,3]
+					data:[]                  //Array  索引集合[[1,2,3]]
+				},
+				vertical:{               //纵轴
+					name:'',                 //名称[维度1]
+					names:[],                //名称集合[维度1---1：,,维度1---3：]
+					org:[],                  //原始二维数据[[配置数据中每个队列第一个集合],[],[]]
+					section:[],              //分段之后数据[200, 400, 600, 800, 1000, 1200, 1400, 1600]
+					data:[]                  //转换坐标后的数据  =>Vertical.data、Back.data_hor
+				},
+				horizontal:{             //横轴
+					name:'',                 //名称[维度2]
+					org:'',                  //原始数据[0.05,0.1,0.15,0.2,...,2.55]
+					data:[]                  //转换坐标后的数据  =>Horizontal.data
+				},
+				graphs:{                 //图形
+					disX:59,                 //每两个点之间的距离
+					data:[]                  //转换坐标后的数据
+				}
+			}
+		},
+
+		_top_h:{
+			value:0
+		},
+		_core_y:{
+			value:0
+		},
+		_core_h:{
+			value:0
+		},
+
+		_core:{
+			value:null                   //直方图核心
+		},
+		_layout:{                        //布局_样式1
+			value:null                   
+		},
+		_infos:{                         //信息
+			value:null
+		},
+
+
+		_del:{
+			value:0                      //当数据量过大时 减去的数据个数
+		},
+		_timeoutId:{
+			value:0                      
+		},
+		_timeoutDelay:{
+			value:1                    
+		},
+		_isRemoveInfo:{
+			value:1
+		}
+	}
+
+	S.extend(Widget,Base,{
+		init:function(){
+			var self = this
+
+			self._widget()
+		},
+
+		_widget:function(){
+			var self = this
+
+		 	self.set('_top_h', 70)
+		 	self.set('_core_y', self.get('_top_h'))
+		 	self.set('_core_h', self.get('h') - self.get('_top_h') - 12 - 6)
+
+			self.set('element', new SVGElement('g')), self.get('element').set('class','widget')
+			self.get('parent').appendChild(self.get('element').element)
+
+			self.set('_core',new Core({parent:self.get('element')}))
+			var  o = {
+				gx     : 0,                                     //全局坐标 应用于graphs鼠标感应计算
+				gy     : self.get('_core_y'),                    
+				w      : self.get('w'),
+				h      : self.get('_core_h'),
+				parent : self.get('element'),
+				DataSource : self.get('DataSource'),            //图表数据源
+				config     : self.get('config').line            //图表配置
+			}
+			self.get('_core').get('element').on(EventType.COMPLETE,function(){self._completeHandler()})
+			self.get('_core').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
+			self.get('_core').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
+			self.get('_core').widget(o)
+			self.get('_core').get('element').transformY(self.get('_core_y'))
+
+			self.set('_layout',new Layout())
+			var  o = {
+				w      : self.get('w'),
+				h      : self.get('h'),  
+				// data   : self._getPieInfos(),
+				parent : self.get('element'),
+				config     : self.get('config').layout,         //图表配置
+			}
+			self.get('_layout').init(o)
+			self.get('_layout').get('y_txt').transformXY(6, self.get('_core_y') - 12 - 12)
+			self.get('_layout').get('x_txt').transformXY(Number(self.get('w')) - Number(self.get('_layout').get('x_txt').getWidth()) - 6, Number(self.get('h')) - Number(self.get('_layout').get('x_txt').getHeight()) - 6)
+			// self.get('_layout').get('infos').transformXY(Number(self.get('w')) - Number(self.get('_layout').get('infos').getDynamic('w'))- 3 - 6 - 18, 6)
+
+			self.set('_infos',new Infos())
+			self.get('_infos').init({parent:self.get('element')})
+			self.get('_infos').get('element').on(EventType.OVER,function($o){self._overInfoHandler($o)})
+			self.get('_infos').get('element').on(EventType.OUT,function($o){self._outInfoHandler($o)})
+		},
+
+		_completeHandler:function(){
+			var self = this
+			self.set('_DataFrameFormat', self.get('_core').getAttr('DataFrameFormat'))
+			self.set('_del', self.get('_core').getAttr('del'))
+		},
+		_overHandler:function($o){
+			// return
+			clearTimeout(this.get('_timeoutId'));
+			var index = $o.index
+			var id = $o.id
+			id = 0
+
+			var x = $o.x
+			var y = $o.y
+			var dx = $o.dx
+			var dy = $o.dy
+			var base_fill = $o.fill_over
+
+			var data = []
+			data[0] = []
+			var o = { }
+			o.content = this.get('_DataFrameFormat').vertical.org[id].name, o.bold = 1, o.fill = '#333333', o.size = 14, o.family = '微软雅黑', o.ver_align = 1
+			data[0].push(o)
+			// o = { }
+			// o.content = this.get('_DataFrameFormat').vertical.name + Global.numAddSymbol(this.get('_DataFrameFormat').vertical.max[id][index]), o.bold = 0, o.fill = '#666666', o.family = '微软雅黑', o.ver_align = 1
+			// data[1] = []
+			// data[1].push(o)
+			var dataID = 1
+			var values = 0
+			for (var a = 0, al = this.get('_DataFrameFormat').vertical.org[id].data.length; a < al; a++ ) {
+				o = { }
+				var fills = this.get('config').line.fills
+				var fill_normal = fills[id][a] && fills[id][a].normal ? fills[id][a].normal : '#000000'
+				var fill_over = fills[id][a] && fills[id][a].over ? fills[id][a].over : '#000000'
+ 				o.content = this.get('_DataFrameFormat').vertical.org[id].data[a].name + Global.numAddSymbol(this.get('_DataFrameFormat').vertical.org[id].data[a].data[$o.id]), o.bold = 0, o.fill = fill_over, o.family = '微软雅黑', o.hor_align = 2, o.sign = {has:1,trim:1,fill:fill_normal }
+				data[dataID] = []
+				data[dataID].push(o)
+				dataID++
+
+				// values = Global.CountAccuracy.add(values, Number(this.get('_DataFrameFormat').vertical.org[id].data[a].data[$o.id]))
+			}
+			// data[0][0].content += Global.numAddSymbol(values)
+
+			var o = {
+				w    : this.get('w'),
+				h    : this.get('h'),
+				parent : this.get('element'),
+
+				info:{
+					x    : x,
+					y    : y,
+					data : data,
+					base_fill:'#666666'
+				},
+				light:{
+					is   : 1,
+					x    : x,
+					y    : y,
+					fill : base_fill
+				},
+				hLine:{
+					is   : 0,
+					x    : x,
+					y    : dy,
+				}
+			}
+			var pre = this.get('_DataFrameFormat').horizontal.names[$o.id] ? this.get('_DataFrameFormat').horizontal.names[$o.id] : ''
+			var next =  this.get('_DataFrameFormat').horizontal.names[$o.id + 1] ? this.get('_DataFrameFormat').horizontal.names[$o.id + 1] : this.get('_DataFrameFormat').horizontal.names[0]
+			var content = this.get('_DataFrameFormat').horizontal.name + pre + ' - ' + next
+			if (this.get('config').infos.xAxis.mode == 1) {
+				content = this.get('_DataFrameFormat').horizontal.name + pre
+			}
+
+			o.hInfo = {
+				is   : 1,
+				x    : x,
+				y    : dy,
+				y1   : 6,
+				content : content
+			}
+			o.other = {
+				is   : 1,
+				os   : $o.other
+			}
+			this.get('_infos').update(o)
+		},
+		_outHandler:function($o){
+			var self = this
+			this.set('_timeoutId', setTimeout(function(){self._outTimeout()}, self.get('_timeoutDelay')))
+		},
+		_outTimeout:function(){
+			if(this.get('_isRemoveInfo')){
+				this.get('_infos').remove()
+			}
+		},
+		_overInfoHandler:function($o){
+			var self = this
+			self.set('_isRemoveInfo', 0)
+		},
+		_outInfoHandler:function($o){
+			var self = this
+			self.set('_isRemoveInfo', 1)
+			self._outHandler()
+		}
+	});
+
+	return Widget;
+
+	}, {
+	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/line/core',,'../../../pub/views/layouts/style1/main'
+	    ]
+	}
+);
 KISSY.add('brix/gallery/charts/js/e/line/main',function(S,Base,Global,SVGElement,Widget,DataParse,ConfigParse){
 	function Main(){
 
@@ -1665,7 +3478,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			value:6                      //纵向最高的线与最高高度最小相差的像素 而横向最右边的小线与最宽宽度也是最小相差该像素
 		},          
 		_dis_graphs:{
-			value:0                      //在图形中 由于考虑到圆本身的半径  实际图形中的左、下都必须预留的像素差   右、上预留的像素差的最小值也是此值
+			value:0                      //在图形中 由于考虑到圆本身的半径实际图形中的左、下都必须预留的像素差右、上预留的像素差的最小值也是此值
 		},
 
 		_verticalMaxH:{
@@ -2348,6 +4161,7 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 			var dis = disMin
 			dis = disMin + self.get('_horizontalMaxW') % self.get('_DataFrameFormat').horizontal.org.length 
 			dis = dis > disMax ? disMax : dis
+			dis = isNaN(dis) ? 0 : dis
 			return dis
 		},
 		//换算图形
@@ -2360,7 +4174,9 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 			for (var a = 0, al = arr.length; a < al; a++ ) {
 				for (var b = 0, bl = arr[a].length ; b < bl; b++ ) {
 					!tmpData[a] ? tmpData[a] = [] : ''
-					tmpData[a][b] = {'value':arr[a][b], 'x':self.get('_dis_graphs') + b / (maxHorizontal - 1) * self.get('_horizontalDrawW'),'y':-self.get('_dis_graphs') - arr[a][b] / maxVertical * self.get('_verticalDrawH')} 
+					var y = -self.get('_dis_graphs') - arr[a][b] / maxVertical * self.get('_verticalDrawH')
+					y = isNaN(y) ? 0 : y
+					tmpData[a][b] = {'value':arr[a][b], 'x':self.get('_dis_graphs') + b / (maxHorizontal - 1) * self.get('_horizontalDrawW'),'y':y} 
 				}
 			}
 			self.get('_DataFrameFormat').graphs.data = tmpData
@@ -2782,7 +4598,11 @@ KISSY.add('brix/gallery/charts/js/e/line3/view/widget',function(S,Base,Node,Glob
 				opacity : Global.N00001
 			}
 			self.get('_globalInduce').init(o)
-			
+
+			if(!self.get('_DataFrameFormat').vertical.org[0][0] && !self.get('_DataFrameFormat').vertical.org[0][0]){
+				return
+			}
+
 			var o = {
 				x     : self.get('_disX') + self.get('_vertical').get('w') + Global.N05,
 				y     : self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05,
@@ -2851,7 +4671,8 @@ KISSY.add('brix/gallery/charts/js/e/line3/view/widget',function(S,Base,Node,Glob
 				tmpData.push( { 'value':arr[a], 'x': x} )
 			}
 			if(self.get('_hasRight') && self.get('_DataFrameFormat').vertical.org[1].length == 1){
-				tmpData.push( { 'value':arr[0], 'x': self.get('_horizontalDrawW')} )
+				var value = arr[0] ? arr[0] : ''
+				tmpData.push( { 'value':value, 'x': self.get('_horizontalDrawW')} )
 			}
 			self.get('_DataFrameFormat').horizontal.data = tmpData
 		},
@@ -4156,6 +5977,10 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 			value:{
 				histogram : 'histogram',
 				integrate : 'integrate',
+				integrate2: 'integrate2',
+				integrate3: 'integrate3',
+				integrate4: 'integrate4',
+				integrate5: 'integrate5',
 				line      : 'line',
 				line2     : 'line2',
 				line3     : 'line3',
@@ -4186,10 +6011,11 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 
 		_widget:function(){
 			var self = this
-
 			self.set('_svg',new SVGElement('svg'))
 			self.get('_svg').attr({'version':'1.1','width':self.get('w'),'height':self.get('h'),'xmlns':'http://www.w3.org/2000/svg', 'xmlns:xlink':'http://www.w3.org/1999/xlink'});
-			$('#' + self.get('parent_id')).append(self.get('_svg').element)
+			//'zoomAndpan':"disable"    //禁止鼠标右键面板
+  			$('#' + self.get('parent_id')).append(self.get('_svg').element)
+  			self.get('_svg').set('style','cursor:default'), self.get('_svg').mouseEvent(false)
 
 			//展现
 			S.use(self.get('path_chart'),function(S,Main){
@@ -4216,6 +6042,174 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 
 	}, {
 	    requires:['base','node','../../pub/utils/svgelement']
+	}
+);
+KISSY.add('brix/gallery/charts/js/pub/controls/bar/configparse',function(S,Base,Node){
+	var $ = Node.all
+
+	function ConfigParse(){
+		
+		var self = this
+
+		ConfigParse.superclass.constructor.apply(self,arguments);
+	}
+
+	ConfigParse.ATTRS = {
+		o:{
+			value:{
+				v:'1.0',
+
+				fills:[[ { normal:'#94CC5C', over:'#78A64B' }, { normal:'#458AE6', over:'#135EBF' } ], [ { normal:'#CCCCCC', over:'#999999' }, { normal:'#999999', over:'#666666' } ]]
+			}
+		}
+	}
+
+	S.extend(ConfigParse,Base,{
+		parse:function($data,$type){
+			var self = this
+
+			var o = S.clone(self.o) 
+			var type = $type ? $type : 'xml'
+			if(type == 'xml'){
+				o = self._xml($data)
+			}
+			return o
+		},
+		_xml:function($data){
+			var self = this
+
+			var o = S.clone(self.get('o')) 
+			var data = String($data)
+			var domParser = new DOMParser();
+			var xmlDoc = domParser.parseFromString(data, 'text/xml');
+
+			var __data = xmlDoc.getElementsByTagName("data")[0]
+			if(!__data){
+				return o
+			}
+				
+			o.v = __data.getAttribute('v') && String(__data.getAttribute('v')) ? String(__data.getAttribute('v')) : o.v
+			
+			return o
+		}
+	});
+
+	return ConfigParse;
+
+	}, {
+	    requires:['base','node']
+	}
+);
+KISSY.add('brix/gallery/charts/js/pub/controls/bar/dataparse',function(S,Base,Node,Global){
+	var $ = Node.all
+
+	function DataParse(){
+		
+		var self = this
+
+		DataParse.superclass.constructor.apply(self,arguments);
+	}
+
+	DataParse.ATTRS = {
+		o:{
+			value:{
+				key:{                    //突出显示
+					indexs:'',               //String 索引字符串[1,2,3]                             ->DataFrameFormat.key.indexs
+					data:[]                  //Array indexs split之后的数组
+				},
+				vertical:{               //纵轴
+					name:'',                 //名称[维度1]                                          ->DataFrameFormat.vertical.name
+					data:[]                  //原始二维数据[[配置数据中每个队列第一个集合],[],[]]   ->DataFrameFormat.vertical.org
+				},
+				horizontal:{             //横轴
+					name:'',                 //名称[维度2]                                          ->DataFrameFormat.horizontal.name
+					names:[],                //名称集合(1:00,2:00,...,24:00)                        ->DataFrameFormat.horizontal.names
+					start:{                  //原点
+						name:'0'                 //名称[原点]                                       ->DataFrameFormat.horizontal.start.name
+					},
+					data:[]                  //原始数据[0.05,0.1,0.15,0.2,...,2.55]                 ->DataFrameFormat.horizontal.org
+				}
+			}
+		}
+	}
+
+	S.extend(DataParse,Base,{
+		parse:function($data,$type){
+			var o
+			var type = $type ? $type : 'xml'
+			if(type == 'xml'){
+				o = this._xml($data)
+			}
+			return o
+		},
+
+		_xml:function($data){
+			var self = this
+			var o = S.clone(self.get('o')) 
+			var data = String($data)
+
+			var domParser = new  DOMParser();
+			var xmlDoc = domParser.parseFromString(data, 'text/xml');
+			var __indexAxis = xmlDoc.getElementsByTagName("indexAxis")[0]
+			var __key = __indexAxis.getElementsByTagName('key')[0]
+			var __start = __indexAxis.getElementsByTagName('start')[0]
+			var __sets = xmlDoc.getElementsByTagName("sets")[0]
+
+			//防止没有key节点
+			o.key.indexs = __key && String(__key.getAttribute('indexs')) ? String(__key.getAttribute('indexs')) : o.key.indexs
+
+			//__sets.getAttribute('name') 当没有name属性时 防止null
+			o.vertical.name = __sets.getAttribute('name') && String(__sets.getAttribute('name')) ? String(__sets.getAttribute('name')) : o.vertical.name
+			o.vertical.data = self._getItems(__sets.childNodes)
+
+			o.horizontal.name = __indexAxis.getAttribute('name') && String(__indexAxis.getAttribute('name')) ? String(__indexAxis.getAttribute('name')) : o.horizontal.name
+			o.horizontal.names = __indexAxis.getAttribute('names') && String(__indexAxis.getAttribute('names')) ? String(__indexAxis.getAttribute('names')).split(',') : o.horizontal.names
+			o.horizontal.data = __indexAxis.getAttribute('labels') ? String(__indexAxis.getAttribute('labels')).split(',') : o.horizontal.data
+			o.horizontal.start.name = __start && String(__start.getAttribute('name')) ? String(__start.getAttribute('name')) : o.horizontal.start.name
+			return o
+		},
+
+		/*
+		_getItems:function($list){
+			var items = []
+			var item;
+
+			for (var a = 0, al = $list.length; a < al; a++) {
+				item = $list[a]
+				if(String(item.getAttribute('values'))){
+					items.push(String(item.getAttribute('values')).split(','))
+				}
+			}
+			return items
+		}
+		*/
+		_getItems:function($list){
+			var items = []
+			
+			for (var a = 0, al = $list.length; a < al; a++) {
+				var item = $list[a]
+				var o = { }
+				o.name = item.getAttribute('name')
+				o.data = []
+				for (var b = 0, bl = $list[a].childNodes.length; b < bl; b++) {
+					var item1 = $list[a].childNodes[b]
+					var o1 = { }
+					o1.name = item1.getAttribute('name')
+					o1.signName = item1.getAttribute('name_sign')
+					o1.data = item1.getAttribute('values') ? String(item1.getAttribute('values')).split(',') : []
+					o1.total = Global.getArrMergerNumber(o1.data)
+					o.data.push(o1)
+				}
+				items.push(o)
+			}
+			return items
+		}
+	});
+
+	return DataParse;
+
+	}, {
+	    requires:['base','node','../../utils/global']
 	}
 );
 KISSY.add('brix/gallery/charts/js/pub/controls/histogram/configparse',function(S,Base,Node){
@@ -4356,6 +6350,69 @@ KISSY.add('brix/gallery/charts/js/pub/controls/histogram/dataparse',function(S,B
 	    requires:['base','node']
 	}
 );
+KISSY.add('brix/gallery/charts/js/pub/controls/layouts/style1/configparse',function(S,Base,Node){
+	var $ = Node.all
+
+	function ConfigParse(){
+		
+		var self = this
+
+		ConfigParse.superclass.constructor.apply(self,arguments);
+	}
+
+	ConfigParse.ATTRS = {
+		o:{
+			value:{
+				xAxis: {
+						name:'单位(整点)'
+					   },
+				yAxis: {
+						name:''
+					   }
+			}
+		}
+	}
+
+	S.extend(ConfigParse,Base,{
+		parse:function($data,$type){
+			var self = this
+
+			var o = S.clone(self.o) 
+			var type = $type ? $type : 'xml'
+			if(type == 'xml'){
+				o = self._xml($data)
+			}
+			return o
+		},
+		_xml:function($data){
+			var self = this
+			var o = S.clone(self.get('o')) 
+			var data = String($data)
+			var domParser = new DOMParser();
+			var xmlDoc = domParser.parseFromString(data, 'text/xml');
+			var __data = xmlDoc.getElementsByTagName("data")[0]
+			if(__data){
+				var __x_axis = xmlDoc.getElementsByTagName("x_axis")[0]
+				if(__x_axis){
+					o.xAxis.name = __x_axis.getAttribute('name') && String(__x_axis.getAttribute('name')) ? String(__x_axis.getAttribute('name')) : o.xAxis.name
+					o.xAxis.name = __x_axis.getAttribute('name') == '' ? '' : o.xAxis.name
+				}
+				var __y_axis = xmlDoc.getElementsByTagName("y_axis")[0]
+				if(__y_axis){
+					o.yAxis.name = __y_axis.getAttribute('name') && String(__y_axis.getAttribute('name')) ? String(__y_axis.getAttribute('name')) : o.yAxis.name
+					o.yAxis.name = __y_axis.getAttribute('name') == '' ? '' : o.yAxis.name
+				}
+			}
+			return o
+		}
+	});
+
+	return ConfigParse;
+
+	}, {
+	    requires:['base','node']
+	}
+);
 KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base,Node){
 	var $ = Node.all
 
@@ -4374,18 +6431,25 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 				node:0,
 				shape:0,
 				area:0,
+				areaMode:0,             //区域闭合模式(0 = 自动闭合 | 1 = 不自动闭合 根据前一条线闭合)
+				areaAlphas:[0.05, 0.25],//区域填充部分的透明度
+				isLine:0,               //当鼠标划入时 是否有线
 
+				data:{
+				   mode:0               //数据模式(0 = 普通 | 1 = 叠加)
+				},
+				
 				fills:{
-					normals:['0x458AE6', '0x39BCC0', '0x5BCB8A', '0x94CC5C', '0xC3CC5C', '0xE6B522', '0xE68422'],
-					overs  :['0x135EBF', '0x2E9599', '0x36B26A', '0x78A64B', '0x9CA632', '0xBF9E39', '0xBF7C39']
+					normals:['#458AE6', '#39BCC0', '#5BCB8A', '#94CC5C', '#C3CC5C', '#E6B522', '#E68422'],
+					overs  :['#135EBF', '#2E9599', '#36B26A', '#78A64B', '#9CA632', '#BF9E39', '#BF7C39']
 				},
 
 				circle:{
-					mode  :0,            //模式[(仅当node=1) 空或0=显示所有节点 | 1=在数据变化时 显示变化的节点] 
+					mode  :0,           //模式[(仅当node=1) 空或0=显示所有节点 | 1=在数据变化时 显示变化的节点] 
 					normal:{
-						radius:3,        //半径
-						thickness:2,     //轮廓粗线
-						fill:'0xFFFFFF'  //填充色
+						radius:3,       //半径
+						thickness:2,    //轮廓粗线
+						fill:'#FFFFFF'  //填充色
 					},
 					over  :{
 						min_radius:4,
@@ -4417,6 +6481,9 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 			var xmlDoc = domParser.parseFromString(data, 'text/xml');
 			
 			var __data = xmlDoc.getElementsByTagName("data")[0]
+			if(!__data){
+				return o 
+			}
 			o.v = __data.getAttribute('v') && String(__data.getAttribute('v')) ? String(__data.getAttribute('v')) : o.v
 
 			o.node = __data.getAttribute('node') && String(__data.getAttribute('node')) ? Number(__data.getAttribute('node')) : o.node
@@ -4709,9 +6776,17 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line2/dataparse',function(S,Base,
 
 			o = self._getObject(xmlDoc.getElementsByTagName("data"))
 
-
-			o.info.content.title.name = String(xmlDoc.getElementsByTagName('info')[0].getElementsByTagName('content')[0].getElementsByTagName('title')[0].getAttribute('name'))
-
+			var __info = xmlDoc.getElementsByTagName('info')[0]
+			if(__info){
+				var __content = __info.getElementsByTagName('content')[0]
+				if(__content){
+					var __title = __content.getElementsByTagName('title')[0]
+					if(__title){
+						o.info.content.title.name = __title.getAttribute('name') ? String(__title.getAttribute('name')) : o.info.content.title.name
+						o.info.content.title.fill = __title.getAttribute('color') ? self._trimFill(__title.getAttribute('color')) : o.info.content.title.fill
+					}
+				}
+			}
 			return o
 		},
 
@@ -4734,6 +6809,11 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line2/dataparse',function(S,Base,
 			}
 
 			return o
+		},
+
+		_trimFill:function($s){
+			var s = $s.replace('0x','#')
+			return s
 		}
 	});
 
@@ -4873,7 +6953,6 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line3/dataparse',function(S,Base,
 			var xmlDoc = domParser.parseFromString(data, 'text/xml');
 
 			o = self._getObject(xmlDoc.getElementsByTagName("data"))
-
 			return o
 		},
 
@@ -5581,13 +7660,24 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 			return n
 		},
 
-		//根据$start和$end 从一个数组中合并数据
+		/**
+		 * 根据$start和$end 从一个数组中合并数据
+		 * @param  {[Array]} $arr    [数组]
+		 * @param  {[Number]} $start [开始的索引]
+		 * @param  {[Number]} $end   [结束的索引]
+		 * @return {[Number]}        [之和的数字]
+		 */
 		getArrMergerNumber:function($arr,$start,$end){
 			var n = 0
-			for(var i = 0,l = $arr.length;i<l;i++){
-				if(i >= $start){
-					n = n + $arr[i]
-					if(i == $end){
+			var start = $start ? $start : 0 
+			var end = $end || $end == 0 ? $end : $arr.length - 1
+			if (start > end) {
+				return n
+			}
+			for (var a = 0, al = $arr.length; a < al; a++) {
+				if(a >= start){
+					n = n + Number($arr[a])
+					if(a == end){
 						break;
 					}
 				}
@@ -5631,32 +7721,21 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 			$arr.unshift(tmp)
 		},
 
-		//从一个数组从计算总值
-		getTotalForArray:function($arr){
-			var n = 0
-			for (var a = 0, al = $arr.length; a < al; a++ ) {
-				if ($arr[a]) {
-					n += Number($arr[a])
-				}
-			}
-			return n
-		},
-
 		ceil:function ($n){
 			return Math.ceil($n)
 		},
 
-		//等比例缩放数值 p1=缩放后最大w,h  p2=需要缩放的w,h
-		fit:function(p1,p2){
+		//等比例缩放数值 $p1=缩放后最大w,h  $p2=需要缩放的w,h
+		fit:function($p1,$p2){
 			var p = {}
-			var disW = p1.w / p2.w, disH = p1.h / p2.h
+			var disW = $p1.w / $p2.w, disH = $p1.h / $p2.h
 			
 			if (disW >= disH) {
 				p.scale = disH
-				p.w = p2.w * disH , p.h = p1.h
+				p.w = $p2.w * disH , p.h = $p1.h
 			} else {
 				p.scale = disW
-				p.w = p1.w, p.h = p2.h * disW;
+				p.w = $p1.w, p.h = $p2.h * disW;
 			}
 			return p
 		},
@@ -5664,6 +7743,78 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 		//根据文字的length获取文字的宽
 		getTextWidth:function($length){
 			return 11 + 7 * ($length-1)
+		},
+
+		/**
+		 * 计算数组中的每个值 占该数组总值的比例 并按原始索引返回对应的比例数组  比例总和为100
+		 * @param  {[Array]} $arr    [数组]
+		 * @return {[Array]}         [对应的比例数组]
+		 */
+		getArrScales:function($arr){
+			var arr = []
+			var total = 0
+			var scales = []
+			for (var a = 0 , al = $arr.length; a < al; a++) { 
+				total += $arr[a]
+			}
+
+			for (var b = 0, bl = $arr.length; b < bl; b++) {
+				var scale = Math.floor($arr[b] / total * 100)
+				scales.push(scale)
+				
+				//最后一个
+				if (b == ($arr.length - 1)) {
+					var n = 0
+					for (var d = 0, dl = scales.length - 1; d < dl; d++ ) {
+						n += scales[d]
+					}
+					n = 100 - n
+					scale = n
+				}
+				
+				arr.push(scale)
+			}
+			
+			for (var c = 0, cl = arr.length; c < cl; c++) {
+				arr[c] = isNaN(arr[c]) ? 0 : arr[c]
+			}
+			return arr
+		},
+
+		/**
+		 * Number精度计算
+		 * @param  {[Array]} $arr    [数组]
+		 * @param  {[Number]} $length [删除的长度]
+		 * @return {[Array]}         [删除之后的数组]
+		 */
+		CountAccuracy:{
+			/**
+			 * 加法
+			 * @param  {[Number]} $arg1  [数字1]
+			 * @param  {[Number]} $arg2  [数字2]
+			 * @return {[Number]}        [两个数字之和后的值]
+			 */
+			add:function($arg1,$arg2){
+				var r1, r2, m;  
+				try {  r1 = $arg1.toString().split(".")[1].length;  }  catch (e) {  r1 = 0;  }  
+				try {  r2 = $arg2.toString().split(".")[1].length;  }  catch (e) {  r2 = 0;  }  
+				m = Math.pow(10, Math.max(r1, r2)); 
+				//19.6*100 = ?????
+				return (this.mul($arg1, m) + this.mul($arg2, m)) / m;
+			},
+
+			/**
+			 * 乘法
+			 * @param  {[Number]} $arg1  [数字1]
+			 * @param  {[Number]} $arg2  [数字2]
+			 * @return {[Number]}        [两个数字之乘后的值]
+			 */
+			mul:function($arg1, $arg2) {  
+				var m = 0, s1 = $arg1.toString(), s2 = $arg2.toString();  
+				try {  m += s1.split(".")[1].length;  }  catch (e) {  }  
+				try {  m += s2.split(".")[1].length;  }  catch (e) {  }  
+				return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m)
+			}
 		}
 	};
 
@@ -5809,12 +7960,13 @@ KISSY.add('brix/gallery/charts/js/pub/utils/svgelement',function(S,Base){       
 
 		self.element = null
 
+		self.dynamic = {}
+
 		self.init.apply(self,arguments);
 	}
 
 	S.extend(SVGElement,Base,{
 		init:function(){
-			// console.log(arguments)
 			this.createElement(arguments[0])
 		},
 
@@ -5822,6 +7974,13 @@ KISSY.add('brix/gallery/charts/js/pub/utils/svgelement',function(S,Base){       
 			for(var i in $attrs){
 				this.set(i,$attrs[i])
 			}
+		},
+
+		getDynamic:function($name){
+			return this.dynamic[$name]
+		},
+		setDynamic:function($name,$value){
+			this.dynamic[$name] = $value
 		},
 
 		set:function($name,$value){
@@ -5889,7 +8048,27 @@ KISSY.add('brix/gallery/charts/js/pub/utils/svgelement',function(S,Base){       
 			this.set('_x',$x)
 			this.set('_y',$y)
 			this.set('transform',s)
+		},
+
+		mouseEvent:function($b){
+			var self = this
+			if($b){
+				var value = null
+			}else{
+				var value = cancel
+			}
+			self.element.onclick = value
+			self.element.ondblclick = value
+			self.element.onmousedown = value
+			self.element.onmouseup = value
+			self.element.onmouseover = value
+			self.element.onmousemove = value
+			self.element.onmouseout = value
+			function cancel($e){
+				return false
+			}
 		}
+		
 
 	});
 
@@ -6190,6 +8369,394 @@ KISSY.add('brix/gallery/charts/js/pub/views/globalinduce',function(S,Base,node,S
 	    requires:['base','node','../utils/svgelement','../utils/svgrenderer']
 	}
 );
+KISSY.add('brix/gallery/charts/js/pub/views/histogram/core',function(S,Base,Node,Global,DataSection,SVGElement,Vertical,Horizontal,Back,GlobalInduce,EventType,Graphs){
+	var $ = Node.all
+
+	function Core(){
+		
+		var self = this
+
+		/*
+			arguments:
+
+			  o:{
+				parent    :''     //SVGElement
+				w         :100    //宽
+				h         :100    //高
+				DataSource:{}     //数据源
+				config    :{}     //配置
+			  }
+
+		 */
+		Core.superclass.constructor.apply(self,arguments);
+
+		self.init()
+	}
+
+	Core.ATTRS = {
+		w:{
+			value:0
+		},
+		h:{
+			value:0
+		},
+		element:{
+			value:null
+		},
+
+		_DataFrameFormat : {
+			value:{
+				key:{                    //突出显示
+					indexs:'',               //String 索引字符串[1,2,3]
+					data:[]                  //Array  索引集合[[1,2,3]]
+				},
+				vertical:{               //纵轴
+					name:'',                 //名称[维度1]
+					org:[],                  //原始二维数据[[配置数据中每个队列第一个集合],[],[]]
+					max:[],                  //从org中提取的 直方叠加之后的数组 方便操作[[100+10,200+20,300+30],[]]
+					section:[],              //分段之后数据[200, 400, 600, 800, 1000, 1200, 1400, 1600]
+					data:[]                  //转换坐标后的数据  =>Vertical.data、Back.data
+				},
+				horizontal:{             //横轴
+					name:'',                 //名称[维度2]
+					names:[],                //名称集合(1:00,2:00,...,24:00)
+					start:{                  //原点
+						name:'0'                 //名称[原点]
+					},
+					org:'',                  //原始数据[0.05,0.1,0.15,0.2,...,2.55]
+					data:[]                  //转换坐标后的数据  =>Horizontal.data
+				},
+				graphs:{                 //图形
+					groupCount:1,            //每组中几条数据
+					groupW:59,               //一组的宽
+					groups:1,                //有几个组
+					data:[]                  //转换坐标后的数据(不删减 临时处理成Graphs.data)  =>Graphs.data  
+				}
+			}
+		},
+
+		_vertical:{
+			value:null                   //纵向
+		},
+		_horizontal:{
+			value:null                   //横向
+		},		
+		_back:{
+			value:null                   //背景
+		},
+		_graphs:{
+			value:null                   //图形
+		},
+		_globalInduce:{
+			value:null                   //全局感应区
+		},
+		_induces:{
+			value:null                   //感应区
+		},
+
+		_disX:{
+			value:6                      //左、右的距离
+		},
+		_disY:{
+			value:10                     //上、下的距离
+		},
+		_dis_line:{
+			value:6                      //纵向最高的线与最高高度最小相差的像素 而横向最右边的小线与最宽宽度也是最小相差该像素
+		},
+
+		_verticalMaxH:{
+			value:0                      //纵向最大的高
+		},
+		_verticalGraphsH:{
+			value:0                      //最上面的第一条线到原点之间的高度
+		},
+		_horizontalMaxW:{
+			value:0                      //横向最大的宽
+		},
+		_del:{
+			value:0                      //当数据量过大时 减去的数据个数
+		},
+	}
+
+	S.extend(Core,Base,{
+		init:function(){
+			var self = this
+			self.set('element', new SVGElement('g')), self.get('element').set('class','core')
+			self.get('parent').appendChild(self.get('element').element)
+		},
+
+		widget:function(){
+			var self = this
+
+			Graphs.superclass.constructor.apply(self,arguments);
+			
+			self._widget()
+		},
+
+		getAttr:function($name){
+			var self = this
+			return self.get('_' + $name)
+		},
+
+		_widget:function(){
+			var self = this
+			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'),self.get('DataSource'))) 
+			self.get('_DataFrameFormat').key.data = String(self.get('_DataFrameFormat').key.indexs).split(',')
+			self.get('_DataFrameFormat').vertical.max = self._getChildsMaxArr(self.get('_DataFrameFormat').vertical.org)
+			self.get('_DataFrameFormat').vertical.section = DataSection.section(Global.getChildsArr(self.get('_DataFrameFormat').vertical.max))
+			self.get('_DataFrameFormat').graphs.groupCount = self.get('_DataFrameFormat').vertical.max.length
+			self.get('_DataFrameFormat').graphs.groups = Global.getMaxChildArrLength(self.get('_DataFrameFormat').vertical.max)
+
+			self.set('_vertical',new Vertical())
+			self.set('_horizontal',new Horizontal())
+			self.set('_back',new Back())
+			self.set('_graphs',new Graphs())
+			self.set('_globalInduce', new GlobalInduce())
+			self.set('_induces',new Graphs())
+			
+			self._trimVertical()
+			var o = {
+				parent : self.get('element'),
+				data   : self.get('_DataFrameFormat').vertical.data
+			}
+			self.get('_vertical').init(o)
+			self.get('_vertical').get('element').transformXY(self.get('_disX'), self.get('h') - self.get('_horizontal').get('h') - self.get('_disY'))
+
+			self._trimGraphs()
+			var o = {
+				w      : self.get('_horizontalMaxW'),
+				h      : self.get('_verticalMaxH'),
+				parent : self.get('element'),
+				data_hor : self.get('_DataFrameFormat').vertical.data,
+			}
+			self.get('_back').init(o)
+			self.get('_back').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w'), self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY'))
+
+			self.get('_DataFrameFormat').graphs.groupW = self._getGroupWidth()
+
+			var  o = {
+				h      : self.get('_verticalGraphsH'),
+				parent : self.get('element'),
+				data   : Global.delArrUnPop(self.get('_DataFrameFormat').graphs.data, self.get('_del')),
+				groupW : self.get('_DataFrameFormat').graphs.groupW,
+				singleW: 8,
+				disSingleX : 2,
+				groupCount : self.get('_DataFrameFormat').graphs.groupCount
+			}
+			self.get('_graphs').init(o)
+			self.get('_graphs').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w') + Global.N05, self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05)
+
+			self._trimHorizontal()
+			var o = {
+				w      : self.get('_back').get('w'),
+				parent : self.get('element'),
+				data   : self.get('_DataFrameFormat').horizontal.data,
+				dis_left : self.get('_disX') + self.get('_vertical').get('w') - self.get('_disX')
+			}
+			self.get('_horizontal').init(o)
+			self.get('_horizontal').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w'), self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY'))
+
+			var o = {
+				w     : self.get('w'),
+				h     : self.get('h'),
+				parent: self.get('element'),
+				opacity : Global.N00001
+				// opacity : 0.1
+			}
+			self.get('_globalInduce').init(o)
+			// return
+			var o = {
+				w     : self.get('_horizontalMaxW'),
+				h     : self.get('_verticalGraphsH'),
+				parent: self.get('element'),
+				id    : 'induces',
+				data  : Global.delArrUnPop(self.get('_DataFrameFormat').graphs.data, self.get('_del')),
+				isInduce   : 1,
+				singleW: 8,
+				disSingleX : 2,
+				groupW: self.get('_DataFrameFormat').graphs.groupW,
+				groupCount : self.get('_DataFrameFormat').graphs.groupCount
+
+			}
+			self.get('_induces').init(o)
+			self.get('_induces').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
+			self.get('_induces').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
+			self.get('_induces').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w') +Global.N05, self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05)
+
+			self.get('element').fire(EventType.COMPLETE)
+		},
+
+		_getChildsMaxArr:function($arr){
+			var arr = []
+
+			for (var a = 0, al = $arr.length; a < al; a++ ) {
+				var o = $arr[a]
+				
+				var tmp = []
+				for (var b = 0, bl = o.data.length; b < bl; b++ ) {
+					var o1 = o.data[b]
+					for (var c = 0, cl = o1.data.length; c < cl; c++ ) {
+						!tmp[c] ? tmp[c] = 0 : ''
+						tmp[c] = Global.CountAccuracy.add(tmp[c], Number(o1.data[c]))
+					}
+				}
+				arr.push(tmp)
+			}
+			return arr
+		},
+
+		//换算纵向
+		_trimVertical:function(){
+			var self = this
+			self.set('_verticalMaxH', self.get('h') - self.get('_disY') - self.get('_horizontal').get('h') - self.get('_disY'))
+			self.set('_verticalGraphsH', self.get('_verticalMaxH') - self._getVerticalDisY())
+			var max = self.get('_DataFrameFormat').vertical.section[self.get('_DataFrameFormat').vertical.section.length - 1]
+			var arr = self.get('_DataFrameFormat').vertical.section
+			var tmpData = []
+			for (var a = 0, al = arr.length; a < al; a++ ) {
+				var y = -arr[a] / max * self.get('_verticalGraphsH')                                    
+				y = isNaN(y) ? 0 : Global.ceil(y)                                                    
+				tmpData[a] = { 'value':arr[a], 'y': y }
+			}
+			self.get('_DataFrameFormat').vertical.data = tmpData
+		},
+		//获取纵向总高到第一条线之间的距离
+		_getVerticalDisY:function(){
+			var self = this
+			var disMin = self.get('_dis_line')
+			var disMax = 2 * self.get('_dis_line')
+			var dis = disMin
+			dis = disMin + self.get('_verticalMaxH') % self.get('_DataFrameFormat').vertical.section.length   //Q3  DataFrameFormat.vertical.section.length
+			dis = dis > disMax ? disMax : dis
+			return dis
+		},
+		//获取图形中每组的宽
+		_getGroupWidth:function(){
+			var self = this
+			var n = 0
+			var disMin = self.get('_dis_line')
+			var disMax = 2 * self.get('_dis_line')
+			var dis = disMin
+			var min = self.get('_graphs').getGroupMinW()
+			var w = self.get('_horizontalMaxW') - disMin
+			if (w % self.get('_DataFrameFormat').graphs.groups + disMin > disMax) {
+				dis = disMax
+			}else {
+				dis = disMin + w % self.get('_DataFrameFormat').graphs.groups
+			}
+			w = self.get('_horizontalMaxW') - dis
+			n = w / self.get('_DataFrameFormat').graphs.groups
+			if (n < min) { n = min }
+			return n
+		},
+		//换算横向
+		_trimHorizontal:function(){
+			var self = this
+			var arr = Global.delArrUnPop(self.get('_DataFrameFormat').horizontal.org, self.get('_del'))
+			var tmpData = []
+		    for (var i = 0, l  = arr.length; i < l; i++ ) {
+				tmpData.push( { 'value':arr[i], 'x':Global.ceil(self.get('_graphs').get('groupW') * (i+1)) } )
+			}
+			self.get('_DataFrameFormat').horizontal.data = tmpData
+
+		},
+		//获取横向总宽到第一条线之间的距离
+		_getHorizontalDisX:function(){
+			var self = this
+			var disMin = self.get('_dis_line')
+			var disMax = 2 * self.get('_dis_line')
+			var dis = disMin
+			dis = disMin + self.get('_horizontalMaxW') % self.get('_DataFrameFormat').horizontal.org.length 
+			dis = dis > disMax ? disMax : dis
+			return dis
+		},
+		
+		//换算图形
+		_trimGraphs:function(){   
+			var self = this                                                           
+
+			self.set('_horizontalMaxW', self.get('w') - self.get('_disX') - self.get('_vertical').get('w') - self.get('_disX'))
+			var max = self.get('_DataFrameFormat').vertical.section[self.get('_DataFrameFormat').vertical.section.length - 1]
+			var fills = self.get('config').fills
+			// fills = [[ { normal:'#94CC5C', over:'#78A64B' }, { normal:'#458AE6', over:'#135EBF' }, { normal:'#FF0000', over:'#FF0000' } ], [ { normal:'#CCCCCC', over:'#999999' }, { normal:'#999999', over:'#666666' }, { normal:'#FF0000', over:'#FF0000' } ]]
+			var arr = self.get('_DataFrameFormat').vertical.org
+			var tmpData = []
+
+			for (var a = 0, al = arr.length; a < al; a++ ) {
+				var o = arr[a]
+				
+				var tmp = []
+				//b = 2
+				for (var b = 0, bl = o.data.length; b < bl; b++ ) {
+					var o1 = o.data[b]
+					//c = 5
+					for (var c = 0, cl = o1.data.length; c < cl; c++ ) {
+						!tmp[c] ? tmp[c] = [] : '' 
+						var value = Number(o1.data[c])
+						var fill = fills[a] && fills[a][b] ? fills[a][b] : null  
+						var oo = { 'value':value, 'height': value / max * self.get('_verticalGraphsH'), fill: fill}
+						!tmp[c].unshift(oo)
+					}
+				}
+				tmpData.push(tmp)
+			}
+			
+			var tmpData2 = []
+			for (var d = 0, dl = tmpData.length; d < dl; d++ ) {
+				for (var e = 0, el = tmpData[d].length; e < el; e++ ) {
+					!tmpData2[e] ? tmpData2[e] = [] : ''
+					tmpData2[e].push(tmpData[d][e])
+				}
+			}
+			self.get('_DataFrameFormat').graphs.data = tmpData2
+			if (self.get('_DataFrameFormat').graphs.groups * self.get('_graphs').getGroupMinW() > self.get('_horizontalMaxW') - self.get('_dis_line')) {
+				self.set('_del', Global.ceil((self.get('_DataFrameFormat').graphs.groups * self.get('_graphs').getGroupMinW() - (self.get('_horizontalMaxW') - self.get('_dis_line'))) / self.get('_graphs').getGroupMinW()))
+				var tmpData = Global.delArrUnPop(self.get('_DataFrameFormat').graphs.data, self.get('_del'))
+				self.get('_DataFrameFormat').graphs.groups = tmpData.length
+			}
+		},
+		//每两个点之间的距离
+		_getGraphsDisX:function(){
+			var self = this
+			return self.get('_horizontalGraphsW') / (self.get('_DataFrameFormat').horizontal.org.length - 1)
+		},
+
+		_overHandler:function($o){
+			$o.cx = Number($o.cx) + Number(this.get('_graphs').get('element').get('_x'))
+			$o.cy = Number(this.get('_graphs').get('element').get('_y') - $o.cy)
+			this.get('_graphs').induce({index:$o.index,id:$o.id},true)
+			this.get('element').fire(EventType.OVER,$o)
+		},
+		_outHandler:function($o){
+			this.get('_graphs').induce({index:$o.index,id:$o.id},false)
+			this.get('element').fire(EventType.OUT,$o)
+		},
+
+		/**
+		 * 数据继承
+		 * @type {Object}
+		 */
+		DataExtend:function(DataFrameFormat,DataSource){
+			DataFrameFormat.key.indexs = DataSource.key.indexs
+			DataFrameFormat.vertical.name = DataSource.vertical.name
+			DataFrameFormat.vertical.org = DataSource.vertical.data
+			DataFrameFormat.horizontal.name = DataSource.horizontal.name
+			DataFrameFormat.horizontal.names = DataSource.horizontal.names
+			DataFrameFormat.horizontal.org = DataSource.horizontal.data
+			DataFrameFormat.horizontal.start.name = DataSource.horizontal.start.name ? DataSource.horizontal.start.name : DataFrameFormat.horizontal.start.name
+
+			return DataFrameFormat
+		}
+	});
+
+	return Core;
+
+	}, {
+	    requires:['base','node','../../utils/global','../../utils/datasection','../../utils/svgelement',
+	    		  '../../views/vertical','../../views/horizontal','../../views/back','../../views/globalinduce','../../models/eventtype','./graphs'
+	    ]
+	}
+);
 KISSY.add('brix/gallery/charts/js/pub/views/histogram/graphs',function(S,Base,node,Global,SVGElement,SVGRenderer,Group,EventType){
 	
 	function Graphs(){
@@ -6341,6 +8908,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/graphs',function(S,Base,no
 
 		_layout:function(){
 			var self = this
+			// var data = [
+			// 	[ [{ value:'201', height:60, key: { isKey:'' }, fill:{normal:'#458AE6',over:'#135EBF'}}, { value:'101', height:30, key: { isKey:'' }, fill:{normal:'#94CC5C',over:'#78A64B'}}],[{ value:'201', height:160, key: { isKey:'' }, fill:{normal:'#C3C3C3',over:'#B7B7B7'}}, { value:'101', height:130, key: { isKey:'' }, fill:{normal:'#E0E0E0',over:'#D8D8D8'}}] ],
+			// 	[ [{ value:'201', height:60, key: { isKey:'' }, fill:{normal:'#458AE6',over:'#135EBF'}}, { value:'101', height:30, key: { isKey:'' }, fill:{normal:'#94CC5C',over:'#78A64B'}}],[{ value:'201', height:160, key: { isKey:'' }, fill:{normal:'#C3C3C3',over:'#B7B7B7'}}, { value:'101', height:130, key: { isKey:'' }, fill:{normal:'#E0E0E0',over:'#D8D8D8'}}] ]
+			// ]
+			// self.set('data',data)
 			for (var a = 0, al = self.get('data').length; a < al; a++ ) {
 				var group = new Group()
 				self.get('_groupArr').push(group)
@@ -6506,6 +9078,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 			value:[]             //支柱对象集合	
 		},
 
+
+		_sytle:{
+			value:1              //样式[1 = 只有一个直方 | 2 = 多个直方叠加]
+		},
 		_minH:{
 			value:2              //支柱最小高
 		},
@@ -6578,41 +9154,79 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 			for (var a = 0, al = self.get('data').length; a < al; a++ ) {
 				var o = self.get('data')[a]
 				var x
-				var w = self.get('singleW')
-				var h = o.height
-				h = h > self.get('_minH') ? h : self.get('_minH')
-
 				x = self.get('disGroupX') + (self.get('singleW') + self.get('disSingleX')) * a
 				x = self.get('intX') ? Global.ceil(x) : x
+				
+				var w = self.get('singleW')
+				if(!(o instanceof Array)){
+					
+					var h = o.height
+					h = h > self.get('_minH') ? h : self.get('_minH')
 
-				var fill = self.get('fills')[a]
-				var iskey = o.key && o.key.isKey ? o.key.isKey : ''
-				fill = iskey ? self.get('keyFill') : fill
+					var fill = self.get('fills')[a]
+					var iskey = o.key && o.key.isKey ? o.key.isKey : ''
+					fill = iskey ? self.get('keyFill') : fill
 
-				//pillar
-				var pillar = self._drawGraph({w:w,h:-h,fill:fill})           //-h
-				if(self.get('isInduce') == 0){
+					//pillar 支柱
+					var pillar = self._drawGraph({w:w,h:-h,fill:fill})           //-h
 					_pillars_df.appendChild(pillar.element)
+					pillar.transformX(x)
+					self.get('_pillarsArr').push(pillar)
+					pillar.set('_index', a)
+					pillar.set('_x',x)
+				}else{
+					//直方上叠直方
+					self.set('_sytle', 2)
+
+					//pillar 支柱
+					var pillar = new SVGElement('g')
+					_pillars_df.appendChild(pillar.element)
+
+					var singles_arr = []
+					var max_h = 0
+					for (var b = 0, bl = o.length; b < bl; b++ ) {
+						var oo = o[b]
+						var h = oo.height
+						h = h > self.get('_minH') ? h : self.get('_minH')
+						max_h += h
+						var fill = (oo.fill && oo.fill.normal) ? oo.fill.normal : '#000000'
+
+						//single 单个直方
+						var single = self._drawGraph({w:w,h:-h,fill:fill})
+						pillar.appendChild(single.element)
+						singles_arr.push(single)
+
+						single.transformY(0)
+						//前一个小直方数据对象
+						var pre_oo = o[b - 1]
+						if(pre_oo){
+							var pre_single = singles_arr[b-1]
+							var y = Number(pre_single.get('_y')) + Number(pre_single.get('_h'))
+							single.transformY(y)
+						}
+					}
+					pillar.setDynamic('singles_arr', singles_arr)
+					pillar.transformX(x)
+					self.get('_pillarsArr').push(pillar)
+					pillar.set('_index', a)
+					pillar.set('_h', -max_h)
 				}
-				pillar.transformX(x)
-				self.get('_pillarsArr').push(pillar)
-				pillar.set('_index', a)
-				pillar.set('_x',x)
-		
+
 				//induce
 				w = self.get('singleW') + self.get('_disInduce')
 				h = self.get('h')
 				var induce = self._drawGraph({w:w,h:-h,opacity:Global.N00001})
-				if(self.get('isInduce') == 1){
-					_induces_df.appendChild(induce.element), self.get('_inducesArr').push(induce)
-				}
+				// var induce = self._drawGraph({w:w,h:-h,opacity:0.2})
+				_induces_df.appendChild(induce.element), self.get('_inducesArr').push(induce)
 				induce.element.addEventListener("mouseover",function(evt){ self._overHandler(evt)}, false);
 				induce.element.addEventListener("mouseout",function(evt){ self._outHandler(evt)}, false);
 				x = x - self.get('_disInduce') / 2
 				x = self.get('intX') ? Global.ceil(x) : x
 				induce.transformX(x)
 				induce.set('_index', a)
+				
 			}
+
 			if(self.get('isInduce') == 0){
 				self.get('_pillars').appendChild(_pillars_df)
 			}
@@ -6633,15 +9247,23 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 		_overHandler:function($evt){
 			var self = this
 			var index = $evt.target.getAttribute('_index')
-			self.set('_isOver', 1)
-			self.set('_fill', self.get('fills')[index])
-			self.set('_fill_over', self.get('fills_over')[index])
-			if (self.get('data')[index].key && self.get('data')[index].key.isKey) { self.set('_fill', self.get('keyFill')), self.set('_fill_over' , self.get('keyFill_over'))}
 			var pillar = self.get('_pillarsArr')[index]
-			// self._induce(pillar)
+
+			if(self.get('_sytle') == 1){
+				self.set('_isOver', 1)
+				self.set('_fill', self.get('fills')[index])
+				self.set('_fill_over', self.get('fills_over')[index])
+				if (self.get('data')[index].key && self.get('data')[index].key.isKey) { self.set('_fill', self.get('keyFill')), self.set('_fill_over' , self.get('keyFill_over'))}
+			}else if(self.get('_sytle') == 2){
+			}
 			
 			var o = {}
-			o.index = self.get('index'), o.id = index, o.x = pillar.get('_x'), o.cx = Number(o.x) + Number(self.get('singleW') / 2), o.h = -pillar.get('_h'), o.fill_over = self.get('_fill_over')
+			o.index = self.get('index'), o.id = index, o.x = pillar.get('_x'), o.cx = Number(o.x) + Number(self.get('singleW') / 2), o.cy = -pillar.get('_h'), o.h = -pillar.get('_h'), o.fill_over = self.get('_fill_over')
+
+			// self.set('_circle', SVGGraphics.circle({'r':2,'fill':'#ffffff','stroke':'#000000','stroke_width':1}))
+			// self.get('element').appendChild(self.get('_circle').element)
+			// self.get('_circle').transformXY(o.cx,-o.h)
+
 			self.get('element').fire(EventType.OVER,o)
 		},
 		_outHandler:function($evt){
@@ -6660,22 +9282,41 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 			var self = this
 			var x,y,w,h,d,fill
 			var index = $e.get('_index')
-			var fill
-			if ($b) {
-				w = Number($e.get('_w')) + Number(self.get('_disInduce')),h = Number($e.get('_h')) - Number(self.get('_disInduce'))
-				x = Number($e.get('_x')) - Number(self.get('_disInduce') / 2)
-				fill = self.get('fills_over')[index]
-				if (self.get('data')[index].key && self.get('data')[index].key.isKey) { fill = self.get('keyFill_over')}
-			}else {
-				w = Number($e.get('_w')),h = Number($e.get('_h'))
-				x = Number($e.get('_x')) + Number(self.get('_disInduce') / 2)
-				fill = self.get('fills')[index]
-				if (self.get('data')[index].key && self.get('data')[index].key.isKey) { fill = self.get('keyFill')}
+			if(self.get('_sytle') == 1){
+				if ($b) {
+					w = Number($e.get('_w')) + Number(self.get('_disInduce')),h = Number($e.get('_h')) - Number(self.get('_disInduce'))
+					x = Number($e.get('_x')) - Number(self.get('_disInduce') / 2)
+					fill = self.get('fills_over')[index]
+					if (self.get('data')[index].key && self.get('data')[index].key.isKey) { fill = self.get('keyFill_over')}
+				}else {
+					w = Number($e.get('_w')),h = Number($e.get('_h'))
+					x = Number($e.get('_x')) + Number(self.get('_disInduce') / 2)
+					fill = self.get('fills')[index]
+					if (self.get('data')[index].key && self.get('data')[index].key.isKey) { fill = self.get('keyFill')}
+				}
+				d = SVGRenderer.symbol('square',0,0,w,h).join(' ')
+				$e.set('d',d)
+				$e.transformX(x)
+				$e.set('fill',fill)
+			}else if(self.get('_sytle') == 2){
+				for (var a = 0, al = $e.getDynamic('singles_arr').length; a < al; a++ ) {
+					//单个直方
+					var e = $e.getDynamic('singles_arr')[a]
+					if ($b) {
+						w = Number(e.get('_w')) + Number(self.get('_disInduce')),h = Number(e.get('_h')) - Number(self.get('_disInduce'))
+						x = Number(e.get('_x')) - Number(self.get('_disInduce') / 2)
+						fill = self.get('data')[index][a].fill.over
+					}else {
+						w = Number(e.get('_w')),h = Number(e.get('_h'))
+						x = Number(e.get('_x')) + Number(self.get('_disInduce') / 2)
+						fill = self.get('data')[index][a].fill.normal
+					}
+					d = SVGRenderer.symbol('square',0,0,w,h).join(' ')
+					e.set('d',d)
+					e.transformX(x)
+					e.set('fill',fill)
+				}
 			}
-			d = SVGRenderer.symbol('square',0,0,w,h).join(' ')
-			$e.set('d',d)
-			$e.transformX(x)
-			$e.set('fill',fill)
 		}
 	});
 
@@ -7204,7 +9845,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/hline',function(S,Base,node,Gl
 	    requires:['base','node','../../utils/global','../../utils/svgelement','../../utils/svgrenderer','../svggraphics']
 	}
 );
-KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Global,SVGElement,SVGGraphics){
+KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Global,SVGElement,SVGGraphics,EventType){
 	
 	function Info(){
 		
@@ -7238,9 +9879,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 		base_fill:{
 			value:'#000000'
 		},
+		isBack:{
+			value:1                      //是否有背景
+		}, 
 
 		_lay:{
-			value:{}                     //根据此对象设置集合文字坐标、对齐方式等 {maxHorH(每一行最大的高集合):[24,24,24], maxVerW(对应列最大的宽集合):[100,100]}      
+			value:{}                     //根据此对象设置集合文字坐标、对齐方式等 {maxHorH(每一行最大的高集合):[24,24,24], maxVerW(对应列最大的宽集合):[100,100], maxVerAllW(对应列最大的宽集合 包括标志位):[120,120]}      
 		},
 		_fontsArr:{
 			value:[]                     //存放所有文字的二维数组  存入结构类似this.data  
@@ -7273,10 +9917,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 			
 			self.set('element', new SVGElement('g')), self.get('element').set('class','info')
 			self.get('parent').appendChild(self.get('element').element)
+			// self.get('element').set('style','cursor:default'), self.get('element').mouseEvent(false)
+			self.get('element').element.addEventListener("mouseover",function(evt){ self._overHandler(evt)}, false);
+			self.get('element').element.addEventListener("mouseout",function(evt){ self._outHandler(evt)}, false);
 
 			self._widget()
 			self._layout()
-
 			// self.set('_circle', SVGGraphics.circle({'r':5,'fill':'#ffffff','stroke':'#000000','stroke_width':2}))
 			// self.get('element').appendChild(self.get('_circle').element)
 		},
@@ -7284,6 +9930,21 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 		setShadow:function($id){
 			var self = this
 			self.get('_back').attr({'class':'back','filter':'url(#' + $id + ')'})
+		},
+
+		moveRowTxt:function($o) {
+			var self = this
+			var index = $o.index ? $o.index : 0
+			var mode = $o.mode ? $o.mode : 1
+			var rowFonts = self.get('_fonts').getDynamic('childs')[index]
+			var x = -2
+			if (mode == 1) {
+			}else if (mode == 2) {
+				x = 0
+			}
+			if (rowFonts) {
+				rowFonts.transformX(x)	
+			}
 		},
 
 		_widget:function(){
@@ -7297,56 +9958,91 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 			self.set('_fonts', new SVGElement('g')), self.get('_fonts').set('class','fonts')
 			self.get('_g').appendChild(self.get('_fonts').element)
 		},
-
 		_layout:function(){
 			var self = this
-			self.get('_lay').maxHorH = [], self.get('_lay').maxVerW = []
+			var _lay = self.get('_lay')
+			_lay.maxHorH = [], _lay.maxVerW = [], _lay.maxVerAllW = []
 
+			self.get('_fonts').setDynamic('childs',[])
 			for(var a = 0, al = self.get('data').length; a < al; a++){
 				//一行中最高的值
-				var maxHorH = 0      
+				var maxHorH = 0
+				var maxSignW = 0      
+				var rowFonts = new SVGElement('g')
+				rowFonts.setDynamic('childs',[])
+				self.get('_fonts').element.appendChild(rowFonts.element)
+				self.get('_fonts').getDynamic('childs').push(rowFonts)
+
 				for(var b = 0, bl = self.get('data')[a].length; b < bl ; b++){
 					var o = self.get('data')[a][b]
 					var bold = o.bold || Number(o.bold) == 0 ? Number(o.bold) : 1
 					var fill = o.fill ? o.fill : self.get('base_fill')
 					var family = o.family ? o.family : self.get('_font_family')
 					var font = SVGGraphics.text({'content':Global.numAddSymbol(o.content),'size':o.size,'fill':fill,'bold':bold,'family':family})
-					self.get('_fonts').element.appendChild(font.element)
+					rowFonts.element.appendChild(font.element)
+					rowFonts.getDynamic('childs').push(font)
 
 					maxHorH = maxHorH < font.getHeight() ? font.getHeight() : maxHorH
 					
-					if(!self.get('_lay').maxVerW[b]){
-						self.get('_lay').maxVerW[b] = 0
+					if(!_lay.maxVerW[b]){
+						_lay.maxVerW[b] = 0
+						_lay.maxVerAllW[b] = 0
 					}
-					if(self.get('_lay').maxVerW[b] < font.getWidth()){
-						self.get('_lay').maxVerW[b] = font.getWidth()
+					if(_lay.maxVerW[b] < font.getWidth()){
+						_lay.maxVerW[b] = font.getWidth()
+						_lay.maxVerAllW[b] = _lay.maxVerW[b]
 					}
-					if(self.get('_fontsArr')[a]) {self.get('_fontsArr')[a].push(font)}else{self.get('_fontsArr')[a] = [],self.get('_fontsArr')[a].push(font)}
+					
+					if (o.sign && o.sign.has) {
+						var radius = o.sign.radius ? o.sign.radius : 4
+						var disX = o.sign.disX ? o.sign.disX : 4
+						_lay.maxVerAllW[b] = Number(_lay.maxVerW[b]) + Number(radius) + Number(disX)
+					}
 				}
-				self.get('_lay').maxHorH.push(maxHorH)	
+				_lay.maxHorH.push(maxHorH)	
 			}
 			for (var c = 0, cl = self.get('data').length; c < cl; c++ ) {
+				var rowFonts = self.get('_fonts').getDynamic('childs')[c]
 				for (var d = 0, dl = self.get('data')[c].length; d < dl; d++ ) {
 					var o = self.get('data')[c][d]
-					var font = self.get('_fontsArr')[c][d]
-					
-					//同一行前一个
-					var preFont = self.get('_fontsArr')[c][d-1] ?  self.get('_fontsArr')[c][d-1] : ''
-					var upFont = self.get('_fontsArr')[c-1] && self.get('_fontsArr')[c-1][d] ? self.get('_fontsArr')[c-1][d] : ''
+					var font = rowFonts.getDynamic('childs')[d]
 
-					var x = preFont ? Global.getArrMergerNumber(self.get('_lay').maxVerW, 0, d - 1) : 0 
-					var y = (upFont || c>0) ? Global.getArrMergerNumber(self.get('_lay').maxHorH, 0, c - 1) : 0
+					var x = Global.getArrMergerNumber(_lay.maxVerAllW, 0, d - 1)
+					var y = c > 0 ? Global.getArrMergerNumber(_lay.maxHorH, 0, c - 1) : 0
+					rowFonts.transformY(y)
+					y = 0
+
+					var initX = x 
+					var initY = y
+
 					var ver_align = o.ver_align ? o.ver_align : 2
 					var hor_align = o.hor_align ? o.hor_align : 2
 					if (ver_align == 2) {
-						x = x + (self.get('_lay').maxVerW[d] - font.getWidth())/2
+						x = x + (_lay.maxVerW[d] - font.getWidth())/2
 					}else if (ver_align == 3) {
-						x = x + self.get('_lay').maxVerW[d] - font.getWidth()
+						x = x + _lay.maxVerW[d] - font.getWidth()
 					}
 					if (hor_align == 2) {
-						y = y + (self.get('_lay').maxHorH[c] - font.getHeight())/2
+						y = y + (_lay.maxHorH[c] - font.getHeight())/2
 					}else if (hor_align == 3) {
-						y = y + self.get('_lay').maxHorH[c] - font.getHeight()
+						y = y + _lay.maxHorH[c] - font.getHeight()
+					}
+					if (o.sign) {
+						var radius = o.sign.radius ? o.sign.radius : 4
+						var disX = o.sign.disX ? o.sign.disX : 4
+						var fill = o.sign.fill ? o.sign.fill : '#000000'
+						//当圆与文字坐标都为0时的视觉差
+						var dis = 2
+						if (o.sign.has && o.sign.trim) {
+							var sign = SVGGraphics.circle({'r':radius,'fill':fill})
+							rowFonts.element.appendChild(sign.element)
+							sign.transformXY(parseInt(radius), parseInt(font.getHeight()/2))
+							
+							x = Number(sign.get('_x')) + Number(radius / 2 + disX)
+						}
+						if (!o.sign.has && o.sign.trim) {
+							//x = dis + radius + disX
+						}
 					}
 					y = y + font.getHeight() * 0.75
 					x = Global.ceil(x), y = Global.ceil(y)
@@ -7354,28 +10050,42 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 				}
 			}
 
-			self.get('_fonts').transformXY(self.get('_disX'),self.get('_disY'))
+			var w,h
+			if(self.get('isBack')){
+				self.get('_fonts').transformXY(self.get('_disX'),self.get('_disY'))
+				w = Global.getArrMergerNumber(_lay.maxVerAllW) + self.get('_disX') * 2
+				h = Global.getArrMergerNumber(_lay.maxHorH) + self.get('_disY') * 2
+			}else{
+				w = Global.getArrMergerNumber(_lay.maxVerAllW)
+				h = Global.getArrMergerNumber(_lay.maxHorH)
+			}
 
-			var w = Global.getArrMergerNumber(self.get('_lay').maxVerW,0,self.get('_lay').maxVerW.length) + self.get('_disX') * 2
-			var h = Global.getArrMergerNumber(self.get('_lay').maxHorH,0,self.get('_lay').maxHorH.length) + self.get('_disY') * 2
-
-			self.get('_back').attr({'_w':w,'_h':h,'width':w,'height':h,'fill':'#ffffff','opacity':1,'rx':4,'rx':4,'stroke':self.get('base_fill') ? self.get('base_fill') : '#000000','stroke-width':2})
-
+			if(self.get('isBack')){
+				self.get('_back').attr({'_w':w,'_h':h,'width':w,'height':h,'fill':'#ffffff','opacity':1,'rx':4,'rx':4,'stroke':self.get('base_fill') ? self.get('base_fill') : '#000000','stroke-width':2})
+			}
 			self.set('w', w), self.set('h', h)
 
-			var x = -Global.ceil(w/2) - 1,y = -Global.ceil(h/2)
+			var x = Global.ceil(-w/2), y = Global.ceil(-h/2)
 			self.get('_g').transformXY(x,y)
-			// this._fonts.transformXY(x,y)
+		},
+
+		_overHandler:function($evt){
+			var self = this
+			self.get('element').fire(EventType.OVER)
+		},
+		_outHandler:function($evt){
+			var self = this
+			self.get('element').fire(EventType.OUT)
 		}
 	});
 
 	return Info;
 
 	}, {
-	    requires:['base','node','../../utils/global','../../utils/svgelement','../svggraphics']
+	    requires:['base','node','../../utils/global','../../utils/svgelement','../svggraphics','../../models/eventtype']
 	}
 );
-KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Global,Move,SVGElement,SVGRenderer,SVGGraphics,Info,Light,HInfo,HLine,Other,Arrow){
+KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Global,Move,SVGElement,SVGRenderer,SVGGraphics,EventType,Info,Light,HInfo,HLine,Other,Arrow){
 	
 	function Infos(){
 		
@@ -7430,6 +10140,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 				is:1,                    //是否有
 				x:0,                     //x坐标
 				y:0,                     //y坐标
+				y1:6,                    //当没有hLine时 默认的Y坐标
 				content:''               //HInfo.content
 			}
 		},
@@ -7487,9 +10198,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 			
 			self.set('element', new SVGElement('g')), self.get('element').set('class','infos')
 			self.get('parent').appendChild(self.get('element').element)
+
+			self.get('element').element.addEventListener("mouseover",function(evt){ self._overHandler(evt)}, false);
+			self.get('element').element.addEventListener("mouseout",function(evt){ self._outHandler(evt)}, false);
 		},
 		remove:function(){
-			var c = null
 			var self = this
 			if(self.get('_arrow')){
 				self.get('element').removeChild(self.get('_arrow').get('element').element)
@@ -7663,14 +10376,15 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 			}
 
 		    //hinfo
-		    if(self.get('hLine').is){
+		    if(self.get('hInfo').is){
 				var o ={
 					parent : self.get('element'),
 			    	content: self.get('hInfo').content
 			    }
 			    self.get('_hInfo').init(o)
 
-			    var x = self.get('hInfo').x, y = Number(self.get('hInfo').y) + Number(self.get('_hInfo').get('h') / 2) + self.get('_hLine').get('h')
+			    var y1 = self.get('_hLine') ? self.get('_hLine').get('h') : self.get('hInfo').y1
+			    var x = self.get('hInfo').x, y = Number(self.get('hInfo').y) + Number(self.get('_hInfo').get('h') / 2) + y1
 			   	var p = self._allShow(self.get('w'), self.get('h'), {w:self.get('_hInfo').get('w'),h:self.get('_hInfo').get('h')}, {x:x,y:y})
 			    x = p.x, y = p.y
 			    self.get('_hInfo').get('element').transformXY(x,y)
@@ -7703,6 +10417,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 		    		o.fill_opacity = self.get('light').fill_opacity
 		    	}
 			    self.get('_light').init(o)
+			    // self.get('_light').get('element').on(EventType.OVER,function($o){self._overHandler({child:'light'})})
+				// self.get('_light').get('element').on(EventType.OUT,function($o){self._outHandler({child:'light'})})
 			    var x = self.get('light').x, y = self.get('light').y
 			    self.get('_light').get('element').transformXY(x,y)
 		    }
@@ -7715,6 +10431,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 				shadow_id   : self.get('_shadow_id')
 			}
 		    self.get('_info').init(o)
+		    // self.get('_info').get('element').on(EventType.OVER,function($o){self._overHandler({child:'info'})})
+			// self.get('_info').get('element').on(EventType.OUT,function($o){self._outHandler({child:'info'})})
 
 		    var x = self.get('info').x, y = Number(self.get('info').y) - Number(self.get('dis_info')) - Number(self.get('_info').get('h') / 2)
 		    if(self.get('arrow').is){
@@ -7804,16 +10522,25 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 			var feComposite = new SVGElement('feComposite')
 			feComposite.attr({'in':'SourceGraphic','in2':'coloredShadow','operator':'over'})
 			filter.appendChild(feComposite.element)
-		}
+		},
+
+		_overHandler:function($o){
+			var self = this
+			self.get('element').fire(EventType.OVER,$o)
+		},
+		_outHandler:function($o){
+			var self = this
+			self.get('element').fire(EventType.OUT,$o)
+		},
 	});
 
 	return Infos;
 
 	}, {
-	    requires:['base','node','../../utils/global','../../utils/move','../../utils/svgelement','../../utils/svgrenderer','../svggraphics','./info','./light','./hinfo','./hline','./other','./arrow']
+	    requires:['base','node','../../utils/global','../../utils/move','../../utils/svgelement','../../utils/svgrenderer','../svggraphics','../../models/eventtype','./info','./light','./hinfo','./hline','./other','./arrow']
 	}
 );
-KISSY.add('brix/gallery/charts/js/pub/views/infos/light',function(S,Base,node,Global,SVGElement,SVGGraphics){
+KISSY.add('brix/gallery/charts/js/pub/views/infos/light',function(S,Base,node,Global,SVGElement,SVGGraphics,EventType){
 	
 	function Light(){
 		
@@ -7857,6 +10584,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/light',function(S,Base,node,Gl
 			
 			self.set('element', new SVGElement('g')), self.get('element').set('class','light')
 			self.get('parent').appendChild(self.get('element').element)
+			self.get('element').element.addEventListener("mouseover",function(evt){ self._overHandler(evt)}, false);
+			self.get('element').element.addEventListener("mouseout",function(evt){ self._outHandler(evt)}, false);
 
 			self._widget()
 		},
@@ -7868,13 +10597,22 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/light',function(S,Base,node,Gl
 
 			self.set('_min', SVGGraphics.circle({'r':self.get('min_radius'),'fill':self.get('fill'),'stroke':'none'}))
 			self.get('element').appendChild(self.get('_min').element)
+		},
+
+		_overHandler:function($evt){
+			var self = this
+			self.get('element').fire(EventType.OVER)
+		},
+		_outHandler:function($evt){
+			var self = this
+			self.get('element').fire(EventType.OUT)
 		}
 	});
 
 	return Light;
 
 	}, {
-	    requires:['base','node','../../utils/global','../../utils/svgelement','../svggraphics']
+	    requires:['base','node','../../utils/global','../../utils/svgelement','../svggraphics','../../models/eventtype']
 	}
 );
 KISSY.add('brix/gallery/charts/js/pub/views/infos/other',function(S,Base,node,Global,SVGElement,SVGGraphics,Light){
@@ -7929,6 +10667,623 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/other',function(S,Base,node,Gl
 	    requires:['base','node','../../utils/global','../../utils/svgelement','../svggraphics','./light']
 	}
 );
+KISSY.add('brix/gallery/charts/js/pub/views/layouts/style1/main',function(S,Base,Node,Global,SVGElement,SVGGraphics,PieInfo){
+	var $ = Node.all
+
+	function Main(){
+		
+		var self = this
+
+		/*
+			arguments:
+
+			  o:{
+				parent    :''     //SVGElement
+				w         :100    //宽
+				h         :100    //高
+				config    :{}     //配置
+			  }
+
+		 */
+		Main.superclass.constructor.apply(self,arguments);
+
+		// self.init()
+	}
+
+	Main.ATTRS = {
+		w:{
+			value:0
+		},
+		h:{
+			value:0
+		},
+		data:{
+			value:[]
+		},
+		element:{
+			value:null
+		},
+		txtStartIndex:{
+			value:0
+		},
+
+		font:{
+			value:{
+				family:'微软雅黑',
+				fill:'#ADADAD',
+				size:12
+			}
+		},
+
+		infos:{                         //右上角信息
+			value:null
+		},
+		x_txt:{                         //横轴文本
+			value:null
+		},
+		y_txt:{                         //纵轴文本
+			value:null
+		}
+	}
+
+	S.extend(Main,Base,{
+		init:function(){
+			var self = this
+			Main.superclass.constructor.apply(self,arguments);
+
+			self.set('element', new SVGElement('g')), self.get('element').set('class','layouts_style1')
+			// self.get('element').set('style','cursor:default'), self.get('element').mouseEvent(false)
+			self.get('parent').appendChild(self.get('element').element)
+
+			self._widget()
+		},
+
+		_widget:function(){
+			var self = this
+			var element = self.get('element')
+			var font = self.get('font')
+
+			self._createInfos()
+
+			var txt = SVGGraphics.text({'family':font.family,'fill':font.fill,'content':self.get('config').xAxis.name})
+			self.set('x_txt',new SVGElement('g')), self.get('x_txt').set('class','x_txt')
+			self.get('x_txt').appendChild(txt.element)
+			element.appendChild(self.get('x_txt').element)
+			txt.transformXY(0,txt.getHeight())
+
+			var txt = SVGGraphics.text({'family':font.family,'fill':font.fill,'content':self.get('config').yAxis.name})
+			self.set('y_txt',new SVGElement('g')), self.get('y_txt').set('class','y_txt')
+			self.get('y_txt').appendChild(txt.element)
+			element.appendChild(self.get('y_txt').element)
+			txt.transformXY(0,txt.getHeight())
+		},
+
+		_createInfos:function(){
+			var self = this
+			var data = self.get('data')
+
+			// data[0] = {pie: { data:[300, 100], fills:['#ff0000', '#ffff00'] }, info:[]}
+			// data[0].info = test()
+			// data[1] = {pie: { data:[100, 300], fills:['#135ebf', '#78a64b'] }, info:[]}
+			// data[1].info = test()
+			
+			// function test(){
+			// 	var data
+			// 	var o = {}
+			// 	o.content = '2012-12-21', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 1
+			// 	data = []
+			// 	data[0] = []
+			// 	data[0].push(o)
+				
+			// 	o = {}
+			// 	o.content = '智能优化40%', o.bold = 0, o.fill = '#135ebf', o.family = '微软雅黑', o.sign = {has:1,trim:1,fill:'#135ebf' }
+			// 	data[1] = []
+			// 	data[1].push(o)
+				
+			// 	o = {}
+			// 	o.content = '品牌展位60%', o.bold = 0, o.fill = '#78a64b', o.family = '微软雅黑', o.sign = {has:1,trim:1,fill:'#78a64b' }
+			// 	data[2] = []
+			// 	data[2].push(o)
+			// 	return data
+			// }
+
+			if(data.length == 0){
+				return
+			}
+
+			self.set('infos', new SVGElement('g')), self.get('infos').set('class','infos')
+			self.get('element').appendChild(self.get('infos').element)
+
+			var pieInfos = []
+			for (var a = 0, al = data.length; a < al; a++ ) { 
+				var o = data[a]
+				var pieInfo = new PieInfo()
+				pieInfo.init({data:o, parent:self.get('infos'),txtStartIndex:self.get('txtStartIndex')})
+				pieInfos.push(pieInfo)
+
+				var pre
+				if (a >= 1) {
+					pre = pieInfos[a-1]
+				}
+				if (pre) {
+					var x = pieInfo.get('element').get('_x') ? pieInfo.get('element').get('_x') : 0
+					pieInfo.get('element').transformX(Number(x) + Number(pre.get('w')) + 20)
+					var w = Number(x) + Number(pre.get('w')) + Number(20)
+				}
+			}
+
+			var last = pieInfos[a - 1]
+			var w = Number(last.get('element').get('_x')) + Number(last.get('w'))
+			self.get('infos').setDynamic('w',w)
+		}
+	});
+
+	return Main;
+
+	}, {
+	    requires:['base','node','../../../utils/global','../../../utils/svgelement','../../../views/svggraphics','../../../views/modules/pieinfo/main'
+	    ]
+	}
+);
+KISSY.add('brix/gallery/charts/js/pub/views/line/core',function(S,Base,Node,Global,DataSection,SVGElement,Vertical,Horizontal,Back,GlobalInduce,EventType,Graphs){
+	var $ = Node.all
+
+	function Core(){
+		
+		var self = this
+
+		/*
+			arguments:
+
+			  o:{
+				parent    :''     //SVGElement
+				w         :100    //宽
+				h         :100    //高
+				DataSource:{}     //数据源
+				config    :{}     //配置
+			  }
+
+		 */
+		Core.superclass.constructor.apply(self,arguments);
+
+		self.init()
+	}
+
+	Core.ATTRS = {
+		gx:{                            //全局坐标 应用于graphs鼠标感应计算
+			value:0
+		},
+		gy:{
+			value:0
+		},
+		w:{
+			value:0
+		},
+		h:{
+			value:0
+		},
+		element:{
+			value:null
+		},
+
+		_DataFrameFormat : {
+			value:{
+				key:{                    //突出显示
+					indexs:'',               //String 索引字符串[1,2,3]
+					data:[]                  //Array  索引集合[[1,2,3]]
+				},
+				vertical:{               //纵轴
+					name:'',                 //名称[维度1]
+					names:[],                //名称集合[维度1---1：,,维度1---3：]
+					org:[],                  //原始二维数据[[配置数据中每个队列第一个集合],[],[]]
+					section:[],              //分段之后数据[200, 400, 600, 800, 1000, 1200, 1400, 1600]
+					data:[]                  //转换坐标后的数据  =>Vertical.data、Back.data_hor
+				},
+				horizontal:{             //横轴
+					name:'',                 //名称[维度2]
+					names:[],                //名称集合(1:00,2:00,...,24:00)
+					org:'',                  //原始数据[0.05,0.1,0.15,0.2,...,2.55]
+					data:[]                  //转换坐标后的数据  =>Horizontal.data
+				},
+				graphs:{                 //图形
+					disX:59,                 //每两个点之间的距离
+					data:[]                  //转换坐标后的数据
+				}
+			}
+		},
+
+		_vertical:{
+			value:null                   //纵向
+		},
+		_horizontal:{
+			value:null                   //横向
+		},		
+		_back:{
+			value:null                   //背景
+		},
+		_graphs:{
+			value:null                   //图形
+		},
+		_globalInduce:{
+			value:null                   //全局感应区
+		},
+		_induces:{
+			value:null                   //感应区
+		},
+
+		_disX:{
+			value:6                      //左、右的距离
+		},
+		_disY:{
+			value:10                     //上、下的距离
+		},
+		_dis_line:{
+			value:6                      //纵向最高的线与最高高度最小相差的像素 而横向最右边的小线与最宽宽度也是最小相差该像素
+		},
+		_dis_graphs:{
+			value:0                      //在图形中 由于考虑到圆本身的半径实际图形中的左、下都必须预留的像素差右、上预留的像素差的最小值也是此值
+		},
+
+		_verticalMaxH:{
+			value:0                      //纵向最大的高
+		},
+		_verticalGraphsH:{
+			value:0                      //最上面的第一条线到原点之间的高度
+		},
+		_verticalDrawH:{
+			value:0                      //图形区域由于考虑到圆的半径 因此圆必须高出最下面_dis_graphs个像素 而此值代表最上面的第一条线到_dis_graphs之间的距离
+		},
+		_horizontalMaxW:{
+			value:0                      //横向最大的宽
+		},
+		_horizontalGraphsW:{
+			value:0                      //图形区域真正的宽(最右边的第一条线到原点之间的高度)
+		},
+		_horizontalDrawW:{
+			value:0                      //图形区域由于考虑到圆的半径 因此圆必须高出最右边_dis_graphs个像素
+		},
+		_del:{
+			value:0                      //当数据量过大时 减去的数据个数
+		},
+	}
+
+	S.extend(Core,Base,{
+		init:function(){
+			var self = this
+			self.set('element', new SVGElement('g')), self.get('element').set('class','core')
+			self.get('parent').appendChild(self.get('element').element)
+		},
+
+		widget:function(){
+			var self = this
+
+			Graphs.superclass.constructor.apply(self,arguments);
+			
+			self._widget()
+		},
+
+		getAttr:function($name){
+			var self = this
+			return self.get('_' + $name)
+		},
+
+		_widget:function(){
+			var self = this
+			self._trimConfig()
+			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'),self.get('DataSource')))
+			self.get('_DataFrameFormat').key.data = String(self.get('_DataFrameFormat').key.indexs).split(',')
+			self.get('_DataFrameFormat').vertical.dataObject = self._trimVerticalOrgData(self.get('_DataFrameFormat').vertical.org)
+			self.get('_DataFrameFormat').vertical.section = DataSection.section(self.get('_DataFrameFormat').vertical.dataObject.section)
+
+			self.set('_vertical',new Vertical())
+			self.set('_horizontal',new Horizontal())
+			self.set('_back',new Back())
+			self.set('_graphs',new Graphs())
+			self.set('_globalInduce', new GlobalInduce())
+			self.set('_induces',new Graphs())
+			
+			self._trimVertical()
+			var o = {
+				parent : self.get('element'),
+				data   : self.get('_DataFrameFormat').vertical.data
+			}
+			self.get('_vertical').init(o)
+			self.get('_vertical').get('element').transformXY(self.get('_disX'), self.get('h') - self.get('_horizontal').get('h') - self.get('_disY'))
+			// return
+			self._trimHorizontal()
+			var o = {
+				w      : self.get('_horizontalMaxW'),
+				parent : self.get('element'),
+				data   : self.get('_DataFrameFormat').horizontal.data,
+				dis_left : self.get('_disX') + self.get('_vertical').get('w') - self.get('_disX')
+			}
+			self.get('_horizontal').init(o)
+			self.get('_horizontal').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w'), self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY'))
+
+			self._trimGraphs()
+			var o = {
+				w      : self.get('_horizontalMaxW'),
+				h      : self.get('_verticalMaxH'),
+				parent : self.get('element'),
+				data_hor : self.get('_DataFrameFormat').vertical.data,
+				data_ver : self.get('_horizontal').getShowData(),
+				h_ver    : self.get('_verticalGraphsH'),
+			}
+			self.get('_back').init(o)
+			self.get('_back').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w'), self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY'))
+
+			var o = {
+				x     : self.get('_disX') + self.get('_vertical').get('w') + Global.N05,
+				y     : self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05,
+				w     : self.get('_horizontalGraphsW'),
+				h     : self.get('_verticalGraphsH'),
+				parent: self.get('element'),
+				data  : self.get('_DataFrameFormat').graphs.data,
+				disX  : self.get('_DataFrameFormat').graphs.disX,
+				node  : self.get('config').node,
+				area  : self.get('config').area,
+				areaMode   : self.get('config').areaMode,
+				areaAlphas : self.get('config').areaAlphas,
+				isLine: self.get('config').isLine,
+				shape : self.get('config').shape,
+				fills : self.get('config').fillsObject.normals,
+				fills_over : self.get('config').fillsObject.overs,
+				circle: self.get('config').circle.normal
+			}
+			self.get('_graphs').init(o)
+			self.get('_graphs').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w') + Global.N05, self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05)
+
+			var o = {
+				w     : self.get('w'),
+				h     : self.get('h'),
+				parent: self.get('element'),
+				opacity : Global.N00001
+			}
+			self.get('_globalInduce').init(o)
+
+			if(self.get('_DataFrameFormat').horizontal.org.length == 0){
+				return
+			}
+			var o = {
+				gx    : self.get('gx'),            
+				gy    : self.get('gy'),   
+				x     : self.get('_disX') + self.get('_vertical').get('w') + Global.N05,
+				y     : self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05,
+				w     : self.get('_horizontalMaxW'),
+				h     : self.get('_verticalGraphsH'),
+				parent: self.get('element'),
+				id    : 'induces',
+				data  : self.get('_DataFrameFormat').graphs.data,
+				isInduce   : 1,
+				disX  : self.get('_DataFrameFormat').graphs.disX,
+				fills : self.get('config').fillsObject.normals,
+				fills_over : self.get('config').fillsObject.overs,
+			}
+			self.get('_induces').init(o)
+			self.get('_induces').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
+			self.get('_induces').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
+			self.get('_induces').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w') +Global.N05, self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05)
+
+			self.get('element').fire(EventType.COMPLETE)
+		},
+		
+		_trimConfig:function(){
+			var self = this
+			var normals = []
+			var overs = []
+			var config = self.get('config')
+			for (var a = 0, al = config.fills[0].length; a < al; a++ ) {
+				var o = config.fills[0][a]
+				normals.push(o.normal)
+				overs.push(o.over)
+			}
+			config.fillsObject = {}
+			config.fillsObject.normals = normals
+			config.fillsObject.overs = overs
+		},
+
+		//从data.vertical.org提取的对象 $arr = data.vertical.org
+		//max = 直方叠加之后的数组 方便操作[[100+10,200+20,300+30],[]]
+		//section = 用于计算纵轴section的数组[145,413,...,168,763,...,839]
+		_trimVerticalOrgData:function($arr){
+			var self = this
+			var max = []
+			var section = []
+			var data = []          //二维数组
+			var config = self.get('config')
+			
+			for (var a = 0, al = $arr.length; a < al; a++ ) {
+				var o = $arr[a]
+				
+				var tmp = []
+				for (var b = 0, bl = o.data.length; b < bl; b++ ) {
+					var o1 = o.data[b]
+					for (var c = 0, cl = o1.data.length; c < cl; c++ ) {
+						!tmp[c] ? tmp[c] = 0 : ''
+						tmp[c] += Number(o1.data[c])
+					}
+					section = section.concat(o1.data)
+					data.push(o1.data)
+				}
+				max.push(tmp)
+			}
+			if (config.data.mode == 1) {
+				tmp = []
+				for (var d = 0, dl = data.length; d < dl; d++ ) {
+					//倒序
+					var di = data.length - 1 - d
+					
+					var newValuesArr = []
+					for (var e = di, el = data.length; e < el; e++ ) {
+						for (var f = 0, fl = data[e].length; f < fl; f++ ) {
+							!newValuesArr[f] ? newValuesArr[f] = 0 : ''
+							newValuesArr[f] = newValuesArr[f] + Number(data[e][f])
+						}
+					}
+					tmp.unshift(newValuesArr)
+				}
+				section = tmp[0]
+				data = tmp
+			}
+			return { max:max, section:section, data:data }
+		},
+
+		//换算纵向
+		_trimVertical:function(){
+			var self = this
+			self.set('_verticalMaxH', self.get('h') - self.get('_disY') - self.get('_horizontal').get('h') - self.get('_disY'))
+			self.set('_verticalGraphsH', self.get('_verticalMaxH') - self._getVerticalDisY())
+			self.set('_verticalDrawH', self.get('_verticalGraphsH') - self.get('_dis_graphs'))
+			var max = self.get('_DataFrameFormat').vertical.section[self.get('_DataFrameFormat').vertical.section.length - 1]
+			var arr = self.get('_DataFrameFormat').vertical.section
+			var tmpData = []
+			for (var a = 0, al = arr.length; a < al; a++ ) {
+				var y = -self.get('_dis_graphs') - arr[a] / max * self.get('_verticalDrawH')                                    
+				y = isNaN(y) ? 0 : Global.ceil(y)                                                    
+				tmpData[a] = { 'value':arr[a], 'y': y }
+			}
+			self.get('_DataFrameFormat').vertical.data = tmpData
+		},
+		//获取纵向总高到第一条线之间的距离
+		_getVerticalDisY:function(){
+			var self = this
+			var disMin = self.get('_dis_line')
+			var disMax = 2 * self.get('_dis_line')
+			var dis = disMin
+			dis = disMin + self.get('_verticalMaxH') % self.get('_DataFrameFormat').vertical.section.length   //Q3  DataFrameFormat.vertical.section.length
+			dis = dis > disMax ? disMax : dis
+			return dis
+		},
+		//换算横向
+		_trimHorizontal:function(){
+			var self = this
+			self.set('_horizontalMaxW', self.get('w') - self.get('_disX') - self.get('_vertical').get('w') - self.get('_disX'))
+			self.set('_horizontalGraphsW', self.get('_horizontalMaxW') - self._getHorizontalDisX())
+			self.set('_horizontalDrawW', self.get('_horizontalGraphsW') - self.get('_dis_graphs'))
+			var max = self.get('_DataFrameFormat').horizontal.org.length
+			var arr = self.get('_DataFrameFormat').horizontal.org
+			var tmpData = []
+		    for (var a = 0, al  = arr.length; a < al; a++ ) {
+				tmpData.push( { 'value':arr[a], 'x':Global.ceil(self.get('_dis_graphs') + a / (max - 1) * self.get('_horizontalDrawW')) } )
+			}
+			self.get('_DataFrameFormat').horizontal.data = tmpData
+		},
+		//获取横向总宽到第一条线之间的距离
+		_getHorizontalDisX:function(){
+			var self = this
+			var disMin = self.get('_dis_line')
+			var disMax = 2 * self.get('_dis_line')
+			var dis = disMin
+			dis = disMin + self.get('_horizontalMaxW') % self.get('_DataFrameFormat').horizontal.org.length 
+			dis = dis > disMax ? disMax : dis
+			dis = isNaN(dis) ? 0 : dis
+			return dis
+		},
+		//换算图形
+		_trimGraphs:function(){   
+			var self = this                                                           
+			var maxVertical = self.get('_DataFrameFormat').vertical.section[self.get('_DataFrameFormat').vertical.section.length - 1]
+			var maxHorizontal = self.get('_DataFrameFormat').horizontal.org.length
+			var arr = self.get('_DataFrameFormat').vertical.dataObject.data
+			var tmpData = []
+			var no_nodes = self._getNoNodes()
+			//处理不显示的节点
+			for (var a = 0, al = arr.length; a < al; a++ ) {
+				for (var b = 0, bl = arr[a].length ; b < bl; b++ ) {
+					!tmpData[a] ? tmpData[a] = [] : ''
+					var y = -self.get('_dis_graphs') - arr[a][b] / maxVertical * self.get('_verticalDrawH')
+					y = isNaN(y) ? 0 : y
+					tmpData[a][b] = {'value':arr[a][b], 'x':self.get('_dis_graphs') + b / (maxHorizontal - 1) * self.get('_horizontalDrawW'),'y':y}
+					if(no_nodes[a] && no_nodes[a][b]){
+						tmpData[a][b].no_node = 1
+					}
+				}
+			}
+			self.get('_DataFrameFormat').graphs.data = tmpData
+			self.get('_DataFrameFormat').graphs.disX = self._getGraphsDisX()
+		},
+		//每两个点之间的距离
+		_getGraphsDisX:function(){
+			var self = this
+			return self.get('_horizontalGraphsW') / (self.get('_DataFrameFormat').horizontal.org.length - 1)
+		},
+		//过滤不显示的节点
+		_getNoNodes:function(){
+			var self = this
+			var arr = []
+			var nodes_mode = self.get('config').circle.mode
+			var data = self.get('_DataFrameFormat').vertical.org
+			if(nodes_mode == 0){
+			}else if(nodes_mode == 1){
+				for (var a = 0, al = data.length; a < al; a++ ) {
+					!arr[a] ? arr[a] = [] : ''
+					var value
+					for (var b = 0, bl = data[a].length ; b < bl; b++ ) {
+						if(value == data[a][b]){
+							arr[a][b] = 1
+						}
+						value = data[a][b]
+						if(data[a][b + 1]){   //如果有后一个点
+							if(value != data[a][b + 1]){
+								arr[a][b] = 0
+							}
+						}else{                //最后一个点
+							arr[a][b] = 0
+						}
+					}
+				}
+			}
+			self.get('_DataFrameFormat').vertical.no_nodes = arr
+			return arr
+		},
+
+		_overHandler:function($o){
+			var $o = S.clone($o)
+			$o.x = Number(this.get('gx')) +  Number(this.get('_graphs').get('element').get('_x')) + Number($o.x)
+			$o.y = Number(this.get('gy')) +  Number(this.get('_graphs').get('element').get('_y')) + Number($o.y)
+			//底部xy
+			$o.dx = Number(this.get('gx')) 
+			$o.dy = Number(this.get('gy')) +  Number(this.get('_graphs').get('element').get('_y'))
+
+			for(var a = 0, al = $o.other.length; a < al; a++){
+				$o.other[a].x = Number(this.get('gx')) +  Number(this.get('_graphs').get('element').get('_x')) + Number($o.other[a].x)
+				$o.other[a].y = Number(this.get('gy')) +  Number(this.get('_graphs').get('element').get('_y')) + Number($o.other[a].y)
+			}
+
+			this.get('_graphs').induce({index:$o.index,id:$o.id},true)
+			this.get('element').fire(EventType.OVER,$o)
+		},
+		_outHandler:function($o){
+			this.get('_graphs').induce({index:$o.index,id:$o.id},false)
+			this.get('element').fire(EventType.OUT,$o)
+		},
+
+		/**
+		 * 数据继承
+		 * @type {Object}
+		 */
+		DataExtend:function(DataFrameFormat,DataSource){
+			DataFrameFormat.key.indexs = DataSource.key.indexs
+			DataFrameFormat.vertical.name = DataSource.vertical.name
+			DataFrameFormat.vertical.names = DataSource.vertical.names
+			DataFrameFormat.vertical.org = DataSource.vertical.data
+			DataFrameFormat.vertical.no_nodes = DataSource.vertical.no_nodes
+			DataFrameFormat.horizontal.name = DataSource.horizontal.name
+			DataFrameFormat.horizontal.names = DataSource.horizontal.names
+			DataFrameFormat.horizontal.org = DataSource.horizontal.data
+
+			return DataFrameFormat
+		}
+	});
+
+	return Core;
+
+	}, {
+	    requires:['base','node','../../utils/global','../../utils/datasection','../../utils/svgelement',
+	    		  '../../views/vertical','../../views/horizontal','../../views/back','../../views/globalinduce','../../models/eventtype','./graphs'
+	    ]
+	}
+);
 KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Global,SVGElement,SVGRenderer,Group,EventType){
 	
 	function Graphs(){
@@ -7975,6 +11330,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 		area:{
 			value:0              //是否有区域
 		},
+		areaMode:{
+			value:0              //区域闭合模式(0 = 自动闭合 | 1 = 不自动闭合 根据前一条线闭合)
+		},
+		areaAlphas:{
+			value:[0.05, 0.25]   //区域填充部分的透明度
+		},
 		shape:{
 			value:1              //线条形状
 		},
@@ -7986,6 +11347,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 		},
 		circle:{                 //圆
 			value:{}
+		},
+		isLine:{
+			value:0              //当鼠标划入时 是否有线
 		},
 
 		_groupArr:{
@@ -8012,6 +11376,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 		},
 		_induce:{ 
 			value:null          
+		},
+		_line:{
+			value:null
 		}
 	}			
 
@@ -8029,8 +11396,20 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 		induce:function($o,$b){
 			var self = this
 			self.get('_groupArr')[self.get('_index')].induce(false)
-			self.set('_index', $o.index)
+			self.set('_index', $o.index), self.set('_id', $o.id)
 			self.get('_groupArr')[$o.index].induce($b)
+			
+			if(self.get('isLine')){
+				if(self.get('_line').element.lastChild) {self.get('_line').element.removeChild(self.get('_line').element.lastChild)}
+				if($b){
+					var o = self.get('_groupArr')[$o.index].getNodeInfoAt(self.get('_id'))
+					var line = new SVGElement('path')
+					var d = SVGRenderer.symbol('line',0,0,0,-o.y + 6).join(' ')
+				    line.attr({'stroke':'#555555','stroke-width':1,'d':d})
+				    self.get('_line').appendChild(line.element)
+				    line.transformXY(o.x,o.y)
+				}
+			}
 		},
 		getNodeInfoAt:function($index,$id){
 			var self = this
@@ -8049,6 +11428,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 			self.get('element').appendChild(self.get('_groups').element)
 			if(self.get('isInduce')){
 				self.get('_groups').set('visibility','hidden')
+			}
+
+			self.set('_line', new SVGElement('g')), self.get('_line').set('class','line')
+			self.get('element').appendChild(self.get('_line').element)
+			if(self.get('isInduce')){
+				self.get('_line').set('visibility','hidden')
 			}
 
 			self.set('_induce', new SVGElement('path')),self.get('_induce').set('class','induce')
@@ -8094,10 +11479,19 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 						index  : a,
 						parent : self.get('_areas'),
 						data   : self.get('data')[a],
+						line   : 0,
 						area   : self.get('area'),
+						areaAlphas: self.get('areaAlphas'),
 						shape  : self.get('shape'),
 						fill   : self.get('fills')[a],
 						fill_over : self.get('fills_over')[a]
+					}
+
+					if (self.get('areaMode') == 1) {
+						if (self.get('data')[a] && self.get('data')[a + 1]) {
+							o.data = o.data.concat(S.clone(self.get('data')[a + 1]).reverse())
+							o.areaMode = self.get('areaMode')
+						}
 					}
 					_area.init(o)
 				}
@@ -8126,7 +11520,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 				self.set('_nodesInfoList', [])
 				self.set('_nodesYList', [])
 				for (var a = 0, al = self.get('_groupArr').length; a < al; a++ ) {
-
 					var o = self.get('_groupArr')[a].getNodeInfoAt(tmp_id)
 					self.get('_nodesInfoList').push(o)
 					self.get('_nodesYList').push(o.y)
@@ -8137,6 +11530,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 
 			}else{
 				self.set('_index', tmp_index)
+				self.set('_id', tmp_id)
 				var o = self.get('_nodesInfoList')[self.get('_index')]
 				var arr = S.clone(self.get('_nodesInfoList'))
 				arr.splice(self.get('_index'), 1)
@@ -8159,8 +11553,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 		_globalToLocal:function($globalObject){
 			var self = this
 			var o = {}
-			o.x = $globalObject.x - self.get('x')
-			o.y = $globalObject.y - self.get('y')
+			var gx = self.get('gx') ? self.get('gx') : 0
+			var gy = self.get('gy') ? self.get('gy') : 0
+			o.x = $globalObject.x - self.get('x') - gx
+			o.y = $globalObject.y - self.get('y') - gy
 			return o
 		}
 	});
@@ -8195,6 +11591,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 		},
 		area:{
 			value:0              //是否有区域
+		},
+		areaMode:{
+			value:0              //区域闭合模式(0 = 自动闭合 | 1 = 不自动闭合 根据前一条线闭合)
+		},
+		areaAlphas:{             //区域填充部分的透明度
+			value:[0.05, 0.25]
 		},
 		shape:{
 			value:0              //线条样式[0 = 直线 | 1 = 曲线]
@@ -8258,7 +11660,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 
 			if(self.get('area')){
 				self.set('_linearGradientIndex', self.get('_linearGradientIndex') + '_' + self.get('index'))
-				self._linearGradient({'id':self.get('_linearGradientIndex'),'top_fill':self.get('fill'),'top_opacity':0.25,'down_fill':self.get('fill'),'down_opacity':0.05})
+				self._linearGradient({'id':self.get('_linearGradientIndex'),'top_fill':self.get('fill'),'top_opacity':self.get('areaAlphas')[1],'down_fill':self.get('fill'),'down_opacity':self.get('areaAlphas')[0]})
 			}
 			self._widget()
 
@@ -8395,14 +11797,60 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 			var fill = $o.fill ? $o.fill : 'none'
 			var stroke = $o.stroke ? $o.stroke : '#000000'
 			var stroke_width = $o.stroke_width ? $o.stroke_width : 1
-			var d = SVGRenderer.symbol('lines','','','','',arr)
-			d += ' ' + SVGRenderer.actions.L + ' ' + arr[arr.length - 1].x + ' ' + 0
-			d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + 0
-			d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + (Number(arr[0].y))
+
+			if(self.get('areaMode') == 0 ){
+				var d = SVGRenderer.symbol('lines','','','','',arr)
+				d += ' ' + SVGRenderer.actions.L + ' ' + arr[arr.length - 1].x + ' ' + 0
+				d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + 0
+				d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + (Number(arr[0].y))
+			}else{
+
+				var arr = S.clone(arr)
+				var d = SVGRenderer.symbol('lines','','','','',arr)
+				d += ' ' + SVGRenderer.actions.L + arr[0].x + ' ' + arr[0].y		
+				
+				/*  flash设计思路在svg下有问题
+				var arr = S.clone(arr)
+				var arr1 = arr.splice(0, arr.length / 2)
+				var arr2 = arr.reverse()
+
+				var d = ' ' + SVGRenderer.actions.M + arr1[0].x + ' ' + arr1[0].y
+				d = self._drawLines(d, arr1)
+
+				d += ' ' + SVGRenderer.actions.L + arr1[0].x + ' ' + arr1[0].y
+				d += ' ' + SVGRenderer.actions.L + arr2[0].x + ' ' + arr2[0].y
+				d = self._drawLines(d, arr2)
+
+				d += ' ' + SVGRenderer.actions.L + arr1[arr1.length - 1].x + ' ' + arr1[arr1.length - 1].y
+				*/
+			}
 
 			var path = new SVGElement('path')
 			path.attr({'d':d,'fill':fill, 'stroke':stroke,'stroke-width':stroke_width})
 			return path
+		},
+
+		_drawLines:function ($d, $arr) {
+			var d = $d
+			for (var a = 1, al = $arr.length; a < al; a++) {
+				d += ' ' + SVGRenderer.actions.L + $arr[a].x + ' ' + $arr[a].y
+			}
+			return d
+		},
+		_drawCurveLines:function($d, $arr) {
+			var s = $d
+			var arr = $arr
+
+		    for (var a = 0, al = arr.length - 2; a < al; a++ ) {
+			    var x2 = (arr[a + 1].x + arr[a + 2].x ) / 2
+			    var y2 = (arr[a + 1].y + arr[a + 2].y ) / 2
+			    var x = arr[a + 1].x * 2 - (arr[a].x + x2) / 2;
+			    var y = arr[a + 1].y * 2 - (arr[a].y + y2) / 2;
+			    s +=' ' +  SVGRenderer.actions.Q + x + ' ' + y + ' ' + x2 + ' ' + y2
+			    arr[a + 1] = {x:x2,y:y2}
+		    }
+		    s += ' ' + SVGRenderer.actions.L + arr[arr.length - 1].x + ' ' + arr[arr.length - 1].y
+	   	 	return s
 		},
 		//填充曲线
 		_fillCurveLine:function($o){
@@ -8412,10 +11860,34 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 			var fill = $o.fill ? $o.fill : 'none'
 			var stroke = $o.stroke ? $o.stroke : '#000000'
 			var stroke_width = $o.stroke_width ? $o.stroke_width : 1
-			var d = SVGRenderer.symbol('curveLines','','','','',arr)
-			d += ' ' + SVGRenderer.actions.L + ' ' + arr[arr.length - 1].x + ' ' + 0
-			d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + 0
-			d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + (Number(arr[0].y))
+
+			if(self.get('areaMode') == 0 ){
+				var d = SVGRenderer.symbol('curveLines','','','','',arr)
+				d += ' ' + SVGRenderer.actions.L + ' ' + arr[arr.length - 1].x + ' ' + 0
+				d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + 0
+				d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + (Number(arr[0].y))
+			}else{
+				var arr = arr.splice(0, arr.length / 2)
+				var d = SVGRenderer.symbol('curveLines','','','','',arr)
+				d += ' ' + SVGRenderer.actions.L + ' ' + arr[arr.length - 1].x + ' ' + 0
+				d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + 0
+				d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + (Number(arr[0].y))
+
+				/*  flash设计思路在svg下有问题
+				var arr = S.clone(arr)
+				var arr1 = arr.splice(0, arr.length / 2)
+				var arr2 = arr//.reverse()
+
+				var d  = SVGRenderer.actions.M + ' ' + arr1[0].x + ' ' + arr1[0].y
+				d = self._drawCurveLines(d, arr1)
+				
+				// d += ' ' + SVGRenderer.actions.M + ' ' + arr1[arr1.length - 1].x + ' ' + arr1[arr1.length - 1].y
+				d += ' ' + SVGRenderer.actions.L + ' ' + arr2[0].x + ' ' + arr2[0].y
+
+				d = self._drawCurveLines(d, arr2)
+				d += ' ' + SVGRenderer.actions.L + ' ' + arr1[0].x + ' ' + arr1[0].y
+				*/
+			}
 
 			var path = new SVGElement('path')
 			path.attr({'d':d,'fill':fill, 'stroke':stroke,'stroke-width':stroke_width})
@@ -8846,6 +12318,147 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/maps/zh/mapdata',function(S){
 
 	}
 );
+KISSY.add('brix/gallery/charts/js/pub/views/modules/pieinfo/main',function(S,Base,Node,Global,SVGElement,Graphs,Info,EventType,SVGGraphics){
+	var $ = Node.all
+
+	function Main(){
+		
+		var self = this
+
+		/*
+			arguments:
+
+			  o:{
+				parent    :''     //SVGElement
+				w         :100    //宽
+				h         :100    //高
+				config    :{}     //配置
+			  }
+
+		 */
+		Main.superclass.constructor.apply(self,arguments);
+
+		// self.init()
+	}
+
+	Main.ATTRS = {
+		w:{
+			value:0
+		},
+		h:{
+			value:0
+		},
+		data:{
+			value:[]             //[ pie: { data:[300, 100], fills:['#ff0000', '#ffff00'] }, info:[] ]
+		},
+		element:{
+			value:null
+		},
+		txtStartIndex:{
+			value:0              //饼图对应info中的文字的起始索引
+		},
+
+		_graphs:{
+			value:null           //pie graphs
+		},
+		_info:{
+			value:null           
+		},
+		_radius:{
+			value:30
+		},
+	}
+
+	S.extend(Main,Base,{
+		init:function(){
+			var self = this
+			Main.superclass.constructor.apply(self,arguments);
+
+			self.set('element', new SVGElement('g')), self.get('element').set('class','pieInfo')
+			self.get('parent').appendChild(self.get('element').element)
+
+			self._widget()
+
+			// self.set('_circle', SVGGraphics.circle({'r':5,'fill':'#ffffff','stroke':'#000000','stroke_width':2}))
+			// self.get('element').appendChild(self.get('_circle').element)
+		},
+
+		_widget:function(){
+			var self = this
+			var _radius = self.get('_radius')
+			var data = self.get('data')
+			var _graphs,_info
+
+			self.set('_graphs', new Graphs())
+			_graphs = self.get('_graphs')
+
+			var o = {
+				x     : _radius,
+				y     : _radius,
+				parent: self.get('element'),
+				data  : data.pie.data,
+				fills : data.pie.fills,
+				mw    : _radius * 2,
+				mh    : _radius * 2,
+				xr    : _radius,
+				yr    : _radius,
+				tr    : _radius * 0.6,
+				isTxt : 0,
+				disMove : 4,
+			}
+			_graphs.init(o)
+			_graphs.get('element').set('transform','matrix(-1,-0.005,0.005,-1,' + _radius + ',' + _radius + ')')
+			_graphs.get('element').on(EventType.OVER,function($o){self._overHandler($o)})
+			_graphs.get('element').on(EventType.OUT,function($o){self._outHandler($o)})
+			var total = Global.getArrMergerNumber(data.pie.data)
+			if (!total) {
+				_graphs.get('element').set('visibility','hidden')
+			}
+
+			if (data.info) {
+				self.set('_info', new Info())
+				_info = self.get('_info')
+
+				var o = {
+					data   : data.info,
+					parent : self.get('element'),
+					isBack : 0
+				}
+				_info.init(o)
+			}
+			_info.get('element').transformXY(Math.floor(_radius * 2 + 6 + _info.get('w') / 2), _radius)
+
+			if (_info) {
+				var w = Math.floor(_radius * 2 + 6 + _info.get('w'))
+			}else {
+				var w = Math.floor(_radius * 2)
+			}
+			self.set('w',w)
+		},
+
+		_overHandler:function($o){
+			var index = $o.index
+			this.get('_graphs').induce({index:index},true)
+			if (this.get('_info')) {
+				this.get('_info').moveRowTxt( { index:Number(this.get('txtStartIndex')) + Number(index), mode:1 } )
+			}
+		},
+		_outHandler:function($o){
+			var index = $o.index
+			this.get('_graphs').induce({index:index},false)
+			if (this.get('_info')) {
+				this.get('_info').moveRowTxt( { index:Number(this.get('txtStartIndex')) + Number(index), mode:2 } )
+			}
+		},
+	});
+
+	return Main;
+
+	}, {
+	    requires:['base','node','../../../utils/global','../../../utils/svgelement','../../../views/pie/graphs','../../../views/infos/info','../../../models/eventtype','../../../views/svggraphics'
+	    ]
+	}
+);
 KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Global,Move,SVGElement,SVGRenderer,SVGGraphics,EventType){
 	
 	function Graphs(){
@@ -8902,6 +12515,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		tr:{
 			value:60             //圆的厚度
 		},
+		disMove:{
+			value:8              //鼠标划入时候移动的距离
+		},
+		isTxt:{
+			value:1              //是否展现文字
+		},
 
 		_elements:{
 			value:null           //区域集合g
@@ -8939,9 +12558,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		_disMinCirR:{
 			value:16             //当角度过小时 小圆与圆周之间的距离
 		},
-		_disMove:{
-			value:8              //鼠标划入时候移动的距离
-		},
 		_minCirR:{
 			value:2.5            //当角度过小时 小圆的半径
 		},
@@ -8961,11 +12577,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		init:function(){
 			var self = this
 			Graphs.superclass.constructor.apply(self,arguments);
+			if(self.get('isInduce') == 1){ self.set('isTxt',0) }
 			
 			self.set('element', new SVGElement('g')), self.get('element').set('class',self.get('id'))
 			self.get('parent').appendChild(self.get('element').element)
 
-			self.set('_total', Global.getTotalForArray(self.get('data')))
+			self.set('_total', Global.getArrMergerNumber(self.get('data')))
 			self.set('_angleList', self._getAngleList(self.get('data'),self.get('_total'),self.get('_startR')))
 			self.set('_scaleList', self._getScaleList(self.get('data'),self.get('_total')))
 			if (self.get('data').length <= 1) {
@@ -9035,10 +12652,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 				r = self.get('_angleList')[a][0] - self.get('_disR')
 				maxR = self.get('_angleList')[a][1] - 2 * self.get('_disR')
 				var arr = []
-				var p = self._getRPoint(self.get('x0'), self.get('y0'), self.get('xr') + self.get('_disMove'), self.get('yr') + self.get('_disMove'), r)
+				var p = self._getRPoint(self.get('x0'), self.get('y0'), self.get('xr') + self.get('disMove'), self.get('yr') + self.get('disMove'), r)
 				arr.push(p)
 				for (var f = r, fl = maxR; f <= fl; f++ ){
-					p = self._getRPoint(self.get('x0'), self.get('y0'), self.get('xr') + self.get('_disMove'), self.get('yr') + self.get('_disMove'), f)
+					p = self._getRPoint(self.get('x0'), self.get('y0'), self.get('xr') + self.get('disMove'), self.get('yr') + self.get('disMove'), f)
 					arr.push(p)
 				}
 				r = self.get('_angleList')[a][0];
@@ -9064,10 +12681,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 				}
 				angle = r + (maxR - r) / 2
 				var o = self._getRPoint(self.get('x0'), self.get('y0'), Number(self.get('xr')) - Number(self.get('tr')) / 2 , Number(self.get('yr')) - Number(self.get('tr')) / 2, angle - self.get('_disR') / 2)
-				self.get('_moveList').push(self._getRPoint(self.get('x0'), self.get('y0'), self.get('_disMove') , self.get('_disMove'), angle - self.get('_disR') / 2))
+				self.get('_moveList').push(self._getRPoint(self.get('x0'), self.get('y0'), self.get('disMove') , self.get('disMove'), angle - self.get('_disR') / 2))
 
 				//文字
-				if(self.get('isInduce') == 0 ){
+				if(self.get('isTxt') == 1){
 					var font
 					if (maxR - minR >= 15) {
 						font = SVGGraphics.text({'content':String(self.get('_scaleList')[a]) + '%','size':o.size,'fill':self.get('_font_fill'),'bold':1,'family':self.get('_font_family')})
@@ -9079,6 +12696,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 						font = SVGGraphics.text({'content':String(self.get('_scaleList')[a]) + '%','size':o.size,'fill':fill,'bold':1})
 						_element.appendChild(font.element)
 						font.transformXY(o.x - font.getWidth() / 2, o.y + font.getHeight() / 4)
+					}
+
+					if(self.get('istxt') == 0){
+						font.set()
 					}
 				}
 			}

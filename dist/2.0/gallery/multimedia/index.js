@@ -38,7 +38,7 @@ KISSY.add('brix/gallery/multimedia/index',function(S,Base,Node,Flash){
             var div = $('<div id="'+id+'"></div>');
 
 
-            div.css({'width':self.get('w0'), 'height':self.get('h0'), 'position':'absolute',right:self.get('right'),top:self.get('top'),'z-index':999999});
+            div.css({'width':self.get('w0'), 'height':self.get('h0'), 'position':'absolute',right:self.get('right'), top:self.get('top'), 'z-index':999999});
 
             $('body').prepend(div);
 
