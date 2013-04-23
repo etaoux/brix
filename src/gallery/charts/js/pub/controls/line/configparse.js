@@ -16,18 +16,25 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 				node:0,
 				shape:0,
 				area:0,
+				areaMode:0,             //区域闭合模式(0 = 自动闭合 | 1 = 不自动闭合 根据前一条线闭合)
+				areaAlphas:[0.05, 0.25],//区域填充部分的透明度
+				isLine:0,               //当鼠标划入时 是否有线
 
+				data:{
+				   mode:0               //数据模式(0 = 普通 | 1 = 叠加)
+				},
+				
 				fills:{
-					normals:['0x458AE6', '0x39BCC0', '0x5BCB8A', '0x94CC5C', '0xC3CC5C', '0xE6B522', '0xE68422'],
-					overs  :['0x135EBF', '0x2E9599', '0x36B26A', '0x78A64B', '0x9CA632', '0xBF9E39', '0xBF7C39']
+					normals:['#458AE6', '#39BCC0', '#5BCB8A', '#94CC5C', '#C3CC5C', '#E6B522', '#E68422'],
+					overs  :['#135EBF', '#2E9599', '#36B26A', '#78A64B', '#9CA632', '#BF9E39', '#BF7C39']
 				},
 
 				circle:{
-					mode  :0,            //模式[(仅当node=1) 空或0=显示所有节点 | 1=在数据变化时 显示变化的节点] 
+					mode  :0,           //模式[(仅当node=1) 空或0=显示所有节点 | 1=在数据变化时 显示变化的节点] 
 					normal:{
-						radius:3,        //半径
-						thickness:2,     //轮廓粗线
-						fill:'0xFFFFFF'  //填充色
+						radius:3,       //半径
+						thickness:2,    //轮廓粗线
+						fill:'#FFFFFF'  //填充色
 					},
 					over  :{
 						min_radius:4,
@@ -59,6 +66,9 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 			var xmlDoc = domParser.parseFromString(data, 'text/xml');
 			
 			var __data = xmlDoc.getElementsByTagName("data")[0]
+			if(!__data){
+				return o 
+			}
 			o.v = __data.getAttribute('v') && String(__data.getAttribute('v')) ? String(__data.getAttribute('v')) : o.v
 
 			o.node = __data.getAttribute('node') && String(__data.getAttribute('node')) ? Number(__data.getAttribute('node')) : o.node

@@ -54,6 +54,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		tr:{
 			value:60             //圆的厚度
 		},
+		disMove:{
+			value:8              //鼠标划入时候移动的距离
+		},
+		isTxt:{
+			value:1              //是否展现文字
+		},
 
 		_elements:{
 			value:null           //区域集合g
@@ -91,9 +97,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		_disMinCirR:{
 			value:16             //当角度过小时 小圆与圆周之间的距离
 		},
-		_disMove:{
-			value:8              //鼠标划入时候移动的距离
-		},
 		_minCirR:{
 			value:2.5            //当角度过小时 小圆的半径
 		},
@@ -113,11 +116,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		init:function(){
 			var self = this
 			Graphs.superclass.constructor.apply(self,arguments);
+			if(self.get('isInduce') == 1){ self.set('isTxt',0) }
 			
 			self.set('element', new SVGElement('g')), self.get('element').set('class',self.get('id'))
 			self.get('parent').appendChild(self.get('element').element)
 
-			self.set('_total', Global.getTotalForArray(self.get('data')))
+			self.set('_total', Global.getArrMergerNumber(self.get('data')))
 			self.set('_angleList', self._getAngleList(self.get('data'),self.get('_total'),self.get('_startR')))
 			self.set('_scaleList', self._getScaleList(self.get('data'),self.get('_total')))
 			if (self.get('data').length <= 1) {
@@ -187,10 +191,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 				r = self.get('_angleList')[a][0] - self.get('_disR')
 				maxR = self.get('_angleList')[a][1] - 2 * self.get('_disR')
 				var arr = []
-				var p = self._getRPoint(self.get('x0'), self.get('y0'), self.get('xr') + self.get('_disMove'), self.get('yr') + self.get('_disMove'), r)
+				var p = self._getRPoint(self.get('x0'), self.get('y0'), self.get('xr') + self.get('disMove'), self.get('yr') + self.get('disMove'), r)
 				arr.push(p)
 				for (var f = r, fl = maxR; f <= fl; f++ ){
-					p = self._getRPoint(self.get('x0'), self.get('y0'), self.get('xr') + self.get('_disMove'), self.get('yr') + self.get('_disMove'), f)
+					p = self._getRPoint(self.get('x0'), self.get('y0'), self.get('xr') + self.get('disMove'), self.get('yr') + self.get('disMove'), f)
 					arr.push(p)
 				}
 				r = self.get('_angleList')[a][0];
@@ -216,10 +220,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 				}
 				angle = r + (maxR - r) / 2
 				var o = self._getRPoint(self.get('x0'), self.get('y0'), Number(self.get('xr')) - Number(self.get('tr')) / 2 , Number(self.get('yr')) - Number(self.get('tr')) / 2, angle - self.get('_disR') / 2)
-				self.get('_moveList').push(self._getRPoint(self.get('x0'), self.get('y0'), self.get('_disMove') , self.get('_disMove'), angle - self.get('_disR') / 2))
+				self.get('_moveList').push(self._getRPoint(self.get('x0'), self.get('y0'), self.get('disMove') , self.get('disMove'), angle - self.get('_disR') / 2))
 
 				//文字
-				if(self.get('isInduce') == 0 ){
+				if(self.get('isTxt') == 1){
 					var font
 					if (maxR - minR >= 15) {
 						font = SVGGraphics.text({'content':String(self.get('_scaleList')[a]) + '%','size':o.size,'fill':self.get('_font_fill'),'bold':1,'family':self.get('_font_family')})
@@ -231,6 +235,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 						font = SVGGraphics.text({'content':String(self.get('_scaleList')[a]) + '%','size':o.size,'fill':fill,'bold':1})
 						_element.appendChild(font.element)
 						font.transformXY(o.x - font.getWidth() / 2, o.y + font.getHeight() / 4)
+					}
+
+					if(self.get('istxt') == 0){
+						font.set()
 					}
 				}
 			}

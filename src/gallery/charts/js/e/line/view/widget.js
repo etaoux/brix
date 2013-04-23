@@ -90,7 +90,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			value:6                      //纵向最高的线与最高高度最小相差的像素 而横向最右边的小线与最宽宽度也是最小相差该像素
 		},          
 		_dis_graphs:{
-			value:0                      //在图形中 由于考虑到圆本身的半径  实际图形中的左、下都必须预留的像素差   右、上预留的像素差的最小值也是此值
+			value:0                      //在图形中 由于考虑到圆本身的半径实际图形中的左、下都必须预留的像素差右、上预留的像素差的最小值也是此值
 		},
 
 		_verticalMaxH:{

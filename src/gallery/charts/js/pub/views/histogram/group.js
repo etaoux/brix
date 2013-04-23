@@ -69,6 +69,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 			value:[]             //支柱对象集合	
 		},
 
+
+		_sytle:{
+			value:1              //样式[1 = 只有一个直方 | 2 = 多个直方叠加]
+		},
 		_minH:{
 			value:2              //支柱最小高
 		},
@@ -141,41 +145,79 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 			for (var a = 0, al = self.get('data').length; a < al; a++ ) {
 				var o = self.get('data')[a]
 				var x
-				var w = self.get('singleW')
-				var h = o.height
-				h = h > self.get('_minH') ? h : self.get('_minH')
-
 				x = self.get('disGroupX') + (self.get('singleW') + self.get('disSingleX')) * a
 				x = self.get('intX') ? Global.ceil(x) : x
+				
+				var w = self.get('singleW')
+				if(!(o instanceof Array)){
+					
+					var h = o.height
+					h = h > self.get('_minH') ? h : self.get('_minH')
 
-				var fill = self.get('fills')[a]
-				var iskey = o.key && o.key.isKey ? o.key.isKey : ''
-				fill = iskey ? self.get('keyFill') : fill
+					var fill = self.get('fills')[a]
+					var iskey = o.key && o.key.isKey ? o.key.isKey : ''
+					fill = iskey ? self.get('keyFill') : fill
 
-				//pillar
-				var pillar = self._drawGraph({w:w,h:-h,fill:fill})           //-h
-				if(self.get('isInduce') == 0){
+					//pillar 支柱
+					var pillar = self._drawGraph({w:w,h:-h,fill:fill})           //-h
 					_pillars_df.appendChild(pillar.element)
+					pillar.transformX(x)
+					self.get('_pillarsArr').push(pillar)
+					pillar.set('_index', a)
+					pillar.set('_x',x)
+				}else{
+					//直方上叠直方
+					self.set('_sytle', 2)
+
+					//pillar 支柱
+					var pillar = new SVGElement('g')
+					_pillars_df.appendChild(pillar.element)
+
+					var singles_arr = []
+					var max_h = 0
+					for (var b = 0, bl = o.length; b < bl; b++ ) {
+						var oo = o[b]
+						var h = oo.height
+						h = h > self.get('_minH') ? h : self.get('_minH')
+						max_h += h
+						var fill = (oo.fill && oo.fill.normal) ? oo.fill.normal : '#000000'
+
+						//single 单个直方
+						var single = self._drawGraph({w:w,h:-h,fill:fill})
+						pillar.appendChild(single.element)
+						singles_arr.push(single)
+
+						single.transformY(0)
+						//前一个小直方数据对象
+						var pre_oo = o[b - 1]
+						if(pre_oo){
+							var pre_single = singles_arr[b-1]
+							var y = Number(pre_single.get('_y')) + Number(pre_single.get('_h'))
+							single.transformY(y)
+						}
+					}
+					pillar.setDynamic('singles_arr', singles_arr)
+					pillar.transformX(x)
+					self.get('_pillarsArr').push(pillar)
+					pillar.set('_index', a)
+					pillar.set('_h', -max_h)
 				}
-				pillar.transformX(x)
-				self.get('_pillarsArr').push(pillar)
-				pillar.set('_index', a)
-				pillar.set('_x',x)
-		
+
 				//induce
 				w = self.get('singleW') + self.get('_disInduce')
 				h = self.get('h')
 				var induce = self._drawGraph({w:w,h:-h,opacity:Global.N00001})
-				if(self.get('isInduce') == 1){
-					_induces_df.appendChild(induce.element), self.get('_inducesArr').push(induce)
-				}
+				// var induce = self._drawGraph({w:w,h:-h,opacity:0.2})
+				_induces_df.appendChild(induce.element), self.get('_inducesArr').push(induce)
 				induce.element.addEventListener("mouseover",function(evt){ self._overHandler(evt)}, false);
 				induce.element.addEventListener("mouseout",function(evt){ self._outHandler(evt)}, false);
 				x = x - self.get('_disInduce') / 2
 				x = self.get('intX') ? Global.ceil(x) : x
 				induce.transformX(x)
 				induce.set('_index', a)
+				
 			}
+
 			if(self.get('isInduce') == 0){
 				self.get('_pillars').appendChild(_pillars_df)
 			}
@@ -196,15 +238,23 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 		_overHandler:function($evt){
 			var self = this
 			var index = $evt.target.getAttribute('_index')
-			self.set('_isOver', 1)
-			self.set('_fill', self.get('fills')[index])
-			self.set('_fill_over', self.get('fills_over')[index])
-			if (self.get('data')[index].key && self.get('data')[index].key.isKey) { self.set('_fill', self.get('keyFill')), self.set('_fill_over' , self.get('keyFill_over'))}
 			var pillar = self.get('_pillarsArr')[index]
-			// self._induce(pillar)
+
+			if(self.get('_sytle') == 1){
+				self.set('_isOver', 1)
+				self.set('_fill', self.get('fills')[index])
+				self.set('_fill_over', self.get('fills_over')[index])
+				if (self.get('data')[index].key && self.get('data')[index].key.isKey) { self.set('_fill', self.get('keyFill')), self.set('_fill_over' , self.get('keyFill_over'))}
+			}else if(self.get('_sytle') == 2){
+			}
 			
 			var o = {}
-			o.index = self.get('index'), o.id = index, o.x = pillar.get('_x'), o.cx = Number(o.x) + Number(self.get('singleW') / 2), o.h = -pillar.get('_h'), o.fill_over = self.get('_fill_over')
+			o.index = self.get('index'), o.id = index, o.x = pillar.get('_x'), o.cx = Number(o.x) + Number(self.get('singleW') / 2), o.cy = -pillar.get('_h'), o.h = -pillar.get('_h'), o.fill_over = self.get('_fill_over')
+
+			// self.set('_circle', SVGGraphics.circle({'r':2,'fill':'#ffffff','stroke':'#000000','stroke_width':1}))
+			// self.get('element').appendChild(self.get('_circle').element)
+			// self.get('_circle').transformXY(o.cx,-o.h)
+
 			self.get('element').fire(EventType.OVER,o)
 		},
 		_outHandler:function($evt){
@@ -223,22 +273,41 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 			var self = this
 			var x,y,w,h,d,fill
 			var index = $e.get('_index')
-			var fill
-			if ($b) {
-				w = Number($e.get('_w')) + Number(self.get('_disInduce')),h = Number($e.get('_h')) - Number(self.get('_disInduce'))
-				x = Number($e.get('_x')) - Number(self.get('_disInduce') / 2)
-				fill = self.get('fills_over')[index]
-				if (self.get('data')[index].key && self.get('data')[index].key.isKey) { fill = self.get('keyFill_over')}
-			}else {
-				w = Number($e.get('_w')),h = Number($e.get('_h'))
-				x = Number($e.get('_x')) + Number(self.get('_disInduce') / 2)
-				fill = self.get('fills')[index]
-				if (self.get('data')[index].key && self.get('data')[index].key.isKey) { fill = self.get('keyFill')}
+			if(self.get('_sytle') == 1){
+				if ($b) {
+					w = Number($e.get('_w')) + Number(self.get('_disInduce')),h = Number($e.get('_h')) - Number(self.get('_disInduce'))
+					x = Number($e.get('_x')) - Number(self.get('_disInduce') / 2)
+					fill = self.get('fills_over')[index]
+					if (self.get('data')[index].key && self.get('data')[index].key.isKey) { fill = self.get('keyFill_over')}
+				}else {
+					w = Number($e.get('_w')),h = Number($e.get('_h'))
+					x = Number($e.get('_x')) + Number(self.get('_disInduce') / 2)
+					fill = self.get('fills')[index]
+					if (self.get('data')[index].key && self.get('data')[index].key.isKey) { fill = self.get('keyFill')}
+				}
+				d = SVGRenderer.symbol('square',0,0,w,h).join(' ')
+				$e.set('d',d)
+				$e.transformX(x)
+				$e.set('fill',fill)
+			}else if(self.get('_sytle') == 2){
+				for (var a = 0, al = $e.getDynamic('singles_arr').length; a < al; a++ ) {
+					//单个直方
+					var e = $e.getDynamic('singles_arr')[a]
+					if ($b) {
+						w = Number(e.get('_w')) + Number(self.get('_disInduce')),h = Number(e.get('_h')) - Number(self.get('_disInduce'))
+						x = Number(e.get('_x')) - Number(self.get('_disInduce') / 2)
+						fill = self.get('data')[index][a].fill.over
+					}else {
+						w = Number(e.get('_w')),h = Number(e.get('_h'))
+						x = Number(e.get('_x')) + Number(self.get('_disInduce') / 2)
+						fill = self.get('data')[index][a].fill.normal
+					}
+					d = SVGRenderer.symbol('square',0,0,w,h).join(' ')
+					e.set('d',d)
+					e.transformX(x)
+					e.set('fill',fill)
+				}
 			}
-			d = SVGRenderer.symbol('square',0,0,w,h).join(' ')
-			$e.set('d',d)
-			$e.transformX(x)
-			$e.set('fill',fill)
 		}
 	});
 

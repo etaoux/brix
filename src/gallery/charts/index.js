@@ -65,6 +65,15 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 
 		_resize_index:{                    //当为2的整数时 才resize
 			value:0
+		},
+		_actionsStatus:{                   //1 = actions已成功调用  |  -1 = actions正在调用 
+			value:0
+		},
+		_actionsObject:{                   
+			value:{
+				name:'',
+				value:''
+			}
 		}
 	}
 
@@ -123,7 +132,26 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 		 */
 		actions:function($name,$value){
 			var self = this
-			self.get('_case').actions($name,$value)
+			self.get('_actionsObject').name = $name, self.get('_actionsObject').value = $value
+
+			var status = self.get('_case').actions($name,$value)
+
+			if(status){
+				self.set('_actionsStatus', 1)
+				return
+			}
+
+			if(self.get('_actionsStatus') == -1){
+				return
+			}
+
+			self.set('_actionsStatus', -1)
+			setTimeout(function(){
+				var name = self.get('_actionsObject').name
+				var value = self.get('_actionsObject').value
+				self.set('_actionsStatus', 0)
+				self.actions(name,value)
+			}, 250)
 		},
 
 		resize:function(){
@@ -148,6 +176,7 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 			var self = this
 			var o = self._xml(self.get('config').configData)
 			var arr = ['integrate2','integrate3','integrate4','integrate5']
+			// var arr = []
 			for(var a = 0, al = arr.length; a<al; a++){
 				if(o.type == arr[a]){
 					return 1

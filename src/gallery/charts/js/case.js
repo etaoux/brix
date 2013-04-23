@@ -56,7 +56,6 @@ KISSY.add('brix/gallery/charts/js/case',function(S,Base,Node,DataSource,Widget){
 			var self = this
 			//下载具体某图
 			if($name == 'reset'){
-
 				var o = $value
 				if(o){
 					self.set('configData',o.configData)
@@ -64,6 +63,7 @@ KISSY.add('brix/gallery/charts/js/case',function(S,Base,Node,DataSource,Widget){
 				}
 				self.reset()
 			}
+			return true
 		},
 		//重新展现图表
 		reset:function(){

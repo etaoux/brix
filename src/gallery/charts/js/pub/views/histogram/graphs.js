@@ -149,6 +149,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/graphs',function(S,Base,no
 
 		_layout:function(){
 			var self = this
+			// var data = [
+			// 	[ [{ value:'201', height:60, key: { isKey:'' }, fill:{normal:'#458AE6',over:'#135EBF'}}, { value:'101', height:30, key: { isKey:'' }, fill:{normal:'#94CC5C',over:'#78A64B'}}],[{ value:'201', height:160, key: { isKey:'' }, fill:{normal:'#C3C3C3',over:'#B7B7B7'}}, { value:'101', height:130, key: { isKey:'' }, fill:{normal:'#E0E0E0',over:'#D8D8D8'}}] ],
+			// 	[ [{ value:'201', height:60, key: { isKey:'' }, fill:{normal:'#458AE6',over:'#135EBF'}}, { value:'101', height:30, key: { isKey:'' }, fill:{normal:'#94CC5C',over:'#78A64B'}}],[{ value:'201', height:160, key: { isKey:'' }, fill:{normal:'#C3C3C3',over:'#B7B7B7'}}, { value:'101', height:130, key: { isKey:'' }, fill:{normal:'#E0E0E0',over:'#D8D8D8'}}] ]
+			// ]
+			// self.set('data',data)
 			for (var a = 0, al = self.get('data').length; a < al; a++ ) {
 				var group = new Group()
 				self.get('_groupArr').push(group)

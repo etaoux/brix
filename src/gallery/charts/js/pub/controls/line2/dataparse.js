@@ -54,9 +54,17 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line2/dataparse',function(S,Base,
 
 			o = self._getObject(xmlDoc.getElementsByTagName("data"))
 
-
-			o.info.content.title.name = String(xmlDoc.getElementsByTagName('info')[0].getElementsByTagName('content')[0].getElementsByTagName('title')[0].getAttribute('name'))
-
+			var __info = xmlDoc.getElementsByTagName('info')[0]
+			if(__info){
+				var __content = __info.getElementsByTagName('content')[0]
+				if(__content){
+					var __title = __content.getElementsByTagName('title')[0]
+					if(__title){
+						o.info.content.title.name = __title.getAttribute('name') ? String(__title.getAttribute('name')) : o.info.content.title.name
+						o.info.content.title.fill = __title.getAttribute('color') ? self._trimFill(__title.getAttribute('color')) : o.info.content.title.fill
+					}
+				}
+			}
 			return o
 		},
 
@@ -79,6 +87,11 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line2/dataparse',function(S,Base,
 			}
 
 			return o
+		},
+
+		_trimFill:function($s){
+			var s = $s.replace('0x','#')
+			return s
 		}
 	});
 

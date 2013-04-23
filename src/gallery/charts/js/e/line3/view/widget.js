@@ -231,7 +231,11 @@ KISSY.add('brix/gallery/charts/js/e/line3/view/widget',function(S,Base,Node,Glob
 				opacity : Global.N00001
 			}
 			self.get('_globalInduce').init(o)
-			
+
+			if(!self.get('_DataFrameFormat').vertical.org[0][0] && !self.get('_DataFrameFormat').vertical.org[0][0]){
+				return
+			}
+
 			var o = {
 				x     : self.get('_disX') + self.get('_vertical').get('w') + Global.N05,
 				y     : self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05,
@@ -300,7 +304,8 @@ KISSY.add('brix/gallery/charts/js/e/line3/view/widget',function(S,Base,Node,Glob
 				tmpData.push( { 'value':arr[a], 'x': x} )
 			}
 			if(self.get('_hasRight') && self.get('_DataFrameFormat').vertical.org[1].length == 1){
-				tmpData.push( { 'value':arr[0], 'x': self.get('_horizontalDrawW')} )
+				var value = arr[0] ? arr[0] : ''
+				tmpData.push( { 'value':value, 'x': self.get('_horizontalDrawW')} )
 			}
 			self.get('_DataFrameFormat').horizontal.data = tmpData
 		},

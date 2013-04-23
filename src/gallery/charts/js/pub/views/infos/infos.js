@@ -1,4 +1,4 @@
-KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Global,Move,SVGElement,SVGRenderer,SVGGraphics,Info,Light,HInfo,HLine,Other,Arrow){
+KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Global,Move,SVGElement,SVGRenderer,SVGGraphics,EventType,Info,Light,HInfo,HLine,Other,Arrow){
 	
 	function Infos(){
 		
@@ -53,6 +53,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 				is:1,                    //是否有
 				x:0,                     //x坐标
 				y:0,                     //y坐标
+				y1:6,                    //当没有hLine时 默认的Y坐标
 				content:''               //HInfo.content
 			}
 		},
@@ -110,9 +111,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 			
 			self.set('element', new SVGElement('g')), self.get('element').set('class','infos')
 			self.get('parent').appendChild(self.get('element').element)
+
+			self.get('element').element.addEventListener("mouseover",function(evt){ self._overHandler(evt)}, false);
+			self.get('element').element.addEventListener("mouseout",function(evt){ self._outHandler(evt)}, false);
 		},
 		remove:function(){
-			var c = null
 			var self = this
 			if(self.get('_arrow')){
 				self.get('element').removeChild(self.get('_arrow').get('element').element)
@@ -286,14 +289,15 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 			}
 
 		    //hinfo
-		    if(self.get('hLine').is){
+		    if(self.get('hInfo').is){
 				var o ={
 					parent : self.get('element'),
 			    	content: self.get('hInfo').content
 			    }
 			    self.get('_hInfo').init(o)
 
-			    var x = self.get('hInfo').x, y = Number(self.get('hInfo').y) + Number(self.get('_hInfo').get('h') / 2) + self.get('_hLine').get('h')
+			    var y1 = self.get('_hLine') ? self.get('_hLine').get('h') : self.get('hInfo').y1
+			    var x = self.get('hInfo').x, y = Number(self.get('hInfo').y) + Number(self.get('_hInfo').get('h') / 2) + y1
 			   	var p = self._allShow(self.get('w'), self.get('h'), {w:self.get('_hInfo').get('w'),h:self.get('_hInfo').get('h')}, {x:x,y:y})
 			    x = p.x, y = p.y
 			    self.get('_hInfo').get('element').transformXY(x,y)
@@ -326,6 +330,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 		    		o.fill_opacity = self.get('light').fill_opacity
 		    	}
 			    self.get('_light').init(o)
+			    // self.get('_light').get('element').on(EventType.OVER,function($o){self._overHandler({child:'light'})})
+				// self.get('_light').get('element').on(EventType.OUT,function($o){self._outHandler({child:'light'})})
 			    var x = self.get('light').x, y = self.get('light').y
 			    self.get('_light').get('element').transformXY(x,y)
 		    }
@@ -338,6 +344,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 				shadow_id   : self.get('_shadow_id')
 			}
 		    self.get('_info').init(o)
+		    // self.get('_info').get('element').on(EventType.OVER,function($o){self._overHandler({child:'info'})})
+			// self.get('_info').get('element').on(EventType.OUT,function($o){self._outHandler({child:'info'})})
 
 		    var x = self.get('info').x, y = Number(self.get('info').y) - Number(self.get('dis_info')) - Number(self.get('_info').get('h') / 2)
 		    if(self.get('arrow').is){
@@ -427,12 +435,21 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 			var feComposite = new SVGElement('feComposite')
 			feComposite.attr({'in':'SourceGraphic','in2':'coloredShadow','operator':'over'})
 			filter.appendChild(feComposite.element)
-		}
+		},
+
+		_overHandler:function($o){
+			var self = this
+			self.get('element').fire(EventType.OVER,$o)
+		},
+		_outHandler:function($o){
+			var self = this
+			self.get('element').fire(EventType.OUT,$o)
+		},
 	});
 
 	return Infos;
 
 	}, {
-	    requires:['base','node','../../utils/global','../../utils/move','../../utils/svgelement','../../utils/svgrenderer','../svggraphics','./info','./light','./hinfo','./hline','./other','./arrow']
+	    requires:['base','node','../../utils/global','../../utils/move','../../utils/svgelement','../../utils/svgrenderer','../svggraphics','../../models/eventtype','./info','./light','./hinfo','./hline','./other','./arrow']
 	}
 );

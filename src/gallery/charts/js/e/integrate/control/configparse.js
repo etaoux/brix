@@ -45,7 +45,10 @@ KISSY.add('brix/gallery/charts/js/e/integrate/control/configparse',function(S,Ba
 			var __data = xmlDoc.getElementsByTagName("data")[0]
 			o.v = __data.getAttribute('v') && String(__data.getAttribute('v')) ? String(__data.getAttribute('v')) : o.v
 
-			var s = new XMLSerializer().serializeToString(__data.getElementsByTagName("line")[0])
+			var s = ''
+			if(__data.getElementsByTagName("line")[0]){
+				s = new XMLSerializer().serializeToString(__data.getElementsByTagName("line")[0])
+			}
 			s = s.replace('<line', "<data")
 			s = s.replace('line>', "data>")
 

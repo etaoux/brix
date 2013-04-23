@@ -23,6 +23,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 		area:{
 			value:0              //是否有区域
 		},
+		areaMode:{
+			value:0              //区域闭合模式(0 = 自动闭合 | 1 = 不自动闭合 根据前一条线闭合)
+		},
+		areaAlphas:{             //区域填充部分的透明度
+			value:[0.05, 0.25]
+		},
 		shape:{
 			value:0              //线条样式[0 = 直线 | 1 = 曲线]
 		},
@@ -85,7 +91,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 
 			if(self.get('area')){
 				self.set('_linearGradientIndex', self.get('_linearGradientIndex') + '_' + self.get('index'))
-				self._linearGradient({'id':self.get('_linearGradientIndex'),'top_fill':self.get('fill'),'top_opacity':0.25,'down_fill':self.get('fill'),'down_opacity':0.05})
+				self._linearGradient({'id':self.get('_linearGradientIndex'),'top_fill':self.get('fill'),'top_opacity':self.get('areaAlphas')[1],'down_fill':self.get('fill'),'down_opacity':self.get('areaAlphas')[0]})
 			}
 			self._widget()
 
@@ -222,14 +228,60 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 			var fill = $o.fill ? $o.fill : 'none'
 			var stroke = $o.stroke ? $o.stroke : '#000000'
 			var stroke_width = $o.stroke_width ? $o.stroke_width : 1
-			var d = SVGRenderer.symbol('lines','','','','',arr)
-			d += ' ' + SVGRenderer.actions.L + ' ' + arr[arr.length - 1].x + ' ' + 0
-			d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + 0
-			d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + (Number(arr[0].y))
+
+			if(self.get('areaMode') == 0 ){
+				var d = SVGRenderer.symbol('lines','','','','',arr)
+				d += ' ' + SVGRenderer.actions.L + ' ' + arr[arr.length - 1].x + ' ' + 0
+				d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + 0
+				d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + (Number(arr[0].y))
+			}else{
+
+				var arr = S.clone(arr)
+				var d = SVGRenderer.symbol('lines','','','','',arr)
+				d += ' ' + SVGRenderer.actions.L + arr[0].x + ' ' + arr[0].y		
+				
+				/*  flash设计思路在svg下有问题
+				var arr = S.clone(arr)
+				var arr1 = arr.splice(0, arr.length / 2)
+				var arr2 = arr.reverse()
+
+				var d = ' ' + SVGRenderer.actions.M + arr1[0].x + ' ' + arr1[0].y
+				d = self._drawLines(d, arr1)
+
+				d += ' ' + SVGRenderer.actions.L + arr1[0].x + ' ' + arr1[0].y
+				d += ' ' + SVGRenderer.actions.L + arr2[0].x + ' ' + arr2[0].y
+				d = self._drawLines(d, arr2)
+
+				d += ' ' + SVGRenderer.actions.L + arr1[arr1.length - 1].x + ' ' + arr1[arr1.length - 1].y
+				*/
+			}
 
 			var path = new SVGElement('path')
 			path.attr({'d':d,'fill':fill, 'stroke':stroke,'stroke-width':stroke_width})
 			return path
+		},
+
+		_drawLines:function ($d, $arr) {
+			var d = $d
+			for (var a = 1, al = $arr.length; a < al; a++) {
+				d += ' ' + SVGRenderer.actions.L + $arr[a].x + ' ' + $arr[a].y
+			}
+			return d
+		},
+		_drawCurveLines:function($d, $arr) {
+			var s = $d
+			var arr = $arr
+
+		    for (var a = 0, al = arr.length - 2; a < al; a++ ) {
+			    var x2 = (arr[a + 1].x + arr[a + 2].x ) / 2
+			    var y2 = (arr[a + 1].y + arr[a + 2].y ) / 2
+			    var x = arr[a + 1].x * 2 - (arr[a].x + x2) / 2;
+			    var y = arr[a + 1].y * 2 - (arr[a].y + y2) / 2;
+			    s +=' ' +  SVGRenderer.actions.Q + x + ' ' + y + ' ' + x2 + ' ' + y2
+			    arr[a + 1] = {x:x2,y:y2}
+		    }
+		    s += ' ' + SVGRenderer.actions.L + arr[arr.length - 1].x + ' ' + arr[arr.length - 1].y
+	   	 	return s
 		},
 		//填充曲线
 		_fillCurveLine:function($o){
@@ -239,10 +291,34 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 			var fill = $o.fill ? $o.fill : 'none'
 			var stroke = $o.stroke ? $o.stroke : '#000000'
 			var stroke_width = $o.stroke_width ? $o.stroke_width : 1
-			var d = SVGRenderer.symbol('curveLines','','','','',arr)
-			d += ' ' + SVGRenderer.actions.L + ' ' + arr[arr.length - 1].x + ' ' + 0
-			d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + 0
-			d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + (Number(arr[0].y))
+
+			if(self.get('areaMode') == 0 ){
+				var d = SVGRenderer.symbol('curveLines','','','','',arr)
+				d += ' ' + SVGRenderer.actions.L + ' ' + arr[arr.length - 1].x + ' ' + 0
+				d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + 0
+				d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + (Number(arr[0].y))
+			}else{
+				var arr = arr.splice(0, arr.length / 2)
+				var d = SVGRenderer.symbol('curveLines','','','','',arr)
+				d += ' ' + SVGRenderer.actions.L + ' ' + arr[arr.length - 1].x + ' ' + 0
+				d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + 0
+				d += ' ' + SVGRenderer.actions.L + ' ' + (Number(arr[0].x)) + ' ' + (Number(arr[0].y))
+
+				/*  flash设计思路在svg下有问题
+				var arr = S.clone(arr)
+				var arr1 = arr.splice(0, arr.length / 2)
+				var arr2 = arr//.reverse()
+
+				var d  = SVGRenderer.actions.M + ' ' + arr1[0].x + ' ' + arr1[0].y
+				d = self._drawCurveLines(d, arr1)
+				
+				// d += ' ' + SVGRenderer.actions.M + ' ' + arr1[arr1.length - 1].x + ' ' + arr1[arr1.length - 1].y
+				d += ' ' + SVGRenderer.actions.L + ' ' + arr2[0].x + ' ' + arr2[0].y
+
+				d = self._drawCurveLines(d, arr2)
+				d += ' ' + SVGRenderer.actions.L + ' ' + arr1[0].x + ' ' + arr1[0].y
+				*/
+			}
 
 			var path = new SVGElement('path')
 			path.attr({'d':d,'fill':fill, 'stroke':stroke,'stroke-width':stroke_width})

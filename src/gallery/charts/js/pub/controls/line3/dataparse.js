@@ -45,7 +45,6 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line3/dataparse',function(S,Base,
 			var xmlDoc = domParser.parseFromString(data, 'text/xml');
 
 			o = self._getObject(xmlDoc.getElementsByTagName("data"))
-
 			return o
 		},
 
