@@ -42,7 +42,8 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 				line3     : 'line3',
 				pie       : 'pie',
 				scatter   : 'scatter',
-				map       : 'map'
+				map       : 'map',
+				treemap		:'treemap'
 			}
 		},
 
