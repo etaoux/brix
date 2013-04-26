@@ -506,7 +506,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
         },
         destructor: function() {
             var self = this;
-            trigger = S.one(self.get('trigger'));
+            var trigger = S.one(self.get('trigger'));
             if(self.get('popup')&&trigger){
                 var triggerType = self.get('triggerType');
                 S.each(triggerType, function(v) {
