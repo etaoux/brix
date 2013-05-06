@@ -1,7 +1,7 @@
 KISSY.add('brix/gallery/charts/js/pub/utils/datasection',function(S){
 	
 	var DataSection  = {
-		section:function($arr,$maxPart){
+		section:function($arr,$maxPart,$cfg){
 			var _max =  Math.max.apply(null,$arr)   //所有数据中最大值
 			var _count =  $arr.length               //总共有几条数据
 			var _maxPart = $maxPart ? $maxPart : 9  //当前 最多有几个分段
@@ -9,6 +9,12 @@ KISSY.add('brix/gallery/charts/js/pub/utils/datasection',function(S){
 			var tmpMax = _max
 			var tmpMin = 0
 			var l = String(Math.ceil(_max)).length
+			var scale = 1
+			$cfg || ($cfg = {})
+			scale = parseFloat($cfg.scale)
+			if(!isNaN(scale)){
+				_max *= scale
+			}
 			if (_max % Math.pow(10, l - 1) != 0) {
 				//千位数以上 
 				if (l >= 3) {
