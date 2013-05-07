@@ -17,10 +17,6 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	function Charts(){
 		var self = this
 
-		/*
-			
-		 */
-		
 		Charts.superclass.constructor.apply(self, arguments);
 
 		S.one(window).on('resize',function(e){self.resize()});
@@ -33,7 +29,6 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 		w:{
 			value : 100
 		},
-
 		h:{
 			value : 100
 		},

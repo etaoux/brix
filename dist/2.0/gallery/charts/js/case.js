@@ -4495,11 +4495,12 @@ KISSY.add('brix/gallery/charts/js/e/line3/view/widget',function(S,Base,Node,Glob
 		init:function(){
 			var self = this
 			
+			var scales = self.get('config').scales
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'), self.get('DataSource')))
 			self.set('_hasRight',self.get('_DataFrameFormat').vertical.org.length == 2 ? 1 : 0)
-			self.get('_DataFrameFormat').vertical.sections.push(DataSection.section(self.get('_DataFrameFormat').vertical.org[0]))
+			self.get('_DataFrameFormat').vertical.sections.push(DataSection.section(self.get('_DataFrameFormat').vertical.org[0],null,{scale:scales[0]}))
 			if(self.get('_hasRight') == 1){
-				self.get('_DataFrameFormat').vertical.sections.push(DataSection.section(self.get('_DataFrameFormat').vertical.org[1]))
+				self.get('_DataFrameFormat').vertical.sections.push(DataSection.section(self.get('_DataFrameFormat').vertical.org[1],null,{scale:scales[1]}))
 			}
 
 			self._widget()
@@ -6993,6 +6994,8 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line3/configparse',function(S,Bas
 				shape:0,
 				area:0,
 
+				scales:[1,1],
+
 				fills:{
 					normals:['0x458AE6', '0x94CC5C'],
 					overs  :['0x135EBF', '0x78A64B']
@@ -7026,6 +7029,7 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line3/configparse',function(S,Bas
 			o.node = __data.getAttribute('node') && String(__data.getAttribute('node')) ? Number(__data.getAttribute('node')) : o.node
 			o.shape = __data.getAttribute('shape') && String(__data.getAttribute('shape')) ? Number(__data.getAttribute('shape')) : o.shape
 			o.area = __data.getAttribute('area') && String(__data.getAttribute('area')) ? Number(__data.getAttribute('area')) : o.area
+			o.scales = __data.getAttribute('scales') && String(__data.getAttribute('scales')) ? String(__data.getAttribute('scales')).split(',') : o.scales
 
 			var __fills = xmlDoc.getElementsByTagName("colors")[0]
 			if(__fills){
@@ -7680,7 +7684,7 @@ KISSY.add('brix/gallery/charts/js/pub/models/eventtype',function(S){
 KISSY.add('brix/gallery/charts/js/pub/utils/datasection',function(S){
 	
 	var DataSection  = {
-		section:function($arr,$maxPart){
+		section:function($arr,$maxPart,$cfg){
 			var _max =  Math.max.apply(null,$arr)   //所有数据中最大值
 			var _count =  $arr.length               //总共有几条数据
 			var _maxPart = $maxPart ? $maxPart : 9  //当前 最多有几个分段
@@ -7688,6 +7692,12 @@ KISSY.add('brix/gallery/charts/js/pub/utils/datasection',function(S){
 			var tmpMax = _max
 			var tmpMin = 0
 			var l = String(Math.ceil(_max)).length
+			var scale = 1
+			$cfg || ($cfg = {})
+			scale = parseFloat($cfg.scale)
+			if(!isNaN(scale)){
+				_max *= scale
+			}
 			if (_max % Math.pow(10, l - 1) != 0) {
 				//千位数以上 
 				if (l >= 3) {
