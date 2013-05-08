@@ -118,14 +118,16 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
             var self = this;
             //渲染模板内容
             self.on('afterRenderUI', function() {
-                var closeBtn = self.get('el').one('.dialog-ext-close');
-                closeBtn.one('.dialog-ext-close-x').html('&#223');
-                closeBtn.on('mouseenter',function(e){
-                    closeBtn.one('.dialog-ext-close-x').html('&#378');
-                });
-                closeBtn.on('mouseleave',function(e){
+                if(self.get('closable')){
+                    var closeBtn = self.get('el').one('.dialog-ext-close');
                     closeBtn.one('.dialog-ext-close-x').html('&#223');
-                });
+                    closeBtn.on('mouseenter',function(e){
+                        closeBtn.one('.dialog-ext-close-x').html('&#378');
+                    });
+                    closeBtn.on('mouseleave',function(e){
+                        closeBtn.one('.dialog-ext-close-x').html('&#223');
+                    });
+                }
                 if (self.get('tmpl')) {
                     self.pagelet = new Pagelet({
                         container: self.get('contentEl'),
