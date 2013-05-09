@@ -39,17 +39,15 @@ KISSY.add('brix/gallery/charts/js/case',function(S,Base,Node,DataSource,Widget){
 			self.get('chart').data = self.get('chartData')
 
 			//展现
-			S.use('brix/gallery/charts/js/m/widget/widget',function(S,Widget){
-				var o = {}
-				o.parent_id = self.get('parent_id')                //div id
-				o.w = $('#' + self.get('parent_id')).width()       //div 宽
-				o.h = $('#' + self.get('parent_id')).height()      //div 高
-				o.type = self.get('chart').type                    //图表类型
-  				o.config = self.get('chart').config                //配置
-  				o.data = self.get('chart').data                    //图表数据
+			var o = {}
+			o.parent_id = self.get('parent_id')                //div id
+			o.w = $('#' + self.get('parent_id')).width()       //div 宽
+			o.h = $('#' + self.get('parent_id')).height()      //div 高
+			o.type = self.get('chart').type                    //图表类型
+			o.config = self.get('chart').config                //配置
+			o.data = self.get('chart').data                    //图表数据
 
-				new Widget(o)
-			})
+			new Widget(o)
 		},
 		//与外部js交互总接口
 		actions:function($name,$value){
@@ -68,15 +66,17 @@ KISSY.add('brix/gallery/charts/js/case',function(S,Base,Node,DataSource,Widget){
 		//重新展现图表
 		reset:function(){
 			var self = this
-			self.remove()
+			// self.remove()
 			self.init()
 		},
+		/*
 		//删除svg内容
 		remove:function(){
 			var self = this
 			var parent = $('#' + self.get('parent_id')).getDOMNode()
 			if(parent && parent.lastChild) {parent.removeChild(parent.lastChild)}                  //R3
 		}
+		*/
 	});
 
 	return Case;
@@ -6163,14 +6163,19 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 
 		_widget:function(){
 			var self = this
-			self.set('_svg',new SVGElement('svg'))
-			self.get('_svg').attr({'version':'1.1','width':self.get('w'),'height':self.get('h'),'xmlns':'http://www.w3.org/2000/svg', 'xmlns:xlink':'http://www.w3.org/1999/xlink'});
-			//'zoomAndpan':"disable"    //禁止鼠标右键面板
-  			$('#' + self.get('parent_id')).append(self.get('_svg').element)
-  			self.get('_svg').set('style','cursor:default'), self.get('_svg').mouseEvent(false)
 
 			//展现
 			S.use(self.get('path_chart'),function(S,Main){
+				//删除svg内容
+				var parent = $('#' + self.get('parent_id')).getDOMNode()
+				if(parent && parent.lastChild) {parent.removeChild(parent.lastChild)}    
+
+				self.set('_svg',new SVGElement('svg'))
+				self.get('_svg').attr({'version':'1.1','width':self.get('w'),'height':self.get('h'),'xmlns':'http://www.w3.org/2000/svg', 'xmlns:xlink':'http://www.w3.org/1999/xlink'});
+				//'zoomAndpan':"disable"    //禁止鼠标右键面板
+	  			$('#' + self.get('parent_id')).append(self.get('_svg').element)
+	  			self.get('_svg').set('style','cursor:default'), self.get('_svg').mouseEvent(false)
+
 				var o = {}
 				o.parent = self.get('_svg')                        //SVGElement
 				o.w = self.get('w')                                //chart 宽
