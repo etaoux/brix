@@ -153,8 +153,12 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 			var self = this
 			self.set('_resize_index',self.get('_resize_index') + 1)
 			if(self.get('_resize_index') % 2 == 0){
+				if(self.get('w') == $('#' + self.get('parent_id')).width() && self.get('h') == $('#' + self.get('parent_id')).height()){
+					return
+				}
 				self.set('w',$('#' + self.get('parent_id')).width())
 				self.set('h',$('#' + self.get('parent_id')).height())
+				
 	    		var style = {'width':self.get('w'), 'height':self.get('h'), 'position':'relative'}
 	    		self.get('mainDiv').css(style);
 
