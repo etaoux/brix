@@ -174,8 +174,8 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 		_isSWF:function(){
 			var self = this
 			var o = self._xml(self.get('config').configData)
-			var arr = ['integrate2','integrate3','integrate4','integrate5']
-			// var arr = []
+			// var arr = ['integrate2','integrate3','integrate4','integrate5']
+			var arr = []
 			for(var a = 0, al = arr.length; a<al; a++){
 				if(o.type == arr[a]){
 					return 1
