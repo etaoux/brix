@@ -5892,7 +5892,6 @@ KISSY.add('brix/gallery/charts/js/e/treemap/main', function(S, Base, d3) {
 
 		 */
 		Main.superclass.constructor.apply(self, arguments);
-		debugger
 		self.init()
 	}
 
@@ -6021,7 +6020,6 @@ KISSY.add('brix/gallery/charts/js/e/treemap/main', function(S, Base, d3) {
 	requires: ['base', './view/widget']
 });
 KISSY.add('brix/gallery/charts/js/e/treemap/view/widget', function(S,d3) {
-    debugger
     return d3;
 }, {
     requires: ['brix/gallery/d3/']
