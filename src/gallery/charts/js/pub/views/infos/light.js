@@ -1,4 +1,4 @@
-KISSY.add('brix/gallery/charts/js/pub/views/infos/light',function(S,Base,node,Global,SVGElement,SVGGraphics){
+KISSY.add('brix/gallery/charts/js/pub/views/infos/light',function(S,Base,node,Global,SVGElement,SVGGraphics,EventType){
 	
 	function Light(){
 		
@@ -42,6 +42,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/light',function(S,Base,node,Gl
 			
 			self.set('element', new SVGElement('g')), self.get('element').set('class','light')
 			self.get('parent').appendChild(self.get('element').element)
+			self.get('element').element.addEventListener("mouseover",function(evt){ self._overHandler(evt)}, false);
+			self.get('element').element.addEventListener("mouseout",function(evt){ self._outHandler(evt)}, false);
 
 			self._widget()
 		},
@@ -53,12 +55,21 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/light',function(S,Base,node,Gl
 
 			self.set('_min', SVGGraphics.circle({'r':self.get('min_radius'),'fill':self.get('fill'),'stroke':'none'}))
 			self.get('element').appendChild(self.get('_min').element)
+		},
+
+		_overHandler:function($evt){
+			var self = this
+			self.get('element').fire(EventType.OVER)
+		},
+		_outHandler:function($evt){
+			var self = this
+			self.get('element').fire(EventType.OUT)
 		}
 	});
 
 	return Light;
 
 	}, {
-	    requires:['base','node','../../utils/global','../../utils/svgelement','../svggraphics']
+	    requires:['base','node','../../utils/global','../../utils/svgelement','../svggraphics','../../models/eventtype']
 	}
 );

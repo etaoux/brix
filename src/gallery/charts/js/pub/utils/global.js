@@ -66,13 +66,24 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 			return n
 		},
 
-		//根据$start和$end 从一个数组中合并数据
+		/**
+		 * 根据$start和$end 从一个数组中合并数据
+		 * @param  {[Array]} $arr    [数组]
+		 * @param  {[Number]} $start [开始的索引]
+		 * @param  {[Number]} $end   [结束的索引]
+		 * @return {[Number]}        [之和的数字]
+		 */
 		getArrMergerNumber:function($arr,$start,$end){
 			var n = 0
-			for(var i = 0,l = $arr.length;i<l;i++){
-				if(i >= $start){
-					n = n + $arr[i]
-					if(i == $end){
+			var start = $start ? $start : 0 
+			var end = $end || $end == 0 ? $end : $arr.length - 1
+			if (start > end) {
+				return n
+			}
+			for (var a = 0, al = $arr.length; a < al; a++) {
+				if(a >= start){
+					n = n + Number($arr[a])
+					if(a == end){
 						break;
 					}
 				}
@@ -116,32 +127,21 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 			$arr.unshift(tmp)
 		},
 
-		//从一个数组从计算总值
-		getTotalForArray:function($arr){
-			var n = 0
-			for (var a = 0, al = $arr.length; a < al; a++ ) {
-				if ($arr[a]) {
-					n += Number($arr[a])
-				}
-			}
-			return n
-		},
-
 		ceil:function ($n){
 			return Math.ceil($n)
 		},
 
-		//等比例缩放数值 p1=缩放后最大w,h  p2=需要缩放的w,h
-		fit:function(p1,p2){
+		//等比例缩放数值 $p1=缩放后最大w,h  $p2=需要缩放的w,h
+		fit:function($p1,$p2){
 			var p = {}
-			var disW = p1.w / p2.w, disH = p1.h / p2.h
+			var disW = $p1.w / $p2.w, disH = $p1.h / $p2.h
 			
 			if (disW >= disH) {
 				p.scale = disH
-				p.w = p2.w * disH , p.h = p1.h
+				p.w = $p2.w * disH , p.h = $p1.h
 			} else {
 				p.scale = disW
-				p.w = p1.w, p.h = p2.h * disW;
+				p.w = $p1.w, p.h = $p2.h * disW;
 			}
 			return p
 		},
@@ -149,6 +149,78 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 		//根据文字的length获取文字的宽
 		getTextWidth:function($length){
 			return 11 + 7 * ($length-1)
+		},
+
+		/**
+		 * 计算数组中的每个值 占该数组总值的比例 并按原始索引返回对应的比例数组  比例总和为100
+		 * @param  {[Array]} $arr    [数组]
+		 * @return {[Array]}         [对应的比例数组]
+		 */
+		getArrScales:function($arr){
+			var arr = []
+			var total = 0
+			var scales = []
+			for (var a = 0 , al = $arr.length; a < al; a++) { 
+				total += $arr[a]
+			}
+
+			for (var b = 0, bl = $arr.length; b < bl; b++) {
+				var scale = Math.floor($arr[b] / total * 100)
+				scales.push(scale)
+				
+				//最后一个
+				if (b == ($arr.length - 1)) {
+					var n = 0
+					for (var d = 0, dl = scales.length - 1; d < dl; d++ ) {
+						n += scales[d]
+					}
+					n = 100 - n
+					scale = n
+				}
+				
+				arr.push(scale)
+			}
+			
+			for (var c = 0, cl = arr.length; c < cl; c++) {
+				arr[c] = isNaN(arr[c]) ? 0 : arr[c]
+			}
+			return arr
+		},
+
+		/**
+		 * Number精度计算
+		 * @param  {[Array]} $arr    [数组]
+		 * @param  {[Number]} $length [删除的长度]
+		 * @return {[Array]}         [删除之后的数组]
+		 */
+		CountAccuracy:{
+			/**
+			 * 加法
+			 * @param  {[Number]} $arg1  [数字1]
+			 * @param  {[Number]} $arg2  [数字2]
+			 * @return {[Number]}        [两个数字之和后的值]
+			 */
+			add:function($arg1,$arg2){
+				var r1, r2, m;  
+				try {  r1 = $arg1.toString().split(".")[1].length;  }  catch (e) {  r1 = 0;  }  
+				try {  r2 = $arg2.toString().split(".")[1].length;  }  catch (e) {  r2 = 0;  }  
+				m = Math.pow(10, Math.max(r1, r2)); 
+				//19.6*100 = ?????
+				return (this.mul($arg1, m) + this.mul($arg2, m)) / m;
+			},
+
+			/**
+			 * 乘法
+			 * @param  {[Number]} $arg1  [数字1]
+			 * @param  {[Number]} $arg2  [数字2]
+			 * @return {[Number]}        [两个数字之乘后的值]
+			 */
+			mul:function($arg1, $arg2) {  
+				var m = 0, s1 = $arg1.toString(), s2 = $arg2.toString();  
+				try {  m += s1.split(".")[1].length;  }  catch (e) {  }  
+				try {  m += s2.split(".")[1].length;  }  catch (e) {  }  
+				return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m)
+			}
 		}
 	};
 

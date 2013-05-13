@@ -275,6 +275,7 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 			var dis = disMin
 			dis = disMin + self.get('_horizontalMaxW') % self.get('_DataFrameFormat').horizontal.org.length 
 			dis = dis > disMax ? disMax : dis
+			dis = isNaN(dis) ? 0 : dis
 			return dis
 		},
 		//换算图形
@@ -287,7 +288,9 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 			for (var a = 0, al = arr.length; a < al; a++ ) {
 				for (var b = 0, bl = arr[a].length ; b < bl; b++ ) {
 					!tmpData[a] ? tmpData[a] = [] : ''
-					tmpData[a][b] = {'value':arr[a][b], 'x':self.get('_dis_graphs') + b / (maxHorizontal - 1) * self.get('_horizontalDrawW'),'y':-self.get('_dis_graphs') - arr[a][b] / maxVertical * self.get('_verticalDrawH')} 
+					var y = -self.get('_dis_graphs') - arr[a][b] / maxVertical * self.get('_verticalDrawH')
+					y = isNaN(y) ? 0 : y
+					tmpData[a][b] = {'value':arr[a][b], 'x':self.get('_dis_graphs') + b / (maxHorizontal - 1) * self.get('_horizontalDrawW'),'y':y} 
 				}
 			}
 			self.get('_DataFrameFormat').graphs.data = tmpData

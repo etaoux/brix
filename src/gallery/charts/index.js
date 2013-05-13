@@ -17,10 +17,6 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	function Charts(){
 		var self = this
 
-		/*
-			
-		 */
-		
 		Charts.superclass.constructor.apply(self, arguments);
 
 		S.one(window).on('resize',function(e){self.resize()});
@@ -33,7 +29,6 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 		w:{
 			value : 100
 		},
-
 		h:{
 			value : 100
 		},
@@ -47,7 +42,7 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 			value : 'brix/gallery/charts/as/case'        //case.swf  swf版本主入口
 		},
 		path_swf:{
-			value : Brix.basePath + 'brix/'+Brix.fixed+'gallery/charts/as/case.swf'
+			value : Brix.basePath + 'brix/'+ Brix.fixed +'gallery/charts/as/case.swf'
 		},
 
 		mainDiv_id:{
@@ -65,6 +60,15 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 
 		_resize_index:{                    //当为2的整数时 才resize
 			value:0
+		},
+		_actionsStatus:{                   //1 = actions已成功调用  |  -1 = actions正在调用 
+			value:0
+		},
+		_actionsObject:{                   
+			value:{
+				name:'',
+				value:''
+			}
 		}
 	}
 
@@ -123,15 +127,38 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 		 */
 		actions:function($name,$value){
 			var self = this
-			self.get('_case').actions($name,$value)
+			self.get('_actionsObject').name = $name, self.get('_actionsObject').value = $value
+
+			var status = self.get('_case').actions($name,$value)
+
+			if(status){
+				self.set('_actionsStatus', 1)
+				return
+			}
+
+			if(self.get('_actionsStatus') == -1){
+				return
+			}
+
+			self.set('_actionsStatus', -1)
+			setTimeout(function(){
+				var name = self.get('_actionsObject').name
+				var value = self.get('_actionsObject').value
+				self.set('_actionsStatus', 0)
+				self.actions(name,value)
+			}, 250)
 		},
 
 		resize:function(){
 			var self = this
 			self.set('_resize_index',self.get('_resize_index') + 1)
 			if(self.get('_resize_index') % 2 == 0){
+				if(self.get('w') == $('#' + self.get('parent_id')).width() && self.get('h') == $('#' + self.get('parent_id')).height()){
+					return
+				}
 				self.set('w',$('#' + self.get('parent_id')).width())
 				self.set('h',$('#' + self.get('parent_id')).height())
+				
 	    		var style = {'width':self.get('w'), 'height':self.get('h'), 'position':'relative'}
 	    		self.get('mainDiv').css(style);
 
@@ -147,7 +174,8 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 		_isSWF:function(){
 			var self = this
 			var o = self._xml(self.get('config').configData)
-			var arr = ['integrate2','integrate3','integrate4','integrate5']
+			// var arr = ['integrate2','integrate3','integrate4','integrate5']
+			var arr = []
 			for(var a = 0, al = arr.length; a<al; a++){
 				if(o.type == arr[a]){
 					return 1
@@ -219,7 +247,7 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  版本:1.0.6
 	*  日期:2013.03.05
 	*  内容:
-	*       新增：综合2、综合3、综合4、综合5 4副图表
+	*       新增：综合2、综合3、综合4、综合5 4副图表(flash)
  */
 
 

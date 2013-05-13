@@ -33,12 +33,17 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 			value:{
 				histogram : 'histogram',
 				integrate : 'integrate',
+				integrate2: 'integrate2',
+				integrate3: 'integrate3',
+				integrate4: 'integrate4',
+				integrate5: 'integrate5',
 				line      : 'line',
 				line2     : 'line2',
 				line3     : 'line3',
 				pie       : 'pie',
 				scatter   : 'scatter',
-				map       : 'map'
+				map       : 'map',
+				treemap		:'treemap'
 			}
 		},
 
@@ -64,12 +69,18 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 		_widget:function(){
 			var self = this
 
-			self.set('_svg',new SVGElement('svg'))
-			self.get('_svg').attr({'version':'1.1','width':self.get('w'),'height':self.get('h'),'xmlns':'http://www.w3.org/2000/svg', 'xmlns:xlink':'http://www.w3.org/1999/xlink'});
-			$('#' + self.get('parent_id')).append(self.get('_svg').element)
-
 			//展现
 			S.use(self.get('path_chart'),function(S,Main){
+				//删除svg内容
+				var parent = $('#' + self.get('parent_id')).getDOMNode()
+				if(parent && parent.lastChild) {parent.removeChild(parent.lastChild)}    
+
+				self.set('_svg',new SVGElement('svg'))
+				self.get('_svg').attr({'version':'1.1','width':self.get('w'),'height':self.get('h'),'xmlns':'http://www.w3.org/2000/svg', 'xmlns:xlink':'http://www.w3.org/1999/xlink'});
+				//'zoomAndpan':"disable"    //禁止鼠标右键面板
+	  			$('#' + self.get('parent_id')).append(self.get('_svg').element)
+	  			self.get('_svg').set('style','cursor:default'), self.get('_svg').mouseEvent(false)
+
 				var o = {}
 				o.parent = self.get('_svg')                        //SVGElement
 				o.w = self.get('w')                                //chart 宽

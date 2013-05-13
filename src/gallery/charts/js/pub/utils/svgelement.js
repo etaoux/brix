@@ -8,12 +8,13 @@ KISSY.add('brix/gallery/charts/js/pub/utils/svgelement',function(S,Base){       
 
 		self.element = null
 
+		self.dynamic = {}
+
 		self.init.apply(self,arguments);
 	}
 
 	S.extend(SVGElement,Base,{
 		init:function(){
-			// console.log(arguments)
 			this.createElement(arguments[0])
 		},
 
@@ -21,6 +22,13 @@ KISSY.add('brix/gallery/charts/js/pub/utils/svgelement',function(S,Base){       
 			for(var i in $attrs){
 				this.set(i,$attrs[i])
 			}
+		},
+
+		getDynamic:function($name){
+			return this.dynamic[$name]
+		},
+		setDynamic:function($name,$value){
+			this.dynamic[$name] = $value
 		},
 
 		set:function($name,$value){
@@ -88,7 +96,27 @@ KISSY.add('brix/gallery/charts/js/pub/utils/svgelement',function(S,Base){       
 			this.set('_x',$x)
 			this.set('_y',$y)
 			this.set('transform',s)
+		},
+
+		mouseEvent:function($b){
+			var self = this
+			if($b){
+				var value = null
+			}else{
+				var value = cancel
+			}
+			self.element.onclick = value
+			self.element.ondblclick = value
+			self.element.onmousedown = value
+			self.element.onmouseup = value
+			self.element.onmouseover = value
+			self.element.onmousemove = value
+			self.element.onmouseout = value
+			function cancel($e){
+				return false
+			}
 		}
+		
 
 	});
 

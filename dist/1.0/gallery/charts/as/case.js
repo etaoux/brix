@@ -51,7 +51,13 @@ KISSY.add('brix/gallery/charts/as/case',function(S,Base,Node){
 		//与外部js交互总接口
 		actions:function($name,$value){
 			if($name == 'reset'){
-				this._getFlash(this.get('_id')).toAS($name,this._objectToString($value));
+				try { 
+					this._getFlash(this.get('_id')).toAS($name,this._objectToString($value));
+					return true;
+				} catch (e) { 
+					return false; 
+				}
+				// this._getFlash(this.get('_id')).toAS($name,this._objectToString($value));
 			}
 		},
 		_getFlash:function($movieName){

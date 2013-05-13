@@ -44,6 +44,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 		area:{
 			value:0              //是否有区域
 		},
+		areaMode:{
+			value:0              //区域闭合模式(0 = 自动闭合 | 1 = 不自动闭合 根据前一条线闭合)
+		},
+		areaAlphas:{
+			value:[0.05, 0.25]   //区域填充部分的透明度
+		},
 		shape:{
 			value:1              //线条形状
 		},
@@ -55,6 +61,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 		},
 		circle:{                 //圆
 			value:{}
+		},
+		isLine:{
+			value:0              //当鼠标划入时 是否有线
 		},
 
 		_groupArr:{
@@ -81,6 +90,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 		},
 		_induce:{ 
 			value:null          
+		},
+		_line:{
+			value:null
 		}
 	}			
 
@@ -98,8 +110,20 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 		induce:function($o,$b){
 			var self = this
 			self.get('_groupArr')[self.get('_index')].induce(false)
-			self.set('_index', $o.index)
+			self.set('_index', $o.index), self.set('_id', $o.id)
 			self.get('_groupArr')[$o.index].induce($b)
+			
+			if(self.get('isLine')){
+				if(self.get('_line').element.lastChild) {self.get('_line').element.removeChild(self.get('_line').element.lastChild)}
+				if($b){
+					var o = self.get('_groupArr')[$o.index].getNodeInfoAt(self.get('_id'))
+					var line = new SVGElement('path')
+					var d = SVGRenderer.symbol('line',0,0,0,-o.y + 6).join(' ')
+				    line.attr({'stroke':'#555555','stroke-width':1,'d':d})
+				    self.get('_line').appendChild(line.element)
+				    line.transformXY(o.x,o.y)
+				}
+			}
 		},
 		getNodeInfoAt:function($index,$id){
 			var self = this
@@ -118,6 +142,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 			self.get('element').appendChild(self.get('_groups').element)
 			if(self.get('isInduce')){
 				self.get('_groups').set('visibility','hidden')
+			}
+
+			self.set('_line', new SVGElement('g')), self.get('_line').set('class','line')
+			self.get('element').appendChild(self.get('_line').element)
+			if(self.get('isInduce')){
+				self.get('_line').set('visibility','hidden')
 			}
 
 			self.set('_induce', new SVGElement('path')),self.get('_induce').set('class','induce')
@@ -163,10 +193,19 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 						index  : a,
 						parent : self.get('_areas'),
 						data   : self.get('data')[a],
+						line   : 0,
 						area   : self.get('area'),
+						areaAlphas: self.get('areaAlphas'),
 						shape  : self.get('shape'),
 						fill   : self.get('fills')[a],
 						fill_over : self.get('fills_over')[a]
+					}
+
+					if (self.get('areaMode') == 1) {
+						if (self.get('data')[a] && self.get('data')[a + 1]) {
+							o.data = o.data.concat(S.clone(self.get('data')[a + 1]).reverse())
+							o.areaMode = self.get('areaMode')
+						}
 					}
 					_area.init(o)
 				}
@@ -195,7 +234,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 				self.set('_nodesInfoList', [])
 				self.set('_nodesYList', [])
 				for (var a = 0, al = self.get('_groupArr').length; a < al; a++ ) {
-
 					var o = self.get('_groupArr')[a].getNodeInfoAt(tmp_id)
 					self.get('_nodesInfoList').push(o)
 					self.get('_nodesYList').push(o.y)
@@ -206,6 +244,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 
 			}else{
 				self.set('_index', tmp_index)
+				self.set('_id', tmp_id)
 				var o = self.get('_nodesInfoList')[self.get('_index')]
 				var arr = S.clone(self.get('_nodesInfoList'))
 				arr.splice(self.get('_index'), 1)
@@ -228,8 +267,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 		_globalToLocal:function($globalObject){
 			var self = this
 			var o = {}
-			o.x = $globalObject.x - self.get('x')
-			o.y = $globalObject.y - self.get('y')
+			var gx = self.get('gx') ? self.get('gx') : 0
+			var gy = self.get('gy') ? self.get('gy') : 0
+			o.x = $globalObject.x - self.get('x') - gx
+			o.y = $globalObject.y - self.get('y') - gy
 			return o
 		}
 	});
