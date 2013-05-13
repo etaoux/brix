@@ -5892,7 +5892,6 @@ KISSY.add('brix/gallery/charts/js/e/treemap/main', function(S, Base, d3) {
 
 		 */
 		Main.superclass.constructor.apply(self, arguments);
-		debugger
 		self.init()
 	}
 
