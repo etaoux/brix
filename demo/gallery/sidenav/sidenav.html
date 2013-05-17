@@ -18,7 +18,7 @@
                 try to click sidenav
             </div>
         </div>
-        <div class="sidebar" id="sidebar">
+        <div class="sidebar" id="sidebar" >
             <ul class="nav" id="nav">
                 <li><a href="#!/home/" hidefocus="true">首页</a></li>
                 <li><a href="#!/adzone/adzone/" hidefocus="true" data-sub="adzone" >展位超市</a></li>
@@ -30,7 +30,7 @@
 
             <div class="sub-nav" id="subNav">
                 <div class="sub-nav-wrap" id="subNavWrap">
-                    <i class="icon icon-expand" id="subNavHandle"></i>
+                    <i class="icon icon-expand subnav-handle" id="subNavHandle"></i>
 
                     <!-- ===子菜单区=== -->
                     <ul data-sub="adzone" class="sub-nav-ul">
@@ -82,8 +82,6 @@
                             </ul>
                         </li>
                     </ul>
-
-
                 </div>
             </div>
 
@@ -95,17 +93,15 @@
 <script>
     var S = KISSY;
     S.ready(function (S) {
-        S.use("brix/gallery/sidenav/", function (S, Sidenav) {
+        S.use('brix/gallery/sidenav/', function(S, Sidenav) {
             var s = new Sidenav({
-                index: '#!/home/',
-                duration: 0.25
+                el: '#sidebar',
+                index: '#!/home/'
             });
-
-            // s.on('navClick', function(e) {
-            //     alert(1);
-            //     console.log(e.clickTarget); // e.clickTarget为点击到的a链接标签
-            // });
         });
+        // S.use("brix/core/pagelet", function (S, Pagelet) {
+        //     var p = new Pagelet();
+        // });
     });
 </script>
 </body>
