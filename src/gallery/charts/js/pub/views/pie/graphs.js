@@ -123,7 +123,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 
 			self.set('_total', Global.getArrMergerNumber(self.get('data')))
 			self.set('_angleList', self._getAngleList(self.get('data'),self.get('_total'),self.get('_startR')))
-			self.set('_scaleList', self._getScaleList(self.get('data'),self.get('_total')))
+			// self.set('_scaleList', self._getScaleList(self.get('data'),self.get('_total')))
+			self.set('_scaleList', Global.getArrScales(self.get('data')))
 			if (self.get('data').length <= 1) {
 				self.set('_disR',0)
 			}

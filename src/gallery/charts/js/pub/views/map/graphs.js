@@ -1,4 +1,4 @@
-KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Global,Move,SVGElement,SVGRenderer,SVGGraphics,EventType){
+KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Global,Move,SVGElement,SVGRenderer,SVGGraphics,EventType,Sign){
 	
 	function Graphs(){
 		
@@ -63,6 +63,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 		},
 		_main:{
 			value:null           //main
+		},
+		_signs:{
+			value:null           //_signs
 		}
 	}			
 
@@ -72,7 +75,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 			
 			self.set('element', new SVGElement('g')), self.get('element').set('class',self.get('id'))
 			self.get('parent').appendChild(self.get('element').element)
-
 			self.set('_path_map', self._getMap())
 		},
 
@@ -93,12 +95,16 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 			var self = this
 			self.set('_maps', new SVGElement('g')), self.get('_maps').set('class','maps')
 			self.get('element').appendChild(self.get('_maps').element)
+			self.set('_signs', new SVGElement('g')), self.get('_signs').set('class','circles')
+			self.get('element').appendChild(self.get('_signs').element)
+			self.get('_signs').setDynamic('childs',[])
+
 			if(self.get('isInduce') == 1){
 				self.get('_maps').set('opacity',0)
 			}
 
-			self.set('_test', new SVGElement('g')), self.get('_test').set('class','test')
-			self.get('element').appendChild(self.get('_test').element)
+			// self.set('_test', new SVGElement('g')), self.get('_test').set('class','test')
+			// self.get('element').appendChild(self.get('_test').element)
 			// self.set('_induces', new SVGElement('g')), self.get('_induces').set('id','J_induces')
 			// self.get('element').appendChild(self.get('_induces').element)
 			
@@ -113,6 +119,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 			})
 		},
 
+		_completeHandler:function(){
+			var self = this
+			self._layout()
+		},
+
 		_layout:function(){
 			var self = this
 			self.set('map_w', self.get('_main').get('map_w'))
@@ -124,12 +135,15 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 
 			var matrix = 'matrix('+ (self.get('map_scale')) +',0,0,' + (self.get('map_scale')) + ',' + (0) + ',' + (0) + ')'
 			self.get('_maps').set('transform',matrix)
+			self.get('_signs').set('transform',matrix)
 
 			self.set('map_w', self.get('element').getWidth())
 			self.set('map_h', self.get('element').getHeight())
 
 			var maps = self.get('maps')
-			for(var a = 0, al = maps.length; a < al; a++){
+			// for(var a = 0, al = maps.length; a < al; a++){
+			var signs = 0
+			for(var a in maps){
 				var map = maps[a]
 				var o = self.get('data')[a]
 				if(map && o){
@@ -139,16 +153,40 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 						element.element.addEventListener("mouseover",function(evt){ self._overHandler(evt)}, false);
 						element.element.addEventListener("mouseout",function(evt){ self._outHandler(evt)}, false);
 					}
+					if(o.sign.is && o.sign.font.content && self.get('isInduce') == 0){
+						if(!self.get('config').sign.max || Number(self.get('config').sign.max) >= Number(o.sign.font.content)){
+							var sign = new Sign()
+							self.get('_signs').getDynamic('childs')[o.index] = sign
+							var config = {
+
+									circle:{
+										  is:1,
+										  radius:12,
+										  fill:'#937ACC'
+									},
+									font:{
+										is:1,
+										content:o.sign.font.content,
+										size:14,
+										fill:'#FFFFFF',
+										bold:1,
+										family:'微软雅黑'
+									}	
+							}
+							var o = {
+								parent : self.get('_signs'),
+								config : config
+							}
+							sign.init(o)
+							sign.get('element').transformXY(map.cx, map.cy)
+							signs++
+						}
+					}
 				}
 			}
-
 			self.get('element').fire(EventType.COMPLETE)
 		},
 
-		_completeHandler:function(){
-			var self = this
-			self._layout()
-		},
 		_overHandler:function($evt){
 			var self = this
 			var index = $evt.target.getAttribute('_index')
@@ -191,6 +229,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 				}else{
 					element.set('fill',o.fills.normal)
 				}
+
+				var sign = self.get('_signs').getDynamic('childs')[$index]
+				if(sign){
+					var fill = $b ? '#7459B3' : '#937ACC'
+					sign.setStyle({circle:{fill:fill}})
+				}
 			}
 		},
 
@@ -209,6 +253,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 	return Graphs;
 
 	}, {
-	    requires:['base','node','../../utils/global','../../utils/move','../../utils/svgelement','../../utils/svgrenderer','../../views/svggraphics','../../models/eventtype']
+	    requires:['base','node','../../utils/global','../../utils/move','../../utils/svgelement','../../utils/svgrenderer','../../views/svggraphics','../../models/eventtype','../modules/sign/main']
 	}
 );

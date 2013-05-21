@@ -24,6 +24,16 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/configparse',function(S,Base,
 					fills  :['0x1351BF','0x1351BF','0x1351BF'],
 					sizes   :[14,12,12],
 					frame_fill :'0x1351BF'
+				},
+
+				sign:{
+					is : 0,
+					max: ''
+				},
+
+				list:{
+					is : 0,
+					max: ''
 				}
 			}
 		}
@@ -51,6 +61,8 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/configparse',function(S,Base,
 			var __data = xmlDoc.getElementsByTagName("data")[0]
 			var __fills = __data.getElementsByTagName("colors")[0]
 			var __info = __data.getElementsByTagName("info")[0]
+			var __sign = __data.getElementsByTagName("sign")[0]
+			var __list = __data.getElementsByTagName("list")[0]
 
 			o.v = __data.getAttribute('v') && String(__data.getAttribute('v')) ? String(__data.getAttribute('v')) : o.v
 
@@ -72,7 +84,15 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/configparse',function(S,Base,
 
 			o.info.fills = self._trimFills(o.info.fills)
 			o.info.frame_fill = self._trimFill(o.info.frame_fill)
-			
+
+			if(__sign){
+				o.sign.is = 1
+				o.sign.max = __sign.getAttribute('value') && __sign.getAttribute('value') != 0 ? __sign.getAttribute('value') : o.sign.max
+			}
+			if(__list){
+				o.list.is = 1
+				o.list.max = __list.getAttribute('value') && __list.getAttribute('value') != 0 ? __list.getAttribute('value') : o.list.max
+			}
 			return o
 		},
 

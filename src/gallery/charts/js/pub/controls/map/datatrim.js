@@ -10,7 +10,7 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/datatrim',function(S,Base,Nod
 
 	DataTrim.ATTRS = {
 		data:{
-			value:[]
+			value:{}
 						         //[o,o,...o]
 				                 /*o:{
 				                 	 index:
@@ -24,11 +24,21 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/datatrim',function(S,Base,Nod
 		o:{
 			value:{
 				index:0,
+				name :'',        //名称(浙江)
+				value:0,         //根据此值计算比例(1000)
+				order:0,         //排名 过滤0 真正计算时从1开始(1)
+				scale:0,         //比例(10%)
 				fills:{
 					normal:'#BED2ED',
 					over  :'#F89D60'
 				},
-				content:[]
+				content:[],
+				sign:{
+					is  :0,
+					font:{
+						content:''
+					}
+				}
 			}
 		}
 	}
@@ -45,11 +55,22 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/datatrim',function(S,Base,Nod
 				var xmlDoc = domParser.parseFromString(item, 'text/xml');
 				var __set = xmlDoc.getElementsByTagName("set")[0]
 				var __fills = __set.getElementsByTagName("colors")[0]
+				var __sign = __set.getElementsByTagName("sign")[0]
+				var __name = __set.getElementsByTagName("name")[0]
 
 				var o = S.clone(self.get('o'))
 				o.index = __set.getAttribute('index') && String(__set.getAttribute('index')) ? Number(__set.getAttribute('index')) : o.index
+				o.value = __set.getAttribute('value') && String(__set.getAttribute('value')) ? Number(__set.getAttribute('value')) : o.value
+
+				if(__name){
+					o.name = String(__name.getAttribute('name')) ? String(__name.getAttribute('name')) : o.name
+				}
+
 				if(__fills){
 					o.fills.normal = __fills.getAttribute('normal') && String(__fills.getAttribute('normal')) ? $config.fills.normals[Number(__fills.getAttribute('normal')) - 1] : o.fills.normal
+					o.fills.over = $config.fills.over
+				}else{
+					o.fills.normal = $config.fills.normals[0]
 					o.fills.over = $config.fills.over
 				}
 
@@ -74,7 +95,15 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/datatrim',function(S,Base,Nod
 					o1.fill = $config.info.fills[b]
 					o.content[b].push(o1)
 				}
-				data[o.index] = o
+
+				o.sign.is = $config.sign.is ? 1 : 0
+				if(__sign){
+					var __font = __sign.getElementsByTagName("font")[0]
+					if(__font){
+						var content = __font.getAttribute('content') && String(__font.getAttribute('content')) ? String(__font.getAttribute('content')) : o.sign.font.content
+					}
+				}
+				data[o.name] = o
 			}
 			return data
 		},

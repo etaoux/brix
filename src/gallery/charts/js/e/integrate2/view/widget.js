@@ -117,7 +117,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate2/view/widget',function(S,Base,Node
 			self.get('parent').appendChild(self.get('element').element)
 
 			self.set('_core',new Core({parent:self.get('element')}))
-			var  o = {
+			var o = {
 				w      : self.get('w'),
 				h      : self.get('_core_h'),
 				parent : self.get('element'),
@@ -131,7 +131,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate2/view/widget',function(S,Base,Node
 			self.get('_core').get('element').transformY(self.get('_core_y'))
 
 			self.set('_layout',new Layout())
-			var  o = {
+			var o = {
 				w      : self.get('w'),
 				h      : self.get('h'),  
 				data   : self._getPieInfos(),

@@ -160,12 +160,12 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 			var arr = []
 			var total = 0
 			var scales = []
-			for (var a = 0 , al = $arr.length; a < al; a++) { 
+			for (var a = 0 , al = $arr.length; a < al; a++) {
+				$arr[a] = Number($arr[a])
 				total += $arr[a]
 			}
-
 			for (var b = 0, bl = $arr.length; b < bl; b++) {
-				var scale = Math.floor($arr[b] / total * 100)
+				var scale = Math.round($arr[b] / total * 100)
 				scales.push(scale)
 				
 				//最后一个
