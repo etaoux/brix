@@ -1783,7 +1783,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate2/view/widget',function(S,Base,Node
 			self.get('parent').appendChild(self.get('element').element)
 
 			self.set('_core',new Core({parent:self.get('element')}))
-			var  o = {
+			var o = {
 				w      : self.get('w'),
 				h      : self.get('_core_h'),
 				parent : self.get('element'),
@@ -1797,7 +1797,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate2/view/widget',function(S,Base,Node
 			self.get('_core').get('element').transformY(self.get('_core_y'))
 
 			self.set('_layout',new Layout())
-			var  o = {
+			var o = {
 				w      : self.get('w'),
 				h      : self.get('h'),  
 				data   : self._getPieInfos(),
@@ -4819,7 +4819,7 @@ KISSY.add('brix/gallery/charts/js/e/line3/view/widget',function(S,Base,Node,Glob
 	    ]
 	}
 );
-KISSY.add('brix/gallery/charts/js/e/map/main',function(S,Base,Global,SVGElement,Widget,DataParse,DataTrim,ConfigParse){
+KISSY.add('brix/gallery/charts/js/e/map/main',function(S,Base,Global,SVGElement,Widget,List,DataParse,DataTrim,ConfigParse){
 	function Main(){
 
 		var self = this
@@ -4850,6 +4850,16 @@ KISSY.add('brix/gallery/charts/js/e/map/main',function(S,Base,Global,SVGElement,
 		},
 		_DataSource:{
 			value:{}             //图表数据源 经过DataParse.parse
+		},
+		_data:{
+			value:[]            //渲染完之后的数据集合
+		},
+
+		_widget:{
+			value:null
+		},
+		_list:{
+			value:null
 		}
 	}
 
@@ -4860,33 +4870,71 @@ KISSY.add('brix/gallery/charts/js/e/map/main',function(S,Base,Global,SVGElement,
 			self.set('_DataSource', new DataParse().parse(self.get('data'))) 
 			self.set('_config', new ConfigParse().parse(self.get('config')))
 			self.get('_DataSource').data = new DataTrim().parse(self.get('_DataSource').values.data,self.get('_config'))
-			
 			self._widget()	
 		},
 
 		_widget:function(){
 			var self = this
+			var config = self.get('_config')   
 			
 			self.set('_main',new SVGElement('g'))
 			self.get('_main').attr({'class':'main'});
 			self.get('parent').appendChild(self.get('_main').element)
 			self.get('_main').transformXY(Global.N05, Global.N05)
 
+			var w =  self.get('w'), h = self.get('h')
+			if(config.list.is){
+				w = w - 120
+			}
+
 			var o = {}
 			o.parent = self.get('_main')                       //SVGElement
-			o.w = self.get('w')                                //chart 宽
-			o.h = self.get('h')                                //chart 高
+			o.w = w                                            //chart 宽
+			o.h = h                                            //chart 高
 			o.DataSource = self.get('_DataSource')             //图表数据源
-			o.config = self.get('_config')                     //图表配置
+			o.config = config                                  //图表配置
+			self.set('_widget', new Widget(o)) 
+			
+			if(config.list.is){
+				self.set('_data', self.get('_widget').getData())
 
-			new Widget(o)
+				self.set('_list', new List())
+				var o = {
+					parent : self.get('_main'),
+					data   : self._getInfo()
+				}
+				self.get('_list').init(o)
+				var x = w + (120 - self.get('_list').get('w')) / 2
+				var y = (h - self.get('_list').get('h')) / 2
+				self.get('_list').get('element').transformXY(x, y)
+			}
+		},
+
+		_getInfo:function(){
+			var self = this
+			var config = self.get('_config')
+			var data = self.get('_data').order
+			var arr = []
+			for (var a = 0, al = data.length; a < al; a++ ) {
+				var o = data[a]
+				if(o && o.order){
+
+					if(!config.list.max || config.list.max > a){
+						arr[a] = []
+						arr[a].push({content:o.order, bold:1, fill:'#333333', family:'微软雅黑', size:12, ver_align:3})
+						arr[a].push({content:o.name,  bold:1, fill:'#333333', family:'微软雅黑', size:12, ver_align:1})
+						arr[a].push({content:o.scale, bold:1, fill:'#333333', family:'微软雅黑', size:12, ver_align:3})
+					}
+				}
+			}
+			return arr
 		}
 	});
 
 	return Main;
 
 	}, {
-	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','./view/widget','../../pub/controls/map/dataparse','../../pub/controls/map/datatrim','../../pub/controls/map/configparse']
+	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','./view/widget','../../pub/views/list/graphs','../../pub/controls/map/dataparse','../../pub/controls/map/datatrim','../../pub/controls/map/configparse']
 	}
 );
 KISSY.add('brix/gallery/charts/js/e/map/view/widget',function(S,Base,Node,Global,Move,DataSection,SVGElement,GlobalInduce,Infos,EventType,Graphs){
@@ -4932,7 +4980,8 @@ KISSY.add('brix/gallery/charts/js/e/map/view/widget',function(S,Base,Node,Global
 				},
 				values:{               
 					org:[],                  //原始二维数据['<set index="34"><name name="安徽"/>...</set>','...','...']
-					data:[],                 //原始二维数据[见datatrim->data]
+					data:[],                 //Object 原始二维数据[见datatrim->data]
+					order:[]                 //Array  需要list时 排序之后的数据 根据data中的value
 				}
 			}
 		},
@@ -4979,6 +5028,11 @@ KISSY.add('brix/gallery/charts/js/e/map/view/widget',function(S,Base,Node,Global
 			self._widget()
 		},
 
+		getData:function(){
+			var self = this
+			return S.clone(self.get('_DataFrameFormat').values)
+		},
+
 		_widget:function(){
 			var self = this
 			self.set('element', new SVGElement('g')), self.get('element').set('class','widget')
@@ -4988,12 +5042,17 @@ KISSY.add('brix/gallery/charts/js/e/map/view/widget',function(S,Base,Node,Global
 			self.set('_infos',new Infos())
 			self.set('_globalInduce', new GlobalInduce())
 
+			if(self.get('config').sign.is || self.get('config').list.is){
+				self._trim()
+			}
+
 			var n = parseInt(Math.min(self.get('w'), self.get('h'))) - self.get('_dis')
 			var o = {
 				parent: self.get('element'),
 				data  : self.get('_DataFrameFormat').values.data,
 				w     : self.get('w') - 2 * self.get('_dis'),
-				h     : self.get('h') - 2 * self.get('_dis')
+				h     : self.get('h') - 2 * self.get('_dis'),
+				config: self.get('config')
 			}
 			self.get('_graphs').widget(o)
 
@@ -5015,12 +5074,51 @@ KISSY.add('brix/gallery/charts/js/e/map/view/widget',function(S,Base,Node,Global
 				data  : self.get('_DataFrameFormat').values.data,
 				isInduce   : 1,
 				w     : self.get('w') - 2 * self.get('_dis'),
-				h     : self.get('h') - 2 * self.get('_dis')
+				h     : self.get('h') - 2 * self.get('_dis'),
+				config: self.get('config')
 			}
 			self.get('_induces').get('element').on(EventType.COMPLETE,function($o){self._completeHandler($o)})
 			self.get('_induces').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
 			self.get('_induces').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
 			self.get('_induces').widget(o)
+		},
+
+		_trim:function(){
+			var self = this
+			var data = S.clone(self.get('_DataFrameFormat').values.data)
+			var tmp = []
+			for(var a in data){
+				var o = data[a]
+				tmp.push(o)
+			}
+			var tmp = tmp.sort(function(a,b){return b.value-a.value;}); 
+			self.get('_DataFrameFormat').values.order = tmp
+			var values = []
+			var scalesData = []    //有比例的数据集合
+			var total = 0
+			for(var a = 0, al = tmp.length; a < al; a++){
+				var o = tmp[a]
+				if(o && o.value){
+					scalesData.push(o) 
+					values.push(o.value)
+					total+= o.value
+				}
+			}
+			var scales = Global.getArrScales(values)
+			for(var b = 0, bl = scalesData.length; b < bl; b++){
+				var o = scalesData[b]
+				o.order = b + 1
+				o.scale = scales[b] + '%'
+				o.sign.font.content = String(o.order)
+			}
+
+			for(var c = 0, cl = tmp.length; c < cl; c++){
+				var o = tmp[c]
+				if(o){
+					data[o.name] = o
+				}
+			}
+			self.get('_DataFrameFormat').values.data = data
 		},
 
 		_getRPoint:function(x0, y0, xr, yr, r) {
@@ -5107,7 +5205,7 @@ KISSY.add('brix/gallery/charts/js/e/map/view/widget',function(S,Base,Node,Global
 	    ]
 	}
 );
-KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,DataParse,ConfigParse,Widget){
+KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,DataParse,ConfigParse,Widget,List){
 	function Main(){
 
 		var self = this
@@ -5138,6 +5236,16 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 		},
 		_DataSource:{
 			value:{}             //图表数据源 经过DataParse.parse
+		},
+		_data:{
+			value:[]             //渲染完之后的数据集合
+		},
+
+		_widget:{
+			value:null
+		},
+		_list:{
+			value:null
 		}
 	}
 
@@ -5153,28 +5261,66 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 
 		_widget:function(){
 			var self = this
+			var config = self.get('_config')   
 			
 			self.set('_main',new SVGElement('g'))
 			self.get('_main').attr({'class':'main'});
 			self.get('parent').appendChild(self.get('_main').element)
 			self.get('_main').transformXY(Global.N05,Global.N05)
 
+			var w =  self.get('w'), h = self.get('h')
+			if(config.list.is){
+				w = w - 120
+			}
+
 			var o = {}
 			o.parent = self.get('_main')                       //SVGElement
-			o.w = self.get('w')                                //chart 宽
-			o.h = self.get('h')                                //chart 高
+			o.w = w                                            //chart 宽
+			o.h = h                                            //chart 高
 			o.DataSource = self.get('_DataSource')             //图表数据源
 			o.config = self.get('_config')                     //图表配置
+			self.set('_widget', new Widget(o)) 
 
-			new Widget(o)
+			if(config.list.is){
+				self.set('_data', self.get('_widget').getData())
+
+				self.set('_list', new List())
+				var o = {
+					parent : self.get('_main'),
+					data   : self._getInfo()
+				}
+				self.get('_list').init(o)
+				var x = w + (120 - self.get('_list').get('w')) / 2
+				var y = (h - self.get('_list').get('h')) / 2
+				self.get('_list').get('element').transformXY(x, y)
+			}
+		},
+
+		_getInfo:function(){
+			var self = this
+			var config = self.get('_config')
+			var data = self.get('_data').order
+			var arr = []
+			for (var a = 0, al = data.length; a < al; a++ ) {
+				var o = data[a]
+				if(o && o.order){
+
+					if(!config.list.max || config.list.max > a){
+						arr[a] = []
+						arr[a].push({content:o.name, bold:1, fill:'#333333', family:'微软雅黑', size:12, ver_align:3, sign: { has:1, trim:1, fill:o.normal, disX:8}})
+						// arr[a].push({content:o.name,  bold:1, fill:'#333333', family:'微软雅黑', size:12, ver_align:1})
+						arr[a].push({content:o.scale, bold:1, fill:'#333333', family:'微软雅黑', size:12, ver_align:3})
+					}
+				}
+			}
+			return arr
 		}
-		
 	});
 
 	return Main;
 
 	}, {
-	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','../../pub/controls/pie/dataparse','../../pub/controls/pie/configparse','./view/widget']
+	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','../../pub/controls/pie/dataparse','../../pub/controls/pie/configparse','./view/widget','../../pub/views/list/graphs']
 	}
 );
 KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global,DataSection,SVGElement,GlobalInduce,Infos,EventType,Graphs){
@@ -5222,7 +5368,8 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 					names :[],             //原始名称数组
 					org   :[],             //原始数据数组(未排序)
 					data  :[],             //排序后的数据(大->小 纯org的排序)
-					all   :[]              //排序后的数据对象集合[{names:,data:},{}]
+					all   :[],             //排序后的数据对象集合[{names:,data:},{}]
+					order :[]              //Array  需要list时 排序之后的数据 根据data中的value
 				}
 			}
 		},
@@ -5258,8 +5405,14 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'),self.get('DataSource'))) 
 			self.get('_DataFrameFormat').values.data = S.clone(self.get('_DataFrameFormat').values.org).sort(function(a,b){return b-a;}); 
 			self.get('_DataFrameFormat').values.all = self._trimData()
+			self.get('_DataFrameFormat').values.order = self.get('_DataFrameFormat').values.all
 
 			self._widget()
+		},
+
+		getData:function(){
+			var self = this
+			return S.clone(self.get('_DataFrameFormat').values)
 		},
 
 		_widget:function(){
@@ -5282,7 +5435,8 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				mh    : n,
 				xr    : n / 2 - 26,
 				yr    : n / 2 - 26,
-				tr    : (n / 2 - 26) * 0.6
+				tr    : (n / 2 - 26) * 0.6,
+				isTxt : self.get('config').font.is
 			}
 			if(self.get('config').fills.normals.length > 0){
 				o.fills = self._getArrayForObjectPro(self.get('_DataFrameFormat').values.all,'normal')
@@ -5334,7 +5488,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				o.name = self.get('_DataFrameFormat').values.names[a]
 				o.data = Number(self.get('_DataFrameFormat').values.org[a])
 				if(self.get('config').fills.order == 1){
-					 o.normal = self.get('config').fills.normals[a] ? self.get('config').fills.normals[a] : ''
+					o.normal = self.get('config').fills.normals[a] ? self.get('config').fills.normals[a] : ''
 					o.over = self.get('config').fills.overs[a] ? self.get('config').fills.overs[a] : ''
 				} 
 				arr.push(o)
@@ -5346,6 +5500,15 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				if(self.get('config').fills.order == 0){
 					o.normal = self.get('config').fills.normals[b] ? self.get('config').fills.normals[b] : ''
 					o.over = self.get('config').fills.overs[b] ? self.get('config').fills.overs[b] : ''
+				}
+			}
+			if(self.get('config').list.is){
+				var values = self.get('_DataFrameFormat').values.data
+				var scales = Global.getArrScales(values)
+				for(var c = 0, cl = arr.length; c < cl; c++ ) {
+					var o  = arr[c]
+					o.order = c + 1
+					o.scale = scales[c] + '%'
 				}
 			}
 			return arr
@@ -7168,6 +7331,16 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/configparse',function(S,Base,
 					fills  :['0x1351BF','0x1351BF','0x1351BF'],
 					sizes   :[14,12,12],
 					frame_fill :'0x1351BF'
+				},
+
+				sign:{
+					is : 0,
+					max: ''
+				},
+
+				list:{
+					is : 0,
+					max: ''
 				}
 			}
 		}
@@ -7195,6 +7368,8 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/configparse',function(S,Base,
 			var __data = xmlDoc.getElementsByTagName("data")[0]
 			var __fills = __data.getElementsByTagName("colors")[0]
 			var __info = __data.getElementsByTagName("info")[0]
+			var __sign = __data.getElementsByTagName("sign")[0]
+			var __list = __data.getElementsByTagName("list")[0]
 
 			o.v = __data.getAttribute('v') && String(__data.getAttribute('v')) ? String(__data.getAttribute('v')) : o.v
 
@@ -7216,7 +7391,15 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/configparse',function(S,Base,
 
 			o.info.fills = self._trimFills(o.info.fills)
 			o.info.frame_fill = self._trimFill(o.info.frame_fill)
-			
+
+			if(__sign){
+				o.sign.is = 1
+				o.sign.max = __sign.getAttribute('value') && __sign.getAttribute('value') != 0 ? __sign.getAttribute('value') : o.sign.max
+			}
+			if(__list){
+				o.list.is = 1
+				o.list.max = __list.getAttribute('value') && __list.getAttribute('value') != 0 ? __list.getAttribute('value') : o.list.max
+			}
 			return o
 		},
 
@@ -7326,7 +7509,7 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/datatrim',function(S,Base,Nod
 
 	DataTrim.ATTRS = {
 		data:{
-			value:[]
+			value:{}
 						         //[o,o,...o]
 				                 /*o:{
 				                 	 index:
@@ -7340,11 +7523,21 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/datatrim',function(S,Base,Nod
 		o:{
 			value:{
 				index:0,
+				name :'',        //名称(浙江)
+				value:0,         //根据此值计算比例(1000)
+				order:0,         //排名 过滤0 真正计算时从1开始(1)
+				scale:0,         //比例(10%)
 				fills:{
 					normal:'#BED2ED',
 					over  :'#F89D60'
 				},
-				content:[]
+				content:[],
+				sign:{
+					is  :0,
+					font:{
+						content:''
+					}
+				}
 			}
 		}
 	}
@@ -7361,11 +7554,22 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/datatrim',function(S,Base,Nod
 				var xmlDoc = domParser.parseFromString(item, 'text/xml');
 				var __set = xmlDoc.getElementsByTagName("set")[0]
 				var __fills = __set.getElementsByTagName("colors")[0]
+				var __sign = __set.getElementsByTagName("sign")[0]
+				var __name = __set.getElementsByTagName("name")[0]
 
 				var o = S.clone(self.get('o'))
 				o.index = __set.getAttribute('index') && String(__set.getAttribute('index')) ? Number(__set.getAttribute('index')) : o.index
+				o.value = __set.getAttribute('value') && String(__set.getAttribute('value')) ? Number(__set.getAttribute('value')) : o.value
+
+				if(__name){
+					o.name = String(__name.getAttribute('name')) ? String(__name.getAttribute('name')) : o.name
+				}
+
 				if(__fills){
 					o.fills.normal = __fills.getAttribute('normal') && String(__fills.getAttribute('normal')) ? $config.fills.normals[Number(__fills.getAttribute('normal')) - 1] : o.fills.normal
+					o.fills.over = $config.fills.over
+				}else{
+					o.fills.normal = $config.fills.normals[0]
 					o.fills.over = $config.fills.over
 				}
 
@@ -7390,7 +7594,15 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/datatrim',function(S,Base,Nod
 					o1.fill = $config.info.fills[b]
 					o.content[b].push(o1)
 				}
-				data[o.index] = o
+
+				o.sign.is = $config.sign.is ? 1 : 0
+				if(__sign){
+					var __font = __sign.getElementsByTagName("font")[0]
+					if(__font){
+						var content = __font.getAttribute('content') && String(__font.getAttribute('content')) ? String(__font.getAttribute('content')) : o.sign.font.content
+					}
+				}
+				data[o.name] = o
 			}
 			return data
 		},
@@ -7429,10 +7641,20 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 	ConfigParse.ATTRS = {
 		o:{
 			value:{
+
+				font:{
+					is:1
+				},
+
 				fills:{
 					order  :0,
 					normals:['0x458AE6', '0x45B5E6', '0x39BCC0', '0x5BCB8A', '0x94CC5C', '0xC3CC5C', '0xE6B522', '0xE68422', '0xB0704A', '0x6280A1'],
 					overs  :['0x135EBF', '0x3997BF', '0x2E9599', '0x36B26A', '0x78A64B', '0x9CA632', '0xBF9E39', '0xBF7C39', '0x8C5738', '0x4D6580']
+				},
+
+				list:{
+					is : 0,
+					max: ''
 				}
 			}
 		}
@@ -7458,14 +7680,27 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 			var xmlDoc = domParser.parseFromString(data, 'text/xml');
 
 			var __data = xmlDoc.getElementsByTagName("data")[0]
+			var __font = __data.getElementsByTagName("font")[0]
 			var __fills = __data.getElementsByTagName("colors")[0]
+			var __list = __data.getElementsByTagName("list")[0]
+
+			if(__font){
+				o.font.is = __font.getAttribute('enabled') == 0 ? 0 : o.font.is
+			}
+
 			if(__fills){
 				o.fills.order = __fills.getAttribute('normals') && String(__fills.getAttribute('normals')) ? 1 : o.fills.order
+				o.fills.order = __fills.getAttribute('mode') == 1 ? 0 : o.fills.order
 				o.fills.normals = __fills.getAttribute('normals') && String(__fills.getAttribute('normals')) ? String(__fills.getAttribute('normals')).split(',') : o.fills.normals
 				o.fills.overs = __fills.getAttribute('overs') && String(__fills.getAttribute('overs')) ? String(__fills.getAttribute('overs')).split(',') : o.fills.overs
 			}
 			o.fills.normals = self._trimFills(o.fills.normals)
 			o.fills.overs = self._trimFills(o.fills.overs)
+
+			if(__list){
+				o.list.is = 1
+				o.list.max = __list.getAttribute('value') && __list.getAttribute('value') != 0 ? __list.getAttribute('value') : o.list.max
+			}
 			return o
 		},
 
@@ -7918,12 +8153,12 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 			var arr = []
 			var total = 0
 			var scales = []
-			for (var a = 0 , al = $arr.length; a < al; a++) { 
+			for (var a = 0 , al = $arr.length; a < al; a++) {
+				$arr[a] = Number($arr[a])
 				total += $arr[a]
 			}
-
 			for (var b = 0, bl = $arr.length; b < bl; b++) {
-				var scale = Math.floor($arr[b] / total * 100)
+				var scale = Math.round($arr[b] / total * 100)
 				scales.push(scale)
 				
 				//最后一个
@@ -10046,6 +10281,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 		isBack:{
 			value:1                      //是否有背景
 		}, 
+		hor_dis:{                        //文字每一排之间的距离
+			value:0
+		},
+		ver_dis:{                        //文字每一列之间的距离
+			value:0
+		},
 
 		_lay:{
 			value:{}                     //根据此对象设置集合文字坐标、对齐方式等 {maxHorH(每一行最大的高集合):[24,24,24], maxVerW(对应列最大的宽集合):[100,100], maxVerAllW(对应列最大的宽集合 包括标志位):[120,120]}      
@@ -10061,6 +10302,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 		},
 		_disY:{ 
 			value:5                      //文字集合到上、下的距离     
+		},
+		_hor_count:{                     //有几排
+			value:0
+		},
+		_ver_count:{                     //有几列
+			value:0
 		},
 
 		_g:{
@@ -10128,10 +10375,17 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 			_lay.maxHorH = [], _lay.maxVerW = [], _lay.maxVerAllW = []
 
 			self.get('_fonts').setDynamic('childs',[])
+
+			self.set('_hor_count', self.get('data').length)
+			if(self.get('data')[0]){
+				self.set('_ver_count', self.get('data')[0].length)
+			}
+
 			for(var a = 0, al = self.get('data').length; a < al; a++){
 				//一行中最高的值
 				var maxHorH = 0
-				var maxSignW = 0      
+				var maxSignW = 0 
+				//一行文字     
 				var rowFonts = new SVGElement('g')
 				rowFonts.setDynamic('childs',[])
 				self.get('_fonts').element.appendChild(rowFonts.element)
@@ -10142,6 +10396,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 					var bold = o.bold || Number(o.bold) == 0 ? Number(o.bold) : 1
 					var fill = o.fill ? o.fill : self.get('base_fill')
 					var family = o.family ? o.family : self.get('_font_family')
+					//单个文字
 					var font = SVGGraphics.text({'content':Global.numAddSymbol(o.content),'size':o.size,'fill':fill,'bold':bold,'family':family})
 					rowFonts.element.appendChild(font.element)
 					rowFonts.getDynamic('childs').push(font)
@@ -10171,8 +10426,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 					var o = self.get('data')[c][d]
 					var font = rowFonts.getDynamic('childs')[d]
 
-					var x = Global.getArrMergerNumber(_lay.maxVerAllW, 0, d - 1)
-					var y = c > 0 ? Global.getArrMergerNumber(_lay.maxHorH, 0, c - 1) : 0
+					var x = Global.getArrMergerNumber(_lay.maxVerAllW, 0, d - 1) + d * self.get('ver_dis')
+					var y = c > 0 ? Global.getArrMergerNumber(_lay.maxHorH, 0, c - 1) + c * self.get('hor_dis') : 0
 					rowFonts.transformY(y)
 					y = 0
 
@@ -10215,13 +10470,15 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 			}
 
 			var w,h
+			var ver_dis = (self.get('_ver_count') - 1) * self.get('ver_dis')
+			var hor_dis = (self.get('_hor_count') - 1) * self.get('hor_dis')
 			if(self.get('isBack')){
 				self.get('_fonts').transformXY(self.get('_disX'),self.get('_disY'))
-				w = Global.getArrMergerNumber(_lay.maxVerAllW) + self.get('_disX') * 2
-				h = Global.getArrMergerNumber(_lay.maxHorH) + self.get('_disY') * 2
+				w = Global.getArrMergerNumber(_lay.maxVerAllW) + self.get('_disX') * 2 + ver_dis
+				h = Global.getArrMergerNumber(_lay.maxHorH) + self.get('_disY') * 2 + hor_dis
 			}else{
-				w = Global.getArrMergerNumber(_lay.maxVerAllW)
-				h = Global.getArrMergerNumber(_lay.maxHorH)
+				w = Global.getArrMergerNumber(_lay.maxVerAllW) + ver_dis
+				h = Global.getArrMergerNumber(_lay.maxHorH) + hor_dis
 			}
 
 			if(self.get('isBack')){
@@ -12090,7 +12347,284 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 	    requires:['base','node','../../utils/global','../../utils/svgelement','../../utils/svgrenderer','../../views/svggraphics']
 	}
 );
-KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Global,Move,SVGElement,SVGRenderer,SVGGraphics,EventType){
+KISSY.add('brix/gallery/charts/js/pub/views/list/graphs',function(S,Base,node,Global,SVGElement,SVGRenderer,SVGGraphics,Info){
+	
+	function List(){
+		
+		var self = this
+
+		List.superclass.constructor.apply(self,arguments);
+
+		// self.init()
+	}
+
+	List.ATTRS = {
+		w:{
+			value:0
+		},
+		h:{
+			value:0
+		},
+		data:[],
+		element:{
+			value:null
+		},
+
+	}			
+
+	S.extend(List,Base,{
+		init:function(){
+			var self = this
+			List.superclass.constructor.apply(self,arguments);
+			
+			self.set('element', new SVGElement('g')), self.get('element').set('class','list')
+			self.get('element').setDynamic('childs',[])
+			self.get('parent').appendChild(self.get('element').element)
+
+			self._widget()
+		},
+
+		_widget:function(){
+			var self = this
+			var w = self.get('w'), h = self.get('h') 
+			var _info
+			var data = self.get('data')
+			//data = self._test()
+
+			if(data.length){
+				self.set('_info', new Info())
+				_info = self.get('_info')
+
+				var o = {
+					data   : data,
+					parent : self.get('element'),
+					isBack : 0,
+					hor_dis: 3,
+					ver_dis: 5
+				}
+				_info.init(o)
+
+				w = Math.floor(_info.get('w') / 2), h = Math.floor(_info.get('h') / 2)
+				_info.get('element').transformXY(w, h)
+
+				w = _info.get('w'), h = _info.get('h')
+				self.set('w', w), self.set('h', h)
+			}
+
+			// var induce = self._drawGraph({w:w,h:h,opacity:0.4})
+			// self.get('element').appendChild(induce.element)
+		},
+
+		/*
+		_test:function(){
+			var data = []
+			data = test()
+
+			function test(){
+				var data = []
+				data[0] = []
+				data[1] = []
+				// data[2] = []
+				
+				var o = {}
+				o.content = '1', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 3
+				data[0].push(o)
+				o = {}
+				o.content = '浙江', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 1
+				data[0].push(o)
+				o = {}
+				o.content = '22%', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 3
+				data[0].push(o)
+				
+				o = {}
+				o.content = '12', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 3
+				data[1].push(o)
+				o = {}
+				o.content = '黑龙江', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 1
+				data[1].push(o)
+				o = {}
+				o.content = '7%', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 3
+				data[1].push(o)
+				
+				// o = {}
+				// o.content = '品牌展位60%', o.bold = 0, o.fill = '#78a64b', o.family = '微软雅黑', o.sign = {has:1,trim:1,fill:'#78a64b' }
+				// data[2].push(o)
+				return data
+			}
+			return data
+		},
+		
+	
+		//画支柱
+		_drawGraph:function($o){
+			var w = $o.w,h = $o.h,fill = $o.fill ? $o.fill : '#000000',opacity = $o.opacity ? $o.opacity : 1
+			var d = SVGRenderer.symbol('square',0,0,w,h).join(' ')
+			var p = new SVGElement('path')
+			p.attr({'_w':w,'_h':h,'d':d,'fill':fill,'opacity':opacity})
+			return p
+		},*/
+	});
+
+	return List;
+
+	}, {
+	    requires:['base','node','../../utils/global','../../utils/svgelement','../../utils/svgrenderer','../svggraphics','../infos/info']
+	}
+);
+KISSY.add('brix/gallery/charts/js/pub/views/list/graphs',function(S,Base,node,Global,SVGElement,SVGRenderer,SVGGraphics,Sign){
+	
+	function List(){
+		
+		var self = this
+
+		List.superclass.constructor.apply(self,arguments);
+
+		// self.init()
+	}
+
+	List.ATTRS = {
+		w:{
+			value:100
+		},
+		h:{
+			value:100
+		},
+		data:{
+			value:[]             //[o,o,o]
+			                       /*o:{
+									   sign:{
+									   	   is:1,
+									   	   circle:{
+									           is:1,
+									           radius:12,
+									 	       fill:'#937ACC'
+										   },
+										   font:{
+											   is:1
+											   content:'name',
+											   size:12,
+											   fill:'#000000',
+									           bold:1,
+											   family:'微软雅黑'
+										   }		
+									   },
+									   font:{
+										   is:1,
+										   content:'name',
+										   size:12,
+										   fill:'#000000',
+									       bold:1,
+										   family:'微软雅黑'
+									   }
+			                         }
+			                       */
+		},
+		element:{
+			value:null
+		}
+	}			
+
+	S.extend(List,Base,{
+		init:function(){
+			var self = this
+			List.superclass.constructor.apply(self,arguments);
+			
+			self.set('element', new SVGElement('g')), self.get('element').set('class','list')
+			self.get('element').setDynamic('childs',[])
+			self.get('parent').appendChild(self.get('element').element)
+
+			self._widget()
+		},
+
+		_widget:function(){
+			var self = this
+			var data = self.get('data')
+			data = self._test()
+
+			//每个alist之间的间距  但是最上面一个alist距顶端为0
+			var disY = 4
+			//alist中的sign与font之间的x距离
+			var disX = 4
+
+			var induce = self._drawGraph({w:100,h:100,opacity:0.4})
+			self.get('element').appendChild(induce.element)
+
+			for (var a = 0, al = data.length; a < al; a++ ) { 
+				var o = data[a]
+
+				var aList = new SVGElement('g')
+				aList.setDynamic('info',{h:0})
+				aList.set('class','alist')
+				self.get('element').appendChild(aList.element)
+				self.get('element').getDynamic('childs').push(aList)
+
+				var sign = new Sign()
+				sign.init({
+					parent : aList,
+					config : o.sign
+				})
+				var x = sign.get('w') / 2, y = sign.get('h') / 2
+				var w = 0, h = 0 
+   				sign.get('element').transformXY(x, y)
+
+   				var font = SVGGraphics.text(o.font)
+   				aList.appendChild(font.element)
+   				x = sign.get('w') + disX
+   				y = font.getHeight() * 0.75
+   				font.transformXY(x, y)
+
+   				if(font.getHeight() > sign.get('h')){
+   					y = (font.getHeight() - sign.get('h')) / 2 
+   					y =  parseInt(sign.get('h') / 2 + y)
+   					sign.get('element').transformY(y)
+
+   					h = font.getHeight()
+   				}else{
+   					y = -(font.getHeight() - sign.get('h')) / 2
+   					y = parseInt(font.getHeight() * 0.75 + y)
+   					font.transformY(y)
+
+   					h = sign.get('h')
+   				}
+   				aList.getDynamic('info').h = h
+
+   				var pre_list = self.get('element').getDynamic('childs')[a - 1]
+   				if(pre_list){
+   					y = disY + Number(pre_list.get('_y')) + Number(pre_list.getDynamic('info').h)
+   				}else{
+   					y = 0
+   				}
+   				aList.transformY(y)
+			}
+		},
+
+		_test:function(){
+			var data = []
+			var o ={sign:{is:0,circle:{is:1,radius:4,fill:'#937ACC'},font:{is:0,content:'1',size:12,fill:'#000000',bold:1,family:'微软雅黑'}},font:{is:1,content:'哈哈哈1',size:12,fill:'#000000',bold:1,family:'微软雅黑'}}
+			data.push(o)
+			var o ={sign:{is:0,circle:{is:1,radius:4,fill:'#937ACC'},font:{is:0,content:'2',size:12,fill:'#000000',bold:1,family:'微软雅黑'}},font:{is:1,content:'哈哈哈2',size:12,fill:'#000000',bold:1,family:'微软雅黑'}}
+			data.push(o)
+			var o ={sign:{is:0,circle:{is:1,radius:4,fill:'#937ACC'},font:{is:0,content:'2',size:12,fill:'#000000',bold:1,family:'微软雅黑'}},font:{is:1,content:'哈哈哈3',size:12,fill:'#000000',bold:1,family:'微软雅黑'}}
+			data.push(o)
+			return data
+		},
+				//画支柱
+		_drawGraph:function($o){
+			var w = $o.w,h = $o.h,fill = $o.fill ? $o.fill : '#000000',opacity = $o.opacity ? $o.opacity : 1
+			var d = SVGRenderer.symbol('square',0,0,w,h).join(' ')
+			var p = new SVGElement('path')
+			p.attr({'_w':w,'_h':h,'d':d,'fill':fill,'opacity':opacity})
+			return p
+		},
+	});
+
+	return List;
+
+	}, {
+	    requires:['base','node','../../utils/global','../../utils/svgelement','../../utils/svgrenderer','../../views/svggraphics','../modules/sign/main']
+	}
+);
+KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Global,Move,SVGElement,SVGRenderer,SVGGraphics,EventType,Sign){
 	
 	function Graphs(){
 		
@@ -12155,6 +12689,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 		},
 		_main:{
 			value:null           //main
+		},
+		_signs:{
+			value:null           //_signs
 		}
 	}			
 
@@ -12164,7 +12701,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 			
 			self.set('element', new SVGElement('g')), self.get('element').set('class',self.get('id'))
 			self.get('parent').appendChild(self.get('element').element)
-
 			self.set('_path_map', self._getMap())
 		},
 
@@ -12185,12 +12721,16 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 			var self = this
 			self.set('_maps', new SVGElement('g')), self.get('_maps').set('class','maps')
 			self.get('element').appendChild(self.get('_maps').element)
+			self.set('_signs', new SVGElement('g')), self.get('_signs').set('class','circles')
+			self.get('element').appendChild(self.get('_signs').element)
+			self.get('_signs').setDynamic('childs',[])
+
 			if(self.get('isInduce') == 1){
 				self.get('_maps').set('opacity',0)
 			}
 
-			self.set('_test', new SVGElement('g')), self.get('_test').set('class','test')
-			self.get('element').appendChild(self.get('_test').element)
+			// self.set('_test', new SVGElement('g')), self.get('_test').set('class','test')
+			// self.get('element').appendChild(self.get('_test').element)
 			// self.set('_induces', new SVGElement('g')), self.get('_induces').set('id','J_induces')
 			// self.get('element').appendChild(self.get('_induces').element)
 			
@@ -12205,6 +12745,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 			})
 		},
 
+		_completeHandler:function(){
+			var self = this
+			self._layout()
+		},
+
 		_layout:function(){
 			var self = this
 			self.set('map_w', self.get('_main').get('map_w'))
@@ -12216,12 +12761,15 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 
 			var matrix = 'matrix('+ (self.get('map_scale')) +',0,0,' + (self.get('map_scale')) + ',' + (0) + ',' + (0) + ')'
 			self.get('_maps').set('transform',matrix)
+			self.get('_signs').set('transform',matrix)
 
 			self.set('map_w', self.get('element').getWidth())
 			self.set('map_h', self.get('element').getHeight())
 
 			var maps = self.get('maps')
-			for(var a = 0, al = maps.length; a < al; a++){
+			// for(var a = 0, al = maps.length; a < al; a++){
+			var signs = 0
+			for(var a in maps){
 				var map = maps[a]
 				var o = self.get('data')[a]
 				if(map && o){
@@ -12231,16 +12779,40 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 						element.element.addEventListener("mouseover",function(evt){ self._overHandler(evt)}, false);
 						element.element.addEventListener("mouseout",function(evt){ self._outHandler(evt)}, false);
 					}
+					if(o.sign.is && o.sign.font.content && self.get('isInduce') == 0){
+						if(!self.get('config').sign.max || Number(self.get('config').sign.max) >= Number(o.sign.font.content)){
+							var sign = new Sign()
+							self.get('_signs').getDynamic('childs')[o.index] = sign
+							var config = {
+
+									circle:{
+										  is:1,
+										  radius:12,
+										  fill:'#937ACC'
+									},
+									font:{
+										is:1,
+										content:o.sign.font.content,
+										size:14,
+										fill:'#FFFFFF',
+										bold:1,
+										family:'微软雅黑'
+									}	
+							}
+							var o = {
+								parent : self.get('_signs'),
+								config : config
+							}
+							sign.init(o)
+							sign.get('element').transformXY(map.cx, map.cy)
+							signs++
+						}
+					}
 				}
 			}
-
 			self.get('element').fire(EventType.COMPLETE)
 		},
 
-		_completeHandler:function(){
-			var self = this
-			self._layout()
-		},
 		_overHandler:function($evt){
 			var self = this
 			var index = $evt.target.getAttribute('_index')
@@ -12283,6 +12855,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 				}else{
 					element.set('fill',o.fills.normal)
 				}
+
+				var sign = self.get('_signs').getDynamic('childs')[$index]
+				if(sign){
+					var fill = $b ? '#7459B3' : '#937ACC'
+					sign.setStyle({circle:{fill:fill}})
+				}
 			}
 		},
 
@@ -12301,7 +12879,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 	return Graphs;
 
 	}, {
-	    requires:['base','node','../../utils/global','../../utils/move','../../utils/svgelement','../../utils/svgrenderer','../../views/svggraphics','../../models/eventtype']
+	    requires:['base','node','../../utils/global','../../utils/move','../../utils/svgelement','../../utils/svgrenderer','../../views/svggraphics','../../models/eventtype','../modules/sign/main']
 	}
 );
 KISSY.add('brix/gallery/charts/js/pub/views/map/maps/zh/main',function(S,Base,SVGElement,EventType,MapData){
@@ -12359,7 +12937,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/maps/zh/main',function(S,Base,SV
 			var self = this
 			var arr = self.get('maps')
 			var _df = document.createDocumentFragment();
-			for(var a = 0, al = arr.length; a < al; a++){
+			// for(var a = 0, al = arr.length; a < al; a++){
+			for(var a in arr){
 				var o = arr[a]
 				if(o){
 					var path = new SVGElement('path')
@@ -12395,74 +12974,74 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/maps/zh/mapdata',function(S){
 		get:function(){
 			var self = this
 
-			var arr = []
-			arr[34] = self._setMapInfo({'index':34, 'cx':439, 'cy':284, d:'M423.637,253.208l2.024-0.597l6.312,2.621c0,0,1.768,2.299,2.861,2.856c1.092,0.557,5.118,1.43,5.118,1.43l2.021,1.667l2.858-0.479l0.599,1.072l-0.957,6.074l2.858,1.666l1.189,2.263l4.287,0.831l1.666-2.854l2.621,0.356l1.666,2.265l-0.24,2.021l-5.121,0.596v2.264v1.665l-2.021,2.265l1.43,2.618l4.287,2.856l0.237,3.454l8.572,0.832v4.525l-1.666,2.381l1.191,2.263l-0.951,1.43l-3.338,0.594l-1.428,1.906l0.235,4.882l-4.285,6.072l-0.715,0.683l-2.381-2.111H446.5l-2.498-2.855l-4.884,4.761l-1.786-0.834l2.026-3.69l-0.24-1.188l-1.786-0.479l-5.718,3.099l-5.356-10.241l1.666-3.214l-0.595-1.071l-2.858-0.952l-4.76-2.858l1.903-3.928l2.855-1.43l0.598-3.214l-1.07-5.716l-0.596-0.479l-2.856,2.86c0,0-5.978-4.647-4.287-3.453c1.69,1.192-3.217-4.049-3.217-4.049l3.217-2.261l0.834-4.05l2.021-1.431l-0.354-5.359l1.43-1.188l2.619,1.787l1.664,2.26l3.453-2.26l1.192-1.434l-0.598-2.617l-4.049-2.263L423.637,253.208z'})
+			var arr = {}
+			arr['安徽'] = self._setMapInfo({'index':'安徽', 'cx':439, 'cy':284, d:'M423.637,253.208l2.024-0.597l6.312,2.621c0,0,1.768,2.299,2.861,2.856c1.092,0.557,5.118,1.43,5.118,1.43l2.021,1.667l2.858-0.479l0.599,1.072l-0.957,6.074l2.858,1.666l1.189,2.263l4.287,0.831l1.666-2.854l2.621,0.356l1.666,2.265l-0.24,2.021l-5.121,0.596v2.264v1.665l-2.021,2.265l1.43,2.618l4.287,2.856l0.237,3.454l8.572,0.832v4.525l-1.666,2.381l1.191,2.263l-0.951,1.43l-3.338,0.594l-1.428,1.906l0.235,4.882l-4.285,6.072l-0.715,0.683l-2.381-2.111H446.5l-2.498-2.855l-4.884,4.761l-1.786-0.834l2.026-3.69l-0.24-1.188l-1.786-0.479l-5.718,3.099l-5.356-10.241l1.666-3.214l-0.595-1.071l-2.858-0.952l-4.76-2.858l1.903-3.928l2.855-1.43l0.598-3.214l-1.07-5.716l-0.596-0.479l-2.856,2.86c0,0-5.978-4.647-4.287-3.453c1.69,1.192-3.217-4.049-3.217-4.049l3.217-2.261l0.834-4.05l2.021-1.431l-0.354-5.359l1.43-1.188l2.619,1.787l1.664,2.26l3.453-2.26l1.192-1.434l-0.598-2.617l-4.049-2.263L423.637,253.208z'})
 
-			arr[92] = self._setMapInfo({'index':92, 'cx':414, 'cy':416, d:'M413.032,414.183l-0.96,1.752c0,0,0.889,0.883,1.98,1.086s1.995-0.493,1.995-0.493 L413.032,414.183z'})
+			arr['澳门'] = self._setMapInfo({'index':'澳门', 'cx':414, 'cy':416, d:'M413.032,414.183l-0.96,1.752c0,0,0.889,0.883,1.98,1.086s1.995-0.493,1.995-0.493 L413.032,414.183z'})
 
-			arr[11] = self._setMapInfo({'index':11, 'cx':416, 'cy':183, d:'M421.139,189.75l-0.357-2.856l-0.832-1.905l5.095-2.126l0.381-1.683l-1.189-4.767h-1.668l-6.666-3.449l-3.69,3.69c0,0-1.125,6.585-0.832,4.88c0.289-1.704-3.693,4.288-3.693,4.288l-0.594,4.286l0.832,2.263l4.881-0.834l3.693,1.071l1.784-1.667L421.139,189.75z'})
+			arr['北京'] = self._setMapInfo({'index':'北京', 'cx':416, 'cy':183, d:'M421.139,189.75l-0.357-2.856l-0.832-1.905l5.095-2.126l0.381-1.683l-1.189-4.767h-1.668l-6.666-3.449l-3.69,3.69c0,0-1.125,6.585-0.832,4.88c0.289-1.704-3.693,4.288-3.693,4.288l-0.594,4.286l0.832,2.263l4.881-0.834l3.693,1.071l1.784-1.667L421.139,189.75z'})
 
-			arr[50] = self._setMapInfo({'index':50, 'cx':340, 'cy':310, d:'M318.986,317.871l5.58-2.092l4.564,2.092l1.014-5.811l5.346-3.72l1.351-7.671l3.932-1.059v-7.47l3.689-1.432l8.096,2.857l1.666,2.26l4.051-0.829l2.5,0.238l2.619,3.452l1.07,6.548l-0.832,2.262l-1.666-0.594c0,0-3.072,3.501-4.884,3.812c-1.809,0.311-8.336,1.429-8.336,1.429l-2.26,2.263l1.783,2.262l0.24,4.883l2.262,0.597l5.715,7.142l0.357,9.407l-3.218,2.412l-0.592,0.445l-3.334-3.451l-3.215-4.29l-0.24-2.619l-2.26-0.476l-2.621,0.834l-4.287-2.025l-2.022,4.883l-3.691,0.239l-2.619,4.049l-1.666-0.834l-2.28-6.977l-6.507-4.07L318.986,317.871z'})
+			arr['重庆'] = self._setMapInfo({'index':'重庆', 'cx':340, 'cy':310, d:'M318.986,317.871l5.58-2.092l4.564,2.092l1.014-5.811l5.346-3.72l1.351-7.671l3.932-1.059v-7.47l3.689-1.432l8.096,2.857l1.666,2.26l4.051-0.829l2.5,0.238l2.619,3.452l1.07,6.548l-0.832,2.262l-1.666-0.594c0,0-3.072,3.501-4.884,3.812c-1.809,0.311-8.336,1.429-8.336,1.429l-2.26,2.263l1.783,2.262l0.24,4.883l2.262,0.597l5.715,7.142l0.357,9.407l-3.218,2.412l-0.592,0.445l-3.334-3.451l-3.215-4.29l-0.24-2.619l-2.26-0.476l-2.621,0.834l-4.287-2.025l-2.022,4.883l-3.691,0.239l-2.619,4.049l-1.666-0.834l-2.28-6.977l-6.507-4.07L318.986,317.871z'})
 
-			arr[35] = self._setMapInfo({'index':35, 'cx':459, 'cy':357, d:'M435.945,374.779c0,0,2.881-12.508,1.742-10.365c-1.137,2.144,1.672-2.62,1.672-2.62l0.83-2.854l2.023-4.286l-1.072-1.668l0.24-3.691l4.881-5.475l-0.357-3.691l3.215-5.478l3.095,0.834l6.311-4.524l1.193-2.26l3.69,0.593l2.025,5.118l1.666,3.454h4.047l2.498-3.215l3.693,3.69l6.454-2.276l-4.069,9.776l-2.385-1.192l-1.666,0.835l-0.238,0.954l2.262,2.501l-0.598,8.929l0.598,2.859l-0.598,0.834l-2.617-0.599l-1.668,1.667l1.191,2.384l-3.214,3.095l0.595,1.189l-3.097,1.665l0.478,2.264l-1.072,1.191h-4.285l-2.264,2.025l-0.357,0.832l2.023,1.428l-2.26,3.452l-2.859,3.691l-1.189-0.356l-3.1,3.216l-3.447-7.502l-3.098-3.929l-2.023,0.24l-1.43-1.072L435.945,374.779z'})
+			arr['福建'] = self._setMapInfo({'index':'福建', 'cx':459, 'cy':357, d:'M435.945,374.779c0,0,2.881-12.508,1.742-10.365c-1.137,2.144,1.672-2.62,1.672-2.62l0.83-2.854l2.023-4.286l-1.072-1.668l0.24-3.691l4.881-5.475l-0.357-3.691l3.215-5.478l3.095,0.834l6.311-4.524l1.193-2.26l3.69,0.593l2.025,5.118l1.666,3.454h4.047l2.498-3.215l3.693,3.69l6.454-2.276l-4.069,9.776l-2.385-1.192l-1.666,0.835l-0.238,0.954l2.262,2.501l-0.598,8.929l0.598,2.859l-0.598,0.834l-2.617-0.599l-1.668,1.667l1.191,2.384l-3.214,3.095l0.595,1.189l-3.097,1.665l0.478,2.264l-1.072,1.191h-4.285l-2.264,2.025l-0.357,0.832l2.023,1.428l-2.26,3.452l-2.859,3.691l-1.189-0.356l-3.1,3.216l-3.447-7.502l-3.098-3.929l-2.023,0.24l-1.43-1.072L435.945,374.779z'})
 
-			arr[44] = self._setMapInfo({'index':44, 'cx':408, 'cy':395, d:'M391.37,382.632l2.265-1.666v-3.45l1.188-1.072l2.859,0.235l4.879,2.264l0.834-1.667l-1.188-2.025l0.354-1.427l3.098-2.619l5.478,1.427l3.096-1.905l2.264,2.265l5.478-1.429l1.07,2.021l-1.666,2.264l-2.859,4.288v1.069l1.67,1.192l11.43-4.525l4.048,2.264l1.19-1.191l-1.19-2.499l0.28-1.663l7.459,1.663l1.431,1.072l2.022-0.24l3.094,3.929l3.451,7.502l-2.26,1.667l-2.023,3.689l-1.786,0.596l-1.664,3.455l-5.716,2.854l-2.266-1.188l-1.426,2.382v0.833h-1.787h-3.098l-2.857,2.023l-2.021-1.188l-2.5,1.663l-6.314,2.619l-5.121-4.05l-0.354,3.217l1.788,4.882l-4.646,1.904l-2.498,3.452l-4.887,1.191l-2.617,1.073h-5.119c0,0-0.869,2.545-3.453,3.452c-2.584,0.904-9.168,3.213-9.168,3.213l-4.522,3.098l-2.265,2.263l4.287,6.903l-2.856,2.501l-3.451-0.238l-4.053-7.381l0.954-5.238v-2.501l2.854-4.646l3.695-0.831l-0.355-2.501l3.809-1.785l0.476-4.288l6.668-5.119l-0.355-6.905l5.119-6.547l-0.24-2.5l1.666-2.381L391.37,382.632z'})
+			arr['广东'] = self._setMapInfo({'index':'广东', 'cx':408, 'cy':395, d:'M391.37,382.632l2.265-1.666v-3.45l1.188-1.072l2.859,0.235l4.879,2.264l0.834-1.667l-1.188-2.025l0.354-1.427l3.098-2.619l5.478,1.427l3.096-1.905l2.264,2.265l5.478-1.429l1.07,2.021l-1.666,2.264l-2.859,4.288v1.069l1.67,1.192l11.43-4.525l4.048,2.264l1.19-1.191l-1.19-2.499l0.28-1.663l7.459,1.663l1.431,1.072l2.022-0.24l3.094,3.929l3.451,7.502l-2.26,1.667l-2.023,3.689l-1.786,0.596l-1.664,3.455l-5.716,2.854l-2.266-1.188l-1.426,2.382v0.833h-1.787h-3.098l-2.857,2.023l-2.021-1.188l-2.5,1.663l-6.314,2.619l-5.121-4.05l-0.354,3.217l1.788,4.882l-4.646,1.904l-2.498,3.452l-4.887,1.191l-2.617,1.073h-5.119c0,0-0.869,2.545-3.453,3.452c-2.584,0.904-9.168,3.213-9.168,3.213l-4.522,3.098l-2.265,2.263l4.287,6.903l-2.856,2.501l-3.451-0.238l-4.053-7.381l0.954-5.238v-2.501l2.854-4.646l3.695-0.831l-0.355-2.501l3.809-1.785l0.476-4.288l6.668-5.119l-0.355-6.905l5.119-6.547l-0.24-2.5l1.666-2.381L391.37,382.632z'})
 
-			arr[62] = self._setMapInfo({'index':62, 'cx':280, 'cy':218, d:'M196.462,200.108l-1.43-16.55l0.836-3.453l4.879-2.262c0,0,5.209-5.03,6.903-5.717c1.696-0.686,10.6-4.285,10.6-4.285l4.285-2.025v-4.047l1.905-2.262l1.788,0.237l7.144,1.192l-0.358,3.095l1.43,4.88l-0.834,7.978l6.072,8.929l3.097,2.026l4.883-3.812h10.237l2.623,0.953l1.429,2.264l-1.193,2.499l-5.714,4.645l0.597,2.261l6.549,4.882h2.618l0.834,1.07l-0.596,2.025l4.05,3.217l9.404,1.429l4.525-1.19l5.718-5.719l6.903,0.598l2.855,4.287l-1.664,3.929l0.475,2.382l-3.688,2.263l-1.668,2.024l0.596,4.763l6.545,4.646l2.875-0.653l7.725,9.458l1.668,7.145l-0.834,3.451l5.357,2.859v2.26l4.883,1.192h1.426v-4.05l3.693-0.595l0.951-4.763l-2.619-2.026l-2.025-2.021l0.834-9.166l2.023-1.071l3.453,1.43l1.432-0.598l0.834,1.667l9.166,4.639l4.883,3.1l0.832,2.856l-2.619,3.691l1.431,4.285l-0.834,2.021l-6.785,0.6l-1.433,0.833l0.478,1.191v1.903l-5.355,0.594l-2.856-1.428h-3.691l-0.596,0.834l0.596,2.024l-1.789,2.023l-0.592,2.262l3.449,2.857l-2.498,5.119l1.072,2.622l-0.238,1.188h-4.051l-2.854,1.435l2.26,3.091l-1.428,4.051l-4.287,1.07l0.357,2.023l-1.189,1.428l-7.383-0.596l-2.854-2.021l-0.601-4.525l-1.664-1.669l-2.62,1.669l-4.523-4.521l-3.455-2.385l-0.354-3.335l-1.074-2.619h-1.787l-7.144,3.096l0.356,3.454h-2.618l-4.287-4.288l-4.525-0.593l-1.786-2.499l1.431-2.86l2.617,2.5l3.097,0.954l2.62-2.025v-4.881l2.857-2.62l2.265-2.263l-1.073-2.856l5.716-4.522l0.832-7.147l-2.619-3.688l-1.429-6.071l-7.144-9.405l-3.692,1.431l-5.118-4.524l-6.907-4.287l-2.856-6.905l-5.359,2.023l-9.999-6.309l-4.883,2.616l-7.501-1.188l-5.714,3.452l-3.691,0.237l-5.715-3.451l-3.93-2.265L196.462,200.108z'})
+			arr['甘肃'] = self._setMapInfo({'index':'甘肃', 'cx':280, 'cy':218, d:'M196.462,200.108l-1.43-16.55l0.836-3.453l4.879-2.262c0,0,5.209-5.03,6.903-5.717c1.696-0.686,10.6-4.285,10.6-4.285l4.285-2.025v-4.047l1.905-2.262l1.788,0.237l7.144,1.192l-0.358,3.095l1.43,4.88l-0.834,7.978l6.072,8.929l3.097,2.026l4.883-3.812h10.237l2.623,0.953l1.429,2.264l-1.193,2.499l-5.714,4.645l0.597,2.261l6.549,4.882h2.618l0.834,1.07l-0.596,2.025l4.05,3.217l9.404,1.429l4.525-1.19l5.718-5.719l6.903,0.598l2.855,4.287l-1.664,3.929l0.475,2.382l-3.688,2.263l-1.668,2.024l0.596,4.763l6.545,4.646l2.875-0.653l7.725,9.458l1.668,7.145l-0.834,3.451l5.357,2.859v2.26l4.883,1.192h1.426v-4.05l3.693-0.595l0.951-4.763l-2.619-2.026l-2.025-2.021l0.834-9.166l2.023-1.071l3.453,1.43l1.432-0.598l0.834,1.667l9.166,4.639l4.883,3.1l0.832,2.856l-2.619,3.691l1.431,4.285l-0.834,2.021l-6.785,0.6l-1.433,0.833l0.478,1.191v1.903l-5.355,0.594l-2.856-1.428h-3.691l-0.596,0.834l0.596,2.024l-1.789,2.023l-0.592,2.262l3.449,2.857l-2.498,5.119l1.072,2.622l-0.238,1.188h-4.051l-2.854,1.435l2.26,3.091l-1.428,4.051l-4.287,1.07l0.357,2.023l-1.189,1.428l-7.383-0.596l-2.854-2.021l-0.601-4.525l-1.664-1.669l-2.62,1.669l-4.523-4.521l-3.455-2.385l-0.354-3.335l-1.074-2.619h-1.787l-7.144,3.096l0.356,3.454h-2.618l-4.287-4.288l-4.525-0.593l-1.786-2.499l1.431-2.86l2.617,2.5l3.097,0.954l2.62-2.025v-4.881l2.857-2.62l2.265-2.263l-1.073-2.856l5.716-4.522l0.832-7.147l-2.619-3.688l-1.429-6.071l-7.144-9.405l-3.692,1.431l-5.118-4.524l-6.907-4.287l-2.856-6.905l-5.359,2.023l-9.999-6.309l-4.883,2.616l-7.501-1.188l-5.714,3.452l-3.691,0.237l-5.715-3.451l-3.93-2.265L196.462,200.108z'})
 
-			arr[45] = self._setMapInfo({'index':45, 'cx':356, 'cy':399, d:'M305.646,387.87l3.688,0.241l4.051-3.694l1.668,1.072l7.737,3.216l1.429-0.835l0.235-2.619l1.433-1.429l10.955-7.145l1.903,2.266l6.668,2.021l3.691-4.883l1.666,1.192h2.619v-1.431l3.453-1.192v-1.069l1.43-1.428l0.832,0.236l3.453-3.451l2.856,0.832l2.857-3.931l1.432,3.099l0.832-0.238l4.525-4.288l1.188,0.24l2.021-1.073l3.693,1.073v4.048l2.856,0.595l-0.832,3.929l-2.623,4.29l-1.188,3.688h1.188l3.101-2.854l2.616,5.713l2.025-1.43h2.26l1.666,5.717l-1.666,2.383l0.24,2.5l-5.119,6.547l0.355,6.905l-6.668,5.12l-0.476,4.285l-3.809,1.787l0.354,2.5l-3.694,0.831l-2.853,4.646l-7.502,1.071l-3.93-2.856l-4.049-1.669l-4.049,4.05l-4.158,0.241l-4.058,0.234c0,0-10.996-6.139-9.168-5.119c1.828,1.021-1.666-4.526-1.666-4.526l2.261-4.646l-2.617-1.902h-3.455l-0.832-0.952l-3.691,0.952l-3.692-2.62l1.432-4.048l2.855-0.235l1.069-0.834l0.957-3.69l-1.192-2.024l-9.765-1.785l-1.668-2.856h-2.854h-2.619l-1.906-3.099L305.646,387.87z'})
+			arr['广西'] = self._setMapInfo({'index':'广西', 'cx':356, 'cy':399, d:'M305.646,387.87l3.688,0.241l4.051-3.694l1.668,1.072l7.737,3.216l1.429-0.835l0.235-2.619l1.433-1.429l10.955-7.145l1.903,2.266l6.668,2.021l3.691-4.883l1.666,1.192h2.619v-1.431l3.453-1.192v-1.069l1.43-1.428l0.832,0.236l3.453-3.451l2.856,0.832l2.857-3.931l1.432,3.099l0.832-0.238l4.525-4.288l1.188,0.24l2.021-1.073l3.693,1.073v4.048l2.856,0.595l-0.832,3.929l-2.623,4.29l-1.188,3.688h1.188l3.101-2.854l2.616,5.713l2.025-1.43h2.26l1.666,5.717l-1.666,2.383l0.24,2.5l-5.119,6.547l0.355,6.905l-6.668,5.12l-0.476,4.285l-3.809,1.787l0.354,2.5l-3.694,0.831l-2.853,4.646l-7.502,1.071l-3.93-2.856l-4.049-1.669l-4.049,4.05l-4.158,0.241l-4.058,0.234c0,0-10.996-6.139-9.168-5.119c1.828,1.021-1.666-4.526-1.666-4.526l2.261-4.646l-2.617-1.902h-3.455l-0.832-0.952l-3.691,0.952l-3.692-2.62l1.432-4.048l2.855-0.235l1.069-0.834l0.957-3.69l-1.192-2.024l-9.765-1.785l-1.668-2.856h-2.854h-2.619l-1.906-3.099L305.646,387.87z'})
 
-			arr[52] = self._setMapInfo({'index':52, 'cx':333, 'cy':359, d:'M313.622,349.296l-1.666,4.761l-2.856,0.951l-6.313-0.951l-1.43,1.429l-3.453-1.07l-3.094,4.286l1.428,1.43v2.856l1.431,2.501l6.309-1.906l1.908,1.667l-2.859,12.027l3.81,3.689l-1.188,6.907l3.688,0.238l4.051-3.695l1.668,1.073l7.737,3.216l1.429-0.832l0.235-2.622l1.433-1.429l10.955-7.144l1.903,2.265l6.668,2.021l3.689-4.883l1.668,1.192h2.619v-1.432l3.453-1.189v-1.071l1.43-1.428l0.832,0.237l3.453-3.452l-2.857-5.123l1.429-7.142l-1.785-2.263l-5.121,1.428l-0.596-0.834l5.717-6.309l-2.5-10.001l-3.81,2.855l-3.334-3.45l-3.215-4.29l-0.24-2.619l-2.26-0.477l-2.621,0.834l-4.287-2.024l-2.022,4.883l-3.691,0.239l-2.619,4.049l-1.666-0.834l-2.623,0.834l-3.928-2.266l-3.213,3.69v1.668l6.312,3.453l1.426,2.621c0,0-6.094,2.245-4.523,1.667C322.1,348.955,313.622,349.296,313.622,349.296z'})
+			arr['贵州'] = self._setMapInfo({'index':'贵州', 'cx':333, 'cy':359, d:'M313.622,349.296l-1.666,4.761l-2.856,0.951l-6.313-0.951l-1.43,1.429l-3.453-1.07l-3.094,4.286l1.428,1.43v2.856l1.431,2.501l6.309-1.906l1.908,1.667l-2.859,12.027l3.81,3.689l-1.188,6.907l3.688,0.238l4.051-3.695l1.668,1.073l7.737,3.216l1.429-0.832l0.235-2.622l1.433-1.429l10.955-7.144l1.903,2.265l6.668,2.021l3.689-4.883l1.668,1.192h2.619v-1.432l3.453-1.189v-1.071l1.43-1.428l0.832,0.237l3.453-3.452l-2.857-5.123l1.429-7.142l-1.785-2.263l-5.121,1.428l-0.596-0.834l5.717-6.309l-2.5-10.001l-3.81,2.855l-3.334-3.45l-3.215-4.29l-0.24-2.619l-2.26-0.477l-2.621,0.834l-4.287-2.024l-2.022,4.883l-3.691,0.239l-2.619,4.049l-1.666-0.834l-2.623,0.834l-3.928-2.266l-3.213,3.69v1.668l6.312,3.453l1.426,2.621c0,0-6.094,2.245-4.523,1.667C322.1,348.955,313.622,349.296,313.622,349.296z'})
 
-			arr[13] = self._setMapInfo({'index':13, 'cx':406, 'cy':200, d:'M413.04,235.229l0.357-1.426l-1.783-3.453l6.902-12.5c0,0,8.725-7.9,6.313-5.718c-2.411,2.185,4.523-1.188,4.523-1.188l4.268-5.423l-1.647-1.125l-1.56-3.907l-3.319,1.286l-5.479-1.428l-0.237-1.428l-0.238-9.17l3.69-1.667l-0.419-1.563l-0.177-0.104l0.81-3.557l-5.094,2.128l0.832,1.905l0.178,1.424l0.18,1.433l-2.857,1.19l-1.785,1.667l-3.692-1.071l-4.881,0.834l-0.832-2.264l0.594-4.287l3.693-4.286l0.831-4.88l3.691-3.691l6.666,3.454h1.668l1.189,4.762l1.905,0.95l0.953,3.1l-0.356,2.024l4.047,2.854l0.594,2.264l3.338,1.428l8.332-4.523v-2.621l4.883-7.143l-3.45-4.881l-2.621-0.238l-4.763-3.218l1.668-5.118l-7.387-0.595l-3.213-4.765l0.357-2.619l-6.31-6.906l-4.051,2.026l-3.451,3.452l1.191,2.62l-0.834,1.667l-4.882,0.237l-2.264,2.022l-2.022-0.835l-2.021,2.026l-4.527,3.453l-2.024-1.43v-4.644l-1.666-0.832l-2.619,1.189l-3.096,6.547l-1.189,6.311l3.689,6.19l3.215,2.858v5.24l1.904,4.286l-0.834,4.764l-4.884,3.213l-2.26,7.382l4.049,4.645l2.857,5.717l-1.785,2.857l-0.477,3.928l-1.787,2.619l-0.834,2.859l2.621,3.446l11.43,1.431l4.524-1.787L413.04,235.229z'})
+			arr['河北'] = self._setMapInfo({'index':'河北', 'cx':406, 'cy':200, d:'M413.04,235.229l0.357-1.426l-1.783-3.453l6.902-12.5c0,0,8.725-7.9,6.313-5.718c-2.411,2.185,4.523-1.188,4.523-1.188l4.268-5.423l-1.647-1.125l-1.56-3.907l-3.319,1.286l-5.479-1.428l-0.237-1.428l-0.238-9.17l3.69-1.667l-0.419-1.563l-0.177-0.104l0.81-3.557l-5.094,2.128l0.832,1.905l0.178,1.424l0.18,1.433l-2.857,1.19l-1.785,1.667l-3.692-1.071l-4.881,0.834l-0.832-2.264l0.594-4.287l3.693-4.286l0.831-4.88l3.691-3.691l6.666,3.454h1.668l1.189,4.762l1.905,0.95l0.953,3.1l-0.356,2.024l4.047,2.854l0.594,2.264l3.338,1.428l8.332-4.523v-2.621l4.883-7.143l-3.45-4.881l-2.621-0.238l-4.763-3.218l1.668-5.118l-7.387-0.595l-3.213-4.765l0.357-2.619l-6.31-6.906l-4.051,2.026l-3.451,3.452l1.191,2.62l-0.834,1.667l-4.882,0.237l-2.264,2.022l-2.022-0.835l-2.021,2.026l-4.527,3.453l-2.024-1.43v-4.644l-1.666-0.832l-2.619,1.189l-3.096,6.547l-1.189,6.311l3.689,6.19l3.215,2.858v5.24l1.904,4.286l-0.834,4.764l-4.884,3.213l-2.26,7.382l4.049,4.645l2.857,5.717l-1.785,2.857l-0.477,3.928l-1.787,2.619l-0.834,2.859l2.621,3.446l11.43,1.431l4.524-1.787L413.04,235.229z'})
 
-			arr[42] = self._setMapInfo({'index':42, 'cx':389, 'cy':303, d:'M356.486,329.29l1.787-4.048l5.119-4.287l4.881,2.026l3.096-2.026l-2.621-3.093l1.429-1.433l13.219,0.836l4.525,3.097l2.264,1.425l3.451-2.26l2.619-0.833l0.596,3.093h1.904l1.43-2.021l2.856-2.86l1.431,2.027v4.049l1.19,1.667l2.619,0.594l2.855-2.854l4.287-1.433l7.979-7.381l3.691,0.236l4.522-1.428l-5.358-10.24l1.668-3.214l-0.593-1.071l-2.862-0.952l-4.761-2.858l-2.381-1.427l-3.098,1.427l-3.451-2.854h-4.524l-3.455-1.907l-0.83-2.856l-1.787-1.786l-2.5,1.428L395.421,285c0,0-9.509,0.927-7.146,1.071c2.363,0.146-7.736-1.666-7.736-1.666l-9.407-8.334l-2.619,2.023l-1.188-0.831h-1.907h-8.572l-1.189,1.068l2.619,2.62l2.5,0.593l2.26,0.837l-1.067,1.668l-4.287,2.021l-0.834,3.451l0.834,1.191l0.596,4.288l2.5,0.238l2.619,3.452l1.07,6.548l-0.832,2.262l-1.666-0.594l-4.883,3.812l-8.336,1.429l-2.261,2.263l1.783,2.262l0.24,4.882l2.262,0.598L356.486,329.29z'})
+			arr['湖北'] = self._setMapInfo({'index':'湖北', 'cx':389, 'cy':303, d:'M356.486,329.29l1.787-4.048l5.119-4.287l4.881,2.026l3.096-2.026l-2.621-3.093l1.429-1.433l13.219,0.836l4.525,3.097l2.264,1.425l3.451-2.26l2.619-0.833l0.596,3.093h1.904l1.43-2.021l2.856-2.86l1.431,2.027v4.049l1.19,1.667l2.619,0.594l2.855-2.854l4.287-1.433l7.979-7.381l3.691,0.236l4.522-1.428l-5.358-10.24l1.668-3.214l-0.593-1.071l-2.862-0.952l-4.761-2.858l-2.381-1.427l-3.098,1.427l-3.451-2.854h-4.524l-3.455-1.907l-0.83-2.856l-1.787-1.786l-2.5,1.428L395.421,285c0,0-9.509,0.927-7.146,1.071c2.363,0.146-7.736-1.666-7.736-1.666l-9.407-8.334l-2.619,2.023l-1.188-0.831h-1.907h-8.572l-1.189,1.068l2.619,2.62l2.5,0.593l2.26,0.837l-1.067,1.668l-4.287,2.021l-0.834,3.451l0.834,1.191l0.596,4.288l2.5,0.238l2.619,3.452l1.07,6.548l-0.832,2.262l-1.666-0.594l-4.883,3.812l-8.336,1.429l-2.261,2.263l1.783,2.262l0.24,4.882l2.262,0.598L356.486,329.29z'})
 
-			arr[23] = self._setMapInfo({'index':23, 'cx':505, 'cy':74, d:'M464.838,96.639l6.787-1.19l2.854,5.241l4.285,3.095l2.856-1.188h2.386l4.285-2.501l3.094,3.094l2.024,0.357l5.357-2.023l3.813,2.023l1.666,4.288h2.857l1.43,1.904l3.689,4.049l1.426-0.833l-0.594-5.12l2.026-1.432l2.854,5.716l2.621,1.074l2.858,3.212l2.021-0.357l0.836-1.427l4.523-5.12l2.022,1.428l1.43-2.022l1.431,2.619l4.283,1.429h2.86l2.07,0.088l-1.238-2.113l-0.598-6.906l-5.115-7.978l2.855-2.857l2.616-4.883h9.646l1.785-1.665l-0.597-3.69l2.025-3.691l-0.596-2.024l0.832-3.451l-0.236-17.742l2.855-5.715l-3.214-3.692l0.595-2.261l-1.427-2.024l-3.69,1.429l-4.289,4.884l-4.283,2.023l-4.289,5.951l-10.598,3.692l-4.879-3.692l0.594-2.262l-2.5-3.689l-1.191-3.811l-4.047-0.239l-7.145-3.69l-2.859,1.071l-3.33-1.667l-4.887,0.834l-4.283-1.429l-2.621-3.69l-2.498-2.857l-0.951-2.857l-3.334-3.452l-2.026-3.099l-4.644-6.31l-1.428-3.69l-5.119-6.548l-1.432-3.454l-6.549-3.216l-4.287,1.429l-3.689-0.833l-8.336-1.668l-11.07,3.932l-2.024,1.786l2.262,3.096l-2.856,7.499l0.834,0.835l4.881,3.096l2.621-4.286l4.524,2.856l-0.235,2.022l1.664,5.119l2.854,3.218l5.717,0.833l1.668-1.787l3.451-0.477l6.547-5.476l8.576,6.31l-2.858,11.669l0.594,8.333v5.119l-2.26,1.191l-0.238,13.335l-0.597-0.476l-2.26-2.858h-1.192l-0.595,1.073c0,0-8.797,13.044-7.146,10.596c1.652-2.448-3.451,4.523-3.451,4.523l0.357,1.428l7.145,4.886l3.926-1.071l0.599,1.071l-0.834,1.189l-3.689,1.667l-0.359,3.214L464.838,96.639z'})
+			arr['黑龙江'] = self._setMapInfo({'index':'黑龙江', 'cx':505, 'cy':74, d:'M464.838,96.639l6.787-1.19l2.854,5.241l4.285,3.095l2.856-1.188h2.386l4.285-2.501l3.094,3.094l2.024,0.357l5.357-2.023l3.813,2.023l1.666,4.288h2.857l1.43,1.904l3.689,4.049l1.426-0.833l-0.594-5.12l2.026-1.432l2.854,5.716l2.621,1.074l2.858,3.212l2.021-0.357l0.836-1.427l4.523-5.12l2.022,1.428l1.43-2.022l1.431,2.619l4.283,1.429h2.86l2.07,0.088l-1.238-2.113l-0.598-6.906l-5.115-7.978l2.855-2.857l2.616-4.883h9.646l1.785-1.665l-0.597-3.69l2.025-3.691l-0.596-2.024l0.832-3.451l-0.236-17.742l2.855-5.715l-3.214-3.692l0.595-2.261l-1.427-2.024l-3.69,1.429l-4.289,4.884l-4.283,2.023l-4.289,5.951l-10.598,3.692l-4.879-3.692l0.594-2.262l-2.5-3.689l-1.191-3.811l-4.047-0.239l-7.145-3.69l-2.859,1.071l-3.33-1.667l-4.887,0.834l-4.283-1.429l-2.621-3.69l-2.498-2.857l-0.951-2.857l-3.334-3.452l-2.026-3.099l-4.644-6.31l-1.428-3.69l-5.119-6.548l-1.432-3.454l-6.549-3.216l-4.287,1.429l-3.689-0.833l-8.336-1.668l-11.07,3.932l-2.024,1.786l2.262,3.096l-2.856,7.499l0.834,0.835l4.881,3.096l2.621-4.286l4.524,2.856l-0.235,2.022l1.664,5.119l2.854,3.218l5.717,0.833l1.668-1.787l3.451-0.477l6.547-5.476l8.576,6.31l-2.858,11.669l0.594,8.333v5.119l-2.26,1.191l-0.238,13.335l-0.597-0.476l-2.26-2.858h-1.192l-0.595,1.073c0,0-8.797,13.044-7.146,10.596c1.652-2.448-3.451,4.523-3.451,4.523l0.357,1.428l7.145,4.886l3.926-1.071l0.599,1.071l-0.834,1.189l-3.689,1.667l-0.359,3.214L464.838,96.639z'})
 
-			arr[46] = self._setMapInfo({'index':46, 'cx':371, 'cy':454, d:'M385.895,447.523l-5.119,8.93v3.929l-10.238,8.336l-10.598-3.689l-2.025-7.501l0.597-3.454c0,0,8.074-8.075,5.715-5.716c-2.357,2.358,2.025-1.665,2.025-1.665l9.403-1.668l4.289-0.358l1.426-1.666l3.103,0.832L385.895,447.523z'})
+			arr['海南'] = self._setMapInfo({'index':'海南', 'cx':371, 'cy':454, d:'M385.895,447.523l-5.119,8.93v3.929l-10.238,8.336l-10.598-3.689l-2.025-7.501l0.597-3.454c0,0,8.074-8.075,5.715-5.716c-2.357,2.358,2.025-1.665,2.025-1.665l9.403-1.668l4.289-0.358l1.426-1.666l3.103,0.832L385.895,447.523z'})
 
-			arr[41] = self._setMapInfo({'index':41, 'cx':398, 'cy':264, d:'M371.131,276.068l9.405,8.336l7.742,1.665l7.144-1.072l2.262,1.072l2.5-1.43l1.783,1.787l0.834,2.856l3.455,1.905h4.524l3.451,2.857l3.098-1.428l2.382,1.428l1.903-3.929l2.855-1.43l0.598-3.216l-1.07-5.715l-0.596-0.479l-2.856,2.86l-4.287-3.453l-3.218-4.049l3.218-2.263l0.834-4.048l2.021-1.431l-0.354-5.359l1.43-1.188l2.619,1.787l1.664,2.26l3.455-2.26l1.19-1.434l-0.598-2.617l-4.049-2.263l-0.834-2.619l-7.142,0.835l-4.524-3.93l-2.021-0.596v-2.621l10-11.074l-3.69,0.834l-2.261,1.669l-0.957-1.429v-1.666l-1.663-0.6l-4.525,1.785l-11.43-1.428l-0.597,9.408c0,0-6.604,5.169-5.479,4.287c1.129-0.884-7.381,1.429-7.381,1.429l-10.359,7.142l-8.215,2.264v1.43l7.738,11.666L371.131,276.068L371.131,276.068z'})
+			arr['河南'] = self._setMapInfo({'index':'河南', 'cx':398, 'cy':264, d:'M371.131,276.068l9.405,8.336l7.742,1.665l7.144-1.072l2.262,1.072l2.5-1.43l1.783,1.787l0.834,2.856l3.455,1.905h4.524l3.451,2.857l3.098-1.428l2.382,1.428l1.903-3.929l2.855-1.43l0.598-3.216l-1.07-5.715l-0.596-0.479l-2.856,2.86l-4.287-3.453l-3.218-4.049l3.218-2.263l0.834-4.048l2.021-1.431l-0.354-5.359l1.43-1.188l2.619,1.787l1.664,2.26l3.455-2.26l1.19-1.434l-0.598-2.617l-4.049-2.263l-0.834-2.619l-7.142,0.835l-4.524-3.93l-2.021-0.596v-2.621l10-11.074l-3.69,0.834l-2.261,1.669l-0.957-1.429v-1.666l-1.663-0.6l-4.525,1.785l-11.43-1.428l-0.597,9.408c0,0-6.604,5.169-5.479,4.287c1.129-0.884-7.381,1.429-7.381,1.429l-10.359,7.142l-8.215,2.264v1.43l7.738,11.666L371.131,276.068L371.131,276.068z'})
 
-			arr[43] = self._setMapInfo({'index':43, 'cx':385, 'cy':344, d:'M408.279,325.242l-2.619-0.594l-1.188-1.667v-4.05l-1.43-2.026l-2.857,2.86l-1.43,2.023h-1.904l-0.594-3.096l-2.621,0.833l-3.451,2.263l-2.264-1.428c0,0-2.666-2.521-4.525-3.097c-1.857-0.576-13.217-0.832-13.217-0.832l-1.43,1.429l2.62,3.093l-3.096,2.026l-4.883-2.026l-5.117,4.287l-1.787,4.05c0,0-0.19,6.479,0.357,9.405c0.551,2.926,2.5,10.002,2.5,10.002l-5.717,6.31l0.596,0.833l5.121-1.428l1.785,2.263l-1.429,7.144l2.857,5.121l2.856,0.832l2.857-3.931l1.43,3.099l0.834-0.238l4.523-4.288l1.191,0.24l2.021-1.073l3.693,1.073v4.048l2.856,0.595l-0.832,3.929l-2.623,4.29l-1.188,3.688h1.188l3.103-2.854l2.617,5.713l2.021-1.43h2.264l2.263-1.666v-3.45l1.188-1.072l2.859,0.235l4.879,2.264l0.834-1.667l-1.188-2.023l0.354-1.429l3.098-2.619l5.478,1.428l3.096-1.906l-1.193-2.021l1.193-4.642l-0.234-6.789l-2.026-0.831l-1.785-4.647v-3.927l-0.834-0.596l-1.43,0.596l-0.832-0.955l0.594-6.188l2.502-2.024l1.785-3.454l-0.355-3.452L408.279,325.242z'})
+			arr['湖南'] = self._setMapInfo({'index':'湖南', 'cx':385, 'cy':344, d:'M408.279,325.242l-2.619-0.594l-1.188-1.667v-4.05l-1.43-2.026l-2.857,2.86l-1.43,2.023h-1.904l-0.594-3.096l-2.621,0.833l-3.451,2.263l-2.264-1.428c0,0-2.666-2.521-4.525-3.097c-1.857-0.576-13.217-0.832-13.217-0.832l-1.43,1.429l2.62,3.093l-3.096,2.026l-4.883-2.026l-5.117,4.287l-1.787,4.05c0,0-0.19,6.479,0.357,9.405c0.551,2.926,2.5,10.002,2.5,10.002l-5.717,6.31l0.596,0.833l5.121-1.428l1.785,2.263l-1.429,7.144l2.857,5.121l2.856,0.832l2.857-3.931l1.43,3.099l0.834-0.238l4.523-4.288l1.191,0.24l2.021-1.073l3.693,1.073v4.048l2.856,0.595l-0.832,3.929l-2.623,4.29l-1.188,3.688h1.188l3.103-2.854l2.617,5.713l2.021-1.43h2.264l2.263-1.666v-3.45l1.188-1.072l2.859,0.235l4.879,2.264l0.834-1.667l-1.188-2.023l0.354-1.429l3.098-2.619l5.478,1.428l3.096-1.906l-1.193-2.021l1.193-4.642l-0.234-6.789l-2.026-0.831l-1.785-4.647v-3.927l-0.834-0.596l-1.43,0.596l-0.832-0.955l0.594-6.188l2.502-2.024l1.785-3.454l-0.355-3.452L408.279,325.242z'})
 
-			arr[22] = self._setMapInfo({'index':22, 'cx':501, 'cy':123, d:'M544.896,113.042l-2.07-0.088h-2.858l-4.285-1.431l-1.43-2.619l-1.431,2.024l-2.022-1.428l-4.523,5.12l-0.834,1.427l-2.022,0.357l-2.859-3.214l-2.621-1.072l-2.854-5.715l-2.027,1.431l0.594,5.12l-1.426,0.833l-3.689-4.05l-1.432-1.903h-2.854l-1.666-4.288l-3.813-2.023l-5.354,2.023l-2.025-0.357l-3.098-3.094l-4.285,2.5h-2.383l-2.857,1.191l-4.285-3.096l-2.854-5.24l-6.787,1.189l-2.621,3.099l-0.238,3.45l-7.502-2.023l-1.074,2.381l0.601,1.667l3.928,2.859v4.046l0.594,3.929l2.265,3.456l0.356,3.095l1.666,1.191l5.717-5.479l5.953,7.502v4.288l3.213,1.667l0.238-1.431l4.885,1.431l3.451,4.046l1.666-1.784l0.357-1.074l8.217,11.075l0.594,4.286l4.527,5.239l0.592,4.761l4.051-2.499l3.689-10.598l1.67-0.595l4.047,2.263l6.549-0.834l2.26-2.024l-3.092-4.763l0.832-1.191c0,0,7.84-2.611,6.072-2.022c-1.766,0.588,2.5-4.883,2.5-4.883l3.215-1.428l0.238-4.766l0.832-3.212l1.785-0.596l1.668,1.789l1.668,1.426l4.287-5.715l1.188-4.288L544.896,113.042z'})
+			arr['吉林'] = self._setMapInfo({'index':'吉林', 'cx':501, 'cy':123, d:'M544.896,113.042l-2.07-0.088h-2.858l-4.285-1.431l-1.43-2.619l-1.431,2.024l-2.022-1.428l-4.523,5.12l-0.834,1.427l-2.022,0.357l-2.859-3.214l-2.621-1.072l-2.854-5.715l-2.027,1.431l0.594,5.12l-1.426,0.833l-3.689-4.05l-1.432-1.903h-2.854l-1.666-4.288l-3.813-2.023l-5.354,2.023l-2.025-0.357l-3.098-3.094l-4.285,2.5h-2.383l-2.857,1.191l-4.285-3.096l-2.854-5.24l-6.787,1.189l-2.621,3.099l-0.238,3.45l-7.502-2.023l-1.074,2.381l0.601,1.667l3.928,2.859v4.046l0.594,3.929l2.265,3.456l0.356,3.095l1.666,1.191l5.717-5.479l5.953,7.502v4.288l3.213,1.667l0.238-1.431l4.885,1.431l3.451,4.046l1.666-1.784l0.357-1.074l8.217,11.075l0.594,4.286l4.527,5.239l0.592,4.761l4.051-2.499l3.689-10.598l1.67-0.595l4.047,2.263l6.549-0.834l2.26-2.024l-3.092-4.763l0.832-1.191c0,0,7.84-2.611,6.072-2.022c-1.766,0.588,2.5-4.883,2.5-4.883l3.215-1.428l0.238-4.766l0.832-3.212l1.785-0.596l1.668,1.789l1.668,1.426l4.287-5.715l1.188-4.288L544.896,113.042z'})
 
-			arr[32] = self._setMapInfo({'index':32, 'cx':463, 'cy':266, d:'M483.646,282.616l-1.426,4.286l-1.898,2.251l-3.225,3.824l-4.879-0.835l-3.929-2.383l-2.383,1.19l-8.571-0.832l-0.238-3.454l-4.287-2.856l-1.428-2.618l2.02-2.264v-1.665v-2.267l5.121-0.594l0.24-2.023l-1.666-2.263l-2.621-0.355l-1.666,2.854l-4.287-0.831l-1.188-2.263l-2.857-1.666l0.955-6.074l-0.598-1.072l-2.859,0.479l-2.021-1.667l-5.118-1.429l-2.861-2.857l-6.307-2.621l0.592-2.856l2.5-1.069l4.645,3.927h1.433l4.284-0.476l2.5-2.022l3.453,2.856l1.427-2.62l0.358-1.43l2.857-1.667l0.834-3.45l2.854-0.597l7.148,4.881c0,0,3.365,0.754,5.117,2.025c1.754,1.271,9.766,16.313,9.766,16.313l-0.357,1.666l6.548,3.095l1.784,2.859l3.099,1.429l1.428,2.855l-2.023,0.951l-3.334-1.188h-4.645l-4.287-1.432l-1.666,1.432l3.932,1.188l3.813,1.669L483.646,282.616z'})
+			arr['江苏'] = self._setMapInfo({'index':'江苏', 'cx':463, 'cy':266, d:'M483.646,282.616l-1.426,4.286l-1.898,2.251l-3.225,3.824l-4.879-0.835l-3.929-2.383l-2.383,1.19l-8.571-0.832l-0.238-3.454l-4.287-2.856l-1.428-2.618l2.02-2.264v-1.665v-2.267l5.121-0.594l0.24-2.023l-1.666-2.263l-2.621-0.355l-1.666,2.854l-4.287-0.831l-1.188-2.263l-2.857-1.666l0.955-6.074l-0.598-1.072l-2.859,0.479l-2.021-1.667l-5.118-1.429l-2.861-2.857l-6.307-2.621l0.592-2.856l2.5-1.069l4.645,3.927h1.433l4.284-0.476l2.5-2.022l3.453,2.856l1.427-2.62l0.358-1.43l2.857-1.667l0.834-3.45l2.854-0.597l7.148,4.881c0,0,3.365,0.754,5.117,2.025c1.754,1.271,9.766,16.313,9.766,16.313l-0.357,1.666l6.548,3.095l1.784,2.859l3.099,1.429l1.428,2.855l-2.023,0.951l-3.334-1.188h-4.645l-4.287-1.432l-1.666,1.432l3.932,1.188l3.813,1.669L483.646,282.616z'})
 
-			arr[36] = self._setMapInfo({'index':36, 'cx':429, 'cy':339, d:'M408.279,325.242l3.336,6.549l0.355,3.452l-1.785,3.454l-2.502,2.024l-0.594,6.188l0.832,0.955l1.43-0.596l0.834,0.596v3.927l1.785,4.647l2.026,0.831l0.234,6.789l-1.193,4.642l1.193,2.021l2.266,2.265l5.474-1.429l1.071,2.022l-1.665,2.263l-2.859,4.287v1.07l1.67,1.192l11.43-4.525l4.047,2.263l1.191-1.19l-1.191-2.499l0.281-1.663l1.742-10.365l1.67-2.62l0.832-2.854l2.025-4.286l-1.072-1.668l0.238-3.691l4.881-5.475l-0.355-3.691l3.213-5.478l3.095,0.834l6.311-4.524l1.193-2.263l-4.049-7.501l-2.619-3.69l1.901-1.818l-2.381-2.111H446.5l-2.5-2.855l-4.884,4.762l-1.784-0.835l2.024-3.69l-0.24-1.188l-1.784-0.479l-5.716,3.099l-4.524,1.429l-3.689-0.238c0,0-9.709,9.669-7.979,7.381c1.731-2.287-4.287,1.433-4.287,1.433L408.279,325.242z'})
+			arr['江西'] = self._setMapInfo({'index':'江西', 'cx':429, 'cy':339, d:'M408.279,325.242l3.336,6.549l0.355,3.452l-1.785,3.454l-2.502,2.024l-0.594,6.188l0.832,0.955l1.43-0.596l0.834,0.596v3.927l1.785,4.647l2.026,0.831l0.234,6.789l-1.193,4.642l1.193,2.021l2.266,2.265l5.474-1.429l1.071,2.022l-1.665,2.263l-2.859,4.287v1.07l1.67,1.192l11.43-4.525l4.047,2.263l1.191-1.19l-1.191-2.499l0.281-1.663l1.742-10.365l1.67-2.62l0.832-2.854l2.025-4.286l-1.072-1.668l0.238-3.691l4.881-5.475l-0.355-3.691l3.213-5.478l3.095,0.834l6.311-4.524l1.193-2.263l-4.049-7.501l-2.619-3.69l1.901-1.818l-2.381-2.111H446.5l-2.5-2.855l-4.884,4.762l-1.784-0.835l2.024-3.69l-0.24-1.188l-1.784-0.479l-5.716,3.099l-4.524,1.429l-3.689-0.238c0,0-9.709,9.669-7.979,7.381c1.731-2.287-4.287,1.433-4.287,1.433L408.279,325.242z'})
 
-			arr[21] = self._setMapInfo({'index':21, 'cx':475, 'cy':156, d:'M491.15,173.2l6.783-10.002l4.287-4.881l-0.595-4.763l-4.524-5.239l-0.594-4.286l-8.216-11.075l-0.358,1.074l-1.666,1.786l-3.453-4.05l-4.883-1.429l-0.236,1.429v2.264l-2.022,2.022l-4.047,4.05H467.1l-1.666,2.856h-1.789l-3.094,3.096h-1.787l-3.691,3.691l-2.262,0.596l-4.881,7.5l-3.096-4.644l-3.453-2.262l-1.666,1.667l1.903,10.002l-1.666,3.453l-1.668,5.12l4.763,3.215l2.621,0.238l3.45,4.881l2.5-1.429c0,0,2.857-2.881,4.05-4.882c1.192-2.002,4.049-6.788,4.049-6.788l6.787-1.429l4.287,4.286l-3.099,6.787l-4.049,6.311l3.688,2.62l-0.233,3.098l-2.857,2.855l0.597,1.19l4.881-2.619l7.143-9.407l10.836-6.072L491.15,173.2z'})
+			arr['辽宁'] = self._setMapInfo({'index':'辽宁', 'cx':475, 'cy':156, d:'M491.15,173.2l6.783-10.002l4.287-4.881l-0.595-4.763l-4.524-5.239l-0.594-4.286l-8.216-11.075l-0.358,1.074l-1.666,1.786l-3.453-4.05l-4.883-1.429l-0.236,1.429v2.264l-2.022,2.022l-4.047,4.05H467.1l-1.666,2.856h-1.789l-3.094,3.096h-1.787l-3.691,3.691l-2.262,0.596l-4.881,7.5l-3.096-4.644l-3.453-2.262l-1.666,1.667l1.903,10.002l-1.666,3.453l-1.668,5.12l4.763,3.215l2.621,0.238l3.45,4.881l2.5-1.429c0,0,2.857-2.881,4.05-4.882c1.192-2.002,4.049-6.788,4.049-6.788l6.787-1.429l4.287,4.286l-3.099,6.787l-4.049,6.311l3.688,2.62l-0.233,3.098l-2.857,2.855l0.597,1.19l4.881-2.619l7.143-9.407l10.836-6.072L491.15,173.2z'})
 
-			arr[15] = self._setMapInfo({'index':15, 'cx':374, 'cy':162, d:'M301.969,226.604l3.438-0.779l2.859-1.188l4.762-3.932l0.953-6.31l2.855-9.168l5.954-4.048l0.835,0.951l1.786,6.19l-2.858,4.049l-0.594,3.691l9.168,3.453l0.832,2.621l5.358-0.359l2.617,0.596l1.191,0.834l9.405-13.454l2.502-0.835l0.593-1.664l-0.236-2.623l3.096-4.523l6.072-0.358l2.262-2.5l1.431,1.074l3.452-2.86h1.904l6.312-9.046l3.215,0.235l3.93-2.855l1.191,1.189l7.381-3.809l-3.689-6.193l1.189-6.311l3.096-6.549l2.619-1.188l1.666,0.832v4.644l2.025,1.43l4.526-3.453l2.021-2.026l2.022,0.835l2.265-2.025l4.881-0.234l0.834-1.667l-1.191-2.622l3.453-3.452l4.049-2.024l6.31,6.908l-0.355,2.618l3.213,4.763l7.385,0.595l1.666-3.453l-1.903-10.002l1.666-1.667l3.453,2.262l3.096,4.644l4.881-7.5l2.264-0.596l3.689-3.692h1.787l3.094-3.095h1.787l1.666-2.856h4.527l4.047-4.051l2.021-2.021v-2.264l-3.213-1.667v-4.286l-5.953-7.502l-5.717,5.478l-1.666-1.19l-0.357-3.096l-2.264-3.453l-0.594-3.931v-4.046l-3.928-2.858l-0.601-1.667l1.074-2.382l7.502,2.022l0.238-3.452l2.621-3.099l-1.789-1.666l0.358-3.214l3.689-1.667l0.834-1.19l-0.598-1.07l-3.927,1.07l-7.145-4.882l-0.357-1.43l3.453-4.524l7.146-10.597l0.594-1.072h1.193l2.26,2.858l0.596,0.479l0.238-13.336l2.26-1.191v-5.121l-0.594-8.333l2.858-11.668l-8.575-6.312l-6.548,5.478l-3.45,0.476l-1.668,1.786l-5.718-0.832l-2.854-3.215l-1.664-5.122l0.236-2.021l-4.525-2.858l-2.621,4.289l-4.881-3.096l-0.834-0.835l2.856-7.5L433.4,7.223h-2.024l-5.119,3.688l-4.285,6.311l1.668,1.071l3.211,0.359l2.504,6.548l-1.43,2.618l-2.502,3.689l-4.644,17.147l1.785,2.856l-1.428,2.498l-10.599,7.742l-5.713-1.071l-3.215-1.191l-0.479,1.667l-4.642,18.577l-2.264,2.378l1.191,3.335l2.854,2.382l4.764-2.623l7.74,0.598l2.26-3.692l4.052-0.951l7.737,2.856l9.408,9.765v2.023l-2.024,1.429l-10.836,0.599l-3.691,2.854l-2.857-0.355l-2.022,3.214l-5.121,1.07l-3.457,5.12l-0.592,3.81l-7.379,4.763l-4.646,0.598l-5.119,6.904l-4.883,2.859l-9.408-2.025l-3.092-1.431l-3.692,3.694l-1.785,6.548l5.119,7.501l-3.335,3.451l-4.643,2.859c0,0-8.422,10.638-6.787,8.571c1.637-2.064-6.619,3.36-8.93,3.93c-2.31,0.568-14.525,1.429-14.525,1.429l-2.264-0.237l-16.906,7.144l-7.742,4.881l-2.262-1.19l-0.83-2.262l-10.36-0.597l-11.909-3.688l-3.211-3.69l-17.385-2.025l-3.217,1.43l-21.072-2.022l-0.358,3.095l1.43,4.883l-0.834,7.976l6.073,8.929l3.096,2.026l4.883-3.812h10.237l2.623,0.953l1.426,2.262l-1.19,2.5l-5.714,4.646l0.597,2.261l6.549,4.88h2.618l0.834,1.072l-0.596,2.023l4.05,3.217l9.403,1.429l4.527-1.19l5.716-5.719l6.903,0.598l2.857,4.289l-1.664,3.926l0.473,2.382l-3.688,2.263l-1.668,2.024l0.596,4.76l6.545,4.647L301.969,226.604z'})
+			arr['内蒙古'] = self._setMapInfo({'index':'内蒙古', 'cx':374, 'cy':162, d:'M301.969,226.604l3.438-0.779l2.859-1.188l4.762-3.932l0.953-6.31l2.855-9.168l5.954-4.048l0.835,0.951l1.786,6.19l-2.858,4.049l-0.594,3.691l9.168,3.453l0.832,2.621l5.358-0.359l2.617,0.596l1.191,0.834l9.405-13.454l2.502-0.835l0.593-1.664l-0.236-2.623l3.096-4.523l6.072-0.358l2.262-2.5l1.431,1.074l3.452-2.86h1.904l6.312-9.046l3.215,0.235l3.93-2.855l1.191,1.189l7.381-3.809l-3.689-6.193l1.189-6.311l3.096-6.549l2.619-1.188l1.666,0.832v4.644l2.025,1.43l4.526-3.453l2.021-2.026l2.022,0.835l2.265-2.025l4.881-0.234l0.834-1.667l-1.191-2.622l3.453-3.452l4.049-2.024l6.31,6.908l-0.355,2.618l3.213,4.763l7.385,0.595l1.666-3.453l-1.903-10.002l1.666-1.667l3.453,2.262l3.096,4.644l4.881-7.5l2.264-0.596l3.689-3.692h1.787l3.094-3.095h1.787l1.666-2.856h4.527l4.047-4.051l2.021-2.021v-2.264l-3.213-1.667v-4.286l-5.953-7.502l-5.717,5.478l-1.666-1.19l-0.357-3.096l-2.264-3.453l-0.594-3.931v-4.046l-3.928-2.858l-0.601-1.667l1.074-2.382l7.502,2.022l0.238-3.452l2.621-3.099l-1.789-1.666l0.358-3.214l3.689-1.667l0.834-1.19l-0.598-1.07l-3.927,1.07l-7.145-4.882l-0.357-1.43l3.453-4.524l7.146-10.597l0.594-1.072h1.193l2.26,2.858l0.596,0.479l0.238-13.336l2.26-1.191v-5.121l-0.594-8.333l2.858-11.668l-8.575-6.312l-6.548,5.478l-3.45,0.476l-1.668,1.786l-5.718-0.832l-2.854-3.215l-1.664-5.122l0.236-2.021l-4.525-2.858l-2.621,4.289l-4.881-3.096l-0.834-0.835l2.856-7.5L433.4,7.223h-2.024l-5.119,3.688l-4.285,6.311l1.668,1.071l3.211,0.359l2.504,6.548l-1.43,2.618l-2.502,3.689l-4.644,17.147l1.785,2.856l-1.428,2.498l-10.599,7.742l-5.713-1.071l-3.215-1.191l-0.479,1.667l-4.642,18.577l-2.264,2.378l1.191,3.335l2.854,2.382l4.764-2.623l7.74,0.598l2.26-3.692l4.052-0.951l7.737,2.856l9.408,9.765v2.023l-2.024,1.429l-10.836,0.599l-3.691,2.854l-2.857-0.355l-2.022,3.214l-5.121,1.07l-3.457,5.12l-0.592,3.81l-7.379,4.763l-4.646,0.598l-5.119,6.904l-4.883,2.859l-9.408-2.025l-3.092-1.431l-3.692,3.694l-1.785,6.548l5.119,7.501l-3.335,3.451l-4.643,2.859c0,0-8.422,10.638-6.787,8.571c1.637-2.064-6.619,3.36-8.93,3.93c-2.31,0.568-14.525,1.429-14.525,1.429l-2.264-0.237l-16.906,7.144l-7.742,4.881l-2.262-1.19l-0.83-2.262l-10.36-0.597l-11.909-3.688l-3.211-3.69l-17.385-2.025l-3.217,1.43l-21.072-2.022l-0.358,3.095l1.43,4.883l-0.834,7.976l6.073,8.929l3.096,2.026l4.883-3.812h10.237l2.623,0.953l1.426,2.262l-1.19,2.5l-5.714,4.646l0.597,2.261l6.549,4.88h2.618l0.834,1.072l-0.596,2.023l4.05,3.217l9.403,1.429l4.527-1.19l5.716-5.719l6.903,0.598l2.857,4.289l-1.664,3.926l0.473,2.382l-3.688,2.263l-1.668,2.024l0.596,4.76l6.545,4.647L301.969,226.604z'})
 
-			arr[64] = self._setMapInfo({'index':64, 'cx':317, 'cy':226, d:'M329.934,230.111l0.24-5.476l1.785-2.499l-0.832-2.62l-9.168-3.454l0.594-3.691l2.858-4.049l-1.786-6.19l-0.835-0.952l-5.954,4.049l-2.855,9.168l-0.953,6.31l-4.762,3.93l-2.859,1.189l-3.438,0.779c0,0,9.184,11.236,7.729,9.458c-1.455-1.78,1.664,7.146,1.664,7.146l-0.834,3.449l5.357,2.859v2.262l4.881,1.19h1.43v-4.048l3.691-0.597l0.951-4.763l-2.619-2.026l-2.023-2.021l0.832-9.163l2.023-1.073l3.453,1.43L329.934,230.111z'})
+			arr['宁夏'] = self._setMapInfo({'index':'宁夏', 'cx':317, 'cy':226, d:'M329.934,230.111l0.24-5.476l1.785-2.499l-0.832-2.62l-9.168-3.454l0.594-3.691l2.858-4.049l-1.786-6.19l-0.835-0.952l-5.954,4.049l-2.855,9.168l-0.953,6.31l-4.762,3.93l-2.859,1.189l-3.438,0.779c0,0,9.184,11.236,7.729,9.458c-1.455-1.78,1.664,7.146,1.664,7.146l-0.834,3.449l5.357,2.859v2.262l4.881,1.19h1.43v-4.048l3.691-0.597l0.951-4.763l-2.619-2.026l-2.023-2.021l0.832-9.163l2.023-1.073l3.453,1.43L329.934,230.111z'})
 
-			arr[63] = self._setMapInfo({'index':63, 'cx':219, 'cy':244, d:'M153.954,234.989l4.523,1.667l7.742-2.617l-1.193-1.429h-2.021l-0.834-2.259l0.594-2.024l3.692-1.668l2.617-4.286l-7.977-6.548l-0.356-6.906c0,0,2.08-2.545,3.689-2.856c1.609-0.313,26.317-5.119,26.317-5.119l1.783-1.428l3.931,0.594l13.215,3.095l3.93,2.265l5.714,3.451l3.692-0.237l5.714-3.452l7.501,1.188l4.882-2.616l9.999,6.309l5.36-2.023l2.856,6.903l6.907,4.286l5.119,4.527l3.691-1.431l7.146,9.405l1.426,6.071l2.619,3.688l-0.832,7.146l-5.715,4.524l1.073,2.856l-2.265,2.263l-2.856,2.62v4.879l-2.621,2.027l-3.097-0.954l-2.617-2.5l-1.431,2.859l1.787,2.499l4.524,0.594l4.287,4.288h2.618l2.024,2.265l-1.787,4.046v0.239l-3.688-0.479l-2.621,1.905l-1.666-2.856l-4.524,1.785l-1.19,2.264v3.451l-4.524,0.836l-5.715-5.716l-1.787-2.856l-4.524,1.428l-7.738-2.262l-11.67,1.666l-0.952,1.189l-1.071,3.69l-2.263,1.43l0.238,3.692l-6.906,8.931l-11.43-2.383l-0.833-4.285l-7.146-5.718l-15.717-2.498l-6.786-1.19l-2.621-0.238l-5.953-4.883l-12.384-2.857l-8.57-16.551l-0.238-4.642l3.451-1.672v-5.117l2.502-6.313l-2.858-2.856L153.954,234.989z'})
+			arr['青海'] = self._setMapInfo({'index':'青海', 'cx':219, 'cy':244, d:'M153.954,234.989l4.523,1.667l7.742-2.617l-1.193-1.429h-2.021l-0.834-2.259l0.594-2.024l3.692-1.668l2.617-4.286l-7.977-6.548l-0.356-6.906c0,0,2.08-2.545,3.689-2.856c1.609-0.313,26.317-5.119,26.317-5.119l1.783-1.428l3.931,0.594l13.215,3.095l3.93,2.265l5.714,3.451l3.692-0.237l5.714-3.452l7.501,1.188l4.882-2.616l9.999,6.309l5.36-2.023l2.856,6.903l6.907,4.286l5.119,4.527l3.691-1.431l7.146,9.405l1.426,6.071l2.619,3.688l-0.832,7.146l-5.715,4.524l1.073,2.856l-2.265,2.263l-2.856,2.62v4.879l-2.621,2.027l-3.097-0.954l-2.617-2.5l-1.431,2.859l1.787,2.499l4.524,0.594l4.287,4.288h2.618l2.024,2.265l-1.787,4.046v0.239l-3.688-0.479l-2.621,1.905l-1.666-2.856l-4.524,1.785l-1.19,2.264v3.451l-4.524,0.836l-5.715-5.716l-1.787-2.856l-4.524,1.428l-7.738-2.262l-11.67,1.666l-0.952,1.189l-1.071,3.69l-2.263,1.43l0.238,3.692l-6.906,8.931l-11.43-2.383l-0.833-4.285l-7.146-5.718l-15.717-2.498l-6.786-1.19l-2.621-0.238l-5.953-4.883l-12.384-2.857l-8.57-16.551l-0.238-4.642l3.451-1.672v-5.117l2.502-6.313l-2.858-2.856L153.954,234.989z'})
 
-			arr[51] = self._setMapInfo({'index':51, 'cx':286, 'cy':310, d:'M279.33,280.95l1.788-4.05l-2.025-2.261l-0.357-3.454l7.145-3.096h1.787l1.069,2.619l0.357,3.336l3.455,2.384l4.522,4.521l2.621-1.669l1.664,1.669l0.6,4.525l2.855,2.021l7.383,0.599l1.189-1.431l-0.357-2.023l4.287-1.07l2.381,0.478l0.238,2.617l2.024,0.237l7.382-1.427l1.43,0.593l0.354,2.026l3.099,0.834l6.549,3.214v7.47l-3.932,1.059l-1.351,7.671l-5.346,3.72l-1.014,5.811l-4.564-2.092l-5.58,2.092l-0.231,4.416l-0.464,4.53l6.507,4.07l2.28,6.977l-2.623,0.833l-3.928-2.263l-3.213,3.691v1.666l6.311,3.452l1.427,2.62l-4.523,1.666l-6.904-0.238l-0.831-2.855l-2.621-0.954l-4.285,2.623l-2.859-1.429l-0.238-3.694l-1.43-1.786v-1.903l-4.047-0.952l-1.072,1.188l0.599,2.858l-3.215,1.431l-0.836,2.021l0.836,2.504l-7.146,8.334l1.191,9.764l-3.453,2.855l-1.666-1.784l-6.906,4.049l-2.621-1.431l-10.001-19.17l-3.931-2.854l-3.216-0.835l-1.428-2.623l1.787-2.854l-2.857-2.264l-3.455,2.858l-3.45,0.595l-2.264-10.359l-0.597-2.499c0,0-2.04-22.568-0.594-16.55c1.446,6.017-3.099-8.336-3.099-8.336l2.267-1.665l-6.55-12.027l-7.977-6.311l1.069-3.692l0.953-1.188l11.669-1.666l7.738,2.262l4.523-1.431l1.785,2.859l5.717,5.715l4.524-0.833v-3.453l1.191-2.266l4.522-1.783l1.667,2.856l2.621-1.903l3.689,0.478v-0.241H279.33z'})
+			arr['四川'] = self._setMapInfo({'index':'四川', 'cx':286, 'cy':310, d:'M279.33,280.95l1.788-4.05l-2.025-2.261l-0.357-3.454l7.145-3.096h1.787l1.069,2.619l0.357,3.336l3.455,2.384l4.522,4.521l2.621-1.669l1.664,1.669l0.6,4.525l2.855,2.021l7.383,0.599l1.189-1.431l-0.357-2.023l4.287-1.07l2.381,0.478l0.238,2.617l2.024,0.237l7.382-1.427l1.43,0.593l0.354,2.026l3.099,0.834l6.549,3.214v7.47l-3.932,1.059l-1.351,7.671l-5.346,3.72l-1.014,5.811l-4.564-2.092l-5.58,2.092l-0.231,4.416l-0.464,4.53l6.507,4.07l2.28,6.977l-2.623,0.833l-3.928-2.263l-3.213,3.691v1.666l6.311,3.452l1.427,2.62l-4.523,1.666l-6.904-0.238l-0.831-2.855l-2.621-0.954l-4.285,2.623l-2.859-1.429l-0.238-3.694l-1.43-1.786v-1.903l-4.047-0.952l-1.072,1.188l0.599,2.858l-3.215,1.431l-0.836,2.021l0.836,2.504l-7.146,8.334l1.191,9.764l-3.453,2.855l-1.666-1.784l-6.906,4.049l-2.621-1.431l-10.001-19.17l-3.931-2.854l-3.216-0.835l-1.428-2.623l1.787-2.854l-2.857-2.264l-3.455,2.858l-3.45,0.595l-2.264-10.359l-0.597-2.499c0,0-2.04-22.568-0.594-16.55c1.446,6.017-3.099-8.336-3.099-8.336l2.267-1.665l-6.55-12.027l-7.977-6.311l1.069-3.692l0.953-1.188l11.669-1.666l7.738,2.262l4.523-1.431l1.785,2.859l5.717,5.715l4.524-0.833v-3.453l1.191-2.266l4.522-1.783l1.667,2.856l2.621-1.903l3.689,0.478v-0.241H279.33z'})
 
-			arr[37] = self._setMapInfo({'index':37, 'cx':438, 'cy':228, d:'M425.661,252.611l0.597-2.856l2.5-1.069l4.645,3.927h1.433l4.284-0.476l2.5-2.022l3.453,2.856l1.429-2.62l0.356-1.43l2.857-1.667l0.834-3.45l2.854-0.595l7.98-13.454l-1.429-2.264l1.429-1.427l1.666,0.595l2.619-1.429l1.432-3.094l6.545-6.073l5.121-1.666l2.381-2.266l-0.592-4.88l-3.457-0.355l-7.738,0.952l-5.356-2.62l-3.216,0.596l-7.977,10.239l-2.262,1.429l-5.117-2.263l-0.359-2.619l-1.069-4.523l-2.859-1.669l-4.643,1.073l-2.882-1.971l-4.266,5.423l-4.523,1.188c0,0-8.514,7.798-6.313,5.718c2.201-2.081-6.902,12.5-6.902,12.5l1.783,3.45l-0.357,1.431v1.666l0.957,1.429l2.261-1.669l3.69-0.834l-10.002,11.074v2.621l2.023,0.596l4.524,3.93l7.146-0.835L425.661,252.611z'})
+			arr['山东'] = self._setMapInfo({'index':'山东', 'cx':438, 'cy':228, d:'M425.661,252.611l0.597-2.856l2.5-1.069l4.645,3.927h1.433l4.284-0.476l2.5-2.022l3.453,2.856l1.429-2.62l0.356-1.43l2.857-1.667l0.834-3.45l2.854-0.595l7.98-13.454l-1.429-2.264l1.429-1.427l1.666,0.595l2.619-1.429l1.432-3.094l6.545-6.073l5.121-1.666l2.381-2.266l-0.592-4.88l-3.457-0.355l-7.738,0.952l-5.356-2.62l-3.216,0.596l-7.977,10.239l-2.262,1.429l-5.117-2.263l-0.359-2.619l-1.069-4.523l-2.859-1.669l-4.643,1.073l-2.882-1.971l-4.266,5.423l-4.523,1.188c0,0-8.514,7.798-6.313,5.718c2.201-2.081-6.902,12.5-6.902,12.5l1.783,3.45l-0.357,1.431v1.666l0.957,1.429l2.261-1.669l3.69-0.834l-10.002,11.074v2.621l2.023,0.596l4.524,3.93l7.146-0.835L425.661,252.611z'})
 
-			arr[31] = self._setMapInfo({'index':31, 'cx':485, 'cy':287, d:'M484.32,292.485l-3.998-3.332c0,0,0.867-0.375,1.898-2.251c1.031-1.875,1.426-4.286,1.426-4.286l4.287,1.788l2.027,2.854l-1.433,2.024L484.32,292.485z'})
+			arr['上海'] = self._setMapInfo({'index':'上海', 'cx':485, 'cy':287, d:'M484.32,292.485l-3.998-3.332c0,0,0.867-0.375,1.898-2.251c1.031-1.875,1.426-4.286,1.426-4.286l4.287,1.788l2.027,2.854l-1.433,2.024L484.32,292.485z'})
 
-			arr[14] = self._setMapInfo({'index':14, 'cx':378, 'cy':217, d:'M363.393,259.519l8.217-2.265l10.357-7.142l7.381-1.431l5.477-4.287l0.599-9.405l-2.623-3.449l0.836-2.856l1.787-2.619l0.477-3.929l1.785-2.86l-2.859-5.713l-4.047-4.645l2.262-7.383l4.886-3.212l0.83-4.765l-1.904-4.286v-5.242l-3.215-2.854l-7.381,3.809l-1.191-1.189l-3.93,2.855l-3.213-0.235l-6.312,9.048h-1.906l-3.452,2.858l0.237,4.046l-1.67,3.452l-0.594,4.525l-3.096,4.884l3.334,6.905l-1.07,3.929l-2.619,4.286c0,0,4.146,18.996,3.689,16.903s-2.498,8.81-2.498,8.81L363.393,259.519z'})
+			arr['山西'] = self._setMapInfo({'index':'山西', 'cx':378, 'cy':217, d:'M363.393,259.519l8.217-2.265l10.357-7.142l7.381-1.431l5.477-4.287l0.599-9.405l-2.623-3.449l0.836-2.856l1.787-2.619l0.477-3.929l1.785-2.86l-2.859-5.713l-4.047-4.645l2.262-7.383l4.886-3.212l0.83-4.765l-1.904-4.286v-5.242l-3.215-2.854l-7.381,3.809l-1.191-1.189l-3.93,2.855l-3.213-0.235l-6.312,9.048h-1.906l-3.452,2.858l0.237,4.046l-1.67,3.452l-0.594,4.525l-3.096,4.884l3.334,6.905l-1.07,3.929l-2.619,4.286c0,0,4.146,18.996,3.689,16.903s-2.498,8.81-2.498,8.81L363.393,259.519z'})
 
-			arr[61] = self._setMapInfo({'index':61, 'cx':351, 'cy':260, d:'M363.393,259.519l-1.428-3.454l2.498-8.81l-3.689-16.903c0,0,3.262-5.777,2.619-4.286c-0.646,1.49,1.07-3.929,1.07-3.929l-3.334-6.905l3.096-4.884l0.594-4.525l1.67-3.452l-0.238-4.046l-1.432-1.074l-2.26,2.502l-6.072,0.356l-3.096,4.526l0.236,2.62l-0.593,1.665l-2.502,0.834l-9.406,13.454l-1.19-0.836l-2.617-0.594l-5.359,0.359l-1.789,2.499l-0.233,5.478l0.834,1.667l9.166,4.637l4.883,3.099l0.832,2.855l-2.619,3.691l1.431,4.286l-0.835,2.021l-6.784,0.6l-1.433,0.835l0.478,1.188v1.904l-5.355,0.596l-2.856-1.428h-3.691l-0.596,0.832l0.596,2.026l-1.789,2.022l-0.592,2.261l3.451,2.861l-2.5,5.117l1.071,2.619l-0.237,1.191h-4.052l-2.854,1.429l2.262,3.098l-1.43,4.048l2.383,0.478l0.238,2.617l2.021,0.237l7.386-1.427l1.43,0.593l0.354,2.025l3.099,0.835l6.547,3.216l3.69-1.434l8.097,2.857l1.666,2.26l4.051-0.829l-0.596-4.288l-0.834-1.191l0.834-3.451l4.286-2.021l1.068-1.668l-2.26-0.837l-2.5-0.593l-2.619-2.62l1.189-1.068h8.571h1.908l1.189,0.83l2.616-2.022v-3.454l-7.737-11.668L363.393,259.519L363.393,259.519z'})
+			arr['陕西'] = self._setMapInfo({'index':'陕西', 'cx':351, 'cy':260, d:'M363.393,259.519l-1.428-3.454l2.498-8.81l-3.689-16.903c0,0,3.262-5.777,2.619-4.286c-0.646,1.49,1.07-3.929,1.07-3.929l-3.334-6.905l3.096-4.884l0.594-4.525l1.67-3.452l-0.238-4.046l-1.432-1.074l-2.26,2.502l-6.072,0.356l-3.096,4.526l0.236,2.62l-0.593,1.665l-2.502,0.834l-9.406,13.454l-1.19-0.836l-2.617-0.594l-5.359,0.359l-1.789,2.499l-0.233,5.478l0.834,1.667l9.166,4.637l4.883,3.099l0.832,2.855l-2.619,3.691l1.431,4.286l-0.835,2.021l-6.784,0.6l-1.433,0.835l0.478,1.188v1.904l-5.355,0.596l-2.856-1.428h-3.691l-0.596,0.832l0.596,2.026l-1.789,2.022l-0.592,2.261l3.451,2.861l-2.5,5.117l1.071,2.619l-0.237,1.191h-4.052l-2.854,1.429l2.262,3.098l-1.43,4.048l2.383,0.478l0.238,2.617l2.021,0.237l7.386-1.427l1.43,0.593l0.354,2.025l3.099,0.835l6.547,3.216l3.69-1.434l8.097,2.857l1.666,2.26l4.051-0.829l-0.596-4.288l-0.834-1.191l0.834-3.451l4.286-2.021l1.068-1.668l-2.26-0.837l-2.5-0.593l-2.619-2.62l1.189-1.068h8.571h1.908l1.189,0.83l2.616-2.022v-3.454l-7.737-11.668L363.393,259.519L363.393,259.519z'})
 
-			arr[12] = self._setMapInfo({'index':12, 'cx':425, 'cy':193, d:'M430.413,200.491c0,0-1.832,1.672-3.319,1.284c-1.49-0.388-5.479-1.428-5.479-1.428l-0.237-1.429l-0.238-9.169l3.69-1.667l-0.596-1.666l0.81-3.557l0.385-1.683l1.901,0.95l0.953,3.098l-0.356,2.022l4.047,2.858l0.594,2.263l-2.379,1.668l-0.834,3.809L430.413,200.491z'})
+			arr['天津'] = self._setMapInfo({'index':'天津', 'cx':425, 'cy':193, d:'M430.413,200.491c0,0-1.832,1.672-3.319,1.284c-1.49-0.388-5.479-1.428-5.479-1.428l-0.237-1.429l-0.238-9.169l3.69-1.667l-0.596-1.666l0.81-3.557l0.385-1.683l1.901,0.95l0.953,3.098l-0.356,2.022l4.047,2.858l0.594,2.263l-2.379,1.668l-0.834,3.809L430.413,200.491z'})
 
-			arr[71] = self._setMapInfo({'index':71, 'cx':497, 'cy':378, d:'M505.438,371.203l-3.217,19.169l-1.664,6.07v5.123l-1.43,1.427l-3.451-5.119l-3.693-2.858l-3.215-8.571c0,0-0.451-5.62,0.357-7.74c0.809-2.118,5.356-14.05,5.356-14.05l6.313-5.357l4.051,1.904L505.438,371.203z'})
+			arr['台湾'] = self._setMapInfo({'index':'台湾', 'cx':497, 'cy':378, d:'M505.438,371.203l-3.217,19.169l-1.664,6.07v5.123l-1.43,1.427l-3.451-5.119l-3.693-2.858l-3.215-8.571c0,0-0.451-5.62,0.357-7.74c0.809-2.118,5.356-14.05,5.356-14.05l6.313-5.357l4.051,1.904L505.438,371.203z'})
 
-			arr[91] = self._setMapInfo({'index':91, 'cx':422, 'cy':410, d:'M417.745,409.005l3.394,0.773l3.453-2.558l1.666,4.582c0,0-5.521,2.673-3.691,1.785c1.828-0.884-4.641-0.355-4.641-0.355l-0.834-3.454L417.745,409.005z'})
+			arr['香港'] = self._setMapInfo({'index':'香港', 'cx':422, 'cy':410, d:'M417.745,409.005l3.394,0.773l3.453-2.558l1.666,4.582c0,0-5.521,2.673-3.691,1.785c1.828-0.884-4.641-0.355-4.641-0.355l-0.834-3.454L417.745,409.005z'})
 
-			arr[65] = self._setMapInfo({'index':65, 'cx':125, 'cy':167, d:'M153.889,69.508l2.327-0.014l-1.428,4.525l2.025,2.38l0.236,1.666l4.525,4.524l1.191,3.453l5.953,0.357l2.62,2.265h1.429l3.453,7.379l3.451,8.931l-1.784,5.357l0.358,2.025l-3.215,5.477l0.833,4.286l11.192,4.763l12.025,1.788l12.503,8.571l4.049,1.429l0.237,2.261l2.619,5.478l2.619,7.146l3.333,5.953l-1.903,2.263v4.047l-4.286,2.026l-10.596,4.284l-6.907,5.719l-4.881,2.26l-0.834,3.453l1.43,16.55l-3.931-0.596l-1.783,1.431l-26.315,5.119l-3.691,2.856l0.358,6.906l7.978,6.548l-2.62,4.286l-3.69,1.668l-0.597,2.024l0.835,2.259h2.021l1.192,1.429l-7.738,2.617l-4.525-1.667l-2.382-1.424h-5.715l-10.24-4.642h-6.546l-5.121,1.428h-5.714l-8.931,4.879l-7.143-0.834l-7.145,2.5l-5.956-1.907l-3.689-3.211l-9.525-1.427l-6.191,4.28l-3.452-1.425l-2.858-2.263l-6.907-1.667l-1.07-1.189l-2.857-0.237l-9.782,5.945l-10.037-1.25l-0.822-0.359l1.113-8.623l-4.524-1.191l-9.406-6.902l-2.62-0.241l-2.023-4.525l1.427-4.643l-0.477-2.26l-3.451-2.266l-1.192-2.26l-7.143-4.049v-1.189l3.452-1.431l2.023,1.19l2.025-2.025l-0.598-6.785l0.598-5.716l-4.646-4.642l-3.095,0.833l-1.189-3.336l1.785-3.452l-0.952-3.214l3.038-2.749l1.248-1.182v-2.618l4.285-2.024l4.286-0.833l3.811-1.429l3.099,0.832l2.26-0.832l0.833,0.595l0.356,2.859l2.022,0.832l4.765-0.238c0,0,3.566-4.729,5.478-6.073c1.911-1.346,11.19,2.381,11.19,2.381l5.717-4.048l16.552-3.689l1.069-2.264l1.43-6.31l4.643-3.69h1.433v-1.906l0.236-15.836l0.833-3.212l-4.521-1.668l-0.24-1.191l4.762-1.428l12.384-1.073l1.905,2.501l4.287,0.952l1.192,0.239l1.665-2.262l-2.265-2.263l9.169-18.574l1.431-0.953l8.335,4.047h3.689l1.667,2.264l7.979-2.502l2.023-13.212l3.452-2.265l4.048-0.238l2.859-3.452l1.071-3.454l2.263-1.191L153.889,69.508z'})
+			arr['新疆'] = self._setMapInfo({'index':'新疆', 'cx':125, 'cy':167, d:'M153.889,69.508l2.327-0.014l-1.428,4.525l2.025,2.38l0.236,1.666l4.525,4.524l1.191,3.453l5.953,0.357l2.62,2.265h1.429l3.453,7.379l3.451,8.931l-1.784,5.357l0.358,2.025l-3.215,5.477l0.833,4.286l11.192,4.763l12.025,1.788l12.503,8.571l4.049,1.429l0.237,2.261l2.619,5.478l2.619,7.146l3.333,5.953l-1.903,2.263v4.047l-4.286,2.026l-10.596,4.284l-6.907,5.719l-4.881,2.26l-0.834,3.453l1.43,16.55l-3.931-0.596l-1.783,1.431l-26.315,5.119l-3.691,2.856l0.358,6.906l7.978,6.548l-2.62,4.286l-3.69,1.668l-0.597,2.024l0.835,2.259h2.021l1.192,1.429l-7.738,2.617l-4.525-1.667l-2.382-1.424h-5.715l-10.24-4.642h-6.546l-5.121,1.428h-5.714l-8.931,4.879l-7.143-0.834l-7.145,2.5l-5.956-1.907l-3.689-3.211l-9.525-1.427l-6.191,4.28l-3.452-1.425l-2.858-2.263l-6.907-1.667l-1.07-1.189l-2.857-0.237l-9.782,5.945l-10.037-1.25l-0.822-0.359l1.113-8.623l-4.524-1.191l-9.406-6.902l-2.62-0.241l-2.023-4.525l1.427-4.643l-0.477-2.26l-3.451-2.266l-1.192-2.26l-7.143-4.049v-1.189l3.452-1.431l2.023,1.19l2.025-2.025l-0.598-6.785l0.598-5.716l-4.646-4.642l-3.095,0.833l-1.189-3.336l1.785-3.452l-0.952-3.214l3.038-2.749l1.248-1.182v-2.618l4.285-2.024l4.286-0.833l3.811-1.429l3.099,0.832l2.26-0.832l0.833,0.595l0.356,2.859l2.022,0.832l4.765-0.238c0,0,3.566-4.729,5.478-6.073c1.911-1.346,11.19,2.381,11.19,2.381l5.717-4.048l16.552-3.689l1.069-2.264l1.43-6.31l4.643-3.69h1.433v-1.906l0.236-15.836l0.833-3.212l-4.521-1.668l-0.24-1.191l4.762-1.428l12.384-1.073l1.905,2.501l4.287,0.952l1.192,0.239l1.665-2.262l-2.265-2.263l9.169-18.574l1.431-0.953l8.335,4.047h3.689l1.667,2.264l7.979-2.502l2.023-13.212l3.452-2.265l4.048-0.238l2.859-3.452l1.071-3.454l2.263-1.191L153.889,69.508z'})
 
-			arr[54] = self._setMapInfo({'index':54, 'cx':130, 'cy':288, d:'M152.525,339.529l6.787,0.834l2.265,3.216l1.189,0.477l10.239-1.904l0.594-1.787l2.023-1.07l4.884-4.05l4.285-0.594l3.93-2.501l7.74-4.286l0.832,1.428l5.716,1.904l8.334-4.285l2.618,1.787l-2.379,3.452l0.952,0.833h3.332l0.359,1.427l-2.857,5.121l0.833,0.834h1.666l8.336,2.265l3.691-3.099l5.478,4.289l1.667-2.026l1.43,1.431h1.784l0.834-1.431l-0.356-6.549l1.429-0.835l3.451-4.284l-0.594-16.549l-3.099-8.337l2.265-1.665l-6.548-12.027l-7.979-6.311l-2.26,1.43l0.238,3.692l-6.908,8.931l-11.428-2.384l-0.833-4.286l-7.146-5.716l-15.717-2.498l-6.787-1.188l-2.619-0.241l-5.952-4.883l-12.385-2.857l-8.57-16.551l-0.238-4.642l3.451-1.672v-5.117l2.502-6.311l-2.858-2.858l3.811-3.095l-2.383-1.425h-5.716l-10.238-4.644h-6.549l-5.118,1.43h-5.715l-8.931,4.879l-7.144-0.834l-7.146,2.5l-5.954-1.906l-3.688-3.212l-9.526-1.427l-6.192,4.28l-3.45-1.425l-2.859-2.263l-6.908-1.667l-1.065-1.189l-2.857-0.237l-9.782,5.945l-10.412-1.297l2.428,4.398l2.68,1.995l-0.821,3.842l-0.231,3.758l0.256,2.672l0,0l-0.193,3.208l3.451,3.454l0.239,4.884l-1.072,1.907l-5.119,0.591l-2.621-2.854l-2.619,0.355l-0.476,2.265l1.428,3.688l0.479,2.62v3.333l-0.833,2.381l0.354,1.909l3.336,0.356l1.785,3.094l7.739,6.071v1.906l5.716,6.311l1.902,2.262l1.79,0.595l3.451-3.451l3.096,2.856c0,0,15.395,13.684,13.098,11.193c-2.297-2.491,2.381,5.715,2.381,5.715h2.859l1.667-1.665l1.426,1.428v5.117l7.741,4.287l1.667-0.357l1.191,4.287l6.548,3.81l0.238,2.501l1.188,0.835l5.717-0.24h3.098l4.644,3.457l10.24-0.359l5.476-0.239l1.428,2.265l-1.188,4.883l1.427,1.664l5.715-4.761l7.146-5.239l5.12,0.95L152.525,339.529z'})
+			arr['西藏'] = self._setMapInfo({'index':'西藏', 'cx':130, 'cy':288, d:'M152.525,339.529l6.787,0.834l2.265,3.216l1.189,0.477l10.239-1.904l0.594-1.787l2.023-1.07l4.884-4.05l4.285-0.594l3.93-2.501l7.74-4.286l0.832,1.428l5.716,1.904l8.334-4.285l2.618,1.787l-2.379,3.452l0.952,0.833h3.332l0.359,1.427l-2.857,5.121l0.833,0.834h1.666l8.336,2.265l3.691-3.099l5.478,4.289l1.667-2.026l1.43,1.431h1.784l0.834-1.431l-0.356-6.549l1.429-0.835l3.451-4.284l-0.594-16.549l-3.099-8.337l2.265-1.665l-6.548-12.027l-7.979-6.311l-2.26,1.43l0.238,3.692l-6.908,8.931l-11.428-2.384l-0.833-4.286l-7.146-5.716l-15.717-2.498l-6.787-1.188l-2.619-0.241l-5.952-4.883l-12.385-2.857l-8.57-16.551l-0.238-4.642l3.451-1.672v-5.117l2.502-6.311l-2.858-2.858l3.811-3.095l-2.383-1.425h-5.716l-10.238-4.644h-6.549l-5.118,1.43h-5.715l-8.931,4.879l-7.144-0.834l-7.146,2.5l-5.954-1.906l-3.688-3.212l-9.526-1.427l-6.192,4.28l-3.45-1.425l-2.859-2.263l-6.908-1.667l-1.065-1.189l-2.857-0.237l-9.782,5.945l-10.412-1.297l2.428,4.398l2.68,1.995l-0.821,3.842l-0.231,3.758l0.256,2.672l0,0l-0.193,3.208l3.451,3.454l0.239,4.884l-1.072,1.907l-5.119,0.591l-2.621-2.854l-2.619,0.355l-0.476,2.265l1.428,3.688l0.479,2.62v3.333l-0.833,2.381l0.354,1.909l3.336,0.356l1.785,3.094l7.739,6.071v1.906l5.716,6.311l1.902,2.262l1.79,0.595l3.451-3.451l3.096,2.856c0,0,15.395,13.684,13.098,11.193c-2.297-2.491,2.381,5.715,2.381,5.715h2.859l1.667-1.665l1.426,1.428v5.117l7.741,4.287l1.667-0.357l1.191,4.287l6.548,3.81l0.238,2.501l1.188,0.835l5.717-0.24h3.098l4.644,3.457l10.24-0.359l5.476-0.239l1.428,2.265l-1.188,4.883l1.427,1.664l5.715-4.761l7.146-5.239l5.12,0.95L152.525,339.529z'})
 
-			arr[53] = self._setMapInfo({'index':53, 'cx':271, 'cy':390, d:'M313.622,349.296l-0.836-2.858l-2.618-0.954l-4.283,2.622l-2.859-1.432l-0.238-3.688l-1.43-1.79v-1.903l-4.049-0.952l-1.07,1.188l0.599,2.859l-3.217,1.43l-0.834,2.021l0.834,2.5l-7.146,8.336l1.191,9.766l-3.453,2.854l-1.666-1.784l-6.907,4.048l-2.618-1.431c0,0-11.535-22.106-10.002-19.172c1.533,2.938-3.931-2.854-3.931-2.854l-3.213-0.834l-1.432-2.619l1.787-2.859l-2.857-2.263l-3.455,2.859l-3.451,0.598l-2.263-10.363l-0.596-2.499l-3.454,4.286l-1.427,0.831l0.356,6.551l-0.834,1.431h-1.784l-1.43-1.431l-1.667,2.026l1.667,7.381h2.024l1.667,1.19c0,0,0.468,2.396,0.594,4.521c0.125,2.125-0.833,15.719-0.833,15.719l-10.837,9.766l-0.594,3.689l-2.024,1.787l-0.238,1.903l1.669,4.643l-1.431,3.454l0.834,0.478l5.478-1.433l7.738-0.476l-0.834,3.098l1.431,2.857l0.475,4.287l0.955,1.426l4.524,0.243l2.024,1.425l-2.264,2.856l-0.356,3.453l-1.667,4.05l1.068,1.43l2.86,0.238l4.881,1.784l-0.593,1.667l3.212,4.881h4.524l5.716-3.213l1.786,0.952v1.906l0.832,2.856l1.432,1.429l3.092-0.477l1.192,0.834l1.072-1.192v-4.525l-1.906-8.333l1.431-2.5h4.762h1.192l2.62-3.213l6.783,2.261l2.858-2.503l1.431,1.432l2.858-1.786l2.615,2.618h1.073l0.953-1.428l2.261-2.263l1.073,0.833l3.213-0.595l3.099-2.502l2.619-3.811l3.688-0.831l2.023,2.021l1.43-4.048l2.857-0.235l1.069-0.834l0.957-3.691l-1.192-2.023l-9.765-1.785l-1.668-2.857h-2.854h-2.619l-1.906-3.097l0.24-1.665l1.188-6.907l-3.809-3.689l2.859-12.027l-1.908-1.667l-6.309,1.906l-1.431-2.501v-2.856l-1.428-1.43l3.094-4.286l3.453,1.07l1.43-1.429l6.313,0.951l2.856-0.951L313.622,349.296z'})
+			arr['云南'] = self._setMapInfo({'index':'云南', 'cx':271, 'cy':390, d:'M313.622,349.296l-0.836-2.858l-2.618-0.954l-4.283,2.622l-2.859-1.432l-0.238-3.688l-1.43-1.79v-1.903l-4.049-0.952l-1.07,1.188l0.599,2.859l-3.217,1.43l-0.834,2.021l0.834,2.5l-7.146,8.336l1.191,9.766l-3.453,2.854l-1.666-1.784l-6.907,4.048l-2.618-1.431c0,0-11.535-22.106-10.002-19.172c1.533,2.938-3.931-2.854-3.931-2.854l-3.213-0.834l-1.432-2.619l1.787-2.859l-2.857-2.263l-3.455,2.859l-3.451,0.598l-2.263-10.363l-0.596-2.499l-3.454,4.286l-1.427,0.831l0.356,6.551l-0.834,1.431h-1.784l-1.43-1.431l-1.667,2.026l1.667,7.381h2.024l1.667,1.19c0,0,0.468,2.396,0.594,4.521c0.125,2.125-0.833,15.719-0.833,15.719l-10.837,9.766l-0.594,3.689l-2.024,1.787l-0.238,1.903l1.669,4.643l-1.431,3.454l0.834,0.478l5.478-1.433l7.738-0.476l-0.834,3.098l1.431,2.857l0.475,4.287l0.955,1.426l4.524,0.243l2.024,1.425l-2.264,2.856l-0.356,3.453l-1.667,4.05l1.068,1.43l2.86,0.238l4.881,1.784l-0.593,1.667l3.212,4.881h4.524l5.716-3.213l1.786,0.952v1.906l0.832,2.856l1.432,1.429l3.092-0.477l1.192,0.834l1.072-1.192v-4.525l-1.906-8.333l1.431-2.5h4.762h1.192l2.62-3.213l6.783,2.261l2.858-2.503l1.431,1.432l2.858-1.786l2.615,2.618h1.073l0.953-1.428l2.261-2.263l1.073,0.833l3.213-0.595l3.099-2.502l2.619-3.811l3.688-0.831l2.023,2.021l1.43-4.048l2.857-0.235l1.069-0.834l0.957-3.691l-1.192-2.023l-9.765-1.785l-1.668-2.857h-2.854h-2.619l-1.906-3.097l0.24-1.665l1.188-6.907l-3.809-3.689l2.859-12.027l-1.908-1.667l-6.309,1.906l-1.431-2.501v-2.856l-1.428-1.43l3.094-4.286l3.453,1.07l1.43-1.429l6.313,0.951l2.856-0.951L313.622,349.296z'})
 
-			arr[33] = self._setMapInfo({'index':33, 'cx':475, 'cy':314, d:'M483.793,336.063l-6.455,2.276l-3.693-3.69l-2.498,3.215h-4.049l-1.666-3.454l-2.023-5.118l-3.692-0.596l-4.047-7.501l-2.619-3.69l1.903-1.818l0.716-0.685c0,0,6.241-8.84,4.286-6.07c-1.954,2.769-0.239-4.882-0.239-4.882l1.43-1.906l3.336-0.594l0.951-1.43l-1.189-2.263l1.666-2.382v-4.524l2.384-1.189l3.928,2.382l4.879,0.835l3.225-3.824l3.998,3.332l-1.744,1.324l-2.021,3.096l-3.217,0.952l-1.074,0.833l3.098,1.666l5.715-2.499l9.406,3.929l0.953,7.979h-3.809l-0.24,2.382l2.024,3.332l-1.784,2.024l2.022,3.214l-3.096,3.69l-1.43-1.787l-4.644,11.788L483.793,336.063z'})
+			arr['浙江'] = self._setMapInfo({'index':'浙江', 'cx':475, 'cy':314, d:'M483.793,336.063l-6.455,2.276l-3.693-3.69l-2.498,3.215h-4.049l-1.666-3.454l-2.023-5.118l-3.692-0.596l-4.047-7.501l-2.619-3.69l1.903-1.818l0.716-0.685c0,0,6.241-8.84,4.286-6.07c-1.954,2.769-0.239-4.882-0.239-4.882l1.43-1.906l3.336-0.594l0.951-1.43l-1.189-2.263l1.666-2.382v-4.524l2.384-1.189l3.928,2.382l4.879,0.835l3.225-3.824l3.998,3.332l-1.744,1.324l-2.021,3.096l-3.217,0.952l-1.074,0.833l3.098,1.666l5.715-2.499l9.406,3.929l0.953,7.979h-3.809l-0.24,2.382l2.024,3.332l-1.784,2.024l2.022,3.214l-3.096,3.69l-1.43-1.787l-4.644,11.788L483.793,336.063z'})
 			return arr
 		},
 
@@ -12623,6 +13202,102 @@ KISSY.add('brix/gallery/charts/js/pub/views/modules/pieinfo/main',function(S,Bas
 	    ]
 	}
 );
+KISSY.add('brix/gallery/charts/js/pub/views/modules/sign/main',function(S,Base,Node,Global,SVGElement,SVGGraphics){
+	var $ = Node.all
+
+	function Main(){
+		
+		var self = this
+
+		Main.superclass.constructor.apply(self,arguments);
+
+		// self.init()
+	}
+
+	Main.ATTRS = {
+		w:{
+			value:0
+		},
+		h:{
+			value:0
+		},
+		element:{
+			value:null
+		},
+
+		_circle:{
+			value:null
+		},
+		_font:{
+			value:null
+		}
+	}
+
+	S.extend(Main,Base,{
+		init:function(){
+			var self = this
+			Main.superclass.constructor.apply(self,arguments);
+
+			self.set('element', new SVGElement('g')), self.get('element').set('class','layouts_sign')
+			// self.get('element').set('style','cursor:default'), self.get('element').mouseEvent(false)
+			self.get('parent').appendChild(self.get('element').element)
+
+			self._widget()
+		},
+
+		_widget:function(){
+			var self = this
+			var w = 0, h = 0
+			var element = self.get('element')
+			var config = self.get('config')
+
+			if(config.circle.is){
+				var circle = config.circle
+				self.set('_circle', SVGGraphics.circle({'r':circle.radius,'fill':circle.fill}))
+				var _circle = self.get('_circle')
+				element.appendChild(_circle.element)
+
+				w = circle.radius * 2, h = circle.radius * 2
+			}
+			
+			if(config.font.is){
+				var font = config.font
+				self.set('_font', SVGGraphics.text({'content':font.content,'size':font.size,'fill':font.fill,'bold':font.bold,'family':font.family}))
+				var _font = self.get('_font')
+				element.appendChild(_font.element)
+
+				var y = _font.getHeight() / 2 * 0.50
+				var x = -_font.getWidth() / 2
+				_font.transformXY(x,y)
+
+				if(_font.getWidth() > w){
+					w = _font.getWidth()
+				}
+				if(_font.getHeight() > h){
+					h = _font.getHeight()
+				}
+			}
+
+
+			self.set('w', w)
+			self.set('h', h)
+		},
+
+		setStyle:function($o){
+			var self = this
+			if($o.circle){
+				self.get('_circle').set('fill',$o.circle.fill)
+			}
+		}
+	});
+
+	return Main;
+
+	}, {
+	    requires:['base','node','../../../utils/global','../../../utils/svgelement','../../../views/svggraphics'
+	    ]
+	}
+);
 KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Global,Move,SVGElement,SVGRenderer,SVGGraphics,EventType){
 	
 	function Graphs(){
@@ -12748,7 +13423,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 
 			self.set('_total', Global.getArrMergerNumber(self.get('data')))
 			self.set('_angleList', self._getAngleList(self.get('data'),self.get('_total'),self.get('_startR')))
-			self.set('_scaleList', self._getScaleList(self.get('data'),self.get('_total')))
+			// self.set('_scaleList', self._getScaleList(self.get('data'),self.get('_total')))
+			self.set('_scaleList', Global.getArrScales(self.get('data')))
 			if (self.get('data').length <= 1) {
 				self.set('_disR',0)
 			}
