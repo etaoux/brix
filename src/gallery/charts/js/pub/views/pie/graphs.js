@@ -278,17 +278,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 			return arr
 		},
 
-		_getScaleList:function($arr, $total,$s) {
-			var self = this
-			var $s = $s ? $s : 0
-			var arr = []
-			var n = Math.pow(10,$s)
-			for (var a = 0, al = $arr.length; a < al; a++ ) {
-				arr.push(Math.round ($arr[a]/ $total * 100 * n) / n)
-			}
-			return arr
-		},
-
 		//通过知道圆心、两个半径、角度 获取处于圆周上的这个点坐标
 		_getRPoint:function(x0, y0, xr, yr, r){
 			var r = r * Math.PI / 180

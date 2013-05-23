@@ -6,7 +6,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/list/graphs',function(S,Base,node,Gl
 
 		List.superclass.constructor.apply(self,arguments);
 
-		// self.init()
+		self.init()
 	}
 
 	List.ATTRS = {
@@ -16,11 +16,16 @@ KISSY.add('brix/gallery/charts/js/pub/views/list/graphs',function(S,Base,node,Gl
 		h:{
 			value:0
 		},
-		data:[],
+		data:{
+			value:[]
+		},
 		element:{
 			value:null
 		},
 
+		_info:{
+			value:null
+		}
 	}			
 
 	S.extend(List,Base,{
@@ -31,7 +36,18 @@ KISSY.add('brix/gallery/charts/js/pub/views/list/graphs',function(S,Base,node,Gl
 			self.set('element', new SVGElement('g')), self.get('element').set('class','list')
 			self.get('element').setDynamic('childs',[])
 			self.get('parent').appendChild(self.get('element').element)
+		},
 
+		induce:function($o,$b){
+			var self = this
+			if (self.get('_info')) {
+				self.get('_info').moveRowTxt($o)
+			}
+		},
+
+		widget:function(){
+			var self = this
+			List.superclass.constructor.apply(self,arguments);
 			self._widget()
 		},
 

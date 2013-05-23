@@ -12,6 +12,8 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 		o:{
 			value:{
 
+				dis:26,               //圆饼实际大小与上、下、左、右之间的间隔
+
 				font:{
 					is:1
 				},

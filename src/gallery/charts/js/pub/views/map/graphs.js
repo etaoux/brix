@@ -156,13 +156,13 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 					if(o.sign.is && o.sign.font.content && self.get('isInduce') == 0){
 						if(!self.get('config').sign.max || Number(self.get('config').sign.max) >= Number(o.sign.font.content)){
 							var sign = new Sign()
-							self.get('_signs').getDynamic('childs')[o.index] = sign
+							self.get('_signs').getDynamic('childs')[o.order] = sign
 							var config = {
 
 									circle:{
 										  is:1,
 										  radius:12,
-										  fill:'#937ACC'
+										  fill:self.get('config').sign.circle.fill.normal
 									},
 									font:{
 										is:1,
@@ -190,7 +190,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 		_overHandler:function($evt){
 			var self = this
 			var index = $evt.target.getAttribute('_index')
-			var o = {}
+			var o = S.clone(self.get('data')[index])
 			var map = self.get('maps')[index]
 			var data = self.get('data')[index]
 			var cx = self.get('map_scale') * map.cx
@@ -202,7 +202,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 			// self.get('_test').element.appendChild(circle.element)
 			// circle.transformXY(cx,cy)
 			self._induce(index,true)
-
 			o.index = index
 			o.cx = cx, o.cy = cy
 			o.content = data.content
@@ -212,7 +211,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 		_outHandler:function($evt){
 			var self = this
 			var index = $evt.target.getAttribute('_index')
-			var o = {}
+			var o = S.clone(self.get('data')[index])
 			self._induce(index,false)
 
 			o.index = index
@@ -220,6 +219,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 		},
 		_induce:function($index,$b){
 			var self = this
+			if(self.get('isInduce') == 1){
+				return
+			}
 			var o = self.get('data')[$index]
 			var map = self.get('maps')[$index]
 			var element = map.element
@@ -230,9 +232,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 					element.set('fill',o.fills.normal)
 				}
 
-				var sign = self.get('_signs').getDynamic('childs')[$index]
+				var sign = self.get('_signs').getDynamic('childs')[o.order]
 				if(sign){
-					var fill = $b ? '#7459B3' : '#937ACC'
+					var fill = $b ? self.get('config').sign.circle.fill.over : self.get('config').sign.circle.fill.normal
 					sign.setStyle({circle:{fill:fill}})
 				}
 			}

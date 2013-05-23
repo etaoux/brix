@@ -28,12 +28,24 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/configparse',function(S,Base,
 
 				sign:{
 					is : 0,
-					max: ''
+					max: '',
+					circle:{
+						fill:{
+							normal:'#937ACC',
+							over  :'#7459B3'
+						}
+					}
 				},
 
 				list:{
 					is : 0,
-					max: ''
+					max: '',
+					font:{
+						fill:{
+							normal:'#333333',
+							over:'#7459B3'
+						}
+					}
 				}
 			}
 		}

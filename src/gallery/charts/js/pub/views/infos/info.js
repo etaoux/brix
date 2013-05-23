@@ -99,16 +99,23 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 
 		moveRowTxt:function($o) {
 			var self = this
+			var is = $o.is ? $o.is : 0
 			var index = $o.index ? $o.index : 0
 			var mode = $o.mode ? $o.mode : 1
 			var rowFonts = self.get('_fonts').getDynamic('childs')[index]
-			var x = -2
-			if (mode == 1) {
-			}else if (mode == 2) {
-				x = 0
-			}
+
 			if (rowFonts) {
-				rowFonts.transformX(x)	
+				if (mode == 1) {
+					var x = is ? -2 : 0
+					rowFonts.transformX(x)	
+				}else if(mode == 2){
+					var childs = rowFonts.getDynamic('childs')
+					for(var a = 0, al = childs.length; a < al; a++){
+						var child = childs[a]
+						var fill = is ? $o.fill : child.getDynamic('info').init.fill
+						child.set('fill',fill)
+					}
+				}
 			}
 		},
 
@@ -152,6 +159,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 					var family = o.family ? o.family : self.get('_font_family')
 					//单个文字
 					var font = SVGGraphics.text({'content':Global.numAddSymbol(o.content),'size':o.size,'fill':fill,'bold':bold,'family':family})
+					font.setDynamic('info',{init:{fill:fill}})
 					rowFonts.element.appendChild(font.element)
 					rowFonts.getDynamic('childs').push(font)
 

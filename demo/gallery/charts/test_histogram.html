@@ -4,7 +4,26 @@
 configData:
 //type = 类型(空或histogram = 纵向直方图  |  scatter = 散点图  |  line = 折线图(区域图)  |  line2 = 折线图(多日期) |  line3 = 折线图(双指标)  |  pie = 饼图  |  map = 地图  |  integrate = 综合图(直方+折线))[默认为纵向直方图]
 <chart v="1.0" type="">
-	<data/>
+	<data>
+		//颜色配置 '#135EBF','#2E9599','#36B26A','#9CA632','#BF9E39','#BF7C39'
+		//normals  = 表示正常状态时颜色[默认:0x458AE6, 0x39BCC0, 0x5BCB8A, 0xC3CC5C, 0xE6B522, 0xE68422]
+		//overs    = 对应鼠标划入时信息的颜色[默认:0x135EBF, 0x2E9599, 0x36B26A, 0x9CA632, 0xBF9E39, 0xBF7C39]
+		//注意:当有多个区块时 请使用','号分隔每个区块的颜色值 如果颜色组合少于区块数量 未给予颜色值的区块将以黑色显示
+		//(仅SVG)
+		<colors normals="0x937ACC" overs="0x7459B3"/>
+		
+		//纵轴
+		<y_axis>
+			//mode  = 数据模式(空 = 正常模式  |  1 = 比例模式)[默认:空](仅SVG)
+			<data mode="1"/>
+		</y_axis>
+		
+		//横轴
+		<x_axis>
+		    //mode  = 布局模式(空 = 区间模式  |  1 = 对应模式)[默认:空](仅SVG)
+			<layout mode="1"/>
+		</x_axis>
+	</data>
 </chart>
 
 //------------------------------------
@@ -37,6 +56,7 @@ chartData:
     <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
     <link rel="stylesheet" href="../../assets/doc.css">
     <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script>
+    <!-- <script src="http://127.0.0.1/brix/src/gallery/charts/kissy.js"></script> -->
     <!--<script src="http://a.tbcdn.cn/apps/e/brix/2.0/brix.js" bx-config="{autoConfig:true}"></script>-->
     <!--<script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>-->
     <script src="../../../src/core/brix.js"></script>
@@ -45,6 +65,8 @@ chartData:
 	<div id="J_wrapper1" class="wrapper1" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper2" class="wrapper2" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper3" class="wrapper3" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper4" class="wrapper4" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper5" class="wrapper5" style="width:720px;height:400px;"></div>
 
 	<script type="text/javascript">
 		KISSY.use('brix/gallery/charts/',function(S,Charts){
@@ -52,27 +74,45 @@ chartData:
 					parent_id:'J_wrapper1',
 
 					config:{
-						configData:'<chart v="1.0" type=""><data/></chart> ',
+						configData:'<chart v="1.0" type=""><data/></chart>',
 						
-						chartData:'<chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,2,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,2.55" name="维度2: "><key indexs="3"/><start name="原点"/></indexAxis><sets name="维度1："><set values="201,1145,488,390,186,645,259,378,189,589,175,329,148,311,294,1478,441,794,376,1575,224,350,219,568,223,353,146,239,94,548,129,253,91,196,68,230,69,137,47,324,47,77,40,60,36,57,33,31,15,55,28"></set></sets></data></chart>'
+						chartData:'<chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,2,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,2.55" name="维度2："><key indexs="3"/><start name="原点"/></indexAxis><sets name="维度1："><set values="201,1145,488,390,186,645,259,378,189,589,175,329,148,311,294,1478,441,794,376,1575,224,350,219,568,223,353,146,239,94,548,129,253,91,196,68,230,69,137,47,324,47,77,40,60,36,57,33,31,15,55,28"></set></sets></data></chart>'
 					}
 			});
 			new Charts({
 					parent_id:'J_wrapper2',
 
 					config:{
-						configData:'<chart v="1.0" type=""><data/></chart> ',
+						configData:'<chart v="1.0" type=""><data/></chart>',
 							
-						chartData:'<chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25,0.3,0.35" name="维度2: "/><sets name="维度1："><set values="201,1145,488,390,186,645,259"></set><set values="101,145,88,546,126,145,99"/></sets></data></chart>'
+						chartData:'<chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25,0.3,0.35" name="维度2："/><sets name="维度1："><set values="201,1145,488,390,186,645,259"></set><set values="101,145,88,546,126,145,99"/></sets></data></chart>'
 					}
 			});
 			new Charts({
 					parent_id:'J_wrapper3',
 
 					config:{
-						configData:'<chart v="1.0" type=""><data/></chart> ',
+						configData:'<chart v="1.0" type=""><data/></chart>',
 					
-						chartData:'<chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25" name="维度2: "/><sets name="维度1："><set values="201,1145,488,390,186"></set><set values="101,145,88,546,126"/><set values="500,600,700,800,900"/></sets></data></chart> '
+						chartData:'<chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25" name="维度2："/><sets name="维度1："><set values="201,1145,488,390,186"></set><set values="101,145,88,546,126"/><set values="500,600,700,800,900"/></sets></data></chart> '
+					}
+			});
+			new Charts({
+					parent_id:'J_wrapper4',
+
+					config:{
+						configData:'<?xml version="1.0"?><chart v="1.0" type=""><data><colors normals="0x5BCB8A" overs="0x36B26A"/><y_axis><data mode="1"/></y_axis><x_axis><layout mode="1"/></x_axis></data></chart>',
+					
+						chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,2,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,2.55" name="维度2："><start name="开始"/></indexAxis><sets name="维度1："><set values="201,1145,488,390,186,645,259,378,189,589,175,329,148,311,294,1478,441,794,376,1575,224,350,219,568,223,353,146,239,94,548,129,253,91,196,68,230,69,137,47,324,47,77,40,60,36,57,33,31,15,55,28"></set></sets></data></chart>'
+					}
+			});
+			new Charts({
+					parent_id:'J_wrapper5',
+
+					config:{
+						configData:'<?xml version="1.0"?><chart v="1.0" type=""><data><colors normals="0x937ACC" overs="0x7459B3"/><x_axis><layout mode="1"/></x_axis></data></chart>',
+					
+						chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25" name="维度2："><key indexs=""/></indexAxis><sets name="维度1："><set values="201,1145,488,390,186"></sets></data></chart>'
 					}
 			});
 		})

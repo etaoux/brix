@@ -23,7 +23,7 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/datatrim',function(S,Base,Nod
 
 		o:{
 			value:{
-				index:0,
+				index:0,         //索引(浙江)
 				name :'',        //名称(浙江)
 				value:0,         //根据此值计算比例(1000)
 				order:0,         //排名 过滤0 真正计算时从1开始(1)
@@ -64,6 +64,7 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/datatrim',function(S,Base,Nod
 
 				if(__name){
 					o.name = String(__name.getAttribute('name')) ? String(__name.getAttribute('name')) : o.name
+					o.index = name
 				}
 
 				if(__fills){

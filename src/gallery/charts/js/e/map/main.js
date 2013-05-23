@@ -1,4 +1,4 @@
-KISSY.add('brix/gallery/charts/js/e/map/main',function(S,Base,Global,SVGElement,Widget,List,DataParse,DataTrim,ConfigParse){
+KISSY.add('brix/gallery/charts/js/e/map/main',function(S,Base,Global,SVGElement,Widget,List,DataParse,DataTrim,ConfigParse,EventType){
 	function Main(){
 
 		var self = this
@@ -64,6 +64,7 @@ KISSY.add('brix/gallery/charts/js/e/map/main',function(S,Base,Global,SVGElement,
 			var w =  self.get('w'), h = self.get('h')
 			if(config.list.is){
 				w = w - 120
+				self.set('_list', new List({parent:self.get('_main')}))
 			}
 
 			var o = {}
@@ -72,17 +73,19 @@ KISSY.add('brix/gallery/charts/js/e/map/main',function(S,Base,Global,SVGElement,
 			o.h = h                                            //chart 高
 			o.DataSource = self.get('_DataSource')             //图表数据源
 			o.config = config                                  //图表配置
-			self.set('_widget', new Widget(o)) 
+			self.set('_widget', new Widget(o))
+			self.get('_widget').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
+			self.get('_widget').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
 			
 			if(config.list.is){
 				self.set('_data', self.get('_widget').getData())
 
-				self.set('_list', new List())
+				// self.set('_list', new List())
 				var o = {
 					parent : self.get('_main'),
 					data   : self._getInfo()
 				}
-				self.get('_list').init(o)
+				self.get('_list').widget(o)
 				var x = w + (120 - self.get('_list').get('w')) / 2
 				var y = (h - self.get('_list').get('h')) / 2
 				self.get('_list').get('element').transformXY(x, y)
@@ -100,19 +103,42 @@ KISSY.add('brix/gallery/charts/js/e/map/main',function(S,Base,Global,SVGElement,
 
 					if(!config.list.max || config.list.max > a){
 						arr[a] = []
-						arr[a].push({content:o.order, bold:1, fill:'#333333', family:'微软雅黑', size:12, ver_align:3})
-						arr[a].push({content:o.name,  bold:1, fill:'#333333', family:'微软雅黑', size:12, ver_align:1})
-						arr[a].push({content:o.scale, bold:1, fill:'#333333', family:'微软雅黑', size:12, ver_align:3})
+						arr[a].push({content:o.order, bold:1, fill:config.list.font.fill.normal, family:'微软雅黑', size:12, ver_align:3})
+						arr[a].push({content:o.name,  bold:1, fill:config.list.font.fill.normal, family:'微软雅黑', size:12, ver_align:1})
+						arr[a].push({content:o.scale, bold:1, fill:config.list.font.fill.normal, family:'微软雅黑', size:12, ver_align:3})
 					}
 				}
 			}
 			return arr
-		}
+		},
+
+		_overHandler:function($o){
+			var self = this
+			var config = self.get('_config')
+			if(self.get('_list')){
+				var o = $o
+				o.is = 1
+				o.index = Number($o.order) - 1
+				o.mode  = 2
+				o.fill  = config.list.font.fill.over
+				self.get('_list').induce(o)
+			}
+		},
+		_outHandler:function($o){
+			var self = this
+			if(self.get('_list')){
+				var o = $o
+				o.is = 0
+				o.index = Number($o.order) - 1
+				o.mode  = 2
+				self.get('_list').induce(o)
+			}
+		},
 	});
 
 	return Main;
 
 	}, {
-	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','./view/widget','../../pub/views/list/graphs','../../pub/controls/map/dataparse','../../pub/controls/map/datatrim','../../pub/controls/map/configparse']
+	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','./view/widget','../../pub/views/list/graphs','../../pub/controls/map/dataparse','../../pub/controls/map/datatrim','../../pub/controls/map/configparse','../../pub/models/eventtype']
 	}
 );

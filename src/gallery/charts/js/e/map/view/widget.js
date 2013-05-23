@@ -106,7 +106,6 @@ KISSY.add('brix/gallery/charts/js/e/map/view/widget',function(S,Base,Node,Global
 			if(self.get('config').sign.is || self.get('config').list.is){
 				self._trim()
 			}
-
 			var n = parseInt(Math.min(self.get('w'), self.get('h'))) - self.get('_dis')
 			var o = {
 				parent: self.get('element'),
@@ -234,12 +233,13 @@ KISSY.add('brix/gallery/charts/js/e/map/view/widget',function(S,Base,Node,Global
 			this.get('_infos').move(o)
 
 			this.get('_graphs').induce({index:$o.index,id:$o.id},true)
-			 
+			this.get('element').fire(EventType.OVER,$o) 
 		},
 		_outHandler:function($o){
 			var self = this
 			this.set('_timeoutId', setTimeout(function(){self._outTimeout()}, self.get('_timeoutDelay')))
 			this.get('_graphs').induce({index:$o.index,id:$o.id},false)
+			this.get('element').fire(EventType.OUT,$o)
 		},
 		_outTimeout:function(){
 			this.get('_infos').remove()

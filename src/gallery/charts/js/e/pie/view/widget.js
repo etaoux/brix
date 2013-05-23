@@ -90,8 +90,14 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			return S.clone(self.get('_DataFrameFormat').values)
 		},
 
+		getPie:function(){
+			var self = this
+			return self.get('_graphs')
+		},
+
 		_widget:function(){
 			var self = this
+			var config = self.get('config')
 			self.set('element', new SVGElement('g')), self.get('element').set('class','widget')
 			self.get('parent').appendChild(self.get('element').element)
 
@@ -108,9 +114,9 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				data  : self.get('_DataFrameFormat').values.data,
 				mw    : n,
 				mh    : n,
-				xr    : n / 2 - 26,
-				yr    : n / 2 - 26,
-				tr    : (n / 2 - 26) * 0.6,
+				xr    : n / 2 - config.dis,
+				yr    : n / 2 - config.dis,
+				tr    : (n / 2 - config.dis) * 0.6,
 				isTxt : self.get('config').font.is
 			}
 			if(self.get('config').fills.normals.length > 0){
@@ -140,9 +146,9 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				isInduce   : 1,
 				mw    : n,
 				mh    : n,
-				xr    : n / 2 - 26,
-				yr    : n / 2 - 26,
-				tr    : (n / 2 - 26) * 0.6
+				xr    : n / 2 - config.dis,
+				yr    : n / 2 - config.dis,
+				tr    : (n / 2 - config.dis) * 0.6
 			}
 			if(self.get('config').fills.normals.length > 0){
 				o.fills = self._getArrayForObjectPro(self.get('_DataFrameFormat').values.all,'normal')
@@ -186,6 +192,9 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 					o.scale = scales[c] + '%'
 				}
 			}
+			if(self.get('config').font.is == 0){
+				self.get('config').dis = 0
+			}
 			return arr
 		},
 
@@ -201,6 +210,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 
 		_overHandler:function($o){
 			this.get('_graphs').induce({index:$o.index},true)
+			this.get('element').fire(EventType.OVER,$o)
 		},
 		_moveHandler:function($o){
 			clearTimeout(this.get('_timeoutId'));
@@ -243,6 +253,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			this.set('_timeoutId', setTimeout(function(){self._outTimeout()}, self.get('_timeoutDelay')))
 
 			this.get('_graphs').induce({index:$o.index},false)
+			this.get('element').fire(EventType.OUT,$o)
 		},
 		_outTimeout:function(){
 			this.get('_infos').remove()

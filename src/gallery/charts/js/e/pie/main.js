@@ -1,4 +1,4 @@
-KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,DataParse,ConfigParse,Widget,List){
+KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,DataParse,ConfigParse,EventType,Widget,List){
 	function Main(){
 
 		var self = this
@@ -64,6 +64,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 			var w =  self.get('w'), h = self.get('h')
 			if(config.list.is){
 				w = w - 120
+				self.set('_list', new List({parent:self.get('_main')}))
 			}
 
 			var o = {}
@@ -72,18 +73,20 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 			o.h = h                                            //chart 高
 			o.DataSource = self.get('_DataSource')             //图表数据源
 			o.config = self.get('_config')                     //图表配置
-			self.set('_widget', new Widget(o)) 
+			self.set('_widget', new Widget(o))
+			self.get('_widget').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
+			self.get('_widget').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
 
 			if(config.list.is){
 				self.set('_data', self.get('_widget').getData())
-
-				self.set('_list', new List())
+				
 				var o = {
 					parent : self.get('_main'),
 					data   : self._getInfo()
 				}
-				self.get('_list').init(o)
-				var x = w + (120 - self.get('_list').get('w')) / 2
+				self.get('_list').widget(o)
+				
+				var x = Number(self.get('_widget').getPie().get('element').get('_x')) + Number(self.get('_widget').getPie().get('mw') / 2) + 16
 				var y = (h - self.get('_list').get('h')) / 2
 				self.get('_list').get('element').transformXY(x, y)
 			}
@@ -107,12 +110,29 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 				}
 			}
 			return arr
-		}
+		},
+
+		_overHandler:function($o){
+			var self = this
+			if(self.get('_list')){
+				var o = $o
+				o.is = 1
+				self.get('_list').induce(o)
+			}
+		},
+		_outHandler:function($o){
+			var self = this
+			if(self.get('_list')){
+				var o = $o
+				o.is = 0
+				self.get('_list').induce(o)
+			}
+		},
 	});
 
 	return Main;
 
 	}, {
-	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','../../pub/controls/pie/dataparse','../../pub/controls/pie/configparse','./view/widget','../../pub/views/list/graphs']
+	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','../../pub/controls/pie/dataparse','../../pub/controls/pie/configparse','../../pub/models/eventtype','./view/widget','../../pub/views/list/graphs']
 	}
 );

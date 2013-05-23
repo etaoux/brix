@@ -129,6 +129,8 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 			var self = this
 			self.get('_actionsObject').name = $name, self.get('_actionsObject').value = $value
 
+			self._setDivStyle()
+
 			var status = self.get('_case').actions($name,$value)
 
 			if(status){
@@ -156,18 +158,24 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 				if(self.get('w') == $('#' + self.get('parent_id')).width() && self.get('h') == $('#' + self.get('parent_id')).height()){
 					return
 				}
-				self.set('w',$('#' + self.get('parent_id')).width())
-				self.set('h',$('#' + self.get('parent_id')).height())
-				
-	    		var style = {'width':self.get('w'), 'height':self.get('h'), 'position':'relative'}
-	    		self.get('mainDiv').css(style);
-
-			 	if(isSWF){
-	    			var style = {'width':self.get('w'), 'height':self.get('h')}
-	    			self.get('swfDiv').css(style);
-				}else{
+				self._setDivStyle()
+				if(!isSWF){
 					self.get('_case').actions('reset')
 				}
+			}
+		},
+
+		_setDivStyle:function(){
+			var self = this
+			self.set('w',$('#' + self.get('parent_id')).width())
+			self.set('h',$('#' + self.get('parent_id')).height())
+				
+	    	var style = {'width':self.get('w'), 'height':self.get('h'), 'position':'relative'}
+	    	self.get('mainDiv').css(style);
+
+			if(isSWF){
+	    		var style = {'width':self.get('w'), 'height':self.get('h')}
+	    		self.get('swfDiv').css(style);
 			}
 		},
 
