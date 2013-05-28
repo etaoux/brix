@@ -146,13 +146,17 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 			for(var a in maps){
 				var map = maps[a]
 				var o = self.get('data')[a]
-				if(map && o){
+				if(map){
 					var element = map.element
-					if(o.fills.normal){
+					if(o && o.fills && o.fills.normal){
 						element.set('fill',o.fills.normal)
 						element.element.addEventListener("mouseover",function(evt){ self._overHandler(evt)}, false);
 						element.element.addEventListener("mouseout",function(evt){ self._outHandler(evt)}, false);
+					}else{
+						element.set('fill',self.get('config').fills.normals[0])
 					}
+				}
+				if(map && o){
 					if(o.sign.is && o.sign.font.content && self.get('isInduce') == 0){
 						if(!self.get('config').sign.max || Number(self.get('config').sign.max) >= Number(o.sign.font.content)){
 							var sign = new Sign()

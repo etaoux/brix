@@ -23,6 +23,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 		isInduce:{
 			value:0              //是否作为感应区
 		},
+		layout:{                 //布局
+			value:{
+				mode : 0         //模式(0 = 纵向 | 1 = 横向)
+			}
+		},	
 		fills:{
 			value:['#458AE6', '#39BCC0', '#5BCB8A', '#C3CC5C', '#E6B522', '#E68422']   //普通色集合
 		},
@@ -140,6 +145,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 
 		_layout:function(){
 			var self = this
+			var layout = self.get('layout')
 			var _pillars_df = document.createDocumentFragment();
 			var _induces_df = document.createDocumentFragment();
 			for (var a = 0, al = self.get('data').length; a < al; a++ ) {
@@ -147,24 +153,31 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 				var x
 				x = self.get('disGroupX') + (self.get('singleW') + self.get('disSingleX')) * a
 				x = self.get('intX') ? Global.ceil(x) : x
-				
+
 				var w = self.get('singleW')
 				if(!(o instanceof Array)){
 					
 					var h = o.height
 					h = h > self.get('_minH') ? h : self.get('_minH')
-
+				
 					var fill = self.get('fills')[a]
 					var iskey = o.key && o.key.isKey ? o.key.isKey : ''
 					fill = iskey ? self.get('keyFill') : fill
 
 					//pillar 支柱
-					var pillar = self._drawGraph({w:w,h:-h,fill:fill})           //-h
+					if(layout.mode == 0){
+						var pillar = self._drawGraph({w:w,h:-h,fill:fill})           //-h
+					}else if(layout.mode == 1){
+						var pillar = self._drawGraph({w:h,h:-w,fill:fill})
+					}
 					_pillars_df.appendChild(pillar.element)
-					pillar.transformX(x)
 					self.get('_pillarsArr').push(pillar)
 					pillar.set('_index', a)
-					pillar.set('_x',x)
+					if(layout.mode == 0){
+						pillar.transformX(x)
+					}else if(layout.mode == 1){
+						pillar.transformY(-x)
+					}
 				}else{
 					//直方上叠直方
 					self.set('_sytle', 2)
@@ -206,16 +219,27 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 				//induce
 				w = self.get('singleW') + self.get('_disInduce')
 				h = self.get('h')
-				var induce = self._drawGraph({w:w,h:-h,opacity:Global.N00001})
 				// var induce = self._drawGraph({w:w,h:-h,opacity:0.2})
+				if(layout.mode == 0){
+					var induce = self._drawGraph({w:w,h:-h,opacity:Global.N00001})
+				}else if(layout.mode == 1){
+					var induce = self._drawGraph({w:h,h:-w,opacity:Global.N00001})
+				}
 				_induces_df.appendChild(induce.element), self.get('_inducesArr').push(induce)
 				induce.element.addEventListener("mouseover",function(evt){ self._overHandler(evt)}, false);
 				induce.element.addEventListener("mouseout",function(evt){ self._outHandler(evt)}, false);
-				x = x - self.get('_disInduce') / 2
+				if(layout.mode == 0){
+					x = x - self.get('_disInduce') / 2
+				}else if(layout.mode == 1){
+					x = x - self.get('_disInduce') / 2
+				}
 				x = self.get('intX') ? Global.ceil(x) : x
-				induce.transformX(x)
 				induce.set('_index', a)
-				
+				if(layout.mode == 0){
+					induce.transformX(x)
+				}else if(layout.mode == 1){
+					induce.transformY(-x)
+				}
 			}
 
 			if(self.get('isInduce') == 0){
@@ -237,6 +261,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 
 		_overHandler:function($evt){
 			var self = this
+			var layout = self.get('layout')
 			var index = $evt.target.getAttribute('_index')
 			var pillar = self.get('_pillarsArr')[index]
 
@@ -249,8 +274,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 			}
 			
 			var o = {}
-			o.index = self.get('index'), o.id = index, o.x = pillar.get('_x'), o.cx = Number(o.x) + Number(self.get('singleW') / 2), o.cy = -pillar.get('_h'), o.h = -pillar.get('_h'), o.fill_over = self.get('_fill_over')
-
+			if(layout.mode == 0){
+				o.index = self.get('index'), o.id = index, o.x = pillar.get('_x'), o.cx = Number(o.x) + Number(self.get('singleW') / 2), o.cy = -pillar.get('_h'), o.h = -pillar.get('_h'), o.fill_over = self.get('_fill_over')
+			}else if(layout.mode == 1){
+				o.index = self.get('index'), o.id = index, o.x = 0, o.y = -pillar.get('_y') , o.cx = Number(o.x) + Number(pillar.get('_w')) + Number(self.get('_disInduce')), o.cy = o.y -pillar.get('_h') / 2, o.h = o.y, o.fill_over = self.get('_fill_over')
+			}
 			// self.set('_circle', SVGGraphics.circle({'r':2,'fill':'#ffffff','stroke':'#000000','stroke_width':1}))
 			// self.get('element').appendChild(self.get('_circle').element)
 			// self.get('_circle').transformXY(o.cx,-o.h)
@@ -272,22 +300,35 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 		_induce:function($e,$b){
 			var self = this
 			var x,y,w,h,d,fill
+			var layout = self.get('layout')
 			var index = $e.get('_index')
 			if(self.get('_sytle') == 1){
 				if ($b) {
 					w = Number($e.get('_w')) + Number(self.get('_disInduce')),h = Number($e.get('_h')) - Number(self.get('_disInduce'))
-					x = Number($e.get('_x')) - Number(self.get('_disInduce') / 2)
+					if(layout.mode == 0){
+						x = Number($e.get('_x')) - Number(self.get('_disInduce') / 2)
+					}else if(layout.mode == 1){
+						y = Number($e.get('_y')) + Number(self.get('_disInduce') / 2)
+					}
 					fill = self.get('fills_over')[index]
 					if (self.get('data')[index].key && self.get('data')[index].key.isKey) { fill = self.get('keyFill_over')}
 				}else {
 					w = Number($e.get('_w')),h = Number($e.get('_h'))
-					x = Number($e.get('_x')) + Number(self.get('_disInduce') / 2)
+					if(layout.mode == 0){
+						x = Number($e.get('_x')) + Number(self.get('_disInduce') / 2)
+					}else if(layout.mode == 1){
+						y = Number($e.get('_y')) - Number(self.get('_disInduce') / 2)
+					}
 					fill = self.get('fills')[index]
 					if (self.get('data')[index].key && self.get('data')[index].key.isKey) { fill = self.get('keyFill')}
 				}
 				d = SVGRenderer.symbol('square',0,0,w,h).join(' ')
 				$e.set('d',d)
-				$e.transformX(x)
+				if(layout.mode == 0){
+					$e.transformX(x)
+				}else if(layout.mode == 1){
+					$e.transformY(y)
+				}
 				$e.set('fill',fill)
 			}else if(self.get('_sytle') == 2){
 				for (var a = 0, al = $e.getDynamic('singles_arr').length; a < al; a++ ) {

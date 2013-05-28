@@ -27,7 +27,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 				x:0,                     //x坐标               
 				y:0,                     //y坐标
 				data:[],                 //Info.data
-				base_fill:'#000000'      //Info.base_fill
+				base_fill:'#000000',     //Info.base_fill
+				ver_dis:0
 			}
 		},
 		light:{
@@ -62,7 +63,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 				is:1,                    //是否有 
 				x:0,                     //x坐标
 				y:0,                     //y坐标
-				y1:0
+				y1:0,
+				h:6
 			}
 		},
 		arrow:{
@@ -278,10 +280,13 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 			//hline
 			if(self.get('hLine').is){
 				var o = {
-					parent : self.get('element')
+					parent : self.get('element'),
 				}
 				if(self.get('hLine').y1){
 					o.y1 = self.get('hLine').y1
+				}
+				if(self.get('hLine').h){
+					o.h = self.get('hLine').h
 				}
 				self.get('_hLine').init(o)
 			    var x = self.get('hLine').x, y = self.get('hLine').y
@@ -341,7 +346,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 				data   : self.get('info').data,
 				parent : self.get('element'),
 				base_fill   : self.get('info').base_fill,
-				shadow_id   : self.get('_shadow_id')
+				shadow_id   : self.get('_shadow_id'),
+			}
+			if(self.get('info').ver_dis){
+				o.ver_dis = self.get('info').ver_dis
 			}
 		    self.get('_info').init(o)
 		    // self.get('_info').get('element').on(EventType.OVER,function($o){self._overHandler({child:'info'})})

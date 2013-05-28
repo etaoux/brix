@@ -15,7 +15,7 @@ KISSY.add('brix/gallery/charts/js/pub/controls/histogram/configparse',function(S
 
 				fills:{
 					normals:['#458AE6', '#39BCC0', '#5BCB8A', '#C3CC5C', '#E6B522', '#E68422'],
-					overs  :['#135EBF','#2E9599','#36B26A','#9CA632','#BF9E39','#BF7C39']
+					overs  :['#135EBF', '#2E9599', '#36B26A', '#9CA632', '#BF9E39', '#BF7C39']
 				},
 
 				y_axis:{                //y轴
@@ -28,6 +28,12 @@ KISSY.add('brix/gallery/charts/js/pub/controls/histogram/configparse',function(S
 				x_axis:{                //x轴
 					layout:{            //布局
 						mode:0          //模式(空或0 = 区间  |  1 = 对应轴)
+					}
+				},
+
+				graphs:{                //图形
+					layout:{            //布局
+						mode:0          //模式(0 = 纵向 | 1 = 横向)
 					}
 				}
 			}

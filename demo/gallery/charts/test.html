@@ -5,12 +5,13 @@
         <meta charset="utf-8" />
         <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
         <link rel="stylesheet" href="../../assets/doc.css">
-        <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script>
-        <!-- <script src="http://127.0.0.1/brix/src/gallery/charts/kissy.js"></script> -->
+        <!-- <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script> -->
+        <script src="http://127.0.0.1/brix/src/gallery/charts/kissy.js"></script>
         <!--<script src="http://a.tbcdn.cn/apps/e/brix/2.0/brix.js" bx-config="{autoConfig:true}"></script>-->
         <script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>
     </head>
 <body>
+	<!-- <div id="J_wrapper1" class="wrapper" style="width:400px;height:720px;"></div> -->
 	<div id="J_wrapper1" class="wrapper" style="width:720px;height:400px;"></div>
 	<!-- <div id="J_wrapper1" class="wrapper" style="width:100%;height:100%;"></div> -->
 	
@@ -36,13 +37,18 @@
 					// chartData:'<chart><data><indexAxis labels="" name="维度2: "></indexAxis><sets name="维度1："><set values=""></set></sets></data></chart>'
 				    // chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25" name="维度2: "><key indexs="3"/></indexAxis><sets name="维度1"><set values="201,1145,488,390,186"></set><set values="101,145,88,546,126"></set><set values="500,600,700,800,900"></set></sets></data></chart>'
 				    //DMP
-				    configData:'<?xml version="1.0"?><chart v="1.0" type=""><data><colors normals="0x5BCB8A" overs="0x36B26A"/><y_axis><data mode="1"/></y_axis><x_axis><layout mode="1"/></x_axis></data></chart>',
+				    // configData:'<?xml version="1.0"?><chart v="1.0" type=""><data><colors normals="0x5BCB8A" overs="0x36B26A"/><y_axis><data mode="1"/></y_axis><x_axis><layout mode="1"/></x_axis></data></chart>',
 				    // chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25" name="维度2: "><key indexs=""/></indexAxis><sets name="维度1"><set values="201,1145,488,390,186"></sets></data></chart>'
-				    chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,2,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,2.55" name="维度2: "><start name="开始"/></indexAxis><sets name="维度1："><set values="201,1145,488,390,186,645,259,378,189,589,175,329,148,311,294,1478,441,794,376,1575,224,350,219,568,223,353,146,239,94,548,129,253,91,196,68,230,69,137,47,324,47,77,40,60,36,57,33,31,15,55,28"></set></sets></data></chart>'
+				    // chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,2,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,2.55" name="维度2: "><start name="开始"/></indexAxis><sets name="维度1："><set values="201,1145,488,390,186,645,259,378,189,589,175,329,148,311,294,1478,441,794,376,1575,224,350,219,568,223,353,146,239,94,548,129,253,91,196,68,230,69,137,47,324,47,77,40,60,36,57,33,31,15,55,28"></set></sets></data></chart>'
 					// chartData:'<chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25,0.3,0.35" name="维度2: "/><sets name="维度1："><set values="201,1145,488,390,186,645,259"></set><set values="101,145,88,546,126,145,99"/></sets></data></chart>'
 
 				    // configData:'<?xml version="1.0"?><chart v="1.0" type=""><data><colors normals="0x937ACC" overs="0x7459BC"/></data></chart>',
 				    // chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25" name="维度2: "><key indexs=""/></indexAxis><sets name="维度1"><set values="201,1145,488,390,186"></sets></data></chart>'
+				    
+				    // 直方图(横向) histogram2
+				    // DMP
+				    configData:'<?xml version="1.0"?><chart v="1.0" type="histogram2"><data><colors normals="0x5BCB8A" overs="0x36B26A"/><y_axis><data mode="1"/></y_axis><x_axis><layout mode="1"/></x_axis></data></chart>',
+				    chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="1-2K,2-3K,3-4K,4-5K,5-6K,6-7K" name=""><key indexs=""/></indexAxis><sets name=""><set values="201,1145,488,390,186,100"></sets></data></chart>'
 			     
 	    			//综合图(直方图 + 折线) integrate
 					// configData:'<?xml version="1.0"?><chart v="1.0" type="integrate"><data><line node="0"><colors normals="0x94CC5C" overs="0x78A64B"/></line></data></chart>',
@@ -122,6 +128,10 @@
 					//DMP
 					// configData:'<?xml version="1.0"?><chart v="1.0" type="map"><data><info contents="name" bolds="1,0,0" colors="0x7459B3" sizes="14" f_c="0x7459B3"/><colors normals="0xC9BCE5" over="0xFFFFFF"/><sign value="5"/><list value="5"/></data></chart>',
 					// chartData:'<?xml version="1.0"?><chart><data><indexAxis labels=""><key indexs="1"/></indexAxis><sets><set value="100"><name name="安徽"/></set><set value="500"><name name="澳门"/></set><set value="600"><name name="北京"/></set><set value="700"><name name="重庆"/></set><set value="800"><name name="福建"/></set><set value="900"><name name="广东"/></set><set value="1000"><name name="甘肃"/></set><set value="200"><name name="广西"/></set><set value="1100"><name name="贵州"/></set><set><name name="河北"/></set><set><name name="湖北"/></set><set value="300"><name name="黑龙江"/></set><set><name name="海南"/></set><set><name name="河南"/></set><set><name name="湖南"/></set><set><name name="吉林"/></set><set><name name="江苏"/></set><set><name name="江西"/></set><set><name name="辽宁"/></set><set><name name="内蒙古"/></set><set><name name="宁夏"/></set><set><name name="青海"/></set><set><name name="四川"/></set><set><name name="山东"/></set><set><name name="上海"/></set><set><name name="山西"/></set><set><name name="陕西"/></set><set><name name="天津"/></set><set><name name="台湾"/></set><set><name name="香港"/></set><set><name name="新疆"/></set><set><name name="西藏"/></set><set><name name="云南"/></set><set value="400"><name name="浙江"/></set></sets></data></chart>'
+					// 
+					// configData:'<?xml version="1.0"?><chart v="1.0" type="map"><data><info contents="name" bolds="1,0,0" colors="0x7459B3" sizes="14" f_c="0x7459B3"/><colors normals="0xC9BCE5" over="0xFFFFFF"/><sign value="10"/><list value="10"/></data></chart>',
+					//缺少省份
+					// chartData: '<?xml version="1.0"?><chart><data><indexAxis labels=""><key indexs="1"/></indexAxis><sets><set value="9926"><name name="新疆"/></set><set value="74"><name name="海南"/></set><set value="536"><name name="湖南"/></set><set value="79"><name name="湖南"/></set><set value="3834"><name name="青岛"/></set><set value="5293"><name name="江苏"/></set><set value="3064"><name name="河南"/></set><set value="825"><name name="河北"/></set><set value="6386"><name name="江苏"/></set><set value="4681"><name name="河南"/></set><set value="3555"><name name="上海"/></set><set value="4135"><name name="北京"/></set><set value="8886"><name name="河北"/></set><set value="90"><name name="新疆"/></set><set value="5271"><name name="青岛"/></set></sets></data></chart>'
 				}
 			});
 		})

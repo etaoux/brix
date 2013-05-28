@@ -34,6 +34,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/vertical',function(S,Base,node,Globa
 		line_fill:{
 			value:'#BEBEBE'
 		},
+		line_h:{
+			value:3
+		},
 
 		_maxTextWidth:{
 			value:0
@@ -59,6 +62,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/vertical',function(S,Base,node,Globa
 		init:function(){
 			var self = this
 			Vertical.superclass.constructor.apply(self,arguments);
+
+			self.set('_line_h', self.get('line_h'))
 			
 			self.set('element', new SVGElement('g')), self.get('element').set('class',self.get('id'))
 			self.get('parent').appendChild(self.get('element').element)

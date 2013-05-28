@@ -114,6 +114,7 @@ KISSY.add('brix/gallery/charts/js/e/map/view/widget',function(S,Base,Node,Global
 				h     : self.get('h') - 2 * self.get('_dis'),
 				config: self.get('config')
 			}
+
 			self.get('_graphs').widget(o)
 
 			self.get('_infos').init({parent:self.get('element')})

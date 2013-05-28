@@ -32,6 +32,7 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 		_FileType:{              //文件类型
 			value:{
 				histogram : 'histogram',
+				histogram2: 'histogram2',
 				integrate : 'integrate',
 				integrate2: 'integrate2',
 				integrate3: 'integrate3',

@@ -56,6 +56,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/graphs',function(S,Base,no
 		intX:{
 			value:16             //x是否取整
 		},
+		layout:{                 //布局
+			value:{
+				mode:0           //模式(0 = 纵向 | 1 = 横向)
+			}
+		},
 
 		_groupMinW:{
 			value:0              //每组最小的宽
@@ -160,10 +165,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/graphs',function(S,Base,no
 				self.get('_groupArr').push(group)
 				var o = {
 					index  : a,
-					h      : self.get('h'),
+					h      : self.get('layout').mode == 0 ? self.get('h') : self.get('w'),
 					parent : self.get('_groups'),
 					data   : self.get('data')[a],
 					isInduce : self.get('isInduce'),
+					layout : self.get('layout'),
 					disGroupX : self.get('_disGroupX'),
 					disSingleX : self.get('_disSingleX'),
 					singleW : self.get('_singleW'),
@@ -178,10 +184,15 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/graphs',function(S,Base,no
 				group.get('element').on(EventType.OVER,function($o){self._overHandler($o)})
 				group.get('element').on(EventType.OUT,function($o){self._outHandler($o)})
 
-				var x = Global.ceil(self.get('groupW') * a)
-				group.get('element').transformX(x)
 				group.get('element').set('_index',a)
-				group.get('element').set('_x',x)
+				if(self.get('layout').mode == 0){
+					var x = Global.ceil(self.get('groupW') * a)
+					group.get('element').transformX(x)
+
+				}else if(self.get('layout').mode == 1){
+					var y = Global.ceil(self.get('groupW') * a)
+					group.get('element').transformY(-y)
+				}
 			}
 		},
 
@@ -238,8 +249,14 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/graphs',function(S,Base,no
 
 	 	_overHandler:function($o){
 	 		var self = this
+	 		var layout = self.get('layout')
 			var group = self.get('_groupArr')[$o.index]
 			$o.cx = Number($o.cx) + Number(group.get('element').get('_x'))
+			$o.cy = Number($o.cy) - Number(group.get('element').get('_y'))
+			if(layout.mode == 0){
+			}else if(layout.mode == 1){
+				$o.h = Number($o.h) - Number(group.get('element').get('_y'))
+			}
 			self.get('element').fire(EventType.OVER,$o)
 		},
 		_outHandler:function($o){
