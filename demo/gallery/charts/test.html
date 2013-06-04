@@ -5,8 +5,8 @@
         <meta charset="utf-8" />
         <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
         <link rel="stylesheet" href="../../assets/doc.css">
-        <!-- <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script> -->
-        <script src="http://127.0.0.1/brix/src/gallery/charts/kissy.js"></script>
+        <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script>
+        <!-- <script src="http://127.0.0.1/brix/src/gallery/charts/kissy.js"></script> -->
         <!--<script src="http://a.tbcdn.cn/apps/e/brix/2.0/brix.js" bx-config="{autoConfig:true}"></script>-->
         <script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>
     </head>
@@ -24,16 +24,17 @@
 	<script type="text/javascript">
 
 		KISSY.use('brix/gallery/charts/',function(S,Charts){
-			// console.log(decodeURIComponent('%3Cchart%3E%3Cdata%3E%3CindexAxis%20labels%3D%222012.09.28%2C2012.09.29%2C2012.09.30%2C2012.10.01%2C2012.10.02%2C2012.10.03%2C2012.10.04%2C2012.10.05%2C2012.10.06%2C2012.10.07%2C2012.10.08%2C2012.10.09%2C2012.10.10%2C2012.10.11%2C2012.10.12%2C2012.10.13%2C2012.10.14%2C2012.10.15%2C2012.10.16%2C2012.10.17%2C2012.10.18%2C2012.10.19%2C2012.10.20%2C2012.10.21%2C2012.10.22%2C2012.10.23%2C2012.10.24%2C2012.10.25%2C2012.10.26%2C2012.10.27%2C2012.10.28%2C2012.10.29%2C2012.10.30%2C2012.10.31%2C2012.11.01%2C2012.11.02%2C2012.11.03%2C2012.11.04%2C2012.11.05%2C2012.11.06%2C2012.11.07%2C2012.11.08%2C2012.11.09%2C2012.11.10%2C2012.11.11%2C2012.11.12%2C2012.11.13%2C2012.11.14%2C2012.11.15%2C2012.11.16%2C2012.11.17%2C2012.11.18%2C2012.11.19%2C2012.11.20%2C2012.11.21%2C2012.11.22%2C2012.11.23%2C2012.11.24%2C2012.11.25%2C2012.11.26%2C2012.11.27%22%20name%3D%22%E6%97%A5%E6%9C%9F%EF%BC%9A%22%2F%3E%3Csets%20name%3D%22%E4%BB%B7%E6%A0%BC%EF%BC%9A%22%3E%3Cset%20values%3D%22179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C76.43%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%2C179.8%22%3E%3C%2Fset%3E%3C%2Fsets%3E%3C%2Fdata%3E%3C%2Fchart%3E'))
 			
 			chart1 = new Charts({
 				parent_id:'J_wrapper1',
 
+				// appear_mode:'flash',
+
 				config:{
 
 					// 直方图 histogram
-					// configData:'<?xml version="1.0"?><chart v="1.0" type=""><data/></chart>',
-					// chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,2,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,2.55" name="维度2: "><key indexs="3"/><start name="开始"/></indexAxis><sets name="维度1："><set values="201,1145,488,390,186,645,259,378,189,589,175,329,148,311,294,1478,441,794,376,1575,224,350,219,568,223,353,146,239,94,548,129,253,91,196,68,230,69,137,47,324,47,77,40,60,36,57,33,31,15,55,28"></set></sets></data></chart>'
+					configData:'<?xml version="1.0"?><chart v="1.0" type=""><data/></chart>',
+					chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1,1.05,1.1,1.15,1.2,1.25,1.3,1.35,1.4,1.45,1.5,1.55,1.6,1.65,1.7,1.75,1.8,1.85,1.9,1.95,2,2.05,2.1,2.15,2.2,2.25,2.3,2.35,2.4,2.45,2.5,2.55" name="维度2: "><key indexs="3"/><start name="开始"/></indexAxis><sets name="维度1："><set values="201,1145,488,390,186,645,259,378,189,589,175,329,148,311,294,1478,441,794,376,1575,224,350,219,568,223,353,146,239,94,548,129,253,91,196,68,230,69,137,47,324,47,77,40,60,36,57,33,31,15,55,28"></set></sets></data></chart>'
 					// chartData:'<chart><data><indexAxis labels="" name="维度2: "></indexAxis><sets name="维度1："><set values=""></set></sets></data></chart>'
 				    // chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="0.05,0.1,0.15,0.2,0.25" name="维度2: "><key indexs="3"/></indexAxis><sets name="维度1"><set values="201,1145,488,390,186"></set><set values="101,145,88,546,126"></set><set values="500,600,700,800,900"></set></sets></data></chart>'
 				    //DMP
@@ -47,8 +48,8 @@
 				    
 				    // 直方图(横向) histogram2
 				    // DMP
-				    configData:'<?xml version="1.0"?><chart v="1.0" type="histogram2"><data><colors normals="0x5BCB8A" overs="0x36B26A"/><y_axis><data mode="1"/></y_axis><x_axis><layout mode="1"/></x_axis></data></chart>',
-				    chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="1-2K,2-3K,3-4K,4-5K,5-6K,6-7K" name=""><key indexs=""/></indexAxis><sets name=""><set values="201,1145,488,390,186,100"></sets></data></chart>'
+				    // configData:'<?xml version="1.0"?><chart v="1.0" type="histogram2"><data><colors normals="0x5BCB8A" overs="0x36B26A"/><y_axis><data mode="1"/></y_axis><x_axis><layout mode="1"/></x_axis></data></chart>',
+				    // chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="1-2K,2-3K,3-4K,4-5K,5-6K,6-7K" name=""><key indexs=""/></indexAxis><sets name=""><set values="201,1145,488,390,186,100"></sets></data></chart>'
 			     
 	    			//综合图(直方图 + 折线) integrate
 					// configData:'<?xml version="1.0"?><chart v="1.0" type="integrate"><data><line node="0"><colors normals="0x94CC5C" overs="0x78A64B"/></line></data></chart>',

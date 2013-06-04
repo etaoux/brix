@@ -500,10 +500,12 @@ KISSY.add('brix/gallery/charts/js/e/histogram2/view/widget',function(S,Base,Node
 				}
 			}
 
-			var pre = this.get('_DataFrameFormat').horizontal.org[index - 1] ? this.get('_DataFrameFormat').horizontal.org[index - 1] : ''
-			pre = index == 0 ? this.get('_DataFrameFormat').horizontal.start.name : pre
-			var next =  this.get('_DataFrameFormat').horizontal.org[index]
-			var content = this.get('_DataFrameFormat').horizontal.name + pre + ' - ' + next
+			// var pre = this.get('_DataFrameFormat').horizontal.org[index - 1] ? this.get('_DataFrameFormat').horizontal.org[index - 1] : ''
+			// pre = index == 0 ? this.get('_DataFrameFormat').horizontal.start.name : pre
+			// var next =  this.get('_DataFrameFormat').horizontal.org[index]
+			// var content = this.get('_DataFrameFormat').horizontal.name + pre + ' - ' + next
+			var content = this.get('_DataFrameFormat').vertical.name + this.get('_DataFrameFormat').graphs.data[index][id].value
+			
 			// content = config.x_axis.layout.mode == 1 ? this.get('_DataFrameFormat').horizontal.name + next : content
 			content = config.x_axis.layout.mode == 1 ? this.get('_DataFrameFormat').vertical.name + this.get('_DataFrameFormat').graphs.data[index][id].value : content
 
