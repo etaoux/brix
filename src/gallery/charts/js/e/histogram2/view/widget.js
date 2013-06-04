@@ -1,4 +1,4 @@
-KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,Global,DataSection,SVGElement,Vertical,Horizontal,Back,GlobalInduce,Infos,EventType,Graphs){
+KISSY.add('brix/gallery/charts/js/e/histogram2/view/widget',function(S,Base,Node,Global,DataSection,SVGElement,Vertical,Horizontal,Back,GlobalInduce,Infos,EventType,Graphs){
 	var $ = Node.all
 
 	function Widget(){
@@ -103,6 +103,9 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 		_horizontalMaxW:{
 			value:0                      //横向最大的宽
 		},
+		_horizontalGraphsW:{
+			value:0                      //横向最右侧的线到原点之间的宽度
+		},
 		_del:{
 			value:0                      //当数据量过大时 减去的数据个数
 		},
@@ -124,6 +127,13 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 			if(self.get('config').y_axis.data.mode == 1){
 				self.get('_DataFrameFormat').vertical.org = self._getDataScale()
 			}
+			
+			//由于位置的排列根据原点 往上排列 所以要倒序
+			// if(self.get('_DataFrameFormat').vertical.org[0]){
+			// 	self.get('_DataFrameFormat').vertical.org[0].reverse();
+			// }
+			// self.get('_DataFrameFormat').horizontal.org.reverse();
+
 			self.get('_DataFrameFormat').vertical.section = DataSection.section(Global.getChildsArr(self.get('_DataFrameFormat').vertical.org))
 			self.get('_DataFrameFormat').graphs.groupCount = self.get('_DataFrameFormat').vertical.org.length
 			self.get('_DataFrameFormat').graphs.groups = Global.getMaxChildArrLength(self.get('_DataFrameFormat').vertical.org)
@@ -157,45 +167,52 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 			self.set('_globalInduce', new GlobalInduce())
 			self.set('_induces',new Graphs())
 			
+			self.get('_DataFrameFormat').graphs.groupW = self._getGroupWidth()
+
 			self._trimVertical()
 			var o = {
 				parent : self.get('element'),
-				data   : self.get('_DataFrameFormat').vertical.data
+				data   : self.get('_DataFrameFormat').vertical.data,
+				line_h : 1,
 			}
 			self.get('_vertical').init(o)
 			self.get('_vertical').get('element').transformXY(self.get('_disX'), self.get('h') - self.get('_horizontal').get('h') - self.get('_disY'))
+
+			self._trimHorizontal()
 
 			self._trimGraphs()
 			var o = {
 				w      : self.get('_horizontalMaxW'),
 				h      : self.get('_verticalMaxH'),
 				parent : self.get('element'),
-				data_hor : self.get('_DataFrameFormat').vertical.data,
+				data_ver : self.get('_DataFrameFormat').horizontal.data,
+				line_ver_mode : 0
 			}
 			self.get('_back').init(o)
 			self.get('_back').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w'), self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY'))
 
-			self.get('_DataFrameFormat').graphs.groupW = self._getGroupWidth()
-
 			var  o = {
+				w      : self.get('_horizontalGraphsW'),
 				h      : self.get('_verticalGraphsH'),
 				parent : self.get('element'),
 				config : self.get('config'),
 				data   : Global.delArrUnPop(self.get('_DataFrameFormat').graphs.data, self.get('_del')),
+				layout : self.get('config').graphs.layout,
 				groupW : self.get('_DataFrameFormat').graphs.groupW,
 				groupCount : self.get('_DataFrameFormat').graphs.groupCount
 			}
 			self.get('_graphs').init(o)
 			var x =  self.get('_disX') + self.get('_vertical').get('w') + Global.N05
-			x = config.x_axis.layout.mode == 1 ? x + Global.ceil(self.get('_DataFrameFormat').graphs.groupW / 2) - 1 : x 
-			self.get('_graphs').get('element').transformXY(x, self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05)
+			// x = config.x_axis.layout.mode == 1 ? x + Global.ceil(self.get('_DataFrameFormat').graphs.groupW / 2) - 1 : x 
+			var y = self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05
+			y = config.x_axis.layout.mode == 1 ? y - Global.ceil(self.get('_DataFrameFormat').graphs.groupW / 2) : y 
+ 			self.get('_graphs').get('element').transformXY(x, y)
 
-			self._trimHorizontal()
 			var o = {
 				w      : self.get('_back').get('w'),
 				parent : self.get('element'),
 				data   : self.get('_DataFrameFormat').horizontal.data,
-				dis_left : self.get('_disX') + self.get('_vertical').get('w') - self.get('_disX')
+				line_w : 3
 			}
 			self.get('_horizontal').init(o)
 			self.get('_horizontal').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w'), self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY'))
@@ -210,14 +227,15 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 				// opacity : 0.1
 			}
 			self.get('_globalInduce').init(o)
-
+			
 			var o = {
-				w     : self.get('_horizontalMaxW'),
+				w     : self.get('_horizontalGraphsW'),
 				h     : self.get('_verticalGraphsH'),
 				parent: self.get('element'),
 				config : self.get('config'),
 				id    : 'induces',
 				data  : Global.delArrUnPop(self.get('_DataFrameFormat').graphs.data, self.get('_del')),
+				layout : self.get('config').graphs.layout,
 				isInduce   : 1,
 				groupW: self.get('_DataFrameFormat').graphs.groupW,
 				groupCount : self.get('_DataFrameFormat').graphs.groupCount
@@ -226,9 +244,10 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 			self.get('_induces').init(o)
 			self.get('_induces').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
 			self.get('_induces').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
-			self.get('_induces').get('element').transformXY(x, self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05)
+			self.get('_induces').get('element').transformXY(x, y)
 		},
 
+		/*
 		//换算纵向
 		_trimVertical:function(){
 			var self = this
@@ -256,16 +275,47 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 			dis = dis > disMax ? disMax : dis
 			return dis
 		},
+		*/
+		//换算纵向
+		_trimVertical:function(){
+			var self = this
+			var config = self.get('config')
+			self.set('_verticalMaxH', self.get('h') - self.get('_disY') - self.get('_horizontal').get('h') - self.get('_disY'))
+			self.set('_verticalGraphsH', self.get('_verticalMaxH') - self._getVerticalDisY())
+			var max = self.get('_DataFrameFormat').horizontal.org.length
+			var arr = self.get('_DataFrameFormat').horizontal.org
+			var tmpData = []
+			for (var a = 0, al = arr.length; a < al; a++ ) {
+				// var y = -(a + 1) / max * self.get('_verticalGraphsH')                                    
+				var y = -Global.ceil(self.get('_DataFrameFormat').graphs.groupW * (a+1))                               
+				y = isNaN(y) ? 0 : Global.ceil(y)      
+				var value = arr[a]
+				tmpData[a] = { 'value':value, 'y': y }
+			}
+			self.get('_DataFrameFormat').vertical.data = tmpData
+		},
+		//获取纵向总高到第一条线之间的距离
+		_getVerticalDisY:function(){
+			var self = this
+			var disMin = self.get('_dis_line')
+			var disMax = 2 * self.get('_dis_line')
+			var dis = disMin
+			dis = disMin + self.get('_verticalMaxH') % self.get('_DataFrameFormat').vertical.section.length   //Q3  DataFrameFormat.vertical.section.length
+			dis = dis > disMax ? disMax : dis
+			return dis
+		},
 		//获取图形中每组的宽
 		_getGroupWidth:function(){
 			var self = this
 			var config = self.get('config')
+			self.set('_verticalMaxH', self.get('h') - self.get('_disY') - self.get('_horizontal').get('h') - self.get('_disY'))
 			var n = 0
 			var disMin = self.get('_dis_line')
 			var disMax = 2 * self.get('_dis_line')
 			var dis = disMin
 			var min = self.get('_graphs').getGroupMinW()
-			var w = self.get('_horizontalMaxW') - disMin
+			var maxW = self.get('_verticalMaxH')
+			var w = maxW - disMin
 
 			if (w % self.get('_DataFrameFormat').graphs.groups + disMin > disMax) {
 				dis = disMax
@@ -275,13 +325,14 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 			//一组的宽一半
 			var groupW = 0
 			if(config.x_axis.layout.mode == 1){
-				groupW = (self.get('_horizontalMaxW') - dis) / self.get('_DataFrameFormat').graphs.groups / 2
+				groupW = (maxW - dis) / self.get('_DataFrameFormat').graphs.groups / 2
 			}
-			w = self.get('_horizontalMaxW') - dis - groupW
+			w = maxW - dis - groupW
 			n = w / self.get('_DataFrameFormat').graphs.groups
 			if (n < min) { n = min }
 			return n
 		},
+		/*
 		//换算横向
 		_trimHorizontal:function(){
 			var self = this
@@ -293,7 +344,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 			self.get('_DataFrameFormat').horizontal.data = tmpData
 
 		},
-		//获取横向总宽到第一条线之间的距离
+		//获取横向总宽到最右侧线之间的距离
 		_getHorizontalDisX:function(){
 			var self = this
 			var disMin = self.get('_dis_line')
@@ -303,6 +354,36 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 			dis = dis > disMax ? disMax : dis
 			return dis
 		},
+		*/
+		//换算横向
+		_trimHorizontal:function(){
+			var self = this
+			var config = self.get('config')
+			self.set('_horizontalMaxW', self.get('w') - self.get('_disX') - self.get('_vertical').get('w') - self.get('_disX'))
+			self.set('_horizontalGraphsW', self.get('_horizontalMaxW') - self._getHorizontalDisX())
+			var max = self.get('_DataFrameFormat').vertical.section.length
+			var arr = self.get('_DataFrameFormat').vertical.section
+			var tmpData = []
+			for (var a = 0, al = arr.length; a < al; a++ ) {
+				var x = (a + 1) / max * self.get('_horizontalGraphsW')                                    
+				x = isNaN(x) ? 0 : Global.ceil(x)      
+				var value = config.y_axis.data.mode == 1 ? arr[a] + config.y_axis.data.suffix : arr[a]
+				tmpData[a] = { 'value':value, 'x': x }
+			}
+			self.get('_DataFrameFormat').horizontal.data = tmpData
+
+		},
+		//获取横向总宽到最右侧线之间的距离
+		_getHorizontalDisX:function(){
+			var self = this
+			var disMin = self.get('_dis_line')
+			var disMax = 2 * self.get('_dis_line')
+			var dis = disMin
+			dis = disMin + self.get('_horizontalMaxW') % self.get('_DataFrameFormat').vertical.section.length 
+			dis = dis > disMax ? disMax : dis
+			return dis
+		},
+		/*
 		//换算图形
 		_trimGraphs:function(){   
 			var self = this                                                           
@@ -316,6 +397,37 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 					!tmpData[b] ? tmpData[b] = [] : ''
 					var value = config.y_axis.data.mode == 1 ? arr[a][b] + config.y_axis.data.suffix : arr[a][b]
 					tmpData[b].push( {'value':value,'height':arr[a][b] / max * self.get('_verticalGraphsH'), 'key': { 'isKey':0 } } )
+				}
+			}
+			for (var d = 0, dl = self.get('_DataFrameFormat').key.data.length; d < dl; d++ ) {
+				if (tmpData[self.get('_DataFrameFormat').key.data[d] - 1]) {
+					for (var e = 0, el = tmpData[self.get('_DataFrameFormat').key.data[d] - 1].length; e < el; e++ ) {
+						tmpData[self.get('_DataFrameFormat').key.data[d] - 1][e].key.isKey = 1
+					}
+				}
+			}
+			self.get('_DataFrameFormat').graphs.data = tmpData
+			if (self.get('_DataFrameFormat').graphs.groups * self.get('_graphs').getGroupMinW() > self.get('_horizontalMaxW') - self.get('_dis_line')) {
+				self.set('_del', Global.ceil((self.get('_DataFrameFormat').graphs.groups * self.get('_graphs').getGroupMinW() - (self.get('_horizontalMaxW') - self.get('_dis_line'))) / self.get('_graphs').getGroupMinW()))
+				var tmpData = Global.delArrUnPop(self.get('_DataFrameFormat').graphs.data, self.get('_del'))
+				self.get('_DataFrameFormat').graphs.groups = tmpData.length
+			}
+		},
+		*/
+		//换算图形
+		_trimGraphs:function(){   
+			var self = this                                                           
+			var config = self.get('config')
+			//self.set('_horizontalMaxW', self.get('w') - self.get('_disX') - self.get('_vertical').get('w') - self.get('_disX'))
+			var max = self.get('_DataFrameFormat').vertical.section[self.get('_DataFrameFormat').vertical.section.length - 1]
+			var arr = self.get('_DataFrameFormat').vertical.org
+			var tmpData = []
+			for (var a = 0, al = arr.length; a < al; a++ ) {
+				for (var b = 0, bl = arr[a].length ; b < bl; b++ ) {
+					!tmpData[b] ? tmpData[b] = [] : ''
+					var value = config.y_axis.data.mode == 1 ? arr[a][b] + config.y_axis.data.suffix : arr[a][b]
+					// tmpData[b].push( {'value':value,'height':arr[a][b] / max * self.get('_verticalGraphsH'), 'key': { 'isKey':0 } } )
+					tmpData[b].push( {'value':value,'height':arr[a][b] / max * self.get('_horizontalGraphsW'), 'key': { 'isKey':0 } } )
 				}
 			}
 			for (var d = 0, dl = self.get('_DataFrameFormat').key.data.length; d < dl; d++ ) {
@@ -347,45 +459,60 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 					index = index + this.get('_del')
 			}
 			var x = Number($o.cx) + Number(this.get('_graphs').get('element').get('_x'))
-			var y = Number(this.get('_graphs').get('element').get('_y')) - Number($o.h)
+			x = Math.ceil(x)
+			var y = Number(this.get('_graphs').get('element').get('_y')) - Number($o.cy)
+			var h = Number(this.get('_horizontal').get('element').get('_y')) - y + 6
+
 			var base_fill = $o.fill_over
 			var data = []
 			data[0] = []
 			var o = { }
-			o.content = this.get('_DataFrameFormat').vertical.name
+			// o.content = this.get('_DataFrameFormat').vertical.name
+			o.content = this.get('_DataFrameFormat').horizontal.name
+			// data[0].push(o)
+			o = { }
+			// o.content = this.get('_DataFrameFormat').graphs.data[index][id].value
+			o.content = this.get('_DataFrameFormat').horizontal.org[index]
 			data[0].push(o)
+
 			o = { }
 			o.content = this.get('_DataFrameFormat').graphs.data[index][id].value
 			data[0].push(o)
-
 			var o = {
 				w    : this.get('w'),
 				h    : this.get('h'),
 				parent : this.get('element'),
 
+				dis_info : 0,
+
 				info:{
 					x    : x,
 					y    : y,
 					data : data,
-					base_fill : base_fill
+					base_fill : base_fill,
+					ver_dis : 4
 				},
 				hLine:{
 					is   : 1,
 					x    : x,
-					y    : this.get('_graphs').get('element').get('_y')
+					y    : y,
+					h    : h
 				}
 			}
 
-			var pre = this.get('_DataFrameFormat').horizontal.org[index - 1] ? this.get('_DataFrameFormat').horizontal.org[index - 1] : ''
-			pre = index == 0 ? this.get('_DataFrameFormat').horizontal.start.name : pre
-			var next =  this.get('_DataFrameFormat').horizontal.org[index]
-			var content = this.get('_DataFrameFormat').horizontal.name + pre + ' - ' + next
-			content = config.x_axis.layout.mode == 1 ? this.get('_DataFrameFormat').horizontal.name + next : content
+			// var pre = this.get('_DataFrameFormat').horizontal.org[index - 1] ? this.get('_DataFrameFormat').horizontal.org[index - 1] : ''
+			// pre = index == 0 ? this.get('_DataFrameFormat').horizontal.start.name : pre
+			// var next =  this.get('_DataFrameFormat').horizontal.org[index]
+			// var content = this.get('_DataFrameFormat').horizontal.name + pre + ' - ' + next
+			var content = this.get('_DataFrameFormat').vertical.name + this.get('_DataFrameFormat').graphs.data[index][id].value
+			
+			// content = config.x_axis.layout.mode == 1 ? this.get('_DataFrameFormat').horizontal.name + next : content
+			content = config.x_axis.layout.mode == 1 ? this.get('_DataFrameFormat').vertical.name + this.get('_DataFrameFormat').graphs.data[index][id].value : content
 
 			o.hInfo = {
 				is   : 1,
 				x    : x,
-				y    : this.get('_graphs').get('element').get('_y'),
+				y    : this.get('_horizontal').get('element').get('_y'),
 				content : content
 			}
 

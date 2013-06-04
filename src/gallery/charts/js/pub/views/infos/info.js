@@ -35,6 +35,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 		isBack:{
 			value:1                      //是否有背景
 		}, 
+		hor_dis:{                        //文字每一排之间的距离
+			value:0
+		},
+		ver_dis:{                        //文字每一列之间的距离
+			value:0
+		},
 
 		_lay:{
 			value:{}                     //根据此对象设置集合文字坐标、对齐方式等 {maxHorH(每一行最大的高集合):[24,24,24], maxVerW(对应列最大的宽集合):[100,100], maxVerAllW(对应列最大的宽集合 包括标志位):[120,120]}      
@@ -50,6 +56,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 		},
 		_disY:{ 
 			value:5                      //文字集合到上、下的距离     
+		},
+		_hor_count:{                     //有几排
+			value:0
+		},
+		_ver_count:{                     //有几列
+			value:0
 		},
 
 		_g:{
@@ -87,16 +99,23 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 
 		moveRowTxt:function($o) {
 			var self = this
+			var is = $o.is ? $o.is : 0
 			var index = $o.index ? $o.index : 0
 			var mode = $o.mode ? $o.mode : 1
 			var rowFonts = self.get('_fonts').getDynamic('childs')[index]
-			var x = -2
-			if (mode == 1) {
-			}else if (mode == 2) {
-				x = 0
-			}
+
 			if (rowFonts) {
-				rowFonts.transformX(x)	
+				if (mode == 1) {
+					var x = is ? -2 : 0
+					rowFonts.transformX(x)	
+				}else if(mode == 2){
+					var childs = rowFonts.getDynamic('childs')
+					for(var a = 0, al = childs.length; a < al; a++){
+						var child = childs[a]
+						var fill = is ? $o.fill : child.getDynamic('info').init.fill
+						child.set('fill',fill)
+					}
+				}
 			}
 		},
 
@@ -117,10 +136,17 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 			_lay.maxHorH = [], _lay.maxVerW = [], _lay.maxVerAllW = []
 
 			self.get('_fonts').setDynamic('childs',[])
+
+			self.set('_hor_count', self.get('data').length)
+			if(self.get('data')[0]){
+				self.set('_ver_count', self.get('data')[0].length)
+			}
+
 			for(var a = 0, al = self.get('data').length; a < al; a++){
 				//一行中最高的值
 				var maxHorH = 0
-				var maxSignW = 0      
+				var maxSignW = 0 
+				//一行文字     
 				var rowFonts = new SVGElement('g')
 				rowFonts.setDynamic('childs',[])
 				self.get('_fonts').element.appendChild(rowFonts.element)
@@ -131,7 +157,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 					var bold = o.bold || Number(o.bold) == 0 ? Number(o.bold) : 1
 					var fill = o.fill ? o.fill : self.get('base_fill')
 					var family = o.family ? o.family : self.get('_font_family')
+					//单个文字
 					var font = SVGGraphics.text({'content':Global.numAddSymbol(o.content),'size':o.size,'fill':fill,'bold':bold,'family':family})
+					font.setDynamic('info',{init:{fill:fill}})
 					rowFonts.element.appendChild(font.element)
 					rowFonts.getDynamic('childs').push(font)
 
@@ -160,8 +188,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 					var o = self.get('data')[c][d]
 					var font = rowFonts.getDynamic('childs')[d]
 
-					var x = Global.getArrMergerNumber(_lay.maxVerAllW, 0, d - 1)
-					var y = c > 0 ? Global.getArrMergerNumber(_lay.maxHorH, 0, c - 1) : 0
+					var x = Global.getArrMergerNumber(_lay.maxVerAllW, 0, d - 1) + d * self.get('ver_dis')
+					var y = c > 0 ? Global.getArrMergerNumber(_lay.maxHorH, 0, c - 1) + c * self.get('hor_dis') : 0
 					rowFonts.transformY(y)
 					y = 0
 
@@ -204,13 +232,15 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 			}
 
 			var w,h
+			var ver_dis = (self.get('_ver_count') - 1) * self.get('ver_dis')
+			var hor_dis = (self.get('_hor_count') - 1) * self.get('hor_dis')
 			if(self.get('isBack')){
 				self.get('_fonts').transformXY(self.get('_disX'),self.get('_disY'))
-				w = Global.getArrMergerNumber(_lay.maxVerAllW) + self.get('_disX') * 2
-				h = Global.getArrMergerNumber(_lay.maxHorH) + self.get('_disY') * 2
+				w = Global.getArrMergerNumber(_lay.maxVerAllW) + self.get('_disX') * 2 + ver_dis
+				h = Global.getArrMergerNumber(_lay.maxHorH) + self.get('_disY') * 2 + hor_dis
 			}else{
-				w = Global.getArrMergerNumber(_lay.maxVerAllW)
-				h = Global.getArrMergerNumber(_lay.maxHorH)
+				w = Global.getArrMergerNumber(_lay.maxVerAllW) + ver_dis
+				h = Global.getArrMergerNumber(_lay.maxHorH) + hor_dis
 			}
 
 			if(self.get('isBack')){

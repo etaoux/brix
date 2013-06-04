@@ -123,7 +123,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 
 			self.set('_total', Global.getArrMergerNumber(self.get('data')))
 			self.set('_angleList', self._getAngleList(self.get('data'),self.get('_total'),self.get('_startR')))
-			self.set('_scaleList', self._getScaleList(self.get('data'),self.get('_total')))
+			// self.set('_scaleList', self._getScaleList(self.get('data'),self.get('_total')))
+			self.set('_scaleList', Global.getArrScales(self.get('data')))
 			if (self.get('data').length <= 1) {
 				self.set('_disR',0)
 			}
@@ -274,17 +275,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 					tmpR = posR
 				}
 		    }
-			return arr
-		},
-
-		_getScaleList:function($arr, $total,$s) {
-			var self = this
-			var $s = $s ? $s : 0
-			var arr = []
-			var n = Math.pow(10,$s)
-			for (var a = 0, al = $arr.length; a < al; a++ ) {
-				arr.push(Math.round ($arr[a]/ $total * 100 * n) / n)
-			}
 			return arr
 		},
 

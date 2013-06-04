@@ -43,7 +43,8 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 					names :[],             //原始名称数组
 					org   :[],             //原始数据数组(未排序)
 					data  :[],             //排序后的数据(大->小 纯org的排序)
-					all   :[]              //排序后的数据对象集合[{names:,data:},{}]
+					all   :[],             //排序后的数据对象集合[{names:,data:},{}]
+					order :[]              //Array  需要list时 排序之后的数据 根据data中的value
 				}
 			}
 		},
@@ -79,12 +80,24 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'),self.get('DataSource'))) 
 			self.get('_DataFrameFormat').values.data = S.clone(self.get('_DataFrameFormat').values.org).sort(function(a,b){return b-a;}); 
 			self.get('_DataFrameFormat').values.all = self._trimData()
+			self.get('_DataFrameFormat').values.order = self.get('_DataFrameFormat').values.all
 
 			self._widget()
 		},
 
+		getData:function(){
+			var self = this
+			return S.clone(self.get('_DataFrameFormat').values)
+		},
+
+		getPie:function(){
+			var self = this
+			return self.get('_graphs')
+		},
+
 		_widget:function(){
 			var self = this
+			var config = self.get('config')
 			self.set('element', new SVGElement('g')), self.get('element').set('class','widget')
 			self.get('parent').appendChild(self.get('element').element)
 
@@ -101,9 +114,10 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				data  : self.get('_DataFrameFormat').values.data,
 				mw    : n,
 				mh    : n,
-				xr    : n / 2 - 26,
-				yr    : n / 2 - 26,
-				tr    : (n / 2 - 26) * 0.6
+				xr    : n / 2 - config.dis,
+				yr    : n / 2 - config.dis,
+				tr    : (n / 2 - config.dis) * 0.6,
+				isTxt : self.get('config').font.is
 			}
 			if(self.get('config').fills.normals.length > 0){
 				o.fills = self._getArrayForObjectPro(self.get('_DataFrameFormat').values.all,'normal')
@@ -132,9 +146,9 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				isInduce   : 1,
 				mw    : n,
 				mh    : n,
-				xr    : n / 2 - 26,
-				yr    : n / 2 - 26,
-				tr    : (n / 2 - 26) * 0.6
+				xr    : n / 2 - config.dis,
+				yr    : n / 2 - config.dis,
+				tr    : (n / 2 - config.dis) * 0.6
 			}
 			if(self.get('config').fills.normals.length > 0){
 				o.fills = self._getArrayForObjectPro(self.get('_DataFrameFormat').values.all,'normal')
@@ -155,7 +169,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				o.name = self.get('_DataFrameFormat').values.names[a]
 				o.data = Number(self.get('_DataFrameFormat').values.org[a])
 				if(self.get('config').fills.order == 1){
-					 o.normal = self.get('config').fills.normals[a] ? self.get('config').fills.normals[a] : ''
+					o.normal = self.get('config').fills.normals[a] ? self.get('config').fills.normals[a] : ''
 					o.over = self.get('config').fills.overs[a] ? self.get('config').fills.overs[a] : ''
 				} 
 				arr.push(o)
@@ -168,6 +182,18 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 					o.normal = self.get('config').fills.normals[b] ? self.get('config').fills.normals[b] : ''
 					o.over = self.get('config').fills.overs[b] ? self.get('config').fills.overs[b] : ''
 				}
+			}
+			if(self.get('config').list.is){
+				var values = self.get('_DataFrameFormat').values.data
+				var scales = Global.getArrScales(values)
+				for(var c = 0, cl = arr.length; c < cl; c++ ) {
+					var o  = arr[c]
+					o.order = c + 1
+					o.scale = scales[c] + '%'
+				}
+			}
+			if(self.get('config').font.is == 0){
+				self.get('config').dis = 0
 			}
 			return arr
 		},
@@ -184,6 +210,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 
 		_overHandler:function($o){
 			this.get('_graphs').induce({index:$o.index},true)
+			this.get('element').fire(EventType.OVER,$o)
 		},
 		_moveHandler:function($o){
 			clearTimeout(this.get('_timeoutId'));
@@ -226,6 +253,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			this.set('_timeoutId', setTimeout(function(){self._outTimeout()}, self.get('_timeoutDelay')))
 
 			this.get('_graphs').induce({index:$o.index},false)
+			this.get('element').fire(EventType.OUT,$o)
 		},
 		_outTimeout:function(){
 			this.get('_infos').remove()

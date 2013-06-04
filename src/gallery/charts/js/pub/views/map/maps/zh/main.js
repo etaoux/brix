@@ -53,7 +53,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/maps/zh/main',function(S,Base,SV
 			var self = this
 			var arr = self.get('maps')
 			var _df = document.createDocumentFragment();
-			for(var a = 0, al = arr.length; a < al; a++){
+			// for(var a = 0, al = arr.length; a < al; a++){
+			for(var a in arr){
 				var o = arr[a]
 				if(o){
 					var path = new SVGElement('path')

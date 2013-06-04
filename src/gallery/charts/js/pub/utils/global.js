@@ -160,12 +160,12 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 			var arr = []
 			var total = 0
 			var scales = []
-			for (var a = 0 , al = $arr.length; a < al; a++) { 
+			for (var a = 0 , al = $arr.length; a < al; a++) {
+				$arr[a] = Number($arr[a])
 				total += $arr[a]
 			}
-
 			for (var b = 0, bl = $arr.length; b < bl; b++) {
-				var scale = Math.floor($arr[b] / total * 100)
+				var scale = Math.round($arr[b] / total * 100)
 				scales.push(scale)
 				
 				//最后一个
@@ -176,6 +176,13 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 					}
 					n = 100 - n
 					scale = n
+					//如果最后一个大于前一个
+					if(n > arr[arr.length - 1]){
+						var dis = n - arr[arr.length - 1]
+						n = arr[arr.length - 1]
+						arr[0] += dis
+						scale = n
+					}
 				}
 				
 				arr.push(scale)

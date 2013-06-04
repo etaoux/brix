@@ -120,14 +120,14 @@ KISSY.add('brix/gallery/charts/js/pub/views/modules/pieinfo/main',function(S,Bas
 			var index = $o.index
 			this.get('_graphs').induce({index:index},true)
 			if (this.get('_info')) {
-				this.get('_info').moveRowTxt( { index:Number(this.get('txtStartIndex')) + Number(index), mode:1 } )
+				this.get('_info').moveRowTxt( { is:1, index:Number(this.get('txtStartIndex')) + Number(index), mode:1 } )
 			}
 		},
 		_outHandler:function($o){
 			var index = $o.index
 			this.get('_graphs').induce({index:index},false)
 			if (this.get('_info')) {
-				this.get('_info').moveRowTxt( { index:Number(this.get('txtStartIndex')) + Number(index), mode:2 } )
+				this.get('_info').moveRowTxt( { is:0, index:Number(this.get('txtStartIndex')) + Number(index), mode:1 } )
 			}
 		},
 	});

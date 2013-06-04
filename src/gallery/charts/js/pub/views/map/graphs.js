@@ -1,4 +1,4 @@
-KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Global,Move,SVGElement,SVGRenderer,SVGGraphics,EventType){
+KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Global,Move,SVGElement,SVGRenderer,SVGGraphics,EventType,Sign){
 	
 	function Graphs(){
 		
@@ -63,6 +63,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 		},
 		_main:{
 			value:null           //main
+		},
+		_signs:{
+			value:null           //_signs
 		}
 	}			
 
@@ -72,7 +75,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 			
 			self.set('element', new SVGElement('g')), self.get('element').set('class',self.get('id'))
 			self.get('parent').appendChild(self.get('element').element)
-
 			self.set('_path_map', self._getMap())
 		},
 
@@ -93,12 +95,16 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 			var self = this
 			self.set('_maps', new SVGElement('g')), self.get('_maps').set('class','maps')
 			self.get('element').appendChild(self.get('_maps').element)
+			self.set('_signs', new SVGElement('g')), self.get('_signs').set('class','circles')
+			self.get('element').appendChild(self.get('_signs').element)
+			self.get('_signs').setDynamic('childs',[])
+
 			if(self.get('isInduce') == 1){
 				self.get('_maps').set('opacity',0)
 			}
 
-			self.set('_test', new SVGElement('g')), self.get('_test').set('class','test')
-			self.get('element').appendChild(self.get('_test').element)
+			// self.set('_test', new SVGElement('g')), self.get('_test').set('class','test')
+			// self.get('element').appendChild(self.get('_test').element)
 			// self.set('_induces', new SVGElement('g')), self.get('_induces').set('id','J_induces')
 			// self.get('element').appendChild(self.get('_induces').element)
 			
@@ -113,6 +119,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 			})
 		},
 
+		_completeHandler:function(){
+			var self = this
+			self._layout()
+		},
+
 		_layout:function(){
 			var self = this
 			self.set('map_w', self.get('_main').get('map_w'))
@@ -124,35 +135,66 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 
 			var matrix = 'matrix('+ (self.get('map_scale')) +',0,0,' + (self.get('map_scale')) + ',' + (0) + ',' + (0) + ')'
 			self.get('_maps').set('transform',matrix)
+			self.get('_signs').set('transform',matrix)
 
 			self.set('map_w', self.get('element').getWidth())
 			self.set('map_h', self.get('element').getHeight())
 
 			var maps = self.get('maps')
-			for(var a = 0, al = maps.length; a < al; a++){
+			// for(var a = 0, al = maps.length; a < al; a++){
+			var signs = 0
+			for(var a in maps){
 				var map = maps[a]
 				var o = self.get('data')[a]
-				if(map && o){
+				if(map){
 					var element = map.element
-					if(o.fills.normal){
+					if(o && o.fills && o.fills.normal){
 						element.set('fill',o.fills.normal)
 						element.element.addEventListener("mouseover",function(evt){ self._overHandler(evt)}, false);
 						element.element.addEventListener("mouseout",function(evt){ self._outHandler(evt)}, false);
+					}else{
+						element.set('fill',self.get('config').fills.normals[0])
+					}
+				}
+				if(map && o){
+					if(o.sign.is && o.sign.font.content && self.get('isInduce') == 0){
+						if(!self.get('config').sign.max || Number(self.get('config').sign.max) >= Number(o.sign.font.content)){
+							var sign = new Sign()
+							self.get('_signs').getDynamic('childs')[o.order] = sign
+							var config = {
+
+									circle:{
+										  is:1,
+										  radius:12,
+										  fill:self.get('config').sign.circle.fill.normal
+									},
+									font:{
+										is:1,
+										content:o.sign.font.content,
+										size:14,
+										fill:'#FFFFFF',
+										bold:1,
+										family:'微软雅黑'
+									}	
+							}
+							var o = {
+								parent : self.get('_signs'),
+								config : config
+							}
+							sign.init(o)
+							sign.get('element').transformXY(map.cx, map.cy)
+							signs++
+						}
 					}
 				}
 			}
-
 			self.get('element').fire(EventType.COMPLETE)
 		},
 
-		_completeHandler:function(){
-			var self = this
-			self._layout()
-		},
 		_overHandler:function($evt){
 			var self = this
 			var index = $evt.target.getAttribute('_index')
-			var o = {}
+			var o = S.clone(self.get('data')[index])
 			var map = self.get('maps')[index]
 			var data = self.get('data')[index]
 			var cx = self.get('map_scale') * map.cx
@@ -164,7 +206,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 			// self.get('_test').element.appendChild(circle.element)
 			// circle.transformXY(cx,cy)
 			self._induce(index,true)
-
 			o.index = index
 			o.cx = cx, o.cy = cy
 			o.content = data.content
@@ -174,7 +215,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 		_outHandler:function($evt){
 			var self = this
 			var index = $evt.target.getAttribute('_index')
-			var o = {}
+			var o = S.clone(self.get('data')[index])
 			self._induce(index,false)
 
 			o.index = index
@@ -182,6 +223,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 		},
 		_induce:function($index,$b){
 			var self = this
+			if(self.get('isInduce') == 1){
+				return
+			}
 			var o = self.get('data')[$index]
 			var map = self.get('maps')[$index]
 			var element = map.element
@@ -190,6 +234,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 					element.set('fill',o.fills.over)
 				}else{
 					element.set('fill',o.fills.normal)
+				}
+
+				var sign = self.get('_signs').getDynamic('childs')[o.order]
+				if(sign){
+					var fill = $b ? self.get('config').sign.circle.fill.over : self.get('config').sign.circle.fill.normal
+					sign.setStyle({circle:{fill:fill}})
 				}
 			}
 		},
@@ -209,6 +259,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 	return Graphs;
 
 	}, {
-	    requires:['base','node','../../utils/global','../../utils/move','../../utils/svgelement','../../utils/svgrenderer','../../views/svggraphics','../../models/eventtype']
+	    requires:['base','node','../../utils/global','../../utils/move','../../utils/svgelement','../../utils/svgrenderer','../../views/svggraphics','../../models/eventtype','../modules/sign/main']
 	}
 );

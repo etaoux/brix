@@ -129,6 +129,8 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 			var self = this
 			self.get('_actionsObject').name = $name, self.get('_actionsObject').value = $value
 
+			self._setDivStyle()
+
 			var status = self.get('_case').actions($name,$value)
 
 			if(status){
@@ -156,18 +158,24 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 				if(self.get('w') == $('#' + self.get('parent_id')).width() && self.get('h') == $('#' + self.get('parent_id')).height()){
 					return
 				}
-				self.set('w',$('#' + self.get('parent_id')).width())
-				self.set('h',$('#' + self.get('parent_id')).height())
-				
-	    		var style = {'width':self.get('w'), 'height':self.get('h'), 'position':'relative'}
-	    		self.get('mainDiv').css(style);
-
-			 	if(isSWF){
-	    			var style = {'width':self.get('w'), 'height':self.get('h')}
-	    			self.get('swfDiv').css(style);
-				}else{
+				self._setDivStyle()
+				if(!isSWF){
 					self.get('_case').actions('reset')
 				}
+			}
+		},
+
+		_setDivStyle:function(){
+			var self = this
+			self.set('w',$('#' + self.get('parent_id')).width())
+			self.set('h',$('#' + self.get('parent_id')).height())
+				
+	    	var style = {'width':self.get('w'), 'height':self.get('h'), 'position':'relative'}
+	    	self.get('mainDiv').css(style);
+
+			if(isSWF){
+	    		var style = {'width':self.get('w'), 'height':self.get('h')}
+	    		self.get('swfDiv').css(style);
 			}
 		},
 
@@ -180,6 +188,9 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 				if(o.type == arr[a]){
 					return 1
 				}
+			}
+			if(self.get('appear_mode') == 'flash'){
+				return 1
 			}
 			return isSWF
 		},
@@ -248,6 +259,22 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2013.03.05
 	*  内容:
 	*       新增：综合2、综合3、综合4、综合5 4副图表(flash)
+	*
+	*  版本:1.0.7
+	*  日期:2013.05.10
+	*  内容:
+	*       新增：综合2、综合3、综合4、综合5 4副图表(svg)
+	*
+	*  版本:1.0.8
+	*  日期:2013.05.29
+	*  内容:
+	*       新增：饼图、中国地图、直方图部分功能(svg)
+	*             横向直方图(svg)
+	*
+	*  版本:1.0.9
+	*  日期:2013.06.04
+	*  内容:
+	*       新增：强制使用flash渲染接口
  */
 
 
