@@ -44,9 +44,9 @@ KISSY.add('brix/gallery/charts/js/pub/controls/bar/dataparse',function(S,Base,No
 		_xml:function($data){
 			var self = this
 			var o = S.clone(self.get('o')) 
-			var data = String($data)
+			var data = String($data.replace(/>\s*?</g, '><').replace(/\n+/g, '').replace(/\r+/g, ''))
 
-			var domParser = new  DOMParser();
+			var domParser = new DOMParser();
 			var xmlDoc = domParser.parseFromString(data, 'text/xml');
 			var __indexAxis = xmlDoc.getElementsByTagName("indexAxis")[0]
 			var __key = __indexAxis.getElementsByTagName('key')[0]

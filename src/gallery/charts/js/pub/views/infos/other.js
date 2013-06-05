@@ -32,14 +32,16 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/other',function(S,Base,node,Gl
 			var self = this
 			for(var a = 0, al = self.get('os').length; a < al; a++){
 				var $o = self.get('os')[a]
-				var light = new Light()
-		    	var o = {
-		    		parent : self.get('element'),
-		    		fill   : $o.fill_over
-		    	}
-			 	light.init(o)
-			    var x = $o.x, y = $o.y
-			    light.get('element').transformXY(x,y)
+				if($o){
+					var light = new Light()
+			    	var o = {
+			    		parent : self.get('element'),
+			    		fill   : $o.fill_over
+			    	}
+				 	light.init(o)
+				    var x = $o.x, y = $o.y
+				    light.get('element').transformXY(x,y)
+			    }
 			}
 		}
 	});

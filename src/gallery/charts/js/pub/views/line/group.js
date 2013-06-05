@@ -149,13 +149,17 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 				//线组
 				var line
 				if(self.get('shape') == 0){
-					line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('_line_thickness')})
-					
+					if(self.get('data').length > 1){
+						line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('_line_thickness')})
+					}
 				}else{
-					line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('_line_thickness')})
+					if(self.get('data').length > 1){
+						line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('_line_thickness')})
+					}
 				}
-				self.get('_lines').element.appendChild(line.element)
-				
+				if(line && line.element){
+					self.get('_lines').element.appendChild(line.element)
+				}				
 
 				//圆点
 				if(self.get('node') == 0){
@@ -183,11 +187,17 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 				self.get('_linesCrude').set('visibility','hidden')
 				var line
 				if(self.get('shape') == 0){
-					line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('_line_thickness_over')})
+					if(self.get('data').length > 1){
+						line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('_line_thickness_over')})
+					}
 				}else{
-					line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('_line_thickness_over')})
+					if(self.get('data').length > 1){
+						line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('_line_thickness_over')})
+					}
 				}
-				self.get('_linesCrude').element.appendChild(line.element)	
+				if(line && line.element){
+					self.get('_linesCrude').element.appendChild(line.element)	
+				}
 
 				//粗圆点
 				self.get('_circlesCrude').set('visibility','hidden')

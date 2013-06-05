@@ -315,10 +315,14 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 				data[a] = []
 				var o = { }
 				o.content = this.get('_DataFrameFormat').vertical.names[a][id], o.fill = this.get('config').fills.overs[a], o.font = '微软雅黑',o.ver_align = 3
-				data[a].push(o)
+				if(o.content){
+					data[a].push(o)
+				}
 				o = { }
 				o.content = this.get('_DataFrameFormat').vertical.org[a][id], o.fill = this.get('config').fills.overs[a], o.font = 'Tahoma',o.ver_align = 1
-				data[a].push(o)
+				if(o.content){
+					data[a].push(o)
+				}
 			}
 			var tmp = data[index]
 			data.splice(index,1)

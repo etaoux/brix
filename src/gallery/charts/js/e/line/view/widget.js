@@ -152,6 +152,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			self.get('_vertical').get('element').transformXY(self.get('_disX'), self.get('h') - self.get('_horizontal').get('h') - self.get('_disY'))
 			// return
 			self._trimHorizontal()
+
 			var o = {
 				w      : self.get('_horizontalMaxW'),
 				parent : self.get('element'),
@@ -162,6 +163,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			self.get('_horizontal').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w'), self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY'))
 
 			self._trimGraphs()
+
 			var o = {
 				w      : self.get('_horizontalMaxW'),
 				h      : self.get('_verticalMaxH'),
@@ -201,9 +203,12 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			}
 			self.get('_globalInduce').init(o)
 
+			// S.log(self.get('_DataFrameFormat').horizontal.org.length)
+			// S.log(self.get('_DataFrameFormat'))
 			if(self.get('_DataFrameFormat').horizontal.org.length == 0){
 				return
 			}
+
 			var o = {
 				x     : self.get('_disX') + self.get('_vertical').get('w') + Global.N05,
 				y     : self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05,
