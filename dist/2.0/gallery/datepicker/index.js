@@ -29,7 +29,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
             }
         };
     var NOTLIMITEDTEXT = '不限';
-        
+
     /**
      * 时间段选择器
      * <br><a href="../demo/gallery/datepicker/datepicker.html" target="_blank">Demo</a>
@@ -65,7 +65,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
             value: false
         },
         /**
-         * 触发弹出时间选择的事件类型, 
+         * 触发弹出时间选择的事件类型,
          * 例如：[‘click’,’focus’],也可以直接传入’focus’, 默认为[‘click’]
          * @cfg {String|Array}
          */
@@ -95,7 +95,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
          *               dateRange: [getRecentlyDate(-15), yestoday]
          *           }
          *       };
-         *  
+         *
          */
         quickDates:{
             value:quickDates //快捷日期
@@ -106,7 +106,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
          * @cfg {Date} dates.start 开始时间
          * @cfg {Date} dates.end   结束时间
          *
-         * 
+         *
          *      {start:new Date(),end:new Date(2014,11,26)}
          */
         dates:{
@@ -299,7 +299,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                     });
                 }
                 self.calendar.set('date',date);
-                self.calendar.set('selected',selected); 
+                self.calendar.set('selected',selected);
                 self.calendar.set('trigger',node);
                 self.calendar.set('align',align);
                 var input_type = node.attr('input_type');
@@ -325,13 +325,13 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                 }
                 var start = inputs.item(0).val();
                 var end = inputs.item(1).val();
-                
+
 
                 //同步快捷日期
                 if(self.get('isQuick')){
                     var quickDates = self.get('quickDates');
                     for(var key in quickDates){
-                        var quickDate = quickDates[key]; 
+                        var quickDate = quickDates[key];
                         if(Calendar.Date.format(quickDate.dateRange[0],'isoDate')==start&&Calendar.Date.format(quickDate.dateRange[1],'isoDate')==end){
                             var node = el.one('.quick-list').one('[key="'+key+'"]');
                             node.addClass('quick-current');
@@ -339,7 +339,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                         }
                     }
                 }
-                
+
                 dates.start = Calendar.Date.parse(start);
                 dates.end = Calendar.Date.parse(end);
 
@@ -441,7 +441,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
         /**
          * @event selected
          * 日期选择触发
-         * @param {Object} e 
+         * @param {Object} e
          * @param {Boolean} e.isQuick 是否快捷日期
          * @param {Object} e.quickDate 如果是快捷日期，则返回快捷日期对象
          * @param {Date} e.start 开始日期
@@ -451,7 +451,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
         /**
          * @event inputClick
          * 日期选择触发
-         * @param {Object} e 
+         * @param {Object} e
          * @param {String} e.type 点击的是那个input：Start|End
          */
         inputClick:'inputClick',
@@ -492,7 +492,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
                 self.overlay = null;
             }
         }
-                
+
     });
     S.augment(DatePicker, DatePicker.METHODS);
     return DatePicker;

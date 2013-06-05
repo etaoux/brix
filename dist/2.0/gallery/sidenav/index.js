@@ -155,7 +155,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
             self.isHandleClick = false;
             self.nowNav = t;
             self.isNavClick = true;
-            S.all(window).scrollTop(0);
+            // S.all(window).scrollTop(0);
         },
 
         //sidebar 的 fixed与static切换
@@ -487,7 +487,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
                     self.currentSubNav = t.closest('.sub');
                     self._setSubNavOn(t);
                     self.isNavClick = true;
-                    S.all(window).scrollTop(0);
+                    // S.all(window).scrollTop(0);
                     // self._fixedStatic();
                 }
             },

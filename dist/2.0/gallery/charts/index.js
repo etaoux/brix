@@ -189,6 +189,9 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 					return 1
 				}
 			}
+			if(self.get('appear_mode') == 'flash'){
+				return 1
+			}
 			return isSWF
 		},
 
@@ -256,6 +259,22 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2013.03.05
 	*  内容:
 	*       新增：综合2、综合3、综合4、综合5 4副图表(flash)
+	*
+	*  版本:1.0.7
+	*  日期:2013.05.10
+	*  内容:
+	*       新增：综合2、综合3、综合4、综合5 4副图表(svg)
+	*
+	*  版本:1.0.8
+	*  日期:2013.05.29
+	*  内容:
+	*       新增：饼图、中国地图、直方图部分功能(svg)
+	*             横向直方图(svg)
+	*
+	*  版本:1.0.9
+	*  日期:2013.06.04
+	*  内容:
+	*       新增：强制使用flash渲染接口
  */
 
 
