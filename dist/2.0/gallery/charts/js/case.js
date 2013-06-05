@@ -4205,6 +4205,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			self.get('_vertical').get('element').transformXY(self.get('_disX'), self.get('h') - self.get('_horizontal').get('h') - self.get('_disY'))
 			// return
 			self._trimHorizontal()
+
 			var o = {
 				w      : self.get('_horizontalMaxW'),
 				parent : self.get('element'),
@@ -4215,6 +4216,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			self.get('_horizontal').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w'), self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY'))
 
 			self._trimGraphs()
+
 			var o = {
 				w      : self.get('_horizontalMaxW'),
 				h      : self.get('_verticalMaxH'),
@@ -4254,9 +4256,12 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			}
 			self.get('_globalInduce').init(o)
 
+			// S.log(self.get('_DataFrameFormat').horizontal.org.length)
+			// S.log(self.get('_DataFrameFormat'))
 			if(self.get('_DataFrameFormat').horizontal.org.length == 0){
 				return
 			}
+
 			var o = {
 				x     : self.get('_disX') + self.get('_vertical').get('w') + Global.N05,
 				y     : self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05,
@@ -4866,10 +4871,14 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 				data[a] = []
 				var o = { }
 				o.content = this.get('_DataFrameFormat').vertical.names[a][id], o.fill = this.get('config').fills.overs[a], o.font = '微软雅黑',o.ver_align = 3
-				data[a].push(o)
+				if(o.content){
+					data[a].push(o)
+				}
 				o = { }
 				o.content = this.get('_DataFrameFormat').vertical.org[a][id], o.fill = this.get('config').fills.overs[a], o.font = 'Tahoma',o.ver_align = 1
-				data[a].push(o)
+				if(o.content){
+					data[a].push(o)
+				}
 			}
 			var tmp = data[index]
 			data.splice(index,1)
@@ -7188,9 +7197,9 @@ KISSY.add('brix/gallery/charts/js/pub/controls/bar/dataparse',function(S,Base,No
 		_xml:function($data){
 			var self = this
 			var o = S.clone(self.get('o')) 
-			var data = String($data)
+			var data = String($data.replace(/>\s*?</g, '><').replace(/\n+/g, '').replace(/\r+/g, ''))
 
-			var domParser = new  DOMParser();
+			var domParser = new DOMParser();
 			var xmlDoc = domParser.parseFromString(data, 'text/xml');
 			var __indexAxis = xmlDoc.getElementsByTagName("indexAxis")[0]
 			var __key = __indexAxis.getElementsByTagName('key')[0]
@@ -11926,14 +11935,16 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/other',function(S,Base,node,Gl
 			var self = this
 			for(var a = 0, al = self.get('os').length; a < al; a++){
 				var $o = self.get('os')[a]
-				var light = new Light()
-		    	var o = {
-		    		parent : self.get('element'),
-		    		fill   : $o.fill_over
-		    	}
-			 	light.init(o)
-			    var x = $o.x, y = $o.y
-			    light.get('element').transformXY(x,y)
+				if($o){
+					var light = new Light()
+			    	var o = {
+			    		parent : self.get('element'),
+			    		fill   : $o.fill_over
+			    	}
+				 	light.init(o)
+				    var x = $o.x, y = $o.y
+				    light.get('element').transformXY(x,y)
+			    }
 			}
 		}
 	});
@@ -12995,13 +13006,17 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 				//线组
 				var line
 				if(self.get('shape') == 0){
-					line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('_line_thickness')})
-					
+					if(self.get('data').length > 1){
+						line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('_line_thickness')})
+					}
 				}else{
-					line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('_line_thickness')})
+					if(self.get('data').length > 1){
+						line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('_line_thickness')})
+					}
 				}
-				self.get('_lines').element.appendChild(line.element)
-				
+				if(line && line.element){
+					self.get('_lines').element.appendChild(line.element)
+				}				
 
 				//圆点
 				if(self.get('node') == 0){
@@ -13029,11 +13044,17 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 				self.get('_linesCrude').set('visibility','hidden')
 				var line
 				if(self.get('shape') == 0){
-					line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('_line_thickness_over')})
+					if(self.get('data').length > 1){
+						line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('_line_thickness_over')})
+					}
 				}else{
-					line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('_line_thickness_over')})
+					if(self.get('data').length > 1){
+						line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('_line_thickness_over')})
+					}
 				}
-				self.get('_linesCrude').element.appendChild(line.element)	
+				if(line && line.element){
+					self.get('_linesCrude').element.appendChild(line.element)	
+				}
 
 				//粗圆点
 				self.get('_circlesCrude').set('visibility','hidden')

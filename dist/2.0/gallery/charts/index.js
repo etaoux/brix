@@ -275,6 +275,12 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2013.06.04
 	*  内容:
 	*       新增：强制使用flash渲染接口
+	*
+	*  版本:1.1.0
+	*  日期:2013.06.05
+	*  内容:
+	*       优化：line2  第一个数据多 第二个数据少
+	*             bar    解析xml String时  去掉空格回车等
  */
 
 
