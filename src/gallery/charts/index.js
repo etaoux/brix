@@ -281,6 +281,11 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  内容:
 	*       优化：line2  第一个数据多 第二个数据少
 	*             bar    解析xml String时  去掉空格回车等
+	*
+	*  版本:1.1.1
+	*  日期:2013.06.05
+	*  内容:
+	*       优化：line  只有一个数据的情况
  */
 
 
