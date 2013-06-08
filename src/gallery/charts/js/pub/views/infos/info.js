@@ -49,7 +49,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 			value:[]                     //存放所有文字的二维数组  存入结构类似this.data  
 		},
 		_font_family:{
-			value:'Arial'
+			value:'tahoma'
 		},
 		_disX:{ 
 			value:10                     //文字集合到左、右的距离         

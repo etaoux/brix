@@ -173,8 +173,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 										content:o.sign.font.content,
 										size:14,
 										fill:'#FFFFFF',
-										bold:1,
-										family:'微软雅黑'
+										bold:1
 									}	
 							}
 							var o = {

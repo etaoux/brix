@@ -88,6 +88,7 @@ KISSY.add('brix/gallery/charts/js/e/map/main',function(S,Base,Global,SVGElement,
 				self.get('_list').widget(o)
 				var x = w + (120 - self.get('_list').get('w')) / 2
 				var y = (h - self.get('_list').get('h')) / 2
+				x = Global.ceil(x), y = Global.ceil(y)
 				self.get('_list').get('element').transformXY(x, y)
 			}
 		},
@@ -103,9 +104,9 @@ KISSY.add('brix/gallery/charts/js/e/map/main',function(S,Base,Global,SVGElement,
 
 					if(!config.list.max || config.list.max > a){
 						arr[a] = []
-						arr[a].push({content:o.order, bold:1, fill:config.list.font.fill.normal, family:'微软雅黑', size:12, ver_align:3})
-						arr[a].push({content:o.name,  bold:1, fill:config.list.font.fill.normal, family:'微软雅黑', size:12, ver_align:1})
-						arr[a].push({content:o.scale, bold:1, fill:config.list.font.fill.normal, family:'微软雅黑', size:12, ver_align:3})
+						arr[a].push({content:o.order, bold:1, fill:config.list.font.fill.normal, size:12, ver_align:3})
+						arr[a].push({content:o.name,  bold:1, fill:config.list.font.fill.normal, size:12, ver_align:1})
+						arr[a].push({content:o.scale, bold:1, fill:config.list.font.fill.normal, size:12, ver_align:3})
 					}
 				}
 			}

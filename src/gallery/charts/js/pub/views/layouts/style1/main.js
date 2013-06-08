@@ -101,18 +101,18 @@ KISSY.add('brix/gallery/charts/js/pub/views/layouts/style1/main',function(S,Base
 			// function test(){
 			// 	var data
 			// 	var o = {}
-			// 	o.content = '2012-12-21', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 1
+			// 	o.content = '2012-12-21', o.bold = 1, o.fill = '#333333', o.size = 12, o.ver_align = 1
 			// 	data = []
 			// 	data[0] = []
 			// 	data[0].push(o)
 				
 			// 	o = {}
-			// 	o.content = '智能优化40%', o.bold = 0, o.fill = '#135ebf', o.family = '微软雅黑', o.sign = {has:1,trim:1,fill:'#135ebf' }
+			// 	o.content = '智能优化40%', o.bold = 0, o.fill = '#135ebf', o.sign = {has:1,trim:1,fill:'#135ebf' }
 			// 	data[1] = []
 			// 	data[1].push(o)
 				
 			// 	o = {}
-			// 	o.content = '品牌展位60%', o.bold = 0, o.fill = '#78a64b', o.family = '微软雅黑', o.sign = {has:1,trim:1,fill:'#78a64b' }
+			// 	o.content = '品牌展位60%', o.bold = 0, o.fill = '#78a64b', o.sign = {has:1,trim:1,fill:'#78a64b' }
 			// 	data[2] = []
 			// 	data[2].push(o)
 			// 	return data

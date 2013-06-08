@@ -94,27 +94,27 @@ KISSY.add('brix/gallery/charts/js/pub/views/list/graphs',function(S,Base,node,Gl
 				// data[2] = []
 				
 				var o = {}
-				o.content = '1', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 3
+				o.content = '1', o.bold = 1, o.fill = '#333333', o.size = 12, o.ver_align = 3
 				data[0].push(o)
 				o = {}
-				o.content = '浙江', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 1
+				o.content = '浙江', o.bold = 1, o.fill = '#333333', o.size = 12, o.ver_align = 1
 				data[0].push(o)
 				o = {}
-				o.content = '22%', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 3
+				o.content = '22%', o.bold = 1, o.fill = '#333333', o.size = 12, o.ver_align = 3
 				data[0].push(o)
 				
 				o = {}
-				o.content = '12', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 3
+				o.content = '12', o.bold = 1, o.fill = '#333333', o.size = 12, o.ver_align = 3
 				data[1].push(o)
 				o = {}
-				o.content = '黑龙江', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 1
+				o.content = '黑龙江', o.bold = 1, o.fill = '#333333', o.size = 12, o.ver_align = 1
 				data[1].push(o)
 				o = {}
-				o.content = '7%', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 3
+				o.content = '7%', o.bold = 1, o.fill = '#333333', o.size = 12, o.ver_align = 3
 				data[1].push(o)
 				
 				// o = {}
-				// o.content = '品牌展位60%', o.bold = 0, o.fill = '#78a64b', o.family = '微软雅黑', o.sign = {has:1,trim:1,fill:'#78a64b' }
+				// o.content = '品牌展位60%', o.bold = 0, o.fill = '#78a64b', o.sign = {has:1,trim:1,fill:'#78a64b' }
 				// data[2].push(o)
 				return data
 			}
