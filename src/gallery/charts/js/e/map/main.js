@@ -39,6 +39,9 @@ KISSY.add('brix/gallery/charts/js/e/map/main',function(S,Base,Global,SVGElement,
 		},
 		_list:{
 			value:null
+		},
+		_dis:{
+			value:120
 		}
 	}
 
@@ -63,7 +66,7 @@ KISSY.add('brix/gallery/charts/js/e/map/main',function(S,Base,Global,SVGElement,
 
 			var w =  self.get('w'), h = self.get('h')
 			if(config.list.is){
-				w = w - 120
+				w = w - self.get('_dis')
 				self.set('_list', new List({parent:self.get('_main')}))
 			}
 
@@ -76,21 +79,7 @@ KISSY.add('brix/gallery/charts/js/e/map/main',function(S,Base,Global,SVGElement,
 			self.set('_widget', new Widget(o))
 			self.get('_widget').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
 			self.get('_widget').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
-			
-			if(config.list.is){
-				self.set('_data', self.get('_widget').getData())
-
-				// self.set('_list', new List())
-				var o = {
-					parent : self.get('_main'),
-					data   : self._getInfo()
-				}
-				self.get('_list').widget(o)
-				var x = w + (120 - self.get('_list').get('w')) / 2
-				var y = (h - self.get('_list').get('h')) / 2
-				x = Global.ceil(x), y = Global.ceil(y)
-				self.get('_list').get('element').transformXY(x, y)
-			}
+			self.get('_widget').get('element').on(EventType.COMPLETE,function($o){self._completeHandler($o)})
 		},
 
 		_getInfo:function(){
@@ -111,6 +100,27 @@ KISSY.add('brix/gallery/charts/js/e/map/main',function(S,Base,Global,SVGElement,
 				}
 			}
 			return arr
+		},
+
+		_completeHandler:function(){
+			var self = this
+			var config = self.get('_config')
+			if(config.list.is){
+				self.set('_data', self.get('_widget').getData())
+
+				// self.set('_list', new List())
+				var o = {
+					parent : self.get('_main'),
+					data   : self._getInfo()
+				}
+				self.get('_list').widget(o)
+				var w =  self.get('w'), h = self.get('h')
+				var x = self.get('_widget').getMap().get('element').get('_x')
+				x =  w - self.get('_dis') - x + 30
+				var y = (h - self.get('_list').get('h')) / 2
+				x = Global.ceil(x), y = Global.ceil(y)
+				self.get('_list').get('element').transformXY(x,y)
+			}
 		},
 
 		_overHandler:function($o){

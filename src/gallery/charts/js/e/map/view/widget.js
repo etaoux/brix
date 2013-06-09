@@ -94,6 +94,11 @@ KISSY.add('brix/gallery/charts/js/e/map/view/widget',function(S,Base,Node,Global
 			return S.clone(self.get('_DataFrameFormat').values)
 		},
 
+		getMap:function(){
+			var self = this
+			return self.get('_graphs')
+		},
+
 		_widget:function(){
 			var self = this
 			self.set('element', new SVGElement('g')), self.get('element').set('class','widget')
@@ -194,6 +199,7 @@ KISSY.add('brix/gallery/charts/js/e/map/view/widget',function(S,Base,Node,Global
 			self.get('_graphs').get('element').transformXY(x,y)
 			self.get('_induces').get('element').transformXY(x,y)
 			self.set('_radius',self.get('_graphs').get('map_scale') * self.get('_radius')) 
+			self.get('element').fire(EventType.COMPLETE) 
 		},
 		_overHandler:function($o){
 			clearTimeout(this.get('_timeoutId'));
