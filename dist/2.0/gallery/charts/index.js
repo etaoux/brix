@@ -268,8 +268,8 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  版本:1.0.8
 	*  日期:2013.05.29
 	*  内容:
-	*       新增：饼图、中国地图、直方图部分功能(svg)
-	*             横向直方图(svg)
+	*       新增：饼图、中国地图、直方图部分功能(仅svg支持)
+	*             横向直方图(仅svg支持)
 	*
 	*  版本:1.0.9
 	*  日期:2013.06.04
@@ -286,6 +286,11 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2013.06.05
 	*  内容:
 	*       优化：line  只有一个数据的情况
+	*
+	*  版本:1.1.2
+	*  日期:2013.06.09
+	*  内容:
+	*       优化：map  调整list与map间距
  */
 
 

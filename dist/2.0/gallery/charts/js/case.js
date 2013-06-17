@@ -5545,6 +5545,9 @@ KISSY.add('brix/gallery/charts/js/e/map/main',function(S,Base,Global,SVGElement,
 		},
 		_list:{
 			value:null
+		},
+		_dis:{
+			value:120
 		}
 	}
 
@@ -5569,7 +5572,7 @@ KISSY.add('brix/gallery/charts/js/e/map/main',function(S,Base,Global,SVGElement,
 
 			var w =  self.get('w'), h = self.get('h')
 			if(config.list.is){
-				w = w - 120
+				w = w - self.get('_dis')
 				self.set('_list', new List({parent:self.get('_main')}))
 			}
 
@@ -5582,20 +5585,7 @@ KISSY.add('brix/gallery/charts/js/e/map/main',function(S,Base,Global,SVGElement,
 			self.set('_widget', new Widget(o))
 			self.get('_widget').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
 			self.get('_widget').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
-			
-			if(config.list.is){
-				self.set('_data', self.get('_widget').getData())
-
-				// self.set('_list', new List())
-				var o = {
-					parent : self.get('_main'),
-					data   : self._getInfo()
-				}
-				self.get('_list').widget(o)
-				var x = w + (120 - self.get('_list').get('w')) / 2
-				var y = (h - self.get('_list').get('h')) / 2
-				self.get('_list').get('element').transformXY(x, y)
-			}
+			self.get('_widget').get('element').on(EventType.COMPLETE,function($o){self._completeHandler($o)})
 		},
 
 		_getInfo:function(){
@@ -5609,13 +5599,34 @@ KISSY.add('brix/gallery/charts/js/e/map/main',function(S,Base,Global,SVGElement,
 
 					if(!config.list.max || config.list.max > a){
 						arr[a] = []
-						arr[a].push({content:o.order, bold:1, fill:config.list.font.fill.normal, family:'微软雅黑', size:12, ver_align:3})
-						arr[a].push({content:o.name,  bold:1, fill:config.list.font.fill.normal, family:'微软雅黑', size:12, ver_align:1})
-						arr[a].push({content:o.scale, bold:1, fill:config.list.font.fill.normal, family:'微软雅黑', size:12, ver_align:3})
+						arr[a].push({content:o.order, bold:1, fill:config.list.font.fill.normal, size:12, ver_align:3})
+						arr[a].push({content:o.name,  bold:1, fill:config.list.font.fill.normal, size:12, ver_align:1})
+						arr[a].push({content:o.scale, bold:1, fill:config.list.font.fill.normal, size:12, ver_align:3})
 					}
 				}
 			}
 			return arr
+		},
+
+		_completeHandler:function(){
+			var self = this
+			var config = self.get('_config')
+			if(config.list.is){
+				self.set('_data', self.get('_widget').getData())
+
+				// self.set('_list', new List())
+				var o = {
+					parent : self.get('_main'),
+					data   : self._getInfo()
+				}
+				self.get('_list').widget(o)
+				var w =  self.get('w'), h = self.get('h')
+				var x = self.get('_widget').getMap().get('element').get('_x')
+				x =  w - self.get('_dis') - x + 30
+				var y = (h - self.get('_list').get('h')) / 2
+				x = Global.ceil(x), y = Global.ceil(y)
+				self.get('_list').get('element').transformXY(x,y)
+			}
 		},
 
 		_overHandler:function($o){
@@ -5744,6 +5755,11 @@ KISSY.add('brix/gallery/charts/js/e/map/view/widget',function(S,Base,Node,Global
 			return S.clone(self.get('_DataFrameFormat').values)
 		},
 
+		getMap:function(){
+			var self = this
+			return self.get('_graphs')
+		},
+
 		_widget:function(){
 			var self = this
 			self.set('element', new SVGElement('g')), self.get('element').set('class','widget')
@@ -5844,6 +5860,7 @@ KISSY.add('brix/gallery/charts/js/e/map/view/widget',function(S,Base,Node,Global
 			self.get('_graphs').get('element').transformXY(x,y)
 			self.get('_induces').get('element').transformXY(x,y)
 			self.set('_radius',self.get('_graphs').get('map_scale') * self.get('_radius')) 
+			self.get('element').fire(EventType.COMPLETE) 
 		},
 		_overHandler:function($o){
 			clearTimeout(this.get('_timeoutId'));
@@ -6007,6 +6024,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 				
 				var x = Number(self.get('_widget').getPie().get('element').get('_x')) + Number(self.get('_widget').getPie().get('mw') / 2) + 16
 				var y = (h - self.get('_list').get('h')) / 2
+				x = Global.ceil(x), y = Global.ceil(y)
 				self.get('_list').get('element').transformXY(x, y)
 			}
 		},
@@ -6022,9 +6040,8 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 
 					if(!config.list.max || config.list.max > a){
 						arr[a] = []
-						arr[a].push({content:o.name, bold:1, fill:'#333333', family:'微软雅黑', size:12, ver_align:3, sign: { has:1, trim:1, fill:o.normal, disX:8}})
-						// arr[a].push({content:o.name,  bold:1, fill:'#333333', family:'微软雅黑', size:12, ver_align:1})
-						arr[a].push({content:o.scale, bold:1, fill:'#333333', family:'微软雅黑', size:12, ver_align:3})
+						arr[a].push({content:o.name, bold:1, fill:'#333333', size:12, ver_align:3, sign: { has:1, trim:1, fill:o.normal, disX:8}})
+						arr[a].push({content:o.scale, bold:1, fill:'#333333', size:12, ver_align:3})
 					}
 				}
 			}
@@ -6930,6 +6947,166 @@ KISSY.add('brix/gallery/charts/js/e/treemap/view/widget', function(S,d3) {
 }, {
     requires: ['brix/gallery/d3/']
 });
+KISSY.add('brix/gallery/charts/js/e/treemap2/main', function(S, Base, d3) {
+	function Main() {
+		var self = this
+		/*
+			arguments:
+
+			  o:{
+				parent   :''     //SVGElement
+				w        :100    //chart 宽
+				h        :100    //chart 高
+				config   :''     //图表配置
+				data     :''     //图表数据  
+			  }
+
+		 */
+		Main.superclass.constructor.apply(self, arguments);
+		self.init()
+	}
+
+	Main.ATTRS = {
+		_main: {
+			value: null
+		},
+		_config: { //图表配置   经过ConfigParse.parse
+			value: {}
+		},
+		_DataSource: {
+			value: {} //图表数据源 经过DataParse.parse
+		}
+	}
+
+	S.extend(Main, Base, {
+		init: function() {
+			var self = this 
+			self._widget()
+		},
+
+		_widget: function() {
+			var self = this
+			var w = self.get('w'),
+				h = self.get('h'),
+				x = d3.scale.linear().range([0, w]),
+				y = d3.scale.linear().range([0, h]),
+				color = d3.scale.category20c(),
+				root,
+				node;
+			var treemap = d3.layout.treemap()
+				.round(false)
+				.size([w, h])
+				.sticky(true)
+				.value(function(d) {
+				return d.size;
+			});
+
+			var svg = d3.select(self.get('parent').element).append("svg:g").attr("transform", "translate(.5,.5)").attr('class', 'parent');
+
+			node = root = self.get('data');
+
+			var nodes = treemap.nodes(root).filter(function(d) {
+				return !d.parent;
+			});
+			//appendChildren(nodes,root);
+			appendChildren(root.children, root);
+
+			d3.select(window).on("click", function() {
+				zoom(root);
+			});
+
+			function appendChildren(nodes, d) {
+				var kx = w / d.dx,
+					ky = h / d.dy;
+				x.domain([d.x, d.x + d.dx]);
+				y.domain([d.y, d.y + d.dy]);
+
+				var cell = svg.selectAll(".parent").data(nodes).enter().append("svg:g").attr("class", "cell").attr("transform", function(d) {
+					return "translate(" + x(d.x) + "," + y(d.y) + ")";
+				}).on("mouseup", function(d) {
+					if (d3.event.button == 0) {
+						if (d.children) {
+							zoom(d, d3.select(this));
+						}
+					} else {
+						if (d.parent.parent) {
+							zoom(d.parent.parent, d3.select(this));
+						}
+					}
+
+				}).on('click', function() {
+					d3.event.stopPropagation();
+				}).on("contextmenu", function() {
+					d3.event.preventDefault()
+				});
+				cell.append("svg:rect").attr("width", function(d) {
+					return kx * d.dx - 1;
+				}).attr("height", function(d) {
+					return ky * d.dy - 1;
+				}).style("fill", function(d) {
+					return color(d.name);
+				});
+
+				cell.append("svg:text").attr("x", function(d) {
+					return kx * d.dx / 2;
+				}).attr("y", function(d) {
+					return ky * d.dy / 2;
+				}).attr("text-anchor", "middle").text(function(d) {
+					return d.name;
+				}).style("opacity", function(d) {
+					d.w = this.getComputedTextLength();
+					return kx * d.dx > d.w ? 1 : 0;
+				});
+			}
+
+			function zoom(d, context) {
+				var kx = w / d.dx,
+					ky = h / d.dy;
+				S.log(kx)
+				x.domain([d.x, d.x + d.dx]);
+				y.domain([d.y, d.y + d.dy]);
+				var flg = false;
+				var t = svg.selectAll("g.cell").transition().duration(d3.event.altKey ? 7500 : 750).attr("transform", function(d) {
+					return "translate(" + x(d.x) + "," + y(d.y) + ")";
+				}).each("end", function(xx, i) {
+					if (i == 1 && !flg) {
+						flg = true;
+						if (context) {
+							context.select("text").style("opacity", 0);
+						} else {
+							svg.selectAll(".cell").remove();
+						}
+						appendChildren(d.children, d);
+					}
+				});
+
+				t.select("rect").attr("width", function(d) {
+					return kx * d.dx - 1;
+				}).attr("height", function(d) {
+					return ky * d.dy - 1;
+				})
+
+				t.select("text").attr("x", function(d) {
+					return kx * d.dx / 2;
+				}).attr("y", function(d) {
+					return ky * d.dy / 2;
+				}).style("opacity", function(d) {
+					return kx * d.dx > d.w ? 1 : 0;
+				});
+				d3.event.preventDefault();
+				d3.event.stopPropagation();
+			}
+		}
+	});
+	return Main;
+}, {
+	requires: ['base', './view/widget']
+})
+KISSY.add('brix/gallery/charts/js/e/treemap2/view/widget', function(S,d3) {
+    return d3;
+}, {
+    requires: ['brix/gallery/d3/']
+});
 KISSY.add('brix/gallery/charts/js/m/datasource/datasource',function(S,Base){
 
 	function DataSource(){
@@ -7043,7 +7220,8 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 				pie       : 'pie',
 				scatter   : 'scatter',
 				map       : 'map',
-				treemap		:'treemap'
+				treemap		:'treemap',
+				treemap2		:'treemap2'
 			}
 		},
 
@@ -11155,7 +11333,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/info',function(S,Base,node,Glo
 			value:[]                     //存放所有文字的二维数组  存入结构类似this.data  
 		},
 		_font_family:{
-			value:'Arial'
+			value:'tahoma'
 		},
 		_disX:{ 
 			value:10                     //文字集合到左、右的距离         
@@ -12069,18 +12247,18 @@ KISSY.add('brix/gallery/charts/js/pub/views/layouts/style1/main',function(S,Base
 			// function test(){
 			// 	var data
 			// 	var o = {}
-			// 	o.content = '2012-12-21', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 1
+			// 	o.content = '2012-12-21', o.bold = 1, o.fill = '#333333', o.size = 12, o.ver_align = 1
 			// 	data = []
 			// 	data[0] = []
 			// 	data[0].push(o)
 				
 			// 	o = {}
-			// 	o.content = '智能优化40%', o.bold = 0, o.fill = '#135ebf', o.family = '微软雅黑', o.sign = {has:1,trim:1,fill:'#135ebf' }
+			// 	o.content = '智能优化40%', o.bold = 0, o.fill = '#135ebf', o.sign = {has:1,trim:1,fill:'#135ebf' }
 			// 	data[1] = []
 			// 	data[1].push(o)
 				
 			// 	o = {}
-			// 	o.content = '品牌展位60%', o.bold = 0, o.fill = '#78a64b', o.family = '微软雅黑', o.sign = {has:1,trim:1,fill:'#78a64b' }
+			// 	o.content = '品牌展位60%', o.bold = 0, o.fill = '#78a64b', o.sign = {has:1,trim:1,fill:'#78a64b' }
 			// 	data[2] = []
 			// 	data[2].push(o)
 			// 	return data
@@ -13331,27 +13509,27 @@ KISSY.add('brix/gallery/charts/js/pub/views/list/graphs',function(S,Base,node,Gl
 				// data[2] = []
 				
 				var o = {}
-				o.content = '1', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 3
+				o.content = '1', o.bold = 1, o.fill = '#333333', o.size = 12, o.ver_align = 3
 				data[0].push(o)
 				o = {}
-				o.content = '浙江', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 1
+				o.content = '浙江', o.bold = 1, o.fill = '#333333', o.size = 12, o.ver_align = 1
 				data[0].push(o)
 				o = {}
-				o.content = '22%', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 3
+				o.content = '22%', o.bold = 1, o.fill = '#333333', o.size = 12, o.ver_align = 3
 				data[0].push(o)
 				
 				o = {}
-				o.content = '12', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 3
+				o.content = '12', o.bold = 1, o.fill = '#333333', o.size = 12, o.ver_align = 3
 				data[1].push(o)
 				o = {}
-				o.content = '黑龙江', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 1
+				o.content = '黑龙江', o.bold = 1, o.fill = '#333333', o.size = 12, o.ver_align = 1
 				data[1].push(o)
 				o = {}
-				o.content = '7%', o.bold = 1, o.fill = '#333333', o.family = '微软雅黑', o.size = 12, o.ver_align = 3
+				o.content = '7%', o.bold = 1, o.fill = '#333333', o.size = 12, o.ver_align = 3
 				data[1].push(o)
 				
 				// o = {}
-				// o.content = '品牌展位60%', o.bold = 0, o.fill = '#78a64b', o.family = '微软雅黑', o.sign = {has:1,trim:1,fill:'#78a64b' }
+				// o.content = '品牌展位60%', o.bold = 0, o.fill = '#78a64b', o.sign = {has:1,trim:1,fill:'#78a64b' }
 				// data[2].push(o)
 				return data
 			}
@@ -13550,8 +13728,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/map/graphs',function(S,Base,node,Glo
 										content:o.sign.font.content,
 										size:14,
 										fill:'#FFFFFF',
-										bold:1,
-										family:'微软雅黑'
+										bold:1
 									}	
 							}
 							var o = {
