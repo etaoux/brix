@@ -6871,11 +6871,13 @@ KISSY.add('brix/gallery/charts/js/e/treemap/main', function(S, Base, d3) {
 			}).on("click", function(d) {
 				return zoom(node == d.parent ? root : d.parent);
 			});
-
+			cell.append("svg:title").text(function(d) {
+				return d.name;
+			});
 			cell.append("svg:rect").attr("width", function(d) {
-				return d.dx - 1;
+				return d.dx;
 			}).attr("height", function(d) {
-				return d.dy - 1;
+				return d.dy;
 			}).style("fill", function(d) {
 				return color(d.parent.name);
 			});
@@ -6886,28 +6888,10 @@ KISSY.add('brix/gallery/charts/js/e/treemap/main', function(S, Base, d3) {
 				return d.dy / 2;
 			}).attr("dy", ".35em").attr("text-anchor", "middle").text(function(d) {
 				return d.name;
-			}).style("opacity", function(d) {
+			}).style("visibility", function(d) {
 				d.w = this.getComputedTextLength();
-				return d.dx > d.w ? 1 : 0;
+				return d.dx > d.w ? 'visible' : 'hidden';
 			});
-
-			d3.select(window).on("click", function() {
-				zoom(root);
-			});
-
-			//什么是size，什么是count还没有研究，先这样
-			// d3.select("select").on("change", function() {
-			// 	treemap.value(this.value == "size" ? size : count).nodes(root);
-			// 	zoom(node);
-			// });
-
-			// function size(d) {
-			// 	return d.size;
-			// }
-
-			// function count(d) {
-			// 	return 1;
-			// }
 
 			function zoom(d) {
 				var kx = w / d.dx,
@@ -6920,21 +6904,20 @@ KISSY.add('brix/gallery/charts/js/e/treemap/main', function(S, Base, d3) {
 				});
 
 				t.select("rect").attr("width", function(d) {
-					return kx * d.dx - 1;
+					return kx * d.dx;
 				}).attr("height", function(d) {
-					return ky * d.dy - 1;
+					return ky * d.dy;
 				})
 
 				t.select("text").attr("x", function(d) {
 					return kx * d.dx / 2;
 				}).attr("y", function(d) {
 					return ky * d.dy / 2;
-				}).style("opacity", function(d) {
-					return kx * d.dx > d.w ? 1 : 0;
+				}).style("visibility", function(d) {
+					return kx * d.dx > d.w ? 'visible' : 'hidden';
 				});
 
 				node = d;
-				d3.event.stopPropagation();
 			}
 		}
 	});
@@ -6980,7 +6963,7 @@ KISSY.add('brix/gallery/charts/js/e/treemap2/main', function(S, Base, d3) {
 
 	S.extend(Main, Base, {
 		init: function() {
-			var self = this 
+			var self = this
 			self._widget()
 		},
 
@@ -7011,9 +6994,9 @@ KISSY.add('brix/gallery/charts/js/e/treemap2/main', function(S, Base, d3) {
 			//appendChildren(nodes,root);
 			appendChildren(root.children, root);
 
-			d3.select(window).on("click", function() {
-				zoom(root);
-			});
+			// d3.select(window).on("click", function() {
+			// 	zoom(root);
+			// });
 
 			function appendChildren(nodes, d) {
 				var kx = w / d.dx,
@@ -7023,7 +7006,7 @@ KISSY.add('brix/gallery/charts/js/e/treemap2/main', function(S, Base, d3) {
 
 				var cell = svg.selectAll(".parent").data(nodes).enter().append("svg:g").attr("class", "cell").attr("transform", function(d) {
 					return "translate(" + x(d.x) + "," + y(d.y) + ")";
-				}).on("mouseup", function(d) {
+				}).on("click", function(d) {
 					if (d3.event.button == 0) {
 						if (d.children) {
 							zoom(d, d3.select(this));
@@ -7033,29 +7016,31 @@ KISSY.add('brix/gallery/charts/js/e/treemap2/main', function(S, Base, d3) {
 							zoom(d.parent.parent, d3.select(this));
 						}
 					}
-
-				}).on('click', function() {
-					d3.event.stopPropagation();
-				}).on("contextmenu", function() {
+				}).on("contextmenu", function(d) {
+					if (d.parent.parent) {
+						zoom(d.parent.parent, d3.select(this));
+					}
 					d3.event.preventDefault()
 				});
+				cell.append("svg:title").text(function(d) {
+					return d.name;
+				});
 				cell.append("svg:rect").attr("width", function(d) {
-					return kx * d.dx - 1;
+					return kx * d.dx;
 				}).attr("height", function(d) {
-					return ky * d.dy - 1;
+					return ky * d.dy;
 				}).style("fill", function(d) {
 					return color(d.name);
 				});
-
 				cell.append("svg:text").attr("x", function(d) {
 					return kx * d.dx / 2;
 				}).attr("y", function(d) {
 					return ky * d.dy / 2;
 				}).attr("text-anchor", "middle").text(function(d) {
 					return d.name;
-				}).style("opacity", function(d) {
+				}).style("visibility", function(d) {
 					d.w = this.getComputedTextLength();
-					return kx * d.dx > d.w ? 1 : 0;
+					return kx * d.dx > d.w ? 'visible' : 'hidden';
 				});
 			}
 
@@ -7072,7 +7057,7 @@ KISSY.add('brix/gallery/charts/js/e/treemap2/main', function(S, Base, d3) {
 					if (i == 1 && !flg) {
 						flg = true;
 						if (context) {
-							context.select("text").style("opacity", 0);
+							context.select("text").style("visibility", 'hidden');
 						} else {
 							svg.selectAll(".cell").remove();
 						}
@@ -7081,20 +7066,18 @@ KISSY.add('brix/gallery/charts/js/e/treemap2/main', function(S, Base, d3) {
 				});
 
 				t.select("rect").attr("width", function(d) {
-					return kx * d.dx - 1;
+					return kx * d.dx;
 				}).attr("height", function(d) {
-					return ky * d.dy - 1;
+					return ky * d.dy;
 				})
 
 				t.select("text").attr("x", function(d) {
 					return kx * d.dx / 2;
 				}).attr("y", function(d) {
 					return ky * d.dy / 2;
-				}).style("opacity", function(d) {
-					return kx * d.dx > d.w ? 1 : 0;
+				}).style("visibility", function(d) {
+					return kx * d.dx > d.w ? 'visible' : 'hidden';
 				});
-				d3.event.preventDefault();
-				d3.event.stopPropagation();
 			}
 		}
 	});
