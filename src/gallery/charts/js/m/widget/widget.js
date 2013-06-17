@@ -44,7 +44,8 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 				pie       : 'pie',
 				scatter   : 'scatter',
 				map       : 'map',
-				treemap		:'treemap'
+				treemap		:'treemap',
+				treemap2		:'treemap2'
 			}
 		},
 
