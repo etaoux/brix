@@ -7010,15 +7010,22 @@ KISSY.add('brix/gallery/charts/js/e/treemap2/main', function(S, Base, d3) {
 					if (d3.event.button == 0) {
 						if (d.children) {
 							zoom(d, d3.select(this));
+						} else {
+							var parent = d.parent.parent;
+							if (parent) {
+								zoom(parent, (parent == root ? null : d3.select(this)));
+							}
 						}
 					} else {
-						if (d.parent.parent) {
-							zoom(d.parent.parent, d3.select(this));
+						var parent = d.parent.parent;
+						if (parent) {
+							zoom(parent, (parent == root ? null : d3.select(this)));
 						}
 					}
 				}).on("contextmenu", function(d) {
-					if (d.parent.parent) {
-						zoom(d.parent.parent, d3.select(this));
+					var parent = d.parent.parent;
+					if (parent) {
+						zoom(parent, (parent == root ? null : d3.select(this)));
 					}
 					d3.event.preventDefault()
 				});
