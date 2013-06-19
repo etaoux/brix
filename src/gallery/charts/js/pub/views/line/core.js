@@ -146,7 +146,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/core',function(S,Base,Node,Glob
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'),self.get('DataSource')))
 			self.get('_DataFrameFormat').key.data = String(self.get('_DataFrameFormat').key.indexs).split(',')
 			self.get('_DataFrameFormat').vertical.dataObject = self._trimVerticalOrgData(self.get('_DataFrameFormat').vertical.org)
-			self.get('_DataFrameFormat').vertical.section = DataSection.section(self.get('_DataFrameFormat').vertical.dataObject.section)
+
+			var arr = self.get('_DataFrameFormat').vertical.dataObject.section
+			self.get('_DataFrameFormat').vertical.section = DataSection.section(arr)
+			if(arr.length == 1){
+				self.get('_DataFrameFormat').vertical.section[0] = arr[0] * 2
+			}
 
 			self.set('_vertical',new Vertical())
 			self.set('_horizontal',new Horizontal())
@@ -337,7 +342,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/core',function(S,Base,Node,Glob
 			var arr = self.get('_DataFrameFormat').horizontal.org
 			var tmpData = []
 		    for (var a = 0, al  = arr.length; a < al; a++ ) {
-				tmpData.push( { 'value':arr[a], 'x':Global.ceil(self.get('_dis_graphs') + a / (max - 1) * self.get('_horizontalDrawW')) } )
+				// tmpData.push( { 'value':arr[a], 'x':Global.ceil(self.get('_dis_graphs') + a / (max - 1) * self.get('_horizontalDrawW')) } )
+				var o = { 'value':arr[a], 'x':Global.ceil(self.get('_dis_graphs') + a / (max - 1) * self.get('_horizontalDrawW')) }
+				tmpData.push( o )
+			}
+			if(max == 1){
+				o.x = Global.ceil(self.get('_horizontalDrawW') / 2)
 			}
 			self.get('_DataFrameFormat').horizontal.data = tmpData
 		},
@@ -370,6 +380,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/core',function(S,Base,Node,Glob
 					if(no_nodes[a] && no_nodes[a][b]){
 						tmpData[a][b].no_node = 1
 					}
+				}
+			}
+			if(maxHorizontal == 1){
+				if(tmpData[0] && tmpData[0][0]){
+					tmpData[0][0].x = Global.ceil(self.get('_horizontalDrawW') / 2)
 				}
 			}
 			self.get('_DataFrameFormat').graphs.data = tmpData

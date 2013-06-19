@@ -63,6 +63,7 @@ chartData:
 	<div id="J_wrapper4" class="wrapper4" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper5" class="wrapper5" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper6" class="wrapper6" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper7" class="wrapper7" style="width:720px;height:400px;"></div>
 
 	<script type="text/javascript">
 
@@ -123,6 +124,16 @@ chartData:
 						configData:'<chart v="1.0" type="line"><data shape="1" node="0" area="0"><colors normals="0x3300FF,0x3333FF,0x3366FF" overs="0xCC0000,0xCC3300,0xCC6600"/></data></chart>',
 					
 						chartData:'<chart><data><indexAxis labels="2012-04-02,2012-04-03,2012-04-04,2012-04-05,2012-04-06,2012-04-07,2012-04-08" chartParam="" name="时间："/><sets name="点击转化率:"><set values="0.47,0.54,0.72,1.1,0.75,0.57,0.43"></set></sets></data></chart>'
+					}
+			})
+			//一个数据
+			new Charts({
+					parent_id:'J_wrapper7',
+
+					config:{
+						configData:'<chart v="1.0" type="line"><data shape="0" node="1" area="0"><colors normals="0x937ACC" overs="0x7459B3"/></data></chart>',
+					
+						chartData:'<chart><data><indexAxis labels="2013-06-04" name="日期："/><sets name="总客户数："><set values="23332456"></set></sets></data></chart>'
 					}
 			})
 		})

@@ -175,6 +175,7 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 						n += scales[d]
 					}
 					n = 100 - n
+					n = n < 0 ? 0 : n
 					scale = n
 					//如果最后一个大于前一个
 					if(n > arr[arr.length - 1]){

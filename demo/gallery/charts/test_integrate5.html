@@ -61,6 +61,7 @@ chartData:
 <body>
 	<div id="J_wrapper1" class="wrapper1" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper2" class="wrapper2" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper3" class="wrapper3" style="width:720px;height:400px;"></div>
 	
 	<script type="text/javascript">
 
@@ -82,6 +83,17 @@ chartData:
 						configData:'<chart v="1.0" type="integrate5"><data><layout><x_axis name="单位(天)"/></layout><infos><x_axis mode="1"/></infos></data></chart>',
 						
 						chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="2013-03-08,2013-03-09,2013-03-10,2013-03-11,2013-03-12,2013-03-13,2013-03-14" name="" names="2013-03-08,2013-03-09,2013-03-10,2013-03-11,2013-03-12,2013-03-13,2013-03-14"><key indexs="3"/></indexAxis><sets name=""><set name="点击："><set values="145,413,243,360,327,44,360" name="智能优化：" name_sign="智能优化"/></set></sets></data></chart>'
+					}
+			});
+
+			//一个数据
+			new Charts({
+					parent_id:'J_wrapper3',
+
+					config:{
+						configData:'<chart v="1.0" type="integrate5"><data><layout><x_axis name="单位(天)"/></layout><infos><x_axis mode="1"/></infos></data></chart>',
+						
+						chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="2013-06-18" name="" names="2013-06-18"><key indexs="3"/></indexAxis><sets name=""><set name=""><set values="1990" name=" 展现：" name_sign="智能优化"/></set></sets></data></chart>'
 					}
 			});
 		})
