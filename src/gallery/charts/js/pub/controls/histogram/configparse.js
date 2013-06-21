@@ -58,7 +58,6 @@ KISSY.add('brix/gallery/charts/js/pub/controls/histogram/configparse',function(S
 			var data = String($data)
 			var domParser = new DOMParser();
 			var xmlDoc = domParser.parseFromString(data, 'text/xml');
-
 			var __data = xmlDoc.getElementsByTagName("data")[0]
 			if(__data){
 				o.v = __data.getAttribute('v') && String(__data.getAttribute('v')) ? String(__data.getAttribute('v')) : o.v

@@ -52,7 +52,11 @@ KISSY.add('brix/gallery/charts/js/m/datasource/datasource',function(S,Base){
 			var __chart = xmlDoc.getElementsByTagName("chart")[0]
 
 			o.type = __chart.getAttribute('type') && String(__chart.getAttribute('type')) ? String(__chart.getAttribute('type')) : ''
-			o.data = (new XMLSerializer()).serializeToString(__chart.getElementsByTagName("data")[0])
+			
+			var __data = __chart.getElementsByTagName("data")[0]
+			if(__data){
+				o.data = (new XMLSerializer()).serializeToString(__chart.getElementsByTagName("data")[0])
+			}
 			
 			return o
 		}

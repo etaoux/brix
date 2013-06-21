@@ -198,7 +198,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			self.get('_graphs').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w') + Global.N05, self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05)
 
 			self.get('_infos').init({parent:self.get('element')})
-			
+
 			var o = {
 				w     : self.get('w'),
 				h     : self.get('h'),
@@ -354,8 +354,9 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			var index = $o.index
 			var id = $o.id
 
-			var x = Number($o.x) + Number(this.get('_graphs').get('element').get('_x'))
-			var y = Number($o.y) + Number(this.get('_graphs').get('element').get('_y'))
+			var x = Number($o.x)// + Number(this.get('_graphs').get('element').get('_x'))
+			var y = Number($o.y)// + Number(this.get('_graphs').get('element').get('_y'))
+			
 			var base_fill = $o.fill_over
 			var data = []
 			data[0] = []

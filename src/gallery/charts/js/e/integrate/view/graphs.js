@@ -158,9 +158,11 @@ KISSY.add('brix/gallery/charts/js/e/integrate/view/graphs',function(S,Base,node,
 
 	 	_moveHandler:function($evt){
 	 		var self = this
-			var o = self._globalToLocal({'x':$evt.layerX,'y':$evt.layerY})
-			var x = o.x, y = o.y
-
+			// var o = self._globalToLocal({'x':$evt.layerX,'y':$evt.layerY})
+			// var x = o.x, y = o.y
+			var o = Global.getLocalXY($evt, self.get('parent').element)
+			var x = o.x - Number(self.get('element').get('_x')), y = o.y - Number(self.get('element').get('_y'))
+			
 			var tmp_id = parseInt(x / (self.get('disX')))
 			if(tmp_id >= self.get('data').length){
 				return

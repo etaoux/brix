@@ -365,7 +365,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 		  	var p = self._allShow(self.get('w'), self.get('h'), {w:self.get('_info').get('w'),h:self.get('_info').get('h')}, {x:x,y:y})
 		   	x = p.x, y = p.y
 		    if(self.get('_light')){
-		    	if (Number(y) + Number(self.get('_info').get('h') / 2) + Number(self.get('dis_info')) + Number(self.get('_light').get('max_radius')) > self.get('_light').get('element').get('_y')) {
+		    	if (Number(y) + Number(self.get('_info').get('h') / 2) + Number(self.get('dis_info')) + Number(self.get('_light').get('max_radius')) > self.get('_light').get('element').get('_y') + 0.00001) {
 			
 					y = Number(self.get('light').y) + Number(self.get('_light').get('max_radius')) + Number(self.get('dis_info')) + Number(self.get('_info').get('h') / 2)
 				}

@@ -16,6 +16,8 @@ configData:
 		<list value="5"/>
 		//enabled  = 是否显示文字(0 == 不显示  |  其他 == 显示)[默认：1](仅SVG)
 		<font enabled="0"/>
+		//mode     = 数据排序模式(0 == 不排序  |  1 == 排序(大->小))[默认：1](仅SVG)
+		<order mode="0"/>
 	</data>
 </chart>
 
@@ -41,7 +43,6 @@ chartData:
     <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
     <link rel="stylesheet" href="../../assets/doc.css">
     <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script>
-    <!-- <script src="http://127.0.0.1/brix/src/gallery/charts/kissy.js"></script> -->
     <!-- <script src="http://a.tbcdn.cn/apps/e/brix/2.0/brix.js" bx-config="{autoConfig:true}"></script> -->
     <!--<script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>-->
     <script src="../../../src/core/brix.js"></script>
@@ -52,6 +53,7 @@ chartData:
 	<div id="J_wrapper3" class="wrapper3" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper4" class="wrapper4" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper5" class="wrapper5" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper6" class="wrapper6" style="width:720px;height:400px;"></div>
 
 	<script type="text/javascript">
 
@@ -62,7 +64,7 @@ chartData:
 					config:{
 						configData:'<chart v="1.0" type="pie"><data/></chart>',
 						
-						chartData:'<chart><data><indexAxis/><sets><set values="1445,150,550,1023,130,200,300,400,500,600" names="名称1,名称2,名称3,名称4,名称5,名称6,名称7,名称8,名称9,名称10"></set></sets></data></chart>'
+						chartData:'<chart><data><indexAxis/><sets><set values="1445,150,550,1023,130,200,300,400,500,600" names="名称1：,名称2：,名称3：,名称4：,名称5：,名称6：,名称7：,名称8：,名称9：,名称10："></set></sets></data></chart>'
 					}
 			});
 			new Charts({
@@ -71,7 +73,7 @@ chartData:
 					config:{
 						configData:'<chart v="1.0" type="pie"><data><colors normals="0x3300FF,0x3333FF,0x3366FF" overs="0xCC0000,0xCC3300,0xCC6600"/></data></chart>',
 							
-						chartData:'<chart><data><indexAxis/><sets><set values="1445,150,550,1023,130,200,300,400,500,600" names="名称1,名称2,名称3,名称4,名称5,名称6,名称7,名称8,名称9,名称10"></set></sets></data></chart>'
+						chartData:'<chart><data><indexAxis/><sets><set values="1445,150,550,1023,130,200,300,400,500,600" names="名称1：,名称2：,名称3：,名称4：,名称5：,名称6：,名称7：,名称8：,名称9：,名称10："></set></sets></data></chart>'
 					}
 			});
 			new Charts({
@@ -80,7 +82,7 @@ chartData:
 					config:{
 						configData:'<chart v="1.0" type="pie"><data><colors normals="0x458AE6,0x39BCC0" overs="0x458AE6,0x39BCC0"/></data></chart>',
 							
-						chartData:'<chart><data><indexAxis/><sets><set values="46.68,53.32" names="站内,站外"></set></sets></data></chart>'
+						chartData:'<chart><data><indexAxis/><sets><set values="46.68,53.32" names="站内：,站外："></set></sets></data></chart>'
 					}
 			});
 
@@ -91,7 +93,7 @@ chartData:
 					config:{
 						configData:'<chart v="1.0" type="pie"><data><colors normals="0xF74D7D,0x6280A1,0x5BCB8A,0xB0704A" overs="0xD94C74,0x4D6580,0x36B26A,0x8C5738" mode="1"/><list/></data></chart>',
 							
-						chartData:'<chart><data><indexAxis/><sets><set values="1445,1023,550,150" names="女性,男性,家庭,其他"></set></sets></data></chart>'
+						chartData:'<chart><data><indexAxis/><sets><set values="1445,1023,550,150" names="女性：,男性：,家庭：,其他："></set></sets></data></chart>'
 					}
 			});
 			//仅SVG
@@ -101,7 +103,17 @@ chartData:
 					config:{
 						configData:'<?xml version="1.0"?><chart v="1.0" type="pie"><data><colors normals="0x937ACC,0x6280A1,0x45B5E6,0x5BCB8A,0xC3CC5C,0xE6B522,0xE68422" overs="0x7459B3,0x4D6580,0x3997BF,0x36B26A,0x9CA632,0xBF9E39,0xBF7C39" mode="1"/><list value="5"/><font enabled="0"/></data></chart>',
 							
-						chartData:'<chart><data><indexAxis/><sets><set values="1445,1023,550,400,300,200,150" names="名称1,名称2,名称3,名称4,名称5,名称6,名称7"></set></sets></data></chart>'
+						chartData:'<chart><data><indexAxis/><sets><set values="1445,1023,550,400,300,200,150" names="名称1：,名称2：,名称3：,名称4：,名称5：,名称6：,名称7："></set></sets></data></chart>'
+					}
+			});
+			//仅SVG
+			new Charts({
+					parent_id:'J_wrapper6',
+
+					config:{
+						configData:'<?xml version="1.0"?><chart v="1.0" type="pie"><data><colors normals="0x937ACC,0x6280A1,0x45B5E6,0x5BCB8A,0xC3CC5C,0xE6B522,0xE68422" overs="0x7459B3,0x4D6580,0x3997BF,0x36B26A,0x9CA632,0xBF9E39,0xBF7C39" mode="1"/><list value=""/><font enabled="0"/><order mode="0"/></data></chart>',
+							
+						chartData:'<chart><data><indexAxis/><sets><set values="1445,1023,550,400,300,200,1000" names="名称1：,名称2：,名称3：,名称4：,名称5：,名称6：,名称7："></set></sets></data></chart>'
 					}
 			});
 		})

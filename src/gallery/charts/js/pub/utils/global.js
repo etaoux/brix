@@ -159,6 +159,8 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 		getArrScales:function($arr){
 			var arr = []
 			var total = 0
+			var max = 0
+			var maxIndex = 0
 			var scales = []
 			for (var a = 0 , al = $arr.length; a < al; a++) {
 				$arr[a] = Number($arr[a])
@@ -178,19 +180,30 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 					n = n < 0 ? 0 : n
 					scale = n
 					//如果最后一个大于前一个
-					if(n > arr[arr.length - 1]){
-						var dis = n - arr[arr.length - 1]
-						n = arr[arr.length - 1]
-						arr[0] += dis
-						scale = n
-					}
+					// if(n > arr[arr.length - 1]){
+					// 	var dis = n - arr[arr.length - 1]
+					// 	n = arr[arr.length - 1]
+					// 	arr[0] += dis
+					// 	scale = n
+					// }
 				}
 				
 				arr.push(scale)
 			}
 			
+			total = 0
 			for (var c = 0, cl = arr.length; c < cl; c++) {
-				arr[c] = isNaN(arr[c]) ? 0 : arr[c]
+				arr[c] = isNaN(arr[c]) || arr[c] < 0 ? 0 : arr[c]
+				if(max < arr[c]){
+					max = arr[c]
+					maxIndex = c
+				}
+				total += arr[c]
+			}
+			if(total > 100){
+				arr[maxIndex] = arr[maxIndex] - (total - 100)
+			}else if(total < 100){
+				arr[maxIndex] = arr[maxIndex] + (100 - total)
 			}
 			return arr
 		},
@@ -229,6 +242,24 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 				try {  m += s2.split(".")[1].length;  }  catch (e) {  }  
 				return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m)
 			}
+		},
+		/**
+		 * 获取相对坐标(相对于div)
+		 * @param  {[Obhect]}   $evt     [鼠标事件对象]
+		 * @param  {[document]} $element [删除的长度]
+		 * @return {[Object]}            [相对于div坐标]
+		 */
+		getLocalXY:function($evt,$element){
+			// while($element.tagName!='DIV'){
+			// 	$element = $element.parentNode
+			// }
+			var o = S.one($element).offset()
+			// var o = $element
+			//S.log($element)
+			//S.log('$evt.pageX ' + $evt.pageX +"   |   "+ '$evt.pageY ' + $evt.pageY)
+			// S.log('offset   X ' + o.left +"   |   "+ 'offset   Y ' + o.top)
+			//debugger
+			return {'x':$evt.pageX - o.left, 'y':$evt.pageY - o.top};
 		}
 	};
 

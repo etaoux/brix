@@ -220,9 +220,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 
 		_moveHandler:function($evt){
 			var self = this
-			var o = self._globalToLocal({'x':$evt.layerX,'y':$evt.layerY})
-			var x = o.x, y = o.y
-
+			// var o = self._globalToLocal({'x':$evt.layerX,'y':$evt.layerY})
+			var o = Global.getLocalXY($evt, self.get('parent').element)
+			var x = o.x - Number(self.get('element').get('_x')), y = o.y - Number(self.get('element').get('_y'))
 			var n = x / (self.get('disX') / 2)
 			n = n % 2 == 0 ? n : n + 1
 			var tmp_id = parseInt(n / 2)
@@ -245,10 +245,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 			}else{
 				self.set('_index', tmp_index)
 				self.set('_id', tmp_id)
-				var o = self.get('_nodesInfoList')[self.get('_index')]
+				var o = S.clone(self.get('_nodesInfoList')[self.get('_index')])
 				var arr = S.clone(self.get('_nodesInfoList'))
 				arr.splice(self.get('_index'), 1)
 				o.other = arr
+				o.x = o.x + Number(self.get('element').get('_x')), o.y = o.y + Number(self.get('element').get('_y'))
 				self.get('element').fire(EventType.OVER,o)
 			}
 			self.set('_id', tmp_id)

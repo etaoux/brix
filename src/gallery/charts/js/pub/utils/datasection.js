@@ -45,7 +45,7 @@ KISSY.add('brix/gallery/charts/js/pub/utils/datasection',function(S){
 					arr[b] = tmpMax / (_maxPart - part) * (b + 1)
 				}
 				//个位数及小数点
-			}else {
+			}else if (l <= 1) {
 				for (var c = 1, cl = tmpMax ; c <= cl; c++ ) {
 					if (tmpMax / c == parseInt(tmpMax / c)) {
 						if (tmpMax / c <= _maxPart) {
@@ -62,6 +62,7 @@ KISSY.add('brix/gallery/charts/js/pub/utils/datasection',function(S){
 			if (arr.length < 1) {
 				arr = [0]
 			}
+			
 			return arr
 		}
 	};

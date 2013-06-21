@@ -76,9 +76,14 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 	S.extend(Widget,Base,{
 		init:function(){
 			var self = this
+			var config = self.get('config')
 
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'),self.get('DataSource'))) 
-			self.get('_DataFrameFormat').values.data = S.clone(self.get('_DataFrameFormat').values.org).sort(function(a,b){return b-a;}); 
+			if(config.order.mode == 1){
+				self.get('_DataFrameFormat').values.data = S.clone(self.get('_DataFrameFormat').values.org).sort(function(a,b){return b-a;}); 
+			}else if(config.order.mode == 0){
+				self.get('_DataFrameFormat').values.data = S.clone(self.get('_DataFrameFormat').values.org)
+			}
 			self.get('_DataFrameFormat').values.all = self._trimData()
 			self.get('_DataFrameFormat').values.order = self.get('_DataFrameFormat').values.all
 
@@ -163,6 +168,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 
 	 	_trimData:function(){
 	 		var self = this
+	 		var config = self.get('config')
 			var arr = []
 			for (var a = 0, al = self.get('_DataFrameFormat').values.org.length; a < al; a++ ) {
 				var o = { }
@@ -174,7 +180,10 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				} 
 				arr.push(o)
 			}
-			arr.sort(function(o1,o2){return o1.data < o2.data})
+			
+			if(config.order.mode == 1){
+				arr.sort(function(o1,o2){return o1.data < o2.data})
+			}
 
 			for(var b = 0, bl = arr.length; b < bl; b++ ) {
 				var o  = arr[b]
@@ -215,8 +224,9 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 		_moveHandler:function($o){
 			clearTimeout(this.get('_timeoutId'));
 			var index = $o.index
-			var x = Number($o.x) + Number(this.get('_graphs').get('element').get('_x'))
-			var y = Number($o.y) + Number(this.get('_graphs').get('element').get('_y'))
+			var x = Number($o.x)// + Number(this.get('_graphs').get('element').get('_x'))
+			var y = Number($o.y)// + Number(this.get('_graphs').get('element').get('_y'))
+			// debugger;			
 			var base_fill = $o.fill_over
 			var data = []
 			data[0] = []

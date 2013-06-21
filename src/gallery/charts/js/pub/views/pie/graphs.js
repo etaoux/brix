@@ -125,6 +125,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 			self.set('_angleList', self._getAngleList(self.get('data'),self.get('_total'),self.get('_startR')))
 			// self.set('_scaleList', self._getScaleList(self.get('data'),self.get('_total')))
 			self.set('_scaleList', Global.getArrScales(self.get('data')))
+
 			if (self.get('data').length <= 1) {
 				self.set('_disR',0)
 			}
@@ -287,7 +288,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 	 	_overHandler:function($evt){
 	 		var self = this
 			var index = S.one($evt.target).parent().attr('_index')
-			var o = self._globalToLocal({'x':$evt.layerX,'y':$evt.layerY})
+			var o = Global.getLocalXY($evt, self.get('parent').element)
 			var x = o.x, y = o.y
 			o = self._getInfo({'index':index, 'x':x, 'y':y})
 			self.get('element').fire(EventType.OVER,o)
@@ -295,7 +296,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		_moveHandler:function($evt) {
 			var self = this
 			var index = S.one($evt.target).parent().attr('_index')
-			var o = self._globalToLocal({'x':$evt.layerX,'y':$evt.layerY})
+			var o = Global.getLocalXY($evt, self.get('parent').element)
 			var x = o.x, y = o.y
 			o = self._getInfo({'index':index, 'x':x, 'y':y})
 			self.get('element').fire(EventType.MOVE,o)
@@ -303,18 +304,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		_outHandler:function($evt){
 			var self = this
 			var index = S.one($evt.target).parent().attr('_index')
-			var o = self._globalToLocal({'x':$evt.layerX,'y':$evt.layerY})
+			var o =  Global.getLocalXY($evt, self.get('parent').element)
 			var x = o.x, y = o.y
 			o = self._getInfo({'index':index, 'x':x, 'y':y})
 			self.get('element').fire(EventType.OUT,o)
-		},
-		//全局坐标 转换相对坐标
-		_globalToLocal:function($globalObject){
-			var self = this
-			var o = {}
-			o.x = $globalObject.x - self.get('x')
-			o.y = $globalObject.y - self.get('y')
-			return o
 		},
 		_getInfo:function($o){
 			var self = this

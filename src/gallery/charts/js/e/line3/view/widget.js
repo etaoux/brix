@@ -355,8 +355,8 @@ KISSY.add('brix/gallery/charts/js/e/line3/view/widget',function(S,Base,Node,Glob
 			var index = $o.index
 			var id = $o.id
 
-			var x = Number($o.x) + Number(this.get('_graphs').get('element').get('_x'))
-			var y = Number($o.y) + Number(this.get('_graphs').get('element').get('_y'))
+			var x = Number($o.x)// + Number(this.get('_graphs').get('element').get('_x'))
+			var y = Number($o.y)// + Number(this.get('_graphs').get('element').get('_y'))
 			var base_fill = $o.fill_over
 			var data = []
 			for (var a = 0, al = this.get('_DataFrameFormat').vertical.names.length; a < al; a++ ) {

@@ -82,6 +82,9 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 			}
 			if(S.UA.shell == 'maxthon' || (S.UA.shell == 'ie')){
 				isSWF = 1
+				if(S.UA.ie > 8){
+					isSWF = 0
+				}
 			}
 
 			isSWF = self._isSWF()

@@ -12,7 +12,7 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 		o:{
 			value:{
 
-				dis:26,               //圆饼实际大小与上、下、左、右之间的间隔
+				dis:26,                 //圆饼实际大小与上、下、左、右之间的间隔
 
 				font:{
 					is:1
@@ -27,6 +27,10 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 				list:{
 					is : 0,
 					max: ''
+				},
+
+				order:{                 //数据排序
+					mode:1              //模式(0 = 不排序 | 1 = 从大到小)
 				}
 			}
 		}
@@ -55,6 +59,7 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 			var __font = __data.getElementsByTagName("font")[0]
 			var __fills = __data.getElementsByTagName("colors")[0]
 			var __list = __data.getElementsByTagName("list")[0]
+			var __order = __data.getElementsByTagName("order")[0]
 
 			if(__font){
 				o.font.is = __font.getAttribute('enabled') == 0 ? 0 : o.font.is
@@ -72,6 +77,10 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 			if(__list){
 				o.list.is = 1
 				o.list.max = __list.getAttribute('value') && __list.getAttribute('value') != 0 ? __list.getAttribute('value') : o.list.max
+			}
+
+			if(__order){
+				o.order.mode = __order.getAttribute('mode') ? __order.getAttribute('mode') : o.order.mode
 			}
 			return o
 		},

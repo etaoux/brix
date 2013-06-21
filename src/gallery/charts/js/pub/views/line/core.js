@@ -427,8 +427,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/core',function(S,Base,Node,Glob
 
 		_overHandler:function($o){
 			var $o = S.clone($o)
-			$o.x = Number(this.get('gx')) +  Number(this.get('_graphs').get('element').get('_x')) + Number($o.x)
-			$o.y = Number(this.get('gy')) +  Number(this.get('_graphs').get('element').get('_y')) + Number($o.y)
+			// $o.x = Number(this.get('gx')) +  Number(this.get('_graphs').get('element').get('_x')) + Number($o.x)
+			// $o.y = Number(this.get('gy')) +  Number(this.get('_graphs').get('element').get('_y')) + Number($o.y)
+			$o.x = Number(this.get('gx')) + Number($o.x)
+			$o.y = Number(this.get('gy')) + Number($o.y)
 			//底部xy
 			$o.dx = Number(this.get('gx')) 
 			$o.dy = Number(this.get('gy')) +  Number(this.get('_graphs').get('element').get('_y'))
