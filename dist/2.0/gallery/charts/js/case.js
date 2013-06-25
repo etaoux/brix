@@ -1607,9 +1607,11 @@ KISSY.add('brix/gallery/charts/js/e/integrate/view/graphs',function(S,Base,node,
 
 	 	_moveHandler:function($evt){
 	 		var self = this
-			var o = self._globalToLocal({'x':$evt.layerX,'y':$evt.layerY})
-			var x = o.x, y = o.y
-
+			// var o = self._globalToLocal({'x':$evt.layerX,'y':$evt.layerY})
+			// var x = o.x, y = o.y
+			var o = Global.getLocalXY($evt, self.get('parent').element)
+			var x = o.x - Number(self.get('element').get('_x')), y = o.y - Number(self.get('element').get('_y'))
+			
 			var tmp_id = parseInt(x / (self.get('disX')))
 			if(tmp_id >= self.get('data').length){
 				return
@@ -4251,7 +4253,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			self.get('_graphs').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w') + Global.N05, self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05)
 
 			self.get('_infos').init({parent:self.get('element')})
-			
+
 			var o = {
 				w     : self.get('w'),
 				h     : self.get('h'),
@@ -4407,8 +4409,9 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			var index = $o.index
 			var id = $o.id
 
-			var x = Number($o.x) + Number(this.get('_graphs').get('element').get('_x'))
-			var y = Number($o.y) + Number(this.get('_graphs').get('element').get('_y'))
+			var x = Number($o.x)// + Number(this.get('_graphs').get('element').get('_x'))
+			var y = Number($o.y)// + Number(this.get('_graphs').get('element').get('_y'))
+			
 			var base_fill = $o.fill_over
 			var data = []
 			data[0] = []
@@ -4874,8 +4877,8 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 			var index = $o.index
 			var id = $o.id
 
-			var x = Number($o.x) + Number(this.get('_graphs').get('element').get('_x'))
-			var y = Number($o.y) + Number(this.get('_graphs').get('element').get('_y'))
+			var x = Number($o.x)// + Number(this.get('_graphs').get('element').get('_x'))
+			var y = Number($o.y)// + Number(this.get('_graphs').get('element').get('_y'))
 			var base_fill = $o.fill_over
 			var data = []
 			for (var a = 0, al = this.get('_DataFrameFormat').vertical.names.length; a < al; a++ ) {
@@ -5407,8 +5410,8 @@ KISSY.add('brix/gallery/charts/js/e/line3/view/widget',function(S,Base,Node,Glob
 			var index = $o.index
 			var id = $o.id
 
-			var x = Number($o.x) + Number(this.get('_graphs').get('element').get('_x'))
-			var y = Number($o.y) + Number(this.get('_graphs').get('element').get('_y'))
+			var x = Number($o.x)// + Number(this.get('_graphs').get('element').get('_x'))
+			var y = Number($o.y)// + Number(this.get('_graphs').get('element').get('_y'))
 			var base_fill = $o.fill_over
 			var data = []
 			for (var a = 0, al = this.get('_DataFrameFormat').vertical.names.length; a < al; a++ ) {
@@ -6150,9 +6153,14 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 	S.extend(Widget,Base,{
 		init:function(){
 			var self = this
+			var config = self.get('config')
 
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'),self.get('DataSource'))) 
-			self.get('_DataFrameFormat').values.data = S.clone(self.get('_DataFrameFormat').values.org).sort(function(a,b){return b-a;}); 
+			if(config.order.mode == 1){
+				self.get('_DataFrameFormat').values.data = S.clone(self.get('_DataFrameFormat').values.org).sort(function(a,b){return b-a;}); 
+			}else if(config.order.mode == 0){
+				self.get('_DataFrameFormat').values.data = S.clone(self.get('_DataFrameFormat').values.org)
+			}
 			self.get('_DataFrameFormat').values.all = self._trimData()
 			self.get('_DataFrameFormat').values.order = self.get('_DataFrameFormat').values.all
 
@@ -6237,6 +6245,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 
 	 	_trimData:function(){
 	 		var self = this
+	 		var config = self.get('config')
 			var arr = []
 			for (var a = 0, al = self.get('_DataFrameFormat').values.org.length; a < al; a++ ) {
 				var o = { }
@@ -6248,7 +6257,10 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				} 
 				arr.push(o)
 			}
-			arr.sort(function(o1,o2){return o1.data < o2.data})
+			
+			if(config.order.mode == 1){
+				arr.sort(function(o1,o2){return o1.data < o2.data})
+			}
 
 			for(var b = 0, bl = arr.length; b < bl; b++ ) {
 				var o  = arr[b]
@@ -6289,8 +6301,9 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 		_moveHandler:function($o){
 			clearTimeout(this.get('_timeoutId'));
 			var index = $o.index
-			var x = Number($o.x) + Number(this.get('_graphs').get('element').get('_x'))
-			var y = Number($o.y) + Number(this.get('_graphs').get('element').get('_y'))
+			var x = Number($o.x)// + Number(this.get('_graphs').get('element').get('_x'))
+			var y = Number($o.y)// + Number(this.get('_graphs').get('element').get('_y'))
+			// debugger;			
 			var base_fill = $o.fill_over
 			var data = []
 			data[0] = []
@@ -7151,7 +7164,11 @@ KISSY.add('brix/gallery/charts/js/m/datasource/datasource',function(S,Base){
 			var __chart = xmlDoc.getElementsByTagName("chart")[0]
 
 			o.type = __chart.getAttribute('type') && String(__chart.getAttribute('type')) ? String(__chart.getAttribute('type')) : ''
-			o.data = (new XMLSerializer()).serializeToString(__chart.getElementsByTagName("data")[0])
+			
+			var __data = __chart.getElementsByTagName("data")[0]
+			if(__data){
+				o.data = (new XMLSerializer()).serializeToString(__chart.getElementsByTagName("data")[0])
+			}
 			
 			return o
 		}
@@ -7502,7 +7519,6 @@ KISSY.add('brix/gallery/charts/js/pub/controls/histogram/configparse',function(S
 			var data = String($data)
 			var domParser = new DOMParser();
 			var xmlDoc = domParser.parseFromString(data, 'text/xml');
-
 			var __data = xmlDoc.getElementsByTagName("data")[0]
 			if(__data){
 				o.v = __data.getAttribute('v') && String(__data.getAttribute('v')) ? String(__data.getAttribute('v')) : o.v
@@ -7600,7 +7616,7 @@ KISSY.add('brix/gallery/charts/js/pub/controls/histogram/dataparse',function(S,B
 			var o = S.clone(self.get('o')) 
 			var data = String($data)
 
-			var domParser = new  DOMParser();
+			var domParser = new DOMParser();
 			var xmlDoc = domParser.parseFromString(data, 'text/xml');
 			var __indexAxis = xmlDoc.getElementsByTagName("indexAxis")[0]
 			var __key = __indexAxis.getElementsByTagName('key')[0]
@@ -8628,7 +8644,7 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 		o:{
 			value:{
 
-				dis:26,               //圆饼实际大小与上、下、左、右之间的间隔
+				dis:26,                 //圆饼实际大小与上、下、左、右之间的间隔
 
 				font:{
 					is:1
@@ -8643,6 +8659,10 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 				list:{
 					is : 0,
 					max: ''
+				},
+
+				order:{                 //数据排序
+					mode:1              //模式(0 = 不排序 | 1 = 从大到小)
 				}
 			}
 		}
@@ -8671,6 +8691,7 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 			var __font = __data.getElementsByTagName("font")[0]
 			var __fills = __data.getElementsByTagName("colors")[0]
 			var __list = __data.getElementsByTagName("list")[0]
+			var __order = __data.getElementsByTagName("order")[0]
 
 			if(__font){
 				o.font.is = __font.getAttribute('enabled') == 0 ? 0 : o.font.is
@@ -8688,6 +8709,10 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 			if(__list){
 				o.list.is = 1
 				o.list.max = __list.getAttribute('value') && __list.getAttribute('value') != 0 ? __list.getAttribute('value') : o.list.max
+			}
+
+			if(__order){
+				o.order.mode = __order.getAttribute('mode') ? __order.getAttribute('mode') : o.order.mode
 			}
 			return o
 		},
@@ -8954,7 +8979,7 @@ KISSY.add('brix/gallery/charts/js/pub/utils/datasection',function(S){
 					arr[b] = tmpMax / (_maxPart - part) * (b + 1)
 				}
 				//个位数及小数点
-			}else {
+			}else if (l <= 1) {
 				for (var c = 1, cl = tmpMax ; c <= cl; c++ ) {
 					if (tmpMax / c == parseInt(tmpMax / c)) {
 						if (tmpMax / c <= _maxPart) {
@@ -8971,6 +8996,7 @@ KISSY.add('brix/gallery/charts/js/pub/utils/datasection',function(S){
 			if (arr.length < 1) {
 				arr = [0]
 			}
+			
 			return arr
 		}
 	};
@@ -9140,6 +9166,8 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 		getArrScales:function($arr){
 			var arr = []
 			var total = 0
+			var max = 0
+			var maxIndex = 0
 			var scales = []
 			for (var a = 0 , al = $arr.length; a < al; a++) {
 				$arr[a] = Number($arr[a])
@@ -9156,21 +9184,33 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 						n += scales[d]
 					}
 					n = 100 - n
+					n = n < 0 ? 0 : n
 					scale = n
 					//如果最后一个大于前一个
-					if(n > arr[arr.length - 1]){
-						var dis = n - arr[arr.length - 1]
-						n = arr[arr.length - 1]
-						arr[0] += dis
-						scale = n
-					}
+					// if(n > arr[arr.length - 1]){
+					// 	var dis = n - arr[arr.length - 1]
+					// 	n = arr[arr.length - 1]
+					// 	arr[0] += dis
+					// 	scale = n
+					// }
 				}
 				
 				arr.push(scale)
 			}
 			
+			total = 0
 			for (var c = 0, cl = arr.length; c < cl; c++) {
-				arr[c] = isNaN(arr[c]) ? 0 : arr[c]
+				arr[c] = isNaN(arr[c]) || arr[c] < 0 ? 0 : arr[c]
+				if(max < arr[c]){
+					max = arr[c]
+					maxIndex = c
+				}
+				total += arr[c]
+			}
+			if(total > 100){
+				arr[maxIndex] = arr[maxIndex] - (total - 100)
+			}else if(total < 100){
+				arr[maxIndex] = arr[maxIndex] + (100 - total)
 			}
 			return arr
 		},
@@ -9209,6 +9249,24 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 				try {  m += s2.split(".")[1].length;  }  catch (e) {  }  
 				return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m)
 			}
+		},
+		/**
+		 * 获取相对坐标(相对于div)
+		 * @param  {[Obhect]}   $evt     [鼠标事件对象]
+		 * @param  {[document]} $element [删除的长度]
+		 * @return {[Object]}            [相对于div坐标]
+		 */
+		getLocalXY:function($evt,$element){
+			// while($element.tagName!='DIV'){
+			// 	$element = $element.parentNode
+			// }
+			var o = S.one($element).offset()
+			// var o = $element
+			//S.log($element)
+			//S.log('$evt.pageX ' + $evt.pageX +"   |   "+ '$evt.pageY ' + $evt.pageY)
+			// S.log('offset   X ' + o.left +"   |   "+ 'offset   Y ' + o.top)
+			//debugger
+			return {'x':$evt.pageX - o.left, 'y':$evt.pageY - o.top};
 		}
 	};
 
@@ -11909,7 +11967,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 		  	var p = self._allShow(self.get('w'), self.get('h'), {w:self.get('_info').get('w'),h:self.get('_info').get('h')}, {x:x,y:y})
 		   	x = p.x, y = p.y
 		    if(self.get('_light')){
-		    	if (Number(y) + Number(self.get('_info').get('h') / 2) + Number(self.get('dis_info')) + Number(self.get('_light').get('max_radius')) > self.get('_light').get('element').get('_y')) {
+		    	if (Number(y) + Number(self.get('_info').get('h') / 2) + Number(self.get('dis_info')) + Number(self.get('_light').get('max_radius')) > self.get('_light').get('element').get('_y') + 0.00001) {
 			
 					y = Number(self.get('light').y) + Number(self.get('_light').get('max_radius')) + Number(self.get('dis_info')) + Number(self.get('_info').get('h') / 2)
 				}
@@ -12440,7 +12498,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/core',function(S,Base,Node,Glob
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'),self.get('DataSource')))
 			self.get('_DataFrameFormat').key.data = String(self.get('_DataFrameFormat').key.indexs).split(',')
 			self.get('_DataFrameFormat').vertical.dataObject = self._trimVerticalOrgData(self.get('_DataFrameFormat').vertical.org)
-			self.get('_DataFrameFormat').vertical.section = DataSection.section(self.get('_DataFrameFormat').vertical.dataObject.section)
+
+			var arr = self.get('_DataFrameFormat').vertical.dataObject.section
+			self.get('_DataFrameFormat').vertical.section = DataSection.section(arr)
+			if(arr.length == 1){
+				self.get('_DataFrameFormat').vertical.section[0] = arr[0] * 2
+			}
 
 			self.set('_vertical',new Vertical())
 			self.set('_horizontal',new Horizontal())
@@ -12631,7 +12694,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/core',function(S,Base,Node,Glob
 			var arr = self.get('_DataFrameFormat').horizontal.org
 			var tmpData = []
 		    for (var a = 0, al  = arr.length; a < al; a++ ) {
-				tmpData.push( { 'value':arr[a], 'x':Global.ceil(self.get('_dis_graphs') + a / (max - 1) * self.get('_horizontalDrawW')) } )
+				// tmpData.push( { 'value':arr[a], 'x':Global.ceil(self.get('_dis_graphs') + a / (max - 1) * self.get('_horizontalDrawW')) } )
+				var o = { 'value':arr[a], 'x':Global.ceil(self.get('_dis_graphs') + a / (max - 1) * self.get('_horizontalDrawW')) }
+				tmpData.push( o )
+			}
+			if(max == 1){
+				o.x = Global.ceil(self.get('_horizontalDrawW') / 2)
 			}
 			self.get('_DataFrameFormat').horizontal.data = tmpData
 		},
@@ -12664,6 +12732,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/core',function(S,Base,Node,Glob
 					if(no_nodes[a] && no_nodes[a][b]){
 						tmpData[a][b].no_node = 1
 					}
+				}
+			}
+			if(maxHorizontal == 1){
+				if(tmpData[0] && tmpData[0][0]){
+					tmpData[0][0].x = Global.ceil(self.get('_horizontalDrawW') / 2)
 				}
 			}
 			self.get('_DataFrameFormat').graphs.data = tmpData
@@ -12706,8 +12779,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/core',function(S,Base,Node,Glob
 
 		_overHandler:function($o){
 			var $o = S.clone($o)
-			$o.x = Number(this.get('gx')) +  Number(this.get('_graphs').get('element').get('_x')) + Number($o.x)
-			$o.y = Number(this.get('gy')) +  Number(this.get('_graphs').get('element').get('_y')) + Number($o.y)
+			// $o.x = Number(this.get('gx')) +  Number(this.get('_graphs').get('element').get('_x')) + Number($o.x)
+			// $o.y = Number(this.get('gy')) +  Number(this.get('_graphs').get('element').get('_y')) + Number($o.y)
+			$o.x = Number(this.get('gx')) + Number($o.x)
+			$o.y = Number(this.get('gy')) + Number($o.y)
 			//底部xy
 			$o.dx = Number(this.get('gx')) 
 			$o.dy = Number(this.get('gy')) +  Number(this.get('_graphs').get('element').get('_y'))
@@ -12973,9 +13048,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 
 		_moveHandler:function($evt){
 			var self = this
-			var o = self._globalToLocal({'x':$evt.layerX,'y':$evt.layerY})
-			var x = o.x, y = o.y
-
+			// var o = self._globalToLocal({'x':$evt.layerX,'y':$evt.layerY})
+			var o = Global.getLocalXY($evt, self.get('parent').element)
+			var x = o.x - Number(self.get('element').get('_x')), y = o.y - Number(self.get('element').get('_y'))
 			var n = x / (self.get('disX') / 2)
 			n = n % 2 == 0 ? n : n + 1
 			var tmp_id = parseInt(n / 2)
@@ -12998,10 +13073,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 			}else{
 				self.set('_index', tmp_index)
 				self.set('_id', tmp_id)
-				var o = self.get('_nodesInfoList')[self.get('_index')]
+				var o = S.clone(self.get('_nodesInfoList')[self.get('_index')])
 				var arr = S.clone(self.get('_nodesInfoList'))
 				arr.splice(self.get('_index'), 1)
 				o.other = arr
+				o.x = o.x + Number(self.get('element').get('_x')), o.y = o.y + Number(self.get('element').get('_y'))
 				self.get('element').fire(EventType.OVER,o)
 			}
 			self.set('_id', tmp_id)
@@ -14349,6 +14425,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 			self.set('_angleList', self._getAngleList(self.get('data'),self.get('_total'),self.get('_startR')))
 			// self.set('_scaleList', self._getScaleList(self.get('data'),self.get('_total')))
 			self.set('_scaleList', Global.getArrScales(self.get('data')))
+
 			if (self.get('data').length <= 1) {
 				self.set('_disR',0)
 			}
@@ -14511,7 +14588,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 	 	_overHandler:function($evt){
 	 		var self = this
 			var index = S.one($evt.target).parent().attr('_index')
-			var o = self._globalToLocal({'x':$evt.layerX,'y':$evt.layerY})
+			var o = Global.getLocalXY($evt, self.get('parent').element)
 			var x = o.x, y = o.y
 			o = self._getInfo({'index':index, 'x':x, 'y':y})
 			self.get('element').fire(EventType.OVER,o)
@@ -14519,7 +14596,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		_moveHandler:function($evt) {
 			var self = this
 			var index = S.one($evt.target).parent().attr('_index')
-			var o = self._globalToLocal({'x':$evt.layerX,'y':$evt.layerY})
+			var o = Global.getLocalXY($evt, self.get('parent').element)
 			var x = o.x, y = o.y
 			o = self._getInfo({'index':index, 'x':x, 'y':y})
 			self.get('element').fire(EventType.MOVE,o)
@@ -14527,18 +14604,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		_outHandler:function($evt){
 			var self = this
 			var index = S.one($evt.target).parent().attr('_index')
-			var o = self._globalToLocal({'x':$evt.layerX,'y':$evt.layerY})
+			var o =  Global.getLocalXY($evt, self.get('parent').element)
 			var x = o.x, y = o.y
 			o = self._getInfo({'index':index, 'x':x, 'y':y})
 			self.get('element').fire(EventType.OUT,o)
-		},
-		//全局坐标 转换相对坐标
-		_globalToLocal:function($globalObject){
-			var self = this
-			var o = {}
-			o.x = $globalObject.x - self.get('x')
-			o.y = $globalObject.y - self.get('y')
-			return o
 		},
 		_getInfo:function($o){
 			var self = this

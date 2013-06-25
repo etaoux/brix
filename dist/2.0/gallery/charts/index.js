@@ -82,6 +82,9 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 			}
 			if(S.UA.shell == 'maxthon' || (S.UA.shell == 'ie')){
 				isSWF = 1
+				if(S.UA.ie > 8){
+					isSWF = 0
+				}
 			}
 
 			isSWF = self._isSWF()
@@ -291,6 +294,16 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2013.06.09
 	*  内容:
 	*       优化：map  调整list与map间距
+	*
+	*  版本:1.1.3
+	*  日期:2013.06.18
+	*  内容:
+	*       解决：histogram2 显示比例为-1的情况
+	*
+	*  版本:1.1.4
+	*  日期:2013.06.19
+	*  内容:
+	*       优化：integrate5  只有一个数据的情况
  */
 
 
