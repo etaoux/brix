@@ -91,7 +91,7 @@ KISSY.add('brix/gallery/charts/js/pub/utils/datasection',function(S){
             lastPos = pos;
         }
         if(tickPositions.length >= 3){
-        	if(tickPositions[tickPositions.length - 2] > initMax){
+        	if(tickPositions[tickPositions.length - 2] >= initMax){
 				tickPositions.pop()
 			}
         }
@@ -117,8 +117,8 @@ KISSY.add('brix/gallery/charts/js/pub/utils/datasection',function(S){
 	};
 
 	function oldSection($arr,$maxPart,$cfg){
-		var _max =  Math.max.apply(null,$arr)   //所有数据中最大值
-		var _min =  Math.min.apply(null,$arr) 
+		var _max = Math.max.apply(null,$arr)   //所有数据中最大值
+		var _min = Math.min.apply(null,$arr) 
 		var _count =  $arr.length               //总共有几条数据
 		var _maxPart = $maxPart ? $maxPart : 9  //当前 最多有几个分段
 		var arr = []
