@@ -274,6 +274,9 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 		_timeoutDelay:{
 			value:800                    
 		},
+		_baseNumber:{                    //基础值(原点)
+			value:0
+		}
 	}
 
 	S.extend(Widget,Base,{
@@ -287,6 +290,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 				self.get('_DataFrameFormat').vertical.org = self._getDataScale()
 			}
 			self.get('_DataFrameFormat').vertical.section = DataSection.section(Global.getChildsArr(self.get('_DataFrameFormat').vertical.org))
+			self.set('_baseNumber', self.get('_DataFrameFormat').vertical.section[0])
 			self.get('_DataFrameFormat').graphs.groupCount = self.get('_DataFrameFormat').vertical.org.length
 			self.get('_DataFrameFormat').graphs.groups = Global.getMaxChildArrLength(self.get('_DataFrameFormat').vertical.org)
 
@@ -401,7 +405,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 			var arr = self.get('_DataFrameFormat').vertical.section
 			var tmpData = []
 			for (var a = 0, al = arr.length; a < al; a++ ) {
-				var y = -arr[a] / max * self.get('_verticalGraphsH')                                    
+				var y = -(arr[a] - self.get('_baseNumber')) / (max - self.get('_baseNumber')) * self.get('_verticalGraphsH')                                    
 				y = isNaN(y) ? 0 : Global.ceil(y)      
 				var value = config.y_axis.data.mode == 1 ? arr[a] + config.y_axis.data.suffix : arr[a]
 				tmpData[a] = { 'value':value, 'y': y }
@@ -477,7 +481,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 				for (var b = 0, bl = arr[a].length ; b < bl; b++ ) {
 					!tmpData[b] ? tmpData[b] = [] : ''
 					var value = config.y_axis.data.mode == 1 ? arr[a][b] + config.y_axis.data.suffix : arr[a][b]
-					tmpData[b].push( {'value':value,'height':arr[a][b] / max * self.get('_verticalGraphsH'), 'key': { 'isKey':0 } } )
+					tmpData[b].push( {'value':value,'height':(arr[a][b] - self.get('_baseNumber')) / (max - self.get('_baseNumber')) * self.get('_verticalGraphsH'), 'key': { 'isKey':0 } } )
 				}
 			}
 			for (var d = 0, dl = self.get('_DataFrameFormat').key.data.length; d < dl; d++ ) {
@@ -781,7 +785,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram2/view/widget',function(S,Base,Node
 		},
 		_timeoutDelay:{
 			value:800                    
-		},
+		}
 	}
 
 	S.extend(Widget,Base,{
@@ -802,6 +806,9 @@ KISSY.add('brix/gallery/charts/js/e/histogram2/view/widget',function(S,Base,Node
 			// self.get('_DataFrameFormat').horizontal.org.reverse();
 
 			self.get('_DataFrameFormat').vertical.section = DataSection.section(Global.getChildsArr(self.get('_DataFrameFormat').vertical.org))
+			if(self.get('_DataFrameFormat').vertical.section[0] == 0){
+				self.get('_DataFrameFormat').vertical.section.shift()
+			}
 			self.get('_DataFrameFormat').graphs.groupCount = self.get('_DataFrameFormat').vertical.org.length
 			self.get('_DataFrameFormat').graphs.groups = Global.getMaxChildArrLength(self.get('_DataFrameFormat').vertical.org)
 
@@ -1549,7 +1556,6 @@ KISSY.add('brix/gallery/charts/js/e/integrate/view/graphs',function(S,Base,node,
 		widget_right:function(){
 			var self = this
 			Graphs.superclass.constructor.apply(self,arguments);
-
 			var config = self.get('config').right
 			var o = {
 				w      : self.get('w'),
@@ -1805,6 +1811,12 @@ KISSY.add('brix/gallery/charts/js/e/integrate/view/widget',function(S,Base,Node,
 		},
 		_induceIndex:{
 			value:-1
+		},
+		_baseNumber:{                    //基础值(原点)
+			value:0
+		},
+		_baseNumberRight:{               //右侧基础值(原点)
+			value:0
 		}
 	}
 
@@ -1815,9 +1827,15 @@ KISSY.add('brix/gallery/charts/js/e/integrate/view/widget',function(S,Base,Node,
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'), self.get('DataSource')))
 			self.set('_hasRight',self.get('_DataFrameFormat').vertical.org.length == 2 ? 1 : 0)
 			self.get('_DataFrameFormat').vertical.sections.push(DataSection.section(self.get('_DataFrameFormat').vertical.org[0]))
+			self.set('_baseNumber', self.get('_DataFrameFormat').vertical.sections[0][0])
 			if(self.get('_hasRight') == 1){
 				self.get('_DataFrameFormat').vertical.sections.push(DataSection.section(self.get('_DataFrameFormat').vertical.org[1]))
+				self.set('_baseNumberRight', self.get('_DataFrameFormat').vertical.sections[1][0])
+				if(self.get('_DataFrameFormat').vertical.sections[1].length < 1){
+					self.get('_DataFrameFormat').vertical.sections[1] = [0]
+				}
 			}
+			
 			self.get('_DataFrameFormat').graphs.groupCount = 1
 			self.get('_DataFrameFormat').graphs.groups = self.get('_DataFrameFormat').vertical.org[0].length
 
@@ -1966,9 +1984,10 @@ KISSY.add('brix/gallery/charts/js/e/integrate/view/widget',function(S,Base,Node,
 			self.set('_verticalDrawH', self.get('_verticalGraphsH') - self.get('_dis_graphs'))
 			var max = self.get('_DataFrameFormat').vertical.sections[$i][self.get('_DataFrameFormat').vertical.sections[$i].length - 1]
 			var arr = self.get('_DataFrameFormat').vertical.sections[$i]
+			var _baseNumber = $i == 0 ? self.get('_baseNumber') : self.get('_baseNumberRight')
 			var tmpData = []
 			for (var a = 0, al = arr.length; a < al; a++ ) {
-				var y = -self.get('_dis_graphs') - arr[a] / max * self.get('_verticalDrawH')                                    
+				var y = -self.get('_dis_graphs') - (arr[a] - _baseNumber) / (max - _baseNumber) * self.get('_verticalDrawH')                                    
 				y = isNaN(y) ? 0 : Global.ceil(y)                                                    
 				tmpData[a] = { 'value':arr[a], 'y': y }
 			}
@@ -2031,7 +2050,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate/view/widget',function(S,Base,Node,
 			var arr = self.get('_DataFrameFormat').vertical.org[$i]
 			var tmpData = []
 			for (var a = 0, al = arr.length; a < al; a++ ) {
-				var h = arr[a] / max * self.get('_verticalGraphsH')  
+				var h = (arr[a] - self.get('_baseNumber')) / (max - self.get('_baseNumber')) * self.get('_verticalGraphsH')  
 				!tmpData[a] ? tmpData[a] = [] : ''                                           
 				tmpData[a][0] = {'value':arr[a], 'height':h} 
 			}
@@ -2050,7 +2069,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate/view/widget',function(S,Base,Node,
 			var tmpData = []
 			tmpData[0] = []
 			for (var a = 0, al = arr.length; a < al; a++ ) {
-				var y = - arr[a] / max * self.get('_verticalGraphsH')
+				var y = - (arr[a] - self.get('_baseNumberRight')) / (max - self.get('_baseNumberRight')) * self.get('_verticalGraphsH')
 				y = isNaN(y) ? 0 : Global.ceil(y)
 				tmpData[0][a] = {'value':arr[a], x:self.get('_DataFrameFormat').graphs.info[a].cx, y:y}
 			}
@@ -4172,6 +4191,9 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 		_timeoutDelay:{
 			value:100                    
 		},
+		_baseNumber:{                    //基础值(原点)
+			value:0
+		}
 	}
 
 	S.extend(Widget,Base,{
@@ -4182,8 +4204,12 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			self.get('_DataFrameFormat').key.data = String(self.get('_DataFrameFormat').key.indexs).split(',')
 			var arr = Global.getChildsArr(self.get('_DataFrameFormat').vertical.org)
 			self.get('_DataFrameFormat').vertical.section = DataSection.section(arr)
+			// S.log(self.get('_DataFrameFormat').vertical.section)
+			self.set('_baseNumber', self.get('_DataFrameFormat').vertical.section[0])
+			// self.get('_DataFrameFormat').vertical.section = [10330000, 10340000, 10350000, 10360000, 10370000, 10380000, 10390000] 
 			if(arr.length == 1){
 				self.get('_DataFrameFormat').vertical.section[0] = arr[0] * 2
+				self.set('_baseNumber', 0)
 			}
 
 			self._widget()
@@ -4296,7 +4322,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			var arr = self.get('_DataFrameFormat').vertical.section
 			var tmpData = []
 			for (var a = 0, al = arr.length; a < al; a++ ) {
-				var y = -self.get('_dis_graphs') - arr[a] / max * self.get('_verticalDrawH')                                    
+				var y = -self.get('_dis_graphs') - (arr[a] - self.get('_baseNumber')) / (max - self.get('_baseNumber'))* self.get('_verticalDrawH')                                    
 				y = isNaN(y) ? 0 : Global.ceil(y)                                                    
 				tmpData[a] = { 'value':arr[a], 'y': y }
 			}
@@ -4353,7 +4379,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			for (var a = 0, al = arr.length; a < al; a++ ) {
 				for (var b = 0, bl = arr[a].length ; b < bl; b++ ) {
 					!tmpData[a] ? tmpData[a] = [] : ''
-					var y = -self.get('_dis_graphs') - arr[a][b] / maxVertical * self.get('_verticalDrawH')
+					var y = -self.get('_dis_graphs') - (arr[a][b] - self.get('_baseNumber')) / (maxVertical - self.get('_baseNumber')) * self.get('_verticalDrawH')
 					y = isNaN(y) ? 0 : y
 					tmpData[a][b] = {'value':arr[a][b], 'x':self.get('_dis_graphs') + b / (maxHorizontal - 1) * self.get('_horizontalDrawW'),'y':y}
 					if(no_nodes[a] && no_nodes[a][b]){
@@ -4694,6 +4720,9 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 		_timeoutDelay:{
 			value:100                    
 		},
+		_baseNumber:{                    //基础值(原点)
+			value:0
+		}
 	}
 
 	S.extend(Widget,Base,{
@@ -4703,6 +4732,7 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'), self.get('DataSource'))) 
 			// self.get('_DataFrameFormat').key.data = String(self.get('_DataFrameFormat').key.indexs).split(',')
 			self.get('_DataFrameFormat').vertical.section = DataSection.section(Global.getChildsArr(self.get('_DataFrameFormat').vertical.org))
+			self.set('_baseNumber', self.get('_DataFrameFormat').vertical.section[0])
 
 			self._widget()
 		},
@@ -4807,7 +4837,7 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 			var arr = self.get('_DataFrameFormat').vertical.section
 			var tmpData = []
 			for (var a = 0, al = arr.length; a < al; a++ ) {
-				var y = -self.get('_dis_graphs') - arr[a] / max * self.get('_verticalDrawH')                                    
+				var y = -self.get('_dis_graphs') - (arr[a] - self.get('_baseNumber')) / (max - self.get('_baseNumber')) * self.get('_verticalDrawH')                                    
 				y = isNaN(y) ? 0 : Global.ceil(y)                                                    
 				tmpData[a] = { 'value':arr[a], 'y': y }
 			}
@@ -4858,7 +4888,7 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 			for (var a = 0, al = arr.length; a < al; a++ ) {
 				for (var b = 0, bl = arr[a].length ; b < bl; b++ ) {
 					!tmpData[a] ? tmpData[a] = [] : ''
-					var y = -self.get('_dis_graphs') - arr[a][b] / maxVertical * self.get('_verticalDrawH')
+					var y = -self.get('_dis_graphs') - (arr[a][b] - self.get('_baseNumber')) / (maxVertical - self.get('_baseNumber')) * self.get('_verticalDrawH')
 					y = isNaN(y) ? 0 : y
 					tmpData[a][b] = {'value':arr[a][b], 'x':self.get('_dis_graphs') + b / (maxHorizontal - 1) * self.get('_horizontalDrawW'),'y':y} 
 				}
@@ -5177,6 +5207,12 @@ KISSY.add('brix/gallery/charts/js/e/line3/view/widget',function(S,Base,Node,Glob
 		_timeoutDelay:{
 			value:100                    
 		},
+		_baseNumber:{                    //基础值(原点)
+			value:0
+		},
+		_baseNumberRight:{               //右侧基础值(原点)
+			value:0
+		}
 	}
 
 	S.extend(Widget,Base,{
@@ -5187,8 +5223,17 @@ KISSY.add('brix/gallery/charts/js/e/line3/view/widget',function(S,Base,Node,Glob
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'), self.get('DataSource')))
 			self.set('_hasRight',self.get('_DataFrameFormat').vertical.org.length == 2 ? 1 : 0)
 			self.get('_DataFrameFormat').vertical.sections.push(DataSection.section(self.get('_DataFrameFormat').vertical.org[0],null,{scale:scales[0]}))
+			if(self.get('_DataFrameFormat').vertical.sections[0].length >= 2){
+				self.set('_baseNumber', self.get('_DataFrameFormat').vertical.sections[0][0])
+			}
 			if(self.get('_hasRight') == 1){
 				self.get('_DataFrameFormat').vertical.sections.push(DataSection.section(self.get('_DataFrameFormat').vertical.org[1],null,{scale:scales[1]}))
+				if(self.get('_DataFrameFormat').vertical.sections[1].length > 2){
+					self.set('_baseNumberRight', self.get('_DataFrameFormat').vertical.sections[1][0])
+				}
+				if(self.get('_DataFrameFormat').vertical.sections[1].length < 1){
+					self.get('_DataFrameFormat').vertical.sections[1] = [0]
+				}
 			}
 
 			self._widget()
@@ -5321,9 +5366,10 @@ KISSY.add('brix/gallery/charts/js/e/line3/view/widget',function(S,Base,Node,Glob
 			self.set('_verticalDrawH', self.get('_verticalGraphsH') - self.get('_dis_graphs'))
 			var max = self.get('_DataFrameFormat').vertical.sections[$i][self.get('_DataFrameFormat').vertical.sections[$i].length - 1]
 			var arr = self.get('_DataFrameFormat').vertical.sections[$i]
+			var _baseNumber = $i == 0 ? self.get('_baseNumber') : self.get('_baseNumberRight')
 			var tmpData = []
 			for (var a = 0, al = arr.length; a < al; a++ ) {
-				var y = -self.get('_dis_graphs') - arr[a] / max * self.get('_verticalDrawH')                                    
+				var y = -self.get('_dis_graphs') - (arr[a] - _baseNumber) / (max -_baseNumber) * self.get('_verticalDrawH')                                    
 				y = isNaN(y) ? 0 : Global.ceil(y)                                                    
 				tmpData[a] = { 'value':arr[a], 'y': y }
 			}
@@ -5385,6 +5431,7 @@ KISSY.add('brix/gallery/charts/js/e/line3/view/widget',function(S,Base,Node,Glob
 			var maxVertical = self.get('_DataFrameFormat').vertical.sections[$i][self.get('_DataFrameFormat').vertical.sections[$i].length - 1]
 			var maxHorizontal = self.get('_DataFrameFormat').horizontal.org.length
 			var arr = self.get('_DataFrameFormat').vertical.org[$i]
+			var _baseNumber = $i == 0 ? self.get('_baseNumber') : self.get('_baseNumberRight')
 			var tmpData = []
 			for (var a = 0, al = arr.length; a < al; a++ ) {
 				var x = self.get('_dis_graphs') + a / (maxHorizontal - 1) * self.get('_horizontalDrawW')
@@ -5392,7 +5439,7 @@ KISSY.add('brix/gallery/charts/js/e/line3/view/widget',function(S,Base,Node,Glob
 				if($i == 1 && al == 1){
 					x = self.get('_horizontalDrawW')
 				}
-				var y = -self.get('_dis_graphs') - arr[a] / maxVertical * self.get('_verticalDrawH')
+				var y = -self.get('_dis_graphs') - (arr[a] - _baseNumber) / (maxVertical - _baseNumber) * self.get('_verticalDrawH')
 				y = isNaN(y) ? 0 : Global.ceil(y)                                                    
 				tmpData[a] = {'value':arr[a], 'x':x,'y':y} 
 			}
@@ -6561,8 +6608,8 @@ KISSY.add('brix/gallery/charts/js/e/scatter/view/widget',function(S,Base,Node,Gl
 
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'), self.get('DataSource'))) 
 			self.get('_DataFrameFormat').key.data = String(self.get('_DataFrameFormat').key.indexs).split(',')
-			self.get('_DataFrameFormat').vertical.section = DataSection.section(self.get('_DataFrameFormat').vertical.org)
-			self.get('_DataFrameFormat').horizontal.section = DataSection.section(self.get('_DataFrameFormat').horizontal.org)
+			self.get('_DataFrameFormat').vertical.section = DataSection.section(self.get('_DataFrameFormat').vertical.org, null, {mode:1})
+			self.get('_DataFrameFormat').horizontal.section = DataSection.section(self.get('_DataFrameFormat').horizontal.org, null, {mode:1})
 
 			self._widget()
 		},
@@ -8933,73 +8980,188 @@ KISSY.add('brix/gallery/charts/js/pub/models/eventtype',function(S){
 	}
 );
 KISSY.add('brix/gallery/charts/js/pub/utils/datasection',function(S){
+
+
+	 function normalizeTickInterval(interval, magnitude) {
+        var normalized, i;
+        // var multiples = [1, 2, 2.5, 5, 10];
+        var multiples = [1, 2, 5, 10];
+        // round to a tenfold of 1, 2, 2.5 or 5
+        normalized = interval / magnitude;
+
+        // normalize the interval to the nearest multiple
+        for (i = 0; i < multiples.length; i++) {
+            interval = multiples[i];
+            if (normalized <= (multiples[i] + (multiples[i + 1] || multiples[i])) / 2) {
+                break;
+            }
+        }
+
+        // multiply back to the correct magnitude
+        interval *= magnitude;
+
+        return interval;
+    }
+
+    /**
+     * Fix JS round off float errors
+     * @param {Number} num
+     */
+
+    function correctFloat(num) {
+        return parseFloat(
+            num.toPrecision(14));
+    }
+
+    /**
+     * Set the tick positions of a linear axis to round values like whole tens or every five.
+     */
+
+    function getLinearTickPositions(arr,$maxPart,$cfg) {
+    	var scale = $cfg && $cfg.scale ? parseFloat($cfg.scale) :1
+
+		if(isNaN(scale)){
+			scale = 1
+		}
+        // var max = arrayMax(arr);
+        var max = Math.max.apply(null,arr)
+        var initMax = max
+        max *= scale
+        // var min = arrayMin(arr);
+        var min = Math.min.apply(null,arr) 
+
+        
+        var length = max - min;
+        if (length) {
+        	var tempmin = min //保证min>0的时候不会出现负数
+        	min -= length * 0.05;
+            // S.log(min +":"+ tempmin)
+            if(min<0 && tempmin>=0){
+            	min=0
+            }
+            max += length * 0.05;
+        }
+        var tickInterval = (max - min) * 72 / 365;
+        var magnitude = Math.pow(10, Math.floor(Math.log(tickInterval) / Math.LN10));
+
+        tickInterval = normalizeTickInterval(tickInterval, magnitude);
+
+        var pos,
+            lastPos,
+            roundedMin = correctFloat(Math.floor(min / tickInterval) * tickInterval),
+            roundedMax = correctFloat(Math.ceil(max / tickInterval) * tickInterval),
+            tickPositions = [];
+
+        // Populate the intermediate values
+        pos = roundedMin;
+        while (pos <= roundedMax) {
+
+            // Place the tick on the rounded value
+            tickPositions.push(pos);
+
+            // Always add the raw tickInterval, not the corrected one.
+            pos = correctFloat(pos + tickInterval) 
+
+            // If the interval is not big enough in the current min - max range to actually increase
+            // the loop variable, we need to break out to prevent endless loop. Issue #619
+            if (pos === lastPos) {
+                break;
+            }
+
+            // Record the last value
+            lastPos = pos;
+        }
+        if(tickPositions.length >= 3){
+        	if(tickPositions[tickPositions.length - 2] > initMax){
+				tickPositions.pop()
+			}
+        }
+        return tickPositions;
+    }
 	
 	var DataSection  = {
+		
 		section:function($arr,$maxPart,$cfg){
-			var _max =  Math.max.apply(null,$arr)   //所有数据中最大值
-			var _count =  $arr.length               //总共有几条数据
-			var _maxPart = $maxPart ? $maxPart : 9  //当前 最多有几个分段
 			var arr = []
-			var tmpMax = _max
-			var tmpMin = 0
-			var l = String(Math.ceil(_max)).length
-			var scale = 1
-			$cfg || ($cfg = {})
-			scale = parseFloat($cfg.scale)
-			if(!isNaN(scale)){
-				_max *= scale
-			}
-			if (_max % Math.pow(10, l - 1) != 0) {
-				//千位数以上 
-				if (l >= 3) {
-					if (parseInt(_max / Math.pow(10, l - 2)) % 2 == 0) {
-						tmpMax = parseInt(_max / Math.pow(10, l - 2)) * Math.pow(10, l - 2) + 2 * Math.pow(10, l - 2)
-					}else {
-						tmpMax = parseInt(_max / Math.pow(10, l - 2)) * Math.pow(10, l - 2) + Math.pow(10, l - 2)
-					}
-				}else {
-					tmpMax = parseInt(_max / Math.pow(10, l - 1) + 1) * Math.pow(10, l - 1)
+			// S.log($arr)
+			if($cfg && $cfg.mode == 1){
+				arr = oldSection($arr,$maxPart,$cfg)	
+			}else{
+				arr = getLinearTickPositions($arr,$maxPart,$cfg)
+				if(arr.length < 1){
+					arr = oldSection($arr,$maxPart,$cfg)		
 				}
-			}
-			l = String(tmpMax).length
-			if (_maxPart >= _count ) { _maxPart = _count }
-			var part = _maxPart
-			//十位数以上
-			if (l >= 2) {
-				for (var a = 1, al = tmpMax / Math.pow(10, l - 2) ; a <= al; a++ ) {
-					if (tmpMax / (a *  Math.pow(10, l - 2)) == parseInt(tmpMax / (a *  Math.pow(10, l - 2)))) {
-						if (tmpMax / (a *  Math.pow(10, l - 2)) <= _maxPart) {
-							if (_maxPart - tmpMax / (a *  Math.pow(10, l - 2)) < part) {
-								part = _maxPart - tmpMax / (a *  Math.pow(10, l - 2))
-							}
-						}
-					}
-				}
-				for (var b = 0, bl = _maxPart - part; b < bl; b++ ) {
-					arr[b] = tmpMax / (_maxPart - part) * (b + 1)
-				}
-				//个位数及小数点
-			}else if (l <= 1) {
-				for (var c = 1, cl = tmpMax ; c <= cl; c++ ) {
-					if (tmpMax / c == parseInt(tmpMax / c)) {
-						if (tmpMax / c <= _maxPart) {
-							if (_maxPart - tmpMax / c < part) {
-								part = _maxPart - tmpMax / c
-							}
-						}
-					}
-				}
-				for (var d = 0, dl = _maxPart - part; d < dl; d++ ) {
-					arr[d] = tmpMax / (_maxPart - part) * (d + 1)
-				}
-			}
-			if (arr.length < 1) {
-				arr = [0]
 			}
 			
 			return arr
 		}
 	};
+
+	function oldSection($arr,$maxPart,$cfg){
+		var _max =  Math.max.apply(null,$arr)   //所有数据中最大值
+		var _min =  Math.min.apply(null,$arr) 
+		var _count =  $arr.length               //总共有几条数据
+		var _maxPart = $maxPart ? $maxPart : 9  //当前 最多有几个分段
+		var arr = []
+		var tmpMax = _max
+		var tmpMin = 0
+		var l = String(Math.ceil(_max)).length
+		var scale = 1
+		$cfg || ($cfg = {})
+		scale = parseFloat($cfg.scale)
+		if(!isNaN(scale)){
+			_max *= scale
+		}
+		if (_max % Math.pow(10, l - 1) != 0) {
+			//千位数以上 
+			if (l >= 3) {
+				if (parseInt(_max / Math.pow(10, l - 2)) % 2 == 0) {
+					tmpMax = parseInt(_max / Math.pow(10, l - 2)) * Math.pow(10, l - 2) + 2 * Math.pow(10, l - 2)
+				}else {
+					tmpMax = parseInt(_max / Math.pow(10, l - 2)) * Math.pow(10, l - 2) + Math.pow(10, l - 2)
+				}
+			}else {
+				tmpMax = parseInt(_max / Math.pow(10, l - 1) + 1) * Math.pow(10, l - 1)
+			}
+		}
+		l = String(tmpMax).length
+		if (_maxPart >= _count ) { _maxPart = _count }
+		var part = _maxPart
+		//十位数以上
+		if (l >= 2) {
+			for (var a = 1, al = tmpMax / Math.pow(10, l - 2) ; a <= al; a++ ) {
+				if (tmpMax / (a *  Math.pow(10, l - 2)) == parseInt(tmpMax / (a *  Math.pow(10, l - 2)))) {
+					if (tmpMax / (a *  Math.pow(10, l - 2)) <= _maxPart) {
+						if (_maxPart - tmpMax / (a *  Math.pow(10, l - 2)) < part) {
+							part = _maxPart - tmpMax / (a *  Math.pow(10, l - 2))
+						}
+					}
+				}
+			}
+			for (var b = 0, bl = _maxPart - part; b < bl; b++ ) {
+				arr[b] = tmpMax / (_maxPart - part) * (b + 1)
+			}
+			//个位数及小数点
+		}else if (l <= 1) {
+			for (var c = 1, cl = tmpMax ; c <= cl; c++ ) {
+				if (tmpMax / c == parseInt(tmpMax / c)) {
+					if (tmpMax / c <= _maxPart) {
+						if (_maxPart - tmpMax / c < part) {
+							part = _maxPart - tmpMax / c
+						}
+					}
+				}
+			}
+			for (var d = 0, dl = _maxPart - part; d < dl; d++ ) {
+				arr[d] = tmpMax / (_maxPart - part) * (d + 1)
+			}
+		}
+		if (arr.length < 1) {
+			arr = [0]
+		}
+		// arr = [10330000,10360000]
+		return arr
+	}
 
 	return DataSection;
 
@@ -9919,7 +10081,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/core',function(S,Base,Node
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'),self.get('DataSource'))) 
 			self.get('_DataFrameFormat').key.data = String(self.get('_DataFrameFormat').key.indexs).split(',')
 			self.get('_DataFrameFormat').vertical.max = self._getChildsMaxArr(self.get('_DataFrameFormat').vertical.org)
-			self.get('_DataFrameFormat').vertical.section = DataSection.section(Global.getChildsArr(self.get('_DataFrameFormat').vertical.max))
+			self.get('_DataFrameFormat').vertical.section = DataSection.section(Global.getChildsArr(self.get('_DataFrameFormat').vertical.max), null, {mode:1})
 			self.get('_DataFrameFormat').graphs.groupCount = self.get('_DataFrameFormat').vertical.max.length
 			self.get('_DataFrameFormat').graphs.groups = Global.getMaxChildArrLength(self.get('_DataFrameFormat').vertical.max)
 
@@ -12500,7 +12662,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/core',function(S,Base,Node,Glob
 			self.get('_DataFrameFormat').vertical.dataObject = self._trimVerticalOrgData(self.get('_DataFrameFormat').vertical.org)
 
 			var arr = self.get('_DataFrameFormat').vertical.dataObject.section
-			self.get('_DataFrameFormat').vertical.section = DataSection.section(arr)
+			self.get('_DataFrameFormat').vertical.section = DataSection.section(arr, null, {mode:1})
 			if(arr.length == 1){
 				self.get('_DataFrameFormat').vertical.section[0] = arr[0] * 2
 			}
