@@ -124,8 +124,8 @@ KISSY.add('brix/gallery/charts/js/e/scatter/view/widget',function(S,Base,Node,Gl
 
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'), self.get('DataSource'))) 
 			self.get('_DataFrameFormat').key.data = String(self.get('_DataFrameFormat').key.indexs).split(',')
-			self.get('_DataFrameFormat').vertical.section = DataSection.section(self.get('_DataFrameFormat').vertical.org)
-			self.get('_DataFrameFormat').horizontal.section = DataSection.section(self.get('_DataFrameFormat').horizontal.org)
+			self.get('_DataFrameFormat').vertical.section = DataSection.section(self.get('_DataFrameFormat').vertical.org, null, {mode:1})
+			self.get('_DataFrameFormat').horizontal.section = DataSection.section(self.get('_DataFrameFormat').horizontal.org, null, {mode:1})
 
 			self._widget()
 		},

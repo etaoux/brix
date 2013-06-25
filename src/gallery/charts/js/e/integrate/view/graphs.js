@@ -100,7 +100,6 @@ KISSY.add('brix/gallery/charts/js/e/integrate/view/graphs',function(S,Base,node,
 		widget_right:function(){
 			var self = this
 			Graphs.superclass.constructor.apply(self,arguments);
-
 			var config = self.get('config').right
 			var o = {
 				w      : self.get('w'),

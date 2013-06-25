@@ -114,7 +114,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram2/view/widget',function(S,Base,Node
 		},
 		_timeoutDelay:{
 			value:800                    
-		},
+		}
 	}
 
 	S.extend(Widget,Base,{
@@ -135,6 +135,9 @@ KISSY.add('brix/gallery/charts/js/e/histogram2/view/widget',function(S,Base,Node
 			// self.get('_DataFrameFormat').horizontal.org.reverse();
 
 			self.get('_DataFrameFormat').vertical.section = DataSection.section(Global.getChildsArr(self.get('_DataFrameFormat').vertical.org))
+			if(self.get('_DataFrameFormat').vertical.section[0] == 0){
+				self.get('_DataFrameFormat').vertical.section.shift()
+			}
 			self.get('_DataFrameFormat').graphs.groupCount = self.get('_DataFrameFormat').vertical.org.length
 			self.get('_DataFrameFormat').graphs.groups = Global.getMaxChildArrLength(self.get('_DataFrameFormat').vertical.org)
 

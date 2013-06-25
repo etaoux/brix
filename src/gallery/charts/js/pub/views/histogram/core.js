@@ -132,7 +132,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/core',function(S,Base,Node
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'),self.get('DataSource'))) 
 			self.get('_DataFrameFormat').key.data = String(self.get('_DataFrameFormat').key.indexs).split(',')
 			self.get('_DataFrameFormat').vertical.max = self._getChildsMaxArr(self.get('_DataFrameFormat').vertical.org)
-			self.get('_DataFrameFormat').vertical.section = DataSection.section(Global.getChildsArr(self.get('_DataFrameFormat').vertical.max))
+			self.get('_DataFrameFormat').vertical.section = DataSection.section(Global.getChildsArr(self.get('_DataFrameFormat').vertical.max), null, {mode:1})
 			self.get('_DataFrameFormat').graphs.groupCount = self.get('_DataFrameFormat').vertical.max.length
 			self.get('_DataFrameFormat').graphs.groups = Global.getMaxChildArrLength(self.get('_DataFrameFormat').vertical.max)
 

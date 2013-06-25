@@ -148,7 +148,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/core',function(S,Base,Node,Glob
 			self.get('_DataFrameFormat').vertical.dataObject = self._trimVerticalOrgData(self.get('_DataFrameFormat').vertical.org)
 
 			var arr = self.get('_DataFrameFormat').vertical.dataObject.section
-			self.get('_DataFrameFormat').vertical.section = DataSection.section(arr)
+			self.get('_DataFrameFormat').vertical.section = DataSection.section(arr, null, {mode:1})
 			if(arr.length == 1){
 				self.get('_DataFrameFormat').vertical.section[0] = arr[0] * 2
 			}

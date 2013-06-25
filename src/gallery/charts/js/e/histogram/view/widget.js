@@ -112,6 +112,9 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 		_timeoutDelay:{
 			value:800                    
 		},
+		_baseNumber:{                    //基础值(原点)
+			value:0
+		}
 	}
 
 	S.extend(Widget,Base,{
@@ -125,6 +128,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 				self.get('_DataFrameFormat').vertical.org = self._getDataScale()
 			}
 			self.get('_DataFrameFormat').vertical.section = DataSection.section(Global.getChildsArr(self.get('_DataFrameFormat').vertical.org))
+			self.set('_baseNumber', self.get('_DataFrameFormat').vertical.section[0])
 			self.get('_DataFrameFormat').graphs.groupCount = self.get('_DataFrameFormat').vertical.org.length
 			self.get('_DataFrameFormat').graphs.groups = Global.getMaxChildArrLength(self.get('_DataFrameFormat').vertical.org)
 
@@ -239,7 +243,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 			var arr = self.get('_DataFrameFormat').vertical.section
 			var tmpData = []
 			for (var a = 0, al = arr.length; a < al; a++ ) {
-				var y = -arr[a] / max * self.get('_verticalGraphsH')                                    
+				var y = -(arr[a] - self.get('_baseNumber')) / (max - self.get('_baseNumber')) * self.get('_verticalGraphsH')                                    
 				y = isNaN(y) ? 0 : Global.ceil(y)      
 				var value = config.y_axis.data.mode == 1 ? arr[a] + config.y_axis.data.suffix : arr[a]
 				tmpData[a] = { 'value':value, 'y': y }
@@ -315,7 +319,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 				for (var b = 0, bl = arr[a].length ; b < bl; b++ ) {
 					!tmpData[b] ? tmpData[b] = [] : ''
 					var value = config.y_axis.data.mode == 1 ? arr[a][b] + config.y_axis.data.suffix : arr[a][b]
-					tmpData[b].push( {'value':value,'height':arr[a][b] / max * self.get('_verticalGraphsH'), 'key': { 'isKey':0 } } )
+					tmpData[b].push( {'value':value,'height':(arr[a][b] - self.get('_baseNumber')) / (max - self.get('_baseNumber')) * self.get('_verticalGraphsH'), 'key': { 'isKey':0 } } )
 				}
 			}
 			for (var d = 0, dl = self.get('_DataFrameFormat').key.data.length; d < dl; d++ ) {

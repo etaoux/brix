@@ -124,6 +124,9 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 		_timeoutDelay:{
 			value:100                    
 		},
+		_baseNumber:{                    //基础值(原点)
+			value:0
+		}
 	}
 
 	S.extend(Widget,Base,{
@@ -133,6 +136,7 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'), self.get('DataSource'))) 
 			// self.get('_DataFrameFormat').key.data = String(self.get('_DataFrameFormat').key.indexs).split(',')
 			self.get('_DataFrameFormat').vertical.section = DataSection.section(Global.getChildsArr(self.get('_DataFrameFormat').vertical.org))
+			self.set('_baseNumber', self.get('_DataFrameFormat').vertical.section[0])
 
 			self._widget()
 		},
@@ -237,7 +241,7 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 			var arr = self.get('_DataFrameFormat').vertical.section
 			var tmpData = []
 			for (var a = 0, al = arr.length; a < al; a++ ) {
-				var y = -self.get('_dis_graphs') - arr[a] / max * self.get('_verticalDrawH')                                    
+				var y = -self.get('_dis_graphs') - (arr[a] - self.get('_baseNumber')) / (max - self.get('_baseNumber')) * self.get('_verticalDrawH')                                    
 				y = isNaN(y) ? 0 : Global.ceil(y)                                                    
 				tmpData[a] = { 'value':arr[a], 'y': y }
 			}
@@ -288,7 +292,7 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 			for (var a = 0, al = arr.length; a < al; a++ ) {
 				for (var b = 0, bl = arr[a].length ; b < bl; b++ ) {
 					!tmpData[a] ? tmpData[a] = [] : ''
-					var y = -self.get('_dis_graphs') - arr[a][b] / maxVertical * self.get('_verticalDrawH')
+					var y = -self.get('_dis_graphs') - (arr[a][b] - self.get('_baseNumber')) / (maxVertical - self.get('_baseNumber')) * self.get('_verticalDrawH')
 					y = isNaN(y) ? 0 : y
 					tmpData[a][b] = {'value':arr[a][b], 'x':self.get('_dis_graphs') + b / (maxHorizontal - 1) * self.get('_horizontalDrawW'),'y':y} 
 				}
