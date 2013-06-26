@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<head>
+	<meta charset="utf-8">
+	<title>brix</title>
+	<link type="text/css" rel="stylesheet" href="../../src/style/brix-min.css" charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="../../src/gallery/dropdown/index.css" charset="utf-8">
+    <link rel="stylesheet" href="../assets/doc.css">
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js" data-config="{combine:true}"></script>
+    <script src="../../src/core/brix.js"></script>
+</head>
+<body>
+<script type="text/tmpl" id="T">
+<div>
+<div bx-tmpl="refresh" bx-datakey="guid">
+	<div id="aa" bx-name="dropdown" class="dropdown" bx-config="{mode:2,autoResize:false}">
+	    <span class="dropdown-hd">
+	        <span class="dropdown-text">test</span>
+	        <i class="iconfont f10 ml5">&#459</i>
+	    </span>
+	    <ul class="dropdown-list">
+	            <li class="dropdown-item">
+	                <span value="1">a</span>
+	                <i class="iconfont icon-ok">&#126</i>
+	            </li>
+	            <li class="dropdown-item">
+	                <span value="2">b</span>
+	                <i class="iconfont icon-ok">&#126</i>
+	            </li>
+	            <li class="dropdown-item">
+	                <span value="3">c</span>
+	                <i class="iconfont icon-ok">&#126</i>
+	            </li>
+	     </ul>
+	</div>
+</div>
+<div bx-tmpl="r1" bx-datakey="guid">xx</div>
+</div>
+</script>
+
+<script type="text/javascript">
+	KISSY.use('brix/core/pagelet',function(S,Pagelet){
+		var p=new Pagelet({
+			container: 'body',
+            tmpl: '#T',
+            data: {},
+            destroyAction:'empty'
+		});
+		p.ready(function(){
+			var dd=p.getBrick('aa');
+			console.log(dd);//ok
+			setTimeout(function(){
+				p.ready(function(){
+					p.setChunkData({guid:S.guid()});
+				p.ready(function(){
+					dd=p.getBrick('aa');
+					console.log(dd);//undefined
+				});
+				})
+				
+			},5000);
+		});
+	});
+</script>
+</body>
+</html>
