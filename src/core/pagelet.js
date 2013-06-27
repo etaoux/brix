@@ -32,6 +32,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
             self.bricks = [];
             self.isAddBehavior = false;
             self.destroyed = false; //是否销毁的标志位。
+            self.bxCounter = 0;
         },
         bindUI: function() {
             //增加参数回调
@@ -119,6 +120,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                     self.bricks = bricks;
                 }, function() {
                     self.on('beforeRefreshTmpl', function(e) {
+                        self.bxCounter++;
                         if (e.renderType === 'html') {
                             e.node.all('[bx-name]').each(function(node) {
                                 self.destroyBrick(node.attr('id'));
@@ -131,7 +133,10 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                                 self.bricks = self.bricks.concat(newBricks);
                             }
                         }, function() {
-                            self._bx_fireReady();
+                            self.bxCounter--;
+                            if (self.bxCounter === 0) {
+                                self._bx_fireReady();
+                            }
                         });
                     });
                     self._bx_fireReady();
