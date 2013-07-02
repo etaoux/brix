@@ -2,7 +2,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
 <svg xmlns="http://www.w3.org/2000/svg">
 <metadata>
-Created by FontForge 20110222 at Mon Jun  3 10:34:14 2013
+Created by FontForge 20110222 at Mon Jul  1 16:07:09 2013
  By cricy
 Created by cricy with FontForge 2.0 (http://fontforge.sf.net)
 </metadata>
@@ -21,7 +21,7 @@ Created by cricy with FontForge 2.0 (http://fontforge.sf.net)
     bbox="-129 -456 3997 1076.15"
     underline-thickness="50"
     underline-position="-100"
-    unicode-range="U+0021-F030"
+    unicode-range="U+0021-F031"
   />
 <missing-glyph horiz-adv-x="364" 
 d="M33 0v666h265v-666h-265zM66 33h199v600h-199v-600z" />
@@ -2374,5 +2374,7 @@ d="M125 361h751v-127h-23q-20 0 -26 10.5t-10 23.5t-12.5 24t-32.5 13q-24 1 -43.5 -
 v99zM125 48h751v-125h-751v125zM765 234q17 1 26 -7t17.5 -19t18.5 -20t28 -9h21v-68h-751v78q13 12 36.5 25.5t53.5 13.5q22 0 35 -7t25 -15.5t27.5 -15.5t43.5 -7t50.5 6.5t42 15t36 15t31.5 6.5q24 0 33 -8t16.5 -17t18.5 -17t38 -8t48 8.5t38.5 19t33.5 19.5t33 11z
 M876 424h-751v63q8 42 41 77t84 60.5t115.5 39.5t135.5 14q72 0 136.5 -14t114.5 -39.5t83 -60.5t41 -77v-63zM339 550q13 0 22 9t9 22t-9 22t-22 9t-22 -9t-9 -22t9 -22t22 -9zM526 612q14 0 22.5 9t8.5 22t-8.5 22t-22.5 9q-13 0 -21.5 -9t-8.5 -22t8.5 -22t21.5 -9z
 M652 550q13 0 22 9t9 22t-9 22t-22 9t-22 -9t-9 -22t9 -22t22 -9z" />
+    <glyph glyph-name="uniF031" unicode="&#xf031;" 
+d="M751 361q26 0 44 -18t18 -44t-18 -44.5t-44 -18.5h-501q-26 0 -44.5 18.5t-18.5 44.5t18.5 44t44.5 18h501z" />
   </font>
 </defs></svg>
