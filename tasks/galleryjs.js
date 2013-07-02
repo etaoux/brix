@@ -75,22 +75,24 @@ module.exports = function(grunt) {
             var files = fs.readdirSync(src);
 
             files.forEach(function(p) {
-                var srcPath = src + p + '/',
-                    destPath = dest + p + '/';
-                foo(srcPath, destPath);
-                var extPath = srcPath + 'ext/';
-                if (fs.existsSync(extPath)) {
-                    var extFiles = fs.readdirSync(extPath);
-                    extFiles.forEach(function(p) {
-                        foo(extPath + p + '/', destPath + 'ext/' + p + '/');
-                    })
-                }
+                //if (p != 'd3') {
+                    var srcPath = src + p + '/',
+                        destPath = dest + p + '/';
+                    foo(srcPath, destPath);
+                    var extPath = srcPath + 'ext/';
+                    if (fs.existsSync(extPath)) {
+                        var extFiles = fs.readdirSync(extPath);
+                        extFiles.forEach(function(p) {
+                            foo(extPath + p + '/', destPath + 'ext/' + p + '/');
+                        })
+                    }
+                //}
             });
             config('concat', concatConfig);
             task.run('concat');
 
             //对tmpl的获取和替换
-            config('gallerytmpl',uglifyConfig)
+            config('gallerytmpl', uglifyConfig)
             task.run('gallerytmpl');
 
             config('uglify', uglifyConfig);
