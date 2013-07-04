@@ -45,6 +45,9 @@
             data: {},
             destroyAction:'empty'
 		});
+		p.on('destroy',function(){
+				S.log('destroy');
+		})
 		p.ready(function(){
 			var dd=p.getBrick('aa');
 			console.log(dd);//ok
@@ -54,10 +57,12 @@
 				p.ready(function(){
 					dd=p.getBrick('aa');
 					console.log(dd);//undefined
+					debugger
+					p.destroy();
 				});
 				})
 				
-			},5000);
+			},2000);
 		});
 	});
 </script>
