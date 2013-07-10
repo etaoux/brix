@@ -137,7 +137,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                 self.set('dataset', null);
                 dataset.detach();
             }
-            self.detach();
+            //self.detach();
         },
 
         /**

@@ -621,7 +621,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                 self.set('dataset', null);
                 dataset.detach();
             }
-            self.detach();
+            //self.detach();
         },
 
         /**
@@ -1433,7 +1433,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                             }
                         }, function() {
                             self.bxCounter--;
-                            if(self.bxCounter===0){
+                            if (self.bxCounter === 0) {
                                 self._bx_fireReady();
                             }
                         });

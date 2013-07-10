@@ -9030,7 +9030,16 @@ KISSY.add('brix/gallery/charts/js/pub/utils/datasection',function(S){
         // var min = arrayMin(arr);
         var min = Math.min.apply(null,arr) 
 
-        
+        if(min==max){
+        	if(max>=0){
+        		min= 0
+        		// min= Math.round(max/2);
+        	}
+        	else{
+        		min=max*2;
+        	}
+        }
+
         var length = max - min;
         if (length) {
         	var tempmin = min //保证min>0的时候不会出现负数
@@ -9041,6 +9050,7 @@ KISSY.add('brix/gallery/charts/js/pub/utils/datasection',function(S){
             }
             max += length * 0.05;
         }
+        
         var tickInterval = (max - min) * 72 / 365;
         var magnitude = Math.pow(10, Math.floor(Math.log(tickInterval) / Math.LN10));
 

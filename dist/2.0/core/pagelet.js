@@ -134,7 +134,7 @@ KISSY.add("brix/core/pagelet", function(S, Chunk) {
                             }
                         }, function() {
                             self.bxCounter--;
-                            if(self.bxCounter===0){
+                            if (self.bxCounter === 0) {
                                 self._bx_fireReady();
                             }
                         });
