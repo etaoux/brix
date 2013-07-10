@@ -314,6 +314,11 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2013.06.25
 	*  内容:
 	*       优化：部分图表纵轴数据区间算法更改
+	*
+	*  版本:1.1.7
+	*  日期:2013.07.10
+	*  内容:
+	*       新增：integrate5折线颜色配置
  */
 
 

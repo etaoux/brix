@@ -62,6 +62,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate4/main',function(S,Base,Global,SVGE
 		},
 
 		_defaultConfig:function($config){
+			var self = this
 			var config = $config
 			config.line.node = 1
 			config.line.area = 1
@@ -69,11 +70,30 @@ KISSY.add('brix/gallery/charts/js/e/integrate4/main',function(S,Base,Global,SVGE
 			config.line.areaMode = 1
 			config.line.areaAlphas = [0.4, 0.4]
 			config.line.isLine = 1
-			config.line.fills = [[ { normal:'#94CC5C', over:'#78A64B' }, { normal:'#458AE6', over:'#135EBF' } ]]
+			config.line.fills = self._changeConfig(config.line.fills)
+		//	config.line.fills = [[ { normal:'#94CC5C', over:'#78A64B' }, { normal:'#458AE6', over:'#135EBF' } ]]
 			config.line.data = {mode:1}
 			return config
-		}
+		},
 		
+
+		_changeConfig:function($fills){
+			var arr = []
+			arr[0] = []
+
+			var normals = ['#458AE6', '#39BCC0', '#5BCB8A', '#94CC5C', '#C3CC5C', '#E6B522', '#E68422']
+			var overs = ['#135EBF', '#2E9599', '#36B26A', '#78A64B', '#9CA632', '#BF9E39', '#BF7C39']
+			if($fills.normals.join(" ") == normals.join(" ") && $fills.overs.join(" ") == overs.join(" ")){
+				arr = [[ { normal:'#94CC5C', over:'#78A64B' }, { normal:'#458AE6', over:'#135EBF' } ]]
+				return arr
+			}
+
+			for(var a = 0, al = $fills.normals.length; a < al; a++){
+				var o = {normal:$fills.normals[a], over:$fills.overs[a]}
+				arr[0].push(o)
+			}
+			return arr
+		}
 	});
 
 	return Main;
