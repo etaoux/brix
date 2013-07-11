@@ -184,7 +184,9 @@ KISSY.add("brix/gallery/tooltip/index", function(S, Pagelet, Overlay) {
             self.on('afterRenderUI', function() {
                 self.get('el').on('mouseleave', self._setHiddenTimer, self).on('mouseenter', self._clearHiddenTimer, self);
                 var closeBtn = self.get('el').one('.tooltip-ext-close');
-                closeBtn.one('.tooltip-ext-close-x').html('&#223');
+                if(closeBtn){
+                    closeBtn.one('.tooltip-ext-close-x').html('&#223');
+                }
                 if(self.get('tmpl')) {
                     var container = self.get('contentEl');
                     if(self.get('content')){
