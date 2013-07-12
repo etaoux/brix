@@ -318,7 +318,12 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  版本:1.1.7
 	*  日期:2013.07.10
 	*  内容:
-	*       新增：integrate5折线颜色配置
+	*       新增：integrate4折线颜色配置
+	*
+	*  版本:1.1.8
+	*  日期:2013.07.12
+	*  内容:
+	*       优化：integrate4饼图信息全显
  */
 
 
