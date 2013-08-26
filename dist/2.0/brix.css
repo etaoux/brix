@@ -89,8 +89,6 @@ img {
 html {
   color: #000;
   background: #fff;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
 }
 /* 重设 HTML5 标签, IE 需要在 js 中 createElement(TAG) */
 article,
@@ -120,7 +118,7 @@ button,
 input,
 select,
 textarea {
-  font: 12px/1.5 tahoma, "\5FAE\8F6F\96C5\9ED1";
+  font: 12px/1.5 tahoma, "microsoft yahei", "\5FAE\8F6F\96C5\9ED1";
 }
 button,
 input,

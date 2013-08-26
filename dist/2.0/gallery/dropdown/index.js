@@ -110,6 +110,21 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
                 el = this.get('el'),
                 items = el.all('.dropdown-item'),
                 selectedItem;
+
+            if(typeof v == 'undefined'){
+                var data = {};
+                items.each(function(item){
+                    if(item.hasClass('dropdown-itemselected')){
+                        var dropdownTextNode = el.one('.dropdown-text');
+                        var selectNode = item.one('span');
+                        data = {
+                            value: selectNode.attr('value')||'',
+                            text: selectNode.text()
+                        }
+                    }
+                });
+                return data;
+            }    
             items.each(function(item){
                 var selectNode = item.one('span');
                 var value=selectNode.attr('value')||'';
