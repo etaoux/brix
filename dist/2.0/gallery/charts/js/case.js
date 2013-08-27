@@ -6111,7 +6111,11 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 					if(!config.list.max || config.list.max > a){
 						arr[a] = []
 						arr[a].push({content:o.name, bold:1, fill:'#333333', size:12, ver_align:3, sign: { has:1, trim:1, fill:o.normal, disX:8}})
-						arr[a].push({content:o.scale, bold:1, fill:'#333333', size:12, ver_align:3})
+						var content = o.scale
+						if(config.list.content.mode == 1){
+							var content = o.data
+						}
+						arr[a].push({content:content, bold:1, fill:'#333333', size:12, ver_align:3})
 					}
 				}
 			}
@@ -7373,7 +7377,7 @@ KISSY.add('brix/gallery/charts/js/pub/controls/bar/configparse',function(S,Base,
 			value:{
 				v:'1.0',
 
-				fills:[[ { normal:'#94CC5C', over:'#78A64B' }, { normal:'#458AE6', over:'#135EBF' } ], [ { normal:'#CCCCCC', over:'#999999' }, { normal:'#999999', over:'#666666' } ]]
+				fills:[[ { normal:'#94CC5C', over:'#78A64B' }, { normal:'#458AE6', over:'#135EBF' }, { normal:'#FF0000', over:'#FF0000' }], [ { normal:'#CCCCCC', over:'#999999' }, { normal:'#999999', over:'#666666' }, { normal:'#0000FF', over:'#0000FF' }]]
 			}
 		}
 	}
@@ -8725,7 +8729,10 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 
 				list:{
 					is : 0,
-					max: ''
+					max: '',
+					content:{           //内容
+						mode:0          //模式(0 = 比例 | 1 = 数字)
+					}
 				},
 
 				order:{                 //数据排序
@@ -8776,6 +8783,11 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 			if(__list){
 				o.list.is = 1
 				o.list.max = __list.getAttribute('value') && __list.getAttribute('value') != 0 ? __list.getAttribute('value') : o.list.max
+
+				var __content = __list.getElementsByTagName("content")[0]
+				if(__content){
+					o.list.content.mode = __content.getAttribute('mode') ? __content.getAttribute('mode') : o.list.content.mode
+				}
 			}
 
 			if(__order){
