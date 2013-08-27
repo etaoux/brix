@@ -26,7 +26,10 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 
 				list:{
 					is : 0,
-					max: ''
+					max: '',
+					content:{           //内容
+						mode:0          //模式(0 = 比例 | 1 = 数字)
+					}
 				},
 
 				order:{                 //数据排序
@@ -77,6 +80,11 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 			if(__list){
 				o.list.is = 1
 				o.list.max = __list.getAttribute('value') && __list.getAttribute('value') != 0 ? __list.getAttribute('value') : o.list.max
+
+				var __content = __list.getElementsByTagName("content")[0]
+				if(__content){
+					o.list.content.mode = __content.getAttribute('mode') ? __content.getAttribute('mode') : o.list.content.mode
+				}
 			}
 
 			if(__order){

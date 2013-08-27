@@ -13,7 +13,10 @@ configData:
 		<colors normals="0x3300FF,0x3333FF,0x3366FF" overs="0xCC0000,0xCC3300,0xCC6600" mode="1"/>
 		//list     = 是否显示列表(仅svg)
 		//value    = 最多显示几条数据(仅svg)
-		<list value="5"/>
+		<list value="5">
+			//mode    =文字内容模式(0 == 比例  |  1 == 数值)[默认：0](仅SVG)
+			<content mode="0"/>
+		</list>
 		//enabled  = 是否显示文字(0 == 不显示  |  其他 == 显示)[默认：1](仅SVG)
 		<font enabled="0"/>
 		//mode     = 数据排序模式(0 == 不排序  |  1 == 排序(大->小))[默认：1](仅SVG)
@@ -54,6 +57,7 @@ chartData:
 	<div id="J_wrapper4" class="wrapper4" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper5" class="wrapper5" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper6" class="wrapper6" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper7" class="wrapper7" style="width:720px;height:400px;"></div>
 
 	<script type="text/javascript">
 
@@ -112,6 +116,16 @@ chartData:
 
 					config:{
 						configData:'<?xml version="1.0"?><chart v="1.0" type="pie"><data><colors normals="0x937ACC,0x6280A1,0x45B5E6,0x5BCB8A,0xC3CC5C,0xE6B522,0xE68422" overs="0x7459B3,0x4D6580,0x3997BF,0x36B26A,0x9CA632,0xBF9E39,0xBF7C39" mode="1"/><list value=""/><font enabled="0"/><order mode="0"/></data></chart>',
+							
+						chartData:'<chart><data><indexAxis/><sets><set values="1445,1023,550,400,300,200,1000" names="名称1：,名称2：,名称3：,名称4：,名称5：,名称6：,名称7："></set></sets></data></chart>'
+					}
+			});
+			//仅SVG
+			new Charts({
+					parent_id:'J_wrapper7',
+
+					config:{
+						configData:'<?xml version="1.0"?><chart v="1.0" type="pie"><data><colors normals="" overs="" mode="1"/><list><content mode="1"/></list></data></chart>',
 							
 						chartData:'<chart><data><indexAxis/><sets><set values="1445,1023,550,400,300,200,1000" names="名称1：,名称2：,名称3：,名称4：,名称5：,名称6：,名称7："></set></sets></data></chart>'
 					}

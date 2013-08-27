@@ -105,7 +105,11 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 					if(!config.list.max || config.list.max > a){
 						arr[a] = []
 						arr[a].push({content:o.name, bold:1, fill:'#333333', size:12, ver_align:3, sign: { has:1, trim:1, fill:o.normal, disX:8}})
-						arr[a].push({content:o.scale, bold:1, fill:'#333333', size:12, ver_align:3})
+						var content = o.scale
+						if(config.list.content.mode == 1){
+							var content = o.data
+						}
+						arr[a].push({content:content, bold:1, fill:'#333333', size:12, ver_align:3})
 					}
 				}
 			}
