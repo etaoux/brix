@@ -2,8 +2,14 @@
 	"folders":
 	[
 		{
-			"path": ".",
-			"folder_exclude_patterns": ["node_modules"]
+			"folder_exclude_patterns":
+			[
+				"node_modules"
+			],
+			"path": "/D/git/brix"
+		},
+		{
+			"path": "/D/keyapril/ux-scaffold"
 		}
 	]
 }
