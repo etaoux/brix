@@ -19,7 +19,9 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 
 		Charts.superclass.constructor.apply(self, arguments);
 
-		S.one(window).on('resize',function(e){self.resize()});
+		self.resizeFn = function(e){self.resize()};
+
+		S.one(window).on('resize',self.resizeFn);
 
 		self.init()
 	}
@@ -166,6 +168,11 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 					self.get('_case').actions('reset')
 				}
 			}
+		},
+		destroy:function(){
+			var self = this;
+			$('#' + self.get('parent_id')).empty();
+			S.one(window).detach('resize',self.resizeFn);
 		},
 
 		_setDivStyle:function(){
