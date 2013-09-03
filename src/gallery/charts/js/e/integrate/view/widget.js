@@ -158,7 +158,6 @@ KISSY.add('brix/gallery/charts/js/e/integrate/view/widget',function(S,Base,Node,
 			
 			self.get('_DataFrameFormat').graphs.groupCount = 1
 			self.get('_DataFrameFormat').graphs.groups = self.get('_DataFrameFormat').vertical.org[0].length
-
 			self._widget()
 		},
 

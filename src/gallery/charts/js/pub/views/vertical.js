@@ -28,6 +28,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/vertical',function(S,Base,node,Globa
 		mode:{
 			value:1              //模式[1 = 左侧布局 | 2 = 右侧布局]
 		},
+		line_has:{
+			value:1              //是否有线条
+		},
 		font_fill:{
 			value:'#000000'
 		},
@@ -93,11 +96,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/vertical',function(S,Base,node,Globa
 			 	_df.appendChild(font.element)
 
 			    //线条
-			    var line = new SVGElement('path')
-			    self.get('_lineArr').push(line)
-			    line.attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_h'),'d':d})
-			    _df.appendChild(line.element)
-			   
+			    if(self.get('line_has') == 1){
+				    var line = new SVGElement('path')
+				    self.get('_lineArr').push(line)
+				    line.attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_h'),'d':d})
+				    _df.appendChild(line.element)
+				}
 			}
 			self.get('element').appendChild(_df);
 			for(var a = 0,al = self.get('data').length;a<al;a++){
@@ -142,9 +146,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/vertical',function(S,Base,node,Globa
 				font.transformXY(x,y)
 
 				var line = self.get('_lineArr')[a]
-				var x = self.get('_maxTextWidth') + self.get('_dis')
-				x = Global.ceil(x)
-				line.transformXY(x,self.get('data')[a].y)
+				if(line){
+					var x = self.get('_maxTextWidth') + self.get('_dis')
+					x = Global.ceil(x)
+					line.transformXY(x,self.get('data')[a].y)
+				}
 			}
 		},
 		//右侧布局
@@ -159,8 +165,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/vertical',function(S,Base,node,Globa
 				font.transformXY(x,y)
 
 				var line = self.get('_lineArr')[a]
-				var x = 0
-				line.transformXY(x,self.get('data')[a].y)
+				if(line){
+					var x = 0
+					line.transformXY(x,self.get('data')[a].y)
+				}
 			}
 		}
 	});

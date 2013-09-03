@@ -59,6 +59,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 		disSingleX:{
 			value:2              //支柱之间的距离
 		},
+		disSignle:{
+			value:0              //当layout的mode=1时 支柱直接的距离
+		},
 
 		_induces:{
 			value:null           //感应区对象g
@@ -105,6 +108,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 
 			self._widget()
 			self._layout()
+
+			// self.set('_circle', SVGGraphics.circle({'r':2,'fill':'#ffffff','stroke':'#000000','stroke_width':1}))
+			// self.get('element').appendChild(self.get('_circle').element)
 		},
 		induce:function($o,$b){
 			var self = this
@@ -156,7 +162,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 
 				var w = self.get('singleW')
 				if(!(o instanceof Array)){
-					
 					var h = o.height
 					h = h > self.get('_minH') ? h : self.get('_minH')
 				
@@ -194,9 +199,13 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 						h = h > self.get('_minH') ? h : self.get('_minH')
 						max_h += h
 						var fill = (oo.fill && oo.fill.normal) ? oo.fill.normal : '#000000'
-
 						//single 单个直方
-						var single = self._drawGraph({w:w,h:-h,fill:fill})
+						// var single = self._drawGraph({w:w,h:-h,fill:fill})
+						if(layout.mode == 0){
+							var single = self._drawGraph({w:w,h:-h,fill:fill})
+						}else if(layout.mode == 1){
+							var single = self._drawGraph({w:h,h:-w,fill:fill})
+						}
 						pillar.appendChild(single.element)
 						singles_arr.push(single)
 
@@ -206,11 +215,22 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 						if(pre_oo){
 							var pre_single = singles_arr[b-1]
 							var y = Number(pre_single.get('_y')) + Number(pre_single.get('_h'))
-							single.transformY(y)
+							// single.transformY(y)
+							if(layout.mode == 0){
+								single.transformY(y)
+							}else if(layout.mode == 1){
+								// var x = Number(pre_single.get('_x')) + Number(pre_single.get('_w'))
+								single.transformX(Number(pre_single.get('_x')) + Number(pre_single.get('_w')) + self.get('disSignle'))
+							}
 						}
 					}
 					pillar.setDynamic('singles_arr', singles_arr)
-					pillar.transformX(x)
+					// pillar.transformX(x)
+					if(layout.mode == 0){
+						pillar.transformX(x)
+					}else if(layout.mode == 1){
+						pillar.transformY(-x)
+					}
 					self.get('_pillarsArr').push(pillar)
 					pillar.set('_index', a)
 					pillar.set('_h', -max_h)
@@ -222,12 +242,15 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 				// var induce = self._drawGraph({w:w,h:-h,opacity:0.2})
 				if(layout.mode == 0){
 					var induce = self._drawGraph({w:w,h:-h,opacity:Global.N00001})
+					// var induce = self._drawGraph({w:w,h:-h,opacity:0.2})
 				}else if(layout.mode == 1){
 					var induce = self._drawGraph({w:h,h:-w,opacity:Global.N00001})
+					// var induce = self._drawGraph({w:h,h:-w,opacity:0.5})
 				}
 				_induces_df.appendChild(induce.element), self.get('_inducesArr').push(induce)
 				induce.element.addEventListener("mouseover",function(evt){ self._overHandler(evt)}, false);
 				induce.element.addEventListener("mouseout",function(evt){ self._outHandler(evt)}, false);
+				induce.element.addEventListener("mousemove",function(evt){ self._moveHandler(evt)}, false);
 				if(layout.mode == 0){
 					x = x - self.get('_disInduce') / 2
 				}else if(layout.mode == 1){
@@ -296,6 +319,14 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 			o.index = self.get('index'), o.id = index
 			self.get('element').fire(EventType.OUT,o)
 		},
+		_moveHandler:function($evt){
+			var self = this
+			var index = $evt.target.getAttribute('_index')
+
+			var o = {}
+			o.index = self.get('index'), o.id = index, o.evt = $evt
+			self.get('element').fire(EventType.MOVE,o)
+		},
 
 		_induce:function($e,$b){
 			var self = this
@@ -337,15 +368,25 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 					if ($b) {
 						w = Number(e.get('_w')) + Number(self.get('_disInduce')),h = Number(e.get('_h')) - Number(self.get('_disInduce'))
 						x = Number(e.get('_x')) - Number(self.get('_disInduce') / 2)
+						if(layout.mode == 1){
+							y = Number(e.get('_y')) + Number(self.get('_disInduce') / 2)
+						}
 						fill = self.get('data')[index][a].fill.over
 					}else {
 						w = Number(e.get('_w')),h = Number(e.get('_h'))
 						x = Number(e.get('_x')) + Number(self.get('_disInduce') / 2)
+						if(layout.mode == 1){
+							y = Number(e.get('_y')) - Number(self.get('_disInduce') / 2)
+						}
 						fill = self.get('data')[index][a].fill.normal
 					}
 					d = SVGRenderer.symbol('square',0,0,w,h).join(' ')
 					e.set('d',d)
-					e.transformX(x)
+					if(layout.mode == 0){
+						e.transformX(x)
+					}else if(layout.mode == 1){
+						e.transformY(y)
+					}
 					e.set('fill',fill)
 				}
 			}

@@ -95,6 +95,7 @@ KISSY.add('brix/gallery/charts/js/pub/controls/bar/dataparse',function(S,Base,No
 					o1.name = item1.getAttribute('name')
 					o1.signName = item1.getAttribute('name_sign')
 					o1.data = item1.getAttribute('values') ? String(item1.getAttribute('values')).split(',') : []
+					o1.value = item1.getAttribute('value') ? item1.getAttribute('value') : ''
 					o1.total = Global.getArrMergerNumber(o1.data)
 					o.data.push(o1)
 				}

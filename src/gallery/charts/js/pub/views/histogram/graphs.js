@@ -44,6 +44,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/graphs',function(S,Base,no
 		disSingleX:{
 			value:4              //组中支柱距离
 		},
+		disSingle:{
+			value:0              //当layout的mode=1时 支柱直接的距离
+		},
+
 		disSingleMinX:{
 			value:1              //组中支柱最小距离
 		},
@@ -172,6 +176,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/graphs',function(S,Base,no
 					layout : self.get('layout'),
 					disGroupX : self.get('_disGroupX'),
 					disSingleX : self.get('_disSingleX'),
+					disSignle  : self.get('disSingle'),
 					singleW : self.get('_singleW'),
 					intX   : self.get('intX')
 				}
@@ -183,6 +188,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/graphs',function(S,Base,no
 				group.init(o)
 				group.get('element').on(EventType.OVER,function($o){self._overHandler($o)})
 				group.get('element').on(EventType.OUT,function($o){self._outHandler($o)})
+				group.get('element').on(EventType.MOVE,function($o){self._moveHandler($o)})
 
 				group.get('element').set('_index',a)
 				if(self.get('layout').mode == 0){
@@ -262,6 +268,13 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/graphs',function(S,Base,no
 		_outHandler:function($o){
 			var self = this
 			self.get('element').fire(EventType.OUT,$o)
+		},
+		_moveHandler:function($o){
+			var self = this
+			var o = Global.getLocalXY($o.evt, self.get('parent').element)
+			var x = o.x, y = o.y
+			$o.x = x, $o.y = y
+			self.get('element').fire(EventType.MOVE,$o)
 		}
 	});
 
