@@ -19,7 +19,9 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 
 		Charts.superclass.constructor.apply(self, arguments);
 
-		S.one(window).on('resize',function(e){self.resize()});
+		self.resizeFn = function(e){self.resize()};
+
+		S.one(window).on('resize',self.resizeFn);
 
 		self.init()
 	}
@@ -166,6 +168,11 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 					self.get('_case').actions('reset')
 				}
 			}
+		},
+		destroy:function(){
+			var self = this;
+			$('#' + self.get('parent_id')).empty();
+			S.one(window).detach('resize',self.resizeFn);
 		},
 
 		_setDivStyle:function(){
@@ -324,6 +331,11 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2013.07.12
 	*  内容:
 	*       优化：integrate4饼图信息全显
+	*
+	*  版本:1.1.9
+	*  日期:2013.08.26
+	*  内容:
+	*       新增：pie 列表中显示数值等(直通车三期)
  */
 
 

@@ -16,6 +16,7 @@
 	<form name="form" onsubmit="return false;">
 		<input type="button" value="直方图" onclick="histogram(chart);" />
         <input type="button" value="折线图" onclick="line(chart);" />
+        <input type="button" value="销毁" onclick="destroy(chart);" />
     </form>
 
 	<script type="text/javascript">
@@ -41,6 +42,10 @@
 				configData:'<chart v="1.0" type="line"><data shape="0" node="1" area="0"/></chart>',
 				chartData :'<chart><data><indexAxis labels="12月1号,12月2号,12月3号,12月4号,12月5号,12月6号,12月7号" name="维度2："/><sets name="维度1："><set values="83,81,77,71,68,70,68"></set></sets></data></chart>'
 			});
+		}
+
+		function destroy(){
+			chart.destroy();
 		}
 	</script>
 </body>
