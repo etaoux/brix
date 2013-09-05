@@ -245,11 +245,16 @@
                         closable:false,
                         pages:2,
                         multiSelect:true,
-                        rangeLinkage:false
+                        rangeLinkage:true,
+                        prev:false,
+                        next:false,
+                        confirmBtn:false
                     }).on('multiSelect', function(e) {
                         alert(e.multi);
                         k.hide();
                         //Node.one('#J_Popup').val(S_Date.format(e.date,'localFullDate'));
+                    }).on('multiOneSelect',function(){
+                         alert(k.getMulti());
                     });
                     S.log(++i);
                     
