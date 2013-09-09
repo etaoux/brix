@@ -184,9 +184,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram3/view/widget',function(S,Base,Node
 					base_fill:fill
 				},
 				hLine:{
-					is   : 1,
-					x    : x,
-					y    : y + $o.h
+					is   : 0
 				}
 			}
 
