@@ -209,6 +209,15 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
         },
         zIndex:{
             value:9999
+        },
+        prev:{
+            value:true
+        },
+        next:{
+            value:true
+        },
+        confirmBtn:{
+            value:true
         }
     };
 
@@ -270,7 +279,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     multiSelect = self.get('multiSelect'),
                     s = '';
 
-                if (showTime || multiSelect) {
+                if ((showTime || multiSelect)&&self.get('confirmBtn')) {
                     s += '<a class="btn btn-size25 btn-calendar-confirm">确定</a>'
                 }
                 if (notLimited) {
@@ -301,17 +310,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     showTime = self.get('showTime'),
                     multiSelect = self.get('multiSelect');
                 if (multiSelect) {
-                    var multi = S.clone(self.get('multi'));
-                    multi.sort(function(a, b) {
-                        if (a > b) {
-                            return 1;
-                        }
-                        return -1;
-                    });
-                    for (var i = 0; i < multi.length; i++) {
-                        multi[i] = Brix_Date.parse(multi[i]);
-                    };
-                    S.log(multi);
+                    var multi = self.getMulti();
                     self.fire(Calendar.FIRES.multiSelect, {
                         multi: multi
                     });
@@ -443,8 +442,8 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                 (function(i) {
                     var pageBrick = new Page({
                         index: i,
-                        prev: prev,
-                        next: next,
+                        prev:self.get('prev')?prev:false,
+                        next: self.get('next')?next:false,
                         year: year,
                         month: month,
                         father: self,
@@ -478,6 +477,8 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                         var multiSelect = self.get('multiSelect');
                         if (multiSelect) {
                             self._handleMultiSelectEnd(ev.date);
+                            //需要排序好的multi数组，请调用getMulti方法
+                            self.fire('multiOneSelect');
                         }
                     });
                     pageBrick.on('monthChange', function(ev) {
@@ -630,6 +631,20 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                 delete self.multiStartDate;
                 self.set('multi', multi);
             }
+        },
+        getMulti:function(){
+            var self = this;
+            var multi = S.clone(self.get('multi'));
+            multi.sort(function(a, b) {
+                if (a > b) {
+                    return 1;
+                }
+                return -1;
+            });
+            for (var i = 0; i < multi.length; i++) {
+                multi[i] = Brix_Date.parse(multi[i]);
+            };
+            return multi
         }
     });
     S.augment(Calendar, Calendar.METHODS);
