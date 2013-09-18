@@ -55,6 +55,9 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 		},
 		_main:{
 			value:null           //main节点
+		},
+		_isDestroy:{
+			value : false
 		}
 	}
 
@@ -68,12 +71,19 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 			self.set('path_chart', self._getPath(self.get('_FileType')[self.get('type')]))
 			self._widget()
 		},
+		//与外部case.js交互总接口
+		actions:function($name,$value){
+			self.set('_isDestroy', true)
+		},
 
 		_widget:function(){
 			var self = this
 
 			//展现
 			S.use(self.get('path_chart'),function(S,Main){
+				if(self.get('_isDestroy')){
+	    				return
+	    		}
 				//删除svg内容
 				var parent = $('#' + self.get('parent_id')).getDOMNode()
 				if(parent && parent.lastChild) {parent.removeChild(parent.lastChild)}    
