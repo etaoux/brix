@@ -34,9 +34,10 @@ KISSY.add('brix/gallery/multimedia/index',function(S,Base,Node,Flash){
             var self = this;
             var id = 'multimedia_' + S.guid();
 
+            self.setAttr()
+
             self.set('id',id);
             var div = $('<div id="'+id+'"></div>');
-
 
             div.css({'width':self.get('w0'), 'height':self.get('h0'), 'position':'absolute',right:self.get('right'), top:self.get('top'), 'z-index':999999});
 
@@ -68,6 +69,13 @@ KISSY.add('brix/gallery/multimedia/index',function(S,Base,Node,Flash){
                     height: '100%'
                 } 
             }); 
+        },
+
+        setAttr:function(){
+            var self = this;
+            if(TB && TB.Global && TB.Global.version == '2.0'){
+                self.set('top', 36)
+            }
         },
 
         sendToJS:function($name,$s){

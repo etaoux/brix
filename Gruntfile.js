@@ -84,6 +84,12 @@ module.exports = function(grunt) {
                     Brix:true
                 }
             }
+        },
+        curl: {
+            'dist/fonts/uxiconfont.ttf': 'http://ux.etao.com/assets/src_uxiconfont.ttf',
+            'dist/fonts/uxiconfont.woff': 'http://ux.etao.com/assets/src_uxiconfont.woff',
+            'dist/fonts/uxiconfont.svg': 'http://ux.etao.com/assets/src_uxiconfont.svg',
+            'dist/fonts/uxiconfont.eot': 'http://ux.etao.com/assets/src_uxiconfont.eot'
         }
     });
 
@@ -92,7 +98,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-watch');
-
+    grunt.loadNpmTasks('grunt-curl');
     //tasks
     grunt.loadTasks('tasks');
 
