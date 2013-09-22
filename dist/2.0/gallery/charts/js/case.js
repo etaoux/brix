@@ -20,11 +20,18 @@ KISSY.add('brix/gallery/charts/js/case',function(S,Base,Node,DataSource,Widget){
 
 		//图表
 		chart:{
-			value:{
+			value :{
 				type:'',         //图表类型[histogram = 直方图  |  line =  ]
 				config:'',       //图表配置
 				data:''          //图表数据
 			}
+		},
+
+		_widget:{
+			value :null
+		},
+		_isDestroy:{
+			value : false
 		}
 	}
 
@@ -47,7 +54,7 @@ KISSY.add('brix/gallery/charts/js/case',function(S,Base,Node,DataSource,Widget){
 			o.config = self.get('chart').config                //配置
 			o.data = self.get('chart').data                    //图表数据
 
-			new Widget(o)
+			_widget = new Widget(o)
 		},
 		//与外部js交互总接口
 		actions:function($name,$value){
@@ -60,15 +67,18 @@ KISSY.add('brix/gallery/charts/js/case',function(S,Base,Node,DataSource,Widget){
 					self.set('chartData',o.chartData)
 				}
 				self.reset()
+				return true
+			}else if($name == 'destroy'){
+				self.set('_isDestroy', true)
+				self.get('_widget').actions('destroy')
 			}
-			return true
 		},
 		//重新展现图表
 		reset:function(){
 			var self = this
 			// self.remove()
 			self.init()
-		},
+		}
 		/*
 		//删除svg内容
 		remove:function(){
@@ -7690,6 +7700,9 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 		},
 		_main:{
 			value:null           //main节点
+		},
+		_isDestroy:{
+			value : false
 		}
 	}
 
@@ -7703,12 +7716,19 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 			self.set('path_chart', self._getPath(self.get('_FileType')[self.get('type')]))
 			self._widget()
 		},
+		//与外部case.js交互总接口
+		actions:function($name,$value){
+			self.set('_isDestroy', true)
+		},
 
 		_widget:function(){
 			var self = this
 
 			//展现
 			S.use(self.get('path_chart'),function(S,Main){
+				if(self.get('_isDestroy')){
+	    				return
+	    		}
 				//删除svg内容
 				var parent = $('#' + self.get('parent_id')).getDOMNode()
 				if(parent && parent.lastChild) {parent.removeChild(parent.lastChild)}    

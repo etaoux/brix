@@ -1,4 +1,4 @@
-KISSY.add('brix/gallery/charts/as/case',function(S,Base,Node){
+KISSY.add('brix/gallery/charts/as/case',function(S,Base,Node,DOM,Event,Flash){
 
 	function Case(){
 		var self = this
@@ -25,28 +25,27 @@ KISSY.add('brix/gallery/charts/as/case',function(S,Base,Node){
 		init:function(){
 			var self = this
 			self.set('_id',self.get('parent_id') + self.get('_id'))
-			KISSY.use('dom, event, flash', function(S, DOM, Event, Flash) {
-	            S.Flash.add('#' + self.get('parent_id'), {
-	                src: self.get('path'),
-	                id: self.get('_id'),
-	                version: 10,
-	                params: {
-	                	flashvars: {
-	                		configData:self.get('config').configData,
-	                		chartData :self.get('config').chartData
-	                	},
-	                	wmode:'transparent',
-	                	allowScriptAccess:'always'
-	                },
+			// KISSY.use('dom, event, flash', function(S, DOM, Event, Flash) {
+            S.Flash.add('#' + self.get('parent_id'), {
+                src: self.get('path'),
+                id: self.get('_id'),
+                version: 10,
+                params: {
+                	flashvars: {
+                		configData:self.get('config').configData,
+                		chartData :self.get('config').chartData
+                	},
+                	wmode:'transparent',
+                	allowScriptAccess:'always'
+                },
 
-	                attrs: {
-	                    width: '100%',
-	                    height: '100%'
-	                }
-
-	               
-	            });
-	        })
+                attrs: {
+                    width: '100%',
+                    height: '100%'
+                }
+               
+            });
+	        // })
 		},
 		//与外部js交互总接口
 		actions:function($name,$value){
@@ -76,6 +75,6 @@ KISSY.add('brix/gallery/charts/as/case',function(S,Base,Node){
 	return Case;
 
 	}, {
-	    requires:['base','node']
+	    requires:['base','node','dom', 'event', 'flash']
 	}
 );
