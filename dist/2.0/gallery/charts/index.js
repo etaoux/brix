@@ -61,16 +61,19 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 		},
 
 		_resize_index:{                    //当为2的整数时 才resize
-			value:0
+			value :0
 		},
 		_actionsStatus:{                   //1 = actions已成功调用  |  -1 = actions正在调用 
-			value:0
+			value :0
 		},
 		_actionsObject:{                   
-			value:{
+			value :{
 				name:'',
 				value:''
 			}
+		},
+		_isDestroy:{
+			value : false
 		}
 	}
 
@@ -109,6 +112,9 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	    		self.get('mainDiv').append(self.get('swfDiv'))
 
 	    		S.use(self.get('url_swf'),function(S,Case){
+	    			if(self.get('_isDestroy')){
+	    				return
+	    			}
 	    			self.set('_case', new Case({
 	    				path : self.get('path_swf'),
 	    				parent_id : self.get('swfDiv_id'),
@@ -117,6 +123,9 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	    		})
 	    	}else{
 	    		S.use(self.get('url_svg'),function(S,Case){
+	    			if(self.get('_isDestroy')){
+	    				return
+	    			}
 	    			self.set('_case', new Case({
 	    				parent_id : self.get('mainDiv_id'),
 	    				configData : self.get('config').configData,
@@ -171,6 +180,8 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 		},
 		destroy:function(){
 			var self = this;
+			self.set('_isDestroy', true)
+			self.get('_case').actions('destroy')
 			$('#' + self.get('parent_id')).empty();
 			S.one(window).detach('resize',self.resizeFn);
 		},
@@ -202,6 +213,7 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 			if(self.get('appear_mode') == 'flash'){
 				return 1
 			}
+			
 			return isSWF
 		},
 
@@ -341,6 +353,11 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2013.09.03
 	*  内容:
 	*       新增：histogram3 横向直方图2(直通车三期)(仅svg支持)
+	*
+	*  版本:1.2.1
+	*  日期:2013.09.18
+	*  内容:
+	*       新增：防止将节点添加在body
  */
 
 
