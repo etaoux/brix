@@ -54,7 +54,7 @@ KISSY.add('brix/gallery/charts/js/case',function(S,Base,Node,DataSource,Widget){
 			o.config = self.get('chart').config                //配置
 			o.data = self.get('chart').data                    //图表数据
 
-			_widget = new Widget(o)
+			self.set('_widget', new Widget(o)) 
 		},
 		//与外部js交互总接口
 		actions:function($name,$value){
@@ -7718,6 +7718,7 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 		},
 		//与外部case.js交互总接口
 		actions:function($name,$value){
+			var self = this
 			self.set('_isDestroy', true)
 		},
 
