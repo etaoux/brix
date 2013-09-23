@@ -73,6 +73,7 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 		},
 		//与外部case.js交互总接口
 		actions:function($name,$value){
+			var self = this
 			self.set('_isDestroy', true)
 		},
 
