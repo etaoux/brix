@@ -84,7 +84,7 @@ KISSY.add("brix/gallery/mu/index", function(S, Mustache) {
     function addArrayIndex(v) {
         for (var i = 0; i < v.length; i++) {
             var o = v[i];
-            if (typeof(o) === "object") {
+            if (o !== null && typeof(o) === "object") {
                 if (i === 0) {
                     o.__first__ = true;
                 } else if (i === (v.length - 1)) {
