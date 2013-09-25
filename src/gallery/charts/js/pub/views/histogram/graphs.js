@@ -45,7 +45,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/graphs',function(S,Base,no
 			value:4              //组中支柱距离
 		},
 		disSingle:{
-			value:0              //当layout的mode=1时 支柱直接的距离
+			value:0              //当layout的mode=1时 支柱之间的距离
 		},
 
 		disSingleMinX:{

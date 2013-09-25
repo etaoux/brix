@@ -59,7 +59,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 		disSingleX:{
 			value:2              //支柱之间的距离
 		},
-		disSignle:{
+		disSingle:{
 			value:0              //当layout的mode=1时 支柱直接的距离
 		},
 
@@ -220,7 +220,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 								single.transformY(y)
 							}else if(layout.mode == 1){
 								// var x = Number(pre_single.get('_x')) + Number(pre_single.get('_w'))
-								single.transformX(Number(pre_single.get('_x')) + Number(pre_single.get('_w')) + self.get('disSignle'))
+								single.transformX(Number(pre_single.get('_x')) + Number(pre_single.get('_w')) + self.get('disSingle'))
 							}
 						}
 					}
@@ -295,7 +295,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/group',function(S,Base,nod
 				if (self.get('data')[index].key && self.get('data')[index].key.isKey) { self.set('_fill', self.get('keyFill')), self.set('_fill_over' , self.get('keyFill_over'))}
 			}else if(self.get('_sytle') == 2){
 			}
-			
 			var o = {}
 			if(layout.mode == 0){
 				o.index = self.get('index'), o.id = index, o.x = pillar.get('_x'), o.cx = Number(o.x) + Number(self.get('singleW') / 2), o.cy = -pillar.get('_h'), o.h = -pillar.get('_h'), o.fill_over = self.get('_fill_over')

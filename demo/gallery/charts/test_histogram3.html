@@ -1,0 +1,67 @@
+<!--
+横向直方图2
+
+configData:
+//type = 类型(空或histogram = 纵向直方图  |  scatter = 散点图  |  line = 折线图(区域图)  |  line2 = 折线图(多日期) |  line3 = 折线图(双指标)  |  pie = 饼图  |  map = 地图  |  integrate = 综合图(直方+折线))[默认为纵向直方图]
+<chart v="1.0" type="histogram3">
+	<data>
+	</data>
+</chart>
+
+//------------------------------------
+chartData:
+<chart>
+	<data>
+		//预留
+		<indexAxis labels="" name="" names=""/>
+		//name   = 鼠标划入时显示的前信息
+		<sets name="展现占比：">
+			<set name="">
+				//name   = 鼠标划入时显示的前信息
+				//name_sign = 纵向显示的数据
+				//value  = 计算百分比的值
+				<set name="计算机设备：" name_sign="计算机设备" value="100"/>
+				<set name="移动设备：" name_sign="移动设备" value="200"/>
+			</set>
+			<set name="">
+				<set name="关键词：" name_sign="关键词" value="300"/>
+				<set name="定向：" name_sign="定向" value="400"/>
+			</set><
+			set name="">
+				<set name="站内：" name_sign="站内" value="500"/>
+				<set name="站外：" name_sign="站外" value="6000"/>
+			</set>
+		</sets>
+	</data>
+</chart>
+-->
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Brix Chart Demo 直方图3</title>
+    <meta charset="utf-8" />
+    <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
+    <link rel="stylesheet" href="../../assets/doc.css">
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script>
+    <!-- <script src="http://a.tbcdn.cn/apps/e/brix/2.0/brix.js" bx-config="{autoConfig:true}"></script> -->
+    <!--<script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>-->
+    <script src="../../../src/core/brix.js"></script>
+</head>
+<body>
+	<div id="J_wrapper1" class="wrapper1" style="width:720px;height:400px;"></div>
+
+	<script type="text/javascript">
+		KISSY.use('brix/gallery/charts/',function(S,Charts){
+			new Charts({
+					parent_id:'J_wrapper1',
+
+					config:{
+			   			configData:'<?xml version="1.0"?><chart v="1.0" type="histogram3"></chart>',
+				    	chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="" name="" names=""/><sets name="展现占比："><set name=""><set name="计算机设备：" name_sign="计算机设备" value="100"/><set name="移动设备：" name_sign="移动设备" value="200"/></set><set name=""><set name="关键词：" name_sign="关键词" value="300"/><set name="定向：" name_sign="定向" value="400"/></set><set name=""><set name="站内：" name_sign="站内" value="500"/><set name="站外：" name_sign="站外" value="6000"/></set></sets></data></chart>'
+					}
+			});
+		})
+	</script>
+</body>
+</html>
