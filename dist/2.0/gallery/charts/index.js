@@ -358,6 +358,17 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2013.09.18
 	*  内容:
 	*       新增：防止将节点添加在body
+	*
+	*  版本:1.2.2
+	*  日期:2013.09.23
+	*  内容:
+	*       解决：destroy时一个小bug
+	*
+	*  版本:1.2.1
+	*  日期:2013.09.25
+	*  内容:
+	*       新增：pie 列表中显示数值等(直通车三期)(flash)
+	*             histogram3 横向直方图2(直通车三期)(flash)
  */
 
 
