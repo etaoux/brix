@@ -100,6 +100,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 			var arr = []
 			for (var a = 0, al = data.length; a < al; a++ ) {
 				var o = data[a]
+
 				if(o && o.order){
 
 					if(!config.list.max || config.list.max > a){

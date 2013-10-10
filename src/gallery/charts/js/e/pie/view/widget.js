@@ -182,7 +182,8 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			}
 			
 			if(config.order.mode == 1){
-				arr.sort(function(o1,o2){return o1.data < o2.data})
+				// arr.sort(function(o1,o2){return o1.data < o2.data})
+				arr.sort(function(a,b){return b.data-a.data;})
 			}
 
 			for(var b = 0, bl = arr.length; b < bl; b++ ) {

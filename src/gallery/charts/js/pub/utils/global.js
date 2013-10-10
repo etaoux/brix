@@ -157,6 +157,7 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 		 * @return {[Array]}         [对应的比例数组]
 		 */
 		getArrScales:function($arr){
+			/*
 			var arr = []
 			var total = 0
 			var max = 0
@@ -204,6 +205,48 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 				arr[maxIndex] = arr[maxIndex] - (total - 100)
 			}else if(total < 100){
 				arr[maxIndex] = arr[maxIndex] + (100 - total)
+			}
+			return arr
+			*/
+			
+			var arr = []
+			var total = 0
+			var max = 0
+			var maxIndex = 0
+			var scale
+			for (var a = 0 , al = $arr.length; a < al; a++) {
+				$arr[a] = Number($arr[a])
+				total += $arr[a]
+			}
+			if (total == 0) {
+				for (var g = 0 , gl = $arr.length; g < gl; g++) {
+					scale = Math.round(1 / $arr.length * 100)
+					arr.push(scale)
+				}
+				return arr
+			}
+			
+			for (var b = 0, bl = $arr.length; b < bl; b++) {
+				scale = Math.round($arr[b] / total * 100)
+				arr.push(scale)
+			}
+			
+			total = 0
+			for (var c = 0, cl = arr.length; c < cl; c++) {
+				arr[c] = isNaN(arr[c]) || arr[c] < 0 ? 0 : arr[c]
+				if(max < arr[c]){
+					max = arr[c]
+					maxIndex = c
+				}
+				total += arr[c]
+			}
+			if (total > 100) {
+				arr[maxIndex] = arr[maxIndex] - (total - 100)
+			}else if(total < 100){
+				arr[maxIndex] = arr[maxIndex] + (100 - total)
+			}
+			if (arr[maxIndex] < 0) {
+				arr[maxIndex] = 0
 			}
 			return arr
 		},
