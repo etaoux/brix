@@ -15579,6 +15579,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 			// self.set('_scaleList', self._getScaleList(self.get('data'),self.get('_total')))
 			self.set('_scaleList', Global.getArrScales(self.get('data')))
 
+			if(self.get('_total') == 0){
+				self.set('_angleList',self._getAngleList(self.get('_scaleList'),100,self.get('_startR')))
+			}
+
 			if (self.get('data').length <= 1) {
 				self.set('_disR',0)
 			}
