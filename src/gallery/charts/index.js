@@ -374,7 +374,12 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2013.10.10
 	*  内容:
 	*       优化：数组计算返回比例的算法 这次主要针对饼图(flash + svg)
-	*       解决：ie9 ie10下排序的问题(svg)
+	*       解决：ie9 ie10下排序的问题(svg)  flash无此问题
+	*
+	*  版本:1.2.3
+	*  日期:2013.10.14
+	*  内容:
+	*       解决：饼图中所有数据都为0 不展现的情况(svg)  flash无此问题
  */
 
 
