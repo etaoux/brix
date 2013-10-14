@@ -369,6 +369,12 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  内容:
 	*       新增：pie 列表中显示数值等(直通车三期)(flash)
 	*             histogram3 横向直方图2(直通车三期)(flash)
+	*
+	*  版本:1.2.2
+	*  日期:2013.10.10
+	*  内容:
+	*       优化：数组计算返回比例的算法 这次主要针对饼图(flash + svg)
+	*       解决：ie9 ie10下排序的问题(svg)
  */
 
 
