@@ -70,7 +70,9 @@ KISSY.add('brix/gallery/charts/js/case',function(S,Base,Node,DataSource,Widget){
 				return true
 			}else if($name == 'destroy'){
 				self.set('_isDestroy', true)
-				self.get('_widget').actions('destroy')
+				if(self.get('_widget')){
+					self.get('_widget').actions('destroy')
+				}
 			}
 		},
 		//重新展现图表

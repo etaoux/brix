@@ -63,9 +63,6 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 		_resize_index:{                    //当为2的整数时 才resize
 			value :0
 		},
-		_actionsStatus:{                   //1 = actions已成功调用  |  -1 = actions正在调用 
-			value :0
-		},
 		_actionsObject:{                   
 			value :{
 				name:'',
@@ -144,25 +141,25 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 			self.get('_actionsObject').name = $name, self.get('_actionsObject').value = $value
 
 			self._setDivStyle()
-
-			var status = self.get('_case').actions($name,$value)
-
-			if(status){
-				self.set('_actionsStatus', 1)
-				return
+			var _laterStatus = self._laterStatus;
+			if(_laterStatus){
+				_laterStatus.cancel();
+				self._laterStatus = null;
 			}
 
-			if(self.get('_actionsStatus') == -1){
-				return
+			var status
+			if(self.get('_case')){
+				status = self.get('_case').actions($name,$value)
 			}
 
-			self.set('_actionsStatus', -1)
-			setTimeout(function(){
-				var name = self.get('_actionsObject').name
-				var value = self.get('_actionsObject').value
-				self.set('_actionsStatus', 0)
-				self.actions(name,value)
-			}, 250)
+			if(!status){
+				self._laterStatus = S.later(function(){
+					if(self.get('_isDestroy')){
+		    				return
+		    		}
+					self.actions($name,$value)
+				},250)
+			}
 		},
 
 		resize:function(){
@@ -180,6 +177,12 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 		},
 		destroy:function(){
 			var self = this;
+			var _laterStatus = self._laterStatus;
+			if(_laterStatus){
+				_laterStatus.cancel();
+				self._laterStatus = null;
+			}
+
 			self.set('_isDestroy', true)
 			self.get('_case').actions('destroy')
 			$('#' + self.get('parent_id')).empty();
@@ -380,6 +383,12 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2013.10.14
 	*  内容:
 	*       解决：饼图中所有数据都为0 不展现的情况(svg)  flash无此问题
+	*
+	*  版本:1.2.4
+	*  日期:2013.10.15
+	*  内容:
+	*       优化：actions时的代码逻辑 取消状态值(svg)
+	*       解决：cannot call method actions错误(svg)
  */
 
 
