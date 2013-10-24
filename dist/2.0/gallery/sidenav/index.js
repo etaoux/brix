@@ -342,7 +342,8 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
 
             if(!self.nowNav) return;
 
-            if(self.nowNav.attr('data-sub') === self.currentNav.attr('data-sub') && !self.isHandleClick) {
+            var _dataSub = self.nowNav.attr('data-sub');
+            if(!_dataSub || _dataSub === self.currentNav.attr('data-sub') && !self.isHandleClick) {
                 S.all('.sub-nav-third').css('height', 'auto');
             } else {
                 //直接slideToggle在chrome下有问题，故换成animate
