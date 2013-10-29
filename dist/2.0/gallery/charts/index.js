@@ -171,7 +171,9 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 				}
 				self._setDivStyle()
 				if(!isSWF){
-					self.get('_case').actions('reset')
+					if(self.get('_case')){
+						self.get('_case').actions('reset')
+					}
 				}
 			}
 		},
@@ -184,7 +186,9 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 			}
 
 			self.set('_isDestroy', true)
-			self.get('_case').actions('destroy')
+			if(self.get('_case')){
+				self.get('_case').actions('destroy')
+			}
 			$('#' + self.get('parent_id')).empty();
 			S.one(window).detach('resize',self.resizeFn);
 		},
@@ -389,6 +393,11 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  内容:
 	*       优化：actions时的代码逻辑 取消状态值(svg)
 	*       解决：cannot call method actions错误(svg)
+	*
+	*  版本:1.2.5
+	*  日期:2013.10.23
+	*  内容:
+	*       优化：line datasection 同步svg(flash)
  */
 
 
