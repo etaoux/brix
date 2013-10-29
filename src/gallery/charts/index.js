@@ -398,6 +398,11 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2013.10.23
 	*  内容:
 	*       优化：line datasection 同步svg(flash)
+	*
+	*  版本:1.2.6
+	*  日期:2013.10.28
+	*  内容:
+	*       新增：map 取消index对应关系 同步svg(flash)
  */
 
 
