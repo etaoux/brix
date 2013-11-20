@@ -55,7 +55,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 		_widget:function(){
 			var self = this
 			var config = self.get('_config')   
-			
+
 			self.set('_main',new SVGElement('g'))
 			self.get('_main').attr({'class':'main'});
 			self.get('parent').appendChild(self.get('_main').element)
@@ -67,16 +67,47 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 				self.set('_list', new List({parent:self.get('_main')}))
 			}
 
+			var tmpW = w, tmpH = h
+			if(config.w){
+				tmpW = config.w
+			}
+			if(config.h){
+				tmpH = config.h
+			}
+
 			var o = {}
 			o.parent = self.get('_main')                       //SVGElement
-			o.w = w                                            //chart 宽
-			o.h = h                                            //chart 高
+			o.w = tmpW                                         //chart 宽
+			o.h = tmpH                                         //chart 高
 			o.DataSource = self.get('_DataSource')             //图表数据源
 			o.config = self.get('_config')                     //图表配置
 			self.set('_widget', new Widget(o))
 			self.get('_widget').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
 			self.get('_widget').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
 
+			var widget = self.get('_widget')
+			var pie = self.get('_widget').getPie()
+			if(config.x){
+				// pie.get('element').transformX(config.x)
+				widget.setTransformX(config.x)
+			}else if(config.list.is){
+				// pie.get('element').transformX(parseInt((self.get('w') - 120) / 2))
+				widget.setTransformX(parseInt((self.get('w') - 120) / 2))
+			}else{
+				// pie.get('element').transformX(parseInt(self.get('w') / 2))
+				widget.setTransformX(parseInt(self.get('w') / 2))
+			}
+
+			if(config.y){
+				// pie.get('element').transformY(config.y)
+				widget.setTransformY(config.x)
+			}else if(config.list.is){
+				// pie.get('element').transformY(parseInt(self.get('h') / 2))
+				widget.setTransformY(parseInt(self.get('h') / 2))
+			}else{
+				// pie.get('element').transformY(parseInt(self.get('h') / 2))
+				widget.setTransformY(parseInt(self.get('h') / 2))
+			}
 			if(config.list.is){
 				self.set('_data', self.get('_widget').getData())
 				
@@ -86,10 +117,22 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 				}
 				self.get('_list').widget(o)
 				
-				var x = Number(self.get('_widget').getPie().get('element').get('_x')) + Number(self.get('_widget').getPie().get('mw') / 2) + 16
+				var x = Number(pie.get('element').get('_x')) + Number(pie.get('mw') / 2) + 16
 				var y = (h - self.get('_list').get('h')) / 2
 				x = Global.ceil(x), y = Global.ceil(y)
-				self.get('_list').get('element').transformXY(x, y)
+
+				if(config.list.x){
+					self.get('_list').get('element').transformX(config.list.x)
+				}else{
+					self.get('_list').get('element').transformX(x)
+				}
+
+				if(config.list.y){
+					self.get('_list').get('element').transformY(config.list.y)
+				}else{
+					self.get('_list').get('element').transformY(y)
+				}
+				// self.get('_list').get('element').transformXY(x,y)
 			}
 		},
 

@@ -58,6 +58,7 @@ chartData:
 	<div id="J_wrapper5" class="wrapper5" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper6" class="wrapper6" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper7" class="wrapper7" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper8" class="wrapper8" style="width:720px;height:400px;"></div>
 
 	<script type="text/javascript">
 
@@ -128,6 +129,16 @@ chartData:
 						configData:'<?xml version="1.0"?><chart v="1.0" type="pie"><data><colors normals="" overs="" mode="1"/><list><content mode="1"/></list></data></chart>',
 							
 						chartData:'<chart><data><indexAxis/><sets><set values="1445,1023,550,400,300,200,1000" names="名称1：,名称2：,名称3：,名称4：,名称5：,名称6：,名称7："></set></sets></data></chart>'
+					}
+			});
+			//仅SVG
+			new Charts({
+					parent_id:'J_wrapper8',
+
+					config:{
+						configData:'<?xml version="1.0"?><chart v="1.0" type="pie"><data x="250" w="450" h="450"><colors normals="" overs="" mode="1"/><list x="490"><content mode="0"/></list><font exact="2"></font></data></chart>',
+							
+						chartData:'<chart><data><indexAxis/><sets><set values="1445,1023,550,400,300,200,1000" names="名称1：,名称2：,名称3：,名称4：,名称5：,名称6：,名称1234567："></set></sets></data></chart>'
 					}
 			});
 		})

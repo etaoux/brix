@@ -99,6 +99,16 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			var self = this
 			return self.get('_graphs')
 		},
+		setTransformX:function($n){
+			var self = this
+			self.get('_graphs').get('element').transformX($n)
+			self.get('_induces').get('element').transformX($n)
+		},
+		setTransformY:function($n){
+			var self = this
+			self.get('_graphs').get('element').transformY($n)
+			self.get('_induces').get('element').transformY($n)
+		},
 
 		_widget:function(){
 			var self = this
@@ -122,7 +132,8 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				xr    : n / 2 - config.dis,
 				yr    : n / 2 - config.dis,
 				tr    : (n / 2 - config.dis) * 0.6,
-				isTxt : self.get('config').font.is
+				isTxt : self.get('config').font.is,
+				scale_exact : self.get('config').font.exact
 			}
 			if(self.get('config').fills.normals.length > 0){
 				o.fills = self._getArrayForObjectPro(self.get('_DataFrameFormat').values.all,'normal')
@@ -153,7 +164,8 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				mh    : n,
 				xr    : n / 2 - config.dis,
 				yr    : n / 2 - config.dis,
-				tr    : (n / 2 - config.dis) * 0.6
+				tr    : (n / 2 - config.dis) * 0.6,
+				scale_exact : self.get('config').font.exact
 			}
 			if(self.get('config').fills.normals.length > 0){
 				o.fills = self._getArrayForObjectPro(self.get('_DataFrameFormat').values.all,'normal')
@@ -195,7 +207,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			}
 			if(self.get('config').list.is){
 				var values = self.get('_DataFrameFormat').values.data
-				var scales = Global.getArrScales(values)
+				var scales = Global.getArrScales(values, self.get('config').font.exact)
 				for(var c = 0, cl = arr.length; c < cl; c++ ) {
 					var o  = arr[c]
 					o.order = c + 1

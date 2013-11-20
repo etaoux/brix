@@ -60,6 +60,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		isTxt:{
 			value:1              //是否展现文字
 		},
+		scale_exact:{ 
+			value:0              //显示百分比时 精确的小数点位置
+		},
 
 		_elements:{
 			value:null           //区域集合g
@@ -124,7 +127,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 			self.set('_total', Global.getArrMergerNumber(self.get('data')))
 			self.set('_angleList', self._getAngleList(self.get('data'),self.get('_total'),self.get('_startR')))
 			// self.set('_scaleList', self._getScaleList(self.get('data'),self.get('_total')))
-			self.set('_scaleList', Global.getArrScales(self.get('data')))
+			self.set('_scaleList', Global.getArrScales(self.get('data'), self.get('scale_exact')))
 
 			if(self.get('_total') == 0){
 				self.set('_angleList',self._getAngleList(self.get('_scaleList'),100,self.get('_startR')))
@@ -234,13 +237,18 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 					if (maxR - minR >= 15) {
 						font = SVGGraphics.text({'content':String(self.get('_scaleList')[a]) + '%','size':o.size,'fill':self.get('_font_fill'),'bold':1,'family':self.get('_font_family')})
 						_element.appendChild(font.element)
-						font.transformXY(o.x - font.getWidth() / 2, o.y)
+						font.transformXY(o.x - font.getWidth() / 2 + 1, o.y + 1)
 					}else{
 						var x
+
+						if (self.get('scale_exact') > 0) {
+							self.set('_disMinCirR', 22)
+						}
 						o = self._getRPoint(self.get('x0'), self.get('y0'), Number(self.get('xr')) + Number(self.get('_disMinCirR')), self.get('yr') + Number(self.get('_disMinCirR')), angle - self.get('_disR') / 2)
+						self.set('_disMinCirR', 16)
 						font = SVGGraphics.text({'content':String(self.get('_scaleList')[a]) + '%','size':o.size,'fill':fill,'bold':1})
 						_element.appendChild(font.element)
-						font.transformXY(o.x - font.getWidth() / 2, o.y + font.getHeight() / 4)
+						font.transformXY(o.x - font.getWidth() / 2 + 1, o.y + font.getHeight() / 4 + 1)
 					}
 
 					if(self.get('istxt') == 0){
