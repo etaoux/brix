@@ -403,6 +403,11 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2013.10.28
 	*  内容:
 	*       新增：map 取消index对应关系 同步svg(flash)
+	*  版本:1.2.7
+	*  日期:2013.11.20
+	*  内容:
+	*       新增：百分比算法不再取整 可以配置小数点后面N位   (flash + svg)
+	              饼图配置：坐标，大小，list坐标             (flash + svg)
  */
 
 

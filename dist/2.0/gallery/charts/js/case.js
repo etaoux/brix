@@ -6454,7 +6454,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 		_widget:function(){
 			var self = this
 			var config = self.get('_config')   
-			
+
 			self.set('_main',new SVGElement('g'))
 			self.get('_main').attr({'class':'main'});
 			self.get('parent').appendChild(self.get('_main').element)
@@ -6466,16 +6466,47 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 				self.set('_list', new List({parent:self.get('_main')}))
 			}
 
+			var tmpW = w, tmpH = h
+			if(config.w){
+				tmpW = config.w
+			}
+			if(config.h){
+				tmpH = config.h
+			}
+
 			var o = {}
 			o.parent = self.get('_main')                       //SVGElement
-			o.w = w                                            //chart 宽
-			o.h = h                                            //chart 高
+			o.w = tmpW                                         //chart 宽
+			o.h = tmpH                                         //chart 高
 			o.DataSource = self.get('_DataSource')             //图表数据源
 			o.config = self.get('_config')                     //图表配置
 			self.set('_widget', new Widget(o))
 			self.get('_widget').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
 			self.get('_widget').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
 
+			var widget = self.get('_widget')
+			var pie = self.get('_widget').getPie()
+			if(config.x){
+				// pie.get('element').transformX(config.x)
+				widget.setTransformX(config.x)
+			}else if(config.list.is){
+				// pie.get('element').transformX(parseInt((self.get('w') - 120) / 2))
+				widget.setTransformX(parseInt((self.get('w') - 120) / 2))
+			}else{
+				// pie.get('element').transformX(parseInt(self.get('w') / 2))
+				widget.setTransformX(parseInt(self.get('w') / 2))
+			}
+
+			if(config.y){
+				// pie.get('element').transformY(config.y)
+				widget.setTransformY(config.x)
+			}else if(config.list.is){
+				// pie.get('element').transformY(parseInt(self.get('h') / 2))
+				widget.setTransformY(parseInt(self.get('h') / 2))
+			}else{
+				// pie.get('element').transformY(parseInt(self.get('h') / 2))
+				widget.setTransformY(parseInt(self.get('h') / 2))
+			}
 			if(config.list.is){
 				self.set('_data', self.get('_widget').getData())
 				
@@ -6485,10 +6516,22 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 				}
 				self.get('_list').widget(o)
 				
-				var x = Number(self.get('_widget').getPie().get('element').get('_x')) + Number(self.get('_widget').getPie().get('mw') / 2) + 16
+				var x = Number(pie.get('element').get('_x')) + Number(pie.get('mw') / 2) + 16
 				var y = (h - self.get('_list').get('h')) / 2
 				x = Global.ceil(x), y = Global.ceil(y)
-				self.get('_list').get('element').transformXY(x, y)
+
+				if(config.list.x){
+					self.get('_list').get('element').transformX(config.list.x)
+				}else{
+					self.get('_list').get('element').transformX(x)
+				}
+
+				if(config.list.y){
+					self.get('_list').get('element').transformY(config.list.y)
+				}else{
+					self.get('_list').get('element').transformY(y)
+				}
+				// self.get('_list').get('element').transformXY(x,y)
 			}
 		},
 
@@ -6641,6 +6684,16 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			var self = this
 			return self.get('_graphs')
 		},
+		setTransformX:function($n){
+			var self = this
+			self.get('_graphs').get('element').transformX($n)
+			self.get('_induces').get('element').transformX($n)
+		},
+		setTransformY:function($n){
+			var self = this
+			self.get('_graphs').get('element').transformY($n)
+			self.get('_induces').get('element').transformY($n)
+		},
 
 		_widget:function(){
 			var self = this
@@ -6664,7 +6717,8 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				xr    : n / 2 - config.dis,
 				yr    : n / 2 - config.dis,
 				tr    : (n / 2 - config.dis) * 0.6,
-				isTxt : self.get('config').font.is
+				isTxt : self.get('config').font.is,
+				scale_exact : self.get('config').font.exact
 			}
 			if(self.get('config').fills.normals.length > 0){
 				o.fills = self._getArrayForObjectPro(self.get('_DataFrameFormat').values.all,'normal')
@@ -6695,7 +6749,8 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				mh    : n,
 				xr    : n / 2 - config.dis,
 				yr    : n / 2 - config.dis,
-				tr    : (n / 2 - config.dis) * 0.6
+				tr    : (n / 2 - config.dis) * 0.6,
+				scale_exact : self.get('config').font.exact
 			}
 			if(self.get('config').fills.normals.length > 0){
 				o.fills = self._getArrayForObjectPro(self.get('_DataFrameFormat').values.all,'normal')
@@ -6737,7 +6792,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			}
 			if(self.get('config').list.is){
 				var values = self.get('_DataFrameFormat').values.data
-				var scales = Global.getArrScales(values)
+				var scales = Global.getArrScales(values, self.get('config').font.exact)
 				for(var c = 0, cl = arr.length; c < cl; c++ ) {
 					var o  = arr[c]
 					o.order = c + 1
@@ -9123,10 +9178,16 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 		o:{
 			value:{
 
+				x:'',
+				y:'',
+				w:'',
+				h:'',
+
 				dis:26,                 //圆饼实际大小与上、下、左、右之间的间隔
 
 				font:{
-					is:1
+					is:1,
+					exact:0             //显示百分比时 精确的小数点位置
 				},
 
 				fills:{
@@ -9137,6 +9198,8 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 
 				list:{
 					is : 0,
+					x:'',
+					y:'',
 					max: '',
 					content:{           //内容
 						mode:0          //模式(0 = 比例 | 1 = 数字)
@@ -9175,8 +9238,13 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 			var __list = __data.getElementsByTagName("list")[0]
 			var __order = __data.getElementsByTagName("order")[0]
 
+			o.x = __data.getAttribute('x') || __data.getAttribute('x') == 0 ? __data.getAttribute('x') : o.x
+			o.y = __data.getAttribute('y') || __data.getAttribute('y') == 0? __data.getAttribute('y') : o.y
+			o.w = __data.getAttribute('w') ? __data.getAttribute('w') : o.w
+			o.h = __data.getAttribute('h') ? __data.getAttribute('h') : o.h
 			if(__font){
 				o.font.is = __font.getAttribute('enabled') == 0 ? 0 : o.font.is
+				o.font.exact = __font.getAttribute('exact') ? Number(__font.getAttribute('exact')) : o.font.exact
 			}
 
 			if(__fills){
@@ -9190,6 +9258,10 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 
 			if(__list){
 				o.list.is = 1
+				
+				o.list.x = __list.getAttribute('x') || __list.getAttribute('x') == 0 ? __list.getAttribute('x') : o.list.x
+				o.list.y = __list.getAttribute('y') || __list.getAttribute('y') == 0 ? __list.getAttribute('y') : o.list.y
+				
 				o.list.max = __list.getAttribute('value') && __list.getAttribute('value') != 0 ? __list.getAttribute('value') : o.list.max
 
 				var __content = __list.getElementsByTagName("content")[0]
@@ -9775,59 +9847,8 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 		 * @param  {[Array]} $arr    [数组]
 		 * @return {[Array]}         [对应的比例数组]
 		 */
-		getArrScales:function($arr){
+		getArrScales:function($arr, $exact){
 			/*
-			var arr = []
-			var total = 0
-			var max = 0
-			var maxIndex = 0
-			var scales = []
-			for (var a = 0 , al = $arr.length; a < al; a++) {
-				$arr[a] = Number($arr[a])
-				total += $arr[a]
-			}
-			for (var b = 0, bl = $arr.length; b < bl; b++) {
-				var scale = Math.round($arr[b] / total * 100)
-				scales.push(scale)
-				
-				//最后一个
-				if (b == ($arr.length - 1)) {
-					var n = 0
-					for (var d = 0, dl = scales.length - 1; d < dl; d++ ) {
-						n += scales[d]
-					}
-					n = 100 - n
-					n = n < 0 ? 0 : n
-					scale = n
-					//如果最后一个大于前一个
-					// if(n > arr[arr.length - 1]){
-					// 	var dis = n - arr[arr.length - 1]
-					// 	n = arr[arr.length - 1]
-					// 	arr[0] += dis
-					// 	scale = n
-					// }
-				}
-				
-				arr.push(scale)
-			}
-			
-			total = 0
-			for (var c = 0, cl = arr.length; c < cl; c++) {
-				arr[c] = isNaN(arr[c]) || arr[c] < 0 ? 0 : arr[c]
-				if(max < arr[c]){
-					max = arr[c]
-					maxIndex = c
-				}
-				total += arr[c]
-			}
-			if(total > 100){
-				arr[maxIndex] = arr[maxIndex] - (total - 100)
-			}else if(total < 100){
-				arr[maxIndex] = arr[maxIndex] + (100 - total)
-			}
-			return arr
-			*/
-			
 			var arr = []
 			var total = 0
 			var max = 0
@@ -9866,6 +9887,59 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 			}
 			if (arr[maxIndex] < 0) {
 				arr[maxIndex] = 0
+			}
+			return arr
+			*/
+
+			var arr = []
+			var total = 0
+			var max = 0
+			var maxIndex = 0
+			var scale
+			//几位小数点
+			var exact = $exact ? $exact : 0
+			var exactNumber = Math.pow(10, (2 + exact))
+			//最后整数除以该数 得到exact位的小数点值
+			var exactDisNumber = Math.pow(10, exact)
+			for (var a = 0 , al = $arr.length; a < al; a++) {
+				$arr[a] = Number($arr[a])
+				total += $arr[a]
+			}
+			if (total == 0) {
+				for (var g = 0 , gl = $arr.length; g < gl; g++) {
+					scale = Math.round(1 / $arr.length * exactNumber)
+					arr.push(scale)
+				}
+				return arr
+			}
+			
+			for (var b = 0, bl = $arr.length; b < bl; b++) {
+				scale = Math.round($arr[b] / total * exactNumber)
+				arr.push(scale)
+			}
+			
+			total = 0
+			for (var c = 0, cl = arr.length; c < cl; c++) {
+				arr[c] = isNaN(arr[c]) || arr[c] < 0 ? 0 : arr[c]
+				if(max < arr[c]){
+					max = arr[c]
+					maxIndex = c
+				}
+				total += arr[c]
+			}
+			if (total > exactNumber) {
+				arr[maxIndex] = arr[maxIndex] - (total - exactNumber)
+			}else if(total < exactNumber){
+				arr[maxIndex] = arr[maxIndex] + (exactNumber - total)
+			}
+			if (arr[maxIndex] < 0) {
+				arr[maxIndex] = 0
+			}
+			
+			if (exact != 0) {
+				for (var d = 0, dl = arr.length; d < dl; d++) {
+					arr[d] = arr[d] / exactDisNumber
+				}
 			}
 			return arr
 		},
@@ -15515,6 +15589,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		isTxt:{
 			value:1              //是否展现文字
 		},
+		scale_exact:{ 
+			value:0              //显示百分比时 精确的小数点位置
+		},
 
 		_elements:{
 			value:null           //区域集合g
@@ -15579,7 +15656,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 			self.set('_total', Global.getArrMergerNumber(self.get('data')))
 			self.set('_angleList', self._getAngleList(self.get('data'),self.get('_total'),self.get('_startR')))
 			// self.set('_scaleList', self._getScaleList(self.get('data'),self.get('_total')))
-			self.set('_scaleList', Global.getArrScales(self.get('data')))
+			self.set('_scaleList', Global.getArrScales(self.get('data'), self.get('scale_exact')))
 
 			if(self.get('_total') == 0){
 				self.set('_angleList',self._getAngleList(self.get('_scaleList'),100,self.get('_startR')))
@@ -15689,13 +15766,18 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 					if (maxR - minR >= 15) {
 						font = SVGGraphics.text({'content':String(self.get('_scaleList')[a]) + '%','size':o.size,'fill':self.get('_font_fill'),'bold':1,'family':self.get('_font_family')})
 						_element.appendChild(font.element)
-						font.transformXY(o.x - font.getWidth() / 2, o.y)
+						font.transformXY(o.x - font.getWidth() / 2 + 1, o.y + 1)
 					}else{
 						var x
+
+						if (self.get('scale_exact') > 0) {
+							self.set('_disMinCirR', 22)
+						}
 						o = self._getRPoint(self.get('x0'), self.get('y0'), Number(self.get('xr')) + Number(self.get('_disMinCirR')), self.get('yr') + Number(self.get('_disMinCirR')), angle - self.get('_disR') / 2)
+						self.set('_disMinCirR', 16)
 						font = SVGGraphics.text({'content':String(self.get('_scaleList')[a]) + '%','size':o.size,'fill':fill,'bold':1})
 						_element.appendChild(font.element)
-						font.transformXY(o.x - font.getWidth() / 2, o.y + font.getHeight() / 4)
+						font.transformXY(o.x - font.getWidth() / 2 + 1, o.y + font.getHeight() / 4 + 1)
 					}
 
 					if(self.get('istxt') == 0){
