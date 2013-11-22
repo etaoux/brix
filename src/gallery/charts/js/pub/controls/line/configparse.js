@@ -23,7 +23,31 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 				data:{
 				   mode:0               //数据模式(0 = 普通 | 1 = 叠加)
 				},
+
+				thickness:{             //线条粗线
+					normal  : 2,        //正常情况
+					over    : 3         //鼠标划入时
+				},
 				
+				x_axis:{                //x轴
+					line : {
+						enabled : 1
+					}
+				},
+
+				y_axis:{
+					enabled : 1
+				},
+
+				back:{
+					axis : {
+						enabled : 1
+					},
+					y_axis : {
+						enabled : 1
+					}
+				},
+
 				fills:{
 					normals:['#458AE6', '#39BCC0', '#5BCB8A', '#94CC5C', '#C3CC5C', '#E6B522', '#E68422'],
 					overs  :['#135EBF', '#2E9599', '#36B26A', '#78A64B', '#9CA632', '#BF9E39', '#BF7C39']
@@ -74,6 +98,38 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 			o.node = __data.getAttribute('node') && String(__data.getAttribute('node')) ? Number(__data.getAttribute('node')) : o.node
 			o.shape = __data.getAttribute('shape') && String(__data.getAttribute('shape')) ? Number(__data.getAttribute('shape')) : o.shape
 			o.area = __data.getAttribute('area') && String(__data.getAttribute('area')) ? Number(__data.getAttribute('area')) : o.area
+
+			var __thickness = xmlDoc.getElementsByTagName("thickness")[0]
+			if(__thickness){
+				o.thickness.normal = __thickness.getAttribute('normal') ? __thickness.getAttribute('normal') : o.thickness.normal
+				o.thickness.over = __thickness.getAttribute('over') ? __thickness.getAttribute('over') : o.thickness.over
+			}
+
+			var __x_axis = xmlDoc.getElementsByTagName("x_axis")[0]
+			if(__x_axis){
+				var __line = __x_axis.getElementsByTagName("line")[0]
+				if(__line){
+					o.x_axis.line.enabled = String(__line.getAttribute('enabled')) ? Number(__line.getAttribute('enabled')) : o.x_axis.line.enabled
+				}
+			}
+
+			var __y_axis = xmlDoc.getElementsByTagName("y_axis")[0]
+			if(__y_axis){
+				o.y_axis.enabled = String(__y_axis.getAttribute('enabled')) ? Number(__y_axis.getAttribute('enabled')) : o.y_axis.enabled
+			}
+
+			var __back = xmlDoc.getElementsByTagName("back")[0]
+			if(__back){
+				var __axis = __back.getElementsByTagName("axis")[0]
+				if(__axis){
+					o.back.axis.enabled = String(__axis.getAttribute('enabled')) ? Number(__axis.getAttribute('enabled')) : o.back.axis.enabled
+				}
+				var __y_axis = __back.getElementsByTagName("y_axis")[0]
+				if(__y_axis){
+					o.back.y_axis.enabled = String(__y_axis.getAttribute('enabled')) ? Number(__y_axis.getAttribute('enabled')) : o.back.__y_axis.enabled
+				}
+			}
+
 
 			var __fills = xmlDoc.getElementsByTagName("colors")[0]
 			if(__fills){

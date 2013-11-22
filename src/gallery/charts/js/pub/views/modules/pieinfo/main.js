@@ -83,7 +83,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/modules/pieinfo/main',function(S,Bas
 				xr    : _radius,
 				yr    : _radius,
 				tr    : _radius * 0.6,
-				isTxt : 0,
+				font  : {is:0},
 				disMove : 4,
 			}
 			_graphs.init(o)

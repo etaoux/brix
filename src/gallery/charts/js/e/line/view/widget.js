@@ -143,6 +143,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 
 		_widget:function(){
 			var self = this
+			var config = self.get('config')
 			self.set('element', new SVGElement('g')), self.get('element').set('class','widget')
 			self.get('parent').appendChild(self.get('element').element)
 
@@ -161,6 +162,12 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			}
 			self.get('_vertical').init(o)
 			self.get('_vertical').get('element').transformXY(self.get('_disX'), self.get('h') - self.get('_horizontal').get('h') - self.get('_disY'))
+
+			if(config.y_axis.enabled == 0){
+				self.get('_vertical').set('w', 6)
+				self.get('_vertical').get('element').set('visibility','hidden')
+			}
+
 			// return
 			self._trimHorizontal()
 
@@ -168,7 +175,8 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 				w      : self.get('_horizontalMaxW'),
 				parent : self.get('element'),
 				data   : self.get('_DataFrameFormat').horizontal.data,
-				dis_left : self.get('_disX') + self.get('_vertical').get('w') - self.get('_disX')
+				dis_left : self.get('_disX') + self.get('_vertical').get('w') - self.get('_disX'),
+				line   : config.x_axis.line
 			}
 			self.get('_horizontal').init(o)
 			self.get('_horizontal').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w'), self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY'))
@@ -180,8 +188,9 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 				h      : self.get('_verticalMaxH'),
 				parent : self.get('element'),
 				data_hor : self.get('_DataFrameFormat').vertical.data,
-				data_ver : self.get('_horizontal').getShowData(),
+				data_ver : config.back.y_axis.enabled == 1 ? self.get('_horizontal').getShowData() : [],
 				h_ver    : self.get('_verticalGraphsH'),
+				axis     : config.back.axis
 			}
 			self.get('_back').init(o)
 			self.get('_back').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w'), self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY'))
@@ -197,6 +206,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 				node  : self.get('config').node,
 				area  : self.get('config').area,
 				shape : self.get('config').shape,
+				thickness : self.get('config').thickness,
 				fills : self.get('config').fills.normals,
 				fills_over : self.get('config').fills.overs,
 				circle: self.get('config').circle.normal

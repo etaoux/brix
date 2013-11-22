@@ -132,8 +132,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				xr    : n / 2 - config.dis,
 				yr    : n / 2 - config.dis,
 				tr    : (n / 2 - config.dis) * 0.6,
-				isTxt : self.get('config').font.is,
-				scale_exact : self.get('config').font.exact
+				font  : self.get('config').font
 			}
 			if(self.get('config').fills.normals.length > 0){
 				o.fills = self._getArrayForObjectPro(self.get('_DataFrameFormat').values.all,'normal')
@@ -165,7 +164,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				xr    : n / 2 - config.dis,
 				yr    : n / 2 - config.dis,
 				tr    : (n / 2 - config.dis) * 0.6,
-				scale_exact : self.get('config').font.exact
+				font  : self.get('config').font
 			}
 			if(self.get('config').fills.normals.length > 0){
 				o.fills = self._getArrayForObjectPro(self.get('_DataFrameFormat').values.all,'normal')

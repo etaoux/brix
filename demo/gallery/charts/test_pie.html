@@ -4,7 +4,7 @@
 configData:
 //type = 类型(空或histogram = 纵向直方图  |  scatter = 散点图  |  line = 折线图(区域图)  |  line2 = 折线图(多日期) |  line3 = 折线图(双指标)  |  pie = 饼图  |  map = 地图  |  integrate = 综合图(直方+折线))[默认为纵向直方图]
 <chart v="1.0" type="line">
-	<data shape="1" node="0" area="0">
+	<data shape="1" node="0" area="0" x="" y="" w="" h="">
 		//颜色配置 
 		//normals  = 表示正常状态时颜色[默认:0x458AE6, 0x45B5E6, 0x39BCC0, 0x5BCB8A, 0x94CC5C, 0xC3CC5C, 0xE6B522, 0xE68422, 0xB0704A, 0x6280A1]
 		//overs    = 对应鼠标划入时信息的颜色[默认:0x135EBF, 0x3997BF, 0x2E9599, 0x36B26A, 0x78A64B, 0x9CA632, 0xBF9E39, 0xBF7C39, 0x8C5738, 0x4D6580]
@@ -13,12 +13,13 @@ configData:
 		<colors normals="0x3300FF,0x3333FF,0x3366FF" overs="0xCC0000,0xCC3300,0xCC6600" mode="1"/>
 		//list     = 是否显示列表(仅svg)
 		//value    = 最多显示几条数据(仅svg)
-		<list value="5">
+		<list value="5" x="" y="">
 			//mode    =文字内容模式(0 == 比例  |  1 == 数值)[默认：0](仅SVG)
 			<content mode="0"/>
 		</list>
 		//enabled  = 是否显示文字(0 == 不显示  |  其他 == 显示)[默认：1](仅SVG)
-		<font enabled="0"/>
+		//exact    = 百分比小数点之后几位[默认：0  代表取整]
+		<font enabled="0" exact="2"/>
 		//mode     = 数据排序模式(0 == 不排序  |  1 == 排序(大->小))[默认：1](仅SVG)
 		<order mode="0"/>
 	</data>

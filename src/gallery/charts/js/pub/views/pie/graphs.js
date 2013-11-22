@@ -57,11 +57,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		disMove:{
 			value:8              //鼠标划入时候移动的距离
 		},
-		isTxt:{
-			value:1              //是否展现文字
-		},
-		scale_exact:{ 
-			value:0              //显示百分比时 精确的小数点位置
+		font:{
+			value:{
+				is    : 1,       //是否展现文字
+				exact : 0        //显示百分比时 精确的小数点位置
+			}
 		},
 
 		_elements:{
@@ -119,7 +119,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		init:function(){
 			var self = this
 			Graphs.superclass.constructor.apply(self,arguments);
-			if(self.get('isInduce') == 1){ self.set('isTxt',0) }
+			if(self.get('isInduce') == 1){ self.get('font').is = 0 }
 			
 			self.set('element', new SVGElement('g')), self.get('element').set('class',self.get('id'))
 			self.get('parent').appendChild(self.get('element').element)
@@ -127,7 +127,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 			self.set('_total', Global.getArrMergerNumber(self.get('data')))
 			self.set('_angleList', self._getAngleList(self.get('data'),self.get('_total'),self.get('_startR')))
 			// self.set('_scaleList', self._getScaleList(self.get('data'),self.get('_total')))
-			self.set('_scaleList', Global.getArrScales(self.get('data'), self.get('scale_exact')))
+			self.set('_scaleList', Global.getArrScales(self.get('data'), self.get('font').exact))
 
 			if(self.get('_total') == 0){
 				self.set('_angleList',self._getAngleList(self.get('_scaleList'),100,self.get('_startR')))
@@ -232,7 +232,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 				self.get('_moveList').push(self._getRPoint(self.get('x0'), self.get('y0'), self.get('disMove') , self.get('disMove'), angle - self.get('_disR') / 2))
 
 				//文字
-				if(self.get('isTxt') == 1){
+				if(self.get('font').is == 1){
 					var font
 					if (maxR - minR >= 15) {
 						font = SVGGraphics.text({'content':String(self.get('_scaleList')[a]) + '%','size':o.size,'fill':self.get('_font_fill'),'bold':1,'family':self.get('_font_family')})
@@ -241,7 +241,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 					}else{
 						var x
 
-						if (self.get('scale_exact') > 0) {
+						if (self.get('font').exact > 0) {
 							self.set('_disMinCirR', 22)
 						}
 						o = self._getRPoint(self.get('x0'), self.get('y0'), Number(self.get('xr')) + Number(self.get('_disMinCirR')), self.get('yr') + Number(self.get('_disMinCirR')), angle - self.get('_disR') / 2)
@@ -251,7 +251,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 						font.transformXY(o.x - font.getWidth() / 2 + 1, o.y + font.getHeight() / 4 + 1)
 					}
 
-					if(self.get('istxt') == 0){
+					if(self.get('font').is == 0){
 						font.set()
 					}
 				}

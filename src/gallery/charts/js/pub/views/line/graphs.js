@@ -53,6 +53,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 		shape:{
 			value:1              //线条形状
 		},
+		thickness:{              //线条粗线
+			value:{
+				normal  : 2,     //正常情况
+				over    : 3      //鼠标划入时
+			}
+		},
 		fills:{
 			value:[]             //图形颜色集合
 		},
@@ -170,7 +176,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 					node   : self.get('node'),
 					shape  : self.get('shape'),
 					fill   : self.get('fills')[a],
-					fill_over : self.get('fills_over')[a]
+					fill_over : self.get('fills_over')[a],
+					thickness : self.get('thickness')
 				}
 				if(self.get('circle').radius){
 					!o.circle ? o.circle = {} : ''

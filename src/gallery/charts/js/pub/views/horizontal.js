@@ -37,6 +37,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/horizontal',function(S,Base,node,Glo
 		line_w:{
 			value:1
 		},
+		line:{
+			value:{
+				enabled : 1
+			}
+		},
 
 		_data:{
 			value:[]             //删除多余数据之后的数组
@@ -149,13 +154,15 @@ KISSY.add('brix/gallery/charts/js/pub/views/horizontal',function(S,Base,node,Glo
 			    _df.appendChild(font.element)
 
 			    //线条
-			   	var line = new SVGElement('path')
-			   	line.attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_w'),'d':d})
-			    self.get('_lineArr').push(line)
-			    x = o.x
-			    y = 0
-			    line.transformXY(x,y)
-			    _df.appendChild(line.element)
+			    if(self.get('line').enabled == 1){
+				   	var line = new SVGElement('path')
+				   	line.attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_w'),'d':d})
+				    self.get('_lineArr').push(line)
+				    x = o.x
+				    y = 0
+				    line.transformXY(x,y)
+				    _df.appendChild(line.element)
+			    }
 			}
 			self.get('element').appendChild(_df)
 

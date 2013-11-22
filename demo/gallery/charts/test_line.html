@@ -24,6 +24,29 @@ configData(折线图、折线图(多日期)、折线图(双指标) 该属性配�
 			//max_thickness 鼠标划入时大圆的线条粗细[默认:2]
 			<over min_radius="0" max_radius="4" max_thickness="1"/>
 		</node>
+		
+		//线条粗细值
+		//normal 正常状态时的线条粗
+		//over   对应鼠标划入时的线条粗
+		<thickness normal="1" over="1"/>
+		//x轴
+		<x_axis>
+		    //enabled  是否显示小线头(可选值: 0 = 无 |  1 = 有)[默认:1]
+			<line enabled="0"/>
+		</x_axis>
+		//y轴
+		//enabled  是否显示y轴(可选值: 0 = 无 |  1 = 有)[默认:1]
+		<y_axis enabled="0"/>
+		//背景
+		<back>
+			//背景中y轴
+			//enabled  是否显示y轴(可选值: 0 = 无 |  1 = 有)[默认:1]
+			<y_axis enabled="0"/>
+			//坐标轴
+			//enabled  是否显示坐标轴(可选值: 0 = 无 |  1 = 有)[默认:1]
+			<axis enabled="0"/>
+		</back>
+
 	</data>
 </chart>
 //------------------------------------
@@ -52,8 +75,8 @@ chartData:
     <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
     <link rel="stylesheet" href="../../assets/doc.css">
     <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script>
-    <script src="http://a.tbcdn.cn/apps/e/brix/2.0/brix.js" bx-config="{autoConfig:true}"></script>
-    <!--<script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>-->
+    <!-- // <script src="http://a.tbcdn.cn/apps/e/brix/2.0/brix.js" bx-config="{autoConfig:true}"></script> -->
+    <script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>
     <!-- // <script src="../../../src/core/brix.js"></script> -->
 </head>
 <body>
@@ -64,6 +87,7 @@ chartData:
 	<div id="J_wrapper5" class="wrapper5" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper6" class="wrapper6" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper7" class="wrapper7" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper8" class="wrapper8" style="width:720px;height:400px;"></div>
 
 	<script type="text/javascript">
 
@@ -136,6 +160,19 @@ chartData:
 						chartData:'<chart><data><indexAxis labels="2013-06-04" name="日期："/><sets name="总客户数："><set values="23332456"></set></sets></data></chart>'
 					}
 			})
+			//直通车 思霏
+			//	*       新增：配置隐藏：line Y轴、X轴线条、背景坐标轴、背景Y轴   (flash + svg)
+    		//	*       配置：line 线条粗细                                      (flash + svg)
+			new Charts({
+					parent_id:'J_wrapper8',
+
+					config:{
+						configData:'<chart v="1.0" type="line"><data shape="1" node="0" area="1"><thickness normal="1" over="1"/><x_axis><line enabled="0"/></x_axis><y_axis enabled="0"/><back><y_axis enabled="0"/><axis enabled="0"/></back></data></chart>',
+							
+						chartData:'<chart><data><indexAxis labels="12月1号,12月2号,12月3号,12月4号,12月5号,12月6号,12月7号" name="维度2："/><sets name="维度1："><set values="83,81,77,71,68,70,68"></set><set values="43,41,37,31,28,30,28"></set><set values="143,141,137,131,128,130,128"></set></sets></data></chart>'
+					}
+			});
+
 		})
 	</script>
 </body>

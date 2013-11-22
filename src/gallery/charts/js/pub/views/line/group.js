@@ -32,6 +32,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 		shape:{
 			value:0              //线条样式[0 = 直线 | 1 = 曲线]
 		},
+		thickness:{              //线条粗线
+			value:{
+				normal  : 2,     //正常情况
+				over    : 3      //鼠标划入时
+			}
+		},
 		line:{
 			value:1              //是否有线条
 		},
@@ -68,14 +74,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 		_fill:{
 			value:null           //区域
 		},		
-
-		
-		_line_thickness:{
-			value:2              //线条粗线
-		},
-		_line_thickness_over:{
-			value:3              //鼠标划入线条粗线
-		},	
 
 		_linearGradientIndex:{
 			value:'linearGradient'//线性渐变索引	
@@ -150,11 +148,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 				var line
 				if(self.get('shape') == 0){
 					if(self.get('data').length > 1){
-						line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('_line_thickness')})
+						line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('thickness').normal})
 					}
 				}else{
 					if(self.get('data').length > 1){
-						line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('_line_thickness')})
+						line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('thickness').normal})
 					}
 				}
 				if(line && line.element){
@@ -188,11 +186,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 				var line
 				if(self.get('shape') == 0){
 					if(self.get('data').length > 1){
-						line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('_line_thickness_over')})
+						line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('thickness').over})
 					}
 				}else{
 					if(self.get('data').length > 1){
-						line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('_line_thickness_over')})
+						line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('thickness').over})
 					}
 				}
 				if(line && line.element){

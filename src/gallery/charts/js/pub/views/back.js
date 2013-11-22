@@ -37,6 +37,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/back',function(S,Base,node,Global,SV
 		line_ver_mode:{          //纵向的线模式(0 = 虚线 | 1 = 实线)
 			value:1
 		},
+		axis:{                   //坐标轴
+			value:{
+				enabled : 1
+			}
+		},
 
 
 		_line_ver:{
@@ -72,16 +77,18 @@ KISSY.add('brix/gallery/charts/js/pub/views/back',function(S,Base,node,Global,SV
 			// S.log(S.now())
 			self.set('_df',document.createDocumentFragment())
 
-			var d = SVGRenderer.symbol('line',0,0,0,-self.get('h')).join(' ')
-			self.set('_line_ver', new SVGElement('path'))
-		    self.get('_line_ver').attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_w'),'d':d})
-		    self.get('_df').appendChild(self.get('_line_ver').element)
+			if(self.get('axis').enabled == 1){
+				var d = SVGRenderer.symbol('line',0,0,0,-self.get('h')).join(' ')
+				self.set('_line_ver', new SVGElement('path'))
+			    self.get('_line_ver').attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_w'),'d':d})
+			    self.get('_df').appendChild(self.get('_line_ver').element)
 
-		    //_line_hor
-		    var d = SVGRenderer.symbol('line',0,0,self.get('w'),0).join(' ')
-			self.set('_line_hor', new SVGElement('path'))
-		    self.get('_line_hor').attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_w'),'d':d})
-		    self.get('_df').appendChild(self.get('_line_hor').element)
+			    //_line_hor
+			    var d = SVGRenderer.symbol('line',0,0,self.get('w'),0).join(' ')
+				self.set('_line_hor', new SVGElement('path'))
+			    self.get('_line_hor').attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_w'),'d':d})
+			    self.get('_df').appendChild(self.get('_line_hor').element)
+		    }
 		},
 		_layout:function(){
 			var self = this
