@@ -403,11 +403,19 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2013.10.28
 	*  内容:
 	*       新增：map 取消index对应关系 同步svg(flash)
+	*
 	*  版本:1.2.7
 	*  日期:2013.11.20
-	*  内容:
+	*  内容(品牌时效 巴韶):
 	*       新增：百分比算法不再取整 可以配置小数点后面N位   (flash + svg)
-	              饼图配置：坐标，大小，list坐标             (flash + svg)
+	*             饼图配置：坐标，大小，list坐标             (flash + svg)
+	*
+	*  版本:1.2.8
+	*  日期:2013.11.22
+	*  内容(直通车 思霏):
+	*       新增：配置隐藏：line Y轴、X轴线条、背景坐标轴、背景Y轴   (flash + svg)
+    *       配置：line 线条粗细                                      (flash + svg)
+
  */
 
 

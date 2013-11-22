@@ -4630,6 +4630,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 
 		_widget:function(){
 			var self = this
+			var config = self.get('config')
 			self.set('element', new SVGElement('g')), self.get('element').set('class','widget')
 			self.get('parent').appendChild(self.get('element').element)
 
@@ -4648,6 +4649,12 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			}
 			self.get('_vertical').init(o)
 			self.get('_vertical').get('element').transformXY(self.get('_disX'), self.get('h') - self.get('_horizontal').get('h') - self.get('_disY'))
+
+			if(config.y_axis.enabled == 0){
+				self.get('_vertical').set('w', 6)
+				self.get('_vertical').get('element').set('visibility','hidden')
+			}
+
 			// return
 			self._trimHorizontal()
 
@@ -4655,7 +4662,8 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 				w      : self.get('_horizontalMaxW'),
 				parent : self.get('element'),
 				data   : self.get('_DataFrameFormat').horizontal.data,
-				dis_left : self.get('_disX') + self.get('_vertical').get('w') - self.get('_disX')
+				dis_left : self.get('_disX') + self.get('_vertical').get('w') - self.get('_disX'),
+				line   : config.x_axis.line
 			}
 			self.get('_horizontal').init(o)
 			self.get('_horizontal').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w'), self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY'))
@@ -4667,8 +4675,9 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 				h      : self.get('_verticalMaxH'),
 				parent : self.get('element'),
 				data_hor : self.get('_DataFrameFormat').vertical.data,
-				data_ver : self.get('_horizontal').getShowData(),
+				data_ver : config.back.y_axis.enabled == 1 ? self.get('_horizontal').getShowData() : [],
 				h_ver    : self.get('_verticalGraphsH'),
+				axis     : config.back.axis
 			}
 			self.get('_back').init(o)
 			self.get('_back').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w'), self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY'))
@@ -4684,6 +4693,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 				node  : self.get('config').node,
 				area  : self.get('config').area,
 				shape : self.get('config').shape,
+				thickness : self.get('config').thickness,
 				fills : self.get('config').fills.normals,
 				fills_over : self.get('config').fills.overs,
 				circle: self.get('config').circle.normal
@@ -6717,8 +6727,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				xr    : n / 2 - config.dis,
 				yr    : n / 2 - config.dis,
 				tr    : (n / 2 - config.dis) * 0.6,
-				isTxt : self.get('config').font.is,
-				scale_exact : self.get('config').font.exact
+				font  : self.get('config').font
 			}
 			if(self.get('config').fills.normals.length > 0){
 				o.fills = self._getArrayForObjectPro(self.get('_DataFrameFormat').values.all,'normal')
@@ -6750,7 +6759,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				xr    : n / 2 - config.dis,
 				yr    : n / 2 - config.dis,
 				tr    : (n / 2 - config.dis) * 0.6,
-				scale_exact : self.get('config').font.exact
+				font  : self.get('config').font
 			}
 			if(self.get('config').fills.normals.length > 0){
 				o.fills = self._getArrayForObjectPro(self.get('_DataFrameFormat').values.all,'normal')
@@ -8279,7 +8288,31 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 				data:{
 				   mode:0               //数据模式(0 = 普通 | 1 = 叠加)
 				},
+
+				thickness:{             //线条粗线
+					normal  : 2,        //正常情况
+					over    : 3         //鼠标划入时
+				},
 				
+				x_axis:{                //x轴
+					line : {
+						enabled : 1
+					}
+				},
+
+				y_axis:{
+					enabled : 1
+				},
+
+				back:{
+					axis : {
+						enabled : 1
+					},
+					y_axis : {
+						enabled : 1
+					}
+				},
+
 				fills:{
 					normals:['#458AE6', '#39BCC0', '#5BCB8A', '#94CC5C', '#C3CC5C', '#E6B522', '#E68422'],
 					overs  :['#135EBF', '#2E9599', '#36B26A', '#78A64B', '#9CA632', '#BF9E39', '#BF7C39']
@@ -8330,6 +8363,38 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 			o.node = __data.getAttribute('node') && String(__data.getAttribute('node')) ? Number(__data.getAttribute('node')) : o.node
 			o.shape = __data.getAttribute('shape') && String(__data.getAttribute('shape')) ? Number(__data.getAttribute('shape')) : o.shape
 			o.area = __data.getAttribute('area') && String(__data.getAttribute('area')) ? Number(__data.getAttribute('area')) : o.area
+
+			var __thickness = xmlDoc.getElementsByTagName("thickness")[0]
+			if(__thickness){
+				o.thickness.normal = __thickness.getAttribute('normal') ? __thickness.getAttribute('normal') : o.thickness.normal
+				o.thickness.over = __thickness.getAttribute('over') ? __thickness.getAttribute('over') : o.thickness.over
+			}
+
+			var __x_axis = xmlDoc.getElementsByTagName("x_axis")[0]
+			if(__x_axis){
+				var __line = __x_axis.getElementsByTagName("line")[0]
+				if(__line){
+					o.x_axis.line.enabled = String(__line.getAttribute('enabled')) ? Number(__line.getAttribute('enabled')) : o.x_axis.line.enabled
+				}
+			}
+
+			var __y_axis = xmlDoc.getElementsByTagName("y_axis")[0]
+			if(__y_axis){
+				o.y_axis.enabled = String(__y_axis.getAttribute('enabled')) ? Number(__y_axis.getAttribute('enabled')) : o.y_axis.enabled
+			}
+
+			var __back = xmlDoc.getElementsByTagName("back")[0]
+			if(__back){
+				var __axis = __back.getElementsByTagName("axis")[0]
+				if(__axis){
+					o.back.axis.enabled = String(__axis.getAttribute('enabled')) ? Number(__axis.getAttribute('enabled')) : o.back.axis.enabled
+				}
+				var __y_axis = __back.getElementsByTagName("y_axis")[0]
+				if(__y_axis){
+					o.back.y_axis.enabled = String(__y_axis.getAttribute('enabled')) ? Number(__y_axis.getAttribute('enabled')) : o.back.__y_axis.enabled
+				}
+			}
+
 
 			var __fills = xmlDoc.getElementsByTagName("colors")[0]
 			if(__fills){
@@ -10380,6 +10445,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/back',function(S,Base,node,Global,SV
 		line_ver_mode:{          //纵向的线模式(0 = 虚线 | 1 = 实线)
 			value:1
 		},
+		axis:{                   //坐标轴
+			value:{
+				enabled : 1
+			}
+		},
 
 
 		_line_ver:{
@@ -10415,16 +10485,18 @@ KISSY.add('brix/gallery/charts/js/pub/views/back',function(S,Base,node,Global,SV
 			// S.log(S.now())
 			self.set('_df',document.createDocumentFragment())
 
-			var d = SVGRenderer.symbol('line',0,0,0,-self.get('h')).join(' ')
-			self.set('_line_ver', new SVGElement('path'))
-		    self.get('_line_ver').attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_w'),'d':d})
-		    self.get('_df').appendChild(self.get('_line_ver').element)
+			if(self.get('axis').enabled == 1){
+				var d = SVGRenderer.symbol('line',0,0,0,-self.get('h')).join(' ')
+				self.set('_line_ver', new SVGElement('path'))
+			    self.get('_line_ver').attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_w'),'d':d})
+			    self.get('_df').appendChild(self.get('_line_ver').element)
 
-		    //_line_hor
-		    var d = SVGRenderer.symbol('line',0,0,self.get('w'),0).join(' ')
-			self.set('_line_hor', new SVGElement('path'))
-		    self.get('_line_hor').attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_w'),'d':d})
-		    self.get('_df').appendChild(self.get('_line_hor').element)
+			    //_line_hor
+			    var d = SVGRenderer.symbol('line',0,0,self.get('w'),0).join(' ')
+				self.set('_line_hor', new SVGElement('path'))
+			    self.get('_line_hor').attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_w'),'d':d})
+			    self.get('_df').appendChild(self.get('_line_hor').element)
+		    }
 		},
 		_layout:function(){
 			var self = this
@@ -12067,6 +12139,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/horizontal',function(S,Base,node,Glo
 		line_w:{
 			value:1
 		},
+		line:{
+			value:{
+				enabled : 1
+			}
+		},
 
 		_data:{
 			value:[]             //删除多余数据之后的数组
@@ -12179,13 +12256,15 @@ KISSY.add('brix/gallery/charts/js/pub/views/horizontal',function(S,Base,node,Glo
 			    _df.appendChild(font.element)
 
 			    //线条
-			   	var line = new SVGElement('path')
-			   	line.attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_w'),'d':d})
-			    self.get('_lineArr').push(line)
-			    x = o.x
-			    y = 0
-			    line.transformXY(x,y)
-			    _df.appendChild(line.element)
+			    if(self.get('line').enabled == 1){
+				   	var line = new SVGElement('path')
+				   	line.attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_w'),'d':d})
+				    self.get('_lineArr').push(line)
+				    x = o.x
+				    y = 0
+				    line.transformXY(x,y)
+				    _df.appendChild(line.element)
+			    }
 			}
 			self.get('element').appendChild(_df)
 
@@ -14103,6 +14182,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 		shape:{
 			value:1              //线条形状
 		},
+		thickness:{              //线条粗线
+			value:{
+				normal  : 2,     //正常情况
+				over    : 3      //鼠标划入时
+			}
+		},
 		fills:{
 			value:[]             //图形颜色集合
 		},
@@ -14220,7 +14305,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 					node   : self.get('node'),
 					shape  : self.get('shape'),
 					fill   : self.get('fills')[a],
-					fill_over : self.get('fills_over')[a]
+					fill_over : self.get('fills_over')[a],
+					thickness : self.get('thickness')
 				}
 				if(self.get('circle').radius){
 					!o.circle ? o.circle = {} : ''
@@ -14366,6 +14452,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 		shape:{
 			value:0              //线条样式[0 = 直线 | 1 = 曲线]
 		},
+		thickness:{              //线条粗线
+			value:{
+				normal  : 2,     //正常情况
+				over    : 3      //鼠标划入时
+			}
+		},
 		line:{
 			value:1              //是否有线条
 		},
@@ -14402,14 +14494,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 		_fill:{
 			value:null           //区域
 		},		
-
-		
-		_line_thickness:{
-			value:2              //线条粗线
-		},
-		_line_thickness_over:{
-			value:3              //鼠标划入线条粗线
-		},	
 
 		_linearGradientIndex:{
 			value:'linearGradient'//线性渐变索引	
@@ -14484,11 +14568,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 				var line
 				if(self.get('shape') == 0){
 					if(self.get('data').length > 1){
-						line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('_line_thickness')})
+						line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('thickness').normal})
 					}
 				}else{
 					if(self.get('data').length > 1){
-						line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('_line_thickness')})
+						line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('thickness').normal})
 					}
 				}
 				if(line && line.element){
@@ -14522,11 +14606,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 				var line
 				if(self.get('shape') == 0){
 					if(self.get('data').length > 1){
-						line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('_line_thickness_over')})
+						line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('thickness').over})
 					}
 				}else{
 					if(self.get('data').length > 1){
-						line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('_line_thickness_over')})
+						line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('thickness').over})
 					}
 				}
 				if(line && line.element){
@@ -15368,7 +15452,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/modules/pieinfo/main',function(S,Bas
 				xr    : _radius,
 				yr    : _radius,
 				tr    : _radius * 0.6,
-				isTxt : 0,
+				font  : {is:0},
 				disMove : 4,
 			}
 			_graphs.init(o)
@@ -15586,11 +15670,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		disMove:{
 			value:8              //鼠标划入时候移动的距离
 		},
-		isTxt:{
-			value:1              //是否展现文字
-		},
-		scale_exact:{ 
-			value:0              //显示百分比时 精确的小数点位置
+		font:{
+			value:{
+				is    : 1,       //是否展现文字
+				exact : 0        //显示百分比时 精确的小数点位置
+			}
 		},
 
 		_elements:{
@@ -15648,7 +15732,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		init:function(){
 			var self = this
 			Graphs.superclass.constructor.apply(self,arguments);
-			if(self.get('isInduce') == 1){ self.set('isTxt',0) }
+			if(self.get('isInduce') == 1){ self.get('font').is = 0 }
 			
 			self.set('element', new SVGElement('g')), self.get('element').set('class',self.get('id'))
 			self.get('parent').appendChild(self.get('element').element)
@@ -15656,7 +15740,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 			self.set('_total', Global.getArrMergerNumber(self.get('data')))
 			self.set('_angleList', self._getAngleList(self.get('data'),self.get('_total'),self.get('_startR')))
 			// self.set('_scaleList', self._getScaleList(self.get('data'),self.get('_total')))
-			self.set('_scaleList', Global.getArrScales(self.get('data'), self.get('scale_exact')))
+			self.set('_scaleList', Global.getArrScales(self.get('data'), self.get('font').exact))
 
 			if(self.get('_total') == 0){
 				self.set('_angleList',self._getAngleList(self.get('_scaleList'),100,self.get('_startR')))
@@ -15761,7 +15845,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 				self.get('_moveList').push(self._getRPoint(self.get('x0'), self.get('y0'), self.get('disMove') , self.get('disMove'), angle - self.get('_disR') / 2))
 
 				//文字
-				if(self.get('isTxt') == 1){
+				if(self.get('font').is == 1){
 					var font
 					if (maxR - minR >= 15) {
 						font = SVGGraphics.text({'content':String(self.get('_scaleList')[a]) + '%','size':o.size,'fill':self.get('_font_fill'),'bold':1,'family':self.get('_font_family')})
@@ -15770,7 +15854,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 					}else{
 						var x
 
-						if (self.get('scale_exact') > 0) {
+						if (self.get('font').exact > 0) {
 							self.set('_disMinCirR', 22)
 						}
 						o = self._getRPoint(self.get('x0'), self.get('y0'), Number(self.get('xr')) + Number(self.get('_disMinCirR')), self.get('yr') + Number(self.get('_disMinCirR')), angle - self.get('_disR') / 2)
@@ -15780,7 +15864,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 						font.transformXY(o.x - font.getWidth() / 2 + 1, o.y + font.getHeight() / 4 + 1)
 					}
 
-					if(self.get('istxt') == 0){
+					if(self.get('font').is == 0){
 						font.set()
 					}
 				}
