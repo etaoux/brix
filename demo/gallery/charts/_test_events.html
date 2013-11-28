@@ -1,0 +1,35 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Brix Chart Demo (事件)</title>
+    <meta charset="utf-8" />
+    <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
+    <link rel="stylesheet" href="../../assets/doc.css">
+    <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script>
+    <!--  <script src="http://127.0.0.1/brix/src/gallery/charts/kissy.js"></script> -->
+    <!--<script src="http://a.tbcdn.cn/apps/e/brix/2.0/brix.js" bx-config="{autoConfig:true}"></script>-->
+    <!--<script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>-->
+    <script src="../../../src/core/brix.js"></script>
+</head>
+<body>
+	<div id="J_wrapper1" class="wrapper1" style="width:720px;height:400px;"></div>
+
+	<script type="text/javascript">
+
+		KISSY.use('brix/gallery/charts/',function(S,Charts){
+			chart = new Charts({
+				parent_id:'J_wrapper1',
+
+				config:{
+					configData:'<?xml version="1.0"?><chart v="1.0" type="pie"><data w="400" h="400"><colors normals="" overs="" mode="1"/><list><content mode="0"/></list><font exact="2" enabled="0"/></data></chart>',
+					chartData :'<chart><data><indexAxis/><sets><set values="1808,101,1101,2101,301" names="宝贝推广：,店铺推广：,明星店铺：,快捷推广：,活动专区"></set></sets></data></chart>'
+				}
+			});
+
+			chart.on('elementClick',function(o){
+					console.log(o.index)
+			})
+		})
+	</script>
+</body>
+</html>

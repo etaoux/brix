@@ -79,11 +79,14 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 			o.parent = self.get('_main')                       //SVGElement
 			o.w = tmpW                                         //chart 宽
 			o.h = tmpH                                         //chart 高
+			o.maxW = self.get('w')                             //chart最大宽 当配置w h 时使用该值给infos
+			o.maxH = self.get('h')                             //chart最大高 当配置w h 时使用该值给infos
 			o.DataSource = self.get('_DataSource')             //图表数据源
 			o.config = self.get('_config')                     //图表配置
 			self.set('_widget', new Widget(o))
 			self.get('_widget').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
 			self.get('_widget').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
+			self.get('_widget').get('element').on(EventType.CLICK,function($o){self._clickHandler($o)})
 
 			var widget = self.get('_widget')
 			var pie = self.get('_widget').getPie()
@@ -175,6 +178,9 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 				o.is = 0
 				self.get('_list').induce(o)
 			}
+		},
+		_clickHandler:function($o){
+			this.fire('elementClick',$o)
 		},
 	});
 

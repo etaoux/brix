@@ -55,6 +55,9 @@ KISSY.add('brix/gallery/charts/js/case',function(S,Base,Node,DataSource,Widget){
 			o.data = self.get('chart').data                    //图表数据
 
 			self.set('_widget', new Widget(o)) 
+			self.get('_widget').on('elementClick',function($o){
+				self.fire('elementClick',$o)
+			})
 		},
 		//与外部js交互总接口
 		actions:function($name,$value){

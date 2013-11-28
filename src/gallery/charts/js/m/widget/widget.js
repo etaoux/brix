@@ -104,7 +104,12 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
   				o.data = self.get('data')                          //图表数据
 
 				self.set('_main',new Main(o))
+				self.get('_main').on('elementClick',function($o){self._clickHandler($o)})
 			})
+		},
+
+		_clickHandler:function($o){
+			this.fire('elementClick',$o)
 		},
 
 		//获取图表js路径

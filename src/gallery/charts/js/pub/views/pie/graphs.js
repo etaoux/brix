@@ -216,6 +216,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 				_induce.element.addEventListener("mouseover",function(evt){ self._overHandler(evt)}, false);
 				_induce.element.addEventListener("mousemove",function(evt){ self._moveHandler(evt)}, false);
 				_induce.element.addEventListener("mouseout",function(evt){ self._outHandler(evt)}, false);
+				_induce.element.addEventListener("click",function(evt){ self._clickHandler(evt)}, false);
 				_induce.appendChild(self._fillLine({'lines':arr,'fill':'#000000','stroke':'none','opacity':0}).element)
 				_induce.set('_index', a)
 
@@ -320,6 +321,13 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 			var x = o.x, y = o.y
 			o = self._getInfo({'index':index, 'x':x, 'y':y})
 			self.get('element').fire(EventType.OUT,o)
+		},
+		_clickHandler:function($evt){
+			var self = this
+			var index = S.one($evt.target).parent().attr('_index')
+			var o = {}
+			o.index = parseInt(index)
+			self.get('element').fire(EventType.CLICK,o)
 		},
 		_getInfo:function($o){
 			var self = this

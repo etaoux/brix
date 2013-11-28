@@ -61,7 +61,6 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/datatrim',function(S,Base,Nod
 				var o = S.clone(self.get('o'))
 				o.index = __set.getAttribute('index') && String(__set.getAttribute('index')) ? Number(__set.getAttribute('index')) : o.index
 				o.value = __set.getAttribute('value') && String(__set.getAttribute('value')) ? Number(__set.getAttribute('value')) : o.value
-
 				if(__name){
 					o.name = String(__name.getAttribute('name')) ? String(__name.getAttribute('name')) : o.name
 					o.index = name
@@ -98,12 +97,13 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/datatrim',function(S,Base,Nod
 				}
 
 				o.sign.is = $config.sign.is ? 1 : 0
+				/*
 				if(__sign){
 					var __font = __sign.getElementsByTagName("font")[0]
 					if(__font){
 						var content = __font.getAttribute('content') && String(__font.getAttribute('content')) ? String(__font.getAttribute('content')) : o.sign.font.content
 					}
-				}
+				}*/
 				data[o.name] = o
 			}
 			return data

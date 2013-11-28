@@ -23,6 +23,12 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 	}
 
 	Widget.ATTRS = {
+		maxW:{
+			value:0
+		},
+		maxH:{
+			value:0
+		},
 		w:{
 			value:0
 		},
@@ -142,7 +148,6 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			self.get('_graphs').get('element').transformXY(parseInt(self.get('w')/2),parseInt(self.get('h')/2))
 
 			self.get('_infos').init({parent:self.get('element')})
-
 			var o = {
 				w     : self.get('w'),
 				h     : self.get('h'),
@@ -174,6 +179,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			self.get('_induces').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
 			self.get('_induces').get('element').on(EventType.MOVE,function($o){self._moveHandler($o)})
 			self.get('_induces').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
+			self.get('_induces').get('element').on(EventType.CLICK,function($o){self._clickHandler($o)})
 			self.get('_induces').get('element').transformXY(parseInt(self.get('w')/2),parseInt(self.get('h')/2))
 		},
 
@@ -250,8 +256,8 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			data[0].push(o)
 
 			var o = {
-				w    : this.get('w'),
-				h    : this.get('h'),
+				w    : this.get('maxW'),
+				h    : this.get('maxH'),
 				parent : this.get('element'),
 
 				info:{
@@ -279,6 +285,9 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 		},
 		_outTimeout:function(){
 			this.get('_infos').remove()
+		},
+		_clickHandler:function($o){
+			this.get('element').fire(EventType.CLICK,$o)
 		},
 		/**
 		 * 数据继承

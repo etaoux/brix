@@ -128,6 +128,9 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	    				configData : self.get('config').configData,
 	    				chartData : self.get('config').chartData
 	    			})) 
+	    			self.get('_case').on('elementClick',function($o){
+	    				self.fire('elementClick', $o)
+	    			})
 	    		})
 	    	}
 		},
@@ -415,6 +418,11 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  内容(直通车 思霏):
 	*       新增：配置隐藏：line Y轴、X轴线条、背景坐标轴、背景Y轴   (flash + svg)
     *       配置：line 线条粗细                                      (flash + svg)
+    *
+   	*  版本:1.2.9
+	*  日期:2013.11.27
+	*  内容(直通车 思竹):
+	*       新增：饼图 点击事件(svg)
 
  */
 
