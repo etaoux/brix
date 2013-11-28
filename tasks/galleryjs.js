@@ -75,7 +75,7 @@ module.exports = function(grunt) {
             var files = fs.readdirSync(src);
 
             files.forEach(function(p) {
-                //if (p != 'd3') {
+                if (p != 'd3') {
                     var srcPath = src + p + '/',
                         destPath = dest + p + '/';
                     foo(srcPath, destPath);
@@ -86,7 +86,7 @@ module.exports = function(grunt) {
                             foo(extPath + p + '/', destPath + 'ext/' + p + '/');
                         })
                     }
-                //}
+                }
             });
             config('concat', concatConfig);
             task.run('concat');

@@ -55,6 +55,9 @@ KISSY.add('brix/gallery/charts/js/case',function(S,Base,Node,DataSource,Widget){
 			o.data = self.get('chart').data                    //图表数据
 
 			self.set('_widget', new Widget(o)) 
+			self.get('_widget').on('elementClick',function($o){
+				self.fire('elementClick',$o)
+			})
 		},
 		//与外部js交互总接口
 		actions:function($name,$value){
@@ -6488,11 +6491,14 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 			o.parent = self.get('_main')                       //SVGElement
 			o.w = tmpW                                         //chart 宽
 			o.h = tmpH                                         //chart 高
+			o.maxW = self.get('w')                             //chart最大宽 当配置w h 时使用该值给infos
+			o.maxH = self.get('h')                             //chart最大高 当配置w h 时使用该值给infos
 			o.DataSource = self.get('_DataSource')             //图表数据源
 			o.config = self.get('_config')                     //图表配置
 			self.set('_widget', new Widget(o))
 			self.get('_widget').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
 			self.get('_widget').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
+			self.get('_widget').get('element').on(EventType.CLICK,function($o){self._clickHandler($o)})
 
 			var widget = self.get('_widget')
 			var pie = self.get('_widget').getPie()
@@ -6585,6 +6591,9 @@ KISSY.add('brix/gallery/charts/js/e/pie/main',function(S,Base,Global,SVGElement,
 				self.get('_list').induce(o)
 			}
 		},
+		_clickHandler:function($o){
+			this.fire('elementClick',$o)
+		},
 	});
 
 	return Main;
@@ -6618,6 +6627,12 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 	}
 
 	Widget.ATTRS = {
+		maxW:{
+			value:0
+		},
+		maxH:{
+			value:0
+		},
 		w:{
 			value:0
 		},
@@ -6737,7 +6752,6 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			self.get('_graphs').get('element').transformXY(parseInt(self.get('w')/2),parseInt(self.get('h')/2))
 
 			self.get('_infos').init({parent:self.get('element')})
-
 			var o = {
 				w     : self.get('w'),
 				h     : self.get('h'),
@@ -6769,6 +6783,7 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			self.get('_induces').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
 			self.get('_induces').get('element').on(EventType.MOVE,function($o){self._moveHandler($o)})
 			self.get('_induces').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
+			self.get('_induces').get('element').on(EventType.CLICK,function($o){self._clickHandler($o)})
 			self.get('_induces').get('element').transformXY(parseInt(self.get('w')/2),parseInt(self.get('h')/2))
 		},
 
@@ -6845,8 +6860,8 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			data[0].push(o)
 
 			var o = {
-				w    : this.get('w'),
-				h    : this.get('h'),
+				w    : this.get('maxW'),
+				h    : this.get('maxH'),
 				parent : this.get('element'),
 
 				info:{
@@ -6874,6 +6889,9 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 		},
 		_outTimeout:function(){
 			this.get('_infos').remove()
+		},
+		_clickHandler:function($o){
+			this.get('element').fire(EventType.CLICK,$o)
 		},
 		/**
 		 * 数据继承
@@ -7817,7 +7835,12 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
   				o.data = self.get('data')                          //图表数据
 
 				self.set('_main',new Main(o))
+				self.get('_main').on('elementClick',function($o){self._clickHandler($o)})
 			})
+		},
+
+		_clickHandler:function($o){
+			this.fire('elementClick',$o)
 		},
 
 		//获取图表js路径
@@ -9160,7 +9183,6 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/datatrim',function(S,Base,Nod
 				var o = S.clone(self.get('o'))
 				o.index = __set.getAttribute('index') && String(__set.getAttribute('index')) ? Number(__set.getAttribute('index')) : o.index
 				o.value = __set.getAttribute('value') && String(__set.getAttribute('value')) ? Number(__set.getAttribute('value')) : o.value
-
 				if(__name){
 					o.name = String(__name.getAttribute('name')) ? String(__name.getAttribute('name')) : o.name
 					o.index = name
@@ -9197,12 +9219,13 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/datatrim',function(S,Base,Nod
 				}
 
 				o.sign.is = $config.sign.is ? 1 : 0
+				/*
 				if(__sign){
 					var __font = __sign.getElementsByTagName("font")[0]
 					if(__font){
 						var content = __font.getAttribute('content') && String(__font.getAttribute('content')) ? String(__font.getAttribute('content')) : o.sign.font.content
 					}
-				}
+				}*/
 				data[o.name] = o
 			}
 			return data
@@ -9549,7 +9572,8 @@ KISSY.add('brix/gallery/charts/js/pub/models/eventtype',function(S){
 		MOVE : 'move',
 		OVER : 'over',
 		OUT  : 'out',
-		COMPLETE:'complete'
+		COMPLETE:'complete',
+		CLICK: '_click'       //为防止跟原有click重复触发
 	};
 
 	return EventType;
@@ -15829,6 +15853,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 				_induce.element.addEventListener("mouseover",function(evt){ self._overHandler(evt)}, false);
 				_induce.element.addEventListener("mousemove",function(evt){ self._moveHandler(evt)}, false);
 				_induce.element.addEventListener("mouseout",function(evt){ self._outHandler(evt)}, false);
+				_induce.element.addEventListener("click",function(evt){ self._clickHandler(evt)}, false);
 				_induce.appendChild(self._fillLine({'lines':arr,'fill':'#000000','stroke':'none','opacity':0}).element)
 				_induce.set('_index', a)
 
@@ -15933,6 +15958,13 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 			var x = o.x, y = o.y
 			o = self._getInfo({'index':index, 'x':x, 'y':y})
 			self.get('element').fire(EventType.OUT,o)
+		},
+		_clickHandler:function($evt){
+			var self = this
+			var index = S.one($evt.target).parent().attr('_index')
+			var o = {}
+			o.index = parseInt(index)
+			self.get('element').fire(EventType.CLICK,o)
 		},
 		_getInfo:function($o){
 			var self = this
