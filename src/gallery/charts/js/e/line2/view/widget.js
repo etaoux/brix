@@ -143,6 +143,7 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 
 		_widget:function(){
 			var self = this
+			var config = self.get('config')
 			self.set('element', new SVGElement('g')), self.get('element').set('class','widget')
 			self.get('parent').appendChild(self.get('element').element)
 
@@ -157,7 +158,8 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 			self._trimVertical()
 			var o = {
 				parent : self.get('element'),
-				data   : self.get('_DataFrameFormat').vertical.data
+				data   : self.get('_DataFrameFormat').vertical.data,
+				line_has : config.y_axis.line.enabled
 			}
 			self.get('_vertical').init(o)
 			self.get('_vertical').get('element').transformXY(self.get('_disX'), self.get('h') - self.get('_horizontal').get('h') - self.get('_disY'))
@@ -178,8 +180,10 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 				h      : self.get('_verticalMaxH'),
 				parent : self.get('element'),
 				data_hor : self.get('_DataFrameFormat').vertical.data,
-				data_ver : self.get('_horizontal').getShowData(),
+				data_ver : config.back.y_axis.enabled == 1 ? self.get('_horizontal').getShowData() : [],
 				h_ver    : self.get('_verticalGraphsH'),
+				axis   : config.back.axis,
+				line_hor_mode : config.back.x_axis.mode
 			}
 			self.get('_back').init(o)
 			self.get('_back').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w'), self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY'))
@@ -192,11 +196,13 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 				parent: self.get('element'),
 				data  : self.get('_DataFrameFormat').graphs.data,
 				disX  : self.get('_DataFrameFormat').graphs.disX,
-				node  : self.get('config').node,
-				area  : self.get('config').area,
-				shape : self.get('config').shape,
-				fills : self.get('config').fills.normals,
-				fills_over : self.get('config').fills.overs,
+				node  : config.node,
+				area  : config.area,
+				shape : config.shape,
+				thickness : config.thickness,
+				fills : config.fills.normals,
+				fills_over : config.fills.overs,
+				circle: config.circle.normal
 			}
 			self.get('_graphs').init(o)
 			self.get('_graphs').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w') + Global.N05, self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05)
@@ -221,8 +227,8 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 				data  : self.get('_DataFrameFormat').graphs.data,
 				isInduce   : 1,
 				disX  : self.get('_DataFrameFormat').graphs.disX,
-				fills : self.get('config').fills.normals,
-				fills_over : self.get('config').fills.overs,
+				fills : config.fills.normals,
+				fills_over : config.fills.overs,
 			}
 			self.get('_induces').init(o)
 			self.get('_induces').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
@@ -308,6 +314,7 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 
 		_overHandler:function($o){
 			clearTimeout(this.get('_timeoutId'));
+			var config = this.get('config')
 			var index = $o.index
 			var id = $o.id
 
@@ -318,12 +325,12 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 			for (var a = 0, al = this.get('_DataFrameFormat').vertical.names.length; a < al; a++ ) {
 				data[a] = []
 				var o = { }
-				o.content = this.get('_DataFrameFormat').vertical.names[a][id], o.fill = this.get('config').fills.overs[a], o.font = '微软雅黑',o.ver_align = 3
+				o.content = this.get('_DataFrameFormat').vertical.names[a][id], o.fill = config.fills.overs[a], o.font = '微软雅黑',o.ver_align = 3
 				if(o.content){
 					data[a].push(o)
 				}
 				o = { }
-				o.content = this.get('_DataFrameFormat').vertical.org[a][id], o.fill = this.get('config').fills.overs[a], o.font = 'Tahoma',o.ver_align = 1
+				o.content = this.get('_DataFrameFormat').vertical.org[a][id], o.fill = config.fills.overs[a], o.font = 'Tahoma',o.ver_align = 1
 				if(o.content){
 					data[a].push(o)
 				}
@@ -352,7 +359,12 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 					is   : 1,
 					x    : x,
 					y    : y,
-					fill : base_fill
+					fill : base_fill,
+					min_radius:config.circle.over.min_radius,
+					max_radius:config.circle.over.max_radius,
+					max_fill_opacity:config.circle.over.max_fill_opacity,
+					max_thickness:config.circle.over.max_thickness,
+					max_thickness_opacity:config.circle.over.max_thickness_opacity
 				},
 				hLine:{
 					is   : 1,
@@ -376,7 +388,14 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 			}
 			o.other = {
 				is   : 1,
-				os   : $o.other
+				os   : $o.other,
+				config : {
+							min_radius:config.circle.over.min_radius,
+							max_radius:config.circle.over.max_radius,
+							max_fill_opacity:config.circle.over.max_fill_opacity,
+							max_thickness:config.circle.over.max_thickness,
+							max_thickness_opacity:config.circle.over.max_thickness_opacity
+						 }
 			}
 
 			this.get('_infos').update(o)

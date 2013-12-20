@@ -246,6 +246,17 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	    requires:['base','node']
 	}
 );
+
+/*
+    (*) 代表对外接口中用这个
+	js  as 不同
+    
+    颜色    fill         color(*)
+    透明度  opacity(*)    alpha
+
+*/
+
+
 /*
 	发布注意事项
         1.svg   flash路径
@@ -430,6 +441,11 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*       新增：同步svg功能(flash)
 	*             直方图、直方图2、综合图、折线图、折线图(双日期)、折线图(双指标)、饼图、地图
 	*             至此所有flash版本的图表与svg版本的图表功能相同
+	*
+	*  版本:1.3.1
+	*  日期:2013.12.20
+	*  内容(tanx ssp 川溪):
+	*       新增：line2 integrate5 新增功能及接口(flash + svg)
 
  */
 

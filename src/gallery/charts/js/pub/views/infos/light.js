@@ -14,16 +14,19 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/light',function(S,Base,node,Gl
 		min_radius:{
 			value:4
 		},
+		fill:{                        //小圆填充
+			value:'#555555'
+		},
 		max_radius:{
 			value:7
 		},
-		max_thickness:{
+		max_fill_opacity:{            //大圆填充透明度
+			value:1
+		},
+		max_thickness:{               //大圆边框粗细
 			value:2
 		},
-		fill:{
-			value:'#555555'
-		},
-		fill_opacity:{
+		max_thickness_opacity:{       //大圆边框透明度
 			value:1
 		},
 
@@ -39,7 +42,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/light',function(S,Base,node,Gl
 		init:function(){
 			var self = this
 			Light.superclass.constructor.apply(self,arguments);
-			
 			self.set('element', new SVGElement('g')), self.get('element').set('class','light')
 			self.get('parent').appendChild(self.get('element').element)
 			self.get('element').element.addEventListener("mouseover",function(evt){ self._overHandler(evt)}, false);
@@ -50,7 +52,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/light',function(S,Base,node,Gl
 		
 		_widget:function(){
 			var self = this
-			self.set('_max', SVGGraphics.circle({'r':self.get('max_radius'),'fill':'#ffffff','fill_opacity':self.get('fill_opacity'),'stroke':self.get('fill'),'stroke_width':self.get('max_thickness')}))
+			self.set('_max', SVGGraphics.circle({'r':self.get('max_radius'),'fill':'#ffffff','fill_opacity':self.get('max_fill_opacity'),'stroke':self.get('fill'),'stroke_opacity':self.get('max_thickness_opacity'),'stroke_width':self.get('max_thickness')}))
 			self.get('element').appendChild(self.get('_max').element)
 
 			self.set('_min', SVGGraphics.circle({'r':self.get('min_radius'),'fill':self.get('fill'),'stroke':'none'}))

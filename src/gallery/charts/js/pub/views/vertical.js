@@ -64,6 +64,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/vertical',function(S,Base,node,Globa
 	S.extend(Vertical,Base,{
 		init:function(){
 			var self = this
+			var line_has = self.get('line_has')
 			Vertical.superclass.constructor.apply(self,arguments);
 
 			self.set('_line_h', self.get('line_h'))
@@ -77,8 +78,15 @@ KISSY.add('brix/gallery/charts/js/pub/views/vertical',function(S,Base,node,Globa
 			}else if(self.get('mode') == 2){
 				self._layout_right()
 			}
+
 			self.set('w',self.get('_maxTextWidth') + self.get('_dis') + self.get('_line_w'))
 
+
+			if (line_has == 0) {
+				self.set('w',self.get('_maxTextWidth') + self.get('_dis'))
+			}else {
+				self.set('w',self.get('_maxTextWidth') + self.get('_dis') + self.get('_line_w'))
+			}
 		},
 
 		_widget:function(){

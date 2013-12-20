@@ -37,6 +37,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/back',function(S,Base,node,Global,SV
 		line_ver_mode:{          //纵向的线模式(0 = 虚线 | 1 = 实线)
 			value:1
 		},
+		line_hor_mode:{          //横向的线模式(0 = 虚线 | 1 = 实线)
+			value:0    
+		},
 		axis:{                   //坐标轴
 			value:{
 				enabled : 1
@@ -76,7 +79,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/back',function(S,Base,node,Global,SV
 			//_line_ver
 			// S.log(S.now())
 			self.set('_df',document.createDocumentFragment())
-
 			if(self.get('axis').enabled == 1){
 				var d = SVGRenderer.symbol('line',0,0,0,-self.get('h')).join(' ')
 				self.set('_line_ver', new SVGElement('path'))
@@ -95,27 +97,28 @@ KISSY.add('brix/gallery/charts/js/pub/views/back',function(S,Base,node,Global,SV
 			self.set('h_ver', self.get('h_ver') ? self.get('h_ver') : self.get('h'))
 			self.set('w_hor', self.get('w_hor') ? self.get('w_hor') : self.get('w'))
 			// S.log(S.now())
-			//虚线
+			//横向实现 |虚线
 			for (var a = 0, al = self.get('data_hor').length; a < al; a++ ) {
 				var o = self.get('data_hor')[a]
 				var y = o.y
-
 				var line = new SVGElement('line')
-				line.attr({'x1':0,'y1':0,'x2':self.get('w_hor'),'y2':0,'stroke':self.get('line_fill'),'stroke-dasharray':'2,3'})
+				if(self.get('line_hor_mode') == 0){
+					line.attr({'x1':0,'y1':0,'x2':self.get('w_hor'),'y2':0,'stroke':self.get('line_fill'),'stroke-dasharray':'2,3'})
+				}else if(self.get('line_hor_mode') == 1){
+					line.attr({'x1':0,'y1':0,'x2':self.get('w_hor'),'y2':0,'stroke':self.get('line_fill')})
+				}
 				line.transformY(y)
 				self.get('_df').appendChild(line.element)
 			}
 
-			//实线
+			//纵向实线 | 虚线
 			for (var b = 0, bl = self.get('data_ver').length; b < bl; b++ ) {
 				var o = self.get('data_ver')[b]
 				var x = o.x
-
+				var line = new SVGElement('line')
 				if(self.get('line_ver_mode') == 0){
-					var line = new SVGElement('line')
 					line.attr({'x1':0,'y1':0,'x2':0,'y2':-self.get('h_ver'),'stroke':self.get('line_fill'),'stroke-dasharray':'2,3'})
 				}else if(self.get('line_ver_mode') == 1){
-					var line = new SVGElement('line')
 					line.attr({'x1':0,'y1':0,'x2':0,'y2':-self.get('h_ver'),'stroke':self.get('line_fill')})
 				}
 				line.transformX(x)

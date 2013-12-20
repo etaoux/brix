@@ -37,16 +37,18 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 				x:0,                     //x坐标
 				y:0,                     //y坐标
 				min_radius:4,
-				max_radius:7,
+				fill:'#000000',          //小圆填充
+				max_radius:7,            
+				max_fill_opacity:1,      //大圆填充透明度  
 				max_thickness:2,
-				fill:'#000000',          //Light.fill
-				fill_opacity:1        
+				max_thickness_opacity:1
 			}
 		},
 		other:{
 			value:{
 				is:0,                    //是否有 
-				os:[]                    //数组中有几个就几个
+				os:[],                   //数组中有几个就几个
+				config:{}                //圆的配置
 			}
 		},
 		hInfo:{
@@ -311,7 +313,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 		    if(self.get('_other')){
 		    	var o = {
 					parent : self.get('element'),
-			    	os     : self.get('other').os
+			    	os     : self.get('other').os,
+			    	config : self.get('other').config
 			    }
 			    self.get('_other').init(o)
 		    }
@@ -328,12 +331,18 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 		    	if(self.get('light').max_radius){
 		    		o.max_radius = self.get('light').max_radius
 		    	}
+				if(String(self.get('light').max_fill_opacity)){
+					if(self.get('light').max_fill_opacity == 0) self.get('light').max_fill_opacity = Global.N00001;
+					o.max_fill_opacity = self.get('light').max_fill_opacity
+		    	}
+		    	//防止undefined
 		    	if(self.get('light').max_thickness){
 		    		o.max_thickness = self.get('light').max_thickness
 		    	}
-		    	if(self.get('light').fill_opacity){
-		    		o.fill_opacity = self.get('light').fill_opacity
+		    	if(String(self.get('light').max_thickness_opacity)){
+		    		o.max_thickness_opacity = self.get('light').max_thickness_opacity
 		    	}
+		    	
 			    self.get('_light').init(o)
 			    // self.get('_light').get('element').on(EventType.OVER,function($o){self._overHandler({child:'light'})})
 				// self.get('_light').get('element').on(EventType.OUT,function($o){self._outHandler({child:'light'})})
@@ -365,7 +374,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 		  	var p = self._allShow(self.get('w'), self.get('h'), {w:self.get('_info').get('w'),h:self.get('_info').get('h')}, {x:x,y:y})
 		   	x = p.x, y = p.y
 		    if(self.get('_light')){
-		    	if (Number(y) + Number(self.get('_info').get('h') / 2) + Number(self.get('dis_info')) + Number(self.get('_light').get('max_radius')) > self.get('_light').get('element').get('_y') + 0.00001) {
+		    	if (Number(y) + Number(self.get('_info').get('h') / 2) + Number(self.get('dis_info')) + Number(self.get('_light').get('max_radius')) > Number(self.get('_light').get('element').get('_y')) + 0.00001) {
 			
 					y = Number(self.get('light').y) + Number(self.get('_light').get('max_radius')) + Number(self.get('dis_info')) + Number(self.get('_info').get('h') / 2)
 				}

@@ -26,7 +26,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 		areaMode:{
 			value:0              //区域闭合模式(0 = 自动闭合 | 1 = 不自动闭合 根据前一条线闭合)
 		},
-		areaAlphas:{             //区域填充部分的透明度
+		area_opacity:{             //区域填充部分的透明度
 			value:[0.05, 0.25]
 		},
 		shape:{
@@ -89,7 +89,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 
 			if(self.get('area')){
 				self.set('_linearGradientIndex', self.get('_linearGradientIndex') + '_' + self.get('index'))
-				self._linearGradient({'id':self.get('_linearGradientIndex'),'top_fill':self.get('fill'),'top_opacity':self.get('areaAlphas')[1],'down_fill':self.get('fill'),'down_opacity':self.get('areaAlphas')[0]})
+				self._linearGradient({'id':self.get('_linearGradientIndex'),'top_fill':self.get('fill'),'top_opacity':self.get('area_opacity')[1],'down_fill':self.get('fill'),'down_opacity':self.get('area_opacity')[0]})
 			}
 			self._widget()
 
@@ -166,6 +166,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 				
 				var _df = document.createDocumentFragment();
 				for (var a = 0, al = self.get('data').length; a < al; a++ ) {
+					if(self.get('circle').fill_follow == 1){
+						self.get('circle').fill = self.get('fill')
+					}
 					var circle = SVGGraphics.circle({'r':self.get('circle').radius,'fill':self.get('circle').fill,'stroke':self.get('fill'),'stroke_width':self.get('circle').thickness})
 					// self.get('_circles').element.appendChild(circle.element), self.get('_circlesArr').push(circle)
 					var x = self.get('data')[a].x , y = self.get('data')[a].y

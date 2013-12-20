@@ -32,12 +32,13 @@ KISSY.add('brix/gallery/charts/js/pub/views/svggraphics',function(S,Node,SVGElem
 			var $o = $o ? $o : {}
 			var r = $o.r ? $o.r : 10
 			var fill = $o.fill ? $o.fill : '#000000'
+			var fill_opacity = $o.fill_opacity || Number($o.fill_opacity) == 0 ? $o.fill_opacity : 1
 			var stroke = $o.stroke ? $o.stroke : null
-			var stroke_width = $o.stroke_width ? $o.stroke_width : 1
-			var fill_opacity = $o.fill_opacity ? $o.fill_opacity : 1
+			var stroke_width = $o.stroke_width || Number($o.stroke_width) == 0 ? $o.stroke_width : 1
+			var stroke_opacity = $o.stroke_opacity || Number($o.stroke_opacity) == 0 ? $o.stroke_opacity : 1
 
 			var circle = new SVGElement('circle')
-			circle.attr({'r':r,'fill':fill, 'stroke':stroke, 'stroke-width':stroke_width, 'fill-opacity':fill_opacity})
+			circle.attr({'r':r,'fill':fill, 'fill-opacity':fill_opacity, 'stroke':stroke, 'stroke-width':stroke_width, 'stroke-opacity':stroke_opacity})
 			return circle
 		},
 		/**

@@ -16,7 +16,7 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/datatrim',function(S,Base,Nod
 				                 	 index:
 				                 	 colors:{
 										normal:[#000000]
-									 content:[]
+									    content:[]
 				                 	 }
 				                 }*/
 		},

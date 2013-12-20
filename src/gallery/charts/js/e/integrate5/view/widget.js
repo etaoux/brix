@@ -181,7 +181,9 @@ KISSY.add('brix/gallery/charts/js/e/integrate5/view/widget',function(S,Base,Node
 				var fill_over = fills[id][a] && fills[id][a].over ? fills[id][a].over : '#000000'
  				o.content = this.get('_DataFrameFormat').vertical.org[id].data[a].name + Global.numAddSymbol(this.get('_DataFrameFormat').vertical.org[id].data[a].data[$o.id]), o.bold = 0, o.fill = fill_over, o.family = '微软雅黑', o.hor_align = 2, o.sign = {has:1,trim:1,fill:fill_normal }
 				data[dataID] = []
-				data[dataID].push(o)
+				if(this.get('_DataFrameFormat').vertical.org[id].data[a].data[$o.id]){
+					data[dataID].push(o)
+				}
 				dataID++
 
 				// values = Global.CountAccuracy.add(values, Number(this.get('_DataFrameFormat').vertical.org[id].data[a].data[$o.id]))

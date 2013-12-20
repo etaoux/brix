@@ -68,7 +68,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate4/main',function(S,Base,Global,SVGE
 			config.line.area = 1
 			// config.line.shape = 1
 			config.line.areaMode = 1
-			config.line.areaAlphas = [0.4, 0.4]
+			config.line.area_opacity = [0.4, 0.4]
 			config.line.isLine = 1
 			config.line.fills = self._changeConfig(config.line.fills)
 		//	config.line.fills = [[ { normal:'#94CC5C', over:'#78A64B' }, { normal:'#458AE6', over:'#135EBF' } ]]

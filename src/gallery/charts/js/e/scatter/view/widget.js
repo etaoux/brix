@@ -316,9 +316,9 @@ KISSY.add('brix/gallery/charts/js/e/scatter/view/widget',function(S,Base,Node,Gl
 					x    : x,
 					y    : y,
 					min_radius:5,
-					max_radius:18,
 					fill : base_fill,
-					fill_opacity:Global.N00001
+					max_radius:18,
+					max_fill_opacity:Global.N00001
 				},
 				hLine:{
 					is   : 1,

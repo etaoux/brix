@@ -17,7 +17,8 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 				shape:0,
 				area:0,
 				areaMode:0,             //区域闭合模式(0 = 自动闭合 | 1 = 不自动闭合 根据前一条线闭合)
-				areaAlphas:[0.05, 0.25],//区域填充部分的透明度
+				isArea_opacity:0,       //是否有调整区域填充部分的透明度
+				area_opacity:[0.05, 0.25],//区域填充部分的透明度
 				isLine:0,               //当鼠标划入时 是否有线
 
 				data:{
@@ -35,35 +36,46 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 					}
 				},
 
-				y_axis:{
-					enabled : 1
-				},
-
-				back:{
-					axis : {
-						enabled : 1
-					},
-					y_axis : {
+				y_axis:{                //y轴
+					enabled : 1,
+					line: {
 						enabled : 1
 					}
 				},
 
+				back:{                  //背景
+					axis : {
+						enabled : 1     //是否有从原点开始的x轴以及y轴
+					},
+					x_axis : {          //x轴
+						mode : 0        //模式(0 = 虚线 | 1 = 实线)                
+					},
+					y_axis : {
+						enabled : 1     //是否有y轴
+					}
+				},
+
 				fills:{
+					isDefault : 1,      //是否默认  如果外部传入有normals | overs  该值为0
+					                    //用于integrate5
 					normals:['#458AE6', '#39BCC0', '#5BCB8A', '#94CC5C', '#C3CC5C', '#E6B522', '#E68422'],
 					overs  :['#135EBF', '#2E9599', '#36B26A', '#78A64B', '#9CA632', '#BF9E39', '#BF7C39']
 				},
-
+				
 				circle:{
 					mode  :0,           //模式[(仅当node=1) 空或0=显示所有节点 | 1=在数据变化时 显示变化的节点] 
 					normal:{
 						radius:3,       //半径
-						thickness:2,    //轮廓粗线
-						fill:'#FFFFFF'  //填充色
+						thickness:2,    //轮廓粗细
+						fill:'#FFFFFF', //填充色
+						fill_follow : 0 //填充色是否跟随线条颜色(0 = 否 | 1 = 是)       ---
 					},
 					over  :{
-						min_radius:4,
-						max_radius:7,
-						max_thickness:2
+						min_radius:4,                       //小圆半径
+						max_radius:7,                       //大圆半径(白)
+						max_fill_opacity:1,                 //大圆填充透明度           
+						max_thickness:2,                    //大圆线框粗线
+						max_thickness_opacity:1             //大圆线框透明度           
 					}
 				}
 			}
@@ -98,6 +110,12 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 			o.node = __data.getAttribute('node') && String(__data.getAttribute('node')) ? Number(__data.getAttribute('node')) : o.node
 			o.shape = __data.getAttribute('shape') && String(__data.getAttribute('shape')) ? Number(__data.getAttribute('shape')) : o.shape
 			o.area = __data.getAttribute('area') && String(__data.getAttribute('area')) ? Number(__data.getAttribute('area')) : o.area
+			
+			if(__data.getAttribute('area_opacity') && String(__data.getAttribute('area_opacity'))){
+				o.isArea_opacity = 1
+			}
+			o.area_opacity = __data.getAttribute('area_opacity') && String(__data.getAttribute('area_opacity')) ? String(__data.getAttribute('area_opacity')).split(',') : o.area_opacity
+			
 
 			var __thickness = xmlDoc.getElementsByTagName("thickness")[0]
 			if(__thickness){
@@ -116,6 +134,10 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 			var __y_axis = xmlDoc.getElementsByTagName("y_axis")[0]
 			if(__y_axis){
 				o.y_axis.enabled = String(__y_axis.getAttribute('enabled')) ? Number(__y_axis.getAttribute('enabled')) : o.y_axis.enabled
+				var __line = __y_axis.getElementsByTagName("line")[0]
+				if(__line){
+					o.y_axis.line.enabled = String(__line.getAttribute('enabled')) ? Number(__line.getAttribute('enabled')) : o.y_axis.line.enabled
+				}
 			}
 
 			var __back = xmlDoc.getElementsByTagName("back")[0]
@@ -123,6 +145,11 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 				var __axis = __back.getElementsByTagName("axis")[0]
 				if(__axis){
 					o.back.axis.enabled = String(__axis.getAttribute('enabled')) ? Number(__axis.getAttribute('enabled')) : o.back.axis.enabled
+				}
+
+				var __x_axis = __back.getElementsByTagName("x_axis")[0]
+				if(__x_axis){
+					o.back.x_axis.mode = String(__x_axis.getAttribute('mode')) ? Number(__x_axis.getAttribute('mode')) : o.back.x_axis.mode
 				}
 				var __y_axis = __back.getElementsByTagName("y_axis")[0]
 				if(__y_axis){
@@ -133,6 +160,9 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 
 			var __fills = xmlDoc.getElementsByTagName("colors")[0]
 			if(__fills){
+				if((__fills.getAttribute('normals') && String(__fills.getAttribute('normals'))) || (__fills.getAttribute('overs') && String(__fills.getAttribute('overs')))){
+					o.fills.isDefault = 0
+				}
 				o.fills.normals = __fills.getAttribute('normals') && String(__fills.getAttribute('normals')) ? String(__fills.getAttribute('normals')).split(',') : o.fills.normals
 				o.fills.overs = __fills.getAttribute('overs') && String(__fills.getAttribute('overs')) ? String(__fills.getAttribute('overs')).split(',') : o.fills.overs
 			}
@@ -148,13 +178,16 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 					o.circle.normal.radius = __normal.getAttribute('radius') && String(__normal.getAttribute('radius')) ? __normal.getAttribute('radius') : o.circle.normal.radius
 					o.circle.normal.thickness = __normal.getAttribute('thickness') && String(__normal.getAttribute('thickness')) ? __normal.getAttribute('thickness') : o.circle.normal.thickness
 					o.circle.normal.fill = __normal.getAttribute('color') && String(__normal.getAttribute('color')) ? String(__normal.getAttribute('fill')) : o.circle.normal.fill
+					o.circle.normal.fill_follow =__normal.getAttribute('color_follow') && String(__normal.getAttribute('color_follow')) ? Number(__normal.getAttribute('color_follow')) : o.circle.normal.fill_follow
 				}
-
 				var __over = __circle.getElementsByTagName("over")[0]
 				if(__over){
 					o.circle.over.min_radius = __over.getAttribute('min_radius') && String(__over.getAttribute('min_radius')) ? __over.getAttribute('min_radius') : o.circle.over.min_radius
 					o.circle.over.max_radius = __over.getAttribute('max_radius') && String(__over.getAttribute('max_radius')) ? __over.getAttribute('max_radius') : o.circle.over.max_radius
+					o.circle.over.max_fill_opacity = __over.getAttribute('max_color_opacity') && String(__over.getAttribute('max_color_opacity')) ? Number(__over.getAttribute('max_color_opacity')) : o.circle.over.max_fill_opacity
 					o.circle.over.max_thickness = __over.getAttribute('max_thickness') && String(__over.getAttribute('max_thickness')) ? __over.getAttribute('max_thickness') : o.circle.over.max_thickness
+					o.circle.over.max_thickness_opacity = __over.getAttribute('max_thickness_opacity') && String(__over.getAttribute('max_thickness_opacity')) ? Number(__over.getAttribute('max_thickness_opacity')) : o.circle.over.max_thickness_opacity
+
 				}
 			}
 

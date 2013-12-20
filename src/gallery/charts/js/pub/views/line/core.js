@@ -201,7 +201,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/core',function(S,Base,Node,Glob
 				node  : self.get('config').node,
 				area  : self.get('config').area,
 				areaMode   : self.get('config').areaMode,
-				areaAlphas : self.get('config').areaAlphas,
+				area_opacity : self.get('config').area_opacity,
 				isLine: self.get('config').isLine,
 				shape : self.get('config').shape,
 				fills : self.get('config').fillsObject.normals,

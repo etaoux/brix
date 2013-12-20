@@ -30,14 +30,24 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/other',function(S,Base,node,Gl
 		_widget:function(){
 
 			var self = this
+			var config = self.get('config')
 			for(var a = 0, al = self.get('os').length; a < al; a++){
 				var $o = self.get('os')[a]
 				if($o){
 					var light = new Light()
 			    	var o = {
 			    		parent : self.get('element'),
-			    		fill   : $o.fill_over
+			    		fill   : $o.fill_over,
 			    	}
+
+			    	if(config){
+			    		o.min_radius = config.min_radius,
+						o.max_radius = config.max_radius,
+						o.max_fill_opacity = config.max_fill_opacity,
+						o.max_thickness = config.max_thickness,
+						o.max_thickness_opacity = config.max_thickness_opacity
+			    	}
+
 				 	light.init(o)
 				    var x = $o.x, y = $o.y
 				    light.get('element').transformXY(x,y)

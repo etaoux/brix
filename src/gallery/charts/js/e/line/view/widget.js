@@ -368,6 +368,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 
 		_overHandler:function($o){
 			clearTimeout(this.get('_timeoutId'));
+			var config = this.get('config')
 			var index = $o.index
 			var id = $o.id
 
@@ -400,9 +401,9 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 					x    : x,
 					y    : y,
 					fill : base_fill,
-					min_radius:this.get('config').circle.over.min_radius,
-					max_radius:this.get('config').circle.over.max_radius,
-					max_thickness:this.get('config').circle.over.max_thickness
+					min_radius:config.circle.over.min_radius,
+					max_radius:config.circle.over.max_radius,
+					max_thickness:config.circle.over.max_thickness
 				},
 				hLine:{
 					is   : 1,
