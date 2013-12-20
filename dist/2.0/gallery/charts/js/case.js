@@ -3650,7 +3650,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate4/main',function(S,Base,Global,SVGE
 			config.line.area = 1
 			// config.line.shape = 1
 			config.line.areaMode = 1
-			config.line.areaAlphas = [0.4, 0.4]
+			config.line.area_opacity = [0.4, 0.4]
 			config.line.isLine = 1
 			config.line.fills = self._changeConfig(config.line.fills)
 		//	config.line.fills = [[ { normal:'#94CC5C', over:'#78A64B' }, { normal:'#458AE6', over:'#135EBF' } ]]
@@ -4011,7 +4011,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate5/control/configparse',function(S,B
 					    mode:0               //模式[0 = 显示两个点(1:00-2:00) | 1 = 显示一个点(2013-03-08)]
 						  }
 			          }
-			      }
+			    }
 		}
 	}
 
@@ -4053,7 +4053,6 @@ KISSY.add('brix/gallery/charts/js/e/integrate5/control/configparse',function(S,B
 				s = s.replace('<layout', "<data")
 				s = s.replace('layout>', "data>")
 				o.layout = new Style1ConfigParse().parse(s)
-
 				var __infos = __data.getElementsByTagName("infos")[0]
 				if(__infos){
 					var __x_axis = __infos.getElementsByTagName("x_axis")[0]
@@ -4115,6 +4114,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate5/main',function(S,Base,Global,SVGE
 			
 			self.set('_DataSource', new DataParse().parse(self.get('data'))) 
 			self.set('_config', new ConfigParse().parse(self.get('config'))) 
+
 			self.set('_config', self._defaultConfig(self.get('_config')))
 
 			self._widget()	
@@ -4139,17 +4139,35 @@ KISSY.add('brix/gallery/charts/js/e/integrate5/main',function(S,Base,Global,SVGE
 		},
 
 		_defaultConfig:function($config){
+			var self = this
 			var config = $config
 			config.line.node = 1
 			config.line.area = 1
 			// config.line.shape = 1
 			// config.line.areaMode = 1
-			config.line.areaAlphas = [0.4, 0.4]
+			if(config.line.isArea_opacity == 0){
+				config.line.area_opacity = [0.4, 0.4]
+			}
 			config.line.isLine = 1
-			config.line.fills = [[ { normal:'#458AE6', over:'#135EBF' }, { normal:'#999999', over:'#666666' } ]]
+			if(config.line.fills.isDefault == 1){
+				config.line.fills = [[ { normal:'#458AE6', over:'#135EBF' }, { normal:'#999999', over:'#666666' } ]]
+			}else{
+				config.line.fills = self.changeColor(config.line.fills)
+			}
+			// config.line.fills = [[ { normal:'#458AE6', over:'#135EBF' }, { normal:'#999999', over:'#666666' } ]]
 			return config
-		}
+		},
 		
+		changeColor:function ($fills){
+			var arr = []
+			arr[0] = []
+			
+			for(var a = 0, al = $fills.normals.length; a < al; a++){
+				var o = {normal:$fills.normals[a], over:$fills.overs[a]}
+				arr[0].push(o)
+			}
+			return arr
+		}
 	});
 
 	return Main;
@@ -4341,7 +4359,9 @@ KISSY.add('brix/gallery/charts/js/e/integrate5/view/widget',function(S,Base,Node
 				var fill_over = fills[id][a] && fills[id][a].over ? fills[id][a].over : '#000000'
  				o.content = this.get('_DataFrameFormat').vertical.org[id].data[a].name + Global.numAddSymbol(this.get('_DataFrameFormat').vertical.org[id].data[a].data[$o.id]), o.bold = 0, o.fill = fill_over, o.family = '微软雅黑', o.hor_align = 2, o.sign = {has:1,trim:1,fill:fill_normal }
 				data[dataID] = []
-				data[dataID].push(o)
+				if(this.get('_DataFrameFormat').vertical.org[id].data[a].data[$o.id]){
+					data[dataID].push(o)
+				}
 				dataID++
 
 				// values = Global.CountAccuracy.add(values, Number(this.get('_DataFrameFormat').vertical.org[id].data[a].data[$o.id]))
@@ -4858,6 +4878,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 
 		_overHandler:function($o){
 			clearTimeout(this.get('_timeoutId'));
+			var config = this.get('config')
 			var index = $o.index
 			var id = $o.id
 
@@ -4890,9 +4911,9 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 					x    : x,
 					y    : y,
 					fill : base_fill,
-					min_radius:this.get('config').circle.over.min_radius,
-					max_radius:this.get('config').circle.over.max_radius,
-					max_thickness:this.get('config').circle.over.max_thickness
+					min_radius:config.circle.over.min_radius,
+					max_radius:config.circle.over.max_radius,
+					max_thickness:config.circle.over.max_thickness
 				},
 				hLine:{
 					is   : 1,
@@ -5011,13 +5032,12 @@ KISSY.add('brix/gallery/charts/js/e/line2/main',function(S,Base,Global,SVGElemen
 
 			new Widget(o)
 		}
-		
 	});
 
 	return Main;
 
 	}, {
-	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','./view/widget','../../pub/controls/line2/dataparse','../../pub/controls/line2/configparse']
+	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','./view/widget','../../pub/controls/line2/dataparse','../../pub/controls/line/configparse']
 	}
 );
 KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Global,DataSection,SVGElement,Vertical,Horizontal,Back,GlobalInduce,Infos,EventType,Graphs){
@@ -5165,6 +5185,7 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 
 		_widget:function(){
 			var self = this
+			var config = self.get('config')
 			self.set('element', new SVGElement('g')), self.get('element').set('class','widget')
 			self.get('parent').appendChild(self.get('element').element)
 
@@ -5179,7 +5200,8 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 			self._trimVertical()
 			var o = {
 				parent : self.get('element'),
-				data   : self.get('_DataFrameFormat').vertical.data
+				data   : self.get('_DataFrameFormat').vertical.data,
+				line_has : config.y_axis.line.enabled
 			}
 			self.get('_vertical').init(o)
 			self.get('_vertical').get('element').transformXY(self.get('_disX'), self.get('h') - self.get('_horizontal').get('h') - self.get('_disY'))
@@ -5200,8 +5222,10 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 				h      : self.get('_verticalMaxH'),
 				parent : self.get('element'),
 				data_hor : self.get('_DataFrameFormat').vertical.data,
-				data_ver : self.get('_horizontal').getShowData(),
+				data_ver : config.back.y_axis.enabled == 1 ? self.get('_horizontal').getShowData() : [],
 				h_ver    : self.get('_verticalGraphsH'),
+				axis   : config.back.axis,
+				line_hor_mode : config.back.x_axis.mode
 			}
 			self.get('_back').init(o)
 			self.get('_back').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w'), self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY'))
@@ -5214,11 +5238,13 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 				parent: self.get('element'),
 				data  : self.get('_DataFrameFormat').graphs.data,
 				disX  : self.get('_DataFrameFormat').graphs.disX,
-				node  : self.get('config').node,
-				area  : self.get('config').area,
-				shape : self.get('config').shape,
-				fills : self.get('config').fills.normals,
-				fills_over : self.get('config').fills.overs,
+				node  : config.node,
+				area  : config.area,
+				shape : config.shape,
+				thickness : config.thickness,
+				fills : config.fills.normals,
+				fills_over : config.fills.overs,
+				circle: config.circle.normal
 			}
 			self.get('_graphs').init(o)
 			self.get('_graphs').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w') + Global.N05, self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05)
@@ -5243,8 +5269,8 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 				data  : self.get('_DataFrameFormat').graphs.data,
 				isInduce   : 1,
 				disX  : self.get('_DataFrameFormat').graphs.disX,
-				fills : self.get('config').fills.normals,
-				fills_over : self.get('config').fills.overs,
+				fills : config.fills.normals,
+				fills_over : config.fills.overs,
 			}
 			self.get('_induces').init(o)
 			self.get('_induces').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
@@ -5330,6 +5356,7 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 
 		_overHandler:function($o){
 			clearTimeout(this.get('_timeoutId'));
+			var config = this.get('config')
 			var index = $o.index
 			var id = $o.id
 
@@ -5340,12 +5367,12 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 			for (var a = 0, al = this.get('_DataFrameFormat').vertical.names.length; a < al; a++ ) {
 				data[a] = []
 				var o = { }
-				o.content = this.get('_DataFrameFormat').vertical.names[a][id], o.fill = this.get('config').fills.overs[a], o.font = '微软雅黑',o.ver_align = 3
+				o.content = this.get('_DataFrameFormat').vertical.names[a][id], o.fill = config.fills.overs[a], o.font = '微软雅黑',o.ver_align = 3
 				if(o.content){
 					data[a].push(o)
 				}
 				o = { }
-				o.content = this.get('_DataFrameFormat').vertical.org[a][id], o.fill = this.get('config').fills.overs[a], o.font = 'Tahoma',o.ver_align = 1
+				o.content = this.get('_DataFrameFormat').vertical.org[a][id], o.fill = config.fills.overs[a], o.font = 'Tahoma',o.ver_align = 1
 				if(o.content){
 					data[a].push(o)
 				}
@@ -5374,7 +5401,12 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 					is   : 1,
 					x    : x,
 					y    : y,
-					fill : base_fill
+					fill : base_fill,
+					min_radius:config.circle.over.min_radius,
+					max_radius:config.circle.over.max_radius,
+					max_fill_opacity:config.circle.over.max_fill_opacity,
+					max_thickness:config.circle.over.max_thickness,
+					max_thickness_opacity:config.circle.over.max_thickness_opacity
 				},
 				hLine:{
 					is   : 1,
@@ -5398,7 +5430,14 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 			}
 			o.other = {
 				is   : 1,
-				os   : $o.other
+				os   : $o.other,
+				config : {
+							min_radius:config.circle.over.min_radius,
+							max_radius:config.circle.over.max_radius,
+							max_fill_opacity:config.circle.over.max_fill_opacity,
+							max_thickness:config.circle.over.max_thickness,
+							max_thickness_opacity:config.circle.over.max_thickness_opacity
+						 }
 			}
 
 			this.get('_infos').update(o)
@@ -7301,9 +7340,9 @@ KISSY.add('brix/gallery/charts/js/e/scatter/view/widget',function(S,Base,Node,Gl
 					x    : x,
 					y    : y,
 					min_radius:5,
-					max_radius:18,
 					fill : base_fill,
-					fill_opacity:Global.N00001
+					max_radius:18,
+					max_fill_opacity:Global.N00001
 				},
 				hLine:{
 					is   : 1,
@@ -8305,7 +8344,8 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 				shape:0,
 				area:0,
 				areaMode:0,             //区域闭合模式(0 = 自动闭合 | 1 = 不自动闭合 根据前一条线闭合)
-				areaAlphas:[0.05, 0.25],//区域填充部分的透明度
+				isArea_opacity:0,       //是否有调整区域填充部分的透明度
+				area_opacity:[0.05, 0.25],//区域填充部分的透明度
 				isLine:0,               //当鼠标划入时 是否有线
 
 				data:{
@@ -8323,35 +8363,46 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 					}
 				},
 
-				y_axis:{
-					enabled : 1
-				},
-
-				back:{
-					axis : {
-						enabled : 1
-					},
-					y_axis : {
+				y_axis:{                //y轴
+					enabled : 1,
+					line: {
 						enabled : 1
 					}
 				},
 
+				back:{                  //背景
+					axis : {
+						enabled : 1     //是否有从原点开始的x轴以及y轴
+					},
+					x_axis : {          //x轴
+						mode : 0        //模式(0 = 虚线 | 1 = 实线)                
+					},
+					y_axis : {
+						enabled : 1     //是否有y轴
+					}
+				},
+
 				fills:{
+					isDefault : 1,      //是否默认  如果外部传入有normals | overs  该值为0
+					                    //用于integrate5
 					normals:['#458AE6', '#39BCC0', '#5BCB8A', '#94CC5C', '#C3CC5C', '#E6B522', '#E68422'],
 					overs  :['#135EBF', '#2E9599', '#36B26A', '#78A64B', '#9CA632', '#BF9E39', '#BF7C39']
 				},
-
+				
 				circle:{
 					mode  :0,           //模式[(仅当node=1) 空或0=显示所有节点 | 1=在数据变化时 显示变化的节点] 
 					normal:{
 						radius:3,       //半径
-						thickness:2,    //轮廓粗线
-						fill:'#FFFFFF'  //填充色
+						thickness:2,    //轮廓粗细
+						fill:'#FFFFFF', //填充色
+						fill_follow : 0 //填充色是否跟随线条颜色(0 = 否 | 1 = 是)       ---
 					},
 					over  :{
-						min_radius:4,
-						max_radius:7,
-						max_thickness:2
+						min_radius:4,                       //小圆半径
+						max_radius:7,                       //大圆半径(白)
+						max_fill_opacity:1,                 //大圆填充透明度           
+						max_thickness:2,                    //大圆线框粗线
+						max_thickness_opacity:1             //大圆线框透明度           
 					}
 				}
 			}
@@ -8386,6 +8437,12 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 			o.node = __data.getAttribute('node') && String(__data.getAttribute('node')) ? Number(__data.getAttribute('node')) : o.node
 			o.shape = __data.getAttribute('shape') && String(__data.getAttribute('shape')) ? Number(__data.getAttribute('shape')) : o.shape
 			o.area = __data.getAttribute('area') && String(__data.getAttribute('area')) ? Number(__data.getAttribute('area')) : o.area
+			
+			if(__data.getAttribute('area_opacity') && String(__data.getAttribute('area_opacity'))){
+				o.isArea_opacity = 1
+			}
+			o.area_opacity = __data.getAttribute('area_opacity') && String(__data.getAttribute('area_opacity')) ? String(__data.getAttribute('area_opacity')).split(',') : o.area_opacity
+			
 
 			var __thickness = xmlDoc.getElementsByTagName("thickness")[0]
 			if(__thickness){
@@ -8404,6 +8461,10 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 			var __y_axis = xmlDoc.getElementsByTagName("y_axis")[0]
 			if(__y_axis){
 				o.y_axis.enabled = String(__y_axis.getAttribute('enabled')) ? Number(__y_axis.getAttribute('enabled')) : o.y_axis.enabled
+				var __line = __y_axis.getElementsByTagName("line")[0]
+				if(__line){
+					o.y_axis.line.enabled = String(__line.getAttribute('enabled')) ? Number(__line.getAttribute('enabled')) : o.y_axis.line.enabled
+				}
 			}
 
 			var __back = xmlDoc.getElementsByTagName("back")[0]
@@ -8411,6 +8472,11 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 				var __axis = __back.getElementsByTagName("axis")[0]
 				if(__axis){
 					o.back.axis.enabled = String(__axis.getAttribute('enabled')) ? Number(__axis.getAttribute('enabled')) : o.back.axis.enabled
+				}
+
+				var __x_axis = __back.getElementsByTagName("x_axis")[0]
+				if(__x_axis){
+					o.back.x_axis.mode = String(__x_axis.getAttribute('mode')) ? Number(__x_axis.getAttribute('mode')) : o.back.x_axis.mode
 				}
 				var __y_axis = __back.getElementsByTagName("y_axis")[0]
 				if(__y_axis){
@@ -8421,6 +8487,9 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 
 			var __fills = xmlDoc.getElementsByTagName("colors")[0]
 			if(__fills){
+				if((__fills.getAttribute('normals') && String(__fills.getAttribute('normals'))) || (__fills.getAttribute('overs') && String(__fills.getAttribute('overs')))){
+					o.fills.isDefault = 0
+				}
 				o.fills.normals = __fills.getAttribute('normals') && String(__fills.getAttribute('normals')) ? String(__fills.getAttribute('normals')).split(',') : o.fills.normals
 				o.fills.overs = __fills.getAttribute('overs') && String(__fills.getAttribute('overs')) ? String(__fills.getAttribute('overs')).split(',') : o.fills.overs
 			}
@@ -8436,13 +8505,16 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 					o.circle.normal.radius = __normal.getAttribute('radius') && String(__normal.getAttribute('radius')) ? __normal.getAttribute('radius') : o.circle.normal.radius
 					o.circle.normal.thickness = __normal.getAttribute('thickness') && String(__normal.getAttribute('thickness')) ? __normal.getAttribute('thickness') : o.circle.normal.thickness
 					o.circle.normal.fill = __normal.getAttribute('color') && String(__normal.getAttribute('color')) ? String(__normal.getAttribute('fill')) : o.circle.normal.fill
+					o.circle.normal.fill_follow =__normal.getAttribute('color_follow') && String(__normal.getAttribute('color_follow')) ? Number(__normal.getAttribute('color_follow')) : o.circle.normal.fill_follow
 				}
-
 				var __over = __circle.getElementsByTagName("over")[0]
 				if(__over){
 					o.circle.over.min_radius = __over.getAttribute('min_radius') && String(__over.getAttribute('min_radius')) ? __over.getAttribute('min_radius') : o.circle.over.min_radius
 					o.circle.over.max_radius = __over.getAttribute('max_radius') && String(__over.getAttribute('max_radius')) ? __over.getAttribute('max_radius') : o.circle.over.max_radius
+					o.circle.over.max_fill_opacity = __over.getAttribute('max_color_opacity') && String(__over.getAttribute('max_color_opacity')) ? Number(__over.getAttribute('max_color_opacity')) : o.circle.over.max_fill_opacity
 					o.circle.over.max_thickness = __over.getAttribute('max_thickness') && String(__over.getAttribute('max_thickness')) ? __over.getAttribute('max_thickness') : o.circle.over.max_thickness
+					o.circle.over.max_thickness_opacity = __over.getAttribute('max_thickness_opacity') && String(__over.getAttribute('max_thickness_opacity')) ? Number(__over.getAttribute('max_thickness_opacity')) : o.circle.over.max_thickness_opacity
+
 				}
 			}
 
@@ -8561,89 +8633,6 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/dataparse',function(S,Base,N
 	});
 
 	return DataParse;
-
-	}, {
-	    requires:['base','node']
-	}
-);
-KISSY.add('brix/gallery/charts/js/pub/controls/line2/configparse',function(S,Base,Node){
-	var $ = Node.all
-
-	function ConfigParse(){
-		
-		var self = this
-
-		ConfigParse.superclass.constructor.apply(self,arguments);
-	}
-
-	ConfigParse.ATTRS = {
-		o:{
-			value:{
-				v:'1.0',
-
-				node:0,
-				shape:0,
-				area:0,
-
-				fills:{
-					normals:['0x458AE6', '0xE68422', '0x5BCB8A', '0x94CC5C', '0xC3CC5C', '0xE6B522', '0xE68422'],
-					overs  :['0x135EBF', '0xBF7C39', '0x36B26A', '0x78A64B', '0x9CA632', '0xBF9E39', '0xBF7C39']
-				}
-			}
-		}
-	}
-
-	S.extend(ConfigParse,Base,{
-		parse:function($data,$type){
-			var self = this
-
-			var o = S.clone(self.o) 
-			var type = $type ? $type : 'xml'
-			if(type == 'xml'){
-				o = self._xml($data)
-			}
-			return o
-		},
-		_xml:function($data){
-			var self = this
-
-			var o = S.clone(self.get('o')) 
-			var data = String($data)
-			var domParser = new DOMParser();
-			var xmlDoc = domParser.parseFromString(data, 'text/xml');
-
-			var __data = xmlDoc.getElementsByTagName("data")[0]
-			o.v = __data.getAttribute('v') && String(__data.getAttribute('v')) ? String(__data.getAttribute('v')) : o.v
-
-			o.node = __data.getAttribute('node') && String(__data.getAttribute('node')) ? Number(__data.getAttribute('node')) : o.node
-			o.shape = __data.getAttribute('shape') && String(__data.getAttribute('shape')) ? Number(__data.getAttribute('shape')) : o.shape
-			o.area = __data.getAttribute('area') && String(__data.getAttribute('area')) ? Number(__data.getAttribute('area')) : o.area
-
-			var __fills = xmlDoc.getElementsByTagName("colors")[0]
-			if(__fills){
-				o.fills.normals = __fills.getAttribute('normals') && String(__fills.getAttribute('normals')) ? String(__fills.getAttribute('normals')).split(',') : o.fills.normals
-				o.fills.overs = __fills.getAttribute('overs') && String(__fills.getAttribute('overs')) ? String(__fills.getAttribute('overs')).split(',') : o.fills.overs
-			}
-
-			o.fills.normals = self._trimFills(o.fills.normals)
-			o.fills.overs = self._trimFills(o.fills.overs)
-
-			return o
-		},
-
-		//将'0x' 替换成 '#'
-		_trimFills:function($arr){
-			var arr = []
-			for(var a = 0,al = $arr.length; a < al; a++){
-				var s = String($arr[a])
-				s = s.replace('0x','#')
-				arr.push(s)
-			}
-			return arr
-		}
-	});
-
-	return ConfigParse;
 
 	}, {
 	    requires:['base','node']
@@ -9138,7 +9127,7 @@ KISSY.add('brix/gallery/charts/js/pub/controls/map/datatrim',function(S,Base,Nod
 				                 	 index:
 				                 	 colors:{
 										normal:[#000000]
-									 content:[]
+									    content:[]
 				                 	 }
 				                 }*/
 		},
@@ -10469,6 +10458,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/back',function(S,Base,node,Global,SV
 		line_ver_mode:{          //纵向的线模式(0 = 虚线 | 1 = 实线)
 			value:1
 		},
+		line_hor_mode:{          //横向的线模式(0 = 虚线 | 1 = 实线)
+			value:0    
+		},
 		axis:{                   //坐标轴
 			value:{
 				enabled : 1
@@ -10508,7 +10500,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/back',function(S,Base,node,Global,SV
 			//_line_ver
 			// S.log(S.now())
 			self.set('_df',document.createDocumentFragment())
-
 			if(self.get('axis').enabled == 1){
 				var d = SVGRenderer.symbol('line',0,0,0,-self.get('h')).join(' ')
 				self.set('_line_ver', new SVGElement('path'))
@@ -10527,27 +10518,28 @@ KISSY.add('brix/gallery/charts/js/pub/views/back',function(S,Base,node,Global,SV
 			self.set('h_ver', self.get('h_ver') ? self.get('h_ver') : self.get('h'))
 			self.set('w_hor', self.get('w_hor') ? self.get('w_hor') : self.get('w'))
 			// S.log(S.now())
-			//虚线
+			//横向实现 |虚线
 			for (var a = 0, al = self.get('data_hor').length; a < al; a++ ) {
 				var o = self.get('data_hor')[a]
 				var y = o.y
-
 				var line = new SVGElement('line')
-				line.attr({'x1':0,'y1':0,'x2':self.get('w_hor'),'y2':0,'stroke':self.get('line_fill'),'stroke-dasharray':'2,3'})
+				if(self.get('line_hor_mode') == 0){
+					line.attr({'x1':0,'y1':0,'x2':self.get('w_hor'),'y2':0,'stroke':self.get('line_fill'),'stroke-dasharray':'2,3'})
+				}else if(self.get('line_hor_mode') == 1){
+					line.attr({'x1':0,'y1':0,'x2':self.get('w_hor'),'y2':0,'stroke':self.get('line_fill')})
+				}
 				line.transformY(y)
 				self.get('_df').appendChild(line.element)
 			}
 
-			//实线
+			//纵向实线 | 虚线
 			for (var b = 0, bl = self.get('data_ver').length; b < bl; b++ ) {
 				var o = self.get('data_ver')[b]
 				var x = o.x
-
+				var line = new SVGElement('line')
 				if(self.get('line_ver_mode') == 0){
-					var line = new SVGElement('line')
 					line.attr({'x1':0,'y1':0,'x2':0,'y2':-self.get('h_ver'),'stroke':self.get('line_fill'),'stroke-dasharray':'2,3'})
 				}else if(self.get('line_ver_mode') == 1){
-					var line = new SVGElement('line')
 					line.attr({'x1':0,'y1':0,'x2':0,'y2':-self.get('h_ver'),'stroke':self.get('line_fill')})
 				}
 				line.transformX(x)
@@ -12964,16 +12956,18 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 				x:0,                     //x坐标
 				y:0,                     //y坐标
 				min_radius:4,
-				max_radius:7,
+				fill:'#000000',          //小圆填充
+				max_radius:7,            
+				max_fill_opacity:1,      //大圆填充透明度  
 				max_thickness:2,
-				fill:'#000000',          //Light.fill
-				fill_opacity:1        
+				max_thickness_opacity:1
 			}
 		},
 		other:{
 			value:{
 				is:0,                    //是否有 
-				os:[]                    //数组中有几个就几个
+				os:[],                   //数组中有几个就几个
+				config:{}                //圆的配置
 			}
 		},
 		hInfo:{
@@ -13238,7 +13232,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 		    if(self.get('_other')){
 		    	var o = {
 					parent : self.get('element'),
-			    	os     : self.get('other').os
+			    	os     : self.get('other').os,
+			    	config : self.get('other').config
 			    }
 			    self.get('_other').init(o)
 		    }
@@ -13255,12 +13250,18 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 		    	if(self.get('light').max_radius){
 		    		o.max_radius = self.get('light').max_radius
 		    	}
+				if(String(self.get('light').max_fill_opacity)){
+					if(self.get('light').max_fill_opacity == 0) self.get('light').max_fill_opacity = Global.N00001;
+					o.max_fill_opacity = self.get('light').max_fill_opacity
+		    	}
+		    	//防止undefined
 		    	if(self.get('light').max_thickness){
 		    		o.max_thickness = self.get('light').max_thickness
 		    	}
-		    	if(self.get('light').fill_opacity){
-		    		o.fill_opacity = self.get('light').fill_opacity
+		    	if(String(self.get('light').max_thickness_opacity)){
+		    		o.max_thickness_opacity = self.get('light').max_thickness_opacity
 		    	}
+		    	
 			    self.get('_light').init(o)
 			    // self.get('_light').get('element').on(EventType.OVER,function($o){self._overHandler({child:'light'})})
 				// self.get('_light').get('element').on(EventType.OUT,function($o){self._outHandler({child:'light'})})
@@ -13292,7 +13293,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 		  	var p = self._allShow(self.get('w'), self.get('h'), {w:self.get('_info').get('w'),h:self.get('_info').get('h')}, {x:x,y:y})
 		   	x = p.x, y = p.y
 		    if(self.get('_light')){
-		    	if (Number(y) + Number(self.get('_info').get('h') / 2) + Number(self.get('dis_info')) + Number(self.get('_light').get('max_radius')) > self.get('_light').get('element').get('_y') + 0.00001) {
+		    	if (Number(y) + Number(self.get('_info').get('h') / 2) + Number(self.get('dis_info')) + Number(self.get('_light').get('max_radius')) > Number(self.get('_light').get('element').get('_y')) + 0.00001) {
 			
 					y = Number(self.get('light').y) + Number(self.get('_light').get('max_radius')) + Number(self.get('dis_info')) + Number(self.get('_info').get('h') / 2)
 				}
@@ -13404,16 +13405,19 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/light',function(S,Base,node,Gl
 		min_radius:{
 			value:4
 		},
+		fill:{                        //小圆填充
+			value:'#555555'
+		},
 		max_radius:{
 			value:7
 		},
-		max_thickness:{
+		max_fill_opacity:{            //大圆填充透明度
+			value:1
+		},
+		max_thickness:{               //大圆边框粗细
 			value:2
 		},
-		fill:{
-			value:'#555555'
-		},
-		fill_opacity:{
+		max_thickness_opacity:{       //大圆边框透明度
 			value:1
 		},
 
@@ -13429,7 +13433,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/light',function(S,Base,node,Gl
 		init:function(){
 			var self = this
 			Light.superclass.constructor.apply(self,arguments);
-			
 			self.set('element', new SVGElement('g')), self.get('element').set('class','light')
 			self.get('parent').appendChild(self.get('element').element)
 			self.get('element').element.addEventListener("mouseover",function(evt){ self._overHandler(evt)}, false);
@@ -13440,7 +13443,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/light',function(S,Base,node,Gl
 		
 		_widget:function(){
 			var self = this
-			self.set('_max', SVGGraphics.circle({'r':self.get('max_radius'),'fill':'#ffffff','fill_opacity':self.get('fill_opacity'),'stroke':self.get('fill'),'stroke_width':self.get('max_thickness')}))
+			self.set('_max', SVGGraphics.circle({'r':self.get('max_radius'),'fill':'#ffffff','fill_opacity':self.get('max_fill_opacity'),'stroke':self.get('fill'),'stroke_opacity':self.get('max_thickness_opacity'),'stroke_width':self.get('max_thickness')}))
 			self.get('element').appendChild(self.get('_max').element)
 
 			self.set('_min', SVGGraphics.circle({'r':self.get('min_radius'),'fill':self.get('fill'),'stroke':'none'}))
@@ -13495,14 +13498,24 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/other',function(S,Base,node,Gl
 		_widget:function(){
 
 			var self = this
+			var config = self.get('config')
 			for(var a = 0, al = self.get('os').length; a < al; a++){
 				var $o = self.get('os')[a]
 				if($o){
 					var light = new Light()
 			    	var o = {
 			    		parent : self.get('element'),
-			    		fill   : $o.fill_over
+			    		fill   : $o.fill_over,
 			    	}
+
+			    	if(config){
+			    		o.min_radius = config.min_radius,
+						o.max_radius = config.max_radius,
+						o.max_fill_opacity = config.max_fill_opacity,
+						o.max_thickness = config.max_thickness,
+						o.max_thickness_opacity = config.max_thickness_opacity
+			    	}
+
 				 	light.init(o)
 				    var x = $o.x, y = $o.y
 				    light.get('element').transformXY(x,y)
@@ -13878,7 +13891,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/core',function(S,Base,Node,Glob
 				node  : self.get('config').node,
 				area  : self.get('config').area,
 				areaMode   : self.get('config').areaMode,
-				areaAlphas : self.get('config').areaAlphas,
+				area_opacity : self.get('config').area_opacity,
 				isLine: self.get('config').isLine,
 				shape : self.get('config').shape,
 				fills : self.get('config').fillsObject.normals,
@@ -14200,7 +14213,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 		areaMode:{
 			value:0              //区域闭合模式(0 = 自动闭合 | 1 = 不自动闭合 根据前一条线闭合)
 		},
-		areaAlphas:{
+		area_opacity:{
 			value:[0.05, 0.25]   //区域填充部分的透明度
 		},
 		shape:{
@@ -14318,7 +14331,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 		_layout:function(){
 			var self = this
 			self.get('_induce').transformY(-self.get('h'))
-			
 			for(var a = 0,al = self.get('data').length; a < al; a++){
 				var group = new Group()
 				self.get('_groupArr').push(group)
@@ -14344,6 +14356,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 		    		!o.circle ? o.circle = {} : ''
 		    		o.circle.fill = self.get('circle').fill
 		    	}
+		    	if(self.get('circle').fill_follow){
+		    		!o.circle ? o.circle = {} : ''
+		    		o.circle.fill_follow = self.get('circle').fill_follow
+		    	}
 				group.init(o)
 			}
 			if(self.get('area')){
@@ -14355,7 +14371,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 						data   : self.get('data')[a],
 						line   : 0,
 						area   : self.get('area'),
-						areaAlphas: self.get('areaAlphas'),
+						area_opacity: self.get('area_opacity'),
 						shape  : self.get('shape'),
 						fill   : self.get('fills')[a],
 						fill_over : self.get('fills_over')[a]
@@ -14470,7 +14486,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 		areaMode:{
 			value:0              //区域闭合模式(0 = 自动闭合 | 1 = 不自动闭合 根据前一条线闭合)
 		},
-		areaAlphas:{             //区域填充部分的透明度
+		area_opacity:{             //区域填充部分的透明度
 			value:[0.05, 0.25]
 		},
 		shape:{
@@ -14533,7 +14549,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 
 			if(self.get('area')){
 				self.set('_linearGradientIndex', self.get('_linearGradientIndex') + '_' + self.get('index'))
-				self._linearGradient({'id':self.get('_linearGradientIndex'),'top_fill':self.get('fill'),'top_opacity':self.get('areaAlphas')[1],'down_fill':self.get('fill'),'down_opacity':self.get('areaAlphas')[0]})
+				self._linearGradient({'id':self.get('_linearGradientIndex'),'top_fill':self.get('fill'),'top_opacity':self.get('area_opacity')[1],'down_fill':self.get('fill'),'down_opacity':self.get('area_opacity')[0]})
 			}
 			self._widget()
 
@@ -14610,6 +14626,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 				
 				var _df = document.createDocumentFragment();
 				for (var a = 0, al = self.get('data').length; a < al; a++ ) {
+					if(self.get('circle').fill_follow == 1){
+						self.get('circle').fill = self.get('fill')
+					}
 					var circle = SVGGraphics.circle({'r':self.get('circle').radius,'fill':self.get('circle').fill,'stroke':self.get('fill'),'stroke_width':self.get('circle').thickness})
 					// self.get('_circles').element.appendChild(circle.element), self.get('_circlesArr').push(circle)
 					var x = self.get('data')[a].x , y = self.get('data')[a].y
@@ -16508,12 +16527,13 @@ KISSY.add('brix/gallery/charts/js/pub/views/svggraphics',function(S,Node,SVGElem
 			var $o = $o ? $o : {}
 			var r = $o.r ? $o.r : 10
 			var fill = $o.fill ? $o.fill : '#000000'
+			var fill_opacity = $o.fill_opacity || Number($o.fill_opacity) == 0 ? $o.fill_opacity : 1
 			var stroke = $o.stroke ? $o.stroke : null
-			var stroke_width = $o.stroke_width ? $o.stroke_width : 1
-			var fill_opacity = $o.fill_opacity ? $o.fill_opacity : 1
+			var stroke_width = $o.stroke_width || Number($o.stroke_width) == 0 ? $o.stroke_width : 1
+			var stroke_opacity = $o.stroke_opacity || Number($o.stroke_opacity) == 0 ? $o.stroke_opacity : 1
 
 			var circle = new SVGElement('circle')
-			circle.attr({'r':r,'fill':fill, 'stroke':stroke, 'stroke-width':stroke_width, 'fill-opacity':fill_opacity})
+			circle.attr({'r':r,'fill':fill, 'fill-opacity':fill_opacity, 'stroke':stroke, 'stroke-width':stroke_width, 'stroke-opacity':stroke_opacity})
 			return circle
 		},
 		/**
@@ -16625,6 +16645,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/vertical',function(S,Base,node,Globa
 	S.extend(Vertical,Base,{
 		init:function(){
 			var self = this
+			var line_has = self.get('line_has')
 			Vertical.superclass.constructor.apply(self,arguments);
 
 			self.set('_line_h', self.get('line_h'))
@@ -16638,8 +16659,15 @@ KISSY.add('brix/gallery/charts/js/pub/views/vertical',function(S,Base,node,Globa
 			}else if(self.get('mode') == 2){
 				self._layout_right()
 			}
+
 			self.set('w',self.get('_maxTextWidth') + self.get('_dis') + self.get('_line_w'))
 
+
+			if (line_has == 0) {
+				self.set('w',self.get('_maxTextWidth') + self.get('_dis'))
+			}else {
+				self.set('w',self.get('_maxTextWidth') + self.get('_dis') + self.get('_line_w'))
+			}
 		},
 
 		_widget:function(){
