@@ -297,7 +297,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate4/view/widget',function(S,Base,Node
 	return Widget;
 
 	}, {
-	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/line/core',,'../../../pub/views/layouts/style1/main'
+	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/line/core','../../../pub/views/layouts/style1/main'
 	    ]
 	}
 );

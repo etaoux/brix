@@ -3034,7 +3034,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate2/view/widget',function(S,Base,Node
 	return Widget;
 
 	}, {
-	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/histogram/core',,'../../../pub/views/layouts/style1/main'
+	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/histogram/core','../../../pub/views/layouts/style1/main'
 	    ]
 	}
 );
@@ -3488,7 +3488,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate3/view/widget',function(S,Base,Node
 	return Widget;
 
 	}, {
-	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/histogram/core',,'../../../pub/views/layouts/style1/main'
+	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/histogram/core','../../../pub/views/layouts/style1/main'
 	    ]
 	}
 );
@@ -3983,7 +3983,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate4/view/widget',function(S,Base,Node
 	return Widget;
 
 	}, {
-	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/line/core',,'../../../pub/views/layouts/style1/main'
+	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/line/core','../../../pub/views/layouts/style1/main'
 	    ]
 	}
 );
@@ -4434,7 +4434,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate5/view/widget',function(S,Base,Node
 	return Widget;
 
 	}, {
-	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/line/core',,'../../../pub/views/layouts/style1/main'
+	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/line/core','../../../pub/views/layouts/style1/main'
 	    ]
 	}
 );
