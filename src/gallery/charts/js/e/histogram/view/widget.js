@@ -112,6 +112,9 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 		_timeoutDelay:{
 			value:800                    
 		},
+		_baseNumber:{                    //基础值(原点)
+			value:0
+		}
 	}
 
 	S.extend(Widget,Base,{
@@ -120,15 +123,33 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'),self.get('DataSource'))) 
 			self.get('_DataFrameFormat').key.data = String(self.get('_DataFrameFormat').key.indexs).split(',')
+
+			if(self.get('config').y_axis.data.mode == 1){
+				self.get('_DataFrameFormat').vertical.org = self._getDataScale()
+			}
 			self.get('_DataFrameFormat').vertical.section = DataSection.section(Global.getChildsArr(self.get('_DataFrameFormat').vertical.org))
+			self.set('_baseNumber', self.get('_DataFrameFormat').vertical.section[0])
 			self.get('_DataFrameFormat').graphs.groupCount = self.get('_DataFrameFormat').vertical.org.length
 			self.get('_DataFrameFormat').graphs.groups = Global.getMaxChildArrLength(self.get('_DataFrameFormat').vertical.org)
 
 			self._widget()
 		},
 
+		_getDataScale:function(){
+			var self = this
+			var arr = []
+			var data = self.get('_DataFrameFormat').vertical.org
+			for(var a  = 0, al = data.length; a < al; a++){
+				var o = data[a]
+				o = Global.getArrScales(o)
+				arr[a] = o
+			}
+			return arr 
+		},
+
 		_widget:function(){
 			var self = this
+			var config = self.get('config')
 			self.set('element', new SVGElement('g')), self.get('element').set('class','widget')
 			self.get('parent').appendChild(self.get('element').element)
 
@@ -163,12 +184,15 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 			var  o = {
 				h      : self.get('_verticalGraphsH'),
 				parent : self.get('element'),
+				config : self.get('config'),
 				data   : Global.delArrUnPop(self.get('_DataFrameFormat').graphs.data, self.get('_del')),
 				groupW : self.get('_DataFrameFormat').graphs.groupW,
 				groupCount : self.get('_DataFrameFormat').graphs.groupCount
 			}
 			self.get('_graphs').init(o)
-			self.get('_graphs').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w') + Global.N05, self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05)
+			var x =  self.get('_disX') + self.get('_vertical').get('w') + Global.N05
+			x = config.x_axis.layout.mode == 1 ? x + Global.ceil(self.get('_DataFrameFormat').graphs.groupW / 2) - 1 : x 
+			self.get('_graphs').get('element').transformXY(x, self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05)
 
 			self._trimHorizontal()
 			var o = {
@@ -195,6 +219,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 				w     : self.get('_horizontalMaxW'),
 				h     : self.get('_verticalGraphsH'),
 				parent: self.get('element'),
+				config : self.get('config'),
 				id    : 'induces',
 				data  : Global.delArrUnPop(self.get('_DataFrameFormat').graphs.data, self.get('_del')),
 				isInduce   : 1,
@@ -205,21 +230,23 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 			self.get('_induces').init(o)
 			self.get('_induces').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
 			self.get('_induces').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
-			self.get('_induces').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w') +Global.N05, self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05)
+			self.get('_induces').get('element').transformXY(x, self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05)
 		},
 
 		//换算纵向
 		_trimVertical:function(){
 			var self = this
+			var config = self.get('config')
 			self.set('_verticalMaxH', self.get('h') - self.get('_disY') - self.get('_horizontal').get('h') - self.get('_disY'))
 			self.set('_verticalGraphsH', self.get('_verticalMaxH') - self._getVerticalDisY())
 			var max = self.get('_DataFrameFormat').vertical.section[self.get('_DataFrameFormat').vertical.section.length - 1]
 			var arr = self.get('_DataFrameFormat').vertical.section
 			var tmpData = []
 			for (var a = 0, al = arr.length; a < al; a++ ) {
-				var y = -arr[a] / max * self.get('_verticalGraphsH')                                    
-				y = isNaN(y) ? 0 : Global.ceil(y)                                                    
-				tmpData[a] = { 'value':arr[a], 'y': y }
+				var y = -(arr[a] - self.get('_baseNumber')) / (max - self.get('_baseNumber')) * self.get('_verticalGraphsH')                                    
+				y = isNaN(y) ? 0 : Global.ceil(y)      
+				var value = config.y_axis.data.mode == 1 ? arr[a] + config.y_axis.data.suffix : arr[a]
+				tmpData[a] = { 'value':value, 'y': y }
 			}
 			self.get('_DataFrameFormat').vertical.data = tmpData
 		},
@@ -236,18 +263,25 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 		//获取图形中每组的宽
 		_getGroupWidth:function(){
 			var self = this
+			var config = self.get('config')
 			var n = 0
 			var disMin = self.get('_dis_line')
 			var disMax = 2 * self.get('_dis_line')
 			var dis = disMin
 			var min = self.get('_graphs').getGroupMinW()
 			var w = self.get('_horizontalMaxW') - disMin
+
 			if (w % self.get('_DataFrameFormat').graphs.groups + disMin > disMax) {
 				dis = disMax
 			}else {
 				dis = disMin + w % self.get('_DataFrameFormat').graphs.groups
 			}
-			w = self.get('_horizontalMaxW') - dis
+			//一组的宽一半
+			var groupW = 0
+			if(config.x_axis.layout.mode == 1){
+				groupW = (self.get('_horizontalMaxW') - dis) / self.get('_DataFrameFormat').graphs.groups / 2
+			}
+			w = self.get('_horizontalMaxW') - dis - groupW
 			n = w / self.get('_DataFrameFormat').graphs.groups
 			if (n < min) { n = min }
 			return n
@@ -276,7 +310,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 		//换算图形
 		_trimGraphs:function(){   
 			var self = this                                                           
-
+			var config = self.get('config')
 			self.set('_horizontalMaxW', self.get('w') - self.get('_disX') - self.get('_vertical').get('w') - self.get('_disX'))
 			var max = self.get('_DataFrameFormat').vertical.section[self.get('_DataFrameFormat').vertical.section.length - 1]
 			var arr = self.get('_DataFrameFormat').vertical.org
@@ -284,7 +318,8 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 			for (var a = 0, al = arr.length; a < al; a++ ) {
 				for (var b = 0, bl = arr[a].length ; b < bl; b++ ) {
 					!tmpData[b] ? tmpData[b] = [] : ''
-					tmpData[b].push( {'value':arr[a][b],'height':arr[a][b] / max * self.get('_verticalGraphsH'), 'key': { 'isKey':0 } } )
+					var value = config.y_axis.data.mode == 1 ? arr[a][b] + config.y_axis.data.suffix : arr[a][b]
+					tmpData[b].push( {'value':value,'height':(arr[a][b] - self.get('_baseNumber')) / (max - self.get('_baseNumber')) * self.get('_verticalGraphsH'), 'key': { 'isKey':0 } } )
 				}
 			}
 			for (var d = 0, dl = self.get('_DataFrameFormat').key.data.length; d < dl; d++ ) {
@@ -308,6 +343,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 		},
 
 		_overHandler:function($o){
+			var config = this.get('config')
 			clearTimeout(this.get('_timeoutId'));
 			var index = $o.index
 			var id = $o.id
@@ -348,6 +384,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram/view/widget',function(S,Base,Node,
 			pre = index == 0 ? this.get('_DataFrameFormat').horizontal.start.name : pre
 			var next =  this.get('_DataFrameFormat').horizontal.org[index]
 			var content = this.get('_DataFrameFormat').horizontal.name + pre + ' - ' + next
+			content = config.x_axis.layout.mode == 1 ? this.get('_DataFrameFormat').horizontal.name + next : content
 
 			o.hInfo = {
 				is   : 1,

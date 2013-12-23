@@ -47,11 +47,17 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 		areaMode:{
 			value:0              //区域闭合模式(0 = 自动闭合 | 1 = 不自动闭合 根据前一条线闭合)
 		},
-		areaAlphas:{
+		area_opacity:{
 			value:[0.05, 0.25]   //区域填充部分的透明度
 		},
 		shape:{
 			value:1              //线条形状
+		},
+		thickness:{              //线条粗线
+			value:{
+				normal  : 2,     //正常情况
+				over    : 3      //鼠标划入时
+			}
 		},
 		fills:{
 			value:[]             //图形颜色集合
@@ -159,7 +165,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 		_layout:function(){
 			var self = this
 			self.get('_induce').transformY(-self.get('h'))
-			
 			for(var a = 0,al = self.get('data').length; a < al; a++){
 				var group = new Group()
 				self.get('_groupArr').push(group)
@@ -170,7 +175,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 					node   : self.get('node'),
 					shape  : self.get('shape'),
 					fill   : self.get('fills')[a],
-					fill_over : self.get('fills_over')[a]
+					fill_over : self.get('fills_over')[a],
+					thickness : self.get('thickness')
 				}
 				if(self.get('circle').radius){
 					!o.circle ? o.circle = {} : ''
@@ -184,6 +190,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 		    		!o.circle ? o.circle = {} : ''
 		    		o.circle.fill = self.get('circle').fill
 		    	}
+		    	if(self.get('circle').fill_follow){
+		    		!o.circle ? o.circle = {} : ''
+		    		o.circle.fill_follow = self.get('circle').fill_follow
+		    	}
 				group.init(o)
 			}
 			if(self.get('area')){
@@ -195,7 +205,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 						data   : self.get('data')[a],
 						line   : 0,
 						area   : self.get('area'),
-						areaAlphas: self.get('areaAlphas'),
+						area_opacity: self.get('area_opacity'),
 						shape  : self.get('shape'),
 						fill   : self.get('fills')[a],
 						fill_over : self.get('fills_over')[a]
@@ -220,9 +230,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 
 		_moveHandler:function($evt){
 			var self = this
-			var o = self._globalToLocal({'x':$evt.layerX,'y':$evt.layerY})
-			var x = o.x, y = o.y
-
+			// var o = self._globalToLocal({'x':$evt.layerX,'y':$evt.layerY})
+			var o = Global.getLocalXY($evt, self.get('parent').element)
+			var x = o.x - Number(self.get('element').get('_x')), y = o.y - Number(self.get('element').get('_y'))
 			var n = x / (self.get('disX') / 2)
 			n = n % 2 == 0 ? n : n + 1
 			var tmp_id = parseInt(n / 2)
@@ -245,10 +255,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 			}else{
 				self.set('_index', tmp_index)
 				self.set('_id', tmp_id)
-				var o = self.get('_nodesInfoList')[self.get('_index')]
+				var o = S.clone(self.get('_nodesInfoList')[self.get('_index')])
 				var arr = S.clone(self.get('_nodesInfoList'))
 				arr.splice(self.get('_index'), 1)
 				o.other = arr
+				o.x = o.x + Number(self.get('element').get('_x')), o.y = o.y + Number(self.get('element').get('_y'))
 				self.get('element').fire(EventType.OVER,o)
 			}
 			self.set('_id', tmp_id)

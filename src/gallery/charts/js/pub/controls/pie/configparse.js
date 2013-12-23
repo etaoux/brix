@@ -11,10 +11,37 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 	ConfigParse.ATTRS = {
 		o:{
 			value:{
+
+				x:'',
+				y:'',
+				w:'',
+				h:'',
+
+				dis:26,                 //圆饼实际大小与上、下、左、右之间的间隔
+
+				font:{
+					is:1,
+					exact:0             //显示百分比时 精确的小数点位置
+				},
+
 				fills:{
 					order  :0,
 					normals:['0x458AE6', '0x45B5E6', '0x39BCC0', '0x5BCB8A', '0x94CC5C', '0xC3CC5C', '0xE6B522', '0xE68422', '0xB0704A', '0x6280A1'],
 					overs  :['0x135EBF', '0x3997BF', '0x2E9599', '0x36B26A', '0x78A64B', '0x9CA632', '0xBF9E39', '0xBF7C39', '0x8C5738', '0x4D6580']
+				},
+
+				list:{
+					is : 0,
+					x:'',
+					y:'',
+					max: '',
+					content:{           //内容
+						mode:0          //模式(0 = 比例 | 1 = 数字)
+					}
+				},
+
+				order:{                 //数据排序
+					mode:1              //模式(0 = 不排序 | 1 = 从大到小)
 				}
 			}
 		}
@@ -40,14 +67,46 @@ KISSY.add('brix/gallery/charts/js/pub/controls/pie/configparse',function(S,Base,
 			var xmlDoc = domParser.parseFromString(data, 'text/xml');
 
 			var __data = xmlDoc.getElementsByTagName("data")[0]
+			var __font = __data.getElementsByTagName("font")[0]
 			var __fills = __data.getElementsByTagName("colors")[0]
+			var __list = __data.getElementsByTagName("list")[0]
+			var __order = __data.getElementsByTagName("order")[0]
+
+			o.x = __data.getAttribute('x') || __data.getAttribute('x') == 0 ? __data.getAttribute('x') : o.x
+			o.y = __data.getAttribute('y') || __data.getAttribute('y') == 0? __data.getAttribute('y') : o.y
+			o.w = __data.getAttribute('w') ? __data.getAttribute('w') : o.w
+			o.h = __data.getAttribute('h') ? __data.getAttribute('h') : o.h
+			if(__font){
+				o.font.is = __font.getAttribute('enabled') == 0 ? 0 : o.font.is
+				o.font.exact = __font.getAttribute('exact') ? Number(__font.getAttribute('exact')) : o.font.exact
+			}
+
 			if(__fills){
 				o.fills.order = __fills.getAttribute('normals') && String(__fills.getAttribute('normals')) ? 1 : o.fills.order
+				o.fills.order = __fills.getAttribute('mode') == 1 ? 0 : o.fills.order
 				o.fills.normals = __fills.getAttribute('normals') && String(__fills.getAttribute('normals')) ? String(__fills.getAttribute('normals')).split(',') : o.fills.normals
 				o.fills.overs = __fills.getAttribute('overs') && String(__fills.getAttribute('overs')) ? String(__fills.getAttribute('overs')).split(',') : o.fills.overs
 			}
 			o.fills.normals = self._trimFills(o.fills.normals)
 			o.fills.overs = self._trimFills(o.fills.overs)
+
+			if(__list){
+				o.list.is = 1
+				
+				o.list.x = __list.getAttribute('x') || __list.getAttribute('x') == 0 ? __list.getAttribute('x') : o.list.x
+				o.list.y = __list.getAttribute('y') || __list.getAttribute('y') == 0 ? __list.getAttribute('y') : o.list.y
+				
+				o.list.max = __list.getAttribute('value') && __list.getAttribute('value') != 0 ? __list.getAttribute('value') : o.list.max
+
+				var __content = __list.getElementsByTagName("content")[0]
+				if(__content){
+					o.list.content.mode = __content.getAttribute('mode') ? __content.getAttribute('mode') : o.list.content.mode
+				}
+			}
+
+			if(__order){
+				o.order.mode = __order.getAttribute('mode') ? __order.getAttribute('mode') : o.order.mode
+			}
 			return o
 		},
 

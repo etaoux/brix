@@ -26,11 +26,17 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 		areaMode:{
 			value:0              //区域闭合模式(0 = 自动闭合 | 1 = 不自动闭合 根据前一条线闭合)
 		},
-		areaAlphas:{             //区域填充部分的透明度
+		area_opacity:{             //区域填充部分的透明度
 			value:[0.05, 0.25]
 		},
 		shape:{
 			value:0              //线条样式[0 = 直线 | 1 = 曲线]
+		},
+		thickness:{              //线条粗线
+			value:{
+				normal  : 2,     //正常情况
+				over    : 3      //鼠标划入时
+			}
 		},
 		line:{
 			value:1              //是否有线条
@@ -69,14 +75,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 			value:null           //区域
 		},		
 
-		
-		_line_thickness:{
-			value:2              //线条粗线
-		},
-		_line_thickness_over:{
-			value:3              //鼠标划入线条粗线
-		},	
-
 		_linearGradientIndex:{
 			value:'linearGradient'//线性渐变索引	
 		}
@@ -91,7 +89,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 
 			if(self.get('area')){
 				self.set('_linearGradientIndex', self.get('_linearGradientIndex') + '_' + self.get('index'))
-				self._linearGradient({'id':self.get('_linearGradientIndex'),'top_fill':self.get('fill'),'top_opacity':self.get('areaAlphas')[1],'down_fill':self.get('fill'),'down_opacity':self.get('areaAlphas')[0]})
+				self._linearGradient({'id':self.get('_linearGradientIndex'),'top_fill':self.get('fill'),'top_opacity':self.get('area_opacity')[1],'down_fill':self.get('fill'),'down_opacity':self.get('area_opacity')[0]})
 			}
 			self._widget()
 
@@ -149,13 +147,17 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 				//线组
 				var line
 				if(self.get('shape') == 0){
-					line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('_line_thickness')})
-					
+					if(self.get('data').length > 1){
+						line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('thickness').normal})
+					}
 				}else{
-					line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('_line_thickness')})
+					if(self.get('data').length > 1){
+						line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill'),'stroke_width':self.get('thickness').normal})
+					}
 				}
-				self.get('_lines').element.appendChild(line.element)
-				
+				if(line && line.element){
+					self.get('_lines').element.appendChild(line.element)
+				}				
 
 				//圆点
 				if(self.get('node') == 0){
@@ -164,6 +166,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 				
 				var _df = document.createDocumentFragment();
 				for (var a = 0, al = self.get('data').length; a < al; a++ ) {
+					if(self.get('circle').fill_follow == 1){
+						self.get('circle').fill = self.get('fill')
+					}
 					var circle = SVGGraphics.circle({'r':self.get('circle').radius,'fill':self.get('circle').fill,'stroke':self.get('fill'),'stroke_width':self.get('circle').thickness})
 					// self.get('_circles').element.appendChild(circle.element), self.get('_circlesArr').push(circle)
 					var x = self.get('data')[a].x , y = self.get('data')[a].y
@@ -183,11 +188,17 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 				self.get('_linesCrude').set('visibility','hidden')
 				var line
 				if(self.get('shape') == 0){
-					line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('_line_thickness_over')})
+					if(self.get('data').length > 1){
+						line = SVGGraphics.lines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('thickness').over})
+					}
 				}else{
-					line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('_line_thickness_over')})
+					if(self.get('data').length > 1){
+						line = SVGGraphics.curveLines({'lines':self.get('data'),'stroke':self.get('fill_over'),'stroke_width':self.get('thickness').over})
+					}
 				}
-				self.get('_linesCrude').element.appendChild(line.element)	
+				if(line && line.element){
+					self.get('_linesCrude').element.appendChild(line.element)	
+				}
 
 				//粗圆点
 				self.get('_circlesCrude').set('visibility','hidden')

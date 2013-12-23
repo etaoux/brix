@@ -44,9 +44,9 @@ KISSY.add('brix/gallery/charts/js/pub/controls/bar/dataparse',function(S,Base,No
 		_xml:function($data){
 			var self = this
 			var o = S.clone(self.get('o')) 
-			var data = String($data)
+			var data = String($data.replace(/>\s*?</g, '><').replace(/\n+/g, '').replace(/\r+/g, ''))
 
-			var domParser = new  DOMParser();
+			var domParser = new DOMParser();
 			var xmlDoc = domParser.parseFromString(data, 'text/xml');
 			var __indexAxis = xmlDoc.getElementsByTagName("indexAxis")[0]
 			var __key = __indexAxis.getElementsByTagName('key')[0]
@@ -95,6 +95,7 @@ KISSY.add('brix/gallery/charts/js/pub/controls/bar/dataparse',function(S,Base,No
 					o1.name = item1.getAttribute('name')
 					o1.signName = item1.getAttribute('name_sign')
 					o1.data = item1.getAttribute('values') ? String(item1.getAttribute('values')).split(',') : []
+					o1.value = item1.getAttribute('value') ? item1.getAttribute('value') : ''
 					o1.total = Global.getArrMergerNumber(o1.data)
 					o.data.push(o1)
 				}

@@ -57,8 +57,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		disMove:{
 			value:8              //鼠标划入时候移动的距离
 		},
-		isTxt:{
-			value:1              //是否展现文字
+		font:{
+			value:{
+				is    : 1,       //是否展现文字
+				exact : 0        //显示百分比时 精确的小数点位置
+			}
 		},
 
 		_elements:{
@@ -116,14 +119,20 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		init:function(){
 			var self = this
 			Graphs.superclass.constructor.apply(self,arguments);
-			if(self.get('isInduce') == 1){ self.set('isTxt',0) }
+			if(self.get('isInduce') == 1){ self.get('font').is = 0 }
 			
 			self.set('element', new SVGElement('g')), self.get('element').set('class',self.get('id'))
 			self.get('parent').appendChild(self.get('element').element)
 
 			self.set('_total', Global.getArrMergerNumber(self.get('data')))
 			self.set('_angleList', self._getAngleList(self.get('data'),self.get('_total'),self.get('_startR')))
-			self.set('_scaleList', self._getScaleList(self.get('data'),self.get('_total')))
+			// self.set('_scaleList', self._getScaleList(self.get('data'),self.get('_total')))
+			self.set('_scaleList', Global.getArrScales(self.get('data'), self.get('font').exact))
+
+			if(self.get('_total') == 0){
+				self.set('_angleList',self._getAngleList(self.get('_scaleList'),100,self.get('_startR')))
+			}
+
 			if (self.get('data').length <= 1) {
 				self.set('_disR',0)
 			}
@@ -207,6 +216,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 				_induce.element.addEventListener("mouseover",function(evt){ self._overHandler(evt)}, false);
 				_induce.element.addEventListener("mousemove",function(evt){ self._moveHandler(evt)}, false);
 				_induce.element.addEventListener("mouseout",function(evt){ self._outHandler(evt)}, false);
+				_induce.element.addEventListener("click",function(evt){ self._clickHandler(evt)}, false);
 				_induce.appendChild(self._fillLine({'lines':arr,'fill':'#000000','stroke':'none','opacity':0}).element)
 				_induce.set('_index', a)
 
@@ -223,21 +233,26 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 				self.get('_moveList').push(self._getRPoint(self.get('x0'), self.get('y0'), self.get('disMove') , self.get('disMove'), angle - self.get('_disR') / 2))
 
 				//文字
-				if(self.get('isTxt') == 1){
+				if(self.get('font').is == 1){
 					var font
 					if (maxR - minR >= 15) {
 						font = SVGGraphics.text({'content':String(self.get('_scaleList')[a]) + '%','size':o.size,'fill':self.get('_font_fill'),'bold':1,'family':self.get('_font_family')})
 						_element.appendChild(font.element)
-						font.transformXY(o.x - font.getWidth() / 2, o.y)
+						font.transformXY(o.x - font.getWidth() / 2 + 1, o.y + 1)
 					}else{
 						var x
+
+						if (self.get('font').exact > 0) {
+							self.set('_disMinCirR', 22)
+						}
 						o = self._getRPoint(self.get('x0'), self.get('y0'), Number(self.get('xr')) + Number(self.get('_disMinCirR')), self.get('yr') + Number(self.get('_disMinCirR')), angle - self.get('_disR') / 2)
+						self.set('_disMinCirR', 16)
 						font = SVGGraphics.text({'content':String(self.get('_scaleList')[a]) + '%','size':o.size,'fill':fill,'bold':1})
 						_element.appendChild(font.element)
-						font.transformXY(o.x - font.getWidth() / 2, o.y + font.getHeight() / 4)
+						font.transformXY(o.x - font.getWidth() / 2 + 1, o.y + font.getHeight() / 4 + 1)
 					}
 
-					if(self.get('istxt') == 0){
+					if(self.get('font').is == 0){
 						font.set()
 					}
 				}
@@ -277,17 +292,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 			return arr
 		},
 
-		_getScaleList:function($arr, $total,$s) {
-			var self = this
-			var $s = $s ? $s : 0
-			var arr = []
-			var n = Math.pow(10,$s)
-			for (var a = 0, al = $arr.length; a < al; a++ ) {
-				arr.push(Math.round ($arr[a]/ $total * 100 * n) / n)
-			}
-			return arr
-		},
-
 		//通过知道圆心、两个半径、角度 获取处于圆周上的这个点坐标
 		_getRPoint:function(x0, y0, xr, yr, r){
 			var r = r * Math.PI / 180
@@ -297,7 +301,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 	 	_overHandler:function($evt){
 	 		var self = this
 			var index = S.one($evt.target).parent().attr('_index')
-			var o = self._globalToLocal({'x':$evt.layerX,'y':$evt.layerY})
+			var o = Global.getLocalXY($evt, self.get('parent').element)
 			var x = o.x, y = o.y
 			o = self._getInfo({'index':index, 'x':x, 'y':y})
 			self.get('element').fire(EventType.OVER,o)
@@ -305,7 +309,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		_moveHandler:function($evt) {
 			var self = this
 			var index = S.one($evt.target).parent().attr('_index')
-			var o = self._globalToLocal({'x':$evt.layerX,'y':$evt.layerY})
+			var o = Global.getLocalXY($evt, self.get('parent').element)
 			var x = o.x, y = o.y
 			o = self._getInfo({'index':index, 'x':x, 'y':y})
 			self.get('element').fire(EventType.MOVE,o)
@@ -313,18 +317,17 @@ KISSY.add('brix/gallery/charts/js/pub/views/pie/graphs',function(S,Base,node,Glo
 		_outHandler:function($evt){
 			var self = this
 			var index = S.one($evt.target).parent().attr('_index')
-			var o = self._globalToLocal({'x':$evt.layerX,'y':$evt.layerY})
+			var o =  Global.getLocalXY($evt, self.get('parent').element)
 			var x = o.x, y = o.y
 			o = self._getInfo({'index':index, 'x':x, 'y':y})
 			self.get('element').fire(EventType.OUT,o)
 		},
-		//全局坐标 转换相对坐标
-		_globalToLocal:function($globalObject){
+		_clickHandler:function($evt){
 			var self = this
+			var index = S.one($evt.target).parent().attr('_index')
 			var o = {}
-			o.x = $globalObject.x - self.get('x')
-			o.y = $globalObject.y - self.get('y')
-			return o
+			o.index = parseInt(index)
+			self.get('element').fire(EventType.CLICK,o)
 		},
 		_getInfo:function($o){
 			var self = this

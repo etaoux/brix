@@ -13,7 +13,7 @@ KISSY.add('brix/gallery/charts/js/pub/controls/bar/configparse',function(S,Base,
 			value:{
 				v:'1.0',
 
-				fills:[[ { normal:'#94CC5C', over:'#78A64B' }, { normal:'#458AE6', over:'#135EBF' } ], [ { normal:'#CCCCCC', over:'#999999' }, { normal:'#999999', over:'#666666' } ]]
+				fills:[[ { normal:'#94CC5C', over:'#78A64B' }, { normal:'#458AE6', over:'#135EBF' }, { normal:'#FF0000', over:'#FF0000' }], [ { normal:'#CCCCCC', over:'#999999' }, { normal:'#999999', over:'#666666' }, { normal:'#0000FF', over:'#0000FF' }]]
 			}
 		}
 	}

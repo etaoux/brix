@@ -156,33 +156,99 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 		 * @param  {[Array]} $arr    [数组]
 		 * @return {[Array]}         [对应的比例数组]
 		 */
-		getArrScales:function($arr){
+		getArrScales:function($arr, $exact){
+			/*
 			var arr = []
 			var total = 0
-			var scales = []
-			for (var a = 0 , al = $arr.length; a < al; a++) { 
+			var max = 0
+			var maxIndex = 0
+			var scale
+			for (var a = 0 , al = $arr.length; a < al; a++) {
+				$arr[a] = Number($arr[a])
 				total += $arr[a]
 			}
-
-			for (var b = 0, bl = $arr.length; b < bl; b++) {
-				var scale = Math.floor($arr[b] / total * 100)
-				scales.push(scale)
-				
-				//最后一个
-				if (b == ($arr.length - 1)) {
-					var n = 0
-					for (var d = 0, dl = scales.length - 1; d < dl; d++ ) {
-						n += scales[d]
-					}
-					n = 100 - n
-					scale = n
+			if (total == 0) {
+				for (var g = 0 , gl = $arr.length; g < gl; g++) {
+					scale = Math.round(1 / $arr.length * 100)
+					arr.push(scale)
 				}
-				
+				return arr
+			}
+			
+			for (var b = 0, bl = $arr.length; b < bl; b++) {
+				scale = Math.round($arr[b] / total * 100)
 				arr.push(scale)
 			}
 			
+			total = 0
 			for (var c = 0, cl = arr.length; c < cl; c++) {
-				arr[c] = isNaN(arr[c]) ? 0 : arr[c]
+				arr[c] = isNaN(arr[c]) || arr[c] < 0 ? 0 : arr[c]
+				if(max < arr[c]){
+					max = arr[c]
+					maxIndex = c
+				}
+				total += arr[c]
+			}
+			if (total > 100) {
+				arr[maxIndex] = arr[maxIndex] - (total - 100)
+			}else if(total < 100){
+				arr[maxIndex] = arr[maxIndex] + (100 - total)
+			}
+			if (arr[maxIndex] < 0) {
+				arr[maxIndex] = 0
+			}
+			return arr
+			*/
+
+			var arr = []
+			var total = 0
+			var max = 0
+			var maxIndex = 0
+			var scale
+			//几位小数点
+			var exact = $exact ? $exact : 0
+			var exactNumber = Math.pow(10, (2 + exact))
+			//最后整数除以该数 得到exact位的小数点值
+			var exactDisNumber = Math.pow(10, exact)
+			for (var a = 0 , al = $arr.length; a < al; a++) {
+				$arr[a] = Number($arr[a])
+				total += $arr[a]
+			}
+			if (total == 0) {
+				for (var g = 0 , gl = $arr.length; g < gl; g++) {
+					scale = Math.round(1 / $arr.length * exactNumber)
+					arr.push(scale)
+				}
+				return arr
+			}
+			
+			for (var b = 0, bl = $arr.length; b < bl; b++) {
+				scale = Math.round($arr[b] / total * exactNumber)
+				arr.push(scale)
+			}
+			
+			total = 0
+			for (var c = 0, cl = arr.length; c < cl; c++) {
+				arr[c] = isNaN(arr[c]) || arr[c] < 0 ? 0 : arr[c]
+				if(max < arr[c]){
+					max = arr[c]
+					maxIndex = c
+				}
+				total += arr[c]
+			}
+			if (total > exactNumber) {
+				arr[maxIndex] = arr[maxIndex] - (total - exactNumber)
+			}else if(total < exactNumber){
+				arr[maxIndex] = arr[maxIndex] + (exactNumber - total)
+			}
+			if (arr[maxIndex] < 0) {
+				arr[maxIndex] = 0
+			}
+			
+			if (exact != 0) {
+				for (var d = 0, dl = arr.length; d < dl; d++) {
+					arr[d] = arr[d] / exactDisNumber
+				}
 			}
 			return arr
 		},
@@ -221,6 +287,24 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 				try {  m += s2.split(".")[1].length;  }  catch (e) {  }  
 				return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m)
 			}
+		},
+		/**
+		 * 获取相对坐标(相对于div)
+		 * @param  {[Obhect]}   $evt     [鼠标事件对象]
+		 * @param  {[document]} $element [删除的长度]
+		 * @return {[Object]}            [相对于div坐标]
+		 */
+		getLocalXY:function($evt,$element){
+			// while($element.tagName!='DIV'){
+			// 	$element = $element.parentNode
+			// }
+			var o = S.one($element).offset()
+			// var o = $element
+			//S.log($element)
+			//S.log('$evt.pageX ' + $evt.pageX +"   |   "+ '$evt.pageY ' + $evt.pageY)
+			// S.log('offset   X ' + o.left +"   |   "+ 'offset   Y ' + o.top)
+			//debugger
+			return {'x':$evt.pageX - o.left, 'y':$evt.pageY - o.top};
 		}
 	};
 

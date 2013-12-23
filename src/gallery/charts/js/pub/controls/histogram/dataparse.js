@@ -45,7 +45,7 @@ KISSY.add('brix/gallery/charts/js/pub/controls/histogram/dataparse',function(S,B
 			var o = S.clone(self.get('o')) 
 			var data = String($data)
 
-			var domParser = new  DOMParser();
+			var domParser = new DOMParser();
 			var xmlDoc = domParser.parseFromString(data, 'text/xml');
 			var __indexAxis = xmlDoc.getElementsByTagName("indexAxis")[0]
 			var __key = __indexAxis.getElementsByTagName('key')[0]

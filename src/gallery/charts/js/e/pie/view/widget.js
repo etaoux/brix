@@ -23,6 +23,12 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 	}
 
 	Widget.ATTRS = {
+		maxW:{
+			value:0
+		},
+		maxH:{
+			value:0
+		},
 		w:{
 			value:0
 		},
@@ -43,7 +49,8 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 					names :[],             //原始名称数组
 					org   :[],             //原始数据数组(未排序)
 					data  :[],             //排序后的数据(大->小 纯org的排序)
-					all   :[]              //排序后的数据对象集合[{names:,data:},{}]
+					all   :[],             //排序后的数据对象集合[{names:,data:},{}]
+					order :[]              //Array  需要list时 排序之后的数据 根据data中的value
 				}
 			}
 		},
@@ -75,16 +82,43 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 	S.extend(Widget,Base,{
 		init:function(){
 			var self = this
+			var config = self.get('config')
 
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'),self.get('DataSource'))) 
-			self.get('_DataFrameFormat').values.data = S.clone(self.get('_DataFrameFormat').values.org).sort(function(a,b){return b-a;}); 
+			if(config.order.mode == 1){
+				self.get('_DataFrameFormat').values.data = S.clone(self.get('_DataFrameFormat').values.org).sort(function(a,b){return b-a;}); 
+			}else if(config.order.mode == 0){
+				self.get('_DataFrameFormat').values.data = S.clone(self.get('_DataFrameFormat').values.org)
+			}
 			self.get('_DataFrameFormat').values.all = self._trimData()
+			self.get('_DataFrameFormat').values.order = self.get('_DataFrameFormat').values.all
 
 			self._widget()
 		},
 
+		getData:function(){
+			var self = this
+			return S.clone(self.get('_DataFrameFormat').values)
+		},
+
+		getPie:function(){
+			var self = this
+			return self.get('_graphs')
+		},
+		setTransformX:function($n){
+			var self = this
+			self.get('_graphs').get('element').transformX($n)
+			self.get('_induces').get('element').transformX($n)
+		},
+		setTransformY:function($n){
+			var self = this
+			self.get('_graphs').get('element').transformY($n)
+			self.get('_induces').get('element').transformY($n)
+		},
+
 		_widget:function(){
 			var self = this
+			var config = self.get('config')
 			self.set('element', new SVGElement('g')), self.get('element').set('class','widget')
 			self.get('parent').appendChild(self.get('element').element)
 
@@ -101,9 +135,10 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				data  : self.get('_DataFrameFormat').values.data,
 				mw    : n,
 				mh    : n,
-				xr    : n / 2 - 26,
-				yr    : n / 2 - 26,
-				tr    : (n / 2 - 26) * 0.6
+				xr    : n / 2 - config.dis,
+				yr    : n / 2 - config.dis,
+				tr    : (n / 2 - config.dis) * 0.6,
+				font  : self.get('config').font
 			}
 			if(self.get('config').fills.normals.length > 0){
 				o.fills = self._getArrayForObjectPro(self.get('_DataFrameFormat').values.all,'normal')
@@ -113,7 +148,6 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			self.get('_graphs').get('element').transformXY(parseInt(self.get('w')/2),parseInt(self.get('h')/2))
 
 			self.get('_infos').init({parent:self.get('element')})
-
 			var o = {
 				w     : self.get('w'),
 				h     : self.get('h'),
@@ -132,9 +166,10 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 				isInduce   : 1,
 				mw    : n,
 				mh    : n,
-				xr    : n / 2 - 26,
-				yr    : n / 2 - 26,
-				tr    : (n / 2 - 26) * 0.6
+				xr    : n / 2 - config.dis,
+				yr    : n / 2 - config.dis,
+				tr    : (n / 2 - config.dis) * 0.6,
+				font  : self.get('config').font
 			}
 			if(self.get('config').fills.normals.length > 0){
 				o.fills = self._getArrayForObjectPro(self.get('_DataFrameFormat').values.all,'normal')
@@ -144,23 +179,29 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			self.get('_induces').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
 			self.get('_induces').get('element').on(EventType.MOVE,function($o){self._moveHandler($o)})
 			self.get('_induces').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
+			self.get('_induces').get('element').on(EventType.CLICK,function($o){self._clickHandler($o)})
 			self.get('_induces').get('element').transformXY(parseInt(self.get('w')/2),parseInt(self.get('h')/2))
 		},
 
 	 	_trimData:function(){
 	 		var self = this
+	 		var config = self.get('config')
 			var arr = []
 			for (var a = 0, al = self.get('_DataFrameFormat').values.org.length; a < al; a++ ) {
 				var o = { }
 				o.name = self.get('_DataFrameFormat').values.names[a]
 				o.data = Number(self.get('_DataFrameFormat').values.org[a])
 				if(self.get('config').fills.order == 1){
-					 o.normal = self.get('config').fills.normals[a] ? self.get('config').fills.normals[a] : ''
+					o.normal = self.get('config').fills.normals[a] ? self.get('config').fills.normals[a] : ''
 					o.over = self.get('config').fills.overs[a] ? self.get('config').fills.overs[a] : ''
 				} 
 				arr.push(o)
 			}
-			arr.sort(function(o1,o2){return o1.data < o2.data})
+			
+			if(config.order.mode == 1){
+				// arr.sort(function(o1,o2){return o1.data < o2.data})
+				arr.sort(function(a,b){return b.data-a.data;})
+			}
 
 			for(var b = 0, bl = arr.length; b < bl; b++ ) {
 				var o  = arr[b]
@@ -168,6 +209,18 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 					o.normal = self.get('config').fills.normals[b] ? self.get('config').fills.normals[b] : ''
 					o.over = self.get('config').fills.overs[b] ? self.get('config').fills.overs[b] : ''
 				}
+			}
+			if(self.get('config').list.is){
+				var values = self.get('_DataFrameFormat').values.data
+				var scales = Global.getArrScales(values, self.get('config').font.exact)
+				for(var c = 0, cl = arr.length; c < cl; c++ ) {
+					var o  = arr[c]
+					o.order = c + 1
+					o.scale = scales[c] + '%'
+				}
+			}
+			if(self.get('config').font.is == 0){
+				self.get('config').dis = 0
 			}
 			return arr
 		},
@@ -184,12 +237,14 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 
 		_overHandler:function($o){
 			this.get('_graphs').induce({index:$o.index},true)
+			this.get('element').fire(EventType.OVER,$o)
 		},
 		_moveHandler:function($o){
 			clearTimeout(this.get('_timeoutId'));
 			var index = $o.index
-			var x = Number($o.x) + Number(this.get('_graphs').get('element').get('_x'))
-			var y = Number($o.y) + Number(this.get('_graphs').get('element').get('_y'))
+			var x = Number($o.x)// + Number(this.get('_graphs').get('element').get('_x'))
+			var y = Number($o.y)// + Number(this.get('_graphs').get('element').get('_y'))
+			// debugger;			
 			var base_fill = $o.fill_over
 			var data = []
 			data[0] = []
@@ -201,8 +256,8 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			data[0].push(o)
 
 			var o = {
-				w    : this.get('w'),
-				h    : this.get('h'),
+				w    : this.get('maxW'),
+				h    : this.get('maxH'),
 				parent : this.get('element'),
 
 				info:{
@@ -226,9 +281,13 @@ KISSY.add('brix/gallery/charts/js/e/pie/view/widget',function(S,Base,Node,Global
 			this.set('_timeoutId', setTimeout(function(){self._outTimeout()}, self.get('_timeoutDelay')))
 
 			this.get('_graphs').induce({index:$o.index},false)
+			this.get('element').fire(EventType.OUT,$o)
 		},
 		_outTimeout:function(){
 			this.get('_infos').remove()
+		},
+		_clickHandler:function($o){
+			this.get('element').fire(EventType.CLICK,$o)
 		},
 		/**
 		 * 数据继承

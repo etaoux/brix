@@ -32,6 +32,8 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 		_FileType:{              //文件类型
 			value:{
 				histogram : 'histogram',
+				histogram2: 'histogram2',
+				histogram3: 'histogram3',
 				integrate : 'integrate',
 				integrate2: 'integrate2',
 				integrate3: 'integrate3',
@@ -43,7 +45,8 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 				pie       : 'pie',
 				scatter   : 'scatter',
 				map       : 'map',
-				treemap		:'treemap'
+				treemap		:'treemap',
+				treemap2		:'treemap2'
 			}
 		},
 
@@ -52,6 +55,9 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 		},
 		_main:{
 			value:null           //main节点
+		},
+		_isDestroy:{
+			value : false
 		}
 	}
 
@@ -65,12 +71,20 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 			self.set('path_chart', self._getPath(self.get('_FileType')[self.get('type')]))
 			self._widget()
 		},
+		//与外部case.js交互总接口
+		actions:function($name,$value){
+			var self = this
+			self.set('_isDestroy', true)
+		},
 
 		_widget:function(){
 			var self = this
 
 			//展现
 			S.use(self.get('path_chart'),function(S,Main){
+				if(self.get('_isDestroy')){
+	    				return
+	    		}
 				//删除svg内容
 				var parent = $('#' + self.get('parent_id')).getDOMNode()
 				if(parent && parent.lastChild) {parent.removeChild(parent.lastChild)}    
@@ -90,7 +104,12 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
   				o.data = self.get('data')                          //图表数据
 
 				self.set('_main',new Main(o))
+				self.get('_main').on('elementClick',function($o){self._clickHandler($o)})
 			})
+		},
+
+		_clickHandler:function($o){
+			this.fire('elementClick',$o)
 		},
 
 		//获取图表js路径

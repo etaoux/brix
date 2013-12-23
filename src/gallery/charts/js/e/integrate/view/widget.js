@@ -131,6 +131,12 @@ KISSY.add('brix/gallery/charts/js/e/integrate/view/widget',function(S,Base,Node,
 		},
 		_induceIndex:{
 			value:-1
+		},
+		_baseNumber:{                    //基础值(原点)
+			value:0
+		},
+		_baseNumberRight:{               //右侧基础值(原点)
+			value:0
 		}
 	}
 
@@ -141,12 +147,17 @@ KISSY.add('brix/gallery/charts/js/e/integrate/view/widget',function(S,Base,Node,
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'), self.get('DataSource')))
 			self.set('_hasRight',self.get('_DataFrameFormat').vertical.org.length == 2 ? 1 : 0)
 			self.get('_DataFrameFormat').vertical.sections.push(DataSection.section(self.get('_DataFrameFormat').vertical.org[0]))
+			self.set('_baseNumber', self.get('_DataFrameFormat').vertical.sections[0][0])
 			if(self.get('_hasRight') == 1){
 				self.get('_DataFrameFormat').vertical.sections.push(DataSection.section(self.get('_DataFrameFormat').vertical.org[1]))
+				self.set('_baseNumberRight', self.get('_DataFrameFormat').vertical.sections[1][0])
+				if(self.get('_DataFrameFormat').vertical.sections[1].length < 1){
+					self.get('_DataFrameFormat').vertical.sections[1] = [0]
+				}
 			}
+			
 			self.get('_DataFrameFormat').graphs.groupCount = 1
 			self.get('_DataFrameFormat').graphs.groups = self.get('_DataFrameFormat').vertical.org[0].length
-
 			self._widget()
 		},
 
@@ -292,9 +303,10 @@ KISSY.add('brix/gallery/charts/js/e/integrate/view/widget',function(S,Base,Node,
 			self.set('_verticalDrawH', self.get('_verticalGraphsH') - self.get('_dis_graphs'))
 			var max = self.get('_DataFrameFormat').vertical.sections[$i][self.get('_DataFrameFormat').vertical.sections[$i].length - 1]
 			var arr = self.get('_DataFrameFormat').vertical.sections[$i]
+			var _baseNumber = $i == 0 ? self.get('_baseNumber') : self.get('_baseNumberRight')
 			var tmpData = []
 			for (var a = 0, al = arr.length; a < al; a++ ) {
-				var y = -self.get('_dis_graphs') - arr[a] / max * self.get('_verticalDrawH')                                    
+				var y = -self.get('_dis_graphs') - (arr[a] - _baseNumber) / (max - _baseNumber) * self.get('_verticalDrawH')                                    
 				y = isNaN(y) ? 0 : Global.ceil(y)                                                    
 				tmpData[a] = { 'value':arr[a], 'y': y }
 			}
@@ -357,7 +369,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate/view/widget',function(S,Base,Node,
 			var arr = self.get('_DataFrameFormat').vertical.org[$i]
 			var tmpData = []
 			for (var a = 0, al = arr.length; a < al; a++ ) {
-				var h = arr[a] / max * self.get('_verticalGraphsH')  
+				var h = (arr[a] - self.get('_baseNumber')) / (max - self.get('_baseNumber')) * self.get('_verticalGraphsH')  
 				!tmpData[a] ? tmpData[a] = [] : ''                                           
 				tmpData[a][0] = {'value':arr[a], 'height':h} 
 			}
@@ -376,7 +388,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate/view/widget',function(S,Base,Node,
 			var tmpData = []
 			tmpData[0] = []
 			for (var a = 0, al = arr.length; a < al; a++ ) {
-				var y = - arr[a] / max * self.get('_verticalGraphsH')
+				var y = - (arr[a] - self.get('_baseNumberRight')) / (max - self.get('_baseNumberRight')) * self.get('_verticalGraphsH')
 				y = isNaN(y) ? 0 : Global.ceil(y)
 				tmpData[0][a] = {'value':arr[a], x:self.get('_DataFrameFormat').graphs.info[a].cx, y:y}
 			}

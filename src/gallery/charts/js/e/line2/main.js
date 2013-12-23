@@ -59,12 +59,11 @@ KISSY.add('brix/gallery/charts/js/e/line2/main',function(S,Base,Global,SVGElemen
 
 			new Widget(o)
 		}
-		
 	});
 
 	return Main;
 
 	}, {
-	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','./view/widget','../../pub/controls/line2/dataparse','../../pub/controls/line2/configparse']
+	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','./view/widget','../../pub/controls/line2/dataparse','../../pub/controls/line/configparse']
 	}
 );

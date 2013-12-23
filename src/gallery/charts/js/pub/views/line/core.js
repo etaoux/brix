@@ -146,7 +146,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/core',function(S,Base,Node,Glob
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'),self.get('DataSource')))
 			self.get('_DataFrameFormat').key.data = String(self.get('_DataFrameFormat').key.indexs).split(',')
 			self.get('_DataFrameFormat').vertical.dataObject = self._trimVerticalOrgData(self.get('_DataFrameFormat').vertical.org)
-			self.get('_DataFrameFormat').vertical.section = DataSection.section(self.get('_DataFrameFormat').vertical.dataObject.section)
+
+			var arr = self.get('_DataFrameFormat').vertical.dataObject.section
+			self.get('_DataFrameFormat').vertical.section = DataSection.section(arr, null, {mode:1})
+			if(arr.length == 1){
+				self.get('_DataFrameFormat').vertical.section[0] = arr[0] * 2
+			}
 
 			self.set('_vertical',new Vertical())
 			self.set('_horizontal',new Horizontal())
@@ -196,7 +201,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/core',function(S,Base,Node,Glob
 				node  : self.get('config').node,
 				area  : self.get('config').area,
 				areaMode   : self.get('config').areaMode,
-				areaAlphas : self.get('config').areaAlphas,
+				area_opacity : self.get('config').area_opacity,
 				isLine: self.get('config').isLine,
 				shape : self.get('config').shape,
 				fills : self.get('config').fillsObject.normals,
@@ -337,7 +342,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/core',function(S,Base,Node,Glob
 			var arr = self.get('_DataFrameFormat').horizontal.org
 			var tmpData = []
 		    for (var a = 0, al  = arr.length; a < al; a++ ) {
-				tmpData.push( { 'value':arr[a], 'x':Global.ceil(self.get('_dis_graphs') + a / (max - 1) * self.get('_horizontalDrawW')) } )
+				// tmpData.push( { 'value':arr[a], 'x':Global.ceil(self.get('_dis_graphs') + a / (max - 1) * self.get('_horizontalDrawW')) } )
+				var o = { 'value':arr[a], 'x':Global.ceil(self.get('_dis_graphs') + a / (max - 1) * self.get('_horizontalDrawW')) }
+				tmpData.push( o )
+			}
+			if(max == 1){
+				o.x = Global.ceil(self.get('_horizontalDrawW') / 2)
 			}
 			self.get('_DataFrameFormat').horizontal.data = tmpData
 		},
@@ -370,6 +380,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/core',function(S,Base,Node,Glob
 					if(no_nodes[a] && no_nodes[a][b]){
 						tmpData[a][b].no_node = 1
 					}
+				}
+			}
+			if(maxHorizontal == 1){
+				if(tmpData[0] && tmpData[0][0]){
+					tmpData[0][0].x = Global.ceil(self.get('_horizontalDrawW') / 2)
 				}
 			}
 			self.get('_DataFrameFormat').graphs.data = tmpData
@@ -412,8 +427,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/core',function(S,Base,Node,Glob
 
 		_overHandler:function($o){
 			var $o = S.clone($o)
-			$o.x = Number(this.get('gx')) +  Number(this.get('_graphs').get('element').get('_x')) + Number($o.x)
-			$o.y = Number(this.get('gy')) +  Number(this.get('_graphs').get('element').get('_y')) + Number($o.y)
+			// $o.x = Number(this.get('gx')) +  Number(this.get('_graphs').get('element').get('_x')) + Number($o.x)
+			// $o.y = Number(this.get('gy')) +  Number(this.get('_graphs').get('element').get('_y')) + Number($o.y)
+			$o.x = Number(this.get('gx')) + Number($o.x)
+			$o.y = Number(this.get('gy')) + Number($o.y)
 			//底部xy
 			$o.dx = Number(this.get('gx')) 
 			$o.dy = Number(this.get('gy')) +  Number(this.get('_graphs').get('element').get('_y'))

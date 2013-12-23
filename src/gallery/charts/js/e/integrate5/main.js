@@ -38,6 +38,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate5/main',function(S,Base,Global,SVGE
 			
 			self.set('_DataSource', new DataParse().parse(self.get('data'))) 
 			self.set('_config', new ConfigParse().parse(self.get('config'))) 
+
 			self.set('_config', self._defaultConfig(self.get('_config')))
 
 			self._widget()	
@@ -62,17 +63,35 @@ KISSY.add('brix/gallery/charts/js/e/integrate5/main',function(S,Base,Global,SVGE
 		},
 
 		_defaultConfig:function($config){
+			var self = this
 			var config = $config
 			config.line.node = 1
 			config.line.area = 1
 			// config.line.shape = 1
 			// config.line.areaMode = 1
-			config.line.areaAlphas = [0.4, 0.4]
+			if(config.line.isArea_opacity == 0){
+				config.line.area_opacity = [0.4, 0.4]
+			}
 			config.line.isLine = 1
-			config.line.fills = [[ { normal:'#458AE6', over:'#135EBF' }, { normal:'#999999', over:'#666666' } ]]
+			if(config.line.fills.isDefault == 1){
+				config.line.fills = [[ { normal:'#458AE6', over:'#135EBF' }, { normal:'#999999', over:'#666666' } ]]
+			}else{
+				config.line.fills = self.changeColor(config.line.fills)
+			}
+			// config.line.fills = [[ { normal:'#458AE6', over:'#135EBF' }, { normal:'#999999', over:'#666666' } ]]
 			return config
-		}
+		},
 		
+		changeColor:function ($fills){
+			var arr = []
+			arr[0] = []
+			
+			for(var a = 0, al = $fills.normals.length; a < al; a++){
+				var o = {normal:$fills.normals[a], over:$fills.overs[a]}
+				arr[0].push(o)
+			}
+			return arr
+		}
 	});
 
 	return Main;

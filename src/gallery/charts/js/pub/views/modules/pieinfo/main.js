@@ -83,7 +83,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/modules/pieinfo/main',function(S,Bas
 				xr    : _radius,
 				yr    : _radius,
 				tr    : _radius * 0.6,
-				isTxt : 0,
+				font  : {is:0},
 				disMove : 4,
 			}
 			_graphs.init(o)
@@ -106,13 +106,20 @@ KISSY.add('brix/gallery/charts/js/pub/views/modules/pieinfo/main',function(S,Bas
 				}
 				_info.init(o)
 			}
-			_info.get('element').transformXY(Math.floor(_radius * 2 + 6 + _info.get('w') / 2), _radius)
+
+			var y = _radius
+			if(_radius + 6 - _info.get('h') / 2 < 0){
+				y = _radius - (_radius + 6 - _info.get('h') / 2)
+			}
+
+			_info.get('element').transformXY(Math.floor(_radius * 2 + 6 + _info.get('w') / 2), y)
 
 			if (_info) {
 				var w = Math.floor(_radius * 2 + 6 + _info.get('w'))
 			}else {
 				var w = Math.floor(_radius * 2)
 			}
+
 			self.set('w',w)
 		},
 
@@ -120,16 +127,16 @@ KISSY.add('brix/gallery/charts/js/pub/views/modules/pieinfo/main',function(S,Bas
 			var index = $o.index
 			this.get('_graphs').induce({index:index},true)
 			if (this.get('_info')) {
-				this.get('_info').moveRowTxt( { index:Number(this.get('txtStartIndex')) + Number(index), mode:1 } )
+				this.get('_info').moveRowTxt( { is:1, index:Number(this.get('txtStartIndex')) + Number(index), mode:1 } )
 			}
 		},
 		_outHandler:function($o){
 			var index = $o.index
 			this.get('_graphs').induce({index:index},false)
 			if (this.get('_info')) {
-				this.get('_info').moveRowTxt( { index:Number(this.get('txtStartIndex')) + Number(index), mode:2 } )
+				this.get('_info').moveRowTxt( { is:0, index:Number(this.get('txtStartIndex')) + Number(index), mode:1 } )
 			}
-		},
+		}
 	});
 
 	return Main;

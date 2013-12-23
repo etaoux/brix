@@ -44,6 +44,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/graphs',function(S,Base,no
 		disSingleX:{
 			value:4              //组中支柱距离
 		},
+		disSingle:{
+			value:0              //当layout的mode=1时 支柱之间的距离
+		},
+
 		disSingleMinX:{
 			value:1              //组中支柱最小距离
 		},
@@ -55,6 +59,11 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/graphs',function(S,Base,no
 		},
 		intX:{
 			value:16             //x是否取整
+		},
+		layout:{                 //布局
+			value:{
+				mode:0           //模式(0 = 纵向 | 1 = 横向)
+			}
 		},
 
 		_groupMinW:{
@@ -149,6 +158,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/graphs',function(S,Base,no
 
 		_layout:function(){
 			var self = this
+			var config = self.get('config')
 			// var data = [
 			// 	[ [{ value:'201', height:60, key: { isKey:'' }, fill:{normal:'#458AE6',over:'#135EBF'}}, { value:'101', height:30, key: { isKey:'' }, fill:{normal:'#94CC5C',over:'#78A64B'}}],[{ value:'201', height:160, key: { isKey:'' }, fill:{normal:'#C3C3C3',over:'#B7B7B7'}}, { value:'101', height:130, key: { isKey:'' }, fill:{normal:'#E0E0E0',over:'#D8D8D8'}}] ],
 			// 	[ [{ value:'201', height:60, key: { isKey:'' }, fill:{normal:'#458AE6',over:'#135EBF'}}, { value:'101', height:30, key: { isKey:'' }, fill:{normal:'#94CC5C',over:'#78A64B'}}],[{ value:'201', height:160, key: { isKey:'' }, fill:{normal:'#C3C3C3',over:'#B7B7B7'}}, { value:'101', height:130, key: { isKey:'' }, fill:{normal:'#E0E0E0',over:'#D8D8D8'}}] ]
@@ -159,23 +169,36 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/graphs',function(S,Base,no
 				self.get('_groupArr').push(group)
 				var o = {
 					index  : a,
-					h      : self.get('h'),
+					h      : self.get('layout').mode == 0 ? self.get('h') : self.get('w'),
 					parent : self.get('_groups'),
 					data   : self.get('data')[a],
 					isInduce : self.get('isInduce'),
+					layout : self.get('layout'),
 					disGroupX : self.get('_disGroupX'),
 					disSingleX : self.get('_disSingleX'),
+					disSignle  : self.get('disSingle'),
 					singleW : self.get('_singleW'),
 					intX   : self.get('intX')
 				}
+				if(config && config.fills){
+					o.fills = config.fills.normals,
+					o.fills_over = config.fills.overs
+				}
+
 				group.init(o)
 				group.get('element').on(EventType.OVER,function($o){self._overHandler($o)})
 				group.get('element').on(EventType.OUT,function($o){self._outHandler($o)})
+				group.get('element').on(EventType.MOVE,function($o){self._moveHandler($o)})
 
-				var x = Global.ceil(self.get('groupW') * a)
-				group.get('element').transformX(x)
 				group.get('element').set('_index',a)
-				group.get('element').set('_x',x)
+				if(self.get('layout').mode == 0){
+					var x = Global.ceil(self.get('groupW') * a)
+					group.get('element').transformX(x)
+
+				}else if(self.get('layout').mode == 1){
+					var y = Global.ceil(self.get('groupW') * a)
+					group.get('element').transformY(-y)
+				}
 			}
 		},
 
@@ -232,13 +255,26 @@ KISSY.add('brix/gallery/charts/js/pub/views/histogram/graphs',function(S,Base,no
 
 	 	_overHandler:function($o){
 	 		var self = this
+	 		var layout = self.get('layout')
 			var group = self.get('_groupArr')[$o.index]
 			$o.cx = Number($o.cx) + Number(group.get('element').get('_x'))
+			$o.cy = Number($o.cy) - Number(group.get('element').get('_y'))
+			if(layout.mode == 0){
+			}else if(layout.mode == 1){
+				$o.h = Number($o.h) - Number(group.get('element').get('_y'))
+			}
 			self.get('element').fire(EventType.OVER,$o)
 		},
 		_outHandler:function($o){
 			var self = this
 			self.get('element').fire(EventType.OUT,$o)
+		},
+		_moveHandler:function($o){
+			var self = this
+			var o = Global.getLocalXY($o.evt, self.get('parent').element)
+			var x = o.x, y = o.y
+			$o.x = x, $o.y = y
+			self.get('element').fire(EventType.MOVE,$o)
 		}
 	});
 
