@@ -144,7 +144,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
                 // self.subNav.all('a[href="#!/board/list/board.archivestatus=1"]').addClass('on');
                 // } else {
                 self.subNav.all('a').each(function(item) {
-                    if(item.attr('href') === h) {
+                    if(item.attr('href').replace(/^.*?#/g, '#') === h) {
                         item.addClass('on');
                         return false;
                     }
