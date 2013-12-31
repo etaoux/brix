@@ -68,7 +68,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
         _getPathname: function(h) {
             var pathname;
             var pathnameMatch = /(^#!\/[^\?]+)\??[^\/]*$/.exec(h); //返回pathname目录
-            pathname = pathnameMatch && pathnameMatch[1] || this.index;
+            pathname = pathnameMatch && pathnameMatch[1] || '';
             return pathname;
         },
 
