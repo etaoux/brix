@@ -34,6 +34,7 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 				histogram : 'histogram',
 				histogram2: 'histogram2',
 				histogram3: 'histogram3',
+				histogram4: 'histogram4',
 				integrate : 'integrate',
 				integrate2: 'integrate2',
 				integrate3: 'integrate3',

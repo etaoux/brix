@@ -28,7 +28,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 				y:0,                     //y坐标
 				data:[],                 //Info.data
 				base_fill:'#000000',     //Info.base_fill
-				ver_dis:0
+				ver_dis:0,
+				isBack:1
 			}
 		},
 		light:{
@@ -359,6 +360,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 			}
 			if(self.get('info').ver_dis){
 				o.ver_dis = self.get('info').ver_dis
+			}
+			if(self.get('info').isBack == 0){
+				o.isBack = 0
 			}
 		    self.get('_info').init(o)
 		    // self.get('_info').get('element').on(EventType.OVER,function($o){self._overHandler({child:'info'})})

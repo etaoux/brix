@@ -87,6 +87,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/vertical',function(S,Base,node,Globa
 			}else {
 				self.set('w',self.get('_maxTextWidth') + self.get('_dis') + self.get('_line_w'))
 			}
+			if(self.get('data').length == 0){
+				self.set('w', 0)
+			}
 		},
 
 		_widget:function(){

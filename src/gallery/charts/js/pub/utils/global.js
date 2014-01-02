@@ -305,6 +305,26 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 			// S.log('offset   X ' + o.left +"   |   "+ 'offset   Y ' + o.top)
 			//debugger
 			return {'x':$evt.pageX - o.left, 'y':$evt.pageY - o.top};
+		},
+
+		/**
+		 * 获取一个简单的价格
+		 * @param  {[Number]}   $n       [一个值]
+		 * @return {[String]}            [一个带单位的字符串]
+		 */
+		getSimplePrice:function($n){
+			// var $n = 5432167890.08
+			var s = String($n)
+			s = s.split('.')[0]
+			if(s.length > 5){
+				var s1 = s.substr(0,s.length - 4)
+				var s2 = s.substr(s.length - 4, 4)
+				s = Math.round(Number(s1 + '.' + s2))
+				s = this.numAddSymbol(String(s)) + '万'
+				return s
+			}else{
+				return $n
+			}
 		}
 	};
 
