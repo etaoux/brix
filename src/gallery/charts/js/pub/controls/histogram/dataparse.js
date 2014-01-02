@@ -24,7 +24,8 @@ KISSY.add('brix/gallery/charts/js/pub/controls/histogram/dataparse',function(S,B
 					start:{                  //原点
 						name:'0'                 //名称[原点]                                       ->DataFrameFormat.horizontal.start.name
 					},
-					data:[]                  //原始数据[0.05,0.1,0.15,0.2,...,2.55]                 ->DataFrameFormat.horizontal.org
+					data:[],                 //原始数据[0.05,0.1,0.15,0.2,...,2.55]                 ->DataFrameFormat.horizontal.org
+					datas:[]                 //原始数据[['今天','(0-17点)'],['对比日','(0-17点)']]  应用于多行的情况
 				}
 			}
 		}
@@ -61,8 +62,8 @@ KISSY.add('brix/gallery/charts/js/pub/controls/histogram/dataparse',function(S,B
 
 			o.horizontal.name = __indexAxis.getAttribute('name') && String(__indexAxis.getAttribute('name')) ? String(__indexAxis.getAttribute('name')) : o.horizontal.name
 			o.horizontal.data = __indexAxis.getAttribute('labels') ? String(__indexAxis.getAttribute('labels')).split(',') : o.horizontal.data
+			o.horizontal.datas = self._getNames(__sets.getElementsByTagName('set'))
 			o.horizontal.start.name = __start && String(__start.getAttribute('name')) ? String(__start.getAttribute('name')) : o.horizontal.start.name
-
 			return o
 		},
 
@@ -74,6 +75,22 @@ KISSY.add('brix/gallery/charts/js/pub/controls/histogram/dataparse',function(S,B
 				item = $list[a]
 				if(String(item.getAttribute('values'))){
 					items.push(String(item.getAttribute('values')).split(','))
+				}
+			}
+			return items
+		},
+
+		_getNames:function($list){
+			var items = []
+			var item;
+
+			for (var a = 0, al = $list.length; a < al; a++) {
+				item = $list[a]
+				var __name = item.getElementsByTagName('name')[0]
+				if(__name){
+					if(String(__name.getAttribute('values'))){
+						items.push(String(__name.getAttribute('values')).split(','))
+					}
 				}
 			}
 			return items
