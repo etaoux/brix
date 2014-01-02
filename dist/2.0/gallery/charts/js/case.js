@@ -1625,6 +1625,453 @@ KISSY.add('brix/gallery/charts/js/e/histogram3/view/widget',function(S,Base,Node
 	    ]
 	}
 );
+KISSY.add('brix/gallery/charts/js/e/histogram4/main',function(S,Base,Global,SVGElement,DataParse,ConfigParse,Widget){
+	function Main(){
+
+		var self = this
+
+		/*
+			arguments:
+
+			  o:{
+				parent   :''     //SVGElement
+				w        :100    //chart 宽
+				h        :100    //chart 高
+				config   :''     //图表配置
+				data     :''     //图表数据  
+			  }
+
+		 */
+		Main.superclass.constructor.apply(self,arguments);
+
+		self.init()
+	}
+
+	Main.ATTRS = {
+		_main:{
+			value:null
+		},
+		_config:{                //图表配置   经过ConfigParse.parse
+			value:{}
+		},
+		_DataSource:{
+			value:{}             //图表数据源 经过DataParse.parse
+		}
+	}
+
+	S.extend(Main,Base,{
+		init:function(){
+			var self = this
+			
+			self.set('_DataSource', new DataParse().parse(self.get('data'))) 
+			self.set('_config', new ConfigParse().parse(self.get('config'))) 
+
+			// S.log(self.get('_DataSource'))
+			self._widget()	
+		},
+
+		_widget:function(){
+			var self = this
+			
+			self.set('_main',new SVGElement('g'))
+			self.get('_main').attr({'class':'main'});
+			self.get('parent').appendChild(self.get('_main').element)
+			self.get('_main').transformXY(Global.N05,Global.N05)
+
+			var o = {}
+			o.parent = self.get('_main')                       //SVGElement
+			o.w = self.get('w')                                //chart 宽
+			o.h = self.get('h')                                //chart 高
+			o.DataSource = self.get('_DataSource')             //图表数据源
+			o.config = self.get('_config')                     //图表配置
+
+			new Widget(o)
+		}
+		
+	});
+
+	return Main;
+
+	}, {
+	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','../../pub/controls/histogram/dataparse','../../pub/controls/histogram/configparse','./view/widget']
+	}
+);
+KISSY.add('brix/gallery/charts/js/e/histogram4/view/widget',function(S,Base,Node,Global,DataSection,SVGElement,Vertical,Horizontal,Back,GlobalInduce,Infos,EventType,Graphs){
+	var $ = Node.all
+
+	function Widget(){
+		
+		var self = this
+
+		/*
+			arguments:
+
+			  o:{
+				parent    :''     //SVGElement
+				w         :100    //chart 宽
+				h         :100    //chart 高
+				DataSource:{}     //数据源
+				config    :{}     //配置
+			  }
+
+		 */
+		Widget.superclass.constructor.apply(self,arguments);
+
+		self.init()
+	}
+
+	Widget.ATTRS = {
+		w:{
+			value:0
+		},
+		h:{
+			value:0
+		},
+		element:{
+			value:null
+		},
+
+		_DataFrameFormat : {
+			value:{
+				key:{                    //突出显示
+					indexs:'',               //String 索引字符串[1,2,3]
+					data:[]                  //Array  索引集合[[1,2,3]]
+				},
+				vertical:{               //纵轴
+					name:'',                 //名称[维度1]
+					org:[],                  //原始二维数据[[配置数据中每个队列第一个集合],[],[]]
+					section:[],              //分段之后数据[200, 400, 600, 800, 1000, 1200, 1400, 1600]
+					data:[]                  //转换坐标后的数据  =>Vertical.data、Back.data
+				},
+				horizontal:{             //横轴
+					name:'',                 //名称[维度2]
+					start:{                  //原点
+						name:'0'                 //名称[原点]
+					},
+					org:'',                  //原始数据[0.05,0.1,0.15,0.2,...,2.55]
+					data:[]                  //转换坐标后的数据  =>Horizontal.data
+				},
+				graphs:{                 //图形
+					groupCount:1,            //每组中几条数据
+					groupW:59,               //一组的宽
+					groups:1,                //有几个组
+					data:[]                  //转换坐标后的数据(不删减 临时处理成Graphs.data)  =>Graphs.data  
+				}
+			}
+		},
+
+		_vertical:{
+			value:null                   //纵向
+		},
+		_horizontal:{
+			value:null                   //横向
+		},		
+		_back:{
+			value:null                   //背景
+		},
+		_graphs:{
+			value:null                   //图形
+		},
+		_infos:{
+			value:null                   //信息
+		},
+		_infos2:{
+			value:null                   //信息
+		},
+		_globalInduce:{
+			value:null                   //全局感应区
+		},
+		_induces:{
+			value:null                   //感应区
+		},
+
+		_disX:{
+			value:4                      //左、右的距离
+		},
+		_disY:{
+			value:4                     //上、下的距离
+		},
+		_dis_line:{
+			value:6                      //纵向最高的线与最高高度最小相差的像素 而横向最右边的小线与最宽宽度也是最小相差该像素
+		},
+
+		_verticalMaxH:{
+			value:0                      //纵向最大的高
+		},
+		_verticalGraphsH:{
+			value:0                      //最上面的第一条线到原点之间的高度
+		},
+		_horizontalMaxW:{
+			value:0                      //横向最大的宽
+		},
+		_del:{
+			value:0                      //当数据量过大时 减去的数据个数
+		},
+		_timeoutId:{
+			value:0                      
+		},
+		_timeoutDelay:{
+			value:0                    
+		},
+		_baseNumber:{                    //基础值(原点)
+			value:0
+		}
+	}
+
+	S.extend(Widget,Base,{
+		init:function(){
+			var self = this
+
+			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'),self.get('DataSource'))) 
+			self.get('_DataFrameFormat').key.data = String(self.get('_DataFrameFormat').key.indexs).split(',')
+
+			if(self.get('config').y_axis.data.mode == 1){
+				self.get('_DataFrameFormat').vertical.org = self._getDataScale()
+			}
+			self.get('_DataFrameFormat').vertical.section = DataSection.section(Global.getChildsArr(self.get('_DataFrameFormat').vertical.org))
+			self.set('_baseNumber', self.get('_DataFrameFormat').vertical.section[0])
+			self.get('_DataFrameFormat').graphs.groupCount = self.get('_DataFrameFormat').vertical.org.length
+			self.get('_DataFrameFormat').graphs.groups = Global.getMaxChildArrLength(self.get('_DataFrameFormat').vertical.org)
+
+			self._widget()
+		},
+
+		_getDataScale:function(){
+			var self = this
+			var arr = []
+			var data = self.get('_DataFrameFormat').vertical.org
+			for(var a  = 0, al = data.length; a < al; a++){
+				var o = data[a]
+				o = Global.getArrScales(o)
+				arr[a] = o
+			}
+			return arr 
+		},
+
+		_widget:function(){
+			var self = this
+			var config = self.get('config')
+			self.set('element', new SVGElement('g')), self.get('element').set('class','widget')
+			self.get('parent').appendChild(self.get('element').element)
+
+			self.set('_vertical',new Vertical())
+			self.set('_horizontal',new Horizontal())
+			self.set('_back',new Back())
+			self.set('_graphs',new Graphs())
+			self.set('_infos',new Infos())
+			self.set('_infos2',new Infos())
+			self.set('_globalInduce', new GlobalInduce())
+			self.set('_induces',new Graphs())
+
+			self.set('_horizontalMaxW', self.get('w') - self.get('_disX') - self.get('_disX'))
+
+			self._trimHorizontal()
+			var o = {
+				w      : self.get('_horizontalMaxW'),
+				parent : self.get('element'),
+				datas  : self.get('_DataFrameFormat').horizontal.datas,
+				dis_left : 0
+			}
+			self.get('_horizontal').init(o)
+			var x = self.get('_disX')
+			var y = self.get('h') - self.get('_horizontal').get('h') - self.get('_disY')
+			self.get('_horizontal').get('element').transformXY(x, y)
+
+
+			self.set('_verticalMaxH', y - self.get('_disY'))
+			self.set('_verticalGraphsH', self.get('_verticalMaxH'))
+
+			var o = {
+				w      : self.get('_horizontalMaxW'),
+				h      : self.get('_verticalMaxH'),
+				parent : self.get('element'),
+				axis   : { enabled : 0 },
+				line_hor_mode : 1,
+				data_hor : [{y:0}],
+			}
+			self.get('_back').init(o)
+			self.get('_back').get('element').transformXY(x, y)
+
+
+			self._trimGraphs()
+			var singleW = 24
+			var fontsInfo = self.get('_horizontal').get('fontsInfo')
+			var disSingleX = (fontsInfo[1].x - fontsInfo[0].x) - singleW
+			var  o = {
+				h      : self.get('_verticalGraphsH'),
+				parent : self.get('element'),
+				config : self.get('config'),
+				data   : Global.delArrUnPop(self.get('_DataFrameFormat').graphs.data, self.get('_del')),
+				groupW : self.get('_horizontalMaxW'),
+				groupCount : self.get('_DataFrameFormat').graphs.groupCount,
+				singleW: singleW,
+				disSingleX : disSingleX
+			}
+			self.get('_graphs').init(o)
+			self.get('_graphs').get('element').transformXY(x, y)
+
+			self.get('_infos').init({parent:self.get('element')})
+			self.get('_infos2').init({parent:self.get('element')})
+
+			var o = {
+				w     : self.get('w'),
+				h     : self.get('h'),
+				parent: self.get('element'),
+				opacity : Global.N00001
+				// ,opacity : 0.1
+			}
+			self.get('_globalInduce').init(o)
+			self.get('_globalInduce').get('element').element.addEventListener("mouseover",function(evt){ self._overHandler(evt)}, false);
+			self.get('_globalInduce').get('element').element.addEventListener("mouseout",function(evt){ self._outHandler(evt)}, false);
+
+		},
+		//换算横向
+		_trimHorizontal:function(){
+			var self = this
+			var arr = self.get('_DataFrameFormat').horizontal.datas
+			var tmpData = []
+		    for (var a = 0, al  = arr.length; a < al; a++ ) {
+		    	!tmpData[a] ? tmpData[a] = [] : '' 
+		    	for (var b = 0, bl  = arr[a].length; b < bl; b++ ) {
+		    		tmpData[a].push({'value': arr[a][b]})
+		    	}
+			}
+			self.get('_DataFrameFormat').horizontal.datas = tmpData
+
+		},
+		//换算图形
+		_trimGraphs:function(){   
+			var self = this                                                           
+			var config = self.get('config')
+			var max = self.get('_DataFrameFormat').vertical.section[self.get('_DataFrameFormat').vertical.section.length - 1]
+			var arr = self.get('_DataFrameFormat').vertical.org
+			var tmpData = []
+			for (var a = 0, al = arr.length; a < al; a++ ) {
+				for (var b = 0, bl = arr[a].length ; b < bl; b++ ) {
+					!tmpData[b] ? tmpData[b] = [] : ''
+					var value = config.y_axis.data.mode == 1 ? arr[a][b] + config.y_axis.data.suffix : arr[a][b]
+					tmpData[b].push( {'value':value,'height':(arr[a][b] - self.get('_baseNumber')) / (max - self.get('_baseNumber')) * self.get('_verticalGraphsH'), 'key': { 'isKey':0 } } )
+				}
+			}
+			for (var d = 0, dl = self.get('_DataFrameFormat').key.data.length; d < dl; d++ ) {
+				if (tmpData[self.get('_DataFrameFormat').key.data[d] - 1]) {
+					for (var e = 0, el = tmpData[self.get('_DataFrameFormat').key.data[d] - 1].length; e < el; e++ ) {
+						tmpData[self.get('_DataFrameFormat').key.data[d] - 1][e].key.isKey = 1
+					}
+				}
+			}
+			self.get('_DataFrameFormat').graphs.data = tmpData
+		},
+
+		_overHandler:function($o){
+			var self = this
+			var config = self.get('config')
+			clearTimeout(self.get('_timeoutId'));
+			
+			self.get('_horizontal').get('element').set('visibility','hidden')
+
+			var x = self.get('_disX') + self.get('_horizontal').get('fontsInfo')[0].x
+			var y = Number(self.get('_horizontal').get('element').get('_y')) + self.get('_horizontal').get('h')
+			var content = Global.getSimplePrice(self.get('_DataFrameFormat').graphs.data[0][0].value)
+			var base_fill = $o.fill_over
+			var data = []
+			data[0] = []
+			var o = { }
+			o.content = content
+			data[0].push(o)
+
+			var o = {
+				w    : self.get('w'),
+				h    : self.get('h'),
+				parent : self.get('element'),
+
+				info:{
+					x    : x,
+					y    : y,
+					data : data,
+					base_fill : base_fill,
+					isBack : 0
+				},
+				hLine:{
+					is   : 0
+				},
+				hInfo:{
+					is   : 0
+				}
+			}
+
+			self.get('_infos').update(o)
+
+
+
+			var x = self.get('_disX') + self.get('_horizontal').get('fontsInfo')[1].x
+			var y = Number(self.get('_horizontal').get('element').get('_y')) + self.get('_horizontal').get('h')
+			var content = Global.getSimplePrice(self.get('_DataFrameFormat').graphs.data[0][1].value)
+			var base_fill = $o.fill_over
+			var data = []
+			data[0] = []
+			var o = { }
+			o.content = content
+			data[0].push(o)
+
+			var o = {
+				w    : self.get('w'),
+				h    : self.get('h'),
+				parent : self.get('element'),
+
+				info:{
+					x    : x,
+					y    : y,
+					data : data,
+					base_fill : base_fill,
+					isBack : 0
+				},
+				hLine:{
+					is   : 0
+				},
+				hInfo:{
+					is   : 0
+				}
+			}
+
+			self.get('_infos2').update(o)
+		},
+		_outHandler:function($o){
+			var self = this
+			this.set('_timeoutId', setTimeout(function(){self._outTimeout()}, self.get('_timeoutDelay')))
+			// this.get('_graphs').induce({index:$o.index,id:$o.id},false)
+		},
+		_outTimeout:function(){
+			this.get('_horizontal').get('element').set('visibility','visible')
+			this.get('_infos').remove()
+			this.get('_infos2').remove()
+		},
+		/**
+		 * 数据继承
+		 * @type {Object}
+		 */
+		DataExtend:function(DataFrameFormat,DataSource){
+			DataFrameFormat.key.indexs = DataSource.key.indexs
+			DataFrameFormat.vertical.name = DataSource.vertical.name
+			DataFrameFormat.vertical.org = DataSource.vertical.data
+			DataFrameFormat.horizontal.name = DataSource.horizontal.name
+			DataFrameFormat.horizontal.org = DataSource.horizontal.data
+			DataFrameFormat.horizontal.datas = DataSource.horizontal.datas
+			DataFrameFormat.horizontal.start.name = DataSource.horizontal.start.name ? DataSource.horizontal.start.name : DataFrameFormat.horizontal.start.name
+
+			return DataFrameFormat
+		}
+	});
+
+	return Widget;
+
+	}, {
+	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/datasection','../../../pub/utils/svgelement',
+	    		  '../../../pub/views/vertical','../../../pub/views/horizontal','../../../pub/views/back','../../../pub/views/globalinduce','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/histogram/graphs'
+
+	    ]
+	}
+);
 KISSY.add('brix/gallery/charts/js/e/integrate/control/configparse',function(S,Base,Node,HistogramConfigParse,LineConfigParse){
 	var $ = Node.all
 
@@ -3034,7 +3481,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate2/view/widget',function(S,Base,Node
 	return Widget;
 
 	}, {
-	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/histogram/core',,'../../../pub/views/layouts/style1/main'
+	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/histogram/core','../../../pub/views/layouts/style1/main'
 	    ]
 	}
 );
@@ -3488,7 +3935,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate3/view/widget',function(S,Base,Node
 	return Widget;
 
 	}, {
-	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/histogram/core',,'../../../pub/views/layouts/style1/main'
+	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/histogram/core','../../../pub/views/layouts/style1/main'
 	    ]
 	}
 );
@@ -3983,7 +4430,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate4/view/widget',function(S,Base,Node
 	return Widget;
 
 	}, {
-	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/line/core',,'../../../pub/views/layouts/style1/main'
+	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/line/core','../../../pub/views/layouts/style1/main'
 	    ]
 	}
 );
@@ -4434,7 +4881,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate5/view/widget',function(S,Base,Node
 	return Widget;
 
 	}, {
-	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/line/core',,'../../../pub/views/layouts/style1/main'
+	    requires:['base','node','../../../pub/utils/global','../../../pub/utils/svgelement','../../../pub/views/infos/infos','../../../pub/models/eventtype','../../../pub/views/line/core','../../../pub/views/layouts/style1/main'
 	    ]
 	}
 );
@@ -7804,6 +8251,7 @@ KISSY.add('brix/gallery/charts/js/m/widget/widget',function(S,Base,Node,SVGEleme
 				histogram : 'histogram',
 				histogram2: 'histogram2',
 				histogram3: 'histogram3',
+				histogram4: 'histogram4',
 				integrate : 'integrate',
 				integrate2: 'integrate2',
 				integrate3: 'integrate3',
@@ -8200,7 +8648,8 @@ KISSY.add('brix/gallery/charts/js/pub/controls/histogram/dataparse',function(S,B
 					start:{                  //原点
 						name:'0'                 //名称[原点]                                       ->DataFrameFormat.horizontal.start.name
 					},
-					data:[]                  //原始数据[0.05,0.1,0.15,0.2,...,2.55]                 ->DataFrameFormat.horizontal.org
+					data:[],                 //原始数据[0.05,0.1,0.15,0.2,...,2.55]                 ->DataFrameFormat.horizontal.org
+					datas:[]                 //原始数据[['今天','(0-17点)'],['对比日','(0-17点)']]  应用于多行的情况
 				}
 			}
 		}
@@ -8237,8 +8686,8 @@ KISSY.add('brix/gallery/charts/js/pub/controls/histogram/dataparse',function(S,B
 
 			o.horizontal.name = __indexAxis.getAttribute('name') && String(__indexAxis.getAttribute('name')) ? String(__indexAxis.getAttribute('name')) : o.horizontal.name
 			o.horizontal.data = __indexAxis.getAttribute('labels') ? String(__indexAxis.getAttribute('labels')).split(',') : o.horizontal.data
+			o.horizontal.datas = self._getNames(__sets.getElementsByTagName('set'))
 			o.horizontal.start.name = __start && String(__start.getAttribute('name')) ? String(__start.getAttribute('name')) : o.horizontal.start.name
-
 			return o
 		},
 
@@ -8250,6 +8699,22 @@ KISSY.add('brix/gallery/charts/js/pub/controls/histogram/dataparse',function(S,B
 				item = $list[a]
 				if(String(item.getAttribute('values'))){
 					items.push(String(item.getAttribute('values')).split(','))
+				}
+			}
+			return items
+		},
+
+		_getNames:function($list){
+			var items = []
+			var item;
+
+			for (var a = 0, al = $list.length; a < al; a++) {
+				item = $list[a]
+				var __name = item.getElementsByTagName('name')[0]
+				if(__name){
+					if(String(__name.getAttribute('values'))){
+						items.push(String(__name.getAttribute('values')).split(','))
+					}
 				}
 			}
 			return items
@@ -10074,6 +10539,26 @@ KISSY.add('brix/gallery/charts/js/pub/utils/global',function(S){
 			// S.log('offset   X ' + o.left +"   |   "+ 'offset   Y ' + o.top)
 			//debugger
 			return {'x':$evt.pageX - o.left, 'y':$evt.pageY - o.top};
+		},
+
+		/**
+		 * 获取一个简单的价格
+		 * @param  {[Number]}   $n       [一个值]
+		 * @return {[String]}            [一个带单位的字符串]
+		 */
+		getSimplePrice:function($n){
+			// var $n = 5432167890.08
+			var s = String($n)
+			s = s.split('.')[0]
+			if(s.length > 5){
+				var s1 = s.substr(0,s.length - 4)
+				var s2 = s.substr(s.length - 4, 4)
+				s = Math.round(Number(s1 + '.' + s2))
+				s = this.numAddSymbol(String(s)) + '万'
+				return s
+			}else{
+				return $n
+			}
 		}
 	};
 
@@ -10463,7 +10948,15 @@ KISSY.add('brix/gallery/charts/js/pub/views/back',function(S,Base,node,Global,SV
 		},
 		axis:{                   //坐标轴
 			value:{
-				enabled : 1
+				enabled : 1,
+
+				x:{
+					enabled : 1
+				},
+
+				y:{
+					enabled : 1
+				}
 			}
 		},
 
@@ -10497,20 +10990,25 @@ KISSY.add('brix/gallery/charts/js/pub/views/back',function(S,Base,node,Global,SV
 
 		_widget:function(){
 			var self = this
+			var axis = self.get('axis')
 			//_line_ver
 			// S.log(S.now())
 			self.set('_df',document.createDocumentFragment())
-			if(self.get('axis').enabled == 1){
-				var d = SVGRenderer.symbol('line',0,0,0,-self.get('h')).join(' ')
-				self.set('_line_ver', new SVGElement('path'))
-			    self.get('_line_ver').attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_w'),'d':d})
-			    self.get('_df').appendChild(self.get('_line_ver').element)
-
-			    //_line_hor
-			    var d = SVGRenderer.symbol('line',0,0,self.get('w'),0).join(' ')
-				self.set('_line_hor', new SVGElement('path'))
-			    self.get('_line_hor').attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_w'),'d':d})
-			    self.get('_df').appendChild(self.get('_line_hor').element)
+			if(axis.enabled == 1){
+				//y
+				// if(axis.y && axis.y.enabled == 1){
+					var d = SVGRenderer.symbol('line',0,0,0,-self.get('h')).join(' ')
+					self.set('_line_ver', new SVGElement('path'))
+				    self.get('_line_ver').attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_w'),'d':d})
+				    self.get('_df').appendChild(self.get('_line_ver').element)
+			    // }
+			    //x
+			    // if(axis.x && axis.x.enabled == 1){
+				    var d = SVGRenderer.symbol('line',0,0,self.get('w'),0).join(' ')
+					self.set('_line_hor', new SVGElement('path'))
+				    self.get('_line_hor').attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_w'),'d':d})
+				    self.get('_df').appendChild(self.get('_line_hor').element)
+				// }
 		    }
 		},
 		_layout:function(){
@@ -12137,6 +12635,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/horizontal',function(S,Base,node,Glo
 		data:{
 			value:[]             //[{value:123,x:0},{}]
 		},
+		datas:{
+			value:[]
+		},
 		element:{
 			value:null
 		},
@@ -12160,6 +12661,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/horizontal',function(S,Base,node,Glo
 				enabled : 1
 			}
 		},
+		fontsInfo:{             //文字组信息(x)
+			value:[]            //[{x:}]
+		},
 
 		_data:{
 			value:[]             //删除多余数据之后的数组
@@ -12168,7 +12672,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/horizontal',function(S,Base,node,Glo
 			value:14             //文字最大的高   写死
 		},
 		_disX:{
-			value:10             //文字到线的距离
+			value:2              //文字到线的距离
 		},
 		_disY:{
 			value:2              //文字到线的距离
@@ -12178,6 +12682,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/horizontal',function(S,Base,node,Glo
 		},
 		_line_h:{
 			value:6
+		},
+		_fontsArr:{              //当文字为多行时 几个文字的集合g
+			value:[]
 		},
 		_fontArr:{
 			value:[]
@@ -12197,9 +12704,17 @@ KISSY.add('brix/gallery/charts/js/pub/views/horizontal',function(S,Base,node,Glo
 			self.set('element', new SVGElement('g')), self.get('element').set('class','horizontal')
 			self.get('parent').appendChild(self.get('element').element)
 
+					// var d = SVGRenderer.symbol('line',0,0,100,0).join(' ')
+					// self.set('_line_ver', new SVGElement('path'))
+				 //    self.get('_line_ver').attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_w'),'d':d})
+				 //    self.get('element').appendChild(self.get('_line_ver').element)
+
 			self._widget()
 			self._layout()
 			
+			if(self.get('datas').length >= 1){
+				return
+			}
 			self.set('h', self.get('_line_h') + self.get('_disY') + self.get('_maxTextHeight'))
 	 	},
 
@@ -12209,7 +12724,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/horizontal',function(S,Base,node,Glo
 			return self.get('_data')
 		},
 
-
 		_widget:function(){
 			// S.log(S.now())
 			var self = this
@@ -12217,6 +12731,78 @@ KISSY.add('brix/gallery/charts/js/pub/views/horizontal',function(S,Base,node,Glo
 			var d = SVGRenderer.symbol('line',0,0,0,self.get('_line_h')).join(' ')
 
 			var _df = document.createDocumentFragment();
+
+			if(self.get('datas').length >= 1){
+				var arr = self.get('datas')
+				var _fontsArr = self.get('_fontsArr')
+				var _fontArr = self.get('_fontArr')
+				var _fontsInfo = self.get('fontsInfo')
+				//创建fonts font
+				for(var a = 0, al = arr.length; a < al; a++){
+					var fonts = new SVGElement('g')
+					_fontsArr.push(fonts)
+					_df.appendChild(fonts.element)
+
+					!_fontArr[a] ? _fontArr[a] = [] : ''
+					for(var b = 0, bl = arr[a].length; b < bl; b++){
+						var o = arr[a][b]
+						var font = SVGGraphics.text({'fill':self.get('font_fill'),'content':Global.numAddSymbol(o.value)})
+						_fontArr[a].push(font)
+				   	 	fonts.appendChild(font.element)
+					}
+				}
+				self.get('element').appendChild(_df)
+
+				var arr = _fontArr
+				var maxArr = []
+				var maxH = 0
+				//取每个fonts中的最大宽度 并调整下一个font的y
+				for(var c = 0, cl = _fontArr.length; c < cl; c++){
+					var maxW = 0
+					for(var d = 0, dl = _fontArr[c].length; d < dl; d++){
+						var font = _fontArr[c][d]
+
+						var preFont = _fontArr[c][d - 1]
+						var y 
+						if(preFont){
+							y = preFont.getHeight() + self.get('_disY') + font.getHeight()
+						}else{
+							y = font.getHeight()
+						}
+						maxW = maxW < font.getWidth() ? Math.floor(font.getWidth()) : maxW 
+						maxH = maxH < parseInt(y) ? parseInt(y) + self.get('_disY') : maxH
+						font.transformY(y)
+					}
+					maxArr.push(maxW)
+				}
+
+				self.set('h', maxH)
+
+				//居中调整font
+				for(var e = 0, el = _fontArr.length; e < el; e++){
+					for(var f = 0, fl = _fontArr[e].length; f < fl; f++){
+						var font = _fontArr[e][f]
+						var x = parseInt((maxArr[e] - font.getWidth()) / 2)
+						font.transformX(x)
+					}
+				}
+
+				var arr = self.get('datas')
+				if(arr.length == 2){
+					var fonts = _fontsArr[0]
+					fonts.setDynamic('center',parseInt(self.get('_disX') + maxArr[0] / 2))
+					fonts.transformX(self.get('_disX'))
+					var fonts = _fontsArr[1]
+					var x = Math.ceil(self.get('w') - maxArr[1] - self.get('_disX'))
+					fonts.setDynamic('center',parseInt(x + maxArr[1] / 2))
+					fonts.transformX(x)
+
+					var _fontsInfo = self.get('fontsInfo')
+					_fontsInfo.push({x: _fontsArr[0].getDynamic('center')})
+					_fontsInfo.push({x: _fontsArr[1].getDynamic('center')})
+				}
+				return
+			}
 
 			var max = 0                                                           //获取文字最大的length
 			for(var a = 0, al = self.get('data').length; a < al; a++){
@@ -12302,6 +12888,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/horizontal',function(S,Base,node,Glo
 			// return
 			var self = this
 
+			if(self.get('datas').length >= 1){
+				return
+			}
+
 			var firstText = self.get('_fontArr')[0]
 			var popText = self.get('_fontArr')[self.get('_fontArr').length - 1]
 
@@ -12311,101 +12901,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/horizontal',function(S,Base,node,Glo
 			if (popText && (Number(popText.get('_x')) + Number(popText.getWidth())) > self.get('dis_right')) {
 				popText.transformX(self.get('dis_right') - popText.getWidth())
 			}
-
-			// S.log(S.now())
 		}
-
-		// _widget:function(){
-		// 	// return
-		// 	S.log(S.now())
-		// 	var self = this
-		// 	self.set('dis_right', self.get('dis_right') ? self.get('dis_right') : self.get('w')) 
-		// 	var d = SVGRenderer.symbol('line',0,0,0,self.get('_line_h')).join(' ')
-
-		// 	for(var a = 0, al = self.get('data').length; a < al; a++){
-		// 		var o = self.get('data')[a]
-		// 		var x = o.x
-		// 		var y = 0
-
-		// 		//文本
-		// 	    var font = SVGGraphics.text({'fill':self.get('font_fill'),'content':Global.numAddSymbol(o.value)})
-		// 	    self.get('_fontArr').push(font)
-		// 	    self.get('element').appendChild(font.element)
-		// 	    x = x - font.getWidth() / 2
-		// 	    y = self.get('_line_h') + self.get('_disY') + font.getHeight()
-		// 	    font.transformXY(x,y)
-
-		// 	    //线条
-		// 	   	var line = new SVGElement('path')
-		// 	    self.get('_lineArr').push(line)
-		// 	    line.attr({'stroke':self.get('line_fill'),'stroke-width':self.get('_line_w'),'d':d})
-
-		// 	    self.get('element').appendChild(line.element)
-		// 	    x = o.x
-		// 	    y = 0
-		// 	    line.transformXY(x,y)
-
-		// 	    if (self.get('_maxTextHeight') < font.getHeight()){ self.set('_maxTextHeight', font.getHeight())}
-		// 	}
-		// 	S.log(S.now())
-		// },
-
-		// _layout:function(){
-		// 	var self = this
-		// 	self.set('_data', S.clone(self.get('data')))
-
-		// 	var firstText = self.get('_fontArr')[0]
-		// 	var popText = self.get('_fontArr')[self.get('_fontArr').length - 1]
-		// 	var popLine = self.get('_lineArr')[self.get('_lineArr').length - 1]
-		// 	var popData = self.get('_data')[self.get('_data').length - 1]
-		// 	//保留最后一组对象
-		// 	self.get('_fontArr').pop()
-		// 	self.get('_lineArr').pop()
-		// 	self.get('_data').pop()
-
-		// 	if(firstText && firstText.get('_x') < -self.get('dis_left')){
-		// 		firstText.transformX(-self.get('dis_left'))
-		// 	}
-		// 	if (popText && (Number(popText.get('_x')) + Number(popText.getWidth())) > self.get('dis_right')) {
-		// 		popText.transformX(self.get('dis_right') - popText.getWidth())
-		// 	}
-
-		// 	self._cut()
-
-		// 	//处理倒数第二组对象
-		// 	var font = self.get('_fontArr')[self.get('_fontArr').length - 1]
-		// 	if (font && popText && self.get('_lineArr')[self.get('_lineArr').length - 1]) {
-		// 		if (Number(font.get('_x')) + Number(font.getWidth()) + Number(self.get('_disX')) > popText.get('_x')) {
-		// 			self.get('element').removeChild(font.element)
-		// 			var line = self.get('_lineArr')[self.get('_lineArr').length - 1]
-		// 			self.get('element').removeChild(line.element)
-		// 			self.get('_data').pop()
-		// 		}
-		// 	}
-		// 	self.get('_data').push(popData)
-
-		// 	S.log(S.now())
-		// },
-
-		// _cut:function(){
-		// 	var self = this
-		// 	for (var a = 0, al =  self.get('_fontArr').length; a < al; a++ ) {
-		// 		var pre = self.get('_fontArr')[a]
-		// 		var later = self.get('_fontArr')[a + 1]
-		// 		if (later) {
-		// 			if(Number(pre.get('_x')) + Number(pre.getWidth()) + Number(self.get('_disX')) > later.get('_x')){
-		// 				self.get('element').removeChild(later.element)
-		// 				self.get('_fontArr').splice(a + 1, 1)
-		// 				var line = self.get('_lineArr')[a + 1]
-		// 				self.get('element').removeChild(line.element)
-		// 				self.get('_lineArr').splice(a + 1, 1)
-		// 				self.get('_data').splice(a + 1, 1)
-		// 				self._cut()
-		// 				break;
-		// 			}
-		// 		}
-		// 	}
-		// }
 	});
 
 	return Horizontal;
@@ -12947,7 +13443,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 				y:0,                     //y坐标
 				data:[],                 //Info.data
 				base_fill:'#000000',     //Info.base_fill
-				ver_dis:0
+				ver_dis:0,
+				isBack:1
 			}
 		},
 		light:{
@@ -13278,6 +13775,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/infos/infos',function(S,Base,node,Gl
 			}
 			if(self.get('info').ver_dis){
 				o.ver_dis = self.get('info').ver_dis
+			}
+			if(self.get('info').isBack == 0){
+				o.isBack = 0
 			}
 		    self.get('_info').init(o)
 		    // self.get('_info').get('element').on(EventType.OVER,function($o){self._overHandler({child:'info'})})
@@ -16667,6 +17167,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/vertical',function(S,Base,node,Globa
 				self.set('w',self.get('_maxTextWidth') + self.get('_dis'))
 			}else {
 				self.set('w',self.get('_maxTextWidth') + self.get('_dis') + self.get('_line_w'))
+			}
+			if(self.get('data').length == 0){
+				self.set('w', 0)
 			}
 		},
 
