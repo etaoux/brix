@@ -451,7 +451,11 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2013.12.31
 	*  内容(tanx ssp 川溪):
 	*       新增：histogram4 新图(svg)
-
+    *
+	*  版本:1.3.2
+	*  日期:2014.01.07
+	*  内容(tanx ssp 川溪):
+	*       新增：histogram4 新图(flash)
  */
 
 
