@@ -252,7 +252,6 @@ KISSY.add('brix/gallery/charts/js/e/histogram4/view/widget',function(S,Base,Node
 				for (var b = 0, bl = arr[a].length ; b < bl; b++ ) {
 					!tmpData[b] ? tmpData[b] = [] : ''
 					var value = config.y_axis.data.mode == 1 ? arr[a][b] + config.y_axis.data.suffix : arr[a][b]
-					S.log(self.get('_baseNumber'))
 					tmpData[b].push( {'value':value,'height':(arr[a][b] - self.get('_baseNumber')) / (max - self.get('_baseNumber')) * self.get('_verticalGraphsH'), 'key': { 'isKey':0 } } )
 				}
 			}
@@ -275,7 +274,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram4/view/widget',function(S,Base,Node
 
 			var x = self.get('_disX') + self.get('_horizontal').get('fontsInfo')[0].x
 			var y = Number(self.get('_horizontal').get('element').get('_y')) + self.get('_horizontal').get('h')
-			var content = Global.getSimplePrice(self.get('_DataFrameFormat').graphs.data[0][0].value)
+			var content = Global.getSimplePrice(self.get('_DataFrameFormat').graphs.data[0][0].value) + config.tip.info.suffix
 			var base_fill = $o.fill_over
 			var data = []
 			data[0] = []
@@ -305,11 +304,9 @@ KISSY.add('brix/gallery/charts/js/e/histogram4/view/widget',function(S,Base,Node
 
 			self.get('_infos').update(o)
 
-
-
 			var x = self.get('_disX') + self.get('_horizontal').get('fontsInfo')[1].x
 			var y = Number(self.get('_horizontal').get('element').get('_y')) + self.get('_horizontal').get('h')
-			var content = Global.getSimplePrice(self.get('_DataFrameFormat').graphs.data[0][1].value)
+			var content = Global.getSimplePrice(self.get('_DataFrameFormat').graphs.data[0][1].value) + config.tip.info.suffix
 			var base_fill = $o.fill_over
 			var data = []
 			data[0] = []
