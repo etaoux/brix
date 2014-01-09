@@ -1104,7 +1104,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram2/view/widget',function(S,Base,Node
 		},
 		*/
 		//换算图形
-		_trimGraphs:function(){   
+		_trimGraphs:function(){
 			var self = this                                                           
 			var config = self.get('config')
 			//self.set('_horizontalMaxW', self.get('w') - self.get('_disX') - self.get('_vertical').get('w') - self.get('_disX'))
@@ -1829,7 +1829,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram4/view/widget',function(S,Base,Node
 				self.get('_DataFrameFormat').vertical.org = self._getDataScale()
 			}
 			self.get('_DataFrameFormat').vertical.section = DataSection.section(Global.getChildsArr(self.get('_DataFrameFormat').vertical.org))
-			self.set('_baseNumber', self.get('_DataFrameFormat').vertical.section[0])
+			// self.set('_baseNumber', self.get('_DataFrameFormat').vertical.section[0])
 			self.get('_DataFrameFormat').graphs.groupCount = self.get('_DataFrameFormat').vertical.org.length
 			self.get('_DataFrameFormat').graphs.groups = Global.getMaxChildArrLength(self.get('_DataFrameFormat').vertical.org)
 
@@ -1972,7 +1972,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram4/view/widget',function(S,Base,Node
 
 			var x = self.get('_disX') + self.get('_horizontal').get('fontsInfo')[0].x
 			var y = Number(self.get('_horizontal').get('element').get('_y')) + self.get('_horizontal').get('h')
-			var content = Global.getSimplePrice(self.get('_DataFrameFormat').graphs.data[0][0].value)
+			var content = Global.getSimplePrice(self.get('_DataFrameFormat').graphs.data[0][0].value) + config.tip.info.suffix
 			var base_fill = $o.fill_over
 			var data = []
 			data[0] = []
@@ -2002,11 +2002,9 @@ KISSY.add('brix/gallery/charts/js/e/histogram4/view/widget',function(S,Base,Node
 
 			self.get('_infos').update(o)
 
-
-
 			var x = self.get('_disX') + self.get('_horizontal').get('fontsInfo')[1].x
 			var y = Number(self.get('_horizontal').get('element').get('_y')) + self.get('_horizontal').get('h')
-			var content = Global.getSimplePrice(self.get('_DataFrameFormat').graphs.data[0][1].value)
+			var content = Global.getSimplePrice(self.get('_DataFrameFormat').graphs.data[0][1].value) + config.tip.info.suffix
 			var base_fill = $o.fill_over
 			var data = []
 			data[0] = []
@@ -5082,11 +5080,12 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 	S.extend(Widget,Base,{
 		init:function(){
 			var self = this
+			var config = self.get('config')
 
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'), self.get('DataSource'))) 
 			self.get('_DataFrameFormat').key.data = String(self.get('_DataFrameFormat').key.indexs).split(',')
 			var arr = Global.getChildsArr(self.get('_DataFrameFormat').vertical.org)
-			self.get('_DataFrameFormat').vertical.section = DataSection.section(arr)
+			self.get('_DataFrameFormat').vertical.section = DataSection.section(arr, null, {isInt:config.y_axis.data.isInt})
 			// S.log(self.get('_DataFrameFormat').vertical.section)
 			self.set('_baseNumber', self.get('_DataFrameFormat').vertical.section[0])
 			// self.get('_DataFrameFormat').vertical.section = [10330000, 10340000, 10350000, 10360000, 10370000, 10380000, 10390000] 
@@ -8549,6 +8548,12 @@ KISSY.add('brix/gallery/charts/js/pub/controls/histogram/configparse',function(S
 					layout:{            //布局
 						mode:0          //模式(0 = 纵向 | 1 = 横向)
 					}
+				},
+
+				tip:{                   //提示
+					info:{              //信息
+						suffix:''       //后缀
+					}
 				}
 			}
 		}
@@ -8599,6 +8604,13 @@ KISSY.add('brix/gallery/charts/js/pub/controls/histogram/configparse',function(S
 				}
 			}
 
+			var __tip = xmlDoc.getElementsByTagName("tip")[0]
+			if(__tip){
+				var __info = __tip.getElementsByTagName("info")[0]
+				if(__info){
+					o.tip.info.suffix = __info.getAttribute('suffix') ? __info.getAttribute('suffix') : o.tip.info.suffix
+				}
+			}
 			o.fills.normals = self._trimFills(o.fills.normals)
 			o.fills.overs = self._trimFills(o.fills.overs)
 			return o
@@ -8985,6 +8997,9 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 					enabled : 1,
 					line: {
 						enabled : 1
+					},
+					data:{
+						isInt:0         //是否都为整数  防止[8, 8.2, 8.4, 8.6, 8.8, 9]   应该[8, 9]
 					}
 				},
 
@@ -9078,10 +9093,14 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 
 			var __y_axis = xmlDoc.getElementsByTagName("y_axis")[0]
 			if(__y_axis){
-				o.y_axis.enabled = String(__y_axis.getAttribute('enabled')) ? Number(__y_axis.getAttribute('enabled')) : o.y_axis.enabled
+				o.y_axis.enabled = __y_axis.getAttribute('enabled') && String(__y_axis.getAttribute('enabled')) ? Number(__y_axis.getAttribute('enabled')) : o.y_axis.enabled
 				var __line = __y_axis.getElementsByTagName("line")[0]
 				if(__line){
 					o.y_axis.line.enabled = String(__line.getAttribute('enabled')) ? Number(__line.getAttribute('enabled')) : o.y_axis.line.enabled
+				}
+				var __data = __y_axis.getElementsByTagName("data")[0]
+				if(__data){
+					o.y_axis.data.isInt = __data.getAttribute('int') && String(__data.getAttribute('int')) ? Number(__data.getAttribute('int')) : o.y_axis.data.isInt
 				}
 			}
 
@@ -10310,6 +10329,8 @@ KISSY.add('brix/gallery/charts/js/pub/utils/datasection',function(S){
 
     function getLinearTickPositions(arr,$maxPart,$cfg) {
     	var scale = $cfg && $cfg.scale ? parseFloat($cfg.scale) :1
+    	//返回的数组中的值 是否都为整数(思霏)  防止返回[8, 8.2, 8.4, 8.6, 8.8, 9]   应该返回[8, 9]
+    	var isInt = $cfg && $cfg.isInt ? 1 : 0 
 
 		if(isNaN(scale)){
 			scale = 1
@@ -10346,6 +10367,9 @@ KISSY.add('brix/gallery/charts/js/pub/utils/datasection',function(S){
         var magnitude = Math.pow(10, Math.floor(Math.log(tickInterval) / Math.LN10));
 
         tickInterval = normalizeTickInterval(tickInterval, magnitude);
+        if(isInt){
+        	tickInterval = Math.ceil(tickInterval)
+        }
 
         var pos,
             lastPos,
@@ -12972,7 +12996,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/horizontal',function(S,Base,node,Glo
 				var arr = self.get('datas')
 				var _fontsArr = self.get('_fontsArr')
 				var _fontArr = self.get('_fontArr')
-				var _fontsInfo = self.get('fontsInfo')
 				//创建fonts font
 				for(var a = 0, al = arr.length; a < al; a++){
 					var fonts = new SVGElement('g')
@@ -13033,9 +13056,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/horizontal',function(S,Base,node,Glo
 					fonts.setDynamic('center',parseInt(x + maxArr[1] / 2))
 					fonts.transformX(x)
 
-					var _fontsInfo = self.get('fontsInfo')
-					_fontsInfo.push({x: _fontsArr[0].getDynamic('center')})
-					_fontsInfo.push({x: _fontsArr[1].getDynamic('center')})
+					var fontsInfo = self.get('fontsInfo')
+					fontsInfo.push({x: _fontsArr[0].getDynamic('center')})
+					fontsInfo.push({x: _fontsArr[1].getDynamic('center')})
 				}
 				return
 			}

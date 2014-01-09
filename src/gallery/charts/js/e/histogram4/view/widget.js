@@ -131,7 +131,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram4/view/widget',function(S,Base,Node
 				self.get('_DataFrameFormat').vertical.org = self._getDataScale()
 			}
 			self.get('_DataFrameFormat').vertical.section = DataSection.section(Global.getChildsArr(self.get('_DataFrameFormat').vertical.org))
-			self.set('_baseNumber', self.get('_DataFrameFormat').vertical.section[0])
+			// self.set('_baseNumber', self.get('_DataFrameFormat').vertical.section[0])
 			self.get('_DataFrameFormat').graphs.groupCount = self.get('_DataFrameFormat').vertical.org.length
 			self.get('_DataFrameFormat').graphs.groups = Global.getMaxChildArrLength(self.get('_DataFrameFormat').vertical.org)
 
@@ -274,7 +274,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram4/view/widget',function(S,Base,Node
 
 			var x = self.get('_disX') + self.get('_horizontal').get('fontsInfo')[0].x
 			var y = Number(self.get('_horizontal').get('element').get('_y')) + self.get('_horizontal').get('h')
-			var content = Global.getSimplePrice(self.get('_DataFrameFormat').graphs.data[0][0].value)
+			var content = Global.getSimplePrice(self.get('_DataFrameFormat').graphs.data[0][0].value) + config.tip.info.suffix
 			var base_fill = $o.fill_over
 			var data = []
 			data[0] = []
@@ -304,11 +304,9 @@ KISSY.add('brix/gallery/charts/js/e/histogram4/view/widget',function(S,Base,Node
 
 			self.get('_infos').update(o)
 
-
-
 			var x = self.get('_disX') + self.get('_horizontal').get('fontsInfo')[1].x
 			var y = Number(self.get('_horizontal').get('element').get('_y')) + self.get('_horizontal').get('h')
-			var content = Global.getSimplePrice(self.get('_DataFrameFormat').graphs.data[0][1].value)
+			var content = Global.getSimplePrice(self.get('_DataFrameFormat').graphs.data[0][1].value) + config.tip.info.suffix
 			var base_fill = $o.fill_over
 			var data = []
 			data[0] = []

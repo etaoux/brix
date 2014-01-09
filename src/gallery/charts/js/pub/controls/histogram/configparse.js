@@ -35,6 +35,12 @@ KISSY.add('brix/gallery/charts/js/pub/controls/histogram/configparse',function(S
 					layout:{            //布局
 						mode:0          //模式(0 = 纵向 | 1 = 横向)
 					}
+				},
+
+				tip:{                   //提示
+					info:{              //信息
+						suffix:''       //后缀
+					}
 				}
 			}
 		}
@@ -85,6 +91,13 @@ KISSY.add('brix/gallery/charts/js/pub/controls/histogram/configparse',function(S
 				}
 			}
 
+			var __tip = xmlDoc.getElementsByTagName("tip")[0]
+			if(__tip){
+				var __info = __tip.getElementsByTagName("info")[0]
+				if(__info){
+					o.tip.info.suffix = __info.getAttribute('suffix') ? __info.getAttribute('suffix') : o.tip.info.suffix
+				}
+			}
 			o.fills.normals = self._trimFills(o.fills.normals)
 			o.fills.overs = self._trimFills(o.fills.overs)
 			return o

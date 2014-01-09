@@ -451,7 +451,22 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2013.12.31
 	*  内容(tanx ssp 川溪):
 	*       新增：histogram4 新图(svg)
-
+    *
+	*  版本:1.3.2
+	*  日期:2014.01.07
+	*  内容(tanx ssp 川溪):
+	*       新增：histogram4 新图(flash)
+	*
+	*  版本:1.3.3
+	*  日期:2014.01.09
+	*  内容:
+	*       优化：histogram4 调整两根柱子比例
+	*
+	*  版本:1.3.4
+	*  日期:2014.01.09
+	*  内容:
+	*       新增: histogram4  info中显示后缀的接口
+	*             line        y轴显示所有字段都为整数的接口 
  */
 
 

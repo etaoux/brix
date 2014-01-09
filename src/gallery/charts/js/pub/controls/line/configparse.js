@@ -40,6 +40,9 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 					enabled : 1,
 					line: {
 						enabled : 1
+					},
+					data:{
+						isInt:0         //是否都为整数  防止[8, 8.2, 8.4, 8.6, 8.8, 9]   应该[8, 9]
 					}
 				},
 
@@ -133,10 +136,14 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 
 			var __y_axis = xmlDoc.getElementsByTagName("y_axis")[0]
 			if(__y_axis){
-				o.y_axis.enabled = String(__y_axis.getAttribute('enabled')) ? Number(__y_axis.getAttribute('enabled')) : o.y_axis.enabled
+				o.y_axis.enabled = __y_axis.getAttribute('enabled') && String(__y_axis.getAttribute('enabled')) ? Number(__y_axis.getAttribute('enabled')) : o.y_axis.enabled
 				var __line = __y_axis.getElementsByTagName("line")[0]
 				if(__line){
 					o.y_axis.line.enabled = String(__line.getAttribute('enabled')) ? Number(__line.getAttribute('enabled')) : o.y_axis.line.enabled
+				}
+				var __data = __y_axis.getElementsByTagName("data")[0]
+				if(__data){
+					o.y_axis.data.isInt = __data.getAttribute('int') && String(__data.getAttribute('int')) ? Number(__data.getAttribute('int')) : o.y_axis.data.isInt
 				}
 			}
 
