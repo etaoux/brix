@@ -131,7 +131,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram4/view/widget',function(S,Base,Node
 				self.get('_DataFrameFormat').vertical.org = self._getDataScale()
 			}
 			self.get('_DataFrameFormat').vertical.section = DataSection.section(Global.getChildsArr(self.get('_DataFrameFormat').vertical.org))
-			self.set('_baseNumber', self.get('_DataFrameFormat').vertical.section[0])
+			// self.set('_baseNumber', self.get('_DataFrameFormat').vertical.section[0])
 			self.get('_DataFrameFormat').graphs.groupCount = self.get('_DataFrameFormat').vertical.org.length
 			self.get('_DataFrameFormat').graphs.groups = Global.getMaxChildArrLength(self.get('_DataFrameFormat').vertical.org)
 
@@ -252,6 +252,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram4/view/widget',function(S,Base,Node
 				for (var b = 0, bl = arr[a].length ; b < bl; b++ ) {
 					!tmpData[b] ? tmpData[b] = [] : ''
 					var value = config.y_axis.data.mode == 1 ? arr[a][b] + config.y_axis.data.suffix : arr[a][b]
+					S.log(self.get('_baseNumber'))
 					tmpData[b].push( {'value':value,'height':(arr[a][b] - self.get('_baseNumber')) / (max - self.get('_baseNumber')) * self.get('_verticalGraphsH'), 'key': { 'isKey':0 } } )
 				}
 			}
