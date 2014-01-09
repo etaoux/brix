@@ -245,10 +245,11 @@
                         closable:false,
                         pages:2,
                         multiSelect:true,
+                        multi:[showdate(1, new Date()),showdate(-1, new Date()),showdate(3, new Date()),showdate(5, new Date())],
                         rangeLinkage:true,
                         prev:false,
                         next:false,
-                        confirmBtn:false
+                        confirmBtn:true
                     }).on('multiSelect', function(e) {
                         alert(e.multi);
                         k.hide();
