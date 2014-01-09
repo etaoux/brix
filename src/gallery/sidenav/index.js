@@ -75,7 +75,7 @@ KISSY.add("brix/gallery/sidenav/index", function(S, Brick) {
         //根据pathname来确定sidebar的状态
         _pathname2sidebar: function() {
             var self = this;
-            var h = this._getPathname(location.hash);
+            var h = this._getPathname(location.hash) || this.index;
 
             //将map中的地址映射成相应的导航
             S.each(this.pathMap, function(v, k) {

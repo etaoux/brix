@@ -418,7 +418,7 @@ KISSY.add('brix/gallery/charts/js/e/histogram2/view/widget',function(S,Base,Node
 		},
 		*/
 		//换算图形
-		_trimGraphs:function(){   
+		_trimGraphs:function(){
 			var self = this                                                           
 			var config = self.get('config')
 			//self.set('_horizontalMaxW', self.get('w') - self.get('_disX') - self.get('_vertical').get('w') - self.get('_disX'))

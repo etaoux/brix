@@ -120,7 +120,6 @@ KISSY.add('brix/gallery/charts/js/pub/views/horizontal',function(S,Base,node,Glo
 				var arr = self.get('datas')
 				var _fontsArr = self.get('_fontsArr')
 				var _fontArr = self.get('_fontArr')
-				var _fontsInfo = self.get('fontsInfo')
 				//创建fonts font
 				for(var a = 0, al = arr.length; a < al; a++){
 					var fonts = new SVGElement('g')
@@ -181,9 +180,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/horizontal',function(S,Base,node,Glo
 					fonts.setDynamic('center',parseInt(x + maxArr[1] / 2))
 					fonts.transformX(x)
 
-					var _fontsInfo = self.get('fontsInfo')
-					_fontsInfo.push({x: _fontsArr[0].getDynamic('center')})
-					_fontsInfo.push({x: _fontsArr[1].getDynamic('center')})
+					var fontsInfo = self.get('fontsInfo')
+					fontsInfo.push({x: _fontsArr[0].getDynamic('center')})
+					fontsInfo.push({x: _fontsArr[1].getDynamic('center')})
 				}
 				return
 			}

@@ -125,11 +125,12 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 	S.extend(Widget,Base,{
 		init:function(){
 			var self = this
+			var config = self.get('config')
 
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'), self.get('DataSource'))) 
 			self.get('_DataFrameFormat').key.data = String(self.get('_DataFrameFormat').key.indexs).split(',')
 			var arr = Global.getChildsArr(self.get('_DataFrameFormat').vertical.org)
-			self.get('_DataFrameFormat').vertical.section = DataSection.section(arr)
+			self.get('_DataFrameFormat').vertical.section = DataSection.section(arr, null, {isInt:config.y_axis.data.isInt})
 			// S.log(self.get('_DataFrameFormat').vertical.section)
 			self.set('_baseNumber', self.get('_DataFrameFormat').vertical.section[0])
 			// self.get('_DataFrameFormat').vertical.section = [10330000, 10340000, 10350000, 10360000, 10370000, 10380000, 10390000] 
