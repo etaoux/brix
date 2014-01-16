@@ -1416,11 +1416,11 @@ a:hover {
 }
 @font-face {
   font-family: "uxiconfont";
-  src: url("http://t.tbcdn.cn/apps/e/brix/fonts/uxiconfont.eot");
-  src: url("http://t.tbcdn.cn/apps/e/brix/fonts/uxiconfont.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-   url("http://t.tbcdn.cn/apps/e/brix/fonts/uxiconfont.woff") format("woff"), /* chrome、firefox */
-   url("http://t.tbcdn.cn/apps/e/brix/fonts/uxiconfont.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-   url("http://t.tbcdn.cn/apps/e/brix/fonts/uxiconfont.svg#svgFontName") format("svg");/* IE9*/
+  src: url("http://t.tbcdn.cn/g/thx/brix/fonts/uxiconfont.eot");
+  src: url("http://t.tbcdn.cn/g/thx/brix/fonts/uxiconfont.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+   url("http://t.tbcdn.cn/g/thx/brix/fonts/uxiconfont.woff") format("woff"), /* chrome、firefox */
+   url("http://t.tbcdn.cn/g/thx/brix/fonts/uxiconfont.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+   url("http://t.tbcdn.cn/g/thx/brix/fonts/uxiconfont.svg#svgFontName") format("svg");/* IE9*/
   /* iOS 4.1- */
 }
 .iconfont {
