@@ -75,15 +75,17 @@ module.exports = function(grunt) {
             var files = fs.readdirSync(src);
 
             files.forEach(function(p) {
-                var srcPath = src + p + '/',
-                    destPath = dest + p + '/';
-                foo(srcPath, destPath);
-                var extPath = srcPath + 'ext/';
-                if (fs.existsSync(extPath)) {
-                    var extFiles = fs.readdirSync(extPath);
-                    extFiles.forEach(function(p) {
-                        foo(extPath + p + '/', destPath + 'ext/' + p + '/');
-                    })
+                if (p != 'd3') {
+                    var srcPath = src + p + '/',
+                        destPath = dest + p + '/';
+                    foo(srcPath, destPath);
+                    var extPath = srcPath + 'ext/';
+                    if (fs.existsSync(extPath)) {
+                        var extFiles = fs.readdirSync(extPath);
+                        extFiles.forEach(function(p) {
+                            foo(extPath + p + '/', destPath + 'ext/' + p + '/');
+                        })
+                    }
                 }
             });
             config('concat', concatConfig);
