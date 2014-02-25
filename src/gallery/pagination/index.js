@@ -409,7 +409,7 @@ KISSY.add('brix/gallery/pagination/index', function(S, Brick) {
             returnUrl += urlInfo.path + '?';
             returnUrl += param(urlInfo.params);
             if (urlInfo.hash != '') {
-                returnUrl += '#' + urlInfo.hash;
+                returnUrl += '#' + encodeURIComponent(urlInfo.hash);
             }
             return returnUrl;
         }
