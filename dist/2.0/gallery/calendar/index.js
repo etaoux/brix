@@ -1,5 +1,33 @@
 KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_Date) {
-    var tmpl = '<div class="calendar-pages"></div><div bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,op_html" class="calendar-operator"> {{{op_html}}}</div>';
+    var tmpl = '<div class="calendar-pages"><div class="calendar-container-pages"></div>	{{#isQuick}}	<div class="calendar-quick"> {{{quick_html}}}	</div>	{{/isQuick}}</div>{{#isOperator}}<div bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,op_html" class="calendar-operator"> {{{op_html}}}</div>{{/isOperator}}';
+
+    function getRecentlyDate(n) {
+        var dt = 1000 * 60 * 60 * 24; //一天的毫秒数
+        var d = new Date();
+        var ct = d.getTime();
+
+        d.setTime(ct + dt * n)
+        return d;
+    };
+    var date=new Date(),
+        quickDates = { //快捷日期组
+            'today': {
+                text: '今天',
+                date: date
+            },
+            'yestoday': {
+                text: '昨天',
+                date: getRecentlyDate(-1)
+            },
+            'days7before': {
+                text: '上周同期',
+                date: getRecentlyDate(-7)
+            },
+            'days30before': {
+                text: '上月同期',
+                date: getRecentlyDate(-30)
+            }
+        };
     /**
      * 日历
      * <br><a href="../demo/gallery/calendar/calendar.html" target="_blank">Demo</a>
@@ -204,6 +232,24 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                 return v;
             }
         },
+        data:{
+            valueFn:function(){
+                var self = this,
+                    isQuick = self.get('isQuick'),
+                    notLimited = self.get('notLimited'),
+                    showTime = self.get('showTime'),
+                    multiSelect = self.get('multiSelect'),
+                    isOperator = false;
+                if ((showTime || multiSelect||notLimited)&&self.get('confirmBtn')) {
+                    isOperator = true;
+                }
+
+                return {
+                    isOperator:isOperator,
+                    isQuick:isQuick
+                };
+            }
+        },
         autoRender:{
             value:false
         },
@@ -218,6 +264,16 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
         },
         confirmBtn:{
             value:true
+        },
+        /**
+         * 是否快捷日期
+         * @cfg {Boolean}
+         */
+        isQuick:{
+            value:false
+        },
+        quickDates:{
+            value:quickDates
         }
     };
 
@@ -287,6 +343,17 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                 }
                 return s;
             }
+        },
+        quick:{
+            html:function(context){
+                var quickDates = context.get('quickDates');
+                var html = '<label>快捷日期:</label><ul class="quick-list">';
+                for(var quick in quickDates){
+                    html+='<li><a class="quick-item" key="'+quick+'" href="#">'+quickDates[quick].text+'</a></li>';
+                }
+                html+='</ul>';
+                return html;
+            }
         }
     }
     Calendar.DOCEVENTS = {
@@ -341,6 +408,24 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                     });
                     self.hide();
                 }
+            }
+        },
+        '.quick-item':{
+            click:function(e){
+                e.preventDefault();
+                var self = this,
+                    node = S.one(e.currentTarget),
+                    el = self.get('el'),
+                    quickDates = self.get('quickDates'),
+                    key = S.one(e.currentTarget).attr('key'),
+                    quick = quickDates[key];
+                
+
+                S.later(function(){
+                        //先触发document的click事件
+                        self.pageBricks[0].fire('itemClick',{date:quick.date});
+                    },0);
+
             }
         }
     };
@@ -409,7 +494,8 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                 date = self.get('date'),
                 month = date.getMonth(),
                 year = date.getFullYear(),
-                trigger = self.get('trigger');
+                trigger = self.get('trigger'),
+                isQuick = self.get('isQuick');
             if (popup) {
                 var align = S.clone(self.get('align'));
                 if(!align.node){
@@ -429,7 +515,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
             }
             var container = el.one('.calendar-pages');
             self.pageBricks = [];
-            el.addClass('.calendar-' + pages);
+            el.addClass('.calendar-' + (isQuick?pages+1:pages));
             var prev, next;
             for (var i = 0; i < pages; i++) {
                 if (!rangeLinkage) {
@@ -448,7 +534,7 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
                         month: month,
                         father: self,
                         destroyAction:self.get('destroyAction'),
-                        container: container
+                        container: container.one('.calendar-container-pages')
                     });
                     self.pageBricks.push(pageBrick);
                     pageBrick.on('itemClick', function(ev) {

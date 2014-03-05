@@ -1,4 +1,13 @@
-<div class="calendar-pages"></div>
+<div class="calendar-pages">
+	<div class="calendar-container-pages"></div>
+	{{#isQuick}}
+	<div class="calendar-quick">
+    {{{quick_html}}}
+	</div>
+	{{/isQuick}}
+</div>
+{{#isOperator}}
 <div bx-tmpl="calendar" bx-datakey="notLimited,multiSelect,showTime,op_html" class="calendar-operator">
     {{{op_html}}}
 </div>
+{{/isOperator}}

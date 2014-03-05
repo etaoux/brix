@@ -235,6 +235,39 @@
 			}
 		}
 	}
+	.calendar-quick{
+		float: left;
+		width: 177px;
+		padding: 10px;
+		background-color: #fafafa;
+		height: 184px;
+		ul.quick-list{
+            .clearfix;
+            margin-bottom: 15px;
+            margin-left: -8px;
+            li{
+                float:left;
+                height: 25px;
+                line-height: 25px;
+                width: 92px;
+                margin-top: 10px;
+                a.quick-item{
+                    display: inline-block;
+                    padding: 0 8px;
+                    white-space: nowrap;
+                }
+                a.quick-current{
+                    background-color: #488fcd;
+                    .border-radius(2px);
+                    color: #fff;
+                }
+                a.quick-disabled{
+                	color: #999;
+					cursor: default;
+                }
+            }
+        }
+	}
 	.calendar-operator{
 		margin-bottom: 10px;
 		text-align: center;

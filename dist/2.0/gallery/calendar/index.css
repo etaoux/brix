@@ -277,6 +277,51 @@
   bottom: 0;
   cursor: pointer;
 }
+.calendar .calendar-quick {
+  float: left;
+  width: 177px;
+  padding: 10px;
+  background-color: #fafafa;
+  height: 184px;
+}
+.calendar .calendar-quick ul.quick-list {
+  margin-bottom: 15px;
+  margin-left: -8px;
+}
+.calendar .calendar-quick ul.quick-list {
+  *zoom: 1;
+}
+.calendar .calendar-quick ul.quick-list:before,
+.calendar .calendar-quick ul.quick-list:after {
+  display: table;
+  content: "";
+}
+.calendar .calendar-quick ul.quick-list:after {
+  clear: both;
+}
+.calendar .calendar-quick ul.quick-list li {
+  float: left;
+  height: 25px;
+  line-height: 25px;
+  width: 92px;
+  margin-top: 10px;
+}
+.calendar .calendar-quick ul.quick-list li a.quick-item {
+  display: inline-block;
+  padding: 0 8px;
+  white-space: nowrap;
+}
+.calendar .calendar-quick ul.quick-list li a.quick-current {
+  background-color: #488fcd;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  color: #fff;
+}
+.calendar .calendar-quick ul.quick-list li a.quick-disabled {
+  color: #999;
+  cursor: default;
+}
 .calendar .calendar-operator {
   margin-bottom: 10px;
   text-align: center;

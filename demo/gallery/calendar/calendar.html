@@ -8,8 +8,8 @@
         <link rel="stylesheet" href="../../../src/gallery/calendar/index.css">
         <link rel="stylesheet" href="../../assets/doc.css">
         <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script>
-        <script src="http://g.tbcdn.cn/thx/brix/2.0/brix.js" bx-config="{autoConfig:true}"></script>
-        <!-- // <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,fixed:'src/'}"></script> -->
+        <!-- // <script src="http://g.tbcdn.cn/thx/brix/2.0/brix.js" bx-config="{autoConfig:true}"></script> -->
+        <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,fixed:'src/'}"></script>
     </head>
     <body style="margin:0px">
         <div class="container container1">
@@ -30,6 +30,10 @@
             });
         </script>
         <div class="container">
+
+            <h3 class="h3">快捷日历</h3>
+            <input class="input" id="J_Popup_Quick" style="margin-left:50px;"/>
+            <hr size=1/>
             <h3 class="h3">静态日历，以及单击回调</h3>
 
             <div id="J_Calendar"></div><a id="J_CalendarRemove">J_CalendarRemove</a>
@@ -122,6 +126,9 @@
             </select>
             custom自定义格式 <input class="input" value="yyyy/mm/dd HH:MM:ss" id="J_CustomType"/>
             <div id="J_DateFormat"></div>
+
+            
+
         </div>
         <script>
             var S=KISSY;
@@ -350,6 +357,17 @@
                         alert(S_Date.format(e.date, type));
                     });
                     S.log(++i);
+
+                    new Calendar( {
+                        zIndex:100000,
+                        trigger:'#J_Popup_Quick',
+                        popup:true,
+                        triggerType:['click'],
+                        closable:true,
+                        isQuick:true
+                    }).on('select', function(e) {
+                        Node.one('#J_Popup_Quick').val(S_Date.format(e.date, 'localFullDate'));
+                    });
                 });
             });
         </script>   
