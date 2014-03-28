@@ -42,6 +42,7 @@ chartData:
 <body>
 	<div id="J_wrapper1" class="wrapper1" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper2" class="wrapper2" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper3" class="wrapper3" style="width:720px;height:400px;"></div>
 
 	<script type="text/javascript">
 
@@ -62,6 +63,15 @@ chartData:
 						configData:'<chart v="1.0" type="scatter"><data style="2"/></chart>',
 							
 						chartData:'<chart><data><indexAxis labels="1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,12000" name="维度2："><key indexs="5,10,12"/></indexAxis><sets name="维度1："><set values="256,10,432,379,1100,254,98,134,51,1,21,53"></set></sets></data></chart>'
+					}
+			});
+			new Charts({
+					parent_id:'J_wrapper3',
+
+					config:{
+						configData:'<?xml version="1.0"?><chart v="1.0" type="scatter"><data style="2"><colors normal="0x957ccb" over="0x957ccb"/><node><normal thickness_alpha="0.6"/></node><radius max="50" min="6"/><y_axis><section value="100,200" max="200" show="100" center="100"/></y_axis><info mode="3"/></data></chart>',
+					
+					chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="1000,2000,3000,4000,5000,6000,7000,8000,9000,10000" name="维度2："/><sets name="维度1：" name_scale="用户占比：" name_value="用户喜好度："><set values="10,20,30,85,100,115,111,33,251,1" scales="20.6,10.1,0.2,90,50.5,0,7,40.1,60.9,100" section="100,200" urls="http://www.taobao.com,http://www.alimama.com,,,http://www.alibaba.com"></set></sets></data></chart>'
 					}
 			});
 		})

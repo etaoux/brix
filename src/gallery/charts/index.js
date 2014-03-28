@@ -467,6 +467,11 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  内容:
 	*       新增: histogram4  info中显示后缀的接口
 	*             line        y轴显示所有字段都为整数的接口 
+	*
+	*  版本:1.3.5
+	*  日期:2014.03.28
+	*  内容(DMP 崇志):
+	*       新增：scatter  扩展比例等(flash)
  */
 
 
