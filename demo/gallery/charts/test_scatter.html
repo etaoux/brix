@@ -35,7 +35,7 @@ chartData:
     <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
     <link rel="stylesheet" href="../../assets/doc.css">
     <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script>
-    <!-- // <script src="http://a.tbcdn.cn/apps/e/brix/2.0/brix.js" bx-config="{autoConfig:true}"></script> -->
+    <!-- // <script src="http://g.tbcdn.cn/thx/brix/2.0/brix.js" bx-config="{autoConfig:true}"></script> -->
     <!--<script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>-->
     <script src="../../../src/core/brix.js"></script>
 </head>
@@ -43,6 +43,7 @@ chartData:
 	<div id="J_wrapper1" class="wrapper1" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper2" class="wrapper2" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper3" class="wrapper3" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper4" class="wrapper4" style="width:720px;height:400px;"></div>
 
 	<script type="text/javascript">
 
@@ -69,9 +70,17 @@ chartData:
 					parent_id:'J_wrapper3',
 
 					config:{
-						configData:'<?xml version="1.0"?><chart v="1.0" type="scatter"><data style="2"><colors normal="0x957ccb" over="0x957ccb"/><node><normal thickness_alpha="0.6"/></node><radius max="50" min="6"/><y_axis><section value="100,200" max="200" show="100" center="100"/></y_axis><info mode="3"/></data></chart>',
-					
-					chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="1000,2000,3000,4000,5000,6000,7000,8000,9000,10000" name="维度2："/><sets name="维度1：" name_scale="用户占比：" name_value="用户喜好度："><set values="10,20,30,85,100,115,111,33,251,1" scales="20.6,10.1,0.2,90,50.5,0,7,40.1,60.9,100" section="100,200" urls="http://www.taobao.com,http://www.alimama.com,,,http://www.alibaba.com"></set></sets></data></chart>'
+						configData:'<?xml version="1.0"?><chart v="1.0" type="scatter"><data style="2"><colors normal="0x957ccb" over="0x957ccb"/><node><normal thickness_alpha="0.6"/></node><radius max="50" min="6"/><y_axis><section value="100,200" max="200" show="100" center="100"/></y_axis><info mode="3"/><x_axis enabled="0" mode="3"/></data></chart>',
+
+						chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="http://www.1.com,http://www.2.com,http://www.3.com,http://www.4.com,http://www.5.com,http://www.6.com,http://www.7.com,http://www.8.com,http://www.9.com,http://www.10.com" name="维度2："/><sets name="维度1：" name_scale="用户占比：" name_value="用户喜好度："><set values="10,20,30,85,100,115,111,33,251,1" scales="20.6,10.1,0.2,90,50.5,0,7,40.1,60.9,100" section="100,200" urls="http://www.1.com,http://www.2.com,http://www.3.com,http://www.4.com,http://www.5.com,http://www.6.com,http://www.7.com,http://www.8.com,http://www.9.com,http://www.10.com"></set></sets></data></chart>'
+					}
+			});
+			new Charts({
+					parent_id:'J_wrapper4',
+
+					config:{
+						configData:'<?xml version="1.0"?><chart v="1.0" type="scatter"><data style="2"><colors normal="0x957ccb" over="0x957ccb"/><node><normal thickness_alpha="0.6"/></node><radius max="50" min="6"/><y_axis><section value="100,200" max="200" show="100" center="100"/></y_axis><info mode="3"/><x_axis enabled="1" mode="3"/></data></chart>',
+						chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="未知,1-10,10-20,20-30,30-40,40-50,50-60,60-70,70-80,80-90" name="维度2："/><sets name="维度1：" name_scale="用户占比：" name_value="用户喜好度："><set values="10,20,30,85,100,115,111,33,251,1" scales="20.6,10.1,0.2,90,50.5,0,7,40.1,60.9,100" section="100,200" urls="未知,1岁-10岁,10岁-20岁,20岁-30岁,30岁-40岁,40岁-50岁,50岁-60岁,60岁-70岁,70岁-80岁,80岁-90岁"></set></sets></data></chart>'
 					}
 			});
 		})

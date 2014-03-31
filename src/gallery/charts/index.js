@@ -213,8 +213,8 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 		_isSWF:function(){
 			var self = this
 			var o = self._xml(self.get('config').configData)
-			// var arr = ['integrate2','integrate3','integrate4','integrate5']
-			var arr = []
+			var arr = ['scatter']
+			// var arr = []
 			for(var a = 0, al = arr.length; a<al; a++){
 				if(o.type == arr[a]){
 					return 1
@@ -472,6 +472,17 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2014.03.28
 	*  内容(DMP 崇志):
 	*       新增：scatter  扩展比例等(flash)
+	*
+    *  版本:1.3.6
+	*  日期:2014.03.28
+	*  内容(DMP 崇志):
+	*       新增：Chrome 下scatter 走flash
+	*
+	*  版本:1.3.6
+	*  日期:2014.03.30
+	*  内容(DMP 崇志):
+	*       新增：scatter x轴为非数字的情况处理
+	*			  scatter 隐藏x轴接口
  */
 
 
