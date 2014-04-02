@@ -4451,9 +4451,14 @@ KISSY.add('brix/gallery/charts/js/e/integrate5/control/configparse',function(S,B
 
 				layout:{},
 
+				core:{
+			    	y : '',
+			    	h : ''
+			    },
+
 				infos:{
 			        xAxis:{
-					    mode:0               //模式[0 = 显示两个点(1:00-2:00) | 1 = 显示一个点(2013-03-08)]
+					  	    mode:0               //模式[0 = 显示两个点(1:00-2:00) | 1 = 显示一个点(2013-03-08)]
 						  }
 			          }
 			    }
@@ -4504,6 +4509,15 @@ KISSY.add('brix/gallery/charts/js/e/integrate5/control/configparse',function(S,B
 					if(__x_axis){
 						o.infos.xAxis.mode = __x_axis.getAttribute('mode') || __x_axis.getAttribute('mode') == 0 ? Number(__x_axis.getAttribute('mode')) : o.infos.xAxis.mode
 					}
+				}
+
+
+				var __core = __data.getElementsByTagName("core")[0]
+				if(__core){
+					// console.log(String(__core.getAttribute('y')))
+					// console.log(o)
+					o.core.y = String(__core.getAttribute('y')) || o.core.y
+					o.core.h = String(__core.getAttribute('h')) || o.core.h
 				}
 			}else{
 				o.line = new LineConfigParse().parse('')
@@ -4727,8 +4741,14 @@ KISSY.add('brix/gallery/charts/js/e/integrate5/view/widget',function(S,Base,Node
 			var self = this
 
 		 	self.set('_top_h', 70)
+		 	if(self.get('config').core.y != ''){
+		 		self.set('_top_h', self.get('config').core.y)
+		 	}
 		 	self.set('_core_y', self.get('_top_h'))
 		 	self.set('_core_h', self.get('h') - self.get('_top_h') - 12 - 6)
+		 	if(self.get('config').core.h != ''){
+		 		self.set('_core_h', self.get('config').core.h)
+		 	}
 
 			self.set('element', new SVGElement('g')), self.get('element').set('class','widget')
 			self.get('parent').appendChild(self.get('element').element)
@@ -4789,7 +4809,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate5/view/widget',function(S,Base,Node
 			var data = []
 			data[0] = []
 			var o = { }
-			o.content = this.get('_DataFrameFormat').vertical.org[id].name, o.bold = 1, o.fill = '#333333', o.size = 14, o.family = '微软雅黑', o.ver_align = 1
+			o.content = this.get('_DataFrameFormat').vertical.org[id].name, o.bold = 1, o.fill = '#333333', o.size = 12, o.family = '微软雅黑', o.ver_align = 1
 			data[0].push(o)
 			// o = { }
 			// o.content = this.get('_DataFrameFormat').vertical.name + Global.numAddSymbol(this.get('_DataFrameFormat').vertical.max[id][index]), o.bold = 0, o.fill = '#666666', o.family = '微软雅黑', o.ver_align = 1
