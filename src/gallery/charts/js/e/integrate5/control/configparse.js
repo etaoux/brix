@@ -17,9 +17,14 @@ KISSY.add('brix/gallery/charts/js/e/integrate5/control/configparse',function(S,B
 
 				layout:{},
 
+				core:{
+			    	y : '',
+			    	h : ''
+			    },
+
 				infos:{
 			        xAxis:{
-					    mode:0               //模式[0 = 显示两个点(1:00-2:00) | 1 = 显示一个点(2013-03-08)]
+					  	    mode:0               //模式[0 = 显示两个点(1:00-2:00) | 1 = 显示一个点(2013-03-08)]
 						  }
 			          }
 			    }
@@ -70,6 +75,15 @@ KISSY.add('brix/gallery/charts/js/e/integrate5/control/configparse',function(S,B
 					if(__x_axis){
 						o.infos.xAxis.mode = __x_axis.getAttribute('mode') || __x_axis.getAttribute('mode') == 0 ? Number(__x_axis.getAttribute('mode')) : o.infos.xAxis.mode
 					}
+				}
+
+
+				var __core = __data.getElementsByTagName("core")[0]
+				if(__core){
+					// console.log(String(__core.getAttribute('y')))
+					// console.log(o)
+					o.core.y = String(__core.getAttribute('y')) || o.core.y
+					o.core.h = String(__core.getAttribute('h')) || o.core.h
 				}
 			}else{
 				o.line = new LineConfigParse().parse('')

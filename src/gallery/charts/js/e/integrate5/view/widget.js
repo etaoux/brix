@@ -104,8 +104,14 @@ KISSY.add('brix/gallery/charts/js/e/integrate5/view/widget',function(S,Base,Node
 			var self = this
 
 		 	self.set('_top_h', 70)
+		 	if(self.get('config').core.y != ''){
+		 		self.set('_top_h', self.get('config').core.y)
+		 	}
 		 	self.set('_core_y', self.get('_top_h'))
 		 	self.set('_core_h', self.get('h') - self.get('_top_h') - 12 - 6)
+		 	if(self.get('config').core.h != ''){
+		 		self.set('_core_h', self.get('config').core.h)
+		 	}
 
 			self.set('element', new SVGElement('g')), self.get('element').set('class','widget')
 			self.get('parent').appendChild(self.get('element').element)
@@ -166,7 +172,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate5/view/widget',function(S,Base,Node
 			var data = []
 			data[0] = []
 			var o = { }
-			o.content = this.get('_DataFrameFormat').vertical.org[id].name, o.bold = 1, o.fill = '#333333', o.size = 14, o.family = '微软雅黑', o.ver_align = 1
+			o.content = this.get('_DataFrameFormat').vertical.org[id].name, o.bold = 1, o.fill = '#333333', o.size = 12, o.family = '微软雅黑', o.ver_align = 1
 			data[0].push(o)
 			// o = { }
 			// o.content = this.get('_DataFrameFormat').vertical.name + Global.numAddSymbol(this.get('_DataFrameFormat').vertical.max[id][index]), o.bold = 0, o.fill = '#666666', o.family = '微软雅黑', o.ver_align = 1

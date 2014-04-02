@@ -488,6 +488,11 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2014.03.31
 	*  内容(DMP 崇志):
 	*       新增：scatter x轴如果不显示 但也预留位置
+	*
+	*  版本:1.3.8
+	*  日期:2014.04.02
+	*  内容(钻展 金台):
+	*       新增：integrate5 开通两个接口对core的操作：y、h
  */
 
 
