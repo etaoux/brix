@@ -483,6 +483,11 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  内容(DMP 崇志):
 	*       新增：scatter x轴为非数字的情况处理
 	*			  scatter 隐藏x轴接口
+	*
+	*  版本:1.3.7
+	*  日期:2014.03.31
+	*  内容(DMP 崇志):
+	*       新增：scatter x轴如果不显示 但也预留位置
  */
 
 
