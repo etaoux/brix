@@ -62,7 +62,8 @@ chartData:
 <body>
 	<div id="J_wrapper1" class="wrapper1" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper2" class="wrapper2" style="width:720px;height:400px;"></div>
-	<div id="J_wrapper3" class="wrapper2" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper3" class="wrapper3" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper4" class="wrapper4" style="width:720px;height:400px;"></div>
 
 	<script type="text/javascript">
 
@@ -91,6 +92,14 @@ chartData:
 					config:{
 						configData:'<chart v="1.0" type="line2"><data shape="0" node="1" area="1"><thickness normal="2" over="2"/><colors normals="0x5aa62e,0x999999" overs="0x5aa62e,0x999999"/><y_axis enabled="0"><line enabled="0"/></y_axis><back><y_axis enabled="0"/><x_axis mode="1"/></back><node><normal radius="2.5" thickness="0" color_follow="1"/><over min_radius="3.5" max_radius="7" max_color_opacity="0" max_thickness="3" max_thickness_opacity="0.5"/></node></data></chart>',
 						chartData:'<chart><data><indexAxis labels="00,01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23" name="时间"></indexAxis><sets name="2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04：,2013-06-04："><set values="0.14,0.05,0.04,0.08,0.09,0.04,0.08,0.02,0.07,0.09,0.04,0.04,0.11,0.08,0.05,0.02,0.09,0.04,0.03,0.00,0.07,0.05,0.09,0.06"></set></sets></data><data><indexAxis labels="00,01,02,03,04,05,06,07,08,09,10,11,12,13,14" name="时间"></indexAxis><sets name="2013-06-05：,2013-06-05：,2013-06-05：,2013-06-05：,2013-06-05：,2013-06-05：,2013-06-05：,2013-06-05：,2013-06-05：,2013-06-05：,2013-06-05：,2013-06-05：,2013-06-05：,2013-06-05：,2013-06-05："><set values="0.02,0.00,0.05,0.02,0.08,0.07,0.04,0.07,0.03,0.09,0.04,0.04,0.07,0.02,0.02"></set></sets></data><info><content><title name="花费" color="0x666666"/></content></info></chart>'
+					}
+			});
+			new Charts({
+					parent_id:'J_wrapper4',
+
+					config:{
+						configData:"<chart v='1.0' type='line2'><data shape='0' node='1' area='0'><colors normals='0x3300FF,0xEF9545' overs='0x086AE5,0xE56F03'></colors></data></chart>",
+						chartData:"<chart><data><indexAxis labels='2014-04-07'></indexAxis><sets name='2014-04-07：'><set values='0'></set></sets></data></chart>"
 					}
 			});
 		})

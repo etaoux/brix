@@ -493,6 +493,11 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  日期:2014.04.02
 	*  内容(钻展 金台):
 	*       新增：integrate5 开通两个接口对core的操作：y、h
+	*
+	*  版本:1.3.9
+	*  日期:2014.04.08
+	*  内容:
+	*       优化：line2  只有一个数据的情况
  */
 
 

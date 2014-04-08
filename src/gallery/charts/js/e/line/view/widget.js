@@ -135,7 +135,8 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			self.set('_baseNumber', self.get('_DataFrameFormat').vertical.section[0])
 			// self.get('_DataFrameFormat').vertical.section = [10330000, 10340000, 10350000, 10360000, 10370000, 10380000, 10390000] 
 			if(arr.length == 1){
-				self.get('_DataFrameFormat').vertical.section[0] = arr[0] * 2
+				self.get('_DataFrameFormat').vertical.section[0] = self.get('_DataFrameFormat').vertical.section[self.get('_DataFrameFormat').vertical.section.length - 1] * 2
+				self.get('_DataFrameFormat').vertical.section.length = 1
 				self.set('_baseNumber', 0)
 			}
 
