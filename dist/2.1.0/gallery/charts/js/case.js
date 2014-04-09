@@ -1,5 +1,6 @@
 KISSY.add('brix/gallery/charts/js/case',function(S,Base,Node,DataSource,Widget){
 	var $ = S.all
+debugger
 	function Case(){
 		var self = this
 		/*
@@ -92,6 +93,7 @@ KISSY.add('brix/gallery/charts/js/case',function(S,Base,Node,DataSource,Widget){
 		}
 		*/
 	});
+debugger
 	return Case;
 
 	}, {

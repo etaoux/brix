@@ -1,0 +1,109 @@
+.datepicker {
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  position: absolute;
+  visibility: hidden;
+  left: -9999px;
+  top: -9999px;
+  width: 210px;
+  background-color: #fff;
+  -webkit-text-size-adjust: none;
+}
+.datepicker a:hover {
+  text-decoration: none;
+}
+.datepicker .datepicker-bd {
+  padding: 15px;
+}
+.datepicker .datepicker-bd {
+  *zoom: 1;
+}
+.datepicker .datepicker-bd:before,
+.datepicker .datepicker-bd:after {
+  display: table;
+  content: "";
+}
+.datepicker .datepicker-bd:after {
+  clear: both;
+}
+.datepicker .datepicker-bd label {
+  margin-bottom: 8px;
+  display: inline-block;
+}
+.datepicker .datepicker-bd .range {
+  *zoom: 1;
+  margin-bottom: 15px;
+}
+.datepicker .datepicker-bd .range .input-split {
+  margin: 0 8px;
+}
+.datepicker .datepicker-bd input {
+  width: 68px;
+  margin-bottom: 0px;
+  padding: 2px 4px 3px 5px;
+  line-height: 18px;
+  color: #101010;
+  border: 1px solid #dddddd;
+  border-top-color: #bbbbbb;
+  border-radius: 2px;
+  -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+  -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+  -ms-transition: border linear 0.2s, box-shadow linear 0.2s;
+  -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+  transition: border linear 0.2s, box-shadow linear 0.2s;
+}
+.datepicker .datepicker-bd input:hover {
+  border-color: #d0d0d0;
+  border-top-color: #acacac;
+  -webkit-box-shadow: inset 0 1px #f5f5f5;
+  -moz-box-shadow: inset 0 1px #f5f5f5;
+  box-shadow: inset 0 1px #f5f5f5;
+}
+.datepicker .datepicker-bd input:focus {
+  border-color: #488fcd;
+  outline: 0;
+  -webkit-box-shadow: 0 0 8px rgba(72,143,205,.6);
+  -moz-box-shadow: 0 0 8px rgba(72,143,205,.6);
+  box-shadow: 0 0 8px rgba(72,143,205,.6);
+}
+.datepicker .datepicker-bd ul.quick-list {
+  margin-bottom: 15px;
+  margin-left: -8px;
+}
+.datepicker .datepicker-bd ul.quick-list {
+  *zoom: 1;
+}
+.datepicker .datepicker-bd ul.quick-list:before,
+.datepicker .datepicker-bd ul.quick-list:after {
+  display: table;
+  content: "";
+}
+.datepicker .datepicker-bd ul.quick-list:after {
+  clear: both;
+}
+.datepicker .datepicker-bd ul.quick-list li {
+  float: left;
+  height: 25px;
+  line-height: 25px;
+  width: 93px;
+}
+.datepicker .datepicker-bd ul.quick-list li a.quick-item {
+  display: inline-block;
+  padding: 0 8px;
+  white-space: nowrap;
+}
+.datepicker .datepicker-bd ul.quick-list li a.quick-current {
+  background-color: #488fcd;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  color: #fff;
+}
+.datepicker .datepicker-bd .operator .btn {
+  margin-right: 8px;
+}
