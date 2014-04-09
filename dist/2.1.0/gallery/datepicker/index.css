@@ -7,7 +7,6 @@
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
   border: 1px solid #ddd;
   position: absolute;
-  visibility: hidden;
   left: -9999px;
   top: -9999px;
   width: 210px;
