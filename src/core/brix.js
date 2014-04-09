@@ -141,10 +141,23 @@
              * @type {String}
              */
             Brix.templateEngine = options.templateEngine;
+
+            // var coreList = ['brick','brix','chunk','dataset','demolet','pagelet','tmpler']
+            // var galleryList = ['calendar']
+            // var aliasConfig = {}
+            // S.each(galleryList,function(key){
+            //     aliasConfig['brix/gallery/'+key+'/'] = {alias:['brix/'+options.fixed+'gallery/'+key+'/']}
+            // })
+
+            // S.each(coreList,function(key){
+            //     aliasConfig['brix/core/'+key] = {alias:['brix/'+options.fixed+'core/'+key]}
+            // })
+            //debugger
             S.config({
                 packages: [{
                     name: "brix",
-                    base: options.base,
+                    base: options.base+'/brix/'+options.fixed,
+                    ignorePackageNameInUri:true,
                     combine: options.combine,
                     debug: options.debug,
                     tag: options.tag,
@@ -165,23 +178,24 @@
                     charset: "utf-8"
                 }]
             });
-            S.config({
-                map: [
-                    [/(.+brix\/)(gallery\/)(.+?)(\/.+?(?:-min)?\.(?:js|css))(\?[^?]+)?$/, function($0, $1, $2, $3, $4, $5) {
-                        var str = $1 + options.fixed + $2 + $3;
-                        if (options.gallery[$3]) {
-                            str += '/' + options.gallery[$3];
-                        }
-                        str += $4 + ($5 ? $5 : '');
-                        return str;
-                    }],
-                    [/(.+brix\/)(core.+?)((?:-min)?\.js)(\?[^?]+)?$/, function($0, $1, $2, $3, $4) {
-                        var str = $1 + options.fixed;
-                        str += $2 + $3 + ($4 ? $4 : '');
-                        return str;
-                    }]
-                ]
-            });
+            //debugger
+            // S.config({
+            //     map: [
+            //         [/(.+brix\/)(gallery\/)(.+?)(\/.+?(?:-min)?\.(?:js|css))(\?[^?]+)?$/, function($0, $1, $2, $3, $4, $5) {
+            //             var str = $1 + options.fixed + $2 + $3;
+            //             if (options.gallery[$3]) {
+            //                 str += '/' + options.gallery[$3];
+            //             }
+            //             str += $4 + ($5 ? $5 : '');
+            //             return str;
+            //         }],
+            //         [/(.+brix\/)(core.+?)((?:-min)?\.js)(\?[^?]+)?$/, function($0, $1, $2, $3, $4) {
+            //             var str = $1 + options.fixed;
+            //             str += $2 + $3 + ($4 ? $4 : '');
+            //             return str;
+            //         }]
+            //     ]
+            // });
         },
         /**
          * 渲染完成后需要执行的函数

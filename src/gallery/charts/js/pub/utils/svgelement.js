@@ -1,10 +1,9 @@
-KISSY.add('brix/gallery/charts/js/pub/utils/svgelement',function(S,Base){                               //R3
+KISSY.add('brix/gallery/charts/js/pub/utils/svgelement',function(S){                               //R3
 	
 	function SVGElement(){
 		
 		var self = this
 
-		SVGElement.superclass.constructor.apply(self,arguments);
 
 		self.element = null
 
@@ -13,7 +12,7 @@ KISSY.add('brix/gallery/charts/js/pub/utils/svgelement',function(S,Base){       
 		self.init.apply(self,arguments);
 	}
 
-	S.extend(SVGElement,Base,{
+	S.extend(SVGElement,function(){},{
 		init:function(){
 			this.createElement(arguments[0])
 		},
@@ -123,6 +122,6 @@ KISSY.add('brix/gallery/charts/js/pub/utils/svgelement',function(S,Base){       
 	return SVGElement;
 
 	}, {
-	    requires:['base','node']
+	    requires:['node']
 	}
 );

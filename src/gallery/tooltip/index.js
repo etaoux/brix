@@ -10,16 +10,119 @@ KISSY.add("brix/gallery/tooltip/index", function(S, Pagelet, Overlay) {
      *
      */
 
-    function ToolTip(config) {
-        var self = this;
-        //对传入的配置处理
-        if(config.el) {
-            self.set('trigger', config.el);
-            delete config.el;
+    var ToolTip = Overlay.extend({
+        constructor:function(config){
+            var self = this;
+            //对传入的配置处理
+            if(config.el) {
+                self.set('trigger', config.el);
+                delete config.el;
+            }
+            ToolTip.superclass.constructor.apply(this, arguments);
+        },
+        initializer: function() {
+            var self = this,
+                align = self.get('align'),
+                trigger = self.get('trigger');
+
+            if(!align.node && trigger) {
+                align.node = trigger;
+                self.set('align', align);
+            }
+            self.on('hide', function() {
+                self._clearHiddenTimer();
+            });
+            if(trigger) {
+                var triggerType = self.get('triggerType');
+                var type = 'click'
+                if(triggerType == 'mouse') {
+                    type = 'mouseenter';
+                    S.all(trigger).on('mouseenter', function(e) {
+                        e.preventDefault();
+                        self._clearHiddenTimer();
+                        self.show();
+                    });
+                } else {
+                    if(self.get('toggle')) {
+                        S.all(trigger).on(type, function(e) {
+                            e.preventDefault();
+                            self.toggle();
+                        });
+                    } else {
+                        S.all(trigger).on(type, function(e) {
+                            e.preventDefault();
+                            self.show();
+                        });
+                    }
+                }
+                S.all(trigger).on('mouseleave', function(e) {
+                    e.preventDefault();
+                    self._setHiddenTimer();
+                });
+            }
+
+            //渲染模板内容
+            self.on('afterRenderUI', function() {
+                self.get('el').on('mouseleave', self._setHiddenTimer, self).on('mouseenter', self._clearHiddenTimer, self);
+                var closeBtn = self.get('el').one('.tooltip-overlay-close');
+                if(closeBtn){
+                    closeBtn.one('.tooltip-overlay-close-x').html('&#223');
+                }
+                if(self.get('tmpl')) {
+                    var container = self.get('contentEl');
+                    if(self.get('content')){
+                        container = container.one('.tooltip-bd');
+                    }
+                    self.pagelet = new Pagelet({
+                        container: container,
+                        tmpl: self.get('tmpl'),
+                        data: self.get('data')
+                    });
+                }
+            });
+        },
+        destructor: function() {
+            var self = this;
+            if(self.pagelet) {
+                self.pagelet.destroy();
+                self.pagelet = null;
+            }
+        },
+        /**
+         * 切换显示隐藏
+         */
+        toggle: function() {
+            var self = this,
+                el = self.get('el');
+            if(el && !S.isString(el)) {
+                if(el.css('visibility') == 'hidden') {
+                    self.show();
+                } else {
+                    self.hide();
+                }
+            } else {
+                self.show();
+            }
+        },
+        _setHiddenTimer: function() {
+            var self = this,
+                mouseDelay = self.get('mouseDelay');
+            if(mouseDelay) {
+                self._clearHiddenTimer();
+                self._hiddenTimer = S.later(function() {
+                    self.hide();
+                }, self.get('mouseDelay') * 1000);
+            }
+        },
+
+        _clearHiddenTimer: function() {
+            var self = this;
+            if(self._hiddenTimer) {
+                self._hiddenTimer.cancel();
+                self._hiddenTimer = undefined;
+            }
         }
-        ToolTip.superclass.constructor.apply(this, arguments);
-    }
-    ToolTip.ATTRS = {
+    },{ATTRS : {
         /**
          * 触发ToolTip显示隐藏的对象
          * @cfg {Element}
@@ -107,7 +210,7 @@ KISSY.add("brix/gallery/tooltip/index", function(S, Pagelet, Overlay) {
             }
         },
         elCls: {
-            value: 'tooltip'
+            value: ['tooltip']
         },
         prefixCls: {
             value: 'tooltip-'
@@ -136,112 +239,7 @@ KISSY.add("brix/gallery/tooltip/index", function(S, Pagelet, Overlay) {
         data: {
 
         }
-    };
-
-    S.extend(ToolTip, Overlay, {
-        initializer: function() {
-            var self = this,
-                align = self.get('align'),
-                trigger = self.get('trigger');
-
-            if(!align.node && trigger) {
-                align.node = trigger;
-                self.set('align', align);
-            }
-            self.on('hide', function() {
-                self._clearHiddenTimer();
-            });
-            if(trigger) {
-                var triggerType = self.get('triggerType');
-                var type = 'click'
-                if(triggerType == 'mouse') {
-                    type = 'mouseenter';
-                    S.all(trigger).on('mouseenter', function(e) {
-                        e.preventDefault();
-                        self._clearHiddenTimer();
-                        self.show();
-                    });
-                } else {
-                    if(self.get('toggle')) {
-                        S.all(trigger).on(type, function(e) {
-                            e.preventDefault();
-                            self.toggle();
-                        });
-                    } else {
-                        S.all(trigger).on(type, function(e) {
-                            e.preventDefault();
-                            self.show();
-                        });
-                    }
-                }
-                S.all(trigger).on('mouseleave', function(e) {
-                    e.preventDefault();
-                    self._setHiddenTimer();
-                });
-            }
-
-            //渲染模板内容
-            self.on('afterRenderUI', function() {
-                self.get('el').on('mouseleave', self._setHiddenTimer, self).on('mouseenter', self._clearHiddenTimer, self);
-                var closeBtn = self.get('el').one('.tooltip-ext-close');
-                if(closeBtn){
-                    closeBtn.one('.tooltip-ext-close-x').html('&#223');
-                }
-                if(self.get('tmpl')) {
-                    var container = self.get('contentEl');
-                    if(self.get('content')){
-                        container = container.one('.tooltip-bd');
-                    }
-                    self.pagelet = new Pagelet({
-                        container: container,
-                        tmpl: self.get('tmpl'),
-                        data: self.get('data')
-                    });
-                }
-            });
-        },
-        destructor: function() {
-            var self = this;
-            if(self.pagelet) {
-                self.pagelet.destroy();
-                self.pagelet = null;
-            }
-        },
-        /**
-         * 切换显示隐藏
-         */
-        toggle: function() {
-            var self = this,
-                el = self.get('el');
-            if(el && !S.isString(el)) {
-                if(el.css('visibility') == 'hidden') {
-                    self.show();
-                } else {
-                    self.hide();
-                }
-            } else {
-                self.show();
-            }
-        },
-        _setHiddenTimer: function() {
-            var self = this,
-                mouseDelay = self.get('mouseDelay');
-            if(mouseDelay) {
-                self._clearHiddenTimer();
-                self._hiddenTimer = S.later(function() {
-                    self.hide();
-                }, self.get('mouseDelay') * 1000);
-            }
-        },
-
-        _clearHiddenTimer: function() {
-            var self = this;
-            if(self._hiddenTimer) {
-                self._hiddenTimer.cancel();
-                self._hiddenTimer = undefined;
-            }
-        }
-    });
+    }});
     return ToolTip;
 }, {
     requires: ["brix/core/pagelet", "overlay"]

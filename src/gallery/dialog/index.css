@@ -1,14 +1,17 @@
-.dialog-ext-mask {
+.dialog-overlay-mask {
   background-color: #000;
   opacity: 0.3;
   filter: alpha(opacity=15);
+}
+.dialog-overlay-mask-hidden {
+  display: none;
 }
 .dialog {
   position: absolute;
   left: -99999px;
   top: -99999px;
 }
-.dialog .dialog-contentbox {
+.dialog .dialog-overlay-content {
   padding: 30px;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -19,7 +22,7 @@
   border: 1px solid #ddd;
   background-color: #fff;
 }
-.dialog .dialog-ext-close {
+.dialog .dialog-overlay-close {
   position: absolute;
   top: 24px;
   right: 24px;
@@ -30,14 +33,14 @@
   display: block;
   cursor: default;
 }
-.dialog .dialog-ext-close:hover .dialog-ext-close-x {
+.dialog .dialog-overlay-close:hover .dialog-overlay-close-x {
   color: #488fcd;
   font-size: 28px;
   line-height: 28px;
   left: 0px;
   top: 0px;
 }
-.dialog .dialog-ext-close-x {
+.dialog .dialog-overlay-close-x {
   font-family: "uxiconfont";
   font-style: normal;
   color: #ccc;
@@ -47,25 +50,25 @@
   left: 6px;
   top: 6px;
 }
-.dialog-left .dialog-contentbox {
+.dialog-left .dialog-overlay-content {
   -webkit-box-shadow: -5px 0px 10px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: -5px 0px 10px rgba(0, 0, 0, 0.1);
   box-shadow: -5px 0px 10px rgba(0, 0, 0, 0.1);
   border-right: none;
 }
-.dialog-right .dialog-contentbox {
+.dialog-right .dialog-overlay-content {
   -webkit-box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.1);
   box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.1);
   border-left: none;
 }
-.dialog-up .dialog-contentbox {
+.dialog-up .dialog-overlay-content {
   -webkit-box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1);
   box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1);
   border-bottom: none;
 }
-.dialog-down .dialog-contentbox {
+.dialog-down .dialog-overlay-content {
   -webkit-box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);

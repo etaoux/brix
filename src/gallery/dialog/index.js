@@ -9,123 +9,34 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
      * <a href="http://docs.kissyui.com/docs/html/api/component/overlay/overlay.html">http://docs.kissyui.com/docs/html/api/component/overlay/overlay.html</a>
      *
      */
-    function Dialog(config) {
-        var self = this;
-        Dialog.superclass.constructor.apply(this, arguments);
-        //绑定触发事件
-        var self = this,
-            trigger = S.one(self.get('trigger'));
-        if(trigger){
-            var triggerType = self.get('triggerType');
-            S.each(triggerType, function(v) {
-                trigger.on(v, self.toggle,self);
-            });
-        }
-    }
-    Dialog.ATTRS = {
-        /**
-         * 触发Dialog的对象
-         * @cfg {Element}
-         */
-        trigger:{
-            value:false
-        },
-        /**
-         * 触发弹出Dialog的事件类型, 
-         * 例如：[‘click’,’focus’],也可以直接传入’focus’, 默认为[‘click’]
-         * @cfg {String|Array}
-         */
-        triggerType:{
-            value:['click']
-        },
-        /**
-         * 显示的开始位置信息
-         * @cfg {Object} start
-         * @cfg {Number} start.left left值
-         * @cfg {Number} start.top   top值
-         * @cfg {Number} start.opacity  opacity值 
-         */
-        start: {
-        },
-        /**
-         * 显示的结束位置信息
-         * @cfg {Object} end
-         * @cfg {Number} end.left left值
-         * @cfg {Number} end.top   top值
-         * @cfg {Number} end.opacity  opacity值 
-         */
-        end: {
-        },
-        elCls:{
-            value:'dialog'
-        },
-        prefixCls: {
-            value: 'dialog-'
-        },
-        x: {
-            getter: function() {
-                var self = this;
-                if(!self.get('start')){
-                    return false
-                }
-                return self.get('start').left;
-            }
-        },
-        y: {
-            getter: function() {
-                var self = this;
-                if(!self.get('start')){
-                    return false
-                }
-                return self.get('start').top;
-            }
-        },
-        dir: {
-            getter: function() {
-                var self = this;
-                var dir = '',
-                    start = self.get('start'),
-                    end = self.get('end');
-                if(start.left===end.left&&start.top===end.top){
-                    return false;
-                }
-                dir = start.left === end.left && (start.top < end.top ? 'down' : 'up') || start.top === end.top && (start.left < end.left ? 'right' : 'left') || 'left';
-                return dir;
-            }
-        },
-        duration: {
-            value: 0.3
-        },
-        easing: {
-            value: 'easeNone'
-        },
-        closable: {
-            value: true
-        },
-        mask: {
-            value: false
-        },
-        tmpl: {
-            value: null
-        },
-        data: {
 
-        }
-    };
-
-    S.extend(Dialog, Overlay, {
+    //Dialog.
+    var Dialog = Overlay.extend({
+        constructor:function(){
+            var self = this;
+            Dialog.superclass.constructor.apply(this, arguments);
+            //绑定触发事件
+            var self = this,
+                trigger = S.one(self.get('trigger'));
+            if(trigger){
+                var triggerType = self.get('triggerType');
+                S.each(triggerType, function(v) {
+                    trigger.on(v, self.toggle,self);
+                });
+            }
+        },
         initializer: function() {
             var self = this;
             //渲染模板内容
             self.on('afterRenderUI', function() {
                 if(self.get('closable')){
-                    var closeBtn = self.get('el').one('.dialog-ext-close');
-                    closeBtn.one('.dialog-ext-close-x').html('&#223');
+                    var closeBtn = self.get('el').one('.dialog-overlay-close');
+                    closeBtn.one('.dialog-overlay-close-x').html('&#223');
                     closeBtn.on('mouseenter',function(e){
-                        closeBtn.one('.dialog-ext-close-x').html('&#378');
+                        closeBtn.one('.dialog-overlay-close-x').html('&#378');
                     });
                     closeBtn.on('mouseleave',function(e){
-                        closeBtn.one('.dialog-ext-close-x').html('&#223');
+                        closeBtn.one('.dialog-overlay-close-x').html('&#223');
                     });
                 }
                 if (self.get('tmpl')) {
@@ -234,8 +145,96 @@ KISSY.add("brix/gallery/dialog/index", function(S, Pagelet, Overlay) {
             else{
                 self.show();
             }
+        }},{ATTRS:{
+        /**
+         * 触发Dialog的对象
+         * @cfg {Element}
+         */
+        trigger:{
+            value:false
+        },
+        /**
+         * 触发弹出Dialog的事件类型, 
+         * 例如：[‘click’,’focus’],也可以直接传入’focus’, 默认为[‘click’]
+         * @cfg {String|Array}
+         */
+        triggerType:{
+            value:['click']
+        },
+        /**
+         * 显示的开始位置信息
+         * @cfg {Object} start
+         * @cfg {Number} start.left left值
+         * @cfg {Number} start.top   top值
+         * @cfg {Number} start.opacity  opacity值 
+         */
+        start: {
+        },
+        /**
+         * 显示的结束位置信息
+         * @cfg {Object} end
+         * @cfg {Number} end.left left值
+         * @cfg {Number} end.top   top值
+         * @cfg {Number} end.opacity  opacity值 
+         */
+        end: {
+        },
+        elCls:{
+            value:['dialog']
+        },
+        prefixCls: {
+            value: 'dialog-'
+        },
+        x: {
+            getter: function() {
+                var self = this;
+                if(!self.get('start')){
+                    return false
+                }
+                return self.get('start').left;
+            }
+        },
+        y: {
+            getter: function() {
+                var self = this;
+                if(!self.get('start')){
+                    return false
+                }
+                return self.get('start').top;
+            }
+        },
+        dir: {
+            getter: function() {
+                var self = this;
+                var dir = '',
+                    start = self.get('start'),
+                    end = self.get('end');
+                if(start.left===end.left&&start.top===end.top){
+                    return false;
+                }
+                dir = start.left === end.left && (start.top < end.top ? 'down' : 'up') || start.top === end.top && (start.left < end.left ? 'right' : 'left') || 'left';
+                return dir;
+            }
+        },
+        duration: {
+            value: 0.3
+        },
+        easing: {
+            value: 'easeNone'
+        },
+        closable: {
+            value: true
+        },
+        mask: {
+            value: false
+        },
+        tmpl: {
+            value: null
+        },
+        data: {
+
         }
-    });
+    }});
     return Dialog;
 }, {
     requires: ["brix/core/pagelet", "overlay"]

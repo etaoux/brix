@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="../../../src/gallery/inplaceeditor/index.css">
         <link rel="stylesheet" href="../../../src/gallery/form/index.css">
         <link rel="stylesheet" href="../../assets/doc.css">
-        <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script>
+        <script src="http://g.tbcdn.cn/kissy/k/1.4.2/seed.js"></script>
         <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,fixed:'src/'}"></script>
         <style type="text/css">
             .url_list_con{
@@ -95,7 +95,8 @@
                         S.one('#item_' + inputNode.attr('data-sid')).one('span').html(e.value);
                         saveData();
                     });
-                    var navData = JSON.parse(COOKIE.get('userNavigationData')) || [{
+                    var navDataStr = COOKIE.get('userNavigationData')
+                    var navData = navDataStr?JSON.parse(navDataStr) : [{
                         name: '淘网址',
                         url: 'http://www.tao123.com'
                     }, {

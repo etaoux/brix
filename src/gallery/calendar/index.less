@@ -1,6 +1,9 @@
 @import "../../style/variables.less";
 @import "../../style/mixins.less";
 
+.ks-overlay-hidden{
+	visibility: hidden;
+}
 .calendar{
 	width: 197px;
 	.border-radius(2px);
@@ -9,7 +12,6 @@
     position:absolute;
     left:-9999px;
     top:-9999px;
-    visibility: hidden;
     background-color: #fff;
     -webkit-text-size-adjust: none;
     a:hover{

@@ -169,5 +169,5 @@ KISSY.add("brix/core/tmpler", function(S, XTemplate, Node, IO) {
     });
     return Tmpler;
 }, {
-    requires: [Brix.templateEngine, 'node', 'ajax', 'sizzle']
+    requires: [Brix.templateEngine, 'node', 'ajax']
 });

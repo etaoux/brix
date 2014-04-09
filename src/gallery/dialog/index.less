@@ -2,25 +2,28 @@
 @import "../../style/variables.less";
 @import "../../style/mixins.less";
 
-.dialog-ext-mask {
+.dialog-overlay-mask {
     background-color: #000;
     opacity: 0.3;
     filter: alpha(opacity=15);
 }
+.dialog-overlay-mask-hidden {
+        display: none;
+    }
 .dialog{
     position: absolute;
     left:-99999px;
     top:-99999px;
 
 
-    .dialog-contentbox{
+    .dialog-overlay-content{
         padding: 30px;
         .border-radius(2px);
         .box-shadow(0 0 10px rgba(0, 0, 0, 0.1));
         border: 1px solid #ddd;
         background-color: #fff;
     }
-    .dialog-ext-close {
+    .dialog-overlay-close {
         position: absolute;
         top: 24px;
         right: 24px;
@@ -32,7 +35,7 @@
         cursor: default;
 
     }
-    .dialog-ext-close:hover .dialog-ext-close-x{
+    .dialog-overlay-close:hover .dialog-overlay-close-x{
         color: #488fcd;
         font-size: 28px;
         line-height: 28px;
@@ -40,7 +43,7 @@
         top:0px;
     }
 
-    .dialog-ext-close-x {
+    .dialog-overlay-close-x {
         font-family:"uxiconfont";
         font-style:normal;
         color:#ccc;
@@ -53,28 +56,28 @@
 }
 
 .dialog-left{
-    .dialog-contentbox{
+    .dialog-overlay-content{
         .box-shadow(-5px 0px 10px rgba(0, 0, 0, 0.1));
         border-right: none;
     }
 }
 
 .dialog-right{
-    .dialog-contentbox{
+    .dialog-overlay-content{
         .box-shadow(5px 0px 10px rgba(0, 0, 0, 0.1));
         border-left: none;
     }
 }
 
 .dialog-up{
-    .dialog-contentbox{
+    .dialog-overlay-content{
         .box-shadow(0px -5px 10px rgba(0, 0, 0, 0.1));
         border-bottom: none;
     }
 }
 
 .dialog-down{
-    .dialog-contentbox{
+    .dialog-overlay-content{
         .box-shadow(0px 5px 10px rgba(0, 0, 0, 0.1));
         border-top: none;
     }

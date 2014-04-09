@@ -1,7 +1,7 @@
 KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
     var $ = Node.all;
     var noop = S.noop;
-
+    var __getHook = RichBase.prototype.__getHook;
     /**
      * 判断两个数组数否有重复值
      * @param  {Array}  arr1 数组1
@@ -146,7 +146,7 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
          * @method
          */
         bindUI: noop,
-
+        initialize:noop,
         /**
          * 同步属性与用户界面
          * @protected
@@ -245,10 +245,12 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
 
                 self.fire('beforeBindUI');
                 Chunk.superclass.bindInternal.call(self);
-                self.callMethodByHierarchy("bindUI", "__bindUI");
+                self.bindUI();
+                self.initialize();
+                //self.callMethodByHierarchy("bindUI", "__bindUI");
 
                 //兼容老的brix render后的初始化函数
-                self.callMethodByHierarchy("initialize", "constructor");
+                //self.callMethodByHierarchy("initialize", "constructor");
 
                 /**
                  * @event afterBindUI
@@ -267,7 +269,9 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
                 self.fire('beforeSyncUI');
 
                 Chunk.superclass.syncInternal.call(self);
-                self.callMethodByHierarchy("syncUI", "__syncUI");
+
+                self.syncUI();
+                //self.callMethodByHierarchy("syncUI", "__syncUI");
 
                 /**
                  * @event afterSyncUI
@@ -409,6 +413,11 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
             }
         }
     }, {
+        __hooks__: {
+                initialize:__getHook('__initialize'),
+                bindUI: __getHook('__bindUI'),
+                syncUI: __getHook('__syncUI')
+            },
         ATTRS: {
             /**
              * 组件根节点
@@ -503,5 +512,5 @@ KISSY.add("brix/core/chunk", function(S, Node, UA, RichBase, Dataset, Tmpler) {
     });
     return Chunk;
 }, {
-    requires: ["node", 'ua', "rich-base", "./dataset", "./tmpler"]
+    requires: ["node", 'ua', "base", "./dataset", "./tmpler"]
 });

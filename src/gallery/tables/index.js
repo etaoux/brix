@@ -58,7 +58,7 @@ KISSY.add('brix/gallery/tables/index', function(S, Brick) {
                 $(e.currentTarget).css('z-index', '').all('.table-info').hide();
             }
         },
-        'tbody > tr': {
+        'tbody>tr': {
             mouseenter: function(e) {
                 var t = $(e.currentTarget);
 
@@ -76,7 +76,7 @@ KISSY.add('brix/gallery/tables/index', function(S, Brick) {
     S.extend(Tables, Brick, {
         initialize: function() {
             //默认第一个tr高亮
-            this.curTr = this.get('el').all('tbody > tr:first');
+            this.curTr = this.get('el').all('tbody > tr').item(0);
             this.curTr.addClass('hover');
         }
     });
