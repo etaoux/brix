@@ -1,3 +1,6 @@
+.tooltip-overlay-hidden {
+  visibility: hidden;
+}
 .tooltip {
   position: relative;
   border: solid 1px #d0d0d0;

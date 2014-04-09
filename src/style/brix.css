@@ -1716,9 +1716,3 @@ a:hover {
 .ks-overlay-hidden {
   visibility: hidden;
 }
-.dialog-overlay-hidden {
-  visibility: hidden;
-}
-.tooltip-overlay-hidden {
-  visibility: hidden;
-}
