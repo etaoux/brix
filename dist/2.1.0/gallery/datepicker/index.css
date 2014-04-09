@@ -1,3 +1,6 @@
+.ks-overlay-hidden {
+  visibility: hidden;
+}
 .datepicker {
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
