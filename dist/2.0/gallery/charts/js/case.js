@@ -5110,7 +5110,8 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			self.set('_baseNumber', self.get('_DataFrameFormat').vertical.section[0])
 			// self.get('_DataFrameFormat').vertical.section = [10330000, 10340000, 10350000, 10360000, 10370000, 10380000, 10390000] 
 			if(arr.length == 1){
-				self.get('_DataFrameFormat').vertical.section[0] = arr[0] * 2
+				self.get('_DataFrameFormat').vertical.section[0] = self.get('_DataFrameFormat').vertical.section[self.get('_DataFrameFormat').vertical.section.length - 1] * 2
+				self.get('_DataFrameFormat').vertical.section.length = 1
 				self.set('_baseNumber', 0)
 			}
 
@@ -5643,8 +5644,15 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 
 			self.set('_DataFrameFormat',self.DataExtend(self.get('_DataFrameFormat'), self.get('DataSource'))) 
 			// self.get('_DataFrameFormat').key.data = String(self.get('_DataFrameFormat').key.indexs).split(',')
-			self.get('_DataFrameFormat').vertical.section = DataSection.section(Global.getChildsArr(self.get('_DataFrameFormat').vertical.org))
+			var arr = Global.getChildsArr(self.get('_DataFrameFormat').vertical.org)
+			self.get('_DataFrameFormat').vertical.section = DataSection.section(arr)
 			self.set('_baseNumber', self.get('_DataFrameFormat').vertical.section[0])
+
+			if(arr.length == 1){
+				self.get('_DataFrameFormat').vertical.section[0] = self.get('_DataFrameFormat').vertical.section[self.get('_DataFrameFormat').vertical.section.length - 1] * 2
+				self.get('_DataFrameFormat').vertical.section.length = 1
+				self.set('_baseNumber', 0)
+			}
 
 			self._widget()
 		},
@@ -5781,7 +5789,11 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 			var arr = self.get('_DataFrameFormat').horizontal.org
 			var tmpData = []
 		    for (var a = 0, al  = arr.length; a < al; a++ ) {
-				tmpData.push( { 'value':arr[a], 'x':Global.ceil(self.get('_dis_graphs') + a / (max - 1) * self.get('_horizontalDrawW')) } )
+		    	var o = { 'value':arr[a], 'x':Global.ceil(self.get('_dis_graphs') + a / (max - 1) * self.get('_horizontalDrawW')) }
+				tmpData.push( o )
+			}
+			if(max == 1){
+				o.x = Global.ceil(self.get('_horizontalDrawW') / 2)
 			}
 			self.get('_DataFrameFormat').horizontal.data = tmpData
 		},
@@ -5809,6 +5821,11 @@ KISSY.add('brix/gallery/charts/js/e/line2/view/widget',function(S,Base,Node,Glob
 					var y = -self.get('_dis_graphs') - (arr[a][b] - self.get('_baseNumber')) / (maxVertical - self.get('_baseNumber')) * self.get('_verticalDrawH')
 					y = isNaN(y) ? 0 : y
 					tmpData[a][b] = {'value':arr[a][b], 'x':self.get('_dis_graphs') + b / (maxHorizontal - 1) * self.get('_horizontalDrawW'),'y':y} 
+				}
+			}
+			if(maxHorizontal == 1){
+				if(tmpData[0] && tmpData[0][0]){
+					tmpData[0][0].x = Global.ceil(self.get('_horizontalDrawW') / 2)
 				}
 			}
 			self.get('_DataFrameFormat').graphs.data = tmpData
