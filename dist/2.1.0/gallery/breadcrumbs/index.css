@@ -1,0 +1,64 @@
+.breadcrumbs {
+  -webkit-text-size-adjust: none;
+}
+.breadcrumbs li.item {
+  padding: 0 10px;
+  height: 25px;
+  line-height: 25px;
+  float: left;
+  list-style-type: none;
+  margin: 0;
+}
+.breadcrumbs li.item a:link,
+.breadcrumbs li.item a:visited {
+  color: #666;
+  text-decoration: none;
+}
+.breadcrumbs li.item.first,
+.breadcrumbs li.item:first-child {
+  padding-left: 0px;
+}
+.breadcrumbs li.item.last,
+.breadcrumbs li.item:last-child {
+  padding-right: 0px;
+}
+.breadcrumbs li.item.last,
+.breadcrumbs li.item:last-child,
+.breadcrumbs li.item.last a:link,
+.breadcrumbs li.item:last-child a:link,
+.breadcrumbs li.item.last a:visited,
+.breadcrumbs li.item:last-child a:visited {
+  color: #999;
+}
+.breadcrumbs li.split {
+  padding: 0;
+}
+.breadcrumbs li.split .iconfont {
+  font-size: 8px;
+  display: block;
+}
+.breadcrumbs li.item-dropdown {
+  padding: 0 6px;
+}
+.breadcrumbs li.item-dropdown a:link,
+.breadcrumbs li.item-dropdown a:visited {
+  color: #666;
+  text-decoration: none;
+}
+.breadcrumbs li.item-dropdown .dropdown {
+  float: left;
+}
+.breadcrumbs li.item-dropdown .dropdown-hd {
+  *display: inline-block;
+}
+.breadcrumbs {
+  *zoom: 1;
+}
+.breadcrumbs:before,
+.breadcrumbs:after {
+  display: table;
+  content: "";
+}
+.breadcrumbs:after {
+  clear: both;
+}
