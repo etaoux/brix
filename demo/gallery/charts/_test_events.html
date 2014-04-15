@@ -6,17 +6,18 @@
     <link type="text/css" rel="stylesheet" href="../../../src/style/brix-min.css" charset="utf-8">
     <link rel="stylesheet" href="../../assets/doc.css">
     <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script>
-    <script src="http://a.tbcdn.cn/apps/e/brix/2.0/brix.js" bx-config="{autoConfig:true}"></script>
+    <!-- // <script src="http://a.tbcdn.cn/apps/e/brix/2.0/brix.js" bx-config="{autoConfig:true}"></script> -->
     <!--<script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script>-->
-    <!-- // <script src="../../../src/core/brix.js"></script> -->
+    <script src="../../../src/core/brix.js"></script>
 </head>
 <body>
 	<div id="J_wrapper1" class="wrapper1" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper2" class="wrapper2" style="width:720px;height:400px;"></div>
 
 	<script type="text/javascript">
 
 		KISSY.use('brix/gallery/charts/',function(S,Charts){
-			chart = new Charts({
+			var chart1 = new Charts({
 				parent_id:'J_wrapper1',
 
 				config:{
@@ -25,8 +26,22 @@
 				}
 			});
 
-			chart.on('elementClick',function(o){
-					console.log(o.index)
+			chart1.on('elementClick',function(o){
+				console.log('pie click : ' + o.index)
+			})
+
+
+			var chart2 = new Charts({
+				parent_id:'J_wrapper2',
+
+				config:{
+					configData:'<?xml version="1.0"?><chart v="1.0" type="line"><data shape="0" node="1" area="0"><colors normals="0x3300FF,0x3333FF,0x3366FF" overs="0xCC0000,0xCC3300,0xCC6600"/><node mode="1"><normal radius="2" thickness="1"/><over min_radius="0" max_radius="4" max_thickness="1"/></node><y_axis><data int="1"/></y_axis></data></chart>',
+					chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="1,2,3,4,5,6,7" name="维度2："><key indexs="5"/></indexAxis><sets name="维度1："><set values="9,9,10,10,10,10,10" name="维度1---1："></set></sets></data></chart>'
+				}
+			});
+
+			chart2.on('elementClick',function(o){
+				console.log('line click : line index : ' + o.line_index + ' | node index : ' + o.node_index)
 			})
 		})
 	</script>

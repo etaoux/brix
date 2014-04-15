@@ -1,4 +1,4 @@
-KISSY.add('brix/gallery/charts/js/e/line/main',function(S,Base,Global,SVGElement,Widget,DataParse,ConfigParse){
+KISSY.add('brix/gallery/charts/js/e/line/main',function(S,Base,Global,SVGElement,EventType,Widget,DataParse,ConfigParse){
 	function Main(){
 
 		var self = this
@@ -29,6 +29,9 @@ KISSY.add('brix/gallery/charts/js/e/line/main',function(S,Base,Global,SVGElement
 		},
 		_DataSource:{
 			value:{}             //图表数据源 经过DataParse.parse
+		},
+		_widget:{
+			value:null
 		}
 	}
 
@@ -57,14 +60,17 @@ KISSY.add('brix/gallery/charts/js/e/line/main',function(S,Base,Global,SVGElement
 			o.DataSource = self.get('_DataSource')             //图表数据源
 			o.config = self.get('_config')                     //图表配置
 			
-			new Widget(o)
-		}
-		
+			self.set('_widget', new Widget(o))
+			self.get('_widget').get('element').on(EventType.CLICK,function($o){self._clickHandler($o)})
+		},
+		_clickHandler:function($o){
+			this.fire('elementClick',$o)
+		},
 	});
 
 	return Main;
 
 	}, {
-	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','./view/widget','../../pub/controls/line/dataparse','../../pub/controls/line/configparse']
+	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','../../pub/models/eventtype','./view/widget','../../pub/controls/line/dataparse','../../pub/controls/line/configparse']
 	}
 );
