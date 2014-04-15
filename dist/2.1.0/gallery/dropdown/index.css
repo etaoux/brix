@@ -1,0 +1,130 @@
+.dropdown {
+  position: relative;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  border: 1px solid #ddd;
+  border-bottom: 1px solid #bbb;
+  height: 23px;
+  line-height: 23px;
+  -webkit-text-size-adjust: none;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+.dropdown-arrow {
+  border: none;
+  height: 25px;
+  line-height: 25px;
+}
+.dropdown:after {
+  content: '\20';
+  display: block;
+  height: 0;
+  clear: both;
+}
+.dropdown .icon-arrow-down {
+  font-size: 8px;
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  height: 8px;
+  line-height: 8px;
+  color: #999999;
+}
+.dropdown .dropdown-hd {
+  color: #333;
+  padding-right: 10px;
+  padding-left: 10px;
+  display: block;
+  background-color: #f4f4f4;
+  background-image: -moz-linear-gradient(top, #f8f8f8, #eeeeee);
+  background-image: -ms-linear-gradient(top, #f8f8f8, #eeeeee);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f8f8f8), to(#eeeeee));
+  background-image: -webkit-linear-gradient(top, #f8f8f8, #eeeeee);
+  background-image: -o-linear-gradient(top, #f8f8f8, #eeeeee);
+  background-image: linear-gradient(top, #f8f8f8, #eeeeee);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8f8f8', endColorstr='#eeeeee', GradientType=0);
+  cursor: default;
+  zoom: 1;
+}
+.dropdown-arrow .dropdown-hd {
+  padding-right: 20px;
+  background: none;
+  filter: none;
+}
+.dropdown .dropdown-hd-active {
+  background-color: #ebebeb;
+  background-image: -moz-linear-gradient(top, #e6e6e6, #f2f2f2);
+  background-image: -ms-linear-gradient(top, #e6e6e6, #f2f2f2);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e6e6e6), to(#f2f2f2));
+  background-image: -webkit-linear-gradient(top, #e6e6e6, #f2f2f2);
+  background-image: -o-linear-gradient(top, #e6e6e6, #f2f2f2);
+  background-image: linear-gradient(top, #e6e6e6, #f2f2f2);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e6e6e6', endColorstr='#f2f2f2', GradientType=0);
+}
+.dropdown .dropdown-list {
+  display: none;
+  top: 24px;
+  left: -1px;
+  position: absolute;
+  border: 1px solid #ddd;
+  background: #fff;
+  z-index: 999999;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  -webkit-border-radius: 2px 2px 2px 2px;
+  -moz-border-radius: 2px 2px 2px 2px;
+  border-radius: 2px 2px 2px 2px;
+  -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  overflow: auto;
+}
+.dropdown .dropdown-list .dropdown-item {
+  height: 25px;
+  overflow: hidden;
+  line-height: 25px;
+  text-indent: 8px;
+  color: #333;
+  position: relative;
+  padding-right: 20px;
+  cursor: default;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+.dropdown .dropdown-list-noicon .dropdown-item {
+  padding-right: 0px;
+}
+.dropdown .dropdown-list .dropdown-item span {
+  height: 25px;
+  line-height: 25px;
+  overflow: hidden;
+  display: block;
+}
+.dropdown .dropdown-list .dropdown-item .icon-ok {
+  font-size: 9px;
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  line-height: 12px;
+  visibility: hidden;
+  color: #999;
+  clear: both;
+}
+.dropdown .dropdown-list .dropdown-itemselected {
+  color: #000;
+}
+.dropdown .dropdown-list .dropdown-itemselected .icon-ok {
+  visibility: visible;
+}
+.dropdown .dropdown-list .dropdown-itemover {
+  background-color: #488fcd;
+  color: #fff;
+}
+.dropdown .dropdown-list .dropdown-itemover .icon-ok {
+  color: #fff;
+}

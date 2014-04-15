@@ -1,0 +1,23 @@
+.loading {
+  display: inline-block;
+}
+.loading-color {
+  width: 60px;
+  height: 24px;
+  background: url(http://img01.taobaocdn.com/tps/i1/T1Z6DDXllbXXbb3zDj-60-24.gif) no-repeat;
+}
+.loading-color-mini {
+  width: 30px;
+  height: 12px;
+  background: url(http://img04.taobaocdn.com/tps/i4/T1h7YDXdddXXcntf6c-30-12.gif) no-repeat;
+}
+.loading-grey-border {
+  width: 40px;
+  height: 18px;
+  background: url(http://img03.taobaocdn.com/tps/i3/T1cN_yXgBnXXc.LCDe-40-18.gif) no-repeat;
+}
+.loading-grey {
+  width: 40px;
+  height: 18px;
+  background: url(http://img02.taobaocdn.com/tps/i2/T19ZHDXf4fXXc.LCDe-40-18.gif) no-repeat;
+}
