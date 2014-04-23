@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Brix Footer Demo</title>
+        <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script>
+        <script src="../../../src/core/brix.js" bx-config="{autoConfig:true,fixed:'src/'}"></script>
+    </head>
+    <body>
+        <!--后台模式-->
+        <h1>后台模式</h1>
+        <div class="container">
+            <div bx-name="footer" bx-config="{mode:'simple'}"></div>
+        </div>
+
+        <!--前台模式-->
+        <h1>前台模式</h1>
+        <div class="container">
+            <div bx-name="footer"></div>
+        </div>
+
+        <script>
+            KISSY.ready(function(S) {
+                KISSY.use("brix/core/pagelet", function(S, Pagelet) {
+                    new Pagelet({tmpl:'.container'});
+                });
+            });
+        </script>
+    </body>
+</html>
