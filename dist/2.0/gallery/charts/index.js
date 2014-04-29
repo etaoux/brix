@@ -492,12 +492,12 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 	*  版本:1.3.8
 	*  日期:2014.04.02
 	*  内容(钻展 金台):
-	*       新增：integrate5 开通两个接口对core的操作：y、h
+	*       新增：integrate5 开通两个接口对core的操作：y、h  (flash + svg)
 	*
 	*  版本:1.3.9
 	*  日期:2014.04.08
 	*  内容:
-	*       优化：line2  只有一个数据的情况
+	*       优化：line2  只有一个数据的情况 (flash + svg)
  */
 
 
