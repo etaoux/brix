@@ -6,23 +6,12 @@ KISSY.add("brix/gallery/switchable/index", function(S,Brick,KSSwitchable) {
      * <a target="_blank" href="http://docs.kissyui.com/docs/html/api/component/switchable/">其他配置、方法、事件请参考KISSY API</a>
      * @param {Object} config 配置信息
      */
-    function Switchable(config) {
-        this.config = config;
-        Switchable.superclass.constructor.apply(this, arguments);
-    }
-    
-    /**
-     * Switchable 实例对象类型Tabs|Slide|Carousel|Accordion。
-     * @cfg switchType
-     */
-    
-
-    /**
-     * @property {Object} switchable KISSY switchable实例化后的对象
-     */
-
-    S.extend(Switchable, Brick, {
-        initialize:function(){
+    var Switchable = Brick.extend({
+        constructor:function(config){
+            this.config = config;
+            Switchable.superclass.constructor.apply(this, arguments);
+        },
+        bindUI:function(){
             var self = this,
                 config = self.config;
             if(config.switchType){
@@ -43,6 +32,17 @@ KISSY.add("brix/gallery/switchable/index", function(S,Brick,KSSwitchable) {
             }
         }
     });
+    /**
+     * Switchable 实例对象类型Tabs|Slide|Carousel|Accordion。
+     * @cfg switchType
+     */
+    
+
+    /**
+     * @property {Object} switchable KISSY switchable实例化后的对象
+     */
+
+    
     return Switchable;
 }, {
     requires: ["brix/core/brick",'switchable']

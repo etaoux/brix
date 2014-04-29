@@ -34,18 +34,269 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
      * @class Brix.Gallery.Calendar
      * @extends Brix.Brick
      */
-    function Calendar() {
-        Calendar.superclass.constructor.apply(this, arguments);
-        var self = this,
-            popup = self.get('popup'),
-            trigger = S.one(self.get('trigger'));
-        if(popup&&trigger){
-            var triggerType = self.get('triggerType');
-            S.each(triggerType, function(v) {
-                trigger.on(v, self.toggle,self);
+    var Calendar = Brick.extend({
+        constructor : function(){
+            Calendar.superclass.constructor.apply(this, arguments);
+            var self = this,
+                popup = self.get('popup'),
+                trigger = S.one(self.get('trigger'));
+            if(popup&&trigger){
+                var triggerType = self.get('triggerType');
+                S.each(triggerType, function(v) {
+                    trigger.on(v, self.toggle,self);
+                });
+            }
+        },
+        bindUI : function() {
+            var self = this,
+                popup = self.get('popup'),
+                closable = self.get('closable'),
+                pages = self.get('pages'),
+                rangeLinkage = self.get('rangeLinkage'),
+                el = self.get('el'),
+                date = self.get('date'),
+                month = date.getMonth(),
+                year = date.getFullYear(),
+                trigger = self.get('trigger'),
+                isQuick = self.get('isQuick');
+            if (popup) {
+                var align = S.clone(self.get('align'));
+                if(!align.node){
+                    align.node = trigger;
+                }
+                self.overlay = new Overlay({
+                    srcNode: self.get('el'),
+                    align: align,
+                    zIndex:self.get('zIndex')
+                });
+                self.overlay.render();
+            } else {
+                el.css({
+                    'position': 'static',
+                    visibility: 'visible'
+                });
+            }
+            var container = el.one('.calendar-pages');
+            self.pageBricks = [];
+            el.addClass('.calendar-' + (isQuick?pages+1:pages));
+            var prev, next;
+            for (var i = 0; i < pages; i++) {
+                if (!rangeLinkage) {
+                    prev = true;
+                    next = true;
+                } else {
+                    prev = (i == 0);
+                    next = (i == (pages - 1));
+                }
+                (function(i) {
+                    var pageBrick = new Page({
+                        index: i,
+                        prev:self.get('prev')?prev:false,
+                        next: self.get('next')?next:false,
+                        year: year,
+                        month: month,
+                        father: self,
+                        destroyAction:self.get('destroyAction'),
+                        container: container.one('.calendar-container-pages')
+                    });
+                    self.pageBricks.push(pageBrick);
+                    pageBrick.on('itemClick', function(ev) {
+                        var rangeSelect = self.get('rangeSelect');
+                        if (rangeSelect) {
+                            self._handleRange(ev.date);
+                        } else if (ev.date) {
+                            self.set('selected', ev.date);
+
+                            self.fire(Calendar.FIRES.select, {
+                                date: ev.date
+                            });
+                            if (popup && closable && !self.get('showTime')) {
+                                self.hide();
+                            }
+                        }
+                    });
+                    pageBrick.on('itemMouseDown', function(ev) {
+                        var multiSelect = self.get('multiSelect');
+                        if (multiSelect) {
+                            self._handleMultiSelectStart(ev.date)
+                        }
+
+                    });
+                    pageBrick.on('itemMouseUp', function(ev) {
+                        var multiSelect = self.get('multiSelect');
+                        if (multiSelect) {
+                            self._handleMultiSelectEnd(ev.date);
+                            //需要排序好的multi数组，请调用getMulti方法
+                            self.fire('multiOneSelect');
+                        }
+                    });
+                    pageBrick.on('monthChange', function(ev) {
+                        self._bindDateValueChange(ev.date,ev.index);
+                    });
+
+                })(i);
+                if (month == 11) {
+                    year++;
+                    month = 0;
+                } else {
+                    month++;
+                }
+            }
+            self._bindDataChange('range');
+            self._bindDataChange('multi');
+            self._bindDataChange('disabled');
+            self._bindDataChange('minDate');
+            self._bindDataChange('maxDate');
+            self._bindDataChange('selected');
+            self._bindDataChange('startDay');
+
+            self.on('afterDateChange',function(){
+                self._bindDateValueChange(self.get('date'));
             });
+        },
+        destructor: function() {
+            var self = this;
+            var trigger = S.one(self.get('trigger'));
+            if(self.get('popup')&&trigger){
+                var triggerType = self.get('triggerType');
+                S.each(triggerType, function(v) {
+                    trigger.detach(v, self.toggle,self);
+                });
+            }
+            if(self.pageBricks){
+                S.each(self.pageBricks, function(o,i) {
+                    o.destroy();
+                });
+                self.pageBricks = null;
+            }
+            if (self.overlay) {
+                self.overlay.destroy();
+            }
+        },
+        _bindDataChange: function(key, upperCaseKey) {
+            var self = this,
+                upperCaseKey = key.replace(/\b(\w)|\s(\w)/g, function(m) {
+                    return m.toUpperCase()
+                });
+            self.on('after' + upperCaseKey + 'Change', function() {
+                var data = self.get(key);
+                for (var i = 0; i < self.pageBricks.length; i++) {
+                    self.pageBricks[i].setChunkData(key, data);
+                };
+            });
+        },
+        _bindDateValueChange:function(date,index){
+            index = index || 0;
+            var self = this, rangeLinkage = self.get('rangeLinkage'),
+                year = date.getFullYear(), month = date.getMonth();
+                if (rangeLinkage) {
+                    for (var i = 0; i < self.pageBricks.length; i++) {
+                        var newMonth = month - index + i,
+                            newYear = year;
+                        if (newMonth < 0) {
+                            newYear--;
+                            newMonth += 12;
+                        } else if (newMonth > 11) {
+                            newYear++;
+                            newMonth -= 12;
+                        }
+                        self.pageBricks[i].set('year', newYear);
+                        self.pageBricks[i].set('month', newMonth);
+                    };
+
+                    var fireYear = year,
+                        fireMonth = month - index;
+                    if (fireMonth < 0) {
+                        fireYear--;
+                        fireMonth += 12;
+                    }
+                    self.fire(Calendar.FIRES.monthChange, {
+                        date: new Date(fireYear, fireMonth, 1)
+                    });
+                } else {
+                    self.pageBricks[index].set('year', year);
+                    self.pageBricks[index].set('month', month);
+                    self.fire(Calendar.FIRES.monthChange, {
+                        date: new Date(year, month, 1)
+                    });
+                }
+        },
+        //处理起始日期,d:Date类型
+        _handleRange: function(d) {
+            var self = this,
+                range = S.clone(self.get('range')) || {},
+                //克隆是为了触发afterRangeChange事件
+                t;
+            if ((!range.start && !range.end) || (range.start && range.end)) {
+                range.start = d;
+                range.end = null;
+                self.set('range', range);
+            } else {
+                range.end = d;
+                if (range.start.getTime() > range.end.getTime()) {
+                    t = range.start;
+                    range.start = range.end;
+                    range.end = t;
+                }
+                self.set('range', range);
+                self.fire(Calendar.FIRES.rangeSelect, range);
+                var popup = self.get('popup'),
+                    closable = self.get('closable');
+                if (popup && closable) {
+                    self.hide();
+                }
+            }
+        },
+        //开始多选
+        _handleMultiSelectStart: function(d) {
+            this.multiStartDate = d;
+        },
+        _handleMultiSelectEnd: function(d) {
+            if (this.multiStartDate) {
+                var self = this,
+                    multi = S.clone(self.get('multi')) || [],
+                    multiStartDate = self.multiStartDate,
+                    multiEndDate, minDate = self.get('minDate'),
+                    maxDate = self.get('maxDate'),
+                    disabled = self.get('disabled');
+                if (d < multiStartDate) {
+                    multiEndDate = multiStartDate;
+                    multiStartDate = d;
+                } else {
+                    multiEndDate = d;
+                }
+                while (multiStartDate <= multiEndDate) {
+                    if (Brix_Date.isDisabled(disabled, multiStartDate)) {
+                        continue;
+                    }
+                    var str = Brix_Date.format(multiStartDate, 'isoDate');
+                    if (!S.inArray(str, multi)) {
+                        multi.push(str);
+                    } else {
+                        multi.splice(S.indexOf(str, multi), 1);
+                    }
+                    multiStartDate.setDate(multiStartDate.getDate() + 1);
+                }
+                delete self.multiStartDate;
+                self.set('multi', multi);
+            }
+        },
+        getMulti:function(){
+            var self = this;
+            var multi = S.clone(self.get('multi'));
+            multi.sort(function(a, b) {
+                if (a > b) {
+                    return 1;
+                }
+                return -1;
+            });
+            for (var i = 0; i < multi.length; i++) {
+                multi[i] = Brix_Date.parse(multi[i]);
+            };
+            return multi
         }
-    }
+    });
+    
     Calendar.Date = Brix_Date;
     Calendar.ATTRS = {
         /**
@@ -482,257 +733,6 @@ KISSY.add('brix/gallery/calendar/index', function(S, Brick, Overlay, Page, Brix_
             }
         }
     };
-
-    S.extend(Calendar, Brick, {
-        initialize: function() {
-            var self = this,
-                popup = self.get('popup'),
-                closable = self.get('closable'),
-                pages = self.get('pages'),
-                rangeLinkage = self.get('rangeLinkage'),
-                el = self.get('el'),
-                date = self.get('date'),
-                month = date.getMonth(),
-                year = date.getFullYear(),
-                trigger = self.get('trigger'),
-                isQuick = self.get('isQuick');
-            if (popup) {
-                var align = S.clone(self.get('align'));
-                if(!align.node){
-                    align.node = trigger;
-                }
-                self.overlay = new Overlay({
-                    srcNode: self.get('el'),
-                    align: align,
-                    zIndex:self.get('zIndex')
-                });
-                self.overlay.render();
-            } else {
-                el.css({
-                    'position': 'static',
-                    visibility: 'visible'
-                });
-            }
-            var container = el.one('.calendar-pages');
-            self.pageBricks = [];
-            el.addClass('.calendar-' + (isQuick?pages+1:pages));
-            var prev, next;
-            for (var i = 0; i < pages; i++) {
-                if (!rangeLinkage) {
-                    prev = true;
-                    next = true;
-                } else {
-                    prev = (i == 0);
-                    next = (i == (pages - 1));
-                }
-                (function(i) {
-                    var pageBrick = new Page({
-                        index: i,
-                        prev:self.get('prev')?prev:false,
-                        next: self.get('next')?next:false,
-                        year: year,
-                        month: month,
-                        father: self,
-                        destroyAction:self.get('destroyAction'),
-                        container: container.one('.calendar-container-pages')
-                    });
-                    self.pageBricks.push(pageBrick);
-                    pageBrick.on('itemClick', function(ev) {
-                        var rangeSelect = self.get('rangeSelect');
-                        if (rangeSelect) {
-                            self._handleRange(ev.date);
-                        } else if (ev.date) {
-                            self.set('selected', ev.date);
-
-                            self.fire(Calendar.FIRES.select, {
-                                date: ev.date
-                            });
-                            if (popup && closable && !self.get('showTime')) {
-                                self.hide();
-                            }
-                        }
-                    });
-                    pageBrick.on('itemMouseDown', function(ev) {
-                        var multiSelect = self.get('multiSelect');
-                        if (multiSelect) {
-                            self._handleMultiSelectStart(ev.date)
-                        }
-
-                    });
-                    pageBrick.on('itemMouseUp', function(ev) {
-                        var multiSelect = self.get('multiSelect');
-                        if (multiSelect) {
-                            self._handleMultiSelectEnd(ev.date);
-                            //需要排序好的multi数组，请调用getMulti方法
-                            self.fire('multiOneSelect');
-                        }
-                    });
-                    pageBrick.on('monthChange', function(ev) {
-                        self._bindDateValueChange(ev.date,ev.index);
-                    });
-
-                })(i);
-                if (month == 11) {
-                    year++;
-                    month = 0;
-                } else {
-                    month++;
-                }
-            }
-            self._bindDataChange('range');
-            self._bindDataChange('multi');
-            self._bindDataChange('disabled');
-            self._bindDataChange('minDate');
-            self._bindDataChange('maxDate');
-            self._bindDataChange('selected');
-            self._bindDataChange('startDay');
-
-            self.on('afterDateChange',function(){
-                self._bindDateValueChange(self.get('date'));
-            });
-        },
-        destructor: function() {
-            var self = this;
-            var trigger = S.one(self.get('trigger'));
-            if(self.get('popup')&&trigger){
-                var triggerType = self.get('triggerType');
-                S.each(triggerType, function(v) {
-                    trigger.detach(v, self.toggle,self);
-                });
-            }
-            if(self.pageBricks){
-                S.each(self.pageBricks, function(o,i) {
-                    o.destroy();
-                });
-                self.pageBricks = null;
-            }
-            if (self.overlay) {
-                self.overlay.destroy();
-            }
-        },
-        _bindDataChange: function(key, upperCaseKey) {
-            var self = this,
-                upperCaseKey = key.replace(/\b(\w)|\s(\w)/g, function(m) {
-                    return m.toUpperCase()
-                });
-            self.on('after' + upperCaseKey + 'Change', function() {
-                var data = self.get(key);
-                for (var i = 0; i < self.pageBricks.length; i++) {
-                    self.pageBricks[i].setChunkData(key, data);
-                };
-            });
-        },
-        _bindDateValueChange:function(date,index){
-            index = index || 0;
-            var self = this, rangeLinkage = self.get('rangeLinkage'),
-                year = date.getFullYear(), month = date.getMonth();
-                if (rangeLinkage) {
-                    for (var i = 0; i < self.pageBricks.length; i++) {
-                        var newMonth = month - index + i,
-                            newYear = year;
-                        if (newMonth < 0) {
-                            newYear--;
-                            newMonth += 12;
-                        } else if (newMonth > 11) {
-                            newYear++;
-                            newMonth -= 12;
-                        }
-                        self.pageBricks[i].set('year', newYear);
-                        self.pageBricks[i].set('month', newMonth);
-                    };
-
-                    var fireYear = year,
-                        fireMonth = month - index;
-                    if (fireMonth < 0) {
-                        fireYear--;
-                        fireMonth += 12;
-                    }
-                    self.fire(Calendar.FIRES.monthChange, {
-                        date: new Date(fireYear, fireMonth, 1)
-                    });
-                } else {
-                    self.pageBricks[index].set('year', year);
-                    self.pageBricks[index].set('month', month);
-                    self.fire(Calendar.FIRES.monthChange, {
-                        date: new Date(year, month, 1)
-                    });
-                }
-        },
-        //处理起始日期,d:Date类型
-        _handleRange: function(d) {
-            var self = this,
-                range = S.clone(self.get('range')) || {},
-                //克隆是为了触发afterRangeChange事件
-                t;
-            if ((!range.start && !range.end) || (range.start && range.end)) {
-                range.start = d;
-                range.end = null;
-                self.set('range', range);
-            } else {
-                range.end = d;
-                if (range.start.getTime() > range.end.getTime()) {
-                    t = range.start;
-                    range.start = range.end;
-                    range.end = t;
-                }
-                self.set('range', range);
-                self.fire(Calendar.FIRES.rangeSelect, range);
-                var popup = self.get('popup'),
-                    closable = self.get('closable');
-                if (popup && closable) {
-                    self.hide();
-                }
-            }
-        },
-        //开始多选
-        _handleMultiSelectStart: function(d) {
-            this.multiStartDate = d;
-        },
-        _handleMultiSelectEnd: function(d) {
-            if (this.multiStartDate) {
-                var self = this,
-                    multi = S.clone(self.get('multi')) || [],
-                    multiStartDate = self.multiStartDate,
-                    multiEndDate, minDate = self.get('minDate'),
-                    maxDate = self.get('maxDate'),
-                    disabled = self.get('disabled');
-                if (d < multiStartDate) {
-                    multiEndDate = multiStartDate;
-                    multiStartDate = d;
-                } else {
-                    multiEndDate = d;
-                }
-                while (multiStartDate <= multiEndDate) {
-                    if (Brix_Date.isDisabled(disabled, multiStartDate)) {
-                        continue;
-                    }
-                    var str = Brix_Date.format(multiStartDate, 'isoDate');
-                    if (!S.inArray(str, multi)) {
-                        multi.push(str);
-                    } else {
-                        multi.splice(S.indexOf(str, multi), 1);
-                    }
-                    multiStartDate.setDate(multiStartDate.getDate() + 1);
-                }
-                delete self.multiStartDate;
-                self.set('multi', multi);
-            }
-        },
-        getMulti:function(){
-            var self = this;
-            var multi = S.clone(self.get('multi'));
-            multi.sort(function(a, b) {
-                if (a > b) {
-                    return 1;
-                }
-                return -1;
-            });
-            for (var i = 0; i < multi.length; i++) {
-                multi[i] = Brix_Date.parse(multi[i]);
-            };
-            return multi
-        }
-    });
     S.augment(Calendar, Calendar.METHODS);
     return Calendar;
 }, {

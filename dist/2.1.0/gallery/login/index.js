@@ -10,12 +10,41 @@
 KISSY.add('brix/gallery/login/index', function (S, Cookie, Overlay, Brick) {
     var D = S.DOM, E = S.Event;
 
-    function EtaoLogin() {
-        var self = this;
-        EtaoLogin.superclass.constructor.apply(self, arguments);
-        //self.init()
-    }
+    var EtaoLogin = Brick.extend({
+        bindUI:function () {
+            var self = this;
+            var panel = self.get('panel');
+            //E.on(self.get('trigger'), self.get('triggerType'), function (e) {
+            E.delegate(panel ? panel : 'body', self.get('triggerType'), self.get('trigger'), function(e) {
+                var redirect_url = self.get('redirect_url');
+                var needRefresh = self.get('needRefresh');
+                if (self.checkTrueLogin()) return;
+                if (self.get('isCheckLongOrTrueLogin') && self.checkLongOrTrueLogin()) return;
+                e.preventDefault();
+                var redirect = (self.get('isRedirectToA')) ? e.currentTarget.href : redirect_url;
+                self.show({redirect_url:redirect, needRefresh:needRefresh});
+            });
+        },
+        destructor:function () {
+            /*var self = this,
+             trigger = S.one(self.get('trigger'));
+             if (trigger) {
+             var triggerType = self.get('triggerType');
+             S.each(triggerType, function (v) {
+             trigger.detach(v, self.toggle, self);
+             });
+             }
+             if (self.calendar) {
+             self.calendar.destroy();
+             self.calendar = null;
+             }
+             if (self.overlay) {
+             self.overlay.destroy();
+             self.overlay = null;
+             }*/
+        }
 
+    });
     EtaoLogin.ATTRS = {
         trigger:{
             value:'.J-EtaoLogin'
@@ -145,41 +174,7 @@ KISSY.add('brix/gallery/login/index', function (S, Cookie, Overlay, Brick) {
         }
 
     };
-    S.extend(EtaoLogin, Brick, {
-        initialize:function () {
-            var self = this;
-            var panel = self.get('panel');
-            //E.on(self.get('trigger'), self.get('triggerType'), function (e) {
-            E.delegate(panel ? panel : 'body', self.get('triggerType'), self.get('trigger'), function(e) {
-                var redirect_url = self.get('redirect_url');
-                var needRefresh = self.get('needRefresh');
-                if (self.checkTrueLogin()) return;
-                if (self.get('isCheckLongOrTrueLogin') && self.checkLongOrTrueLogin()) return;
-                e.preventDefault();
-                var redirect = (self.get('isRedirectToA')) ? e.currentTarget.href : redirect_url;
-                self.show({redirect_url:redirect, needRefresh:needRefresh});
-            });
-        },
-        destructor:function () {
-            /*var self = this,
-             trigger = S.one(self.get('trigger'));
-             if (trigger) {
-             var triggerType = self.get('triggerType');
-             S.each(triggerType, function (v) {
-             trigger.detach(v, self.toggle, self);
-             });
-             }
-             if (self.calendar) {
-             self.calendar.destroy();
-             self.calendar = null;
-             }
-             if (self.overlay) {
-             self.overlay.destroy();
-             self.overlay = null;
-             }*/
-        }
 
-    });
     S.augment(EtaoLogin, EtaoLogin.METHODS);
     //window.EtaoLogin = EtaoLogin;
     return EtaoLogin;

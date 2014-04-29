@@ -12,9 +12,33 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
             return 32 - new Date(year, month, 32).getDate();
     }
 
-    function Page() {
-        Page.superclass.constructor.apply(this, arguments);
-    }
+    var Page = Brick.extend({
+        bindUI: function() {
+            var self = this,
+                el = self.get('el'),
+                father = self.get('father'),
+                showTime = father.get('showTime');
+            if(showTime){
+                self.timeBrick = new Time({
+                    destroyAction:self.get('destroyAction'),
+                    container:el.one('.calendar-page-fd')
+                });
+            }
+            self.on('afterYearChange',function(){
+                self.setChunkData('year',self.get('year'));
+            });
+            self.on('afterMonthChange',function(){
+                self.setChunkData('month',self.get('month')+1);
+            });
+        },
+        destructor: function() {
+            var self = this;
+            if(self.timeBrick){
+                self.timeBrick.destroy();
+            }
+        }
+
+    });
     Page.ATTRS = {
         father:{
             value:false
@@ -282,33 +306,7 @@ KISSY.add('brix/gallery/calendar/page', function(S, Brick,Time,Brix_Date) {
         itemMouseUp:'itemMouseUp',
         monthChange:'monthChange'
     };
-    S.extend(Page, Brick, {
-        initialize: function() {
-            var self = this,
-                el = self.get('el'),
-                father = self.get('father'),
-                showTime = father.get('showTime');
-            if(showTime){
-                self.timeBrick = new Time({
-                    destroyAction:self.get('destroyAction'),
-                    container:el.one('.calendar-page-fd')
-                });
-            }
-            self.on('afterYearChange',function(){
-                self.setChunkData('year',self.get('year'));
-            });
-            self.on('afterMonthChange',function(){
-                self.setChunkData('month',self.get('month')+1);
-            });
-        },
-        destructor: function() {
-            var self = this;
-            if(self.timeBrick){
-                self.timeBrick.destroy();
-            }
-        }
-
-    });
+    
     S.augment(Page, Page.METHODS);
     return Page;
 }, {

@@ -1,36 +1,7 @@
 KISSY.add('brix/gallery/multimedia/index',function(S,Base,Node,Flash){
     var $ = Node.all
-
-    function Multimedia(){
-        var self = this
-
-        Multimedia.superclass.constructor.apply(self, arguments);
-
-        self.init()
-    }
-    Multimedia.ATTRS = {
-        w0:{
-            value:100
-        },
-        h0:{
-            value:100
-        },
-        w1:{
-            value:300
-        },
-        h1:{
-            value:250
-        },
-        right:{
-            value:0
-        },
-        top:{
-            value:28
-        }
-    }
-
-    S.extend(Multimedia,Base,{
-        init:function(){
+    var Multimedia = Base.extend({
+        initializer:function(){
             var self = this;
             var id = 'multimedia_' + S.guid();
 
@@ -102,6 +73,28 @@ KISSY.add('brix/gallery/multimedia/index',function(S,Base,Node,Flash){
         }
 
     });
+    Multimedia.ATTRS = {
+        w0:{
+            value:100
+        },
+        h0:{
+            value:100
+        },
+        w1:{
+            value:300
+        },
+        h1:{
+            value:250
+        },
+        right:{
+            value:0
+        },
+        top:{
+            value:28
+        }
+    }
+
+    
     return Multimedia;
 
     }, {
