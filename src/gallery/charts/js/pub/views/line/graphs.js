@@ -225,6 +225,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 				// this._induce.element.addEventListener("mousedown",function(evt){ self._moveHandler(evt)}, false);
 				self.get('_induce').element.addEventListener("mousemove",function(evt){ self._moveHandler(evt)}, false);
 				self.get('_induce').element.addEventListener("mouseout",function(evt){ self._outHandler(evt)}, false);
+				self.get('_induce').element.addEventListener("click",function(evt){ self._clickHandler(evt)}, false);
 			}
 		},
 
@@ -272,6 +273,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 			self.get('element').fire(EventType.OUT,o)
 			self.set('_index', 0)
 			self.set('_id', -1)
+		},
+		_clickHandler:function($evt){
+			var self = this
+			var o = {}
+			o.line_index = Number(self.get('_index')) + 1, o.node_index = Number(self.get('_id')) + 1
+			self.get('element').fire(EventType.CLICK,o)
 		},
 
 		//全局坐标 转换相对坐标

@@ -246,6 +246,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			self.get('_induces').init(o)
 			self.get('_induces').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
 			self.get('_induces').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
+			self.get('_induces').get('element').on(EventType.CLICK,function($o){self._clickHandler($o)})
 			self.get('_induces').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w') +Global.N05, self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05)
 
 		},
@@ -436,6 +437,9 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 		},
 		_outTimeout:function(){
 			this.get('_infos').remove()
+		},
+		_clickHandler:function($o){
+			this.get('element').fire(EventType.CLICK,$o)
 		},
 		/**
 		 * 数据继承
