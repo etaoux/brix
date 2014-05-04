@@ -1,1 +1,0 @@
-KISSY.add("brix/gallery/breadcrumbs/index",function(e,t){function n(){n.superclass.constructor.apply(this,arguments)}return n.ATTRS={},e.extend(n,t,{}),n},{requires:["brix/core/brick"]});
