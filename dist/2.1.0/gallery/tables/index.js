@@ -6,7 +6,7 @@ KISSY.add('brix/gallery/tables/index', function(S, Brick) {
      * @class Brix.Gallery.Tables
      * @extends Brix.Brick
      */
-    var Table = Brick.extend( {
+    var Tables = Brick.extend( {
         bindUI: function() {
             //默认第一个tr高亮
             this.curTr = this.get('el').all('tbody > tr').item(0);
