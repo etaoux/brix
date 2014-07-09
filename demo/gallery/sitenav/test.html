@@ -1,0 +1,36 @@
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Brix Sitenav Demo</title>
+<script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script>
+<script src="../../../src/core/brix.js" bx-config="{autoConfig:true,fixed:'src/'}"></script>
+
+<style type="text/css">
+
+.container{
+ width:1000px;
+ height:50px;
+ margin:0 auto;
+}
+</style>
+</head>
+ <body>
+       
+        <h1>简单实例</h1>
+        <div class="container">
+		    <!-- mode参数 代表当前使用的版本  默认normal表示前台使用版本 simple表示后台bp系统使用的简化版 -->
+			<!-- hovercolor参数代表 页头使用的a标记的hover颜色，各系统可根据自己的主题色设置，默认f60-->
+            <div bx-name="sitenav" bx-config="{mode:'simple',hovercolor:'f40'}"></div>
+        </div>
+
+        <script>
+            KISSY.ready(function(S) {
+                KISSY.use("brix/core/pagelet", function(S, Pagelet) {
+                    new Pagelet({tmpl:'.container'});
+                });
+            });
+        </script>
+    </body>
+
+</html>
