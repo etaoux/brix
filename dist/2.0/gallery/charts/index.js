@@ -102,7 +102,8 @@ KISSY.add('brix/gallery/charts/index',function(S,Base,Node){
 
 	    	$('#' + self.get('parent_id')).append(self.get('mainDiv'));
 	    	if(isSWF){
-	    		self.set('swfDiv',$('<div></div>')), self.set('swfDiv_id', self.get('swfDiv_id') + self.get('parent_id'))
+	    		self.set('swfDiv',$('<div></div>'))
+	    		self.set('swfDiv_id', self.get('swfDiv_id') + self.get('parent_id'))
 	    		self.get('swfDiv').attr('id',self.get('swfDiv_id'))
 	    		var style = {'width':self.get('w'), 'height':self.get('h')}
 	    		self.get('swfDiv').css(style);
