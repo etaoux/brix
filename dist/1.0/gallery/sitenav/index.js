@@ -7,8 +7,28 @@ KISSY.add("brix/gallery/sitenav/index", function(S, Brick, IO) {
         newScript.src = src;
         headNode.appendChild(newScript);
     }
-    
-    var SiteNav = Brick.extend({
+    function SiteNav() {
+        SiteNav.superclass.constructor.apply(this, arguments);
+    }
+
+    SiteNav.ATTRS = {
+        /**
+         * 页头模式，默认前台模式normal， simple:后台模式
+         * @cfg {String}
+         */
+        mode: {
+            value: ''
+        },
+        /**
+         * hover颜色值，默认ff6600;
+         * 用于设置a标记的hover色。
+         * @cfg {String}
+         */
+        hovercolor: {
+            value: ''
+        }
+    }
+    S.extend(SiteNav, Brick, {
         /**
          * 重写render方法，jsonp方式获取数据
          */
@@ -31,24 +51,6 @@ KISSY.add("brix/gallery/sitenav/index", function(S, Brick, IO) {
             });
         }
     });
-
-    SiteNav.ATTRS = {
-        /**
-         * 页头模式，默认前台模式normal， simple:后台模式
-         * @cfg {String}
-         */
-        mode: {
-            value: ''
-        },
-        /**
-         * hover颜色值，默认ff6600;
-         * 用于设置a标记的hover色。
-         * @cfg {String}
-         */
-        hovercolor: {
-            value: ''
-        }
-    }
     return SiteNav;
 }, {
     requires: ["brix/core/brick", "ajax"]

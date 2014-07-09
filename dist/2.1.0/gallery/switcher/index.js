@@ -5,41 +5,8 @@ KISSY.add("brix/gallery/switcher/index", function(S, Brick) {
      * @class Brix.Gallery.Switcher
      * @extends Brix.Brick
      */
-    function Switcher() {
-        Switcher.superclass.constructor.apply(this, arguments);
-    }
-    Switcher.ATTRS = {
-        switchOn: {
-            value: false
-        },
-        switchStatus: {
-            value: true
-        }
-    };
-
-    Switcher.METHODS = {
-        switchTo: function(on) {
-            var self = this;
-            self._switchTo(on);
-        }
-    };
-
-    Switcher.FIRES = {
-        switched: 'switched'
-    };
-
-    Switcher.EVENTS = {
-        '': {
-            click: function(e) {
-                var el = this.get('el');
-
-                this._switchTo(!el.hasClass('switcher-on'));
-            }
-        }
-    };
-
-    S.extend(Switcher, Brick, {
-        initialize: function() {
+    var Switcher = Brick.extend({
+        bindUI: function() {
             var self = this;
 
             if (self.get("switchOn")) {
@@ -73,6 +40,37 @@ KISSY.add("brix/gallery/switcher/index", function(S, Brick) {
         }
     });
 
+    Switcher.ATTRS = {
+        switchOn: {
+            value: false
+        },
+        switchStatus: {
+            value: true
+        }
+    };
+
+    Switcher.METHODS = {
+        switchTo: function(on) {
+            var self = this;
+            self._switchTo(on);
+        }
+    };
+
+    Switcher.FIRES = {
+        switched: 'switched'
+    };
+
+    Switcher.EVENTS = {
+        '': {
+            click: function(e) {
+                var el = this.get('el');
+
+                this._switchTo(!el.hasClass('switcher-on'));
+            }
+        }
+    };
+
+    
     S.augment(Switcher,Switcher.METHODS);
     return Switcher;
 }, {
