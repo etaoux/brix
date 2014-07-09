@@ -4901,7 +4901,7 @@ KISSY.add('brix/gallery/charts/js/e/integrate5/view/widget',function(S,Base,Node
 	    ]
 	}
 );
-KISSY.add('brix/gallery/charts/js/e/line/main',function(S,Base,Global,SVGElement,Widget,DataParse,ConfigParse){
+KISSY.add('brix/gallery/charts/js/e/line/main',function(S,Base,Global,SVGElement,EventType,Widget,DataParse,ConfigParse){
 	function Main(){
 
 		var self = this
@@ -4932,6 +4932,9 @@ KISSY.add('brix/gallery/charts/js/e/line/main',function(S,Base,Global,SVGElement
 		},
 		_DataSource:{
 			value:{}             //图表数据源 经过DataParse.parse
+		},
+		_widget:{
+			value:null
 		}
 	}
 
@@ -4960,15 +4963,18 @@ KISSY.add('brix/gallery/charts/js/e/line/main',function(S,Base,Global,SVGElement
 			o.DataSource = self.get('_DataSource')             //图表数据源
 			o.config = self.get('_config')                     //图表配置
 			
-			new Widget(o)
-		}
-		
+			self.set('_widget', new Widget(o))
+			self.get('_widget').get('element').on(EventType.CLICK,function($o){self._clickHandler($o)})
+		},
+		_clickHandler:function($o){
+			this.fire('elementClick',$o)
+		},
 	});
 
 	return Main;
 
 	}, {
-	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','./view/widget','../../pub/controls/line/dataparse','../../pub/controls/line/configparse']
+	    requires:['base','../../pub/utils/global','../../pub/utils/svgelement','../../pub/models/eventtype','./view/widget','../../pub/controls/line/dataparse','../../pub/controls/line/configparse']
 	}
 );
 KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Global,DataSection,SVGElement,Vertical,Horizontal,Back,GlobalInduce,Infos,EventType,Graphs){
@@ -5219,6 +5225,7 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 			self.get('_induces').init(o)
 			self.get('_induces').get('element').on(EventType.OVER,function($o){self._overHandler($o)})
 			self.get('_induces').get('element').on(EventType.OUT,function($o){self._outHandler($o)})
+			self.get('_induces').get('element').on(EventType.CLICK,function($o){self._clickHandler($o)})
 			self.get('_induces').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w') +Global.N05, self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY') + Global.N05)
 
 		},
@@ -5409,6 +5416,9 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 		},
 		_outTimeout:function(){
 			this.get('_infos').remove()
+		},
+		_clickHandler:function($o){
+			this.get('element').fire(EventType.CLICK,$o)
 		},
 		/**
 		 * 数据继承
@@ -14948,6 +14958,7 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 				// this._induce.element.addEventListener("mousedown",function(evt){ self._moveHandler(evt)}, false);
 				self.get('_induce').element.addEventListener("mousemove",function(evt){ self._moveHandler(evt)}, false);
 				self.get('_induce').element.addEventListener("mouseout",function(evt){ self._outHandler(evt)}, false);
+				self.get('_induce').element.addEventListener("click",function(evt){ self._clickHandler(evt)}, false);
 			}
 		},
 
@@ -14995,6 +15006,12 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/graphs',function(S,Base,node,Gl
 			self.get('element').fire(EventType.OUT,o)
 			self.set('_index', 0)
 			self.set('_id', -1)
+		},
+		_clickHandler:function($evt){
+			var self = this
+			var o = {}
+			o.line_index = Number(self.get('_index')) + 1, o.node_index = Number(self.get('_id')) + 1
+			self.get('element').fire(EventType.CLICK,o)
 		},
 
 		//全局坐标 转换相对坐标

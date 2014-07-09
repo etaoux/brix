@@ -5,100 +5,9 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick, IO) {
      * @extends Brix.Brick
      * @class Brix.Gallery.Timer
      */
-    function Timer() {
-        Timer.superclass.constructor.apply(this, arguments);
-    }
-    Timer.ATTRS = {
-        /**
-         * 模式，down：倒计时，up：过去多少时间
-         * @cfg {String}
-         */
-        mode: {
-            value: 'down'
-        },
-        /**
-         * 倒计时时间，或者更新时间，根据mode配置来，单位ms
-         * @cfg {Number}
-         */
-        updateTime: {
-            value: 10000
-        },
-        /**
-         * 格式时间类型，y/M/d/h/m/s/hs
-         * @cfg {String}
-         */
-        units: {
-            value: 's'
-        },
-        /**
-         * 是否需要和服务器时间同步
-         * @cfg {Boolean}
-         */
-        isServer: {
-            value: false
-        },
-        /**
-         * 是否需要计时器进行校正
-         * @cfg {Boolean}
-         */
-        ajusted: {
-            value: false
-        },
-        /**
-         * 校验的时间间隔,单位ms
-         * @cfg {Number}
-         */
-        ajustInterval: {
-            value: 5000
-        },
-        /**
-         * 定时器时间间隔,单位ms
-         * @cfg {Number}
-         */
-        interval: {
-            value: 100
-        },
-        data: {
-            valueFn: function() {
-                //初始化时间
-                return this._getUnitsData(0);
-            }
-        }
-    };
 
-    Timer.FIRES = {
-        /**
-         * @event notify
-         * 类型为down，倒计时完成后的回调
-         * @param {Object} e 
-         * @param {Number} e.size 记录数
-         * @type {String}
-         */
-        notify:'notify'
-    };
-    /**
-     * 获取服务器时间
-     * @param  {Function} fn       回调函数
-     * @param  {Boolean}  isServer 是否服务器时间
-     * @static
-     */
-    Timer.getServerTime = function(fn, isServer) {
-        if(isServer) {
-            var url = window.location.protocol + '//' + window.location.host + '?t=' + (+new Date());
-            IO({
-                type: 'head',
-                url: url,
-                success: function(data, textStatus, xhr) {
-                    var serverTime = new Date(xhr.getResponseHeader('Date')).getTime();
-                    fn(serverTime);
-                }
-            });
-        } else {
-            fn(S.now());
-        }
-    }
-    S.extend(Timer, Brick, {
-        initialize: function() {
+    var Timer = Brick.extend( {
+        bindUI: function() {
             var self = this;
             Timer.getServerTime(function(serverTime) {
                 self._start(serverTime);
@@ -291,6 +200,95 @@ KISSY.add('brix/gallery/timer/index', function(S, Brick, IO) {
             }
         }
     });
+    Timer.ATTRS = {
+        /**
+         * 模式，down：倒计时，up：过去多少时间
+         * @cfg {String}
+         */
+        mode: {
+            value: 'down'
+        },
+        /**
+         * 倒计时时间，或者更新时间，根据mode配置来，单位ms
+         * @cfg {Number}
+         */
+        updateTime: {
+            value: 10000
+        },
+        /**
+         * 格式时间类型，y/M/d/h/m/s/hs
+         * @cfg {String}
+         */
+        units: {
+            value: 's'
+        },
+        /**
+         * 是否需要和服务器时间同步
+         * @cfg {Boolean}
+         */
+        isServer: {
+            value: false
+        },
+        /**
+         * 是否需要计时器进行校正
+         * @cfg {Boolean}
+         */
+        ajusted: {
+            value: false
+        },
+        /**
+         * 校验的时间间隔,单位ms
+         * @cfg {Number}
+         */
+        ajustInterval: {
+            value: 5000
+        },
+        /**
+         * 定时器时间间隔,单位ms
+         * @cfg {Number}
+         */
+        interval: {
+            value: 100
+        },
+        data: {
+            valueFn: function() {
+                //初始化时间
+                return this._getUnitsData(0);
+            }
+        }
+    };
+
+    Timer.FIRES = {
+        /**
+         * @event notify
+         * 类型为down，倒计时完成后的回调
+         * @param {Object} e 
+         * @param {Number} e.size 记录数
+         * @type {String}
+         */
+        notify:'notify'
+    };
+    /**
+     * 获取服务器时间
+     * @param  {Function} fn       回调函数
+     * @param  {Boolean}  isServer 是否服务器时间
+     * @static
+     */
+    Timer.getServerTime = function(fn, isServer) {
+        if(isServer) {
+            var url = window.location.protocol + '//' + window.location.host + '?t=' + (+new Date());
+            IO({
+                type: 'head',
+                url: url,
+                success: function(data, textStatus, xhr) {
+                    var serverTime = new Date(xhr.getResponseHeader('Date')).getTime();
+                    fn(serverTime);
+                }
+            });
+        } else {
+            fn(S.now());
+        }
+    }
     return Timer;
 }, {
     requires: ["brix/core/brick", 'ajax']

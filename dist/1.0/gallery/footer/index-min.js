@@ -1,0 +1,1 @@
+KISSY.add("brix/gallery/footer/index",function(e,t,i){function n(){n.superclass.constructor.apply(this,arguments)}return n.ATTRS={mode:{value:""}},e.extend(n,t,{render:function(){var t=this;i.jsonp("http://www.taobao.com/go/rgn/mm/footer.php",{mode:t.get("mode")},function(i){t.get("el").html(e.one("<textarea />").html(i).val())})}}),n},{requires:["brix/core/brick","ajax"]});

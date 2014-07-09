@@ -1,8 +1,44 @@
 KISSY.add('brix/gallery/share/index', function(S, Brick){
-    function Share() {
-        Share.superclass.constructor.apply(this, arguments);
-    }
+    var Share = Brick.extend({
+        bindUI: function(e) {
+            var $ = S.all;
+            var self = this;
+            var mod = self.get('el');
+            var ext = S.one('.ext', mod);
 
+            self.dispatcher = { timer : 0 };
+
+            if(ext){
+                self.initProp = {
+                    opacity : 0,
+                    overflow: 'hidden'
+                };
+                self.expendProp = {
+                    opacity : 1
+                }
+                self.shrinkProp = {
+                    opacity : 0
+                };
+
+                var p = 'width';
+
+                if($(mod).hasClass('share-vertical')){
+                    p = 'height';
+                }
+
+                self.initProp[p] = 0;
+                self.expendProp[p] = ext[p]() + 'px';
+                self.shrinkProp[p] = 0;
+                ext.css({'display':''})                
+                ext.css(self.initProp);
+            }
+
+            $('.btn-share',self.get('el')).each(function(el){
+                el[0].dispatcher = { isTipsShow: true, timer : 0};
+            });
+
+        }
+    });
     Share.ATTRS = {
         name : {
             value : 'Share'
@@ -263,46 +299,7 @@ KISSY.add('brix/gallery/share/index', function(S, Brick){
          
     };
 
-    S.extend(Share, Brick, {
-        initialize: function(e) {
-            var $ = S.all;
-            var self = this;
-            var mod = self.get('el');
-            var ext = S.one('.ext', mod);
-
-            self.dispatcher = { timer : 0 };
-
-            if(ext){
-                self.initProp = {
-                    opacity : 0,
-                    overflow: 'hidden'
-                };
-                self.expendProp = {
-                    opacity : 1
-                }
-                self.shrinkProp = {
-                    opacity : 0
-                };
-
-                var p = 'width';
-
-                if($(mod).hasClass('share-vertical')){
-                    p = 'height';
-                }
-
-                self.initProp[p] = 0;
-                self.expendProp[p] = ext[p]() + 'px';
-                self.shrinkProp[p] = 0;
-                ext.css({'display':''})                
-                ext.css(self.initProp);
-            }
-
-            $('.btn-share',self.get('el')).each(function(el){
-                el[0].dispatcher = { isTipsShow: true, timer : 0};
-            });
-
-        }
-    });
+    
 
     S.augment(Share, Share.METHODS);
 
