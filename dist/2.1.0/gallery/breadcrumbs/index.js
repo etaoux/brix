@@ -5,7 +5,13 @@ KISSY.add("brix/gallery/breadcrumbs/index", function(S, Brick) {
 	 * @class Brix.Gallery.Breadcrumbs
 	 * @extends Brix.Brick
 	 */
-    var Breadcrumbs = Brick.extend( {
+    function Breadcrumbs() {
+        Breadcrumbs.superclass.constructor.apply(this, arguments);
+    }
+    Breadcrumbs.ATTRS = {
+
+    }
+    S.extend(Breadcrumbs, Brick, {
         
     });
     return Breadcrumbs;

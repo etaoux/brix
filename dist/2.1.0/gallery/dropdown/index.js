@@ -5,51 +5,9 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
      * @class Brix.Gallery.Dropdown
      * @extends Brix.Brick
      */
-    var Dropdown = Brick.extend({
-        bindUI: function() {
-            var self = this,
-                el = this.get('el');
-            el.attr('tabindex',0);
-            if(self.get('setDefault')){
-                var selectedItem = el.one('.dropdown-itemselected')||el.one('.dropdown-item');
-                self._select(selectedItem,true);
-            }
-        },
-        _select:function(selectedItem,flg){
-            var self = this,
-                el = this.get('el');
-            el.all('.dropdown-item').removeClass('.dropdown-itemover').removeClass('dropdown-itemselected');
-            selectedItem.addClass('dropdown-itemselected');
-            var dropdownTextNode = el.one('.dropdown-text');
-            var selectNode = selectedItem.one('span');
-            var data = {
-                value: selectNode.attr('value')||'',
-                text: selectNode.text()
-            }
-            var inputNode = el.one('input');
-            if(inputNode){
-                inputNode.val(data.value);
-            }
-            var v = dropdownTextNode.attr('value') || '';
-            if(v==data.value){
-                return;
-            }
-            dropdownTextNode.attr('value', data.value);
-            dropdownTextNode.text(data.text);
-            if(!flg){
-               self.fire(Dropdown.FIRES.selected, data); 
-            }
-        },
-        _hover:function(item,isScroll){
-            var self = this,
-                el = this.get('el');
-            el.all('.dropdown-item').removeClass('.dropdown-itemover');
-            item.addClass('.dropdown-itemover');
-            if(isScroll){
-                item.scrollIntoView(el.one('.dropdown-list'));
-            }
-        }
-    });
+    function Dropdown() {
+        Dropdown.superclass.constructor.apply(this, arguments);
+    }
     Dropdown.ATTRS = {
         /**
          * 触发模式，默认是1，点击触发，面包屑用2或其他
@@ -324,7 +282,51 @@ KISSY.add("brix/gallery/dropdown/index", function(S, Brick) {
         }
     };
 
-    
+    S.extend(Dropdown, Brick, {
+        initialize: function() {
+            var self = this,
+                el = this.get('el');
+            el.attr('tabindex',0);
+            if(self.get('setDefault')){
+                var selectedItem = el.one('.dropdown-itemselected')||el.one('.dropdown-item');
+                self._select(selectedItem,true);
+            }
+        },
+        _select:function(selectedItem,flg){
+            var self = this,
+                el = this.get('el');
+            el.all('.dropdown-item').removeClass('.dropdown-itemover').removeClass('dropdown-itemselected');
+            selectedItem.addClass('dropdown-itemselected');
+            var dropdownTextNode = el.one('.dropdown-text');
+            var selectNode = selectedItem.one('span');
+            var data = {
+                value: selectNode.attr('value')||'',
+                text: selectNode.text()
+            }
+            var inputNode = el.one('input');
+            if(inputNode){
+                inputNode.val(data.value);
+            }
+            var v = dropdownTextNode.attr('value') || '';
+            if(v==data.value){
+                return;
+            }
+            dropdownTextNode.attr('value', data.value);
+            dropdownTextNode.text(data.text);
+            if(!flg){
+               self.fire(Dropdown.FIRES.selected, data); 
+            }
+        },
+        _hover:function(item,isScroll){
+            var self = this,
+                el = this.get('el');
+            el.all('.dropdown-item').removeClass('.dropdown-itemover');
+            item.addClass('.dropdown-itemover');
+            if(isScroll){
+                item.scrollIntoView(el.one('.dropdown-list'));
+            }
+        }
+    });
 
     S.augment(Dropdown,Dropdown.METHODS);
     return Dropdown;

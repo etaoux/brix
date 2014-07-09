@@ -36,105 +36,27 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
      * @class Brix.Gallery.DatePicker
      * @extends Brix.Brick
      */
-
-    
-    var DatePicker = Brick.extend({
-        constructor:function(){
-            DatePicker.superclass.constructor.apply(this, arguments);
-            //绑定触发事件
-            var self = this,
-                trigger = S.one(self.get('trigger'));
-            if(trigger){
-                var triggerType = self.get('triggerType');
-                S.each(triggerType, function(v) {
-                    trigger.on(v, self.toggle,self);
-                });
-            }
-
-            var isCompare = self.get('isCompare');
-            if(isCompare){
-                self.on('afterCompareTextChange',function(ev){
-                    self.setChunkData('compareText',self.get('compareText'));
-                })
-            }
-        },
-        bindUI: function() {
-            var self = this;
-            self.overlay = new Overlay({
-                srcNode: self.get('el')
-            });
-            self.overlay.render();
-        },
-        destructor: function() {
-            var self = this,
+    function DatePicker() {
+        DatePicker.superclass.constructor.apply(this, arguments);
+        //绑定触发事件
+        var self = this,
             trigger = S.one(self.get('trigger'));
-            if(trigger){
-                var triggerType = self.get('triggerType');
-                S.each(triggerType, function(v) {
-                    trigger.detach(v, self.toggle,self);
-                });
-            }
-            if(self.calendar){
-                self.calendar.destroy();
-                self.calendar = null;
-            }
-            if (self.overlay) {
-                self.overlay.destroy();
-                self.overlay = null;
-            }
-        },
-        /**
-         * 显示日历
-         */
-        show: function() {
-            var self = this;
-            if(!self.get('rendered')){
-                self.render();
-            }
-            if (self.overlay) {
-                var align = S.clone(self.get('align'));
-                if(!align.node){
-                    align.node = self.get('trigger');
-                }
-                self.overlay.set('align', align);
-                self.overlay.show();
-                self.fire(DatePicker.FIRES.show);
-            }
-
-        },
-        /**
-         * 隐藏日历
-         */
-        hide: function() {
-            var self = this;
-            if (self.overlay) {
-                self.overlay.hide();
-                self.fire(DatePicker.FIRES.hide);
-            }
-        },
-        /**
-         * 显示隐藏切换
-         * @param {Event} e 事件
-         */
-        toggle: function(e) {
-            var self = this;
-            if(e){
-                e.preventDefault();
-            }
-            if (self.overlay) {
-                if (self.overlay.get('el').css('visibility') == 'hidden') {
-                    self.show();
-                } else {
-                    self.hide();
-                }
-            }
-            else{
-                self.show();
-            }
+        if(trigger){
+            var triggerType = self.get('triggerType');
+            S.each(triggerType, function(v) {
+                trigger.on(v, self.toggle,self);
+            });
         }
 
-    },{
-        ATTRS : {
+        var isCompare = self.get('isCompare');
+        if(isCompare){
+            self.on('afterCompareTextChange',function(ev){
+                self.setChunkData('compareText',self.get('compareText'));
+            })
+        }
+    }
+    DatePicker.Date = Calendar.Date;
+    DatePicker.ATTRS = {
         /**
          * 触发时间选择的对象
          * @cfg {Element}
@@ -320,9 +242,7 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
         autoRender:{
             value:false
         }
-    }
-    });
-    DatePicker.Date = Calendar.Date;
+    };
     DatePicker.RENDERERS = {
         quick:{
             html:function(context){
@@ -465,6 +385,57 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
         }
     };
 
+    DatePicker.METHODS = {
+        /**
+         * 显示日历
+         */
+        show: function() {
+            var self = this;
+            if(!self.get('rendered')){
+                self.render();
+            }
+            if (self.overlay) {
+                var align = S.clone(self.get('align'));
+                if(!align.node){
+                    align.node = self.get('trigger');
+                }
+                self.overlay.set('align', align);
+                self.overlay.show();
+                self.fire(DatePicker.FIRES.show);
+            }
+
+        },
+        /**
+         * 隐藏日历
+         */
+        hide: function() {
+            var self = this;
+            if (self.overlay) {
+                self.overlay.hide();
+                self.fire(DatePicker.FIRES.hide);
+            }
+        },
+        /**
+         * 显示隐藏切换
+         * @param {Event} e 事件
+         */
+        toggle: function(e) {
+            var self = this;
+            if(e){
+                e.preventDefault();
+            }
+            if (self.overlay) {
+                if (self.overlay.get('el').css('visibility') == 'hidden') {
+                    self.show();
+                } else {
+                    self.hide();
+                }
+            }
+            else{
+                self.show();
+            }
+        }
+    };
 
     DatePicker.FIRES = {
         /**
@@ -495,7 +466,35 @@ KISSY.add('brix/gallery/datepicker/index', function(S, Brick, Overlay,Calendar) 
          */
         hide: 'hide'
     };
+    S.extend(DatePicker, Brick, {
+        initialize: function() {
+            var self = this;
+            self.overlay = new Overlay({
+                srcNode: self.get('el')
+            });
+            self.overlay.render();
+        },
+        destructor: function() {
+            var self = this,
+            trigger = S.one(self.get('trigger'));
+            if(trigger){
+                var triggerType = self.get('triggerType');
+                S.each(triggerType, function(v) {
+                    trigger.detach(v, self.toggle,self);
+                });
+            }
+            if(self.calendar){
+                self.calendar.destroy();
+                self.calendar = null;
+            }
+            if (self.overlay) {
+                self.overlay.destroy();
+                self.overlay = null;
+            }
+        }
 
+    });
+    S.augment(DatePicker, DatePicker.METHODS);
     return DatePicker;
 }, {
     requires: ["brix/core/brick", "overlay","../calendar/index"]

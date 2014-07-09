@@ -6,13 +6,15 @@ KISSY.add('brix/gallery/tables/index', function(S, Brick) {
      * @class Brix.Gallery.Tables
      * @extends Brix.Brick
      */
-    var Tables = Brick.extend( {
-        bindUI: function() {
-            //默认第一个tr高亮
-            this.curTr = this.get('el').all('tbody > tr').item(0);
-            this.curTr.addClass('hover');
-        }
-    });
+    function Tables() {
+        Tables.superclass.constructor.apply(this, arguments);
+    }
+    Tables.ATTRS = {
+        // cb: {
+        //     value: '.checkbox'
+        // }
+    };
+
     Tables.EVENTS = {
         '.selectLine': {
             click: function(e) {
@@ -69,6 +71,16 @@ KISSY.add('brix/gallery/tables/index', function(S, Brick) {
         }
 
     };
+
+
+    S.extend(Tables, Brick, {
+        initialize: function() {
+            //默认第一个tr高亮
+            this.curTr = this.get('el').all('tbody > tr').item(0);
+            this.curTr.addClass('hover');
+        }
+    });
+
     return Tables;
 }, {
     requires: ["brix/core/brick"]

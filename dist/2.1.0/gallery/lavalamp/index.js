@@ -8,8 +8,42 @@ KISSY.add("brix/gallery/lavalamp/index", function(S, Brick, Anim, Node) {
     function Lavalamp() {
         Lavalamp.superclass.constructor.apply(this, arguments);
     }
-    var Lavalamp = Brick.extend({
-        bindUI: function() {
+    Lavalamp.ATTRS = {
+        /**
+         * 动画效果
+         * @cfg {String}
+         */
+        fx: {
+            value: 'bounceOut'
+        },
+        /**
+         * 动画时间
+         * @cfg {Number}
+         */
+        speed: {
+            value: 0.4
+        },
+        /**
+         * 触发方式“click”，“mouseover”
+         * @cfg {String}
+         */
+        triggered: {
+            value: 'mouseover' 
+        },
+        /**
+         * 点击的回调方法
+         * @cfg {Function}
+         */
+        click: {
+            value: function() {
+
+            }
+        }
+    };
+
+
+    S.extend(Lavalamp, Brick, {
+        initialize: function() {
             var self = this,
                 trigger = self.get('el');
             var anim, backNode = new Node('<li class="back"></li>'),
@@ -65,41 +99,6 @@ KISSY.add("brix/gallery/lavalamp/index", function(S, Brick, Anim, Node) {
 
         }
     });
-    Lavalamp.ATTRS = {
-        /**
-         * 动画效果
-         * @cfg {String}
-         */
-        fx: {
-            value: 'bounceOut'
-        },
-        /**
-         * 动画时间
-         * @cfg {Number}
-         */
-        speed: {
-            value: 0.4
-        },
-        /**
-         * 触发方式“click”，“mouseover”
-         * @cfg {String}
-         */
-        triggered: {
-            value: 'mouseover' 
-        },
-        /**
-         * 点击的回调方法
-         * @cfg {Function}
-         */
-        click: {
-            value: function() {
-
-            }
-        }
-    };
-
-
-
     return Lavalamp;
 }, {
     requires: ["brix/core/brick", "anim", "node"]

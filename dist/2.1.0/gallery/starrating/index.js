@@ -10,121 +10,9 @@ KISSY.add('brix/gallery/starrating/index', function(S, Brick, Node,UA) {
      * @class Brix.Gallery.StarRating
      * @extends Brix.Brick
      */
-    var StarRating = Brick.extend({
-        bindUI: function() {
-            var self = this,
-                inputs = self.get('inputs');
-            if (!inputs) {
-                inputs = self.get('el').all('input[type=radio].star');
-            }
-            if (inputs.length == 0) {
-                self.set('mode',false);
-                var length = self.get('length'),
-                maxValue = self.get('maxValue');
-                inputs = [];
-                flg = maxValue/length;
-                for (var i = 1; i <= length; i++) {
-                    var val = i*maxValue/length;
-                    if(flg>=1){
-                        inputs.push(Math.round(val).toString());
-                    }
-                    else if(flg>0.1){
-                        inputs.push(val.toFixed(1).toString());
-                    }
-                    else{
-                        inputs.push(val.toFixed(2).toString());
-                    }
-                    
-                };
-            }
-
-            self.set('inputs',inputs);
-            
-            if(self.get('mode')){
-                inputs.each(function(input, i) {
-                    var val = input.val(),title = input.attr('title') || val;
-                    self._creat(val,title,input,i);
-                });
-            }
-            else{
-                S.each(inputs,function(val,i){
-                    self._creat(val,val,val,i);
-                });
-            }
-            rater = null;
-
-            var defaultValue = self.get('defaultValue');
-            if(defaultValue){
-                self.select(defaultValue);
-            }
-        },
-        _creat:function(val,title,input,i){
-            var self = this,
-                el = self.get('el'),
-                split = self.get('split'),
-                readOnly = self.get('readOnly'),
-                starWidth = self.get('starWidth'),
-                star = $('<div class="starrating-star"><a title="' + title + '">' + val + '</a></div>');
-            el.append(star);
-            if (split > 1) {
-                var stw = star.width() || starWidth;
-                var spi = (i % split),
-                    spw = Math.floor(stw / split);
-                star.css({
-                    width: spw
-                }).one('a').css({
-                    'margin-left': '-' + (spi * spw) + 'px'
-                });
-                if(i!=0&&i%split!=0){
-                    star.css({'margin-right':'1px'});
-                }
-            }
-            else{
-                star.css({'margin-right':'1px'});
-            }
-
-            star.data('input', input);
-            if(readOnly){
-                star.addClass('starrating-star-readonly');
-            }
-            if(self.get('mode')){
-                input.hide();
-            }
-        },
-        _fill: function(node) { 
-            this._drain();
-            node.addClass('starrating-star-hover');
-            var temp = node;
-            while (temp.prev()) {
-                temp.prev().addClass('starrating-star-hover');
-                temp = temp.prev();
-            }
-        },
-        _drain: function() { 
-            this.get('el').all('.starrating-star').removeClass('starrating-star-hover').removeClass('starrating-star-on');
-        },
-        _draw: function() { 
-            this._drain();
-            if(this.get('mode')){
-                this.get('inputs').removeAttr('checked');
-            }
-            var current = this.get('current');
-            if (current) {
-                if(this.get('mode')){
-                    current.data('input').attr('checked', 'checked');
-                }
-                current.addClass('starrating-star-on');
-                var temp = current;
-                while (temp.prev()) {
-                    temp.prev().addClass('starrating-star-on');
-                    temp = temp.prev()
-                }
-            }
-        },
-        destructor: function() {
-            
-        }
-    });
+    function StarRating() {
+        StarRating.superclass.constructor.apply(this, arguments);
+    }
     StarRating.ATTRS = {
         /**
          * 每个星星分割成几个
@@ -298,7 +186,121 @@ KISSY.add('brix/gallery/starrating/index', function(S, Brick, Node,UA) {
         } 
     };
 
-    
+    S.extend(StarRating, Brick, {
+        initialize: function() {
+            var self = this,
+                inputs = self.get('inputs');
+            if (!inputs) {
+                inputs = self.get('el').all('input[type=radio].star');
+            }
+            if (inputs.length == 0) {
+                self.set('mode',false);
+                var length = self.get('length'),
+                maxValue = self.get('maxValue');
+                inputs = [];
+                flg = maxValue/length;
+                for (var i = 1; i <= length; i++) {
+                    var val = i*maxValue/length;
+                    if(flg>=1){
+                        inputs.push(Math.round(val).toString());
+                    }
+                    else if(flg>0.1){
+                        inputs.push(val.toFixed(1).toString());
+                    }
+                    else{
+                        inputs.push(val.toFixed(2).toString());
+                    }
+                    
+                };
+            }
+
+            self.set('inputs',inputs);
+            
+            if(self.get('mode')){
+                inputs.each(function(input, i) {
+                    var val = input.val(),title = input.attr('title') || val;
+                    self._creat(val,title,input,i);
+                });
+            }
+            else{
+                S.each(inputs,function(val,i){
+                    self._creat(val,val,val,i);
+                });
+            }
+            rater = null;
+
+            var defaultValue = self.get('defaultValue');
+            if(defaultValue){
+                self.select(defaultValue);
+            }
+        },
+        _creat:function(val,title,input,i){
+            var self = this,
+                el = self.get('el'),
+                split = self.get('split'),
+                readOnly = self.get('readOnly'),
+                starWidth = self.get('starWidth'),
+                star = $('<div class="starrating-star"><a title="' + title + '">' + val + '</a></div>');
+            el.append(star);
+            if (split > 1) {
+                var stw = star.width() || starWidth;
+                var spi = (i % split),
+                    spw = Math.floor(stw / split);
+                star.css({
+                    width: spw
+                }).one('a').css({
+                    'margin-left': '-' + (spi * spw) + 'px'
+                });
+                if(i!=0&&i%split!=0){
+                    star.css({'margin-right':'1px'});
+                }
+            }
+            else{
+                star.css({'margin-right':'1px'});
+            }
+
+            star.data('input', input);
+            if(readOnly){
+                star.addClass('starrating-star-readonly');
+            }
+            if(self.get('mode')){
+                input.hide();
+            }
+        },
+        _fill: function(node) { 
+            this._drain();
+            node.addClass('starrating-star-hover');
+            var temp = node;
+            while (temp.prev()) {
+                temp.prev().addClass('starrating-star-hover');
+                temp = temp.prev();
+            }
+        },
+        _drain: function() { 
+            this.get('el').all('.starrating-star').removeClass('starrating-star-hover').removeClass('starrating-star-on');
+        },
+        _draw: function() { 
+            this._drain();
+            if(this.get('mode')){
+                this.get('inputs').removeAttr('checked');
+            }
+            var current = this.get('current');
+            if (current) {
+                if(this.get('mode')){
+                    current.data('input').attr('checked', 'checked');
+                }
+                current.addClass('starrating-star-on');
+                var temp = current;
+                while (temp.prev()) {
+                    temp.prev().addClass('starrating-star-on');
+                    temp = temp.prev()
+                }
+            }
+        },
+        destructor: function() {
+            
+        }
+    });
     S.augment(StarRating, StarRating.METHODS);
     return StarRating;
 }, {

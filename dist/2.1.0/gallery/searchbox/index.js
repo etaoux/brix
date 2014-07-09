@@ -5,105 +5,11 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
      * @class Brix.Gallery.Searchbox
      * @extends Brix.Brick
      */
-    var Searchbox = Brick.extend({
-        bindUI:function () {
-            var self = this;
-            self.menu = self.get('el').one('.s-menu');
-            self.form = self.get('el').one('form');
-            self.ipt = self.get('el').one('.searchbox-input');
-            self.fire('afterLoad');
-        },
-        destructor:function () {
 
-        },
-        //解析action值，根据指定href创建需要的input hidden串
-        _parseAction: function(form, action) {//{{{
-            if (action.indexOf('?') !== -1) {
-                var search = action.substring(action.indexOf('?') + 1, action.length).split('&');
-                for (var i = 0, l = search.length; i < l; i++) {
-                    if (S.trim(search[i]) === '') continue;
-                    var kv = search[i].split('=');
-                    this._writeHiddenInput(form, kv[0], kv[1]);
-                }
-            }
-        },
-        //写入input hidden串
-        _writeHiddenInput: function(form, key, value) {//{{{
-            var hiddenInput = form[key];
-            if (hiddenInput) {
-                hiddenInput.value = value;
-            } else {
-                hiddenInput = S.DOM.create('<input type="hidden" name="' + key + '" value="' + value + '" />');
-                form.appendChild(hiddenInput);
-            }
-            return hiddenInput;
-        },
-        //初始化搜索下拉
-        _initSuggest: function(ipt, suggestApi) {
-            var self = this;
-            self.suggest = new S.Suggest(ipt, suggestApi, {
-                resultFormat: '%result%',
-                offset: 0
-            });
+    function Searchbox() {
+        Searchbox.superclass.constructor.apply(this, arguments);
+    }
 
-            self.suggest.on('beforeShow', function() {//{{{
-                self._keyword();
-            });//}}}
-
-            self.suggest.on('itemSelect', function() {//{{{
-                //对下拉埋点 透传suggest=0_N & wq=xx到srp中
-                var D = S.DOM;
-                var selectedItem = this.selectedItem,
-                    items = D.query('li', this.containers),
-                    searchForm = S.get('form', self.get('el'));
-                self._writeHiddenInput(searchForm, 'wq', D.attr(selectedItem, 'key'));
-                self._writeHiddenInput(searchForm, 'suggest', '0_' + S.indexOf(selectedItem, items));
-            });//}}}
-            //空query不提交表单
-            self.suggest.on('beforeSubmit', function() {
-                if (ipt.value === '') {
-                    return false;
-                };
-            });
-        },//}}}
-        /**
-         * 关键词后缀加粗显示
-         * @private
-         */
-        _keyword: function() {//{{{
-            var D = S.DOM,
-                self = this,
-                sug = self.suggest,
-                ori = sug.query,
-                idx = ori.length;
-
-            S.each(D.query('li', sug.content), function(obj) {
-                var k = D.get('.ks-suggest-key', obj), s = D.html(k);
-                if (s.indexOf(ori) === 0) {
-                    D.html(k, s.substring(0, idx) + '<b>' + s.substring(idx, s.length) + '</b>');
-                }
-            });
-        },
-        /**
-         * 兼容多浏览器的事件触发器
-         * @param {Object} element 触发事件的元素.
-         * @param {String} event 事件名.
-         */           
-        _fireEvent: function(element, event) {
-            if (document.createEvent){
-                // 标准浏览器使用dispatchEvent方法
-                var evt = document.createEvent( 'HTMLEvents' );
-                // initEvent接受3个参数：
-                // 事件类型，是否冒泡，是否阻止浏览器的默认行为
-                evt.initEvent(event, true, true); 
-                element.dispatchEvent(evt);
-            } else if (document.createEventObject) {
-                // IE浏览器支持fireEvent方法
-                var evt = document.createEventObject();
-                element.fireEvent('on'+event,evt);
-            }
-        }
-    });
     Searchbox.ATTRS = {
         /**
          * 搜索框容器id 默认 #J_searchbox
@@ -301,7 +207,105 @@ KISSY.add('brix/gallery/searchbox/index', function (S, Brick) {
         afterBlur: 'afterBlur' //失焦后 
     };
 
-    
+    S.extend(Searchbox, Brick, {
+        initialize:function () {
+            var self = this;
+            self.menu = self.get('el').one('.s-menu');
+            self.form = self.get('el').one('form');
+            self.ipt = self.get('el').one('.searchbox-input');
+            self.fire('afterLoad');
+        },
+        destructor:function () {
+
+        },
+        //解析action值，根据指定href创建需要的input hidden串
+        _parseAction: function(form, action) {//{{{
+            if (action.indexOf('?') !== -1) {
+                var search = action.substring(action.indexOf('?') + 1, action.length).split('&');
+                for (var i = 0, l = search.length; i < l; i++) {
+                    if (S.trim(search[i]) === '') continue;
+                    var kv = search[i].split('=');
+                    this._writeHiddenInput(form, kv[0], kv[1]);
+                }
+            }
+        },
+        //写入input hidden串
+        _writeHiddenInput: function(form, key, value) {//{{{
+            var hiddenInput = form[key];
+            if (hiddenInput) {
+                hiddenInput.value = value;
+            } else {
+                hiddenInput = S.DOM.create('<input type="hidden" name="' + key + '" value="' + value + '" />');
+                form.appendChild(hiddenInput);
+            }
+            return hiddenInput;
+        },
+        //初始化搜索下拉
+        _initSuggest: function(ipt, suggestApi) {
+            var self = this;
+            self.suggest = new S.Suggest(ipt, suggestApi, {
+                resultFormat: '%result%',
+                offset: 0
+            });
+
+            self.suggest.on('beforeShow', function() {//{{{
+                self._keyword();
+            });//}}}
+
+            self.suggest.on('itemSelect', function() {//{{{
+                //对下拉埋点 透传suggest=0_N & wq=xx到srp中
+                var D = S.DOM;
+                var selectedItem = this.selectedItem,
+                    items = D.query('li', this.containers),
+                    searchForm = S.get('form', self.get('el'));
+                self._writeHiddenInput(searchForm, 'wq', D.attr(selectedItem, 'key'));
+                self._writeHiddenInput(searchForm, 'suggest', '0_' + S.indexOf(selectedItem, items));
+            });//}}}
+            //空query不提交表单
+            self.suggest.on('beforeSubmit', function() {
+                if (ipt.value === '') {
+                    return false;
+                };
+            });
+        },//}}}
+        /**
+         * 关键词后缀加粗显示
+         * @private
+         */
+        _keyword: function() {//{{{
+            var D = S.DOM,
+                self = this,
+                sug = self.suggest,
+                ori = sug.query,
+                idx = ori.length;
+
+            S.each(D.query('li', sug.content), function(obj) {
+                var k = D.get('.ks-suggest-key', obj), s = D.html(k);
+                if (s.indexOf(ori) === 0) {
+                    D.html(k, s.substring(0, idx) + '<b>' + s.substring(idx, s.length) + '</b>');
+                }
+            });
+        },
+        /**
+         * 兼容多浏览器的事件触发器
+         * @param {Object} element 触发事件的元素.
+         * @param {String} event 事件名.
+         */           
+        _fireEvent: function(element, event) {
+            if (document.createEvent){
+                // 标准浏览器使用dispatchEvent方法
+                var evt = document.createEvent( 'HTMLEvents' );
+                // initEvent接受3个参数：
+                // 事件类型，是否冒泡，是否阻止浏览器的默认行为
+                evt.initEvent(event, true, true); 
+                element.dispatchEvent(evt);
+            } else if (document.createEventObject) {
+                // IE浏览器支持fireEvent方法
+                var evt = document.createEventObject();
+                element.fireEvent('on'+event,evt);
+            }
+        }
+    });
     S.augment(Searchbox, Searchbox.METHODS);
     return Searchbox;
 }, {

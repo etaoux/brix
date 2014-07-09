@@ -168,17 +168,10 @@ KISSY.add('brix/gallery/property/index', function(S, Brick, Switchable, Mustache
     selectedTemplate += "    <a href='#' class='pf-st-indicator pf-st-next'></a>";
 
 
-    var propertyFilter = Brick.extend({
-        bindUI: function() {
-            this.initSlide();
-            this.initSelected();
-            this.registerTouchEvent();
-            this.getTemplate();
-        },
-        setAjaxData: function(data){
-            this.setData(data);
-        }
-    });
+    function propertyFilter() {
+        propertyFilter.superclass.constructor.apply(this, arguments);
+    }
+    
     propertyFilter.ATTRS = {
         mode:{
             value:1
@@ -1353,7 +1346,17 @@ KISSY.add('brix/gallery/property/index', function(S, Brick, Switchable, Mustache
         }
     };
     
-    
+    S.extend(propertyFilter, Brick, {
+        initialize: function() {
+            this.initSlide();
+            this.initSelected();
+            this.registerTouchEvent();
+            this.getTemplate();
+        },
+        setAjaxData: function(data){
+            this.setData(data);
+        }
+    });
 
     S.augment(propertyFilter, propertyFilter.METHODS);
     return propertyFilter;

@@ -5,8 +5,110 @@ KISSY.add('brix/gallery/slider/index', function(S, Brick, UA, Node, DD) {
      * @class Brix.Gallery.Slider
      * @extends Brix.Brick
      */
-    var Slider = Brick.extend({
-        bindUI: function() {
+    function Slider() {
+        Slider.superclass.constructor.apply(this, arguments);
+    }
+
+    Slider.FIRES = {
+        /**
+         * @event drag
+         * 拖拽
+         */
+        drag : "drag",
+        /**
+         * @event dragstart
+         * 开始拖拽
+         */
+        dragstart : "dragstart",
+        /**
+         * @event dragend
+         * 结束拖拽
+         */
+        dragend : "dragend",
+        /**
+         * @event resize
+         * 重置大小
+         */
+        resize : "resize"
+    }
+
+    var MODE ={
+        horizontal : "horizontal",
+        vertical : "vertical"
+    }
+
+    Slider.ATTRS = {
+
+        /**
+         * 支持数组滚动
+         * @cfg {Boolean}
+         */
+        range : {
+            value : false
+        },
+        /**
+         * 展现的横竖方式， horizontal：横向， vertical：竖向
+         * @cfg {String}
+         */
+        mode : {
+            value : "horizontal"
+        },
+        /**
+         * 启始的开始值
+         * @cfg {Number}
+         */
+        startStep : {
+            value : 0
+        },
+        /**
+         * 启始的结束值
+         * @cfg {Number}
+         */
+        endStep : {
+            value : 100
+        },
+
+        /**
+         * 整数值，值是integerStep的倍数 integerStep 可以设置成0.5
+         * @cfg {Number}
+         */
+        integerStep : {
+            value : 1
+        },
+
+        /**
+         * 当前值
+         * @cfg {Number}
+         */
+        current : {
+
+        },
+
+        /**
+         * knob的居中偏移量，margin-left：-7px
+         * @cfg {Number}
+         */
+        knobOffset:{
+            value : -7
+        }
+
+    };
+
+    Slider.METHODS = {
+        resize : function(){
+            this.fire(Slider.FIRES.resize);
+        },
+        destructor: function(){
+            this.knob.destroy();
+            this.knob_start && this.knob_start.destroy();
+            this.knobNode = null;
+            this.knobNode_start = null;
+        }
+
+    };
+
+    S.extend(Slider, Brick, {
+        initialize: function() {
             this._render_range();
             this._render_knob();
         },
@@ -210,105 +312,6 @@ KISSY.add('brix/gallery/slider/index', function(S, Brick, UA, Node, DD) {
         }
 
     });
-    Slider.FIRES = {
-        /**
-         * @event drag
-         * 拖拽
-         */
-        drag : "drag",
-        /**
-         * @event dragstart
-         * 开始拖拽
-         */
-        dragstart : "dragstart",
-        /**
-         * @event dragend
-         * 结束拖拽
-         */
-        dragend : "dragend",
-        /**
-         * @event resize
-         * 重置大小
-         */
-        resize : "resize"
-    }
-
-    var MODE ={
-        horizontal : "horizontal",
-        vertical : "vertical"
-    }
-
-    Slider.ATTRS = {
-
-        /**
-         * 支持数组滚动
-         * @cfg {Boolean}
-         */
-        range : {
-            value : false
-        },
-        /**
-         * 展现的横竖方式， horizontal：横向， vertical：竖向
-         * @cfg {String}
-         */
-        mode : {
-            value : "horizontal"
-        },
-        /**
-         * 启始的开始值
-         * @cfg {Number}
-         */
-        startStep : {
-            value : 0
-        },
-        /**
-         * 启始的结束值
-         * @cfg {Number}
-         */
-        endStep : {
-            value : 100
-        },
-
-        /**
-         * 整数值，值是integerStep的倍数 integerStep 可以设置成0.5
-         * @cfg {Number}
-         */
-        integerStep : {
-            value : 1
-        },
-
-        /**
-         * 当前值
-         * @cfg {Number}
-         */
-        current : {
-
-        },
-
-        /**
-         * knob的居中偏移量，margin-left：-7px
-         * @cfg {Number}
-         */
-        knobOffset:{
-            value : -7
-        }
-
-    };
-
-    Slider.METHODS = {
-        resize : function(){
-            this.fire(Slider.FIRES.resize);
-        },
-        destructor: function(){
-            this.knob.destroy();
-            this.knob_start && this.knob_start.destroy();
-            this.knobNode = null;
-            this.knobNode_start = null;
-        }
-
-    };
-
-    
 
 
     S.augment(Slider, Slider.METHODS);

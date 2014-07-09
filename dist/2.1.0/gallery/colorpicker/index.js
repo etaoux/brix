@@ -24,242 +24,18 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
      * @class Brix.Gallery.ColorPicker
      * @extends Brix.Brick
      */
-    var ColorPicker = Brick.extend({
-        constructor : function(){
-            ColorPicker.superclass.constructor.apply(this, arguments);
-            //绑定触发事件
-            var self = this,
-                trigger = S.one(self.get('trigger'));
-            if(trigger){
-                var triggerType = self.get('triggerType');
-                S.each(triggerType, function(v) {
-                    trigger.on(v, self.toggle,self);
-                });
-            }
-        },
-        bindUI: function() {
-            var self = this;
-            this.h = 0;
-            this.s = this.v = 1;
-            var align = self.get('align');
-            self.overlay = new Overlay({
-                srcNode: self.get('el'),
-                align: align
-            });
-            self.overlay.render();
-            var el = self.get('el'),
-                slideNode = self.slideNode = el.one('.slide'),
-                pickerNode = self.pickerNode = el.one('.picker');
-            if (type == 'SVG') {
-                slideNode.append($C('svg', {
-                    xmlns: 'http://www.w3.org/2000/svg',
-                    version: '1.1',
-                    width: '100%',
-                    height: '100%'
-                }, [
-                $C('defs', {}, $C('linearGradient', {
-                    id: 'gradient-hsv',
-                    x1: '0%',
-                    y1: '100%',
-                    x2: '0%',
-                    y2: '0%'
-                }, [
-                $C('stop', {
-                    offset: '0%',
-                    'stop-color': '#FF0000',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '13%',
-                    'stop-color': '#FF00FF',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '25%',
-                    'stop-color': '#8000FF',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '38%',
-                    'stop-color': '#0040FF',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '50%',
-                    'stop-color': '#00FFFF',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '63%',
-                    'stop-color': '#00FF40',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '75%',
-                    'stop-color': '#0BED00',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '88%',
-                    'stop-color': '#FFFF00',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '100%',
-                    'stop-color': '#FF0000',
-                    'stop-opacity': '1'
-                })])), $C('rect', {
-                    x: '0',
-                    y: '0',
-                    width: '100%',
-                    height: '100%',
-                    fill: 'url(#gradient-hsv)'
-                })]));
-                pickerNode.append($C('svg', {
-                    xmlns: 'http://www.w3.org/2000/svg',
-                    version: '1.1',
-                    width: '100%',
-                    height: '100%'
-                }, [
-                $C('defs', {}, [
-                $C('linearGradient', {
-                    id: 'gradient-black',
-                    x1: '0%',
-                    y1: '100%',
-                    x2: '0%',
-                    y2: '0%'
-                }, [
-                $C('stop', {
-                    offset: '0%',
-                    'stop-color': '#000000',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '100%',
-                    'stop-color': '#CC9A81',
-                    'stop-opacity': '0'
-                })]), $C('linearGradient', {
-                    id: 'gradient-white',
-                    x1: '0%',
-                    y1: '100%',
-                    x2: '100%',
-                    y2: '100%'
-                }, [
-                $C('stop', {
-                    offset: '0%',
-                    'stop-color': '#FFFFFF',
-                    'stop-opacity': '1'
-                }), $C('stop', {
-                    offset: '100%',
-                    'stop-color': '#CC9A81',
-                    'stop-opacity': '0'
-                })])]), $C('rect', {
-                    x: '0',
-                    y: '0',
-                    width: '100%',
-                    height: '100%',
-                    fill: 'url(#gradient-white)'
-                }), $C('rect', {
-                    x: '0',
-                    y: '0',
-                    width: '100%',
-                    height: '100%',
-                    fill: 'url(#gradient-black)'
-                })]));
-            } else {
-                if (!document.namespaces['v']) {
-                    document.namespaces.add('v', 'urn:schemas-microsoft-com:vml', '#default#VML');
-                }
-                slideNode.html(['<div style="position: relative; width: 100%; height: 100%">', '<v:rect style="position: absolute; top: 0; left: 0; width: 100%; height: 100%" stroked="f" filled="t">', '<v:fill type="gradient" method="none" angle="0" color="red" color2="red" colors="8519f fuchsia;.25 #8000ff;24903f #0040ff;.5 aqua;41287f #00ff40;.75 #0bed00;57671f yellow"></v:fill>', '</v:rect>', '</div>'].join(''));
-                pickerNode.html(['<div style="position: relative; width: 100%; height: 100%">', '<v:rect style="position: absolute; left: -1px; top: -1px; width: 101%; height: 101%" stroked="f" filled="t">', '<v:fill type="gradient" method="none" angle="270" color="#FFFFFF" opacity="100%" color2="#CC9A81" o:opacity2="0%"></v:fill>', '</v:rect>', '<v:rect style="position: absolute; left: 0px; top: 0px; width: 100%; height: 101%" stroked="f" filled="t">', '<v:fill type="gradient" method="none" angle="0" color="#000000" opacity="100%" color2="#CC9A81" o:opacity2="0%"></v:fill>', '</v:rect>', '</div>'].join(''));
-            }
-
-            var pickerDragNode = self.pickerDragNode = el.one('.icon-picker-indicator'),
-                slideDragNode = self.slideDragNode = el.one('.icon-slide-indicator');
-            var pickerDrag = new DD.Draggable({
-                node: pickerDragNode,
-                cursor: 'move'
-            });
-
-            pickerDrag.on('drag', function(ev) {
-                var offset = pickerNode.offset();
-                var width = pickerNode.width(),
-                    height = pickerNode.height();
-                var left = ev.left - offset.left,
-                    top = ev.top - offset.top;
-                if (left+5 > width) {
-                    left = width;
-                } else if (left < 0) {
-                    left = 0;
-                } else {
-                    left += 5;
-                }
-                if (top+5 > height) {
-                    top = height;
-                } else if (top < 0) {
-                    top = 0;
-                } else {
-                    top += 5;
-                }
-
-                var s = left / width,
-                    v = (height - top) / height;
-                self.setHsv({
-                    h: self.h,
-                    s: s,
-                    v: v
-                });
-            });
-
-            var slideDrag = new DD.Draggable({
-                node: slideDragNode,
-                cursor: 'move'
-            });
-
-            slideDrag.on('drag', function(ev) {
-                var offset = slideNode.offset();
-                var height = slideNode.height(),
-                    top = ev.top - offset.top;
-                if (top + 5 > height) {
-                    top = height - 1;
-                } else if (top < 0) {
-                    top = 0;
-                } else {
-                    top += 5;
-                }
-                h = top / self.slideNode.height() * 360;
-                self.setHsv({
-                    h: h,
-                    s: self.s,
-                    v: self.v
-                });
-            });
-            self.setHex(self.get('color'));
-        },
-        _fireSelected: function() {
-            var self = this,
-                c = self.hsv2rgb(self.h, self.s, self.v);
-            self.overlay.hide();
-            self.fire(ColorPicker.FIRES.selected, {
-                hex: c.hex,
-                hsv: {
-                    h: self.h,
-                    s: self.s,
-                    v: self.v
-                },
-                rgb: {
-                    r: c.r,
-                    g: c.g,
-                    b: c.b
-                }
-            });
-        },
-        destructor: function() {
-            var self= this,
+    function ColorPicker() {
+        ColorPicker.superclass.constructor.apply(this, arguments);
+        //绑定触发事件
+        var self = this,
             trigger = S.one(self.get('trigger'));
-            if(trigger){
-                var triggerType = self.get('triggerType');
-                S.each(triggerType, function(v) {
-                    trigger.detach(v, self.toggle,self);
-                });
-            }
-            if (self.overlay) {
-                self.overlay.destroy();
-                self.overlay = null;
-            }
+        if(trigger){
+            var triggerType = self.get('triggerType');
+            S.each(triggerType, function(v) {
+                trigger.on(v, self.toggle,self);
+            });
         }
-    });
+    }
     ColorPicker.ATTRS = {
         /**
          * 是否缩小版本
@@ -601,7 +377,230 @@ KISSY.add('brix/gallery/colorpicker/index', function(S, Brick, Overlay, DD) {
     };
 
 
+    S.extend(ColorPicker, Brick, {
+        initialize: function() {
+            var self = this;
+            this.h = 0;
+            this.s = this.v = 1;
+            var align = self.get('align');
+            self.overlay = new Overlay({
+                srcNode: self.get('el'),
+                align: align
+            });
+            self.overlay.render();
+            var el = self.get('el'),
+                slideNode = self.slideNode = el.one('.slide'),
+                pickerNode = self.pickerNode = el.one('.picker');
+            if (type == 'SVG') {
+                slideNode.append($C('svg', {
+                    xmlns: 'http://www.w3.org/2000/svg',
+                    version: '1.1',
+                    width: '100%',
+                    height: '100%'
+                }, [
+                $C('defs', {}, $C('linearGradient', {
+                    id: 'gradient-hsv',
+                    x1: '0%',
+                    y1: '100%',
+                    x2: '0%',
+                    y2: '0%'
+                }, [
+                $C('stop', {
+                    offset: '0%',
+                    'stop-color': '#FF0000',
+                    'stop-opacity': '1'
+                }), $C('stop', {
+                    offset: '13%',
+                    'stop-color': '#FF00FF',
+                    'stop-opacity': '1'
+                }), $C('stop', {
+                    offset: '25%',
+                    'stop-color': '#8000FF',
+                    'stop-opacity': '1'
+                }), $C('stop', {
+                    offset: '38%',
+                    'stop-color': '#0040FF',
+                    'stop-opacity': '1'
+                }), $C('stop', {
+                    offset: '50%',
+                    'stop-color': '#00FFFF',
+                    'stop-opacity': '1'
+                }), $C('stop', {
+                    offset: '63%',
+                    'stop-color': '#00FF40',
+                    'stop-opacity': '1'
+                }), $C('stop', {
+                    offset: '75%',
+                    'stop-color': '#0BED00',
+                    'stop-opacity': '1'
+                }), $C('stop', {
+                    offset: '88%',
+                    'stop-color': '#FFFF00',
+                    'stop-opacity': '1'
+                }), $C('stop', {
+                    offset: '100%',
+                    'stop-color': '#FF0000',
+                    'stop-opacity': '1'
+                })])), $C('rect', {
+                    x: '0',
+                    y: '0',
+                    width: '100%',
+                    height: '100%',
+                    fill: 'url(#gradient-hsv)'
+                })]));
+                pickerNode.append($C('svg', {
+                    xmlns: 'http://www.w3.org/2000/svg',
+                    version: '1.1',
+                    width: '100%',
+                    height: '100%'
+                }, [
+                $C('defs', {}, [
+                $C('linearGradient', {
+                    id: 'gradient-black',
+                    x1: '0%',
+                    y1: '100%',
+                    x2: '0%',
+                    y2: '0%'
+                }, [
+                $C('stop', {
+                    offset: '0%',
+                    'stop-color': '#000000',
+                    'stop-opacity': '1'
+                }), $C('stop', {
+                    offset: '100%',
+                    'stop-color': '#CC9A81',
+                    'stop-opacity': '0'
+                })]), $C('linearGradient', {
+                    id: 'gradient-white',
+                    x1: '0%',
+                    y1: '100%',
+                    x2: '100%',
+                    y2: '100%'
+                }, [
+                $C('stop', {
+                    offset: '0%',
+                    'stop-color': '#FFFFFF',
+                    'stop-opacity': '1'
+                }), $C('stop', {
+                    offset: '100%',
+                    'stop-color': '#CC9A81',
+                    'stop-opacity': '0'
+                })])]), $C('rect', {
+                    x: '0',
+                    y: '0',
+                    width: '100%',
+                    height: '100%',
+                    fill: 'url(#gradient-white)'
+                }), $C('rect', {
+                    x: '0',
+                    y: '0',
+                    width: '100%',
+                    height: '100%',
+                    fill: 'url(#gradient-black)'
+                })]));
+            } else {
+                if (!document.namespaces['v']) {
+                    document.namespaces.add('v', 'urn:schemas-microsoft-com:vml', '#default#VML');
+                }
+                slideNode.html(['<div style="position: relative; width: 100%; height: 100%">', '<v:rect style="position: absolute; top: 0; left: 0; width: 100%; height: 100%" stroked="f" filled="t">', '<v:fill type="gradient" method="none" angle="0" color="red" color2="red" colors="8519f fuchsia;.25 #8000ff;24903f #0040ff;.5 aqua;41287f #00ff40;.75 #0bed00;57671f yellow"></v:fill>', '</v:rect>', '</div>'].join(''));
+                pickerNode.html(['<div style="position: relative; width: 100%; height: 100%">', '<v:rect style="position: absolute; left: -1px; top: -1px; width: 101%; height: 101%" stroked="f" filled="t">', '<v:fill type="gradient" method="none" angle="270" color="#FFFFFF" opacity="100%" color2="#CC9A81" o:opacity2="0%"></v:fill>', '</v:rect>', '<v:rect style="position: absolute; left: 0px; top: 0px; width: 100%; height: 101%" stroked="f" filled="t">', '<v:fill type="gradient" method="none" angle="0" color="#000000" opacity="100%" color2="#CC9A81" o:opacity2="0%"></v:fill>', '</v:rect>', '</div>'].join(''));
+            }
 
+            var pickerDragNode = self.pickerDragNode = el.one('.icon-picker-indicator'),
+                slideDragNode = self.slideDragNode = el.one('.icon-slide-indicator');
+            var pickerDrag = new DD.Draggable({
+                node: pickerDragNode,
+                cursor: 'move'
+            });
+
+            pickerDrag.on('drag', function(ev) {
+                var offset = pickerNode.offset();
+                var width = pickerNode.width(),
+                    height = pickerNode.height();
+                var left = ev.left - offset.left,
+                    top = ev.top - offset.top;
+                if (left+5 > width) {
+                    left = width;
+                } else if (left < 0) {
+                    left = 0;
+                } else {
+                    left += 5;
+                }
+                if (top+5 > height) {
+                    top = height;
+                } else if (top < 0) {
+                    top = 0;
+                } else {
+                    top += 5;
+                }
+
+                var s = left / width,
+                    v = (height - top) / height;
+                self.setHsv({
+                    h: self.h,
+                    s: s,
+                    v: v
+                });
+            });
+
+            var slideDrag = new DD.Draggable({
+                node: slideDragNode,
+                cursor: 'move'
+            });
+
+            slideDrag.on('drag', function(ev) {
+                var offset = slideNode.offset();
+                var height = slideNode.height(),
+                    top = ev.top - offset.top;
+                if (top + 5 > height) {
+                    top = height - 1;
+                } else if (top < 0) {
+                    top = 0;
+                } else {
+                    top += 5;
+                }
+                h = top / self.slideNode.height() * 360;
+                self.setHsv({
+                    h: h,
+                    s: self.s,
+                    v: self.v
+                });
+            });
+            self.setHex(self.get('color'));
+        },
+        _fireSelected: function() {
+            var self = this,
+                c = self.hsv2rgb(self.h, self.s, self.v);
+            self.overlay.hide();
+            self.fire(ColorPicker.FIRES.selected, {
+                hex: c.hex,
+                hsv: {
+                    h: self.h,
+                    s: self.s,
+                    v: self.v
+                },
+                rgb: {
+                    r: c.r,
+                    g: c.g,
+                    b: c.b
+                }
+            });
+        },
+        destructor: function() {
+            var self= this,
+            trigger = S.one(self.get('trigger'));
+            if(trigger){
+                var triggerType = self.get('triggerType');
+                S.each(triggerType, function(v) {
+                    trigger.detach(v, self.toggle,self);
+                });
+            }
+            if (self.overlay) {
+                self.overlay.destroy();
+                self.overlay = null;
+            }
+        }
+    });
     S.augment(ColorPicker, ColorPicker.METHODS);
     return ColorPicker;
 }, {

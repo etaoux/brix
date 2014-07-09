@@ -5,14 +5,12 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
      * @class Brix.Gallery.InplaceEditor
      * @extends Brix.Brick
      */
-    var InplaceEditor = Brick.extend({
-        constructor:function(){
-           InplaceEditor.superclass.constructor.apply(this, arguments);
-            this._v = null; //记录编辑原始值
-            this._x = 0;
-            this._y = 0; 
-        }
-    });
+    function InplaceEditor() {
+        InplaceEditor.superclass.constructor.apply(this, arguments);
+        this._v = null; //记录编辑原始值
+        this._x = 0;
+        this._y = 0;
+    }
     InplaceEditor.ATTRS = {
         autoRender: {
             value: true
@@ -134,7 +132,9 @@ KISSY.add("brix/gallery/inplaceeditor/index", function(S, Brick) {
         }
     };
 
-    
+    S.extend(InplaceEditor, Brick, {
+
+    });
 
     S.augment(InplaceEditor, InplaceEditor.METHODS);
 
