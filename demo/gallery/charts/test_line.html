@@ -76,6 +76,7 @@ chartData:
     <link rel="stylesheet" href="../../assets/doc.css">
     <script src="http://a.tbcdn.cn/s/kissy/1.3.0/seed.js"></script>
     <!-- // <script src="http://a.tbcdn.cn/apps/e/brix/2.0/brix.js" bx-config="{autoConfig:true}"></script> -->
+    <!-- // <script src="http://g.tbcdn.cn/thx/brix/2.0/brix.js" bx-config="{autoConfig:true}"></script> -->
     <!-- // <script src="../../../src/core/brix.js" bx-config="{fixed:'src/'}"></script> -->
     <script src="../../../src/core/brix.js"></script>
 </head>
@@ -88,6 +89,7 @@ chartData:
 	<div id="J_wrapper6" class="wrapper6" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper7" class="wrapper7" style="width:720px;height:400px;"></div>
 	<div id="J_wrapper8" class="wrapper8" style="width:720px;height:400px;"></div>
+	<div id="J_wrapper9" class="wrapper9" style="width:720px;height:400px;"></div>
 
 	<script type="text/javascript">
 
@@ -103,6 +105,7 @@ chartData:
 						chartData:'<chart><data><indexAxis labels="12月1号,12月2号,12月3号,12月4号,12月5号,12月6号,12月7号" name="维度2："/><sets name="维度1："><set values="83,81,77,71,68,70,68"></set></sets></data></chart>'
 					}
 			});
+			
 			new Charts({
 					parent_id:'J_wrapper2',
 
@@ -170,6 +173,16 @@ chartData:
 						configData:'<chart v="1.0" type="line"><data shape="1" node="0" area="1"><thickness normal="1" over="1"/><x_axis><line enabled="0"/></x_axis><y_axis enabled="0"/><back><y_axis enabled="0"/><axis enabled="0"/></back></data></chart>',
 							
 						chartData:'<chart><data><indexAxis labels="12月1号,12月2号,12月3号,12月4号,12月5号,12月6号,12月7号" name="维度2："/><sets name="维度1："><set values="83,81,77,71,68,70,68"></set><set values="43,41,37,31,28,30,28"></set><set values="143,141,137,131,128,130,128"></set></sets></data></chart>'
+					}
+			});
+			//辛巴后台 江雪
+			//  *        新增：突出显示某点、x轴显示特定值(flash + svg)
+			new Charts({
+					parent_id:'J_wrapper9',
+
+					config:{
+					 	configData:'<chart v="1.0" type="line"><data shape="0" node="1" area="0"><colors normals="0x3300FF,0x3333FF,0x3366FF" overs="0xCC0000,0xCC3300,0xCC6600"/><node mode="1"><normal radius="2" thickness="1"/><over min_radius="0" max_radius="4" max_thickness="1"/></node><x_axis><section show="60,70,80,90,100"/></x_axis></data></chart>',
+						chartData:'<?xml version="1.0"?><chart><data><indexAxis labels="60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100" name="日期："><key indexs="3"/></indexAxis><sets name="价格："><set values="20,365,189,923,254,607,706,14,511,872,449,939,345,14,840,827,678,35,156,282,126,767,981,964,336,529,536,601,322,213,202,492,655,470,518,779,349,376,671,299,100"></set></sets></data></chart>'
 					}
 			});
 

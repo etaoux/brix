@@ -48,6 +48,9 @@ KISSY.add('brix/gallery/charts/js/pub/views/horizontal',function(S,Base,node,Glo
 		fontsInfo:{             //文字组信息(x)
 			value:[]            //[{x:}]
 		},
+		showMode:{
+			value:0             //显示模式(0 = 显示删减后的数据 | 1 = 显示未删减的数据)
+		},
 
 		_data:{
 			value:[]             //删除多余数据之后的数组
@@ -229,6 +232,10 @@ KISSY.add('brix/gallery/charts/js/pub/views/horizontal',function(S,Base,node,Glo
 			}
 			if (n == 2 && arr.length == 1 && self.get('data').length >= 2) {
 				arr[1] = self.get('data')[self.get('data').length - 1]
+			}
+
+			if (self.get('showMode') == 1) {
+				arr = self.get('data')
 			}
 
 			for(var a = 0, al = arr.length; a < al; a++){

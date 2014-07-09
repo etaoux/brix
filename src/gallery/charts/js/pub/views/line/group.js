@@ -105,7 +105,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 			if(circle){
 				o.index = self.get('index'), o.id = Number(circle.get('_index'))
 				o.x = Number(circle.get('_x')), o.y = Number(circle.get('_y'))
-				o.fill = self.get('fill'), o.fill_over = self.get('fill_over')
+				var fill = (self.get('data')[$index].key && self.get('data')[$index].key.isKey == 1) ? '#FF0000' : self.get('fill_over')
+				o.fill = self.get('fill'), o.fill_over = fill
 				return o
 			}else{
 				return ''
@@ -165,19 +166,22 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 				}
 				
 				var _df = document.createDocumentFragment();
-				for (var a = 0, al = self.get('data').length; a < al; a++ ) {
+				var data = self.get('data'), color, radius
+				for (var a = 0, al = data.length; a < al; a++ ) {
 					if(self.get('circle').fill_follow == 1){
 						self.get('circle').fill = self.get('fill')
 					}
-					var circle = SVGGraphics.circle({'r':self.get('circle').radius,'fill':self.get('circle').fill,'stroke':self.get('fill'),'stroke_width':self.get('circle').thickness})
+					fill   = (data[a].key && data[a].key.isKey) == 1 ? '#FF0000' : self.get('fill')
+					radius = (data[a].key && data[a].key.isKey) == 1 ? 3 : self.get('circle').radius
+					var circle = SVGGraphics.circle({'r':radius,'fill':self.get('circle').fill,'stroke':fill,'stroke_width':self.get('circle').thickness})
 					// self.get('_circles').element.appendChild(circle.element), self.get('_circlesArr').push(circle)
-					var x = self.get('data')[a].x , y = self.get('data')[a].y
+					var x = data[a].x , y = data[a].y
 					circle.transformXY(x,y)
 					circle.set('_index', a)
 					circle.set('_x',x)
 					circle.set('_y',y)
 					_df.appendChild(circle.element), self.get('_circlesArr').push(circle)
-					if(self.get('data')[a].no_node){
+					if(data[a].no_node){
 						 circle.set('visibility','hidden')
 					}
 				}
@@ -203,11 +207,14 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 				//粗圆点
 				self.get('_circlesCrude').set('visibility','hidden')
 				var _df = document.createDocumentFragment();
-				for (var a = 0, al = self.get('data').length; a < al; a++ ) {
-					var circle = SVGGraphics.circle({'r':self.get('circle').radius,'fill':self.get('circle').fill,'stroke':self.get('fill_over'),'stroke_width':self.get('circle').thickness})
-					circle.transformXY(self.get('data')[a].x,self.get('data')[a].y)
+				var data = self.get('data'), color, radius
+				for (var a = 0, al = data.length; a < al; a++ ) {
+					fill   = (data[a].key && data[a].key.isKey) == 1 ? '#FF0000' : self.get('fill_over')
+					radius = (data[a].key && data[a].key.isKey) == 1 ? 3 : self.get('circle').radius
+					var circle = SVGGraphics.circle({'r':radius,'fill':self.get('circle').fill,'stroke':fill,'stroke_width':self.get('circle').thickness})
+					circle.transformXY(data[a].x,data[a].y)
 					_df.appendChild(circle.element)
-					if(self.get('data')[a].no_node){
+					if(data[a].no_node){
 						circle.set('visibility','hidden')
 					}
 				}
@@ -225,6 +232,8 @@ KISSY.add('brix/gallery/charts/js/pub/views/line/group',function(S,Base,node,Glo
 				visibility = 'hidden'
 			}
 			self.get('_linesCrude').set('visibility',visibility)
+
+			self.get('_circles').set('visibility', (self.get('node') == 0) ? 'hidden' : ($b ? 'hidden' : 'visible') )
 
 			if(self.get('node') == 1){
 				self.get('_circlesCrude').set('visibility',visibility)

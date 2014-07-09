@@ -33,6 +33,9 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 				x_axis:{                //x轴
 					line : {
 						enabled : 1
+					},
+					section: {
+						show  : []      //x轴显示字符串集合, 有了该数组将替换图表本身计算之后显示的字符串集合 (该参数与scatter中的该参数 逻辑有些区别)
 					}
 				},
 
@@ -80,7 +83,11 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 						max_thickness:2,                    //大圆线框粗线
 						max_thickness_opacity:1             //大圆线框透明度           
 					}
-				}
+				}//,
+
+				// info:{
+				// 	mode  :0,           //模式[0 = 一行 | 2 = 两行]
+				// }
 			}
 		}
 	}
@@ -131,6 +138,11 @@ KISSY.add('brix/gallery/charts/js/pub/controls/line/configparse',function(S,Base
 				var __line = __x_axis.getElementsByTagName("line")[0]
 				if(__line){
 					o.x_axis.line.enabled = String(__line.getAttribute('enabled')) ? Number(__line.getAttribute('enabled')) : o.x_axis.line.enabled
+				}
+				var __section = __x_axis.getElementsByTagName("section")[0]
+				if(__section){
+					o.x_axis.section.show = __section.getAttribute('show') && String(__section.getAttribute('show')) ? String(__section.getAttribute('show')).split(',') : o.x_axis.section.show
+					
 				}
 			}
 

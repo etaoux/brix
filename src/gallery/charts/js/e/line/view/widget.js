@@ -178,7 +178,9 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 				parent : self.get('element'),
 				data   : self.get('_DataFrameFormat').horizontal.data,
 				dis_left : self.get('_disX') + self.get('_vertical').get('w') - self.get('_disX'),
-				line   : config.x_axis.line
+				line   : config.x_axis.line,
+				showMode : config.x_axis.section.show.length > 0 ? 1 : self.get('_horizontal').get('showMode')
+				// _horizontal.showMode = config.x_axis.section.show.length > 0 ? 1 : _horizontal.showMode
 			}
 			self.get('_horizontal').init(o)
 			self.get('_horizontal').get('element').transformXY(self.get('_disX') + self.get('_vertical').get('w'), self.get('h') -  self.get('_horizontal').get('h') - self.get('_disY'))
@@ -280,20 +282,53 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 		//换算横向
 		_trimHorizontal:function(){
 			var self = this
+			var config = self.get('config')
 			self.set('_horizontalMaxW', self.get('w') - self.get('_disX') - self.get('_vertical').get('w') - self.get('_disX'))
 			self.set('_horizontalGraphsW', self.get('_horizontalMaxW') - self._getHorizontalDisX())
 			self.set('_horizontalDrawW', self.get('_horizontalGraphsW') - self.get('_dis_graphs'))
 			var max = self.get('_DataFrameFormat').horizontal.org.length
 			var arr = self.get('_DataFrameFormat').horizontal.org
 			var tmpData = []
-		    for (var a = 0, al  = arr.length; a < al; a++ ) {
-		    	var o = { 'value':arr[a], 'x':Global.ceil(self.get('_dis_graphs') + a / (max - 1) * self.get('_horizontalDrawW')) }
-				tmpData.push( o )
-			}
-			if(max == 1){
-				o.x = Global.ceil(self.get('_horizontalDrawW') / 2)
+
+			if(config.x_axis.section.show.length > 0) {
+				arr = self._getXaxisShow()
+				for (var a = 0, al  = arr.length; a < al; a++ ) {
+					var o = { 'value': arr[a], x:Global.ceil(self.get('_dis_graphs') + a / (max - 1) * self.get('_horizontalDrawW'))}
+					if (arr[a] != '') {
+						tmpData.push(o)
+					}
+				}
+			}else{
+			    for (var a = 0, al  = arr.length; a < al; a++ ) {
+			    	var o = { 'value':arr[a], 'x':Global.ceil(self.get('_dis_graphs') + a / (max - 1) * self.get('_horizontalDrawW')) }
+					tmpData.push( o )
+				}
+				if(max == 1){
+					o.x = Global.ceil(self.get('_horizontalDrawW') / 2)
+				}				
 			}
 			self.get('_DataFrameFormat').horizontal.data = tmpData
+		},
+				//需要显示的x轴信息
+		_getXaxisShow:function() {
+			var self = this
+			var config = self.get('config')
+			var tmp = []
+			var data = self.get('_DataFrameFormat').horizontal.org
+			var arr = config.x_axis.section.show
+			
+			for (var a = 0, al = data.length; a < al; a++ ) {
+				for (var b = 0, bl = arr.length; b < bl; b++ ) {
+					if (arr[b] == data[a]) {
+						tmp[a] = data[a]
+					}else {
+						if (!tmp[a]) {
+							tmp[a] = ''
+						}
+					}
+				}
+			}
+			return tmp
 		},
 		//获取横向总宽到第一条线之间的距离
 		_getHorizontalDisX:function(){
@@ -320,12 +355,21 @@ KISSY.add('brix/gallery/charts/js/e/line/view/widget',function(S,Base,Node,Globa
 					!tmpData[a] ? tmpData[a] = [] : ''
 					var y = -self.get('_dis_graphs') - (arr[a][b] - self.get('_baseNumber')) / (maxVertical - self.get('_baseNumber')) * self.get('_verticalDrawH')
 					y = isNaN(y) ? 0 : y
-					tmpData[a][b] = {'value':arr[a][b], 'x':self.get('_dis_graphs') + b / (maxHorizontal - 1) * self.get('_horizontalDrawW'),'y':y}
+					tmpData[a][b] = {'value':arr[a][b], 'x':self.get('_dis_graphs') + b / (maxHorizontal - 1) * self.get('_horizontalDrawW'), 'y':y, 'key': { 'isKey':0 } }
 					if(no_nodes[a] && no_nodes[a][b]){
 						tmpData[a][b].no_node = 1
 					}
 				}
 			}
+
+			for (var d = 0, dl = self.get('_DataFrameFormat').key.data.length; d < dl; d++ ) {
+				for (var e = 0, el = tmpData.length; e < el; e++ ) {
+					if (tmpData[e][self.get('_DataFrameFormat').key.data[d] - 1]) {
+						tmpData[e][self.get('_DataFrameFormat').key.data[d] - 1].key.isKey = 1
+					}
+				}
+			}
+
 			if(maxHorizontal == 1){
 				if(tmpData[0] && tmpData[0][0]){
 					tmpData[0][0].x = Global.ceil(self.get('_horizontalDrawW') / 2)

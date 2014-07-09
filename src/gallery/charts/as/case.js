@@ -26,6 +26,9 @@ KISSY.add('brix/gallery/charts/as/case',function(S,Base,Node,DOM,Event,Flash){
 			var self = this
 			self.set('_id',self.get('parent_id') + self.get('_id'))
 			// KISSY.use('dom, event, flash', function(S, DOM, Event, Flash) {
+			if(!S.one('#' + self.get('parent_id'))){
+				return
+			}
             S.Flash.add('#' + self.get('parent_id'), {
                 src: self.get('path'),
                 id: self.get('_id'),
@@ -43,8 +46,12 @@ KISSY.add('brix/gallery/charts/as/case',function(S,Base,Node,DOM,Event,Flash){
                     width: '100%',
                     height: '100%'
                 }
-               
-            });
+            })
+            // },function(e){
+            // 	if ( S.all('#' + e.id).parent().attr('id') !== self.get('parent_id')) {
+            // 		// S.Flash.remove(self.get('_id'))
+            // 	};
+            // });
 	        // })
 		},
 		//与外部js交互总接口
