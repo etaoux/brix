@@ -3,7 +3,7 @@
 
 基于淘宝 [Kissy1.3](http://kissyui.com)框架的一淘通用组件框架。
 
-##如何使用
+## 如何使用
 
 	<link type="text/css" rel="stylesheet" href="http://a.tbcdn.cn/apps/e/brix/2.0/brix-min.css" charset="utf-8">
 	<script type="text/javascript" src="http://a.tbcdn.cn/s/kissy/1.3.0/seed-min.js"></script>
